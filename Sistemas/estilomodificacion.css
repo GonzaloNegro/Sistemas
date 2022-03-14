@@ -48,15 +48,6 @@ h3{
 	text-align: center;	
 	margin-top: 10px;
 	font-size: 20px;
-	color: #f7fbfd;
-	font-family: TrasandinaBold;
-}
-
-#h3{
-	text-align: center;	
-	margin-top: 10px;
-	font-size: 22px;
-	color: #f7fbfd;
 	font-family: TrasandinaBold;
 }
 
@@ -129,11 +120,10 @@ header{
 }
 
 #vlv{
-	width: 125px; 
+	width: 10%; 
 	height: 45px; 
 	background-color: #1c7cd5; 
 	border-color: #f7fbfd; 
-	border-width: 2px;
 	font-size: 20px; 
 	font-family: TrasandinaBook;
     border-radius: 20px;
@@ -141,16 +131,19 @@ header{
 }
 #vlv:hover{
 background-color: #176AB5;
-} 
+}
 
 #modif{
-	height: 540px;
-	width: 700px;
-	background-color: #5c6f82;
-	border-radius: 10px;
+	height: auto;
+	width: 98%;
 	float: left;
 	margin-left: 10px;
 	margin-top: 10px;
+
+	background-color: #dbe5e9;
+	border-radius: 10px;
+	border: 1px solid #899dac;
+
 }
 
 #ingreso, #movimientos{
@@ -159,7 +152,8 @@ background-color: #176AB5;
 
 #movimientos{
 	height: auto;
-	float: left
+	float: left;
+	padding: 10px;
 }
 
 #grilla{
@@ -209,7 +203,6 @@ label{
 	text-align: left;
 	margin-left: 30px;
 	font-size: 20px;
-	color: #f7fbfd;
 	font-family: TrasandinaBook;
 }
 
@@ -274,11 +267,10 @@ label{
 .id{
 	width: 58px;
 	height: 30px;
-	background-color: #5c6f82;
+	background-color: #dbe5e9;
 	text-align: left;	
 	margin-top: 10px;
 	font-size: 20px;
-	color: #f7fbfd;
 	font-family: TrasandinaBold;
 	border-color: #f7fbfd;
 	border-style: none;
@@ -317,3 +309,6 @@ tr:hover td{
     margin-right: auto;
 }
 
+#lblForm{
+    font-size: 23px;
+}

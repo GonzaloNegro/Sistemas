@@ -37,55 +37,20 @@ $row = $resultado->fetch_assoc();
    
 </head>
 <body>
-<header class="header">
-		<div class="container-fluid">
-			<div class="btn-menu">
-		<nav id="botonera" style="height: auto;">
-			<ul class="nav">
-				<li><label for="btn-menu" style="cursor: pointer;"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="60" fill="black" class="bi bi-list" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
-</svg></label></li>
-				</li>
-				<li><a href="cargadeincidentes.php">CARGA</a>
-                  
-                 </li>
-				<li><a href="consulta.php">CONSULTA </a></li>
-				<li><a href="inventario.php">INVENTARIO </a>
-					<ul id="sub">
-									<li><a href="impresoras.php">-Impresoras</a></li>
-									<li><a href="monitores.php">-Monitores</a></li>
-						</ul>
-				</li>
-			</div>
-			</div>
-			</ul>
-		</nav>
-	</header>
-	<input type="checkbox" id="btn-menu">
-		<div class="container-menu" >
-			<div class="cont-menu" style="padding: 10px">
-         <nav >
-					<div id="foto" style="margin-top: 21px; margin-bottom: 19px;"></div><br>			
-					<h2 id="h2"><u>NOMBRE</u>: &nbsp<?php echo utf8_decode($row['RESOLUTOR']);?></h2>
-					<h2 id="h2"><u>CUIL</u>: &nbsp &nbsp &nbsp &nbsp &nbsp<?php if ((isset($_SESSION['cuil'])) && ($_SESSION['cuil'] != "")){echo $_SESSION['cuil'];}?></h2><br>
-					<h2 id="h2"><u>GESTIÓN: </u></h2>
-					<a href="abm.php" class="color"><h2 id="h2">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp-ALTA/BAJA/MODIFICACIÓN</h2></a>
-					<a href="tiporeporte.php" class="color"><h2 id="h2">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp-REPORTES</h2></a>
-					<a href="contraseña.php" class="color"><h2 id="h2">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp-CAMBIAR CONTRASEÑA</h2></a><br><br><br>
-					<a href="salir.php"><h2 id="h2"><u>CERRAR SESIÓN</u></h2></a>
-				</nav>
-				<label for="btn-menu">✖️</label>
-			</div>
-		</div>
+
 	<section id="Inicio">
+   <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
+                       <a id="vlv" href="tiporeporte.php" class="btn btn-primary">VOLVER</a>
+	                    <a id="pr" class="btn btn-secondary" style="width: 50px; height:40px; border-radius: 10px;" onclick="location.href='consulta.php'"><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></a>
+		            </div>
 		<div id="titulo">
-			<h1 style="margin-top:35px;">REPORTES DE INCIDENTES</h1>
+			<h1 style="margin-top:20px;">REPORTES DE INCIDENTES</h1>
        
 		</div>
 	
 
 <!--Selector de filtro-->
-<div id="principal"  style="width:75%; height: 150px; margin-top: 40px;" class="container-fluid">
+<div id="principal"  style="width:75%; height: 150px; margin-top: 60px;" class="container-fluid">
 <div id="formprin" class="form-group row" style="margin: 10px; padding:10px; padding-bottom: 30px;">
    <label id="lblForm" style="margin-top:20px; font-size:28px;"class="col-form-label col-xl col-lg">SELECCIONE EL TIPO DE REPORTE:</label>
    <select id="tipo" style="margin-top:20px;" name="tiporeporte" class="form-control col-xl col-lg" formControlName="Activo" onChange="mostrarFiltros()" required>
@@ -202,9 +167,6 @@ $row = $resultado->fetch_assoc();
 <script src="filtrosincidentes.js"></script>
 
 </section>
-<footer>
-   <div id="volver" class="row justify-content-center " style="width:99%; position: absolute; bottom:83px; left: 10px">
-			    <a id="vlv" href="tiporeporte.php" class="btn btn-primary">VOLVER</a>
-		 </div><br></footer>
+<footer></footer>
 </body>
 </html>

@@ -12,7 +12,7 @@ $filas=mysqli_num_rows($resultado);
 if($filas){
 	session_start();
 	$_SESSION['cuil'] = $cuil; 
-	header("location: cargadeincidentes.php");
+	header("location: bienvenida.php");
 	
 }else{
 	?>

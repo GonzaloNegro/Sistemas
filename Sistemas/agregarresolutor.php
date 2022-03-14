@@ -14,10 +14,12 @@ $row = $resultado->fetch_assoc();
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Carga de incidentes</title><meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="estiloagregarresolutor.css">
+	<title>AGREGAR RESOLUTOR</title><meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="estiloagregar.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 	<style>
 			body{
 			background-color: #edf0f5;
@@ -25,80 +27,114 @@ $row = $resultado->fetch_assoc();
 	</style>
 </head>
 <body>
-<header class="header" style="width: 100%">
-<div class="container-fluid">
-			<div class="btn-menu">
-		<nav id="botonera">
-			<ul class="nav" style="height: auto;">
-				<li><label for="btn-menu" style="cursor: pointer;"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="60" fill="black" class="bi bi-list" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
-</svg></label></li>
-				</li>
-				<li><a href="cargadeincidentes.php">CARGA</a>
-                    <!--<ul id="sub">
-                                        <li><a href="cargarapidaporusuario.php">-Carga rápida por usuario</a></li>
-										<li><a href="#.php">-Carga rápida por tipificación</a></li>
-                        </ul>-->
-                 </li>
-				<li><a href="consulta.php">CONSULTA </a></li>
-				<li><a href="inventario.php">INVENTARIO </a>
-					<ul id="sub">
-									<li><a href="impresoras.php">-Impresoras</a></li>
-									<li><a href="monitores.php">-Monitores</a></li>
-						</ul>
-				</li>
-			</div>
-			</div>
-			</ul>
-		</nav>
-	</header>
-	<input type="checkbox" id="btn-menu">
-		<div class="container-menu" >
-			<div class="cont-menu" style="padding: 10px">
-			<nav >
-					<div id="foto" style="margin-top: 21px; margin-bottom: 19px;"></div><br>			
-					<h2 id="h2"><u>NOMBRE</u>: &nbsp<?php echo utf8_decode($row['RESOLUTOR']);?></h2>
-					<h2 id="h2"><u>CUIL</u>: &nbsp &nbsp &nbsp &nbsp &nbsp<?php if ((isset($_SESSION['cuil'])) && ($_SESSION['cuil'] != "")){echo $_SESSION['cuil'];}?></h2><br>
-					<h2 id="h2"><u>GESTIÓN: </u></h2>
-					<a href="abm.php" class="color"><h2 id="h2">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp-ALTA/BAJA/MODIFICACIÓN</h2></a>
-					<a href="tiporeporte.php" class="color"><h2 id="h2">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp-REPORTES</h2></a>
-					<a href="contraseña.php" class="color"><h2 id="h2">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp-CAMBIAR CONTRASEÑA</h2></a><br><br><br>
-					<a href="salir.php"><h2 id="h2"><u>CERRAR SESIÓN</u></h2></a>
-				</nav>
-				<label for="btn-menu">✖️</label>
-			</div>
+<script type="text/javascript">
+			function ok(){
+				swal(  {title: "Resolutor cargado correctamente",
+						icon: "success",
+						showConfirmButton: true,
+						showCancelButton: false,
+						})
+						.then((confirmar) => {
+						if (confirmar) {
+							window.location.href='abmresolutor.php';
+						}
+						}
+						);
+			}	
+			</script>
+<script type="text/javascript">
+			function repeat(){
+				swal(  {title: "Resolutor cargado correctamente. Verifique el nombre del resolutor, ya que existe este nombre registrado previamente!",
+						icon: "info",
+						})
+						.then((confirmar) => {
+						if (confirmar) {
+							window.location.href='abmresolutor.php';
+						}
+						}
+						);
+			}	
+			</script>
+<script type="text/javascript">
+			function no(){
+				swal(  {title: "El resolutor ya está registrado",
+						icon: "error",
+						})
+						.then((confirmar) => {
+						if (confirmar) {
+							window.location.href='agregarresolutor.php';
+						}
+						}
+						);
+			}	
+			</script>
+		<div id="reporteEst" style="width: 97%; margin-left: 20px;">   
+				<div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
+					<a id="vlv"  href="abmresolutor.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+				</div>					
 		</div>
-
-		
 	<section id="Inicio">
 		<div id="titulo" style="margin:20px;">
 			<h1>AGREGAR RESOLUTOR</h1>
 		</div>
-		<div id="principal" style="width: auto" class="container-fluid">
-						<form method="POST" action="cargaresolutor.php">
+		<div id="principalr" style="width: 97%" class="container-fluid" data-aos="zoom-in">
+						<form method="POST" action="guardarmodresolutor.php">
+
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE:</label>
-							<input class="form-control col-xl col-lg" type="text" name="nombre_resolutor" placeholder="NOMBRE" required>
+							<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="nombre_resolutor" placeholder="NOMBRE" required>
 							<label id="lblForm"class="col-form-label col-xl col-lg">CUIL:</label>
-                            <input class="form-control col-xl col-lg" type="text" name="cuil" placeholder="CUIL" required>
+                            <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="cuil" placeholder="CUIL" required>
                         </div>
+
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm" class="col-form-label col-xl col-lg">CORREO:</label> 
-							<input class="form-control col-xl col-lg" type="mail" name="correo" placeholder="CORREO" required>
+							<input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="mail" name="correo" placeholder="CORREO" required>
 							<label id="lblForm"class="col-form-label col-xl col-lg">TELEFONO:</label>
-                            <input class="form-control col-xl col-lg" type="number" name="telefono" placeholder="TELEFONO" required>
+                            <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="number" name="telefono" placeholder="TELEFONO" required>
                         </div>    
-                        <div class="form-group row justify-content-end" style="margin: 10px; padding:10px;">
-							<input style="width: 20%;"class="col-3 button" type="submit" value="GUARDAR RESOLUTOR" class="button">
-                        </div>    
+						
+						<div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
+								<select name="tipo" class="form-control col-xl col-lg" required>
+								<option selected disabled="area">-SELECCIONE UNA-</option>
+								<?php
+								include("conexion.php");
+								$consulta= "SELECT * FROM tipo_resolutor";
+								$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+								?>
+								<?php foreach ($ejecutar as $opciones): ?> 
+									<option value="<?php echo $opciones['ID_TIPO_RESOLUTOR']?>"><?php echo $opciones['TIPO_RESOLUTOR']?></option>						
+								<?php endforeach ?>
+								</select>
+						</div>  
+						<div class="form-group row justify-content-end" style="margin: 10px; padding:10px;">
+					<input style="width:20%"class="col-3 button" type="submit" value="GUARDAR" class="button">
+				</div>	
 					</form>
-			<?php
+					<?php
 				if(isset($_GET['ok'])){
-					echo "<h3>Resolutor cargado</h3>";
+					?>
+					<script>ok();</script>
+					<?php			
+				}
+				if(isset($_GET['repeat'])){
+					?>
+					<script>repeat();</script>
+					<?php			
+				}
+				if(isset($_GET['no'])){
+					?>
+					<script>no();</script>
+					<?php			
 				}
 			?>
 		</div>
 	</section>
 	<footer></footer>
+	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
 </body>
 </html>

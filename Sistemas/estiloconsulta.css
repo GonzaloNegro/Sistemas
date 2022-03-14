@@ -85,7 +85,8 @@ p{
 #filtro{
 	height: auto;
 	width: 98%;
-	background-color: #5c6f82;
+	background-color: #dbe5e9;
+	border: 1px solid #899dac;
 	border-radius: 20px;
 }
 
@@ -221,9 +222,10 @@ label{
 }
 
 #botonera ul li a:hover {
-	color: #FFFFFF;
+/* 	color: #FFFFFF;
 	font-weight: bold;
-	font-size: 21px;
+	font-size: 21px; */
+	text-shadow: 0.5px 0.5px #FFFFFF;
 }
 
 .nav li a{
@@ -291,7 +293,7 @@ label{
 table{
 	text-align: left;
 	margin-left: 5px;
-	background-color: #acbac4;
+	background-color: #dbe5e9;
 	border-collapse: collapse;
 	width:100%;
 }
@@ -311,8 +313,7 @@ tr:nth-child(even){
 }
 
 tr:hover td{
-	background-color: #697077;
-	color: #f7fbfd;
+	background-color: #D6D6D6;
 }
 
 /* Capa*/
@@ -424,3 +425,63 @@ nav a img{
 	margin-top: 50px;
 	margin-left: 30px;
 }
+
+#vlv{
+	width: 100%; 
+	height: 45px; 
+	background-color: #176AB5; 
+	border-color: #f7fbfd; 
+	font-size: 20px; 
+	font-family: TrasandinaBook;
+    border-radius: 20px;
+}
+#vlv:hover{
+background-color: #f7fbfd;
+border-color: #176AB5;
+color: #176AB5;
+}
+
+#vlva{
+	width: 10%; 
+	height: 45px; 
+	background-color: #176AB5; 
+	border-color: #f7fbfd; 
+	font-size: 20px; 
+	font-family: TrasandinaBook;
+    border-radius: 20px;
+}
+
+#vlva:hover{
+background-color: #f7fbfd;
+border-color: #176AB5;
+color: #176AB5;
+}
+
+#vlva1{
+	width: 15%; 
+	height: 45px; 
+	background-color: #176AB5; 
+	border-color: #f7fbfd; 
+	font-size: 20px; 
+	font-family: TrasandinaBook;
+    border-radius: 20px;
+}
+#vlva1:hover{
+background-color: #f7fbfd;
+border-color: #176AB5;
+color: #176AB5;
+}
+
+*::-webkit-scrollbar {
+	width: 12px;
+  }
+  
+  *::-webkit-scrollbar-track {
+	background: rgb(187, 183, 177);
+  }
+  
+  *::-webkit-scrollbar-thumb {
+	background-color: rgb(49, 49, 49);
+	border-radius: 20px;
+	border: 3px solid rgb(187, 183, 177);
+  }

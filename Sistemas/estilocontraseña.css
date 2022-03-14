@@ -123,3 +123,44 @@ input{
 	transition-delay: 0s;
 }
 
+.bienvenida{
+	width: 800px;
+	height: auto;
+	margin: 0 auto;
+
+	border-radius: 10px;
+	border: 5px solid #F0AD4E;
+	background-color: #edf0f5;
+}
+
+.fecha{
+	width: auto;
+	height: auto;
+	margin-left: 10px;
+	padding: 10px;
+}
+
+.info{
+	width: auto;
+	height: 400px;
+	margin-top: 20px;
+}
+
+.btn{
+	margin-top: 10px;
+	float: right;
+}
+
+#vlv{
+	width: 100%; 
+	height: 45px; 
+	background-color: #1c7cd5; 
+	border-color: #f7fbfd; 
+	font-size: 20px; 
+	font-family: TrasandinaBook;
+    border-radius: 20px;
+	
+}
+#vlv:hover{
+background-color: #176AB5;
+}

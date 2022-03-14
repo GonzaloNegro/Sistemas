@@ -16,9 +16,12 @@ function ConsultarIncidente($no_tic)
 		$filas['USUARIO'],/*2*/
 		$filas['DESCRIPCION'],/*3*/
 		$filas['ID_ESTADO'],/*4*/
-		$filas['NRO_EQUIPO'],/*5*/
+		$filas['ID_WS'],/*5*/
 		$filas['FECHA_SOLUCION'],/*6*/
-		$filas['ID_RESOLUTOR']/*7*/
+		$filas['ID_RESOLUTOR'],/*7*/
+		$filas['ID_TIPIFICACION'],/*8*/
+		$filas['ID_USUARIO'],/*9*/
+		$filas['HORA']/*10*/
 	];
 }
 
@@ -26,6 +29,7 @@ function ConsultarIncidente($no_tic)
 <!DOCTYPE html>
 <html>
 <head>
+	<title>DETALLES DEL INCIDENTE</title><meta charset="utf-8">
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="estiloconsultadetalle.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -82,9 +86,9 @@ function ConsultarIncidente($no_tic)
 			}	
 			</script>
 	<header>
-	<div class="form-group row justify-content-end" style="margin-top: 0px; margin-left: 10px; margin-right: 10px; padding:10px;">
-	      
-          <button id="pr" class="btn btn-success" style="width: 50px; border-radius: 10px; height: 45px;" onClick="imprimir()"><i class='bi bi-printer'></i></button>
+		<div class="form-group row justify-content-between" style="margin-top: 0px; margin-left: 10px; margin-right: 10px; padding:10px;">
+		<a id="vlv"  href="consulta.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+			<button id="pr" class="btn btn-success" style="width: 50px; border-radius: 10px; height: 45px;" onClick="imprimir()"><i class='bi bi-printer'></i></button>
 		</div>
 		
 		<style type="text/css" media="print">
@@ -105,284 +109,131 @@ function ConsultarIncidente($no_tic)
 	</header>
 	<section id="ingreso">
 		<div id="ingresar" class="container-fluid" style="margin-top: 50px;">
-		<?php $opcion = $consulta[4];
-			switch ($opcion) 
-			{
-				case 0:
-					$est = "SIN ESTADO";
-					break;
-				case 1:
-					$est = "SUSPENDIDOO";
-					break;
-				case 2:
-					$est = "SOLUCIONADO";
-					break;
-				case 3:
-					$est = "DERIVADO";
-					break;
-				case 4:
-					$est = "EN PROCESO";
-					break;
-				case 5:
-					$est = "ANULADO";
-					break;
-			}	
-			$opcion = $consulta[7];
-			switch ($opcion) 
-			{		
-                case 0:
-                    $nom = "SIN RESOLUTOR";
-                    break;
-				case 1:
-					$nom = "APOYO TÉCNICO - FINANZAS";
-					break;
-				case 2:
-					$nom = "CLAUDIA VILLEGAS";
-					break;
-				case 3:
-					$nom = "EDUARDO CICARDINI";
-					break;
-				case 4:
-					$nom = "ENRIQUE BARRANCO";
-					break;
-				case 5:
-					$nom = "GABRIEL RENELLA";
-					break;
-				case 6:
-					$nom = "GONZALO NEGRO";
-					break;
-				case 7:
-					$nom = "JULIO DIAZ";
-					break;
-				case 8:
-					$nom = "MACRO SEGURIDAD";
-					break;
-				case 9:
-					$nom = "MACROX";
-					break;
-				case 10:
-					$nom = "MARIA JUAREZ";
-					break;
-				case 11:
-					$nom = "MESA DE AYUDA";
-					break;
-				case 12:
-					$nom = "OPERACIONES SSIT";
-					break;
-				case 13:
-					$nom = "PAMELA TUSSETTO";
-					break;
-				case 14:
-					$nom = "PROVEEDOR EXTERNO";
-					break;
-				case 15:
-					$nom = "RODRIGO CESTAFE";
-					break;
-				case 16:
-					$nom = "SOPORTE INTERNO";
-					break;
-				case 17:
-					$nom = "SOPORTE POP";
-					break;
-				case 18:
-					$nom = "SOPORTE TÉCNICO";
-					break;
-				case 19:
-					$nom = "YANINA RE";
-					break;				
-				case 20:
-					$nom = "GUSTAVO ELKIN";
-					break;			
-				case 21:
-					$nom = "GASTON NIEVAS";
-					break;		
-		}
-
-		$des = $consulta[3];
-		$usu = $consulta[2];
-		$nro = $consulta[5];
-
+			<?php 
+            include("conexion.php");
+            $sent= "SELECT ESTADO FROM estado WHERE ID_ESTADO = $consulta[4]";
+            $resultado = $datos_base->query($sent);
+            $row = $resultado->fetch_assoc();
+            $est = $row['ESTADO'];
+			?>
+			<?php 
+            include("conexion.php");
+            $sent= "SELECT RESOLUTOR FROM resolutor WHERE ID_RESOLUTOR = $consulta[7]";
+            $resultado = $datos_base->query($sent);
+            $row = $resultado->fetch_assoc();
+            $nom = $row['RESOLUTOR'];
+			?>
+			<?php 
+            include("conexion.php");
+            $sent= "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = $consulta[9]";
+            $resultado = $datos_base->query($sent);
+            $row = $resultado->fetch_assoc();
+            $usu = $row['NOMBRE'];
+			?>
+			<?php 
+           /*  include("conexion.php");
+            $sent= "SELECT SERIEG FROM inventario WHERE ID_WS = $consulta[5]";
+            $resultado = $datos_base->query($sent);
+            $row = $resultado->fetch_assoc();
+            $nro = $row['SERIEG']; */
+			?>
+			<?php
+			$des = $consulta[3];
 		/*FECHAS*/
 		$fecin = date("d-m-Y", strtotime($consulta[1]));
-
-		/*$fecha = "0000-00-00";
-		if($consulta[6] == $fecha)
-		{
-		$consulta[6] = "-";
-		$fecfin = $consulta[6];
-		}
-		else{
-			$fecfin = date("d/m/Y", strtotime($consulta[6]));
-		}
-		*/
 		?>
-			<?php $guardar = $consulta[0]?><br>
-			<div class="form-group row" style="margin-bottom: 20px;">
-			<h4 class="col-xl col-lg"><u>FECHA INICIO:</u> <?php echo $fecin ?>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</h4> 
-			<h4 class="col-xl col-lg"><u>USUARIO:</u> <?php echo $usu?>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</h4>
-			<h4 class="col-xl col-lg"><u>ESTADO:</u> <?php echo $est ?>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</h4>
+			<?php $guardar = $consulta[0]?>
+			<div class="form-group row" style="margin: 5px; padding:10px;">
+				<h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA INICIO:</u> <?php echo $fecin ?></h4> 
+				<h4 id="lblForm"class="col-form-label col-xl col-lg"><u>USUARIO:</u> <?php echo $usu?></h4>
+				<h4 id="lblForm"class="col-form-label col-xl col-lg"><u>ESTADO:</u> <?php echo $est ?></h4>
 			</div>
-            <div class="form-group row" style="margin-bottom: 20px;">
-			<h4 class="col-xl col-lg"><u>FECHA DE SOLUCION:</u> <?php 
-			
-			$fecha = "0000-00-00";
-			if($consulta[6] == $fecha)
-			{
-				echo "-";
-			}
-			else
-			{
-				$fecfin = date("d-m-Y", strtotime($consulta[6]));
-				echo $fecfin;
-			}
-			?>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
-			<h4 class="col-xl col-lg"><u>RESOLUTOR:</u> <?php echo $nom?></h4>
-			<h4 class="col-xl col-lg"><u>NRO EQUIPO:</u> <?php echo $consulta[5]?> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</h4>
+
+            <div class="form-group row" style="margin: 5px; padding:10px;">
+				<h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA DE SOLUCION:</u> <?php 
+				
+				$fecha = "0000-00-00";
+				if($consulta[6] == $fecha)
+				{
+					echo "-";
+				}
+				else
+				{
+					$fecfin = date("d-m-Y", strtotime($consulta[6]));
+					echo $fecfin;
+				}
+				?>
+				<h4 id="lblForm"class="col-form-label col-xl col-lg"><u>RESOLUTOR:</u> <?php echo $nom?></h4>
+				<h4 id="lblForm"class="col-form-label col-xl col-lg"><u>NRO EQUIPO:</u> <?php?></h4>
 			</div>
-			<div class="form-group row" style="margin-bottom: 20px;">
-            <h4 class="col-xl col-lg"><u>DESCRIPCIÓN:</u> <?php echo $consulta[3]?></h4><br><br>
+
+			<div class="form-group row" style="margin: 5px; padding:10px;">
+				<h4 id="lblForm"class="col-form-label col-xl col-lg"><u>TIPIFICACIÓN:</u>
+				<?php include("conexion.php");
+					$sent= "SELECT TIPIFICACION FROM tipificacion WHERE ID_TIPIFICACION = $consulta[8]";
+					$resultado = $datos_base->query($sent);
+					$row = $resultado->fetch_assoc();
+					$original = $row['TIPIFICACION'];
+					echo $original?></h4>
+				</h4>
+				<h4 id="lblForm"class="col-form-label col-xl col-lg"><u>HORA:</u> <?php echo $consulta[10]?></h4>
 			</div>
-        </div><br><br>
+
+			<div class="form-group row" style="margin: 5px; padding:10px;">
+            	<h4 id="lblForm"class="col-form-label col-xl col-lg"><u>DESCRIPCIÓN:</u> <?php echo $consulta[3]?></h4>
+			</div>
+	<!-- 		<div class="form-group row" style="margin-bottom: 20px;">
+           		<h4 class="col-xl col-lg"><u>IMAGEN:</u>&nbsp &nbsp &nbsp<img src="data:image/jpg;base64,<?php echo base64_encode($consulta[9]);?>" alt=""></h4>
+			</div> -->
+        </div>
 	</section>
 	<section id="movimientos">
 		<div id="grilla">
 			<h2>MOVIMIENTOS</h2>
 		<?php
-
-				/*$sql = "SELECT * from fecha_ticket WHERE ID_TICKET = '$guardar'";
-
-				$resultado = $datos_base->query($sql);
-				$row = $resultado->fetch_assoc();
-				$res = $row['ID_FECHA'];*/
-
 				echo "<table width=100%>
 						<thead>
 							<tr>
 								<th><p>FECHA</p></th>
-								<th><p>MOTIVO</p></th>
 								<th><p>RESOLUTOR</p></th>
 								<th><p>ESTADO</p></th>
+								<th><p>MOTIVO</p></th>
 							</tr>
 						</thead>";
-
 
 						$sql = mysqli_query($datos_base, "SELECT * from fecha_ticket WHERE ID_TICKET = '$guardar'");
 						while($listar2 = mysqli_fetch_array($sql)){
 							$resa = $listar2['ID_FECHA'];
 
-
 						$consulta=mysqli_query($datos_base, "SELECT * from fecha WHERE ID_FECHA = '$resa'");
 						while($listar = mysqli_fetch_array($consulta))
 						{
 							$opcion = $listar['ID_ESTADO'];
-												switch ($opcion) {
-												case 0:
-												$est = "SIN ESTADO";
-												break;
-												case 1:
-												$est = "SUSPENDIDOO";
-												break;
-												case 2:
-												$est = "SOLUCIONADO";
-												break;
-												case 3:
-												$est = "DERIVADO";
-												break;
-												case 4:
-												$est = "EN PROCESO";
-												break;
-												case 5:
-												$est = "ANULADO";
-												break;
-											}
-
-							$opcion = $listar['ID_RESOLUTOR'];
-											switch ($opcion) {
-											case 0:
-											$nom = "SIN RESOLUTOR";
-											break;					
-											case 1:
-											$nom = "APOYO TÉCNICO - FINANZAS";
-											break;
-											case 2:
-											$nom = "CLAUDIA VILLEGAS";
-											break;
-											case 3:
-											$nom = "EDUARDO CICARDINI";
-											break;
-											case 4:
-											$nom = "ENRIQUE BARRANCO";
-											break;
-											case 5:
-											$nom = "GABRIEL RENELLA";
-											break;
-											case 6:
-											$nom = "GONZALO NEGRO";
-											break;
-											case 7:
-											$nom = "JULIO DIAZ";
-											break;
-											case 8:
-											$nom = "MACRO SEGURIDAD";
-											break;
-											case 9:
-											$nom = "MACROX";
-											break;
-											case 10:
-											$nom = "MARIA JUAREZ";
-											break;
-											case 11:
-											$nom = "MESA DE AYUDA";
-											break;
-											case 12:
-											$nom = "OPERACIONES SSIT";
-											break;
-											case 13:
-											$nom = "PAMELA TUSSETTO";
-											break;
-											case 14:
-											$nom = "PROVEEDOR EXTERNO";
-											break;
-											case 15:
-											$nom = "RODRIGO CESTAFE";
-											break;
-											case 16:
-											$nom = "SOPORTE INTERNO";
-											break;
-											case 17:
-											$nom = "SOPORTE POP";
-											break;
-											case 18:
-											$nom = "SOPORTE TÉCNICO";
-											break;
-											case 19:
-											$nom = "YANINA RE";
-											break;		
-											case 20:
-											$nom = "GUSTAVO ELKIN";
-											break;			
-											case 21:
-											$nom = "GASTON NIEVAS";
-											break;							
-										}	
-
+								include("conexion.php");
+								$sent= "SELECT ESTADO FROM estado WHERE ID_ESTADO = $opcion";
+								$resultado = $datos_base->query($sent);
+								$row = $resultado->fetch_assoc();
+								$est = $row['ESTADO'];
+								?>
+								<?php 
+								$opcion = $listar['ID_RESOLUTOR'];
+								include("conexion.php");
+								$sent= "SELECT RESOLUTOR FROM resolutor WHERE ID_RESOLUTOR = $opcion";
+								$resultado = $datos_base->query($sent);
+								$row = $resultado->fetch_assoc();
+								$nom = $row['RESOLUTOR'];
 
 								$fecord = date("d-m-Y", strtotime($listar['FECHA_HORA']));
-
 							echo "
 								<tr>
 									<td><h5>".$fecord."</h5></td>
-									<td><h5>".$listar['MOTIVO']."</h5></td>
 									<td><h5>".$nom."</h5></td>
 									<td><h5>".$est."</h5></td>
+									<td><h5>".$listar['MOTIVO']."</h5></td>
 								</tr>";
 						}}
 					echo "</table>";
-			?><br><br><br>
-		</div>
-        <div id="volver">
-			<a id="vlv" href="consulta.php" class="btn btn-primary">VOLVER</a>
-		
+			?>
 		</div>
 	</div>
 	</section>

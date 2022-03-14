@@ -1,0 +1,191 @@
+section, header{
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+    margin-top: 10px;
+}
+
+@font-face{
+	font-family: TrasandinaBlack;
+	src: url("fuente/TrasandinaBlack.otf");
+}
+@font-face{
+	font-family: TrasandinaBold; 
+	src: url("fuente/TrasandinaBold.otf");
+	}
+
+@font-face{
+	font-family: TrasandinaBook; 
+	src: url("fuente/TrasandinaBook.otf");
+	}
+
+@font-face{
+	font-family: TrasandinaMedium; 
+	src: url("fuente/TrasandinaMedium.otf");
+	}	
+	/*
+	url("TrasandinaBold-Italic.otf"), 
+	url("TrasandinaLight.otf"), url("TrasandinaMedium-Italic.otf"),
+	url("TrasandinaRegular.otf"), url("TrasandinaRegular-Italic.otf"), 
+	url("TrasandinaUltra.otf");*/
+
+h1{
+	text-align: center;	
+	color: #53AAE0;
+	font-family: TrasandinaBlack;
+	font-size: 40px;
+	letter-spacing: 5px;
+}
+
+h2{
+	text-align: center;	
+	color: #53AAE0;
+	font-family: TrasandinaMedium;
+	font-size: 24px;
+}
+
+h3{
+	text-align: center;	
+	margin-top: 10px;
+	font-size: 20px;
+	font-family: TrasandinaBold;
+}
+
+h4{
+	text-align: left;	
+	margin-top: 10px;
+	margin-left: 15px;
+	font-size: 16px;
+	font-family: TrasandinaMedium;
+}
+
+h5{
+	text-align: center;	
+	font-family: TrasandinaBook;
+	font-size: 14px;
+}
+
+p{
+	text-align: center;
+	font-family: TrasandinaMedium;
+	color: #f7fbfd;
+	font-size: 18px;
+}
+
+header{
+	height: 120px;
+}
+
+#titulo{
+	height: 60px;
+}
+
+#ingreso{
+	height: auto;
+	width: 100%;
+    float: left;
+}
+
+#titulo, #ingreso{
+	margin-top: 15px;;
+}
+
+#ingresar{
+	height: auto;
+	width: 96.5%;
+	margin-left: 18px;
+	margin-right: 18px;
+	background-color: #dbe5e9;
+	border-radius: 10px;
+	border: 1px solid #899dac;
+}
+
+label{
+	text-align: left;
+	margin-left: 30px;
+	font-size: 20px;
+	font-family: TrasandinaBook;
+}
+
+#vlv{
+	width: 125px; 
+	height: 45px; 
+	background-color: #1c7cd5; 
+	border-color: #f7fbfd; 
+	font-size: 20px; 
+	font-family: TrasandinaBook;
+    border-radius: 20px;
+}
+#vlv:hover{
+background-color: #176AB5;
+}
+
+input, textarea{
+	height: 40px;
+	width: auto;
+	display: inline;
+	box-sizing: border-box;
+	border-radius: 10px;
+	border-color: white;
+}
+
+select{
+	width: auto;
+	padding: 10px;
+	display: inline;
+	box-sizing: border-box;
+	border-radius: 10px;
+	border-color: white;
+}
+
+textarea{
+	width: 800px;
+	height: auto;
+}
+
+input:hover{
+	border-color:#29343e;
+	transition-delay: 0.1s;
+}
+select:hover{
+	border-color:#29343e;
+	transition-delay: 0.1s;
+}
+
+
+#mod{
+    color: #f7fbfd;
+	width: 150px; 
+	height: 50px; 
+    float: right;
+    margin-top: 10px;
+	background-color: #1c7cd5; 
+	border-color: #f7fbfd; 
+	font-size: 20px; 
+	font-family: TrasandinaBook;
+    border-radius: 20px;
+}
+#mod:hover{
+background-color: #176AB5;
+}
+
+.id{
+	height: 25px;
+	width: 50px;
+	background-color: #dbe5e9;
+	border-style: none;
+}
+
+*::-webkit-scrollbar {
+	width: 12px;
+}
+  
+*::-webkit-scrollbar-track {
+	background: rgb(187, 183, 177);
+}
+  
+*::-webkit-scrollbar-thumb {
+	background-color: rgb(49, 49, 49);
+	border-radius: 20px;
+	border: 3px solid rgb(187, 183, 177);
+}

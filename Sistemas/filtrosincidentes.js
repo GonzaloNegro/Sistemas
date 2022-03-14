@@ -1,4 +1,4 @@
-function mostrarFiltros(){
+function mostrarFiltros() {
   var selector = document.getElementById("tipo").value;
   if (selector == "Estado") {
     document.getElementById("repotodos").style.display = "block";
@@ -20,9 +20,6 @@ function mostrarFiltros(){
     document.getElementById("principal").style.display = "none";
     document.getElementById("vlv").style.display = "none";
   }
-
-
-
 }
 
 function volver() {
@@ -37,8 +34,4 @@ function volver() {
 
 function ocultarPag() {
   document.getElementById("paginador").style.display = "none";
-      } 
-  
-
-  
-
+}

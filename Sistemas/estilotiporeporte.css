@@ -1,101 +1,109 @@
-section, header{
-	width: 97%;
-	margin-left: auto;
-	margin-right: auto;
+section,
+header {
+  width: 97%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-@font-face{
-	font-family: TrasandinaBlack;
-	src: url("fuente/TrasandinaBlack.otf");
+@font-face {
+  font-family: TrasandinaBlack;
+  src: url("fuente/TrasandinaBlack.otf");
 }
-@font-face{
-	font-family: TrasandinaBold; 
-	src: url("fuente/TrasandinaBold.otf");
-	}
-
-@font-face{
-	font-family: TrasandinaBook; 
-	src: url("fuente/TrasandinaBook.otf");
-	}
-
-@font-face{
-	font-family: TrasandinaMedium; 
-	src: url("fuente/TrasandinaMedium.otf");
-	}	
-
-h1{
-	text-align: center;	
-	color: #53AAE0;
-	font-family: TrasandinaBlack;
-	margin-bottom: 40px;
-	margin-top:25px;
-	font-size: 32px;
-	letter-spacing: 5px;
+@font-face {
+  font-family: TrasandinaBold;
+  src: url("fuente/TrasandinaBold.otf");
 }
 
-
-h2{
-	text-align: left;	
-	font-family: TrasandinaBook;
-	font-size: 16px;
-	color: #edf0f5;
-	margin-left: 10px;
+@font-face {
+  font-family: TrasandinaBook;
+  src: url("fuente/TrasandinaBook.otf");
 }
 
-h4{
-	text-align: center;	
-	font-family: TrasandinaBook;
-	font-size: 14px;
-	text-transform: uppercase;
+@font-face {
+  font-family: TrasandinaMedium;
+  src: url("fuente/TrasandinaMedium.otf");
 }
 
-#inicio{
-    width: auto;
-	height: auto;
+h1 {
+  text-align: center;
+  color: #53aae0;
+  font-family: TrasandinaBlack;
+  margin-bottom: 40px;
+  margin-top: 25px;
+  font-size: 32px;
+  letter-spacing: 5px;
 }
 
-#titulo{
-	width: 100%;
-	height: 54px;
+h2 {
+  text-align: left;
+  font-family: TrasandinaBook;
+  font-size: 16px;
+  color: #edf0f5;
+  margin-left: 10px;
 }
 
-#principal{
-    width: 400px;
-    height: 250px;
-    margin-left: auto;
-    margin-right: auto;
+h4 {
+  text-align: center;
+  font-family: TrasandinaBook;
+  font-size: 20px;
+  text-transform: uppercase;
 }
 
-#titulo, #principal{
-    margin-bottom: 150px;
+#inicio {
+  width: auto;
+  height: auto;
 }
 
-#izq{
-    margin-left: auto;
-    margin-right: auto;
+#titulo {
+  width: 100%;
+  height: 54px;
 }
 
-#der, #mon, #imp{
-    float:left;
-    margin-right: 50px;
+#principal {
+  width: 400px;
+  height: 250px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-#izq, #der, #mon, #imp{
-    margin-bottom: 20px;
+#titulo,
+#principal {
+  margin-bottom: 150px;
 }
 
-.but1{
-	width: 400px;
-	height: 100px;
-	border-radius: 15px;transition-duration: 0.5s;
-	transition-delay: 0s;
+#izq {
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.but2{
-	width: 400px;
-	height: 100px;
-	border-radius: 15px;transition-duration: 0.5s;
-	transition-delay: 0s;
+#der,
+#mon,
+#imp {
+  float: left;
+  margin-right: 50px;
+}
+
+#izq,
+#der,
+#mon,
+#imp {
+  margin-bottom: 20px;
+}
+
+.but1 {
+  width: 400px;
+  height: 100px;
+  border-radius: 15px;
+  transition-duration: 0.5s;
+  transition-delay: 0s;
+}
+
+.but2 {
+  width: 400px;
+  height: 100px;
+  border-radius: 15px;
+  transition-duration: 0.5s;
+  transition-delay: 0s;
 }
 
 /* .but2:hover{
@@ -103,59 +111,79 @@ h4{
 	transition-delay:inherit;
 } */
 
-.but3{
-	width: 400px;
-	height: 50px;
-	border-radius: 15px;transition-duration: 0.5s;
-	transition-delay: 0s;
+.but3 {
+  width: 190px;
+  height: 50px;
+  margin-bottom: 10px;
+  margin-right: 20px;
+  border-radius: 15px;
+  transition-duration: 0.5s;
+  transition-delay: 0s;
 }
 
-.but4{
-	width: 400px;
-	height: 50px;
-	border-radius: 15px;transition-duration: 0.5s;
-	transition-delay: 0s;
+.but4 {
+  width: 190px;
+  height: 50px;
+  margin-bottom: 10px;
+  border-radius: 15px;
+  transition-duration: 0.5s;
+  transition-delay: 0s;
 }
 
-.button{
-    text-decoration: none;
-	color: #29343e;
-	font-size: 30px;
-	font-family: TrasandinaBook;
-	background-color: #dbe5e9;
-	border-color: #f7fbfd;
+.button {
+  text-decoration: none;
+  color: #29343e;
+  font-size: 30px;
+  font-family: TrasandinaBook;
+  background-color: #dbe5e9;
+  border-color: #f7fbfd;
 }
 
-.button:hover{
-	background-color: #f7fbfd;
-	color: #29343e;
-	transition-property: background-color, #f7fbfd;
-	transition-duration: 1s;
-	transition-delay: 0s;
+.button:hover {
+  background-color: #f7fbfd;
+  color: #29343e;
+  transition-property: background-color, #f7fbfd;
+  transition-duration: 1s;
+  transition-delay: 0s;
 }
 
-#principal, #volver{
-    margin-bottom: 40px;
+#principal,
+#volver {
+  margin-bottom: 40px;
 }
 
-#volver{
-    width: 150px;
-    height: 45px;
-    margin-left: auto;
-    margin-right: auto;
+#volver {
+  width: 150px;
+  height: 45px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-#vlv{
-	width: 150px; 
-	height: 45px; 
-	background-color: #1c7cd5; 
-	border-color: #f7fbfd; 
-	font-size: 20px; 
-	font-family: TrasandinaBook;
-    border-radius: 20px;
+#vlv {
+  width: 150px;
+  height: 45px;
+  background-color: #1c7cd5;
+  border-color: #f7fbfd;
+  font-size: 20px;
+  font-family: TrasandinaBook;
+  border-radius: 20px;
 }
-#vlv:hover{
-background-color: #176AB5;
+#vlv:hover {
+  background-color: #176ab5;
 }
 
+.fila {
+  text-align: left;
+}
 
+#der {
+  display: block;
+  transition-duration: 1s;
+  transition-delay: 0s;
+}
+
+#contenedorinv {
+  display: none;
+  transition-duration: 1s;
+  transition-delay: 0s;
+}

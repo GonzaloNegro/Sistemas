@@ -30,16 +30,20 @@ $row = $resultado->fetch_assoc();
 	<script type="text/javascript" src="jquery/1/jquery-ui.js"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
-	$(document).ready(function(){
-    $("#der").hover(function(){
-	  $("#der").fadeOut(0);
-	  $("#imp").fadeIn(1200);
-	  $("#mon").fadeIn(1200);
+// 	$(document).ready(function(){
+//       $("#der").hover(function(){
+// 	    $("#der").fadeOut(0);
+// 	    $("#contenedorinv").fadeIn(500);
+// 	  });
+
+// 	  $("#contenedorinv").mouseout(function(){
+// 		$("#contenedorinv").fadeOut(0);
+// 		$("#der").fadeIn(0);
 	  
-		
-    });
-    });
-</script>
+// 	  });
+	
+//     });
+// </script>
    <style>
 			body{
 			background-color: #edf0f5;
@@ -48,19 +52,43 @@ $row = $resultado->fetch_assoc();
    
 </head>
 <body>
+
+<div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
+                        <a id="vlv" style="width:120px;" href="cargadeincidentes.php" class="btn btn-primary">VOLVER</a>
+	                    <a id="pr" class="btn btn-secondary" style="width: 50px; height:40px; border-radius: 10px;" onclick="location.href='consulta.php'"><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></a>
+		            </div>
+
 	<section id="Inicio">
-		<div id="titulo">
-			<h1 style="margin-top:35px;">TIPO DE REPORTE</h1>
+		<div id="titulo" style="margin-top:20px; margin-bottom: 65px;">
+			<h1 >TIPO DE REPORTE</h1>
 		</div>
-        <div id="principal">
+		
+        <div id="principal" >
              <div id=izq><a href="reporteincidentes.php"><input type="button" class="button but1" value="INCIDENTES"></div>
-             <div id=der><a><input type="button" class="button but2" value="INVENTARIO"></div>
-			 <div id="mon" style="display: none;"><a href="reporteinventario.php"><input type="button" class="button but3" value="EQUIPOS"></div>
-			 <div id="imp" style="display: none;"><a href="reporteperifericos.php"><input type="button" class="button but4" value="PERIFERICOS"></div>
+             <!-- onmouseout="mostrar()" -->
+			 <div id=der onmouseover="ocultar()" onmouseout="mostrar()" ><a><input type="button" class="button but2" value="INVENTARIO"></div>
+			 <div id="contenedorinv" style="display:none;">
+			 <div class="d-grid gap-2 d-md-flex justify-content-center" style="margin-right: 10px;">
+             <a href="reporteinventario.php" ><input type="button" class="button but3" value="EQUIPOS"></a>
+             <a href="reporteperifericos.php"><input type="button" class="button but4" value="PERIFERICOS"></a>
+             </div>
+			 <div class="d-grid gap-2 col-6 mx-auto">
+			 <a href="reporteestadotodos.php"><input type="button" class="button but3" style="font-size: 20px;" value="ESTADO INVENTARIO">
+			 </div>
+		</div>
         </div>
-         <div id="volver" >
-			    <a id="vlv" href="cargadeincidentes.php" class="btn btn-primary">VOLVER</a>
-		 </div><br>
+		<script>
+                           function ocultar() {
+							document.getElementById("der").style.display = "none";
+							document.getElementById("contenedorinv").style.display = "block";
+                                      }
+
+							function mostrar() {
+							document.getElementById("der").style.display = "block";
+							document.getElementById("contenedorinv").style.display = "none";
+                                      }
+        </script>
+         
     </section>
 </body>
 </html>

@@ -115,7 +115,8 @@ h4{
 	color: #29343e;
     border-color: #29343e;
 	transition-property: background-color, #f7fbfd;
-	transition-duration: 1s;
+	transition-duration: 0s;
+	transition-timing-function: linear;
 	transition-delay: 0s;
 }
 

@@ -1,0 +1,15 @@
+conexion
+consultadetalle
+consultadetalleimp
+consultadetalleinv
+consultadetallemon-
+modarea
+modequipo
+modificacion
+modimpresora
+modmarca
+modmonitores
+modotros
+modresolutor
+modtipificacion
+modusuario
