@@ -252,7 +252,7 @@ $row = $resultado->fetch_assoc();
     <div id="flush-collapse1" class="accordion-collapse collapse" aria-labelledby="flush-heading1" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-        <label id="lblForm" class="col-form-label col-xl col-lg">CAPACIDAD:</label> 
+          <label id="lblForm" class="col-form-label col-xl col-lg">CAPACIDAD:</label> 
 							    <select name="mem1" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
@@ -276,8 +276,44 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_TIPOMEM'] ?>><?php echo $opciones['TIPOMEM']?></option>
                                     <?php endforeach?>
                                 </select>
-            </div>
         </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="prov1" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact1">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="marc1" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM marcas";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="fec1">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar1">
+        </div>
+      </div>
     </div>
   </div>
   <div class="accordion-item">
@@ -313,7 +349,43 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_TIPOMEM'] ?>><?php echo $opciones['TIPOMEM']?></option>
                                     <?php endforeach?>
                                 </select>
-                        </div> 
+                        </div>
+                        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="prov2" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact2">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="marc2" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM marcas";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="fec2">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar2">
+        </div> 
       </div>
     </div>
   </div>
@@ -350,7 +422,43 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_TIPOMEM'] ?>><?php echo $opciones['TIPOMEM']?></option>
                                     <?php endforeach?>
                                 </select>
-                        </div> 
+            </div> 
+            <div class="form-group row" style="margin: 10px; padding:10px;">
+                  <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="prov3" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact3">
+          </div>
+          <div class="form-group row" style="margin: 10px; padding:10px;">
+            <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="marc3" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM marcas";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="fec3">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar3">
+        </div> 
     </div>
   </div>
 </div>
@@ -363,8 +471,8 @@ $row = $resultado->fetch_assoc();
     <div id="flush-collapse4" class="accordion-collapse collapse" aria-labelledby="flush-heading4" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-        <label id="lblForm" class="col-form-label col-xl col-lg">CAPACIDAD:</label> 
-							    <select name="mem1" class="form-control col-xl col-lg">
+          <label id="lblForm" class="col-form-label col-xl col-lg">CAPACIDAD:</label> 
+							    <select name="mem4" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -376,7 +484,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
 							<label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
-                            <select name="tmem1" class="form-control col-xl col-lg">
+                            <select name="tmem4" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -387,7 +495,44 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_TIPOMEM'] ?>><?php echo $opciones['TIPOMEM']?></option>
                                     <?php endforeach?>
                                 </select>
-            </div>
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+            <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="prov4" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact4">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="marc4" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM marcas";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="fec4">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar4">
+        </div> 
+        </div>
         </div>
     </div>
   </div>
@@ -411,7 +556,7 @@ $row = $resultado->fetch_assoc();
     <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-			<label id="lblForm"class="col-form-label col-xl col-lg">SLOT DISCO 1:</label>
+			    <label id="lblForm"class="col-form-label col-xl col-lg">CAPACIDAD:</label>
                             <select name="disc1" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
@@ -423,7 +568,7 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_DISCO'] ?>><?php echo $opciones['DISCO']?></option>
                                     <?php endforeach?>
                                 </select>
-                            <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DISCO 1:</label>
+                            <label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
                             <select name="tdisc1" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
@@ -435,7 +580,43 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_TIPOD'] ?>><?php echo $opciones['TIPOD']?></option>
                                     <?php endforeach?>
                                 </select>
-                        </div>
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+            <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="dprov1" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact1">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="dmarc1" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM marcas";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="dfec1">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="dgar1">
+        </div> 
       </div>
     </div>
   </div>
@@ -448,7 +629,7 @@ $row = $resultado->fetch_assoc();
     <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-			<label id="lblForm"class="col-form-label col-xl col-lg">SLOT DISCO 2:</label>
+			    <label id="lblForm"class="col-form-label col-xl col-lg">CAPACIDAD:</label>
                             <select name="disc2" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
@@ -460,7 +641,7 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_DISCO'] ?>><?php echo $opciones['DISCO']?></option>
                                     <?php endforeach?>
                                 </select>
-                            <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DISCO 2:</label>
+                            <label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
                             <select name="tdisc2" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
@@ -472,7 +653,43 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_TIPOD'] ?>><?php echo $opciones['TIPOD']?></option>
                                     <?php endforeach?>
                                 </select>
-                        </div>
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+            <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="dprov2" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact2">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="dmarc2" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM marcas";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="dfec2">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="dgar2">
+        </div> 
       </div>
     </div>
   </div>
@@ -485,7 +702,7 @@ $row = $resultado->fetch_assoc();
     <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-			<label id="lblForm"class="col-form-label col-xl col-lg">SLOT DISCO 3:</label>
+			<label id="lblForm"class="col-form-label col-xl col-lg">CAPACIDAD:</label>
                             <select name="disc3" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
@@ -497,7 +714,7 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_DISCO'] ?>><?php echo $opciones['DISCO']?></option>
                                     <?php endforeach?>
                                 </select>
-                            <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DISCO 3:</label>
+                            <label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
                             <select name="tdisc3" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
@@ -509,7 +726,43 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_TIPOD'] ?>><?php echo $opciones['TIPOD']?></option>
                                     <?php endforeach?>
                                 </select>
-                        </div>
+          </div>
+          <div class="form-group row" style="margin: 10px; padding:10px;">
+            <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="dprov3" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact3">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="dmarc3" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM marcas";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="dfec3">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="dgar3">
+        </div> 
       </div>
     </div>
   </div>
@@ -522,7 +775,7 @@ $row = $resultado->fetch_assoc();
     <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-			<label id="lblForm"class="col-form-label col-xl col-lg">SLOT DISCO 4:</label>
+			<label id="lblForm"class="col-form-label col-xl col-lg">CAPACIDAD:</label>
                             <select name="disc4" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
@@ -534,7 +787,7 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_DISCO'] ?>><?php echo $opciones['DISCO']?></option>
                                     <?php endforeach?>
                                 </select>
-                            <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DISCO 4:</label>
+                            <label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
                             <select name="tdisc4" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
@@ -546,7 +799,43 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_TIPOD'] ?>><?php echo $opciones['TIPOD']?></option>
                                     <?php endforeach?>
                                 </select>
-                        </div>
+          </div>
+          <div class="form-group row" style="margin: 10px; padding:10px;">
+            <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="dprov4" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact4">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="dmarc4" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM marcas";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="dfec4">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="dgar4">
+        </div> 
       </div>
     </div>
   </div>

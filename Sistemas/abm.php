@@ -63,10 +63,10 @@ $row = $resultado->fetch_assoc();
                     
                     <a href=abmtipificacion.php><input type="button" class="button but2" value="ABM TIPIFICACIÓN"></a>
                     <a href=abmresolutor.php><input type="button" class="button but2" value="ABM RESOLUTOR"></a>
+                    <a href="abmequipos.php"><input type="button" class="button but2" value="ABM EQUIPOS"></a>
                  ';
 					} ?>
                     <a href=abmarea.php><input type="button" class="button but2" value="ABM ÁREA"></a>
-                    <a href="abmequipos.php"><input type="button" class="button but2" value="ABM EQUIPOS"></a>
                     <a href="abmimpresoras.php"><input type="button" class="button but2" value="ABM IMPRESORAS"></a>
                     <a href="abmmonitores.php"><input type="button" class="button but2" value="ABM MONITORES"></a>
             </div>
