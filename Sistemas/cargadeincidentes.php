@@ -15,7 +15,9 @@ $row = $resultado->fetch_assoc();
 <html>
 <head>
 	<title>CARGA DE INCIDENTES</title><meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="estilocarga.css">
+	<link rel="icon" href="imagenes/logoObrasPúblicas.png">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link rel="stylesheet" href="jquery/1/jquery-ui.min.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script type="text/javascript" src="jquery/1/jquery-3.6.0.min.js"></script>
@@ -27,6 +29,7 @@ $row = $resultado->fetch_assoc();
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="estilocarga.css">
 	<script>
 		$(function (){
 			$("#txtfechainicio").datepicker() ({
@@ -111,57 +114,48 @@ $row = $resultado->fetch_assoc();
 									form.submit()
 						}
 			</script>
-<header class="header">
+<header class="p-3 mb-3 border-bottom altura">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"><div id="foto"></div>
+          <!-- <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use> </svg>-->
+        </a>
 
-		<div class="container-fluid">
-			<div class="btn-menu">
-		<nav id="botonera" style="height: auto;">
-			<ul class="nav">
-				<li><label for="btn-menu" style="cursor: pointer;"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="60" fill="black" class="bi bi-list" viewBox="0 0 16 16">
-				<path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
-				</svg></label></li>
-				</li>
-				<li><a href="cargadeincidentes.php">CARGA</a>
-                     <!-- <ul id="sub">
-                                        <li><a href="cargarapidaporusuario.php">-Carga rápida por usuario</a></li>
-										 <li><a href="#.php">-Carga rápida por tipificación</a></li>
-                        </ul>  -->
-                 </li> 
-				<li><a href="consulta.php">CONSULTA </a></li>
-				<li><a href="inventario.php">INVENTARIO </a>
-					<ul id="sub">
-									<li><a href="inventario.php">-Equipos</a></li>
-									<li><a href="impresoras.php">-Impresoras</a></li>
-									<li><a href="monitores.php">-Monitores</a></li>
-									<li><a href="otrosp.php">-Otros periféricos</a></li>
-						</ul>
-				</li>
-			</div>
-			</div>
-			</ul>
-		</nav>
-	</header>
-	<input type="checkbox" id="btn-menu">
-		<div class="container-menu" >
-			<div class="cont-menu" style="padding: 10px">
-				<nav >
-					<div id="foto" style="margin-top: 21px; margin-bottom: 19px;"></div><br>			
-					<h2 id="h2"><u>NOMBRE</u>: &nbsp<?php echo utf8_decode($row['RESOLUTOR']);?></h2>
-					<h2 id="h2"><u>CUIL</u>: &nbsp &nbsp &nbsp &nbsp &nbsp<?php if ((isset($_SESSION['cuil'])) && ($_SESSION['cuil'] != "")){echo $_SESSION['cuil'];}?></h2><br>
-					<h2 id="h2"><u>GESTIÓN: </u></h2>
-					<a href="abm.php" class="color"><h2 id="h2">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp-ALTA/BAJA/MODIFICACIÓN</h2></a>
-					<a href="tiporeporte.php" class="color"><h2 id="h2">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp-REPORTES</h2></a>
-					<a href="contraseña.php" class="color"><h2 id="h2">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp-CAMBIAR CONTRASEÑA</h2></a><br><br><br>
-					<a href="salir.php"><h2 id="h2"><u>CERRAR SESIÓN</u></h2></a>
-				</nav>
-				<label for="btn-menu"><a id="vlv" class="col-3 btn btn-primary " type="button">VOLVER</a></label>
-			</div>
-		</div>
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 espacio">
+            <li><a href="cargadeincidentes.php" class="nav-link px-2 link-secondary link">CARGA</a></li>
+            <li><a href="consulta.php" class="nav-link px-2 link-dark link">CONSULTA</a></li>
+            <li><a href="inventario.php" class="nav-link px-2 link-dark link">INVENTARIO</a>
+                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                    <li><a class="dropdown-item" href="inventario.php">EQUIPOS</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="impresoras.php">IMPRESORAS</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="monitores.php">MONITORES</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="otrosp.php">OTROS PERIFÉRICOS</a></li>
+                </ul>
+            </li>
+            <li><a href="abm.php" class="nav-link px-2 link-dark link">ABM</a></li>
+            <li><a href="tiporeporte.php" class="nav-link px-2 link-dark link">REPORTES</a></li>
+            <li class="ubicacion"><a href="bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
+        </ul>
+
+        <div class="dropdown text-end">
+          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"><h5><i class="bi bi-person rounded-circle"></i><?php echo utf8_decode($row['RESOLUTOR']);?></h5></a>
+          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+            <li><a class="dropdown-item" href="contraseña.php">CAMBIAR CONTRASEÑA</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="salir.php">CERRAR SESIÓN</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
 	<section id="Inicio">
-		<div id="titulo" style="margin-top:20px; margin-bottom:20px;">
+		<div id="titulo" style="margin-top:20px; margin-bottom:20px;" data-aos="zoom-in">
 			<h1>CARGA DE INCIDENTES</h1>
 		</div>
-		<div  id="principal" class="container-fluid" >
+		<div  id="principal" class="container-fluid" data-aos="zoom-in">
 						<form method="POST" name="formulario_carga" action="guardarincidente.php" enctype="multipart/form-data">
 							<!--<label>NUMERO DE TICKET: <input type="text" name="numero_ticket" placeholder="NÚMERO DE TICKET" required></label>-->
 
@@ -333,5 +327,6 @@ $row = $resultado->fetch_assoc();
 	<script>
   		AOS.init();
 	</script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>

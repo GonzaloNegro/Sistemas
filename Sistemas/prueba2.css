@@ -253,13 +253,12 @@ tr:hover td{
 }
 
 #foto{
-    width: 100px;
-    height: 80px;
+    width: 90px;
+    height: 70px;
 
     background-image: url("imagenes/logoObrasPúblicas.png");
     background-repeat: no-repeat;
     background-size: 140%;
-	cursor: default;
 }
 
 .espacio{

@@ -172,41 +172,8 @@ input{
 	transition-delay: 0s;
 }
 
-#botonera ul{
-	margin: 0;
-	padding: 0;
-	list-style:none;
-}
-
-#botonera ul li{
-	display: block;
-}
-
-#botonera ul li a{
-	display: inline-block;
-	width: 280px;
-	height: 40px;
-	margin-bottom: 5px;
-	margin-left: 70px;
-	margin-top: 20px;
-	color: #FFFFFF;
-	text-decoration: none;
-	text-align: center;
-	line-height: 20px;
-	border-radius: 10px;
-	font-size: 24px;
-	font-family: TrasandinaMedium; 
-}
-
-#botonera ul li a:hover {
-	/* 	color: #FFFFFF;
-		font-weight: bold;
-		font-size: 21px; */
-		text-shadow: 0.5px 0.5px #FFFFFF;
-	}
-
 .nav li a{
-	color: #FFFFFF;
+	color: black;
 	display: block;
 } 
 
@@ -217,46 +184,11 @@ input{
 .nav li ul{
 	display: none;
 	position: absolute;
-	border-radius: 20px;
 }
 
 .nav li:hover >ul{
 	display: block;
 }
-
-/*///////////////////BOTONERA DESPLEGABLE///////////////////*/
-#botonera #sub li{
-	width: 230px;
-	height: 28px;
-	margin-left: 150px;
-	color: #edf0f5;
-	text-decoration: none;
-	font-family: TrasandinaMedium; 
-	background-color: #53AAE0;
-	display: block;
-	border-bottom: groove 2px #FFFFFF;
-	border-left: 8px solid #1c7cd5;
-	border-right: 2px solid #1c7cd5;
-	border-bottom-right-radius: 10px;
-}
-
-#botonera #sub li a{
-	text-align: left;
-	font-size: 18px;
-	margin-top: 0px;
-	margin-left: 5px;
-}
-
-#botonera #sub li:hover{
-	background-color: #edf0f5;
-}
-
-#botonera #sub li a:hover{
-	font-size: 17px;
-	color: #53AAE0;
-}
-/*///////////////////FIN BOTONERA DESPLEGABLE///////////////////*/
-
 
 .lista{
 	background-color: #1c7cd5;
@@ -268,96 +200,6 @@ input{
 	color: #FFFFFF;
 }
 
-/* Capa*/
-.capa{
-		position: fixed;
-		width: 100%;
-		height: 100vh;
-		background: rgba(0,0,0,0.6);
-		z-index: -1;
-		top: 0;left: 0;
-	}
-
-/*Menù lateral*/
-#btn-menu{
-		display: none;
-}
-
-img{
-	padding: 15px;
-	height: 40%;
-	width: 25%;
-}
-
-nav a img{
-	height: 5%;
-	width: 5%;
-}
-
-.container-menu{
-		position: fixed;
-		background: rgba(0,0,0,0.5);
-		width: 100%;
-		height: 120vh;
-		top: 0;left: 0;
-		transition: all 500ms ease;
-		opacity: 0;
-		visibility: hidden;
-
-}
-	#btn-menu:checked ~ .container-menu{
-		opacity: 1;
-		visibility: visible;
-	}
-	.cont-menu{
-		width: 100%;
-		max-width: 350px;
-		background: #073256;
-		height: 120vh;
-		position: relative;
-		transition: all 500ms ease;
-		transform: translateX(-100%);
-		border-radius: 10px;
-	}
-	#btn-menu:checked ~ .container-menu .cont-menu{
-		transform: translateX(0%);
-	}
-	.cont-menu nav{
-		transform: translateY(15%);
-	}
-	.cont-menu nav a{
-		display: block;
-		text-decoration: none;
-		padding: 8px;
-		border-left: 5px solid transparent;
-		transition: all 400ms ease;
-	}
-	.cont-menu nav a:hover{
-		border-left: 5px solid #c7c7c7;
-		background: #1f1f1f;
-	}
-	.cont-menu label{
-		position: absolute;
-		right: 5px;
-		top: 10px;
-		cursor: pointer;
-	}
-
-	/*Fin de Menù lateral*/
-
-	#foto{
-		width: 190px;
-		height: 110px;
-		margin-top: 200px;
-		margin-left: auto;
-		margin-right: auto;
-		margin-bottom: 50px;
-		background-color: #f7fbfd;
-		background-image: url("imagenes/logoObrasPúblicas.png");
-		background-repeat: no-repeat;
-		background-size: 140%;
-		border-radius: 10px;
-	}
 .color{
 	border-bottom: groove 1px #f7fbfd;
 	border-radius: 10px;
@@ -395,4 +237,55 @@ nav a img{
 background-color: #f7fbfd;
 border-color: #176AB5;
 color: #176AB5;
+}
+
+#foto{
+    width: 100px;
+    height: 80px;
+
+    background-image: url("imagenes/logoObrasPúblicas.png");
+    background-repeat: no-repeat;
+    background-size: 140%;
+	cursor: default;
+}
+
+.espacio{
+    margin-left: 20px;
+}
+
+.link{
+    color: #53AAE0 !important;
+    font-size: 20px;
+}
+
+.link{
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    transition: background-size .3s;
+}
+.link:hover, .link:focus {
+    background-size: 100% 2px;
+}
+
+.altura{
+    height: 80px;
+}
+
+.ubicacion{
+    width: 30px;
+    margin-top: 12px;
+
+    text-align: center;
+}
+
+i{
+    color: #53AAE0;
+}
+
+h5{
+    font-size: 12px;
+    color: #53AAE0;
 }
