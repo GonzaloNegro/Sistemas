@@ -4,18 +4,20 @@
 <head>
 	<title>NOVEDADES</title><meta charset="utf-8">
     <link rel="icon" href="imagenes/logoObrasPúblicas.png">
-	<link rel="stylesheet" type="text/css" href="estilocontraseña.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="estilocontraseña.css">
 	<style>
 			body{
-			background-color: #073256;
+			background-color: #edf0f5;
 			}
 	</style>
 </head>
 <body>
-    <h1 style="text-decoration: underline; color: #F0AD4E">NOVEDADES</h1>
+    <div class="titulob">
+        <h1 style="text-decoration: underline; color: #F0AD4E">NOVEDADES</h1>
+    </div>
     <div class="bienvenida" data-aos="zoom-in-up">
         <div class="fecha">    
             <?php  $fechaActual = date('d-m-Y');?>
@@ -34,13 +36,21 @@
                 </li>
             </ul>
         </div>
-
         <div class="btn">
-        <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-			<a id="vlv"  href="consulta.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">CERRAR</a>
-		</div>	
+            <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
+                <a id="vlv"  href="consulta.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">CERRAR</a>
+            </div>	
         </div>
     </div>
+    <footer>
+		<div class="footer">
+			<div class="container-fluid">
+				<div class="row">
+					<img src="imagenes/logoGobierno.png" class="img-fluid">
+				</div>
+			</div>
+		</div>
+	</footer>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init();

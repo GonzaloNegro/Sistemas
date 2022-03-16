@@ -11,9 +11,9 @@ function ConsultarIncidente($no_tic)
 	$resultado = mysqli_query($datos_base, $sentencia);
 	$filas = mysqli_fetch_assoc($resultado);
 	return [
-		$filas['ID_WS'],/*0*/
-		$filas['ID_AREA'],/*1*/
-		$filas['SERIALN'],/*2*/
+        $filas['ID_WS'],/*0*/
+        $filas['ID_AREA'],/*1*/
+        $filas['SERIALN'],/*2*/
         $filas['SERIEG'],/*3*/
         $filas['ID_MARCA'],/*4*/
         $filas['MOTHERBOARD'],/*5*/

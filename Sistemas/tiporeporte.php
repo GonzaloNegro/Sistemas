@@ -79,7 +79,9 @@ $row = $resultado->fetch_assoc();
             <li><a href="tiporeporte.php" class="nav-link px-2 link-dark link">REPORTES</a></li>
             <li class="ubicacion"><a href="bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
         </ul>
-
+        <form method="POST" action="mensajes.php">
+			    <button href="mensajes.php" class="mensaje" style="margin-right: 50px;"><i class="bi bi-chat-square-text"></i></button>
+		    </form>
         <div class="dropdown text-end">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"><h5><i class="bi bi-person rounded-circle"></i><?php echo utf8_decode($row['RESOLUTOR']);?></h5></a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
@@ -112,7 +114,7 @@ $row = $resultado->fetch_assoc();
              <a href="reporteperifericos.php"><input type="button" class="button but4" value="PERIFERICOS"></a>
              </div>
 			 <div class="d-grid gap-2 col-6 mx-auto">
-			 <a href="reporteestadotodos.php"><input type="button" class="button but3" style="font-size: 20px;" value="ESTADO INVENTARIO">
+			 <a href="reporteestadotodos.php"><input type="button" class="button but3" style="font-size: 20px;" value="ESTADO INVENTARIO"></a>
 			 </div>
 		</div>
         </div>
@@ -129,6 +131,15 @@ $row = $resultado->fetch_assoc();
         </script>
          
     </section>
+    <footer>
+		<div class="footer">
+			<div class="container-fluid">
+				<div class="row">
+					<img src="imagenes/logoGobierno.png" class="img-fluid">
+				</div>
+			</div>
+		</div>
+	</footer>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script>
   		AOS.init();

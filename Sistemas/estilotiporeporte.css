@@ -61,7 +61,7 @@ h4 {
 
 #principal {
   width: 400px;
-  height: 250px;
+  height: 320px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -266,4 +266,20 @@ position: absolute;
 
 .nav li:hover >ul{
 display: block;
+}
+
+footer{
+  height: auto;
+	border-top: 1px solid #53AAE0;
+}
+
+.footer{
+	margin: 0 auto;
+	
+	width: 400px;
+}
+
+.mensaje{
+	background-color: #edf0f5;
+	border: none;
 }

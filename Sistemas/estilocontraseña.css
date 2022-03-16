@@ -123,13 +123,18 @@ input{
 	transition-delay: 0s;
 }
 
+.titulob{
+	margin-bottom: 30px;
+}
+
 .bienvenida{
 	width: 800px;
 	height: auto;
 	margin: 0 auto;
+	margin-bottom: 100px;
 
 	border-radius: 10px;
-	border: 5px solid #F0AD4E;
+	border: 2px solid #F0AD4E;
 	background-color: #edf0f5;
 }
 
@@ -142,12 +147,11 @@ input{
 
 .info{
 	width: auto;
-	height: 400px;
+	height: 300px;
 	margin-top: 20px;
 }
 
 .btn{
-	margin-top: 10px;
 	float: right;
 }
 
@@ -163,4 +167,16 @@ input{
 }
 #vlv:hover{
 background-color: #176AB5;
+}
+
+footer{
+	height: auto;
+	border-top: 1px solid #53AAE0;
+}
+  
+.footer{
+	margin: 0 auto;
+	  
+	width: 400px;
+	height: auto;
 }

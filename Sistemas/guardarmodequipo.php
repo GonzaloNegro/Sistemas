@@ -11,24 +11,6 @@ $so = $_POST['so'];
 $micro = $_POST['micro'];
 $placam = $_POST['placam'];
 
-$mem1 = $_POST['mem1'];
-$tmem1 = $_POST['tmem1'];
-$mem2 = $_POST['mem2'];
-$tmem2 = $_POST['tmem2'];
-$mem3 = $_POST['mem3'];
-$tmem3 = $_POST['tmem3'];
-$mem4 = $_POST['mem4'];
-$tmem4 = $_POST['tmem4'];
-
-$disc1 = $_POST['disc1'];
-$tdisc1 = $_POST['tdisc1'];
-$disc2 = $_POST['disc2'];
-$tdisc2 = $_POST['tdisc2'];
-$disc3 = $_POST['disc3'];
-$tdisc3 = $_POST['tdisc3'];
-$disc4 = $_POST['disc4'];
-$tdisc4 = $_POST['tdisc4'];
-
 $masterizacion = $_POST['masterizacion'];
 $red = $_POST['red'];
 $mac = $_POST['mac'];
@@ -38,8 +20,88 @@ $prov = $_POST['prov'];
 $fac = $_POST['fac'];
 $gar = $_POST['gar'];
 $obs = $_POST['obs'];
+/* ////////////////////////// */
 
 
+/* MEMORIAS */
+$mem1 = $_POST['mem1'];
+$tmem1 = $_POST['tmem1'];
+$prov1 = $_POST['prov1'];
+$fact1 = $_POST['fact1'];
+$marc1 = $_POST['marc1'];
+$fec1 = $_POST['fec1'];
+$gar1 = $_POST['gar1'];
+
+$mem2 = $_POST['mem2'];
+$tmem2 = $_POST['tmem2'];
+$prov2 = $_POST['prov2'];
+$fact2 = $_POST['fact2'];
+$marc2 = $_POST['marc2'];
+$fec2 = $_POST['fec2'];
+$gar2 = $_POST['gar2'];
+
+$mem3 = $_POST['mem3'];
+$tmem3 = $_POST['tmem3'];
+$prov3 = $_POST['prov3'];
+$fact3 = $_POST['fact3'];
+$marc3 = $_POST['marc3'];
+$fec3 = $_POST['fec3'];
+$gar3 = $_POST['gar3'];
+
+$mem4 = $_POST['mem4'];
+$tmem4 = $_POST['tmem4'];
+$prov4 = $_POST['prov4'];
+$fact4 = $_POST['fact4'];
+$marc4 = $_POST['marc4'];
+$fec4 = $_POST['fec4'];
+$gar4 = $_POST['gar4'];
+/* ////////////////////////// */
+
+/* DISCOS */
+$disc1 = $_POST['disc1'];
+$tdisc1 = $_POST['tdisc1'];
+$dprov1 = $_POST['dprov1'];
+$dfact1 = $_POST['dfact1'];
+$dmarc1 = $_POST['dmarc1'];
+$dfec1 = $_POST['dfec1'];
+$dgar1 = $_POST['dgar1'];
+
+$disc2 = $_POST['disc2'];
+$tdisc2 = $_POST['tdisc2'];
+$dprov2 = $_POST['dprov2'];
+$dfact2 = $_POST['dfact2'];
+$dmarc2 = $_POST['dmarc2'];
+$dfec2 = $_POST['dfec2'];
+$dgar2 = $_POST['dgar2'];
+
+$disc3 = $_POST['disc3'];
+$tdisc3 = $_POST['tdisc3'];
+$dprov3 = $_POST['dprov3'];
+$dfact3 = $_POST['dfact3'];
+$dmarc3 = $_POST['dmarc3'];
+$dfec3 = $_POST['dfec3'];
+$dgar3 = $_POST['dgar3'];
+
+$disc4 = $_POST['disc4'];
+$tdisc4 = $_POST['tdisc4'];
+$dprov4 = $_POST['dprov4'];
+$dfact4 = $_POST['dfact4'];
+$dmarc4 = $_POST['dmarc4'];
+$dfec4 = $_POST['dfec4'];
+$dgar4 = $_POST['dgar4'];
+/* ////////////////////////// */
+
+/* FECHAS */
+$fec1 = date("Y-m-d", strtotime($fec1);
+$fec2 = date("Y-m-d", strtotime($fec2);
+$fec3 = date("Y-m-d", strtotime($fec3);
+$fec4 = date("Y-m-d", strtotime($fec4);
+
+$dfec1 = date("Y-m-d", strtotime($fec1);
+$dfec2 = date("Y-m-d", strtotime($dfec2);
+$dfec3 = date("Y-m-d", strtotime($dfec3);
+$dfec4 = date("Y-m-d", strtotime($dfec4);
+/* ////////////////////////// */
 /*SI AMBOS CAMPOS ESTAN REPETIDOS*/
 $sqli = "SELECT * FROM inventario WHERE SERIEG = '$serieg'";
 $resultado2 = $datos_base->query($sqli);
@@ -67,22 +129,23 @@ else{
 			$idws = trim($row[0]);
 			}
 
-    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc1', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '$tdisc1', 1)");
+    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc1', '$dprov1', '$dfact1', '$dfec1', '$dmarc1', '$dgar1', '$tdisc1', 1)");
 
-    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc2', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '$tdisc2', 2)");
+    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc2', '$dprov2', '$dfact2', '$dfec2', '$dmarc2', '$dgar2', '$tdisc2', 2)");
 
-    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc3', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '$tdisc3', 3)");
+    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc3', '$dprov3', '$dfact3', '$dfec3', '$dmarc3', '$dgar3', '$tdisc3', 3)");
 
-    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc4', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '$tdisc4', 4)");
+    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc4', '$dprov4', '$dfact4', '$dfec4', '$dmarc4', '$dgar4', '$tdisc4', 4)");
 
 
-    mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem1', '$tmem1', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, 1)");
+
+    mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem1', '$tmem1', '$prov1', '$fact1', '$fec1', '$marc1', '$gar1', 1)");
     
-    mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem2', '$tmem2', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, 2)");
+    mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem2', '$tmem2', '$prov2', '$fact2', '$fec2', '$marc2', '$gar2', 2)");
 
-    mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem3', '$tmem3', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, 3)");
+    mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem3', '$tmem3', '$prov3', '$fact3', '$fec3', '$marc3', '$gar3', 3)");
 
-    mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem4', '$tmem4', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, 4)");
+    mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem4', '$tmem4', '$prov4', '$fact4', '$fec4', '$marc4', '$gar4', 4)");
 
     header("Location: agregarequipo.php?ok");
 }

@@ -15,11 +15,11 @@ $row = $resultado->fetch_assoc();
 <html>
 <head>
 	<title>ABM IMPRESORAS</title><meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="estiloallabm.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="estiloallabm.css">
 	<style>
 			body{
 			background-color: #edf0f5;
@@ -73,7 +73,7 @@ $row = $resultado->fetch_assoc();
 					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn1" value="LIMPIAR"></input>
 				</div>
 		</form>
-        <hr style='display: block;'>
+
         <?php
 				echo "<table width=100%>
 						<thead>

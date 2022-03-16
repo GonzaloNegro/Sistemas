@@ -56,7 +56,7 @@ h4{
 p{
 	text-align: center;
 	font-family: TrasandinaMedium;
-	color: #f7fbfd;
+	color: #00519C;
 	font-size: 18px;
 }
 
@@ -480,18 +480,21 @@ h2{
 }
 
 table{
-	text-align: left;;
-	background-color: #dbe5e9;
+	text-align: left;
+	margin-left: 5px;
+ 	background-color: #dbe5e9;
+
 	border-collapse: collapse;
 	width:100%;
 }
 
 th, td{
 	border: solid 1px #f7fbfd;
+	border-bottom: solid 1px #073256;
 }
 
 thead{
-	background-color: #00519C;
+	background-color: #dbe5e9;
 	border-bottom: solid 5px #073256;
 	width: 100%;
 }/*ACA ESTABA EL PROBLEMA DEL ACOMODAMIENTO EN "VER PENDIENTES" Y "VER" QUE SE ACHICABA EL TABLE*/

@@ -15,11 +15,11 @@ $row = $resultado->fetch_assoc();
 <html>
 <head>
 	<title>ABM USUARIO</title><meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="estiloallabm.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="estiloallabm.css">
 	<style>
 			body{
 			background-color: #edf0f5;
@@ -73,7 +73,6 @@ $row = $resultado->fetch_assoc();
 					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn1" value="LIMPIAR"></input>
 				</div>
 		</form>
-        <hr style='display: block;'>
         
         <?php
 				echo "<table width=100%>
@@ -100,10 +99,10 @@ $row = $resultado->fetch_assoc();
 						echo
 							" 
 							<tr>
-							<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:22px;'>".$listar['NOMBRE']."</h4 ></td>
-							<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:22px;'>".$listar['CUIL']."</h4 ></td>
-							<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:22px;'>".$listar['AREA']."</h4 ></td>
-							<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:22px;'>".$listar['CORREO']."</h4 ></td>
+							<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4 ></td>
+							<td><h4 style='font-size:16px;'>".$listar['CUIL']."</h4 ></td>
+							<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4 ></td>
+							<td><h4 style='font-size:16px;'>".$listar['CORREO']."</h4 ></td>
 							<td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=modusuario.php?no=".$listar['ID_USUARIO']." class=mod><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil-square' viewBox='0 0 16 16'>
 							<path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>
 							<path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z'/>
@@ -123,10 +122,10 @@ $row = $resultado->fetch_assoc();
 						echo
 							" 
 							<tr>
-							<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:22px;'>".$listar['NOMBRE']."</h4 ></td>
-                            <td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:22px;'>".$listar['CUIL']."</h4 ></td>
-                            <td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:22px;'>".$listar['AREA']."</h4 ></td>
-                            <td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:22px;'>".$listar['CORREO']."</h4 ></td>
+							<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4 ></td>
+                            <td><h4 style='font-size:16px;'>".$listar['CUIL']."</h4 ></td>
+                            <td><h4 style='font-size:16px;'>".$listar['AREA']."</h4 ></td>
+                            <td><h4 style='font-size:16px;'>".$listar['CORREO']."</h4 ></td>
 							<td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=modusuario.php?no=".$listar['ID_USUARIO']." class=mod><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil-square' viewBox='0 0 16 16'>
 							<path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>
 							<path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z'/>

@@ -69,7 +69,7 @@ h4{
 p{
 	text-align: center;
 	font-family: TrasandinaMedium;
-	color: #f7fbfd;
+	color: #00519C;
 	font-size: 18px;
 }
 
@@ -80,32 +80,35 @@ p{
 #titulo{
 	width: auto;
 	height: 80px;
+	margin-bottom: 20px;
+}
+
+#titulo h1{
+	margin-top: 40px;
 }
 
 #filtro{
 	height: auto;
 	width: 98%;
-	background-color: #dbe5e9;
-	border: 1px solid #899dac;
-	border-radius: 20px;
+	border-top: 1px solid #53AAE0;
+
 }
 
 #contador{
-	height: 30px;
-	width: 99%;
-	clear: both;
-	background-color: #1c7cd5;
-	border-radius: 10px;
+	height: 70px;
+	width: 20%;
+	margin-top: 40px;
+}
+
+#contador p{
+	color: #53AAE0;
 }
 
 #mostrar_incidentes{
 	height: auto;
-	width: 98%;
+	width: 99%;
 	float: left;
-}
-
-#contador, #mostrar_incidentes{
-	margin: 10px;
+	margin-top: 20px;
 }
 
 #filtro, #mostrar_incidentes{
@@ -229,17 +232,19 @@ label{
 table{
 	text-align: left;
 	margin-left: 5px;
-	background-color: #dbe5e9;
+ 	background-color: #dbe5e9;
+
 	border-collapse: collapse;
 	width:100%;
 }
 
 th, td{
 	border: solid 1px #f7fbfd;
+	border-bottom: solid 1px #073256;
 }
 
 thead{
-	background-color: #00519C;
+	background-color: #dbe5e9;
 	border-bottom: solid 5px #073256;
 	width: 100%;
 }/*ACA ESTABA EL PROBLEMA DEL ACOMODAMIENTO EN "VER PENDIENTES" Y "VER" QUE SE ACHICABA EL TABLE*/
@@ -385,3 +390,8 @@ color: #176AB5;
 	border-radius: 20px;
 	border: 3px solid rgb(187, 183, 177);
   }
+
+.mensaje{
+	background-color: #edf0f5;
+	border: none;
+}

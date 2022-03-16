@@ -139,7 +139,9 @@ $row = $resultado->fetch_assoc();
             <li><a href="tiporeporte.php" class="nav-link px-2 link-dark link">REPORTES</a></li>
             <li class="ubicacion"><a href="bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
         </ul>
-
+		<form method="POST" action="mensajes.php">
+			<button href="mensajes.php" class="mensaje" style="margin-right: 50px;"><i class="bi bi-chat-square-text"></i></button>
+		</form>
         <div class="dropdown text-end">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"><h5><i class="bi bi-person rounded-circle"></i><?php echo utf8_decode($row['RESOLUTOR']);?></h5></a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
@@ -151,11 +153,11 @@ $row = $resultado->fetch_assoc();
       </div>
     </div>
   </header>
-	<section id="Inicio">
+	<section id="Inicio" class="container-fluid">
 		<div id="titulo" style="margin-top:20px; margin-bottom:20px;" data-aos="zoom-in">
 			<h1>CARGA DE INCIDENTES</h1>
 		</div>
-		<div  id="principal" class="container-fluid" data-aos="zoom-in">
+		<div id="principal" class="container-fluid" data-aos="zoom-in">
 						<form method="POST" name="formulario_carga" action="guardarincidente.php" enctype="multipart/form-data">
 							<!--<label>NUMERO DE TICKET: <input type="text" name="numero_ticket" placeholder="NÚMERO DE TICKET" required></label>-->
 
@@ -165,7 +167,7 @@ $row = $resultado->fetch_assoc();
 								<!--//////////////////////////////////////////////////////////////////-->
 								<!--//////////////////////////////////////////////////////////////////-->
 								<label class="col-form-label col-xl col-lg">USUARIO:</label>
-								<select name="usuario" id="buscador" required class="form-control col-xl col-lg">
+								<select name="usuario" id="buscador" required class="form-control col-xl col-lg extend">
 								<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
 								<?php
 								include("conexion.php");
@@ -203,11 +205,6 @@ $row = $resultado->fetch_assoc();
 
 		                    </div>	
 							
-							<!--//////////////////////////////////////////////////////////////////-->
-							<!--//////////////////////////////////////////////////////////////////-->
-							<div class="form-group row" style="margin: 10px; padding:10px;">
-								<textarea name="descripcion" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN" rows="3" required></textarea>
-							</div>
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
 							<div class="row" style="margin: 10px; padding:10px;">
@@ -261,12 +258,18 @@ $row = $resultado->fetch_assoc();
 
 								<!--//////////////////////////////////////////////////////////////////-->
 								<!--//////////////////////////////////////////////////////////////////-->
-								<label class="col-form-label col-xl">FECHA SOLUCIÓN: </label>
-								<input type="text" name="fecha_solucion" id="txtfechafin" class="form-control col-xl derecha">
+							</div>
+														<!--//////////////////////////////////////////////////////////////////-->
+							<!--//////////////////////////////////////////////////////////////////-->
+							<div class="form-group row" style="margin: 10px; padding:10px;">
+							<label class="col-form-label col-xl col-lg">DESCRIPCIÓN: </label>
+								<textarea name="descripcion" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN" rows="3" required></textarea>
 							</div>
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
 							<div class="row" style="margin: 10px; padding:10px;">
+								<label class="col-form-label col-xl">FECHA SOLUCIÓN: </label>
+								<input type="text" name="fecha_solucion" id="txtfechafin" class="form-control col-xl derecha">
 							<label class="col-form-label col-xl">ESTADO INCIDENTE: </label>
 							<select id="slctestado" name="estado" required class="form-control col-xl derecha" >
 								<option value='0' selected disabled="estado">-SELECCIONE UNA-</option>
@@ -322,7 +325,15 @@ $row = $resultado->fetch_assoc();
 			?>
 		</div>
 	</section>
-	<footer></footer>
+	<footer>
+		<div class="footer">
+			<div class="container-fluid">
+				<div class="row">
+					<img src="imagenes/logoGobierno.png" class="img-fluid">
+				</div>
+			</div>
+		</div>
+	</footer>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script>
   		AOS.init();
