@@ -91,26 +91,31 @@ $row = $resultado->fetch_assoc();
 						if (form.fecha_inicio.value == "") { 
 							alerta('\"Fecha de Inicio\"'); form.fecha_inicio.focus(); return true; 
 							}
-								if (form.usuario.value == "") { 
-									alerta('\"Usuario\"'); form.usuario.focus(); return true; }
-									if (form.descripcion.value == "") { 
-										alerta('\"Descripcion\"'); form.descripcion.focus(); return true; }
-											if (form.prioridad.value == "") { 
-												alerta('\"Prioridad\"'); form.prioridad.focus(); return true; 
-												}
-												if (form.tipificacion.value == "") { 
-													alerta('\"Tipificacion\"'); form.tipificacion.focus(); return true; 
-													}
-													if (form.estado.value == "0") { 
-														alerta('\"Estado\"'); form.estado.focus(); return true; 
-														}
-														if (form.estado.value == "3" ) { 
-															if (form.derivado.value =="0"){
-																alert("Por favor, selecciona el resolutor derivado"); 
-																form.derivado.focus(); 
-																return true; 
-																}
-															}
+						if (form.usuario.value == "") { 
+							alerta('\"Usuario\"'); form.usuario.focus(); return true; }
+						if (form.descripcion.value == "") { 
+							alerta('\"Descripcion\"'); form.descripcion.focus(); return true; }
+						if (form.prioridad.value == "") { 
+							alerta('\"Prioridad\"'); form.prioridad.focus(); return true; }
+						if (form.tipificacion.value == "") { 
+							alerta('\"Tipificacion\"'); form.tipificacion.focus(); return true; }
+						if (form.estado.value == "0") { 
+							alerta('\"Estado\"'); form.estado.focus(); return true; }
+						if (form.estado.value == "3" ) { 
+							if (form.derivado.value =="0"){
+								alert("Por favor, selecciona el resolutor derivado"); 
+								form.derivado.focus(); 
+								return true; }
+								
+								}
+						if (form.estado.value == "2" || form.estado.value == "5") { 
+							if (form.fecha_solucion.value ==""){
+								alert("Por favor, ingresa la fecha de solucion"); 
+								form.fecha_solucion.focus(); 
+								return true; }
+								
+								}
+						
 									form.submit()
 						}
 			</script>

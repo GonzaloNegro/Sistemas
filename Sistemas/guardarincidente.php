@@ -2,13 +2,6 @@
 session_start();
 include('conexion.php');
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require 'Phpmailer/Exception.php';
-require 'Phpmailer/PHPMailer.php';
-require 'Phpmailer/SMTP.php';
-
 /* date_default_timezone_set("America/Argentina"); */
 ini_set('date.timezone', 'America/Argentina/Buenos_Aires');
 $hora = date('H:i', time());

@@ -97,7 +97,7 @@ $cu = $row['CUIL'];
 				/* if(isset($_POST['btn1']) OR isset($_POST['btn2'])) */
 				if(empty($_POST['btn3']))
 				{ if(empty($_POST['pm'])){?>
-				<input type="text" style="margin-left: 10px; width: 40%; height: 40px; margin-top: 12px; 	box-sizing: border-box; border-radius: 10px;" name="buscar"  placeholder="Buscar"  class="form-control largo col-xl-4 col-lg-4">
+				<input type="text" style="margin-left: 10px; width: 40%; height: 40px; margin-top: 12px; 	box-sizing: border-box; border-radius: 10px; text-transform:uppercase;" name="buscar"  placeholder="Buscar"  class="form-control largo col-xl-4 col-lg-4">
  				<?php
 				}}
 				?>
@@ -338,11 +338,19 @@ $cu = $row['CUIL'];
 									"; 
 									$contador = $contador + 1;
 								}
-								}
-							
+							}
 
-						echo "<div id=contador>
-							<p>CANTIDAD DE TICKETS:  $contador</p> 
+							
+						echo "<div id=contador>";
+						if(isset($_POST['buscar'])){
+								$filtro = $_POST['buscar'];
+								if($filtro != ""){
+									$filtro = strtoupper($filtro);
+									echo "<p>FILTRADO POR: $filtro</p>";
+								}
+							}
+						echo"
+							<p>CANTIDAD DE TICKETS:  $contador</p>
 						</div>
 				</table>";
 			 ?>

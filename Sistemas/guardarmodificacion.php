@@ -57,7 +57,7 @@ if(isset($_POST['btnmod'])){
 
   /* ACA EMPEZARIA A ESTAR EN ESTADO DE EN PROCESO DEL NUEVO RESOLUTOR */
 
-	mysqli_query($datos_base, "UPDATE ticket SET ID_ESTADO = 4 WHERE ID_TICKET = '$tic1')");
+	mysqli_query($datos_base, "UPDATE ticket SET ID_ESTADO = 4, ID_RESOLUTOR = '$res' WHERE ID_TICKET = '$id'");
 
 	mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, 4, '$mot', '$fechaActual', '$res', DEFAULT)");
 

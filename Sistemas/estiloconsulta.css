@@ -63,14 +63,15 @@ h4{
 	text-transform: uppercase;
 }
 
-
-
-
 p{
 	text-align: center;
 	font-family: TrasandinaMedium;
 	color: #00519C;
 	font-size: 18px;
+}
+#contador p{
+	text-align: left;
+	margin-left: 20px;
 }
 
 #consulta{

@@ -85,7 +85,7 @@ $row = $resultado->fetch_assoc();
 		<div id="filtro" class="container-fluid">
 			<form method="POST" action="monitores.php">
 			<div class="form-group row">
-				<input type="text" style="margin-left: 10px; width: 70%; height: 40px; margin-top: 12px; 	box-sizing: border-box; border-radius: 10px;" name="buscar"  placeholder="Buscar"  class="form-control largo col-xl-4 col-lg-4">
+				<input type="text" style="margin-left: 10px; width: 70%; height: 40px; margin-top: 12px; 	box-sizing: border-box; border-radius: 10px; text-transform:uppercase;" name="buscar"  placeholder="Buscar"  class="form-control largo col-xl-4 col-lg-4">
 
 				<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn2" value="BUSCAR"></input>
 				<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn1" value="LIMPIAR"></input>
@@ -174,7 +174,15 @@ $row = $resultado->fetch_assoc();
 											$contador = $contador + 1;
 										}
 								}
-								echo "<div id=contador>
+								echo "<div id=contador>";
+								if(isset($_POST['buscar'])){
+									$filtro = $_POST['buscar'];
+									if($filtro != ""){
+										$filtro = strtoupper($filtro);
+										echo "<p>FILTRADO POR: $filtro</p>";
+									}
+								}
+								echo"
 							<p>CANTIDAD DE MONITORES: $contador </p>
 						</div>
 				</table>";
@@ -184,5 +192,6 @@ $row = $resultado->fetch_assoc();
 	<script>
   		AOS.init();
 	</script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
