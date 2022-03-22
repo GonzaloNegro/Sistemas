@@ -117,7 +117,72 @@ $sqli = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$usu'";
 $resultado2 = $datos_base->query($sqli);
 $row2 = $resultado2->fetch_assoc();
 $area = $row2['ID_AREA'];
+/* ////////////////////////// */
+/*SI LOS CAMPOS ESTAN VACIOS*/
+if($mac == ""){$mac = "-";}
+if($ip == ""){$ip = "-";}
+if($fac == ""){$fac = "-";}
+if($gar == ""){$gar = "-";}
+if($obs == ""){$obs = "-";}
 
+if($mem1 == 0){$mem1 = 9;}
+if($tmem1 == 0){$tmem1 = 5;}
+if($prov1 == 0){$prov1 = 7;}
+if($fact1 == ""){$fact1 = "-";}
+if($marc1 == 0){$marc1 = 1;}
+if($gar1 == ""){$gar1 = "-";}
+
+if($mem2 == 0){$mem2 = 9;}
+if($tmem2 == 0){$tmem2 = 5;}
+if($prov2 == 0){$prov2 = 7;}
+if($fact2 == ""){$fact2 = "-";}
+if($marc2 == 0){$marc2 = 1;}
+if($gar2 == ""){$gar2 = "-";}
+
+if($mem3 == 0){$mem3 = 9;}
+if($tmem3 == 0){$tmem3 = 5;}
+if($prov3 == 0){$prov3 = 7;}
+if($fact3 == ""){$fact3 = "-";}
+if($marc3 == 0){$marc3 = 1;}
+if($gar3 == ""){$gar3 = "-";}
+
+if($mem4 == 0){$mem4 = 9;}
+if($tmem4 == 0){$tmem4 = 5;}
+if($prov4 == 0){$prov4 = 7;}
+if($fact4 == ""){$fact4 = "-";}
+if($marc4 == 0){$marc4 = 1;}
+if($gar4 == ""){$gar4 = "-";}
+
+
+if($disc1 == 0){$disc1 = 15;}
+if($tdisc1 == 0){$tdisc1 = 4;}
+if($dprov1 == 0){$dprov1 = 7;}
+if($dfact1 == ""){$dfact1 = "-";}
+if($dmarc1 == 0){$dmarc1 = 1;}
+if($dgar1 == ""){$dgar1 = "-";}
+
+if($disc2 == 0){$disc2 = 15;}
+if($tdisc2 == 0){$tdisc2 = 4;}
+if($dprov2 == 0){$dprov2 = 7;}
+if($dfact2 == ""){$dfact2 = "-";}
+if($dmarc2 == 0){$dmarc2 = 1;}
+if($dgar2 == ""){$dgar2 = "-";}
+
+if($disc3 == 0){$disc3 = 15;}
+if($tdisc3 == 0){$tdisc3 = 4;}
+if($dprov3 == 0){$dprov3 = 7;}
+if($dfact3 == ""){$dfact3 = "-";}
+if($dmarc3 == 0){$dmarc3 = 1;}
+if($dgar3 == ""){$dgar3 = "-";}
+
+if($disc4 == 0){$disc4 = 15;}
+if($tdisc4 == 0){$tdisc4 = 4;}
+if($dprov4 == 0){$dprov4 = 7;}
+if($dfact4 == ""){$dfact4 = "-";}
+if($dmarc4 == 0){$dmarc4 = 1;}
+if($dgar4 == ""){$dgar4 = "-";}
+
+/* ////////////////////////// */
 if($serieg == $serg OR $serialn == $ser){ 
     header("Location: agregarequipo.php?no");
 }

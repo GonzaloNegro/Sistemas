@@ -64,10 +64,32 @@ $row = $resultado->fetch_assoc();
          </div>
 
         <h1>ABM IMPRESORAS</h1>
-		<form method="POST" action="abmimpresoras.php">
+		<form method="POST" action="abmimpresoras2.php">
 				<div class="form-group row">
-					<input type="text" style="margin-left: 10px; width: 75%; height: 40px; margin-top: 12px; 	box-sizing: border-box; border-radius: 10px; text-transform:uppercase;" name="buscar"  placeholder="Buscar"  class="form-control largo col-xl-4 col-lg-4">
-
+				<label id="lblForm"class="col-form-label col-xl col-lg" style="color: black;">TIPO:</label>
+                <select name="tipop" class="form-control col-xl col-lg">
+									<option value="" selected disabled="tipop">-SELECCIONE UNA-</option>
+									<?php
+									include("conexion.php");
+									$consulta= "SELECT * FROM tipop";
+									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+									?>
+									<?php foreach ($ejecutar as $opciones): ?> 
+									<option value="<?php echo $opciones['ID_TIPOP']?>"><?php echo $opciones['TIPO']?></option>
+									<?php endforeach ?>
+								</select>
+				<label id="lblForm"class="col-form-label col-xl col-lg" style="color: black;">MARCA:</label>
+                <select name="marca" class="form-control col-xl col-lg">
+									<option value="" selected disabled="marca">-SELECCIONE UNA-</option>
+									<?php
+									include("conexion.php");
+									$consulta= "SELECT * FROM marcas";
+									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+									?>
+									<?php foreach ($ejecutar as $opciones): ?> 
+									<option value="<?php echo $opciones['ID_MARCA']?>"><?php echo $opciones['MARCA']?></option>
+									<?php endforeach ?>
+								</select>
 					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn2" value="BUSCAR"></input>
 
 					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn1" value="LIMPIAR"></input>
@@ -75,6 +97,7 @@ $row = $resultado->fetch_assoc();
 		</form>
 
         <?php
+        
 				echo "<table width=100%>
 						<thead>
 							<tr>
@@ -90,14 +113,77 @@ $row = $resultado->fetch_assoc();
 					";
 					if(isset($_POST['btn2']))
 					{
-						$doc = $_POST['buscar'];
+						if(isset($_POST['tipop']) AND isset($_POST['marca']))
+						{
+                        $tipop = $_POST['tipop'];
+                        $marca = $_POST['marca'];
 						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA			
 						FROM periferico p 
 						LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
 						LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
 						INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
 						INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
-						WHERE p.TIPOP LIKE '%IMPRESORA%' AND (a.AREA LIKE '%$doc%' OR u.NOMBRE LIKE '%$doc%' OR p.SERIEG LIKE '%$doc%' OR p.NOMBREP LIKE '%$doc%' OR t.TIPO LIKE '%$doc%' OR m.MARCA LIKE '%$doc%')
+						WHERE p.ID_TIPOP = $tipop AND p.ID_MARCA = $marca
+						ORDER BY u.NOMBRE ASC");
+							while($listar = mysqli_fetch_array($consultar))
+							{
+								echo
+								" 
+									<tr>
+										<td><h4 style='font-size:16px;'>".$listar['NOMBREP']."</h4></td>
+										<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>
+										<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4></td>
+										<td><h4 style='font-size:16px;'>".$listar['SERIEG']."</h4></td>
+										<td><h4 style='font-size:16px;'>".$listar['TIPO']."</h4></td>
+										<td><h4 style='font-size:16px;'>".$listar['MARCA']."</h4></td>
+										<td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=modimpresora.php?no=".$listar['ID_PERI']." class=mod><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil-square' viewBox='0 0 16 16'>
+																		<path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>
+																		<path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z'/>
+																	</svg></a>
+										</td>
+									</tr>";
+							}
+						}
+						if(isset($_POST['tipop']))
+						{
+                        $tipop = $_POST['tipop'];
+						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA			
+						FROM periferico p 
+						LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
+						LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
+						INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
+						INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
+						WHERE p.ID_TIPOP = $tipop
+						ORDER BY u.NOMBRE ASC");
+							while($listar = mysqli_fetch_array($consultar))
+							{
+								echo
+								" 
+									<tr>
+										<td><h4 style='font-size:16px;'>".$listar['NOMBREP']."</h4></td>
+										<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>
+										<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4></td>
+										<td><h4 style='font-size:16px;'>".$listar['SERIEG']."</h4></td>
+										<td><h4 style='font-size:16px;'>".$listar['TIPO']."</h4></td>
+										<td><h4 style='font-size:16px;'>".$listar['MARCA']."</h4></td>
+										<td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=modimpresora.php?no=".$listar['ID_PERI']." class=mod><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil-square' viewBox='0 0 16 16'>
+																		<path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>
+																		<path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z'/>
+																	</svg></a>
+										</td>
+									</tr>";
+							}
+						}
+						if(isset($_POST['marca']))
+						{
+                        $marca = $_POST['marca'];
+						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA			
+						FROM periferico p 
+						LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
+						LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
+						INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
+						INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
+						WHERE p.ID_MARCA = $marca
 						ORDER BY u.NOMBRE ASC");
 							while($listar = mysqli_fetch_array($consultar))
 							{
@@ -118,6 +204,7 @@ $row = $resultado->fetch_assoc();
 									</tr>";
 						}
 					}
+				}
 					else
 					{
 					$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA			
@@ -146,6 +233,7 @@ $row = $resultado->fetch_assoc();
                                     </td>
                                 </tr>";}
 					}
+
 					echo "</table>";
 					?>
         		<?php

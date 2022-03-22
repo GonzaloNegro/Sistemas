@@ -141,34 +141,54 @@ function ConsultarIncidente($no_tic)
                 ?>
                 <?php 
                     include("conexion.php");
-                    $sent= "SELECT m.MEMORIA FROM wsmem w LEFT JOIN memoria m ON m.ID_MEMORIA = w.ID_MEMORIA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 2";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $mem2 = $row['MEMORIA'];
-                ?>
-                <?php 
-                    include("conexion.php");
-                    $sent= "SELECT m.MEMORIA FROM wsmem w LEFT JOIN memoria m ON m.ID_MEMORIA = w.ID_MEMORIA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 3";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $mem3 = $row['MEMORIA'];
-                ?>
-                <?php 
-                    include("conexion.php");
-                    $sent= "SELECT m.MEMORIA FROM wsmem w LEFT JOIN memoria m ON m.ID_MEMORIA = w.ID_MEMORIA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 4";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $mem4 = $row['MEMORIA'];
-                ?>
-                            <!-- TIPO MEMORIAS -->
-                <!-- ///////////////////////////////// -->
-                <!-- ///////////////////////////////// -->
-                <?php 
-                    include("conexion.php");
                     $sent= "SELECT t.TIPOMEM FROM wsmem w LEFT JOIN tipomem t ON t.ID_TIPOMEM = w.ID_TIPOMEM WHERE w.ID_WS = $consulta[0] AND w.SLOT = 1";
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
                     $tmem1 = $row['TIPOMEM'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sent= "SELECT p.PROVEEDOR FROM wsmem w LEFT JOIN proveedor p ON p.ID_PROVEEDOR = w.ID_PROVEEDOR WHERE w.ID_WS = $consulta[0] AND w.SLOT = 1";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $prov1 = $row['PROVEEDOR'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sent= "SELECT m.MARCA FROM wsmem w LEFT JOIN marcas m ON m.ID_MARCA = w.ID_MARCA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 1";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $marc1 = $row['MARCA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT FACTURA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 1";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $fact1 = $row['FACTURA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT FECHA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 1";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $fec1 = $row['FECHA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT GARANTIA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 1";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $gar1 = $row['GARANTIA'];
+                ?>
+
+
+                <?php 
+                    include("conexion.php");
+                    $sent= "SELECT m.MEMORIA FROM wsmem w LEFT JOIN memoria m ON m.ID_MEMORIA = w.ID_MEMORIA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 2";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $mem2 = $row['MEMORIA'];
                 ?>
                 <?php 
                     include("conexion.php");
@@ -179,10 +199,98 @@ function ConsultarIncidente($no_tic)
                 ?>
                 <?php 
                     include("conexion.php");
+                    $sent= "SELECT p.PROVEEDOR FROM wsmem w LEFT JOIN proveedor p ON p.ID_PROVEEDOR = w.ID_PROVEEDOR WHERE w.ID_WS = $consulta[0] AND w.SLOT = 2";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $prov2 = $row['PROVEEDOR'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sent= "SELECT m.MARCA FROM wsmem w LEFT JOIN marcas m ON m.ID_MARCA = w.ID_MARCA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 2";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $marc2 = $row['MARCA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT FACTURA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 2";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $fact2 = $row['FACTURA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT FECHA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 2";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $fec2 = $row['FECHA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT GARANTIA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 2";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $gar2 = $row['GARANTIA'];
+                ?>
+
+
+                <?php 
+                    include("conexion.php");
+                    $sent= "SELECT m.MEMORIA FROM wsmem w LEFT JOIN memoria m ON m.ID_MEMORIA = w.ID_MEMORIA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 3";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $mem3 = $row['MEMORIA'];
+                ?>
+                 <?php 
+                    include("conexion.php");
                     $sent= "SELECT t.TIPOMEM FROM wsmem w LEFT JOIN tipomem t ON t.ID_TIPOMEM = w.ID_TIPOMEM WHERE w.ID_WS = $consulta[0] AND w.SLOT = 3";
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
                     $tmem3 = $row['TIPOMEM'];
+                ?>
+                                <?php 
+                    include("conexion.php");
+                    $sent= "SELECT p.PROVEEDOR FROM wsmem w LEFT JOIN proveedor p ON p.ID_PROVEEDOR = w.ID_PROVEEDOR WHERE w.ID_WS = $consulta[0] AND w.SLOT = 3";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $prov3 = $row['PROVEEDOR'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sent= "SELECT m.MARCA FROM wsmem w LEFT JOIN marcas m ON m.ID_MARCA = w.ID_MARCA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 3";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $marc3 = $row['MARCA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT FACTURA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 3";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $fact3 = $row['FACTURA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT FECHA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 3";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $fec3 = $row['FECHA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT GARANTIA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 3";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $gar3 = $row['GARANTIA'];
+                ?>
+
+
+                <?php 
+                    include("conexion.php");
+                    $sent= "SELECT m.MEMORIA FROM wsmem w LEFT JOIN memoria m ON m.ID_MEMORIA = w.ID_MEMORIA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 4";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $mem4 = $row['MEMORIA'];
                 ?>
                 <?php 
                     include("conexion.php");
@@ -191,6 +299,55 @@ function ConsultarIncidente($no_tic)
                     $row = $resultado->fetch_assoc();
                     $tmem4 = $row['TIPOMEM'];
                 ?>
+                <?php 
+                    include("conexion.php");
+                    $sent= "SELECT p.PROVEEDOR FROM wsmem w LEFT JOIN proveedor p ON p.ID_PROVEEDOR = w.ID_PROVEEDOR WHERE w.ID_WS = $consulta[0] AND w.SLOT = 4";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $prov4 = $row['PROVEEDOR'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sent= "SELECT m.MARCA FROM wsmem w LEFT JOIN marcas m ON m.ID_MARCA = w.ID_MARCA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 4";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $marc4 = $row['MARCA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT FACTURA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 4";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $fact4 = $row['FACTURA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT FECHA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 4";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $fec4 = $row['FECHA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT GARANTIA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 4";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $gar4 = $row['GARANTIA'];
+                ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                          <!-- DISCOS -->
                 <!-- ///////////////////////////////// -->
@@ -201,62 +358,188 @@ function ConsultarIncidente($no_tic)
                     $sent= "SELECT d.DISCO FROM discows dw LEFT JOIN disco d ON d.ID_DISCO = dw.ID_DISCO WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 1";
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
-                    $dis1 = $row['DISCO'];
+                    $disc1 = $row['DISCO'];
                 ?>
-                 <?php 
-                    include("conexion.php");
-                    $sent= "SELECT d.DISCO FROM discows dw LEFT JOIN disco d ON d.ID_DISCO = dw.ID_DISCO WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 2";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $dis2 = $row['DISCO'];
-                ?>
-                <?php 
-                    include("conexion.php");
-                    $sent= "SELECT d.DISCO FROM discows dw LEFT JOIN disco d ON d.ID_DISCO = dw.ID_DISCO WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 3";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $dis3 = $row['DISCO'];
-                ?>
-                <?php 
-                    include("conexion.php");
-                    $sent= "SELECT d.DISCO FROM discows dw LEFT JOIN disco d ON d.ID_DISCO = dw.ID_DISCO WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 4";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $dis4 = $row['DISCO'];
-                ?>
-
-                         <!-- TIPO DISCOS -->
-                <!-- ///////////////////////////////// -->
-                <!-- ///////////////////////////////// -->
-
                 <?php 
                     include("conexion.php");
                     $sent= "SELECT t.TIPOD FROM discows d LEFT JOIN tipodisco t ON t.ID_TIPOD = d.ID_TIPOD WHERE d.ID_WS = $consulta[0] AND d.NUMERO = 1";
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
-                    $tdis1 = $row['TIPOD'];
+                    $tdisc1 = $row['TIPOD'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sent= "SELECT p.PROVEEDOR FROM wsmem w LEFT JOIN proveedor p ON p.ID_PROVEEDOR = w.ID_PROVEEDOR WHERE w.ID_WS = $consulta[0] AND w.SLOT = 1";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $dprov1 = $row['PROVEEDOR'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sent= "SELECT m.MARCA FROM wsmem w LEFT JOIN marcas m ON m.ID_MARCA = w.ID_MARCA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 1";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $dmarc1 = $row['MARCA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT FACTURA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 1";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $dfact1 = $row['FACTURA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT FECHA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 1";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $dfec1 = $row['FECHA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT GARANTIA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 1";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $dgar1 = $row['GARANTIA'];
+                ?>
+
+
+                 <?php 
+                    include("conexion.php");
+                    $sent= "SELECT d.DISCO FROM discows dw LEFT JOIN disco d ON d.ID_DISCO = dw.ID_DISCO WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 2";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $disc2 = $row['DISCO'];
                 ?>
                 <?php 
                     include("conexion.php");
                     $sent= "SELECT t.TIPOD FROM discows d LEFT JOIN tipodisco t ON t.ID_TIPOD = d.ID_TIPOD WHERE d.ID_WS = $consulta[0] AND d.NUMERO = 2";
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
-                    $tdis2 = $row['TIPOD'];
+                    $tdisc2 = $row['TIPOD'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sent= "SELECT m.MARCA FROM wsmem w LEFT JOIN marcas m ON m.ID_MARCA = w.ID_MARCA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 2";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $dmarc2 = $row['MARCA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT FACTURA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 2";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $dfact2 = $row['FACTURA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT FECHA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 2";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $dfec2 = $row['FECHA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT GARANTIA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 2";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $dgar2 = $row['GARANTIA'];
+                ?>
+
+
+                <?php 
+                    include("conexion.php");
+                    $sent= "SELECT d.DISCO FROM discows dw LEFT JOIN disco d ON d.ID_DISCO = dw.ID_DISCO WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 3";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $disc3 = $row['DISCO'];
                 ?>
                 <?php
                     include("conexion.php");
                     $sent= "SELECT t.TIPOD FROM discows d LEFT JOIN tipodisco t ON t.ID_TIPOD = d.ID_TIPOD WHERE d.ID_WS = $consulta[0] AND d.NUMERO = 3";
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
-                    $tdis3 = $row['TIPOD'];
+                    $tdisc3 = $row['TIPOD'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sent= "SELECT m.MARCA FROM wsmem w LEFT JOIN marcas m ON m.ID_MARCA = w.ID_MARCA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 3";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $dmarc3 = $row['MARCA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT FACTURA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 3";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $dfact3 = $row['FACTURA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT FECHA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 3";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $dfec3 = $row['FECHA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT GARANTIA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 3";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $dgar3 = $row['GARANTIA'];
+                ?>
+
+
+                <?php 
+                    include("conexion.php");
+                    $sent= "SELECT d.DISCO FROM discows dw LEFT JOIN disco d ON d.ID_DISCO = dw.ID_DISCO WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 4";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $disc4 = $row['DISCO'];
                 ?>
                 <?php 
                     include("conexion.php");
                     $sent= "SELECT t.TIPOD FROM discows d LEFT JOIN tipodisco t ON t.ID_TIPOD = d.ID_TIPOD WHERE d.ID_WS = $consulta[0] AND d.NUMERO = 4";
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
-                    $tdis4 = $row['TIPOD'];
+                    $tdisc4 = $row['TIPOD'];
                 ?>
+                <?php 
+                    include("conexion.php");
+                    $sent= "SELECT m.MARCA FROM wsmem w LEFT JOIN marcas m ON m.ID_MARCA = w.ID_MARCA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 4";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $dmarc4 = $row['MARCA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT FACTURA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 4";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $dfact4 = $row['FACTURA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT FECHA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 4";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $dfec4 = $row['FECHA'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sentencia = "SELECT GARANTIA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 4";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $dgar4 = $row['GARANTIA'];
+                ?>
+
+
+
+
+
+
 
 
 
@@ -444,9 +727,9 @@ function ConsultarIncidente($no_tic)
     <div id="flush-collapse1" class="accordion-collapse collapse" aria-labelledby="flush-heading1" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
       <div class="form-group row" style="margin: 10px; padding:10px;">
-            <label id="lblForm" class="col-form-label col-xl col-lg">CAPACIDAD:</label> 
-				<select name="mem1" class="form-control col-xl col-lg">
-                                <option selected value="1200"><?php echo $mem1?></option>
+          <label id="lblForm" class="col-form-label col-xl col-lg">CAPACIDAD:</label> 
+				  <select name="mem1" class="form-control col-xl col-lg">
+            <option selected value="1200"><?php echo $mem1?></option>
                                     <?php
                                     include("conexion.php");
                                     $consulta= "SELECT * FROM memoria";
@@ -456,9 +739,9 @@ function ConsultarIncidente($no_tic)
                                     <option value= <?php echo $opciones['ID_MEMORIA'] ?>><?php echo $opciones['MEMORIA']?></option>
                                     <?php endforeach?>
                                 </select>
-							<label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
-                            <select name="tmem1" class="form-control col-xl col-lg">
-                            <option selected value="1201"><?php echo $tmem1?></option>
+					<label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
+          <select name="tmem1" class="form-control col-xl col-lg">
+              <option selected value="1201"><?php echo $tmem1?></option>
                                     <?php
                                     include("conexion.php");
                                     $consulta= "SELECT * FROM tipomem";
@@ -468,7 +751,43 @@ function ConsultarIncidente($no_tic)
                                     <option value= <?php echo $opciones['ID_TIPOMEM'] ?>><?php echo $opciones['TIPOMEM']?></option>
                                     <?php endforeach?>
                                 </select>
-                        </div> 
+     </div>
+     <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="prov1" class="form-control col-xl col-lg">
+                                    <option selected value="1202"><?php echo $prov1?></option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact1" value="<?php echo $fact1?>">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="marc1" class="form-control col-xl col-lg">
+                                    <option selected value="1203"><?php echo $marc1?></option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM marcas";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="fec1" value="<?php echo $fec1?>">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar1" value="<?php echo $gar1?>">
+        </div>
       </div>
     </div>
   </div>
@@ -505,7 +824,43 @@ function ConsultarIncidente($no_tic)
                                     <option value= <?php echo $opciones['ID_TIPOMEM'] ?>><?php echo $opciones['TIPOMEM']?></option>
                                     <?php endforeach?>
                                 </select>
-                        </div> 
+                        </div>
+                        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="prov2" class="form-control col-xl col-lg">
+                                    <option selected value="1302"><?php echo $prov2?></option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact2" value="<?php echo $fact2?>">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="marc2" class="form-control col-xl col-lg">
+                                    <option selected value="1303"><?php echo $marc2?></option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM marcas";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="fec2" value="<?php echo $fec2?>">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar2" value="<?php echo $gar2?>">
+        </div>
       </div>
     </div>
   </div>
@@ -542,7 +897,43 @@ function ConsultarIncidente($no_tic)
                                     <option value= <?php echo $opciones['ID_TIPOMEM'] ?>><?php echo $opciones['TIPOMEM']?></option>
                                     <?php endforeach?>
                                 </select>
-                        </div> 
+                        </div>
+                        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="prov3" class="form-control col-xl col-lg">
+                                    <option selected value="1402"><?php echo $prov3?></option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact3" value="<?php echo $fact3?>">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="marc3" class="form-control col-xl col-lg">
+                                    <option selected value="1403"><?php echo $marc3?></option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM marcas";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="fec3" value="<?php echo $fec3?>">>
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar3" value="<?php echo $gar3?>">
+        </div> 
       </div>
     </div>
   </div>
@@ -579,7 +970,43 @@ function ConsultarIncidente($no_tic)
                                     <option value= <?php echo $opciones['ID_TIPOMEM'] ?>><?php echo $opciones['TIPOMEM']?></option>
                                     <?php endforeach?>
                                 </select>
-                        </div> 
+                        </div>
+                        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="prov4" class="form-control col-xl col-lg">
+                                    <option selected value="1502"><?php echo $prov4?></option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact4" value="<?php echo $fact4?>">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="marc4" class="form-control col-xl col-lg">
+                                    <option selected value="1503"><?php echo $marc4?></option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM marcas";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="fec4" value="<?php echo $fec4?>">>
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar4" value="<?php echo $gar4?>">
+        </div>
       </div>
     </div>
   </div>
@@ -609,7 +1036,7 @@ function ConsultarIncidente($no_tic)
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">SLOT DISCO 1:</label>
                             <select name="disc1" class="form-control col-xl col-lg">
-                            <option selected value="1600"><?php echo $dis1?></option>
+                            <option selected value="1600"><?php echo $disc1?></option>
                                     <?php
                                     include("conexion.php");
                                     $consulta= "SELECT * FROM disco";
@@ -621,7 +1048,7 @@ function ConsultarIncidente($no_tic)
                                 </select>
                             <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DISCO 1:</label>
                             <select name="tdisc1" class="form-control col-xl col-lg">
-                            <option selected value="1601"><?php echo $tdis1?></option>
+                            <option selected value="1601"><?php echo $tdisc1?></option>
                                     <?php
                                     include("conexion.php");
                                     $consulta= "SELECT * FROM tipodisco";
@@ -632,6 +1059,42 @@ function ConsultarIncidente($no_tic)
                                     <?php endforeach?>
                                 </select>
                         </div>
+                        <div class="form-group row" style="margin: 10px; padding:10px;">
+            <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="dprov1" class="form-control col-xl col-lg">
+                                    <option selected value="1602"><?php echo $dprov1?></option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact1" value="<?php echo $dfact1?>">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="dmarc1" class="form-control col-xl col-lg">
+                                    <option selected value="1603"><?php echo $dmarc1?></option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM marcas";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="dfec1" value="<?php echo $dfec1?>">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="dgar1" value="<?php echo $dgar1?>">
+        </div> 
       </div>
     </div>
   </div>
@@ -646,7 +1109,7 @@ function ConsultarIncidente($no_tic)
       <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">SLOT DISCO 2:</label>
                             <select name="disc2" class="form-control col-xl col-lg">
-                            <option selected value="1700"><?php echo $dis2?></option>
+                            <option selected value="1700"><?php echo $disc2?></option>
                                     <?php
                                     include("conexion.php");
                                     $consulta= "SELECT * FROM disco";
@@ -658,7 +1121,7 @@ function ConsultarIncidente($no_tic)
                                 </select>
                             <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DISCO 2:</label>
                             <select name="tdisc2" class="form-control col-xl col-lg">
-                            <option selected value="1701"><?php echo $tdis2?></option>
+                            <option selected value="1701"><?php echo $tdisc2?></option>
                                     <?php
                                     include("conexion.php");
                                     $consulta= "SELECT * FROM tipodisco";
@@ -669,6 +1132,42 @@ function ConsultarIncidente($no_tic)
                                     <?php endforeach?>
                                 </select>
                         </div>
+                        <div class="form-group row" style="margin: 10px; padding:10px;">
+            <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="dprov2" class="form-control col-xl col-lg">
+                                    <option selected value="1702"><?php echo $dprov2?></option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact2" value="<?php echo $dfact2?>">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="dmarc2" class="form-control col-xl col-lg">
+                                    <option selected value="1703"><?php echo $dmarc2?></option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM marcas";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="dfec2" value="<?php echo $dfec2?>">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="dgar2" value="<?php echo $dgar2?>">
+        </div> 
       </div>
     </div>
   </div>
@@ -683,7 +1182,7 @@ function ConsultarIncidente($no_tic)
       <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">SLOT DISCO 3:</label>
                             <select name="disc3" class="form-control col-xl col-lg">
-                            <option selected value="1800"><?php echo $dis3?></option>
+                            <option selected value="1800"><?php echo $disc3?></option>
                                     <?php
                                     include("conexion.php");
                                     $consulta= "SELECT * FROM disco";
@@ -695,7 +1194,7 @@ function ConsultarIncidente($no_tic)
                                 </select>
                             <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DISCO 3:</label>
                             <select name="tdisc3" class="form-control col-xl col-lg">
-                            <option selected value="1801"><?php echo $tdis3?></option>
+                            <option selected value="1801"><?php echo $tdisc4?></option>
                                     <?php
                                     include("conexion.php");
                                     $consulta= "SELECT * FROM tipodisco";
@@ -706,6 +1205,42 @@ function ConsultarIncidente($no_tic)
                                     <?php endforeach?>
                                 </select>
                         </div>
+                        <div class="form-group row" style="margin: 10px; padding:10px;">
+            <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="dprov3" class="form-control col-xl col-lg">
+                                    <option selected value="1802"><?php echo $dprov3?></option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact3" value="<?php echo $dfact3?>">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="dmarc3" class="form-control col-xl col-lg">
+                                    <option selected value="1803"><?php echo $dmarc3?></option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM marcas";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="dfec3" value="<?php echo $dfec3?>">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="dgar3" value="<?php echo $dgar3?>">
+        </div> 
       </div>
     </div>
   </div>
@@ -720,7 +1255,7 @@ function ConsultarIncidente($no_tic)
       <div class="form-group row" style="margin: 10px; padding:10px;">
 			<label id="lblForm"class="col-form-label col-xl col-lg">SLOT DISCO 4:</label>
                             <select name="disc4" class="form-control col-xl col-lg">
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                            <option selected value="1900"><?php echo $disc4?></option>
                                     <?php
                                     include("conexion.php");
                                     $consulta= "SELECT * FROM disco";
@@ -732,7 +1267,7 @@ function ConsultarIncidente($no_tic)
                                 </select>
                             <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DISCO 4:</label>
                             <select name="tdisc4" class="form-control col-xl col-lg">
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                            <option selected value="1901"><?php echo $tdisc4?></option>
                                     <?php
                                     include("conexion.php");
                                     $consulta= "SELECT * FROM tipodisco";
@@ -743,6 +1278,42 @@ function ConsultarIncidente($no_tic)
                                     <?php endforeach?>
                                 </select>
                         </div>
+                        <div class="form-group row" style="margin: 10px; padding:10px;">
+            <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="dprov4" class="form-control col-xl col-lg">
+                  <option selected value="1902"><?php echo $dprov4?></option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact4" value="<?php echo $dfact4?>">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="dmarc4" class="form-control col-xl col-lg">
+                                    <option selected value="1903"><?php echo $dmarc4?></option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM marcas";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="dfec4" value="<?php echo $dfec4?>">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="dgar4" value="<?php echo $dgar4?>">
+        </div> 
       </div>
     </div>
   </div>

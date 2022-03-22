@@ -70,7 +70,7 @@ $row = $resultado->fetch_assoc();
                         
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
-                                <select name="usu" class="form-control col-xl col-lg">
+                                <select name="usu" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -82,7 +82,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
                                 <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
-                                <select name="est" class="form-control col-xl col-lg">
+                                <select name="est" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -98,7 +98,7 @@ $row = $resultado->fetch_assoc();
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm" class="col-form-label col-xl col-lg">N° WS:</label> 
-							<input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="serieg" required>
+							<input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="serieg" placeholder="WS N°" required>
                             <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE:</label>
                             <input class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="serialn" required>
                         </div>    
@@ -106,7 +106,7 @@ $row = $resultado->fetch_assoc();
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
-                            <select name="marca" class="form-control col-xl col-lg">
+                            <select name="marca" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -118,7 +118,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
                                 <label id="lblForm"class="col-form-label col-xl col-lg">S.O:</label>
-                                <select name="so" class="form-control col-xl col-lg">
+                                <select name="so" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -134,7 +134,7 @@ $row = $resultado->fetch_assoc();
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm"class="col-form-label col-xl col-lg">PROCESADOR:</label>
-                            <select name="micro" class="form-control col-xl col-lg">
+                            <select name="micro" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -146,7 +146,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
                                 <label id="lblForm"class="col-form-label col-xl col-lg">PLACA MADRE:</label>
-                                <select name="placam" class="form-control col-xl col-lg">
+                                <select name="placam" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -162,7 +162,7 @@ $row = $resultado->fetch_assoc();
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm" class="col-form-label col-xl col-lg">TIPO PC:</label> 
-							<select name="tippc" class="form-control col-xl col-lg">
+							              <select name="tippc" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -174,7 +174,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
                             <label id="lblForm"class="col-form-label col-xl col-lg">MASTERIZACIÓN:</label>
-                            <select name="masterizacion" class="form-control col-xl col-lg">
+                            <select name="masterizacion" class="form-control col-xl col-lg" required>
                                 <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                 <option value="SI">SI</option>
                                 <option value="NO">NO</option>
@@ -184,9 +184,9 @@ $row = $resultado->fetch_assoc();
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm" class="col-form-label col-xl col-lg">MAC:</label> 
-							<input class="form-control col-xl col-lg" name="mac" placeholder="N° MAC">
+							              <input class="form-control col-xl col-lg" name="mac" placeholder="N° MAC">
                             <label id="lblForm"class="col-form-label col-xl col-lg">RIP:</label>
-                            <select name="reserva" class="form-control col-xl col-lg">
+                            <select name="reserva" class="form-control col-xl col-lg" required>
                                 <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                 <option value="SI">SI</option>
                                 <option value="NO">NO</option>
@@ -196,9 +196,9 @@ $row = $resultado->fetch_assoc();
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm" class="col-form-label col-xl col-lg">IP:</label> 
-							<input class="form-control col-xl col-lg" name="ip" placeholder="N° IP">
+						              	<input class="form-control col-xl col-lg" name="ip" placeholder="N° IP">
                             <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:</label>
-                            <select name="prov" class="form-control col-xl col-lg">
+                            <select name="prov" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -214,15 +214,15 @@ $row = $resultado->fetch_assoc();
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm" class="col-form-label col-xl col-lg">FACTURA:</label> 
-							<input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="fac" placeholder="N° Factura">
+							              <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="fac" placeholder="N° Factura">
                             <label id="lblForm" class="col-form-label col-xl col-lg">GARANTIA:</label> 
-							<input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar" >
+							              <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar" placeholder="TIEMPO DE GARANTIA">
                         </div>
 
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm"class="col-form-label col-xl col-lg">RED:</label>
-                            <select name="red" class="form-control col-xl col-lg">
+                            <select name="red" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -291,7 +291,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
-              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact1">
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact1" placeholder="N° FACTURA">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
@@ -306,12 +306,12 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
-							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
               <input type="date" class="form-control col-xl col-lg" name="fec1">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
-              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar1">
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar1" placeholder="TIEMPO DE GARANTIA">
         </div>
       </div>
     </div>
@@ -364,7 +364,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
-              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact2">
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact2" placeholder="N° FACTURA">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
@@ -379,12 +379,12 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
-							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
-              <input type="date" class="form-control col-xl col-lg" name="fec2">
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="fec2" placeholder="N° FACTURA">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
-              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar2">
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar2" placeholder="TIEMPO DE GARANTIA">
         </div> 
       </div>
     </div>
@@ -437,7 +437,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
-              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact3">
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact3" placeholder="N° FACTURA">
           </div>
           <div class="form-group row" style="margin: 10px; padding:10px;">
             <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
@@ -452,12 +452,12 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
-							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
-              <input type="date" class="form-control col-xl col-lg" name="fec3">
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="fec3" placeholder="N° FACTURA">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
-              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar3">
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar3" placeholder="TIEMPO DE GARANTIA">
         </div> 
     </div>
   </div>
@@ -510,7 +510,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
-              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact4">
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact4" placeholder="N° FACTURA">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
@@ -525,12 +525,12 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
-							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
-              <input type="date" class="form-control col-xl col-lg" name="fec4">
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="fec4" placeholder="N° FACTURA">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
-              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar4">
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar4" placeholder="TIEMPO DE GARANTIA">
         </div> 
         </div>
         </div>
@@ -595,7 +595,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
-              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact1">
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact1" placeholder="N° FACTURA">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
@@ -610,12 +610,12 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
-							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
-              <input type="date" class="form-control col-xl col-lg" name="dfec1">
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="dfec1" placeholder="N° FACTURA">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
-              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="dgar1">
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="dgar1" placeholder="TIEMPO DE GARANTIA">
         </div> 
       </div>
     </div>
@@ -668,7 +668,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
-              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact2">
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact2" placeholder="N° FACTURA">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
@@ -683,12 +683,12 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
-							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
               <input type="date" class="form-control col-xl col-lg" name="dfec2">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
-              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="dgar2">
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="dgar2" placeholder="TIEMPO DE GARANTIA">
         </div> 
       </div>
     </div>
@@ -741,7 +741,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
-              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact3">
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact3" placeholder="N° FACTURA">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
@@ -756,12 +756,12 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
-							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
               <input type="date" class="form-control col-xl col-lg" name="dfec3">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
-              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="dgar3">
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="dgar3" placeholder="TIEMPO DE GARANTIA">
         </div> 
       </div>
     </div>
@@ -814,7 +814,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
-              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact4">
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact4" placeholder="N° FACTURA">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
@@ -829,12 +829,12 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
-							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
               <input type="date" class="form-control col-xl col-lg" name="dfec4">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
-              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="dgar4">
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="dgar4" placeholder="TIEMPO DE GARANTIA">
         </div> 
       </div>
     </div>

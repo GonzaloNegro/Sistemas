@@ -12,23 +12,80 @@ $so = $_POST['so'];
 $micro = $_POST['micro'];
 $placam = $_POST['placam'];
 
+
 $mem1 = $_POST['mem1'];
 $tmem1 = $_POST['tmem1'];
+$prov1 = $_POST['prov1'];
+$marc1 = $_POST['marc1'];
+$fact1 = $_POST['fact1'];
+$fec1 = $_POST['fec1'];
+$gar1 = $_POST['gar1'];
+
+
 $mem2 = $_POST['mem2'];
 $tmem2 = $_POST['tmem2'];
+$prov2 = $_POST['prov2'];
+$marc2 = $_POST['marc2'];
+$fact2 = $_POST['fact2'];
+$fec2 = $_POST['fec2'];
+$gar2 = $_POST['gar2'];
+
+
 $mem3 = $_POST['mem3'];
 $tmem3 = $_POST['tmem3'];
+$prov3 = $_POST['prov3'];
+$marc3 = $_POST['marc3'];
+$fact3 = $_POST['fact3'];
+$fec3 = $_POST['fec3'];
+$gar3 = $_POST['gar3'];
+
+
 $mem4 = $_POST['mem4'];
 $tmem4 = $_POST['tmem4'];
+$prov4 = $_POST['prov4'];
+$marc4 = $_POST['marc4'];
+$fact4 = $_POST['fact4'];
+$fec4 = $_POST['fec4'];
+$gar4 = $_POST['gar4'];
+
+
 
 $disc1 = $_POST['disc1'];
 $tdisc1 = $_POST['tdisc1'];
+$dprov1 = $_POST['dprov1'];
+$dmarc1 = $_POST['dmarc1'];
+$dfact1 = $_POST['dfact1'];
+$dfec1 = $_POST['dfec1'];
+$dgar1 = $_POST['dgar1'];
+
+
 $disc2 = $_POST['disc2'];
 $tdisc2 = $_POST['tdisc2'];
+$dprov2 = $_POST['dprov2'];
+$dmarc2 = $_POST['dmarc2'];
+$dfact2 = $_POST['dfact2'];
+$dfec2 = $_POST['dfec2'];
+$dgar2 = $_POST['dgar2'];
+
+
 $disc3 = $_POST['disc3'];
 $tdisc3 = $_POST['tdisc3'];
+$dprov3 = $_POST['dprov3'];
+$dmarc3 = $_POST['dmarc3'];
+$dfact3 = $_POST['dfact3'];
+$dfec3 = $_POST['dfec3'];
+$dgar3 = $_POST['dgar3'];
+
+
 $disc4 = $_POST['disc4'];
 $tdisc4 = $_POST['tdisc4'];
+$dprov4 = $_POST['dprov4'];
+$dmarc4 = $_POST['dmarc4'];
+$dfact4 = $_POST['dfact4'];
+$dfec4 = $_POST['dfec4'];
+$dgar4 = $_POST['dgar4'];
+
+
 
 $masterizacion = $_POST['masterizacion'];
 $red = $_POST['red'];
@@ -133,6 +190,23 @@ if($tmem1 == "1201"){
     $row6 = $result6->fetch_assoc();
     $tmem1 = $row6['ID_TIPOMEM'];
 }
+
+if($prov1 == "1202"){
+    $sql6 = "SELECT ID_PROVEEDOR FROM wsmem WHERE ID_WS = '$id' AND SLOT = 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $prov1 = $row6['ID_PROVEEDOR'];
+}
+
+if($marc1 == "1203"){
+    $sql6 = "SELECT ID_MARCA FROM wsmem WHERE ID_WS = '$id' AND SLOT = 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $marc1 = $row6['ID_MARCA'];
+}
+
+
+
 
 if($mem2 == "1300"){
     $sql6 = "SELECT ID_MEMORIA FROM wsmem WHERE ID_WS = '$id' AND SLOT = 2";
