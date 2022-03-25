@@ -129,6 +129,11 @@ function ConsultarIncidente($no_tic)
                     $mar = $row['MARCA'];
                 ?>
 
+
+
+
+
+
                         <!-- MEMORIAS -->
                 <!-- ///////////////////////////////// -->
                 <!-- ///////////////////////////////// -->
@@ -420,6 +425,13 @@ function ConsultarIncidente($no_tic)
                 ?>
                 <?php 
                     include("conexion.php");
+                    $sent= "SELECT p.PROVEEDOR FROM wsmem w LEFT JOIN proveedor p ON p.ID_PROVEEDOR = w.ID_PROVEEDOR WHERE w.ID_WS = $consulta[0] AND w.SLOT = 2";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $dprov2 = $row['PROVEEDOR'];
+                ?>
+                <?php 
+                    include("conexion.php");
                     $sent= "SELECT m.MARCA FROM wsmem w LEFT JOIN marcas m ON m.ID_MARCA = w.ID_MARCA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 2";
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
@@ -464,6 +476,13 @@ function ConsultarIncidente($no_tic)
                 ?>
                 <?php 
                     include("conexion.php");
+                    $sent= "SELECT p.PROVEEDOR FROM wsmem w LEFT JOIN proveedor p ON p.ID_PROVEEDOR = w.ID_PROVEEDOR WHERE w.ID_WS = $consulta[0] AND w.SLOT = 3";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $dprov3 = $row['PROVEEDOR'];
+                ?>
+                <?php 
+                    include("conexion.php");
                     $sent= "SELECT m.MARCA FROM wsmem w LEFT JOIN marcas m ON m.ID_MARCA = w.ID_MARCA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 3";
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
@@ -492,6 +511,7 @@ function ConsultarIncidente($no_tic)
                 ?>
 
 
+
                 <?php 
                     include("conexion.php");
                     $sent= "SELECT d.DISCO FROM discows dw LEFT JOIN disco d ON d.ID_DISCO = dw.ID_DISCO WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 4";
@@ -505,6 +525,13 @@ function ConsultarIncidente($no_tic)
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
                     $tdisc4 = $row['TIPOD'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sent= "SELECT p.PROVEEDOR FROM wsmem w LEFT JOIN proveedor p ON p.ID_PROVEEDOR = w.ID_PROVEEDOR WHERE w.ID_WS = $consulta[0] AND w.SLOT = 4";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $dprov4 = $row['PROVEEDOR'];
                 ?>
                 <?php 
                     include("conexion.php");

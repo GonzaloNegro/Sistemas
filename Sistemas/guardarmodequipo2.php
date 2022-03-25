@@ -174,6 +174,12 @@ if($marca == "1100"){
     $marca = $row6['ID_MARCA'];
 }
 
+
+
+
+
+
+
 /* ////////////////////MEMORIA///////////////////////////// */
 /* //////////////////////////////////////////////////////// */
 
@@ -222,6 +228,22 @@ if($tmem2 == "1301"){
     $tmem2 = $row6['ID_TIPOMEM'];
 }
 
+if($prov2 == "1302"){
+    $sql6 = "SELECT ID_PROVEEDOR FROM wsmem WHERE ID_WS = '$id' AND SLOT = 2";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $prov2 = $row6['ID_PROVEEDOR'];
+}
+
+if($marc2 == "1303"){
+    $sql6 = "SELECT ID_MARCA FROM wsmem WHERE ID_WS = '$id' AND SLOT = 2";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $marc2 = $row6['ID_MARCA'];
+}
+
+
+
 if($mem3 == "1400"){
     $sql6 = "SELECT ID_MEMORIA FROM wsmem WHERE ID_WS = '$id' AND SLOT = 3";
     $result6 = $datos_base->query($sql6);
@@ -236,6 +258,22 @@ if($tmem3 == "1401"){
     $tmem3 = $row6['ID_TIPOMEM'];
 }
 
+if($prov3 == "1402"){
+    $sql6 = "SELECT ID_PROVEEDOR FROM wsmem WHERE ID_WS = '$id' AND SLOT = 3";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $prov3 = $row6['ID_PROVEEDOR'];
+}
+
+if($marc3 == "1403"){
+    $sql6 = "SELECT ID_MARCA FROM wsmem WHERE ID_WS = '$id' AND SLOT = 3";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $marc3 = $row6['ID_MARCA'];
+}
+
+
+
 if($mem4 == "1500"){
     $sql6 = "SELECT ID_MEMORIA FROM wsmem WHERE ID_WS = '$id' AND SLOT = 4";
     $result6 = $datos_base->query($sql6);
@@ -249,6 +287,26 @@ if($tmem4 == "1501"){
     $row6 = $result6->fetch_assoc();
     $tmem4 = $row6['ID_TIPOMEM'];
 }
+
+if($prov4 == "1502"){
+    $sql6 = "SELECT ID_PROVEEDOR FROM wsmem WHERE ID_WS = '$id' AND SLOT = 4";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $prov4 = $row6['ID_PROVEEDOR'];
+}
+
+if($marc4 == "1503"){
+    $sql6 = "SELECT ID_MARCA FROM wsmem WHERE ID_WS = '$id' AND SLOT = 4";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $marc4 = $row6['ID_MARCA'];
+}
+
+
+
+
+
+
 
 /* ////////////////////DISCOS///////////////////////////// */
 /* //////////////////////////////////////////////////////// */
@@ -267,6 +325,22 @@ if($tdisc1 == "1601"){
     $tdisc1 = $row6['ID_TIPOD'];
 }
 
+if($dprov1 == "1602"){
+    $sql6 = "SELECT ID_PROVEEDOR FROM discows WHERE ID_WS = '$id' AND NUMERO = 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $dprov1 = $row6['ID_PROVEEDOR'];
+}
+
+if($dmarc1 == "1603"){
+    $sql6 = "SELECT ID_MARCA FROM discows WHERE ID_WS = '$id' AND NUMERO = 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $dmarc1 = $row6['ID_MARCA'];
+}
+
+
+
 if($disc2 == "1700"){
     $sql6 = "SELECT ID_DISCO FROM discows WHERE ID_WS = '$id' AND NUMERO = 2";
     $result6 = $datos_base->query($sql6);
@@ -280,6 +354,23 @@ if($tdisc2 == "1701"){
     $row6 = $result6->fetch_assoc();
     $tdisc2 = $row6['ID_TIPOD'];
 }
+
+if($dprov2 == "1702"){
+    $sql6 = "SELECT ID_PROVEEDOR FROM discows WHERE ID_WS = '$id' AND NUMERO = 2";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $dprov2 = $row6['ID_PROVEEDOR'];
+}
+
+if($dmarc2 == "1703"){
+    $sql6 = "SELECT ID_MARCA FROM discows WHERE ID_WS = '$id' AND NUMERO = 2";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $dmarc2 = $row6['ID_MARCA'];
+
+
+
+
 
 if($disc3 == "1800"){
     $sql6 = "SELECT ID_DISCO FROM discows WHERE ID_WS = '$id' AND NUMERO = 3";
@@ -295,6 +386,23 @@ if($tdisc3 == "1801"){
     $tdisc3 = $row6['ID_TIPOD'];
 }
 
+if($dprov3 == "1802"){
+    $sql6 = "SELECT ID_PROVEEDOR FROM discows WHERE ID_WS = '$id' AND NUMERO = 3";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $dprov3 = $row6['ID_PROVEEDOR'];
+}
+
+if($dmarc3 == "1803"){
+    $sql6 = "SELECT ID_MARCA FROM discows WHERE ID_WS = '$id' AND NUMERO = 3";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $dmarc3 = $row6['ID_MARCA'];
+
+
+
+
+
 if($disc4 == "1900"){
     $sql6 = "SELECT ID_DISCO FROM discows WHERE ID_WS = '$id' AND NUMERO = 4";
     $result6 = $datos_base->query($sql6);
@@ -308,6 +416,19 @@ if($tdisc4 == "1901"){
     $row6 = $result6->fetch_assoc();
     $tdisc4 = $row6['ID_TIPOD'];
 }
+
+if($dprov4 == "1902"){
+    $sql6 = "SELECT ID_PROVEEDOR FROM discows WHERE ID_WS = '$id' AND NUMERO = 4";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $dprov4 = $row6['ID_PROVEEDOR'];
+}
+
+if($dmarc4 == "1903"){
+    $sql6 = "SELECT ID_MARCA FROM discows WHERE ID_WS = '$id' AND NUMERO = 4";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $dmarc4 = $row6['ID_MARCA'];
 
 
 /*SI AMBOS CAMPOS ESTAN REPETIDOS*/
@@ -338,22 +459,22 @@ if($serieg == $serg OR $serialn == $ser){
 else{
     mysqli_query($datos_base, "UPDATE inventario SET ID_AREA = '$area', SERIALN = '$serialn', SERIEG = '$serieg', ID_MARCA = '$marca', ID_ESTADOWS = '$est', OBSERVACION = '$obs', ID_PROVEEDOR = '$prov', FACTURA = '$fac', MASTERIZADA = '$masterizacion', MAC = '$mac', RIP = '$reserva', IP = '$ip', RED = '$red', ID_TIPOWS = '$tippc', ID_USUARIO = '$usu', GARANTIA = '$gar', ID_MICRO = '$micro', ID_PLACAM = '$placam' WHERE ID_WS = '$id'");
 
-    mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc1', ID_TIPOD = '$tdisc1' WHERE ID_WS = '$id' AND NUMERO = 1");
+    mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc1', ID_TIPOD = '$tdisc1', ID_PROVEEDOR = '$dprov1', FACTURA = '$dfact1', FECHA = '$dfec1', ID_MARCA = '$dmarc1', GARANTIA = '$dgar1' WHERE ID_WS = '$id' AND NUMERO = 1");
 
-    mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc2', ID_TIPOD = '$tdisc2' WHERE ID_WS = '$id' AND NUMERO = 2");
+    mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc2', ID_TIPOD = '$tdisc2', ID_PROVEEDOR = '$dprov2', FACTURA = '$dfact2', FECHA = '$dfec2', ID_MARCA = '$dmarc2', GARANTIA = '$dgar2' WHERE ID_WS = '$id' AND NUMERO = 2");
     
-    mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc3', ID_TIPOD = '$tdisc3' WHERE ID_WS = '$id' AND NUMERO = 3");
+    mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc3', ID_TIPOD = '$tdisc3', ID_PROVEEDOR = '$dprov3', FACTURA = '$dfact3', FECHA = '$dfec3', ID_MARCA = '$dmarc3', GARANTIA = '$dgar3' WHERE ID_WS = '$id' AND NUMERO = 3");
 
-    mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc4', ID_TIPOD = '$tdisc4' WHERE ID_WS = '$id' AND NUMERO = 4");
+    mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc4', ID_TIPOD = '$tdisc4', ID_PROVEEDOR = '$dprov4', FACTURA = '$dfact4', FECHA = '$dfec4', ID_MARCA = '$dmarc4', GARANTIA = '$dgar4' WHERE ID_WS = '$id' AND NUMERO = 4");
 
 
-    mysqli_query($datos_base, "UPDATE wsmem SET ID_MEMORIA = '$mem1', ID_TIPOMEM = '$tmem1' WHERE ID_WS = '$id' AND SLOT = 1");
+    mysqli_query($datos_base, "UPDATE wsmem SET ID_MEMORIA = '$mem1', ID_TIPOMEM = '$tmem1', ID_PROVEEDOR = '$prov1', FACTURA = '$fact1', FECHA = '$fec1', ID_MARCA = '$marc1', GARANTIA = '$gar1' WHERE ID_WS = '$id' AND SLOT = 1");
 
-    mysqli_query($datos_base, "UPDATE wsmem SET ID_MEMORIA = '$mem2', ID_TIPOMEM = '$tmem2' WHERE ID_WS = '$id' AND SLOT = 2");
+    mysqli_query($datos_base, "UPDATE wsmem SET ID_MEMORIA = '$mem2', ID_TIPOMEM = '$tmem2', ID_PROVEEDOR = '$prov2', FACTURA = '$fact2', FECHA = '$fec2', ID_MARCA = '$marc2', GARANTIA = '$gar2' WHERE ID_WS = '$id' AND SLOT = 2");
 
-    mysqli_query($datos_base, "UPDATE wsmem SET ID_MEMORIA = '$mem3', ID_TIPOMEM = '$tmem3' WHERE ID_WS = '$id' AND SLOT = 3");
+    mysqli_query($datos_base, "UPDATE wsmem SET ID_MEMORIA = '$mem3', ID_TIPOMEM = '$tmem3', ID_PROVEEDOR = '$prov3', FACTURA = '$fact3', FECHA = '$fec3', ID_MARCA = '$marc3', GARANTIA = '$gar3' WHERE ID_WS = '$id' AND SLOT = 3");
 
-    mysqli_query($datos_base, "UPDATE wsmem SET ID_MEMORIA = '$mem4', ID_TIPOMEM = '$tmem4' WHERE ID_WS = '$id' AND SLOT = 4");
+    mysqli_query($datos_base, "UPDATE wsmem SET ID_MEMORIA = '$mem4', ID_TIPOMEM = '$tmem4', ID_PROVEEDOR = '$prov4', FACTURA = '$fact4', FECHA = '$fec4', ID_MARCA = '$marc4', GARANTIA = '$gar4' WHERE ID_WS = '$id' AND SLOT = 4");
 
     header("Location: abmequipos.php?ok");
 }

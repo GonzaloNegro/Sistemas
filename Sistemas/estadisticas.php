@@ -1,4 +1,5 @@
 <?php 
+error_reporting(0);
 session_start();
 include('conexion.php');
 if(!isset($_SESSION['cuil'])) 
@@ -81,149 +82,99 @@ $row = $resultado->fetch_assoc();
   </header>
   <section class="contenedor">
     <div class="grafico" style="width: 600px; height: 750px;">
-            <h1>INCIDENTES POR RESOLUTOR</h1>
+            <h1><u>INCIDENTES POR RESOLUTOR</u></h1>
             <canvas id="MiGrafica" ></canvas>
     </div>
+    <div class="grafico2" style="width: 600px; height: 750px;">
+            <h1><u>INCIDENTES POR USUARIO</u></h1>
+            <canvas id="MiGrafica4" ></canvas>
+    </div>
+  </section>
+
+  <section class="contenedor1">
+    <div class="grafico1" style="width: 600px; height: 750px;">
+            <h1><u>INCIDENTES POR TIPIFICACIÓN</u></h1>
+            <canvas id="MiGrafica2" ></canvas>
+    </div>
+    <div class="informacion1" style="width: 600px; height: 750px;">
+        <h1><u>INCIDENTES POR ÁREA</u></h1>
+        <canvas id="MiGrafica3" ></canvas>
+    </div>
+  </section>
+
+  <section class="contenedor2">
     <div class="informacion" style="width: 600px; height: 750px;">
-        <h1>INCIDENTES POR ESTADO</h1>
-        <canvas id="MiGrafica2" ></canvas>
+        <h1><u>INCIDENTES POR ESTADO</u></h1>
+        <canvas id="MiGrafica1" ></canvas>
     </div>
   </section>
 
 
+  
 
 
     <?php 
     include('conexion.php');
-    /* RODRIGO */
-    $sql6 = "SELECT RESOLUTOR FROM resolutor WHERE ID_RESOLUTOR = 15";
+
+    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 0, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $res = $row6['RESOLUTOR'];
+    $tot = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE ID_RESOLUTOR=15";
-    $result6 = $datos_base->query($sql6);
-    $row6 = $result6->fetch_assoc();
-    $tot = $row6['TOTAL'];
-    /* RODRIGO */
-
-
-    /* CLAUDIA */
-    $sql6 = "SELECT RESOLUTOR FROM resolutor WHERE ID_RESOLUTOR = 2";
+    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 1, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $res1 = $row6['RESOLUTOR'];
+    $tot1 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE ID_RESOLUTOR=2";
-    $result6 = $datos_base->query($sql6);
-    $row6 = $result6->fetch_assoc();
-    $tot1 = $row6['TOTAL'];
-    /* CLAUDIA */
-
-
-    /* GABRIEL */
-    $sql6 = "SELECT RESOLUTOR FROM resolutor WHERE ID_RESOLUTOR = 5";
+    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 2, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $res2 = $row6['RESOLUTOR'];
-    
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE ID_RESOLUTOR=5";
-    $result6 = $datos_base->query($sql6);
-    $row6 = $result6->fetch_assoc();
-    $tot2 = $row6['TOTAL'];
-    /* GABRIEL */
+    $tot2 = $row6['RecuentoFilas'];
 
-
-    /* PAMELA */
-    $sql6 = "SELECT RESOLUTOR FROM resolutor WHERE ID_RESOLUTOR = 13";
+    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 3, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $res3 = $row6['RESOLUTOR'];
-    
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE ID_RESOLUTOR=13";
-    $result6 = $datos_base->query($sql6);
-    $row6 = $result6->fetch_assoc();
-    $tot3 = $row6['TOTAL'];
-    /* PAMELA */
+    $tot3 = $row6['RecuentoFilas'];
 
-
-    /* EDUARDO */
-    $sql6 = "SELECT RESOLUTOR FROM resolutor WHERE ID_RESOLUTOR = 3";
+    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 4, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $res4 = $row6['RESOLUTOR'];
+    $tot4 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE ID_RESOLUTOR=3";
-    $result6 = $datos_base->query($sql6);
-    $row6 = $result6->fetch_assoc();
-    $tot4 = $row6['TOTAL'];
-    /* EDUARDO */
-
-
-    /* ENRIQUE */
-    $sql6 = "SELECT RESOLUTOR FROM resolutor WHERE ID_RESOLUTOR = 4";
+    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 5, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $res5 = $row6['RESOLUTOR'];
+    $tot5 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE ID_RESOLUTOR=4";
-    $result6 = $datos_base->query($sql6);
-    $row6 = $result6->fetch_assoc();
-    $tot5 = $row6['TOTAL'];
-    /* ENRIQUE */
-
-
-    /* GONZALO */
-    $sql6 = "SELECT RESOLUTOR FROM resolutor WHERE ID_RESOLUTOR = 6";
+    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 6, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $res6 = $row6['RESOLUTOR'];
+    $tot6 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE ID_RESOLUTOR=6";
-    $result6 = $datos_base->query($sql6);
-    $row6 = $result6->fetch_assoc();
-    $tot6 = $row6['TOTAL'];
-    /* GONZALO */
-
-
-    /* EUGE */
-    $sql6 = "SELECT RESOLUTOR FROM resolutor WHERE ID_RESOLUTOR = 10";
+    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 7, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $res7 = $row6['RESOLUTOR'];
+    $tot7 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE ID_RESOLUTOR=10";
-    $result6 = $datos_base->query($sql6);
-    $row6 = $result6->fetch_assoc();
-    $tot7 = $row6['TOTAL'];
-    /* EUGE */
-
-
-    /* YANINA */
-    $sql6 = "SELECT RESOLUTOR FROM resolutor WHERE ID_RESOLUTOR = 19";
+    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 8, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $res8 = $row6['RESOLUTOR'];
+    $tot8 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE ID_RESOLUTOR=19";
-    $result6 = $datos_base->query($sql6);
-    $row6 = $result6->fetch_assoc();
-    $tot8 = $row6['TOTAL'];
-    /* YANINA */
-
-
-
-    /* GASTON */
-    $sql6 = "SELECT RESOLUTOR FROM resolutor WHERE ID_RESOLUTOR = 21";
+    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 9, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $res9 = $row6['RESOLUTOR'];
-
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE ID_RESOLUTOR=21";
-    $result6 = $datos_base->query($sql6);
-    $row6 = $result6->fetch_assoc();
-    $tot9 = $row6['TOTAL'];
-    /* GASTON */
+    $tot9 = $row6['RecuentoFilas'];
     
     $sql6 = "SELECT count(*) as TOTAL FROM ticket";
     $result6 = $datos_base->query($sql6);
@@ -245,71 +196,39 @@ $row = $resultado->fetch_assoc();
 
 
 
+
+
 /* ESTADOS */
 
-    /* SUSPENDIDO */
-    $sql6 = "SELECT ESTADO FROM estado WHERE ID_ESTADO = 1";
+    $sql6 = "SELECT e.ESTADO, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO GROUP BY e.ESTADO HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 0, 1;";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $est1 = $row6['ESTADO'];
+    $etot1 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE ID_ESTADO = 1";
-    $result6 = $datos_base->query($sql6);
-    $row6 = $result6->fetch_assoc();
-    $etot1 = $row6['TOTAL'];
-    /* SUSPENDIDO */
-
-
-    /* SOLUCIONADO */
-    $sql6 = "SELECT ESTADO FROM estado WHERE ID_ESTADO = 2";
+    $sql6 = "SELECT e.ESTADO, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO GROUP BY e.ESTADO HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 1, 1;";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $est2 = $row6['ESTADO'];
+    $etot2 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE ID_ESTADO = 2";
-    $result6 = $datos_base->query($sql6);
-    $row6 = $result6->fetch_assoc();
-    $etot2 = $row6['TOTAL'];
-    /* SOLUCIONADO */
-
-
-    /* DERIVADO */
-    $sql6 = "SELECT ESTADO FROM estado WHERE ID_ESTADO = 3";
+    $sql6 = "SELECT e.ESTADO, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO GROUP BY e.ESTADO HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 2, 1;";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $est3 = $row6['ESTADO'];
+    $etot3 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE ID_ESTADO = 3";
-    $result6 = $datos_base->query($sql6);
-    $row6 = $result6->fetch_assoc();
-    $etot3 = $row6['TOTAL'];
-    /* DERIVADO */
-
-
-    /* EN PROCESO */
-    $sql6 = "SELECT ESTADO FROM estado WHERE ID_ESTADO = 4";
+    $sql6 = "SELECT e.ESTADO, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO GROUP BY e.ESTADO HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 3, 1;";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $est4 = $row6['ESTADO'];
+    $etot4 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE ID_ESTADO = 4";
-    $result6 = $datos_base->query($sql6);
-    $row6 = $result6->fetch_assoc();
-    $etot4 = $row6['TOTAL'];
-    /* EN PROCESO */
-
-
-    /* ANULADO */
-    $sql6 = "SELECT ESTADO FROM estado WHERE ID_ESTADO = 5";
+    $sql6 = "SELECT e.ESTADO, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO GROUP BY e.ESTADO HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 4, 1;";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $est5 = $row6['ESTADO'];
-
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE ID_ESTADO = 5";
-    $result6 = $datos_base->query($sql6);
-    $row6 = $result6->fetch_assoc();
-    $etot5 = $row6['TOTAL'];
-    /* ANULADO */
+    $etot5 = $row6['RecuentoFilas'];
 
     $sql6 = "SELECT count(*) as TOTAL FROM ticket";
     $result6 = $datos_base->query($sql6);
@@ -327,20 +246,258 @@ $row = $resultado->fetch_assoc();
 
 
 
-    /* TIPIFICACIONES */
-    $sql6 = "SELECT ESTADO FROM estado WHERE ID_ESTADO = 5";
+
+
+
+/* TIPIFICACIONES */
+
+    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 0, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
-    $est5 = $row6['ESTADO'];
+    $tip1 = $row6['TIPIFICACION'];
+    $ttip1 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE ID_ESTADO = 5";
+    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 1, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
-    $etot5 = $row6['TOTAL'];
+    $tip2 = $row6['TIPIFICACION'];
+    $ttip2 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 2, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $tip3 = $row6['TIPIFICACION'];
+    $ttip3 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 3, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $tip4 = $row6['TIPIFICACION'];
+    $ttip4 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 4, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $tip5 = $row6['TIPIFICACION'];
+    $ttip5 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 5, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $tip6 = $row6['TIPIFICACION'];
+    $ttip6 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 6, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $tip7 = $row6['TIPIFICACION'];
+    $ttip7 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 7, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $tip8 = $row6['TIPIFICACION'];
+    $ttip8 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 8, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $tip9 = $row6['TIPIFICACION'];
+    $ttip9 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 9, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $tip10 = $row6['TIPIFICACION'];
+    $ttip10 = $row6['RecuentoFilas'];
 
 
-   /*  SELECT ID_SO from so ORDER BY SIST_OP desc limit 3;
-    SELECT ID_SO from so ORDER BY SIST_OP desc limit 3, 1; */
+    $sql6 = "SELECT count(*) as TOTAL FROM ticket";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $ttotal = $row6['TOTAL'];
+
+    $tprom1 = round(($ttip1 * 100)/$ttotal,2);
+    $tprom2 = round(($ttip2 * 100)/$ttotal,2);
+    $tprom3 = round(($ttip3 * 100)/$ttotal,2);
+    $tprom4 = round(($ttip4 * 100)/$ttotal,2);
+    $tprom5 = round(($ttip5 * 100)/$ttotal,2);
+    $tprom6 = round(($ttip6 * 100)/$ttotal,2);
+    $tprom7 = round(($ttip7 * 100)/$ttotal,2);
+    $tprom8 = round(($ttip8 * 100)/$ttotal,2);
+    $tprom9 = round(($ttip9 * 100)/$ttotal,2);
+    $tprom10 = round(($ttip10 * 100)/$ttotal,2);
+
+
+
+
+
+
+
+
+
+/* AREAS*/
+
+    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 0, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $are1 = $row6['AREA'];
+    $tare1 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 1, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $are2 = $row6['AREA'];
+    $tare2 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 2, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $are3 = $row6['AREA'];
+    $tare3 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 3, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $are4 = $row6['AREA'];
+    $tare4 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 4, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $are5 = $row6['AREA'];
+    $tare5 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 5, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $are6 = $row6['AREA'];
+    $tare6 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 6, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $are7 = $row6['AREA'];
+    $tare7 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 7, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $are8 = $row6['AREA'];
+    $tare8 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 8, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $are9 = $row6['AREA'];
+    $tare9 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 9, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $are10 = $row6['AREA'];
+    $tare10 = $row6['RecuentoFilas'];
+
+
+    $sql6 = "SELECT count(*) as TOTAL FROM ticket";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $atotal = $row6['TOTAL'];
+
+    $aprom1 = round(($tare1 * 100)/$atotal,2);
+    $aprom2 = round(($tare2 * 100)/$atotal,2);
+    $aprom3 = round(($tare3 * 100)/$atotal,2);
+    $aprom4 = round(($tare4 * 100)/$atotal,2);
+    $aprom5 = round(($tare5 * 100)/$atotal,2);
+    $aprom6 = round(($tare6 * 100)/$atotal,2);
+    $aprom7 = round(($tare7 * 100)/$atotal,2);
+    $aprom8 = round(($tare8 * 100)/$atotal,2);
+    $aprom9 = round(($tare9 * 100)/$atotal,2);
+    $aprom10 = round(($tare10 * 100)/$atotal,2);
+
+
+
+
+
+/* USUARIOS */
+
+    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 0, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $usu1 = $row6['NOMBRE'];
+    $tusu1 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 1, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $usu2 = $row6['NOMBRE'];
+    $tusu2 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 2, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $usu3 = $row6['NOMBRE'];
+    $tusu3 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 3, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $usu4 = $row6['NOMBRE'];
+    $tusu4 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 4, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $usu5 = $row6['NOMBRE'];
+    $tusu5 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 5, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $usu6 = $row6['NOMBRE'];
+    $tusu6 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 6, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $usu7 = $row6['NOMBRE'];
+    $tusu7 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 7, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $usu8 = $row6['NOMBRE'];
+    $tusu8 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 8, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $usu9 = $row6['NOMBRE'];
+    $tusu9 = $row6['RecuentoFilas'];
+
+    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 9, 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $usu10 = $row6['NOMBRE'];
+    $tusu10 = $row6['RecuentoFilas'];
+
+
+    $sql6 = "SELECT count(*) as TOTAL FROM ticket";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $utotal = $row6['TOTAL'];
+
+    $uprom1 = round(($tusu1 * 100)/$utotal,2);
+    $uprom2 = round(($tusu2 * 100)/$utotal,2);
+    $uprom3 = round(($tusu3 * 100)/$utotal,2);
+    $uprom4 = round(($tusu4 * 100)/$utotal,2);
+    $uprom5 = round(($tusu5 * 100)/$utotal,2);
+    $uprom6 = round(($tusu6 * 100)/$utotal,2);
+    $uprom7 = round(($tusu7 * 100)/$utotal,2);
+    $uprom8 = round(($tusu8 * 100)/$utotal,2);
+    $uprom9 = round(($tusu9 * 100)/$utotal,2);
+    $uprom10 = round(($tusu10 * 100)/$utotal,2);
+
     ?>
     <footer>
 		<div class="footer">
@@ -365,21 +522,21 @@ $row = $resultado->fetch_assoc();
         type: "doughnut",
         data:{
             labels:[
-            "<?php echo "$res: CANTIDAD: $tot   ||   PORCENTAJE: $prom%";?>", 
-            "<?php echo "$res1: CANTIDAD: $tot1   ||   PORCENTAJE: $prom1%";?>", 
-            "<?php echo "$res2: CANTIDAD: $tot2   ||   PORCENTAJE: $prom2%";?>", 
-            "<?php echo "$res3: CANTIDAD: $tot3   ||   PORCENTAJE: $prom3%";?>",
-            "<?php echo "$res4: CANTIDAD: $tot4   ||   PORCENTAJE: $prom4%";?>", 
-            "<?php echo "$res5: CANTIDAD: $tot5   ||   PORCENTAJE: $prom5%";?>", 
-            "<?php echo "$res6: CANTIDAD: $tot6   ||   PORCENTAJE: $prom6%";?>",
-            "<?php echo "$res7: CANTIDAD: $tot7   ||   PORCENTAJE: $prom7%";?>", 
-            "<?php echo "$res8: CANTIDAD: $tot8   ||   PORCENTAJE: $prom8%";?>",
-            "<?php echo "$res9: CANTIDAD: $tot9   ||   PORCENTAJE: $prom9%";?>",],
+            "<?php echo "1- $res: CANTIDAD: $tot   ||   PORCENTAJE: $prom%";?>", 
+            "<?php echo "2- $res1: CANTIDAD: $tot1   ||   PORCENTAJE: $prom1%";?>", 
+            "<?php echo "3- $res2: CANTIDAD: $tot2   ||   PORCENTAJE: $prom2%";?>", 
+            "<?php echo "4- $res3: CANTIDAD: $tot3   ||   PORCENTAJE: $prom3%";?>",
+            "<?php echo "5- $res4: CANTIDAD: $tot4   ||   PORCENTAJE: $prom4%";?>", 
+            "<?php echo "6- $res5: CANTIDAD: $tot5   ||   PORCENTAJE: $prom5%";?>", 
+            "<?php echo "7- $res6: CANTIDAD: $tot6   ||   PORCENTAJE: $prom6%";?>",
+            "<?php echo "8- $res7: CANTIDAD: $tot7   ||   PORCENTAJE: $prom7%";?>", 
+            "<?php echo "9- $res8: CANTIDAD: $tot8   ||   PORCENTAJE: $prom8%";?>",
+            "<?php echo "10- $res9: CANTIDAD: $tot9   ||   PORCENTAJE: $prom9%";?>",],
 
             datasets:[{
                 label: "INCIDENTES POR RESOLUTOR",
                 backgroundColor: [
-                    "rgb(0,197,255)", 
+                    "rgb(0, 197, 255)", 
                     "rgb(255, 0, 0)",
                     "rgb(103, 1, 1)",
                     "rgb(255, 0, 189)", 
@@ -388,8 +545,8 @@ $row = $resultado->fetch_assoc();
                     "rgb(0, 97, 111)", 
                     "rgb(0, 255, 42)",
                     "rgb(0, 121, 20)",
-                    "rgb(232, 255, 0)"],
-                borderColor: "rgb(0, 54, 255 )",
+                    "rgb(248, 255, 21)",],
+                borderColor: "black",
                 data:[
                     <?php echo $tot;?>, 
                     <?php echo $tot1 ;?>, 
@@ -406,21 +563,26 @@ $row = $resultado->fetch_assoc();
     })
     </script>
 
-     <script>
-    let miCanvas2=document.getElementById("MiGrafica2").getContext("2d");
+<script>
+    let miCanvas4=document.getElementById("MiGrafica4").getContext("2d");
 
-    var chart = new Chart(miCanvas2,{
+    var chart = new Chart(miCanvas4,{
         type: "doughnut",
         data:{
             labels:[
-            "<?php echo "$est1: CANTIDAD: $etot1   ||   PORCENTAJE: $eprom1%";?>", 
-            "<?php echo "$est2: CANTIDAD: $etot2   ||   PORCENTAJE: $eprom2%";?>", 
-            "<?php echo "$est3: CANTIDAD: $etot3   ||   PORCENTAJE: $eprom3%";?>", 
-            "<?php echo "$est4: CANTIDAD: $etot4   ||   PORCENTAJE: $eprom4%";?>",
-            "<?php echo "$est5: CANTIDAD: $etot5   ||   PORCENTAJE: $eprom5%";?>",],
+            "<?php echo "1- $usu1: CANTIDAD: $tusu1   ||   PORCENTAJE: $uprom1%";?>", 
+            "<?php echo "2- $usu2: CANTIDAD: $tusu2   ||   PORCENTAJE: $uprom2%";?>", 
+            "<?php echo "3- $usu3: CANTIDAD: $tusu3   ||   PORCENTAJE: $uprom3%";?>", 
+            "<?php echo "4- $usu4: CANTIDAD: $tusu4   ||   PORCENTAJE: $uprom4%";?>",
+            "<?php echo "5- $usu5: CANTIDAD: $tusu5   ||   PORCENTAJE: $uprom5%";?>", 
+            "<?php echo "6- $usu6: CANTIDAD: $tusu6   ||   PORCENTAJE: $uprom6%";?>", 
+            "<?php echo "7- $usu7: CANTIDAD: $tusu7   ||   PORCENTAJE: $uprom7%";?>", 
+            "<?php echo "8- $usu8: CANTIDAD: $tusu8   ||   PORCENTAJE: $uprom8%";?>",
+            "<?php echo "9- $usu9: CANTIDAD: $tusu9   ||   PORCENTAJE: $uprom9%";?>",
+            "<?php echo "10- $usu10: CANTIDAD: $tusu10   ||   PORCENTAJE: $uprom10%";?>",],
 
             datasets:[{
-                label: "INCIDENTES POR RESOLUTOR",
+                label: "INCIDENTES POR ESTADO",
                 backgroundColor: [
                     "rgb(0,197,255)", 
                     "rgb(255, 0, 0)",
@@ -432,11 +594,145 @@ $row = $resultado->fetch_assoc();
                     "rgb(0, 255, 42)",
                     "rgb(0, 121, 20)",
                     "rgb(232, 255, 0)"],
-                borderColor: "rgb(0, 54, 255 )",
+                borderColor: "black",
                 data:[
-                    <?php echo $etot1;?>, 
-                    <?php echo $etot2 ;?>, 
-                    <?php echo $etot3 ;?>, 
+                    <?php echo $tusu1;?>, 
+                    <?php echo $tusu2 ;?>, 
+                    <?php echo $tusu3 ;?>, 
+                    <?php echo $tusu4 ;?>,
+                    <?php echo $tusu5;?>, 
+                    <?php echo $tusu6 ;?>, 
+                    <?php echo $tusu7 ;?>, 
+                    <?php echo $tusu8 ;?>,
+                    <?php echo $tusu9 ;?>,
+                    <?php echo $tusu10 ;?>]
+            }]
+        }
+    })
+    </script>
+
+<script>
+    let miCanvas2=document.getElementById("MiGrafica2").getContext("2d");
+
+    var chart = new Chart(miCanvas2,{
+        type: "doughnut",
+        data:{
+            labels:[
+            "<?php echo "1- $tip1: CANTIDAD: $ttip1   ||   PORCENTAJE: $tprom1%";?>", 
+            "<?php echo "2- $tip2: CANTIDAD: $ttip2   ||   PORCENTAJE: $tprom2%";?>", 
+            "<?php echo "3- $tip3: CANTIDAD: $ttip3   ||   PORCENTAJE: $tprom3%";?>", 
+            "<?php echo "4- $tip4: CANTIDAD: $ttip4   ||   PORCENTAJE: $tprom4%";?>",
+            "<?php echo "5- $tip5: CANTIDAD: $ttip5   ||   PORCENTAJE: $tprom5%";?>", 
+            "<?php echo "6- $tip6: CANTIDAD: $ttip6   ||   PORCENTAJE: $tprom6%";?>", 
+            "<?php echo "7- $tip7: CANTIDAD: $ttip7   ||   PORCENTAJE: $tprom7%";?>", 
+            "<?php echo "8- $tip8: CANTIDAD: $ttip8   ||   PORCENTAJE: $tprom8%";?>",
+            "<?php echo "9- $tip9: CANTIDAD: $ttip9   ||   PORCENTAJE: $tprom9%";?>",
+            "<?php echo "10- $tip10: CANTIDAD: $ttip10   ||   PORCENTAJE: $tprom10%";?>",],
+
+            datasets:[{
+                label: "INCIDENTES POR TIPIFICACIÓN",
+                backgroundColor: [
+                    "rgb(0,197,255)", 
+                    "rgb(255, 0, 0)",
+                    "rgb(103, 1, 1)",
+                    "rgb(255, 0, 189)", 
+                    "rgb(96, 2, 121)",
+                    "rgb(0, 224, 255)",
+                    "rgb(0, 97, 111)", 
+                    "rgb(0, 255, 42)",
+                    "rgb(0, 121, 20)",
+                    "rgb(232, 255, 0)"],
+                borderColor: "black",
+                data:[
+                    <?php echo $ttip1;?>, 
+                    <?php echo $ttip2 ;?>, 
+                    <?php echo $ttip3 ;?>, 
+                    <?php echo $ttip4 ;?>,
+                    <?php echo $ttip5;?>, 
+                    <?php echo $ttip6 ;?>, 
+                    <?php echo $ttip7 ;?>, 
+                    <?php echo $ttip8 ;?>,
+                    <?php echo $ttip9 ;?>,
+                    <?php echo $ttip10 ;?>]
+            }]
+        }
+    })
+    </script>
+
+<script>
+    let miCanvas3=document.getElementById("MiGrafica3").getContext("2d");
+
+    var chart = new Chart(miCanvas3,{
+        type: "doughnut",
+        data:{
+            labels:[
+            "<?php echo "1- $are1: CANTIDAD: $tare1   ||   PORCENTAJE: $aprom1%";?>", 
+            "<?php echo "2- $are2: CANTIDAD: $tare2   ||   PORCENTAJE: $aprom2%";?>", 
+            "<?php echo "3- $are3: CANTIDAD: $tare3   ||   PORCENTAJE: $aprom3%";?>", 
+            "<?php echo "4- $are4: CANTIDAD: $tare4   ||   PORCENTAJE: $aprom4%";?>",
+            "<?php echo "5- $are5: CANTIDAD: $tare5   ||   PORCENTAJE: $aprom5%";?>", 
+            "<?php echo "6- $are6: CANTIDAD: $tare6   ||   PORCENTAJE: $aprom6%";?>", 
+            "<?php echo "7- $are7: CANTIDAD: $tare7   ||   PORCENTAJE: $aprom7%";?>", 
+            "<?php echo "8- $are8: CANTIDAD: $tare8   ||   PORCENTAJE: $aprom8%";?>",
+            "<?php echo "9- $are9: CANTIDAD: $tare9   ||   PORCENTAJE: $aprom9%";?>",
+            "<?php echo "10- $are10: CANTIDAD: $tare10   ||   PORCENTAJE: $aprom10%";?>",],
+
+            datasets:[{
+                label: "INCIDENTES POR ÁREA",
+                backgroundColor: [
+                    "rgb(0,197,255)", 
+                    "rgb(255, 0, 0)",
+                    "rgb(103, 1, 1)",
+                    "rgb(255, 0, 189)", 
+                    "rgb(96, 2, 121)",
+                    "rgb(0, 224, 255)",
+                    "rgb(0, 97, 111)", 
+                    "rgb(0, 255, 42)",
+                    "rgb(0, 121, 20)",
+                    "rgb(232, 255, 0)"],
+                borderColor: "black",
+                data:[
+                    <?php echo $tare1;?>, 
+                    <?php echo $tare2 ;?>, 
+                    <?php echo $tare3 ;?>, 
+                    <?php echo $tare4 ;?>,
+                    <?php echo $tare5;?>, 
+                    <?php echo $tare6 ;?>, 
+                    <?php echo $tare7 ;?>, 
+                    <?php echo $tare8 ;?>,
+                    <?php echo $tare9 ;?>,
+                    <?php echo $tare10 ;?>]
+            }]
+        }
+    })
+    </script>
+
+<script>
+    let miCanvas1=document.getElementById("MiGrafica1").getContext("2d");
+
+    var chart = new Chart(miCanvas1,{
+        type: "doughnut",
+        data:{
+            labels:[
+            "<?php echo "1- $est1: CANTIDAD: $etot1   ||   PORCENTAJE: $eprom1%";?>", 
+            "<?php echo "2- $est2: CANTIDAD: $etot2   ||   PORCENTAJE: $eprom2%";?>", 
+            "<?php echo "3- $est3: CANTIDAD: $etot3   ||   PORCENTAJE: $eprom3%";?>", 
+            "<?php echo "4- $est4: CANTIDAD: $etot4   ||   PORCENTAJE: $eprom4%";?>",
+            "<?php echo "5- $est5: CANTIDAD: $etot5   ||   PORCENTAJE: $eprom5%";?>",],
+
+            datasets:[{
+                label: "INCIDENTES POR USUARIO",
+                backgroundColor:[
+                    "rgb(0,197,255)", 
+                    "rgb(255, 0, 0)",
+                    "rgb(103, 1, 1)",
+                    "rgb(255, 0, 189)", 
+                    "rgb(96, 2, 121)",],
+                borderColor: "black",
+                data:[
+                    <?php echo $etot1;?>,
+                    <?php echo $etot2 ;?>,
+                    <?php echo $etot3 ;?>,
                     <?php echo $etot4 ;?>,
                     <?php echo $etot5 ;?>]
             }]

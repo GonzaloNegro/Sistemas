@@ -302,3 +302,34 @@ footer{
     margin-left: 20px;
     margin-bottom: 20px;
 }
+
+.contenedor1{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.grafico1{
+  border-radius: 10px;
+  border: 1px solid #000000;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+.informacion1{
+  border-radius: 10px;
+  border: 1px solid #000000;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+.contenedor2{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.grafico2{
+  border-radius: 10px;
+  border: 1px solid #000000;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}

@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg
+PUBLIC "-//W3C//DTD SVG 1.1//EN"
+       "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg viewBox="121 131 2311 1430" width="2190px" height="1299px" xmlns="http://www.w3.org/2000/svg" version="1.1">
+   <rect width="128" height="20" x="976" y="651" style="fill:#007;stroke:black;"/>
+   <text width="128" height="20" x="981" y="665" style="fill:#fff;" font-family="Arial" font-size="16px"> area</text>
+   <rect width="128" height="20" x="976" y="671" style="fill:#aea;stroke:black;"/>
+   <text width="128" height="20" x="981" y="685" style="fill:black;" font-family="Arial" font-size="16px">ID_AREA</text>
+   <rect width="128" height="20" x="976" y="691" style="fill:none;stroke:black;"/>
+   <text width="128" height="20" x="981" y="705" style="fill:black;" font-family="Arial" font-size="16px">AREA</text>
+   <rect width="128" height="20" x="976" y="711" style="fill:none;stroke:black;"/>
+   <text width="128" height="20" x="981" y="725" style="fill:black;" font-family="Arial" font-size="16px">ID_REPA</text>
+   <rect width="128" height="20" x="976" y="731" style="fill:none;stroke:black;"/>
+   <text width="128" height="20" x="981" y="745" style="fill:black;" font-family="Arial" font-size="16px">ACTIVO</text>
+   <rect width="128" height="20" x="976" y="751" style="fill:none;stroke:black;"/>
+   <text width="128" height="20" x="981" y="765" style="fill:black;" font-family="Arial" font-size="16px">OBSERVACION</text>
+   <rect width="133" height="20" x="263" y="984" style="fill:#007;stroke:black;"/>
+   <text width="133" height="20" x="268" y="998" style="fill:#fff;" font-family="Arial" font-size="16px"> camara</text>
+   <rect width="133" height="20" x="263" y="1004" style="fill:#aea;stroke:black;"/>
+   <text width="133" height="20" x="268" y="1018" style="fill:black;" font-family="Arial" font-size="16px">ID_CAMARA</text>
+   <rect width="133" height="20" x="263" y="1024" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="268" y="1038" style="fill:black;" font-family="Arial" font-size="16px">ID_MARCA</text>
+   <rect width="133" height="20" x="263" y="1044" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="268" y="1058" style="fill:black;" font-family="Arial" font-size="16px">MODELO</text>
+   <rect width="133" height="20" x="263" y="1064" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="268" y="1078" style="fill:black;" font-family="Arial" font-size="16px">SERIE</text>
+   <rect width="133" height="20" x="263" y="1084" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="268" y="1098" style="fill:black;" font-family="Arial" font-size="16px">UBICACION</text>
+   <rect width="133" height="20" x="263" y="1104" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="268" y="1118" style="fill:black;" font-family="Arial" font-size="16px">ID_DVR</text>
+   <rect width="133" height="20" x="263" y="1124" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="268" y="1138" style="fill:black;" font-family="Arial" font-size="16px">ID_PROVEEDOR</text>
+   <rect width="133" height="20" x="263" y="1144" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="268" y="1158" style="fill:black;" font-family="Arial" font-size="16px">FACTURA</text>
+   <rect width="133" height="20" x="263" y="1164" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="268" y="1178" style="fill:black;" font-family="Arial" font-size="16px">FECHA</text>
+   <rect width="133" height="20" x="263" y="1184" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="268" y="1198" style="fill:black;" font-family="Arial" font-size="16px">GARANTIA</text>
+   <rect width="133" height="20" x="999" y="1019" style="fill:#007;stroke:black;"/>
+   <text width="133" height="20" x="1004" y="1033" style="fill:#fff;" font-family="Arial" font-size="16px"> celulares</text>
+   <rect width="133" height="20" x="999" y="1039" style="fill:#aea;stroke:black;"/>
+   <text width="133" height="20" x="1004" y="1053" style="fill:black;" font-family="Arial" font-size="16px">ID_CELULAR</text>
+   <rect width="133" height="20" x="999" y="1059" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1004" y="1073" style="fill:black;" font-family="Arial" font-size="16px">DESCRIPCION</text>
+   <rect width="133" height="20" x="999" y="1079" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1004" y="1093" style="fill:black;" font-family="Arial" font-size="16px">MODELO</text>
+   <rect width="133" height="20" x="999" y="1099" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1004" y="1113" style="fill:black;" font-family="Arial" font-size="16px">IMEI</text>
+   <rect width="133" height="20" x="999" y="1119" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1004" y="1133" style="fill:black;" font-family="Arial" font-size="16px">NRO_TEL</text>
+   <rect width="133" height="20" x="999" y="1139" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1004" y="1153" style="fill:black;" font-family="Arial" font-size="16px">ID_MARCA</text>
+   <rect width="133" height="20" x="999" y="1159" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1004" y="1173" style="fill:black;" font-family="Arial" font-size="16px">ID_USUARIO</text>
+   <rect width="133" height="20" x="999" y="1179" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1004" y="1193" style="fill:black;" font-family="Arial" font-size="16px">ID_ESTADO</text>
+   <rect width="133" height="20" x="999" y="1199" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1004" y="1213" style="fill:black;" font-family="Arial" font-size="16px">ID_PROVEEDOR</text>
+   <rect width="133" height="20" x="999" y="1219" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1004" y="1233" style="fill:black;" font-family="Arial" font-size="16px">FACTURA</text>
+   <rect width="133" height="20" x="999" y="1239" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1004" y="1253" style="fill:black;" font-family="Arial" font-size="16px">FECHA</text>
+   <rect width="81" height="20" x="1823" y="213" style="fill:#007;stroke:black;"/>
+   <text width="81" height="20" x="1828" y="227" style="fill:#fff;" font-family="Arial" font-size="16px"> disco</text>
+   <rect width="81" height="20" x="1823" y="233" style="fill:#aea;stroke:black;"/>
+   <text width="81" height="20" x="1828" y="247" style="fill:black;" font-family="Arial" font-size="16px">ID_DISCO</text>
+   <rect width="81" height="20" x="1823" y="253" style="fill:none;stroke:black;"/>
+   <text width="81" height="20" x="1828" y="267" style="fill:black;" font-family="Arial" font-size="16px">DISCO</text>
+   <rect width="133" height="20" x="1944" y="1142" style="fill:#007;stroke:black;"/>
+   <text width="133" height="20" x="1949" y="1156" style="fill:#fff;" font-family="Arial" font-size="16px"> discows</text>
+   <rect width="133" height="20" x="1944" y="1162" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1949" y="1176" style="fill:black;" font-family="Arial" font-size="16px">ID_WS</text>
+   <rect width="133" height="20" x="1944" y="1182" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1949" y="1196" style="fill:black;" font-family="Arial" font-size="16px">ID_DISCO</text>
+   <rect width="133" height="20" x="1944" y="1202" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1949" y="1216" style="fill:black;" font-family="Arial" font-size="16px">ID_PROVEEDOR</text>
+   <rect width="133" height="20" x="1944" y="1222" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1949" y="1236" style="fill:black;" font-family="Arial" font-size="16px">FACTURA</text>
+   <rect width="133" height="20" x="1944" y="1242" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1949" y="1256" style="fill:black;" font-family="Arial" font-size="16px">FECHA</text>
+   <rect width="133" height="20" x="1944" y="1262" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1949" y="1276" style="fill:black;" font-family="Arial" font-size="16px">ID_MARCA</text>
+   <rect width="133" height="20" x="1944" y="1282" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1949" y="1296" style="fill:black;" font-family="Arial" font-size="16px">GARANTIA</text>
+   <rect width="133" height="20" x="1944" y="1302" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1949" y="1316" style="fill:black;" font-family="Arial" font-size="16px">ID_TIPOD</text>
+   <rect width="133" height="20" x="1944" y="1322" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1949" y="1336" style="fill:black;" font-family="Arial" font-size="16px">NUMERO</text>
+   <rect width="89" height="20" x="1006" y="1315" style="fill:#007;stroke:black;"/>
+   <text width="89" height="20" x="1011" y="1329" style="fill:#fff;" font-family="Arial" font-size="16px"> dvr</text>
+   <rect width="89" height="20" x="1006" y="1335" style="fill:#aea;stroke:black;"/>
+   <text width="89" height="20" x="1011" y="1349" style="fill:black;" font-family="Arial" font-size="16px">ID_DVR</text>
+   <rect width="89" height="20" x="1006" y="1355" style="fill:none;stroke:black;"/>
+   <text width="89" height="20" x="1011" y="1369" style="fill:black;" font-family="Arial" font-size="16px">DVR</text>
+   <rect width="89" height="20" x="1006" y="1375" style="fill:none;stroke:black;"/>
+   <text width="89" height="20" x="1011" y="1389" style="fill:black;" font-family="Arial" font-size="16px">ID_MARCA</text>
+   <rect width="89" height="20" x="1006" y="1395" style="fill:none;stroke:black;"/>
+   <text width="89" height="20" x="1011" y="1409" style="fill:black;" font-family="Arial" font-size="16px">ID_AREA</text>
+   <rect width="97" height="20" x="371" y="334" style="fill:#007;stroke:black;"/>
+   <text width="97" height="20" x="376" y="348" style="fill:#fff;" font-family="Arial" font-size="16px"> estado</text>
+   <rect width="97" height="20" x="371" y="354" style="fill:#aea;stroke:black;"/>
+   <text width="97" height="20" x="376" y="368" style="fill:black;" font-family="Arial" font-size="16px">ID_ESTADO</text>
+   <rect width="97" height="20" x="371" y="374" style="fill:none;stroke:black;"/>
+   <text width="97" height="20" x="376" y="388" style="fill:black;" font-family="Arial" font-size="16px">ESTADO</text>
+   <rect width="122" height="20" x="1284" y="1062" style="fill:#007;stroke:black;"/>
+   <text width="122" height="20" x="1289" y="1076" style="fill:#fff;" font-family="Arial" font-size="16px"> estado_ws</text>
+   <rect width="122" height="20" x="1284" y="1082" style="fill:#aea;stroke:black;"/>
+   <text width="122" height="20" x="1289" y="1096" style="fill:black;" font-family="Arial" font-size="16px">ID_ESTADOWS</text>
+   <rect width="122" height="20" x="1284" y="1102" style="fill:none;stroke:black;"/>
+   <text width="122" height="20" x="1289" y="1116" style="fill:black;" font-family="Arial" font-size="16px">ESTADO</text>
+   <rect width="131" height="20" x="136" y="203" style="fill:#007;stroke:black;"/>
+   <text width="131" height="20" x="141" y="217" style="fill:#fff;" font-family="Arial" font-size="16px"> fecha</text>
+   <rect width="131" height="20" x="136" y="223" style="fill:#aea;stroke:black;"/>
+   <text width="131" height="20" x="141" y="237" style="fill:black;" font-family="Arial" font-size="16px">ID_FECHA</text>
+   <rect width="131" height="20" x="136" y="243" style="fill:none;stroke:black;"/>
+   <text width="131" height="20" x="141" y="257" style="fill:black;" font-family="Arial" font-size="16px">ID_ESTADO</text>
+   <rect width="131" height="20" x="136" y="263" style="fill:none;stroke:black;"/>
+   <text width="131" height="20" x="141" y="277" style="fill:black;" font-family="Arial" font-size="16px">MOTIVO</text>
+   <rect width="131" height="20" x="136" y="283" style="fill:none;stroke:black;"/>
+   <text width="131" height="20" x="141" y="297" style="fill:black;" font-family="Arial" font-size="16px">FECHA_HORA</text>
+   <rect width="131" height="20" x="136" y="303" style="fill:none;stroke:black;"/>
+   <text width="131" height="20" x="141" y="317" style="fill:black;" font-family="Arial" font-size="16px">ID_RESOLUTOR</text>
+   <rect width="131" height="20" x="136" y="323" style="fill:none;stroke:black;"/>
+   <text width="131" height="20" x="141" y="337" style="fill:black;" font-family="Arial" font-size="16px">HORA</text>
+   <rect width="142" height="20" x="381" y="146" style="fill:#007;stroke:black;"/>
+   <text width="142" height="20" x="386" y="160" style="fill:#fff;" font-family="Arial" font-size="16px"> fecha_ticket</text>
+   <rect width="142" height="20" x="381" y="166" style="fill:#aea;stroke:black;"/>
+   <text width="142" height="20" x="386" y="180" style="fill:black;" font-family="Arial" font-size="16px">ID_FECHATICKET</text>
+   <rect width="142" height="20" x="381" y="186" style="fill:none;stroke:black;"/>
+   <text width="142" height="20" x="386" y="200" style="fill:black;" font-family="Arial" font-size="16px">ID_TICKET</text>
+   <rect width="142" height="20" x="381" y="206" style="fill:none;stroke:black;"/>
+   <text width="142" height="20" x="386" y="220" style="fill:black;" font-family="Arial" font-size="16px">ID_FECHA</text>
+   <rect width="137" height="20" x="1260" y="361" style="fill:#007;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="375" style="fill:#fff;" font-family="Arial" font-size="16px"> inventario</text>
+   <rect width="137" height="20" x="1260" y="381" style="fill:#aea;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="395" style="fill:black;" font-family="Arial" font-size="16px">ID_WS</text>
+   <rect width="137" height="20" x="1260" y="401" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="415" style="fill:black;" font-family="Arial" font-size="16px">ID_AREA</text>
+   <rect width="137" height="20" x="1260" y="421" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="435" style="fill:black;" font-family="Arial" font-size="16px">SERIALN</text>
+   <rect width="137" height="20" x="1260" y="441" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="455" style="fill:black;" font-family="Arial" font-size="16px">SERIEG</text>
+   <rect width="137" height="20" x="1260" y="461" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="475" style="fill:black;" font-family="Arial" font-size="16px">ID_MARCA</text>
+   <rect width="137" height="20" x="1260" y="481" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="495" style="fill:black;" font-family="Arial" font-size="16px">MOTHERBOARD</text>
+   <rect width="137" height="20" x="1260" y="501" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="515" style="fill:black;" font-family="Arial" font-size="16px">ID_SO</text>
+   <rect width="137" height="20" x="1260" y="521" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="535" style="fill:black;" font-family="Arial" font-size="16px">MICRO</text>
+   <rect width="137" height="20" x="1260" y="541" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="555" style="fill:black;" font-family="Arial" font-size="16px">ID_ESTADOWS</text>
+   <rect width="137" height="20" x="1260" y="561" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="575" style="fill:black;" font-family="Arial" font-size="16px">OBSERVACION</text>
+   <rect width="137" height="20" x="1260" y="581" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="595" style="fill:black;" font-family="Arial" font-size="16px">ID_PROVEEDOR</text>
+   <rect width="137" height="20" x="1260" y="601" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="615" style="fill:black;" font-family="Arial" font-size="16px">FACTURA</text>
+   <rect width="137" height="20" x="1260" y="621" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="635" style="fill:black;" font-family="Arial" font-size="16px">MASTERIZADA</text>
+   <rect width="137" height="20" x="1260" y="641" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="655" style="fill:black;" font-family="Arial" font-size="16px">MAC</text>
+   <rect width="137" height="20" x="1260" y="661" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="675" style="fill:black;" font-family="Arial" font-size="16px">RIP</text>
+   <rect width="137" height="20" x="1260" y="681" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="695" style="fill:black;" font-family="Arial" font-size="16px">IP</text>
+   <rect width="137" height="20" x="1260" y="701" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="715" style="fill:black;" font-family="Arial" font-size="16px">ID_RED</text>
+   <rect width="137" height="20" x="1260" y="721" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="735" style="fill:black;" font-family="Arial" font-size="16px">ID_TIPOWS</text>
+   <rect width="137" height="20" x="1260" y="741" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="755" style="fill:black;" font-family="Arial" font-size="16px">ID_USUARIO</text>
+   <rect width="137" height="20" x="1260" y="761" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="775" style="fill:black;" font-family="Arial" font-size="16px">GARANTIA</text>
+   <rect width="137" height="20" x="1260" y="781" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="795" style="fill:black;" font-family="Arial" font-size="16px">ID_MICRO</text>
+   <rect width="137" height="20" x="1260" y="801" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="1265" y="815" style="fill:black;" font-family="Arial" font-size="16px">ID_PLACAM</text>
+   <rect width="89" height="20" x="2137" y="820" style="fill:#007;stroke:black;"/>
+   <text width="89" height="20" x="2142" y="834" style="fill:#fff;" font-family="Arial" font-size="16px"> marcas</text>
+   <rect width="89" height="20" x="2137" y="840" style="fill:#aea;stroke:black;"/>
+   <text width="89" height="20" x="2142" y="854" style="fill:black;" font-family="Arial" font-size="16px">ID_MARCA</text>
+   <rect width="89" height="20" x="2137" y="860" style="fill:none;stroke:black;"/>
+   <text width="89" height="20" x="2142" y="874" style="fill:black;" font-family="Arial" font-size="16px">MARCA</text>
+   <rect width="122" height="20" x="1554" y="448" style="fill:#007;stroke:black;"/>
+   <text width="122" height="20" x="1559" y="462" style="fill:#fff;" font-family="Arial" font-size="16px"> mejoras</text>
+   <rect width="122" height="20" x="1554" y="468" style="fill:#aea;stroke:black;"/>
+   <text width="122" height="20" x="1559" y="482" style="fill:black;" font-family="Arial" font-size="16px">ID_MEJORA</text>
+   <rect width="122" height="20" x="1554" y="488" style="fill:none;stroke:black;"/>
+   <text width="122" height="20" x="1559" y="502" style="fill:black;" font-family="Arial" font-size="16px">FECHA</text>
+   <rect width="122" height="20" x="1554" y="508" style="fill:none;stroke:black;"/>
+   <text width="122" height="20" x="1559" y="522" style="fill:black;" font-family="Arial" font-size="16px">DESCRIPCION</text>
+   <rect width="122" height="20" x="1554" y="528" style="fill:none;stroke:black;"/>
+   <text width="122" height="20" x="1559" y="542" style="fill:black;" font-family="Arial" font-size="16px">ID_WS</text>
+   <rect width="107" height="20" x="1293" y="1177" style="fill:#007;stroke:black;"/>
+   <text width="107" height="20" x="1298" y="1191" style="fill:#fff;" font-family="Arial" font-size="16px"> memoria</text>
+   <rect width="107" height="20" x="1293" y="1197" style="fill:#aea;stroke:black;"/>
+   <text width="107" height="20" x="1298" y="1211" style="fill:black;" font-family="Arial" font-size="16px">ID_MEMORIA</text>
+   <rect width="107" height="20" x="1293" y="1217" style="fill:none;stroke:black;"/>
+   <text width="107" height="20" x="1298" y="1231" style="fill:black;" font-family="Arial" font-size="16px">MEMORIA</text>
+   <rect width="133" height="20" x="1581" y="738" style="fill:#007;stroke:black;"/>
+   <text width="133" height="20" x="1586" y="752" style="fill:#fff;" font-family="Arial" font-size="16px"> micro</text>
+   <rect width="133" height="20" x="1581" y="758" style="fill:#aea;stroke:black;"/>
+   <text width="133" height="20" x="1586" y="772" style="fill:black;" font-family="Arial" font-size="16px">ID_MICRO</text>
+   <rect width="133" height="20" x="1581" y="778" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1586" y="792" style="fill:black;" font-family="Arial" font-size="16px">MICRO</text>
+   <rect width="133" height="20" x="1581" y="798" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1586" y="812" style="fill:black;" font-family="Arial" font-size="16px">ID_MARCA</text>
+   <rect width="133" height="20" x="1581" y="818" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1586" y="832" style="fill:black;" font-family="Arial" font-size="16px">FACTURA</text>
+   <rect width="133" height="20" x="1581" y="838" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1586" y="852" style="fill:black;" font-family="Arial" font-size="16px">ID_PROVEEDOR</text>
+   <rect width="133" height="20" x="1581" y="858" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1586" y="872" style="fill:black;" font-family="Arial" font-size="16px">GARANTIA</text>
+   <rect width="133" height="20" x="1581" y="878" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1586" y="892" style="fill:black;" font-family="Arial" font-size="16px">FECHA</text>
+   <rect width="100" height="20" x="2173" y="1070" style="fill:#007;stroke:black;"/>
+   <text width="100" height="20" x="2178" y="1084" style="fill:#fff;" font-family="Arial" font-size="16px"> modelo</text>
+   <rect width="100" height="20" x="2173" y="1090" style="fill:#aea;stroke:black;"/>
+   <text width="100" height="20" x="2178" y="1104" style="fill:black;" font-family="Arial" font-size="16px">ID_MODELO</text>
+   <rect width="100" height="20" x="2173" y="1110" style="fill:none;stroke:black;"/>
+   <text width="100" height="20" x="2178" y="1124" style="fill:black;" font-family="Arial" font-size="16px">MODELO</text>
+   <rect width="100" height="20" x="2173" y="1130" style="fill:none;stroke:black;"/>
+   <text width="100" height="20" x="2178" y="1144" style="fill:black;" font-family="Arial" font-size="16px">ID_TIPOP</text>
+   <rect width="100" height="20" x="2173" y="1150" style="fill:none;stroke:black;"/>
+   <text width="100" height="20" x="2178" y="1164" style="fill:black;" font-family="Arial" font-size="16px">ID_MARCA</text>
+   <rect width="149" height="20" x="1919" y="469" style="fill:#007;stroke:black;"/>
+   <text width="149" height="20" x="1924" y="483" style="fill:#fff;" font-family="Arial" font-size="16px"> periferico</text>
+   <rect width="149" height="20" x="1919" y="489" style="fill:#aea;stroke:black;"/>
+   <text width="149" height="20" x="1924" y="503" style="fill:black;" font-family="Arial" font-size="16px">ID_PERI</text>
+   <rect width="149" height="20" x="1919" y="509" style="fill:none;stroke:black;"/>
+   <text width="149" height="20" x="1924" y="523" style="fill:black;" font-family="Arial" font-size="16px">ID_TIPOP</text>
+   <rect width="149" height="20" x="1919" y="529" style="fill:none;stroke:black;"/>
+   <text width="149" height="20" x="1924" y="543" style="fill:black;" font-family="Arial" font-size="16px">NOMBREP</text>
+   <rect width="149" height="20" x="1919" y="549" style="fill:none;stroke:black;"/>
+   <text width="149" height="20" x="1924" y="563" style="fill:black;" font-family="Arial" font-size="16px">SERIEG</text>
+   <rect width="149" height="20" x="1919" y="569" style="fill:none;stroke:black;"/>
+   <text width="149" height="20" x="1924" y="583" style="fill:black;" font-family="Arial" font-size="16px">ID_MARCA</text>
+   <rect width="149" height="20" x="1919" y="589" style="fill:none;stroke:black;"/>
+   <text width="149" height="20" x="1924" y="603" style="fill:black;" font-family="Arial" font-size="16px">SERIE</text>
+   <rect width="149" height="20" x="1919" y="609" style="fill:none;stroke:black;"/>
+   <text width="149" height="20" x="1924" y="623" style="fill:black;" font-family="Arial" font-size="16px">ID_PROCEDENCIA</text>
+   <rect width="149" height="20" x="1919" y="629" style="fill:none;stroke:black;"/>
+   <text width="149" height="20" x="1924" y="643" style="fill:black;" font-family="Arial" font-size="16px">OBSERVACION</text>
+   <rect width="149" height="20" x="1919" y="649" style="fill:none;stroke:black;"/>
+   <text width="149" height="20" x="1924" y="663" style="fill:black;" font-family="Arial" font-size="16px">TIPOP</text>
+   <rect width="149" height="20" x="1919" y="669" style="fill:none;stroke:black;"/>
+   <text width="149" height="20" x="1924" y="683" style="fill:black;" font-family="Arial" font-size="16px">MAC</text>
+   <rect width="149" height="20" x="1919" y="689" style="fill:none;stroke:black;"/>
+   <text width="149" height="20" x="1924" y="703" style="fill:black;" font-family="Arial" font-size="16px">RIP</text>
+   <rect width="149" height="20" x="1919" y="709" style="fill:none;stroke:black;"/>
+   <text width="149" height="20" x="1924" y="723" style="fill:black;" font-family="Arial" font-size="16px">IP</text>
+   <rect width="149" height="20" x="1919" y="729" style="fill:none;stroke:black;"/>
+   <text width="149" height="20" x="1924" y="743" style="fill:black;" font-family="Arial" font-size="16px">ID_PROVEEDOR</text>
+   <rect width="149" height="20" x="1919" y="749" style="fill:none;stroke:black;"/>
+   <text width="149" height="20" x="1924" y="763" style="fill:black;" font-family="Arial" font-size="16px">FACTURA</text>
+   <rect width="149" height="20" x="1919" y="769" style="fill:none;stroke:black;"/>
+   <text width="149" height="20" x="1924" y="783" style="fill:black;" font-family="Arial" font-size="16px">ID_AREA</text>
+   <rect width="149" height="20" x="1919" y="789" style="fill:none;stroke:black;"/>
+   <text width="149" height="20" x="1924" y="803" style="fill:black;" font-family="Arial" font-size="16px">ID_USUARIO</text>
+   <rect width="149" height="20" x="1919" y="809" style="fill:none;stroke:black;"/>
+   <text width="149" height="20" x="1924" y="823" style="fill:black;" font-family="Arial" font-size="16px">GARANTIA</text>
+   <rect width="149" height="20" x="1919" y="829" style="fill:none;stroke:black;"/>
+   <text width="149" height="20" x="1924" y="843" style="fill:black;" font-family="Arial" font-size="16px">ID_ESTADOWS</text>
+   <rect width="149" height="20" x="1919" y="849" style="fill:none;stroke:black;"/>
+   <text width="149" height="20" x="1924" y="863" style="fill:black;" font-family="Arial" font-size="16px">ID_MODELO</text>
+   <rect width="133" height="20" x="205" y="419" style="fill:#007;stroke:black;"/>
+   <text width="133" height="20" x="210" y="433" style="fill:#fff;" font-family="Arial" font-size="16px"> placam</text>
+   <rect width="133" height="20" x="205" y="439" style="fill:#aea;stroke:black;"/>
+   <text width="133" height="20" x="210" y="453" style="fill:black;" font-family="Arial" font-size="16px">ID_PLACAM</text>
+   <rect width="133" height="20" x="205" y="459" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="210" y="473" style="fill:black;" font-family="Arial" font-size="16px">PLACAM</text>
+   <rect width="133" height="20" x="205" y="479" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="210" y="493" style="fill:black;" font-family="Arial" font-size="16px">ID_MARCA</text>
+   <rect width="133" height="20" x="205" y="499" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="210" y="513" style="fill:black;" font-family="Arial" font-size="16px">ID_PROVEEDOR</text>
+   <rect width="133" height="20" x="205" y="519" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="210" y="533" style="fill:black;" font-family="Arial" font-size="16px">GARANTIA</text>
+   <rect width="133" height="20" x="205" y="539" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="210" y="553" style="fill:black;" font-family="Arial" font-size="16px">FACTURA</text>
+   <rect width="133" height="20" x="205" y="559" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="210" y="573" style="fill:black;" font-family="Arial" font-size="16px">FECHA</text>
+   <rect width="120" height="20" x="418" y="493" style="fill:#007;stroke:black;"/>
+   <text width="120" height="20" x="423" y="507" style="fill:#fff;" font-family="Arial" font-size="16px"> prioridad</text>
+   <rect width="120" height="20" x="418" y="513" style="fill:#aea;stroke:black;"/>
+   <text width="120" height="20" x="423" y="527" style="fill:black;" font-family="Arial" font-size="16px">ID_PRIORIDAD</text>
+   <rect width="120" height="20" x="418" y="533" style="fill:none;stroke:black;"/>
+   <text width="120" height="20" x="423" y="547" style="fill:black;" font-family="Arial" font-size="16px">PRIORIDAD</text>
+   <rect width="149" height="20" x="2074" y="321" style="fill:#007;stroke:black;"/>
+   <text width="149" height="20" x="2079" y="335" style="fill:#fff;" font-family="Arial" font-size="16px"> procedencia</text>
+   <rect width="149" height="20" x="2074" y="341" style="fill:#aea;stroke:black;"/>
+   <text width="149" height="20" x="2079" y="355" style="fill:black;" font-family="Arial" font-size="16px">ID_PROCEDENCIA</text>
+   <rect width="149" height="20" x="2074" y="361" style="fill:none;stroke:black;"/>
+   <text width="149" height="20" x="2079" y="375" style="fill:black;" font-family="Arial" font-size="16px">PROCEDENCIA</text>
+   <rect width="133" height="20" x="1280" y="1296" style="fill:#007;stroke:black;"/>
+   <text width="133" height="20" x="1285" y="1310" style="fill:#fff;" font-family="Arial" font-size="16px"> proveedor</text>
+   <rect width="133" height="20" x="1280" y="1316" style="fill:#aea;stroke:black;"/>
+   <text width="133" height="20" x="1285" y="1330" style="fill:black;" font-family="Arial" font-size="16px">ID_PROVEEDOR</text>
+   <rect width="133" height="20" x="1280" y="1336" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1285" y="1350" style="fill:black;" font-family="Arial" font-size="16px">PROVEEDOR</text>
+   <rect width="133" height="20" x="1615" y="1099" style="fill:#007;stroke:black;"/>
+   <text width="133" height="20" x="1620" y="1113" style="fill:#fff;" font-family="Arial" font-size="16px"> pvideo</text>
+   <rect width="133" height="20" x="1615" y="1119" style="fill:#aea;stroke:black;"/>
+   <text width="133" height="20" x="1620" y="1133" style="fill:black;" font-family="Arial" font-size="16px">ID_PVIDEO</text>
+   <rect width="133" height="20" x="1615" y="1139" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1620" y="1153" style="fill:black;" font-family="Arial" font-size="16px">MEMORIA</text>
+   <rect width="133" height="20" x="1615" y="1159" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1620" y="1173" style="fill:black;" font-family="Arial" font-size="16px">ID_MARCA</text>
+   <rect width="133" height="20" x="1615" y="1179" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1620" y="1193" style="fill:black;" font-family="Arial" font-size="16px">MODELO</text>
+   <rect width="133" height="20" x="1615" y="1199" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1620" y="1213" style="fill:black;" font-family="Arial" font-size="16px">NSERIE</text>
+   <rect width="133" height="20" x="1615" y="1219" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1620" y="1233" style="fill:black;" font-family="Arial" font-size="16px">ID_PROVEEDOR</text>
+   <rect width="133" height="20" x="1615" y="1239" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1620" y="1253" style="fill:black;" font-family="Arial" font-size="16px">FACTURA</text>
+   <rect width="133" height="20" x="1615" y="1259" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1620" y="1273" style="fill:black;" font-family="Arial" font-size="16px">FECHA</text>
+   <rect width="133" height="20" x="1615" y="1279" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1620" y="1293" style="fill:black;" font-family="Arial" font-size="16px">ID_WS</text>
+   <rect width="133" height="20" x="1615" y="1299" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="1620" y="1313" style="fill:black;" font-family="Arial" font-size="16px">GARANTIA</text>
+   <rect width="96" height="20" x="269" y="1264" style="fill:#007;stroke:black;"/>
+   <text width="96" height="20" x="274" y="1278" style="fill:#fff;" font-family="Arial" font-size="16px"> rack</text>
+   <rect width="96" height="20" x="269" y="1284" style="fill:#aea;stroke:black;"/>
+   <text width="96" height="20" x="274" y="1298" style="fill:black;" font-family="Arial" font-size="16px">ID_RACK</text>
+   <rect width="96" height="20" x="269" y="1304" style="fill:none;stroke:black;"/>
+   <text width="96" height="20" x="274" y="1318" style="fill:black;" font-family="Arial" font-size="16px">RACK</text>
+   <rect width="96" height="20" x="269" y="1324" style="fill:none;stroke:black;"/>
+   <text width="96" height="20" x="274" y="1338" style="fill:black;" font-family="Arial" font-size="16px">MODELO</text>
+   <rect width="96" height="20" x="269" y="1344" style="fill:none;stroke:black;"/>
+   <text width="96" height="20" x="274" y="1358" style="fill:black;" font-family="Arial" font-size="16px">ID_MARCA</text>
+   <rect width="96" height="20" x="269" y="1364" style="fill:none;stroke:black;"/>
+   <text width="96" height="20" x="274" y="1378" style="fill:black;" font-family="Arial" font-size="16px">ID_OFICINA</text>
+   <rect width="65" height="20" x="1295" y="932" style="fill:#007;stroke:black;"/>
+   <text width="65" height="20" x="1300" y="946" style="fill:#fff;" font-family="Arial" font-size="16px"> red</text>
+   <rect width="65" height="20" x="1295" y="952" style="fill:#aea;stroke:black;"/>
+   <text width="65" height="20" x="1300" y="966" style="fill:black;" font-family="Arial" font-size="16px">ID_RED</text>
+   <rect width="65" height="20" x="1295" y="972" style="fill:none;stroke:black;"/>
+   <text width="65" height="20" x="1300" y="986" style="fill:black;" font-family="Arial" font-size="16px">RED</text>
+   <rect width="81" height="20" x="985" y="854" style="fill:#007;stroke:black;"/>
+   <text width="81" height="20" x="990" y="868" style="fill:#fff;" font-family="Arial" font-size="16px"> reparticion</text>
+   <rect width="81" height="20" x="985" y="874" style="fill:#aea;stroke:black;"/>
+   <text width="81" height="20" x="990" y="888" style="fill:black;" font-family="Arial" font-size="16px">ID_REPA</text>
+   <rect width="81" height="20" x="985" y="894" style="fill:none;stroke:black;"/>
+   <text width="81" height="20" x="990" y="908" style="fill:black;" font-family="Arial" font-size="16px">REPA</text>
+   <rect width="173" height="20" x="137" y="742" style="fill:#007;stroke:black;"/>
+   <text width="173" height="20" x="142" y="756" style="fill:#fff;" font-family="Arial" font-size="16px"> resolutor</text>
+   <rect width="173" height="20" x="137" y="762" style="fill:#aea;stroke:black;"/>
+   <text width="173" height="20" x="142" y="776" style="fill:black;" font-family="Arial" font-size="16px">ID_RESOLUTOR</text>
+   <rect width="173" height="20" x="137" y="782" style="fill:none;stroke:black;"/>
+   <text width="173" height="20" x="142" y="796" style="fill:black;" font-family="Arial" font-size="16px">RESOLUTOR</text>
+   <rect width="173" height="20" x="137" y="802" style="fill:none;stroke:black;"/>
+   <text width="173" height="20" x="142" y="816" style="fill:black;" font-family="Arial" font-size="16px">ID_TIPO_RESOLUTOR</text>
+   <rect width="173" height="20" x="137" y="822" style="fill:none;stroke:black;"/>
+   <text width="173" height="20" x="142" y="836" style="fill:black;" font-family="Arial" font-size="16px">CUIL</text>
+   <rect width="173" height="20" x="137" y="842" style="fill:none;stroke:black;"/>
+   <text width="173" height="20" x="142" y="856" style="fill:black;" font-family="Arial" font-size="16px">CORREO</text>
+   <rect width="173" height="20" x="137" y="862" style="fill:none;stroke:black;"/>
+   <text width="173" height="20" x="142" y="876" style="fill:black;" font-family="Arial" font-size="16px">TELEFONO</text>
+   <rect width="173" height="20" x="137" y="882" style="fill:none;stroke:black;"/>
+   <text width="173" height="20" x="142" y="896" style="fill:black;" font-family="Arial" font-size="16px">CONTRASEÑA</text>
+   <rect width="73" height="20" x="1600" y="619" style="fill:#007;stroke:black;"/>
+   <text width="73" height="20" x="1605" y="633" style="fill:#fff;" font-family="Arial" font-size="16px"> so</text>
+   <rect width="73" height="20" x="1600" y="639" style="fill:#aea;stroke:black;"/>
+   <text width="73" height="20" x="1605" y="653" style="fill:black;" font-family="Arial" font-size="16px">ID_SO</text>
+   <rect width="73" height="20" x="1600" y="659" style="fill:none;stroke:black;"/>
+   <text width="73" height="20" x="1605" y="673" style="fill:black;" font-family="Arial" font-size="16px">SIST_OP</text>
+   <rect width="133" height="20" x="515" y="1050" style="fill:#007;stroke:black;"/>
+   <text width="133" height="20" x="520" y="1064" style="fill:#fff;" font-family="Arial" font-size="16px"> switch</text>
+   <rect width="133" height="20" x="515" y="1070" style="fill:#aea;stroke:black;"/>
+   <text width="133" height="20" x="520" y="1084" style="fill:black;" font-family="Arial" font-size="16px">ID_SWITCH</text>
+   <rect width="133" height="20" x="515" y="1090" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="520" y="1104" style="fill:black;" font-family="Arial" font-size="16px">DESCRIPCION</text>
+   <rect width="133" height="20" x="515" y="1110" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="520" y="1124" style="fill:black;" font-family="Arial" font-size="16px">MODELO</text>
+   <rect width="133" height="20" x="515" y="1130" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="520" y="1144" style="fill:black;" font-family="Arial" font-size="16px">NRO_SERIE</text>
+   <rect width="133" height="20" x="515" y="1150" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="520" y="1164" style="fill:black;" font-family="Arial" font-size="16px">IP</text>
+   <rect width="133" height="20" x="515" y="1170" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="520" y="1184" style="fill:black;" font-family="Arial" font-size="16px">MAC</text>
+   <rect width="133" height="20" x="515" y="1190" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="520" y="1204" style="fill:black;" font-family="Arial" font-size="16px">ID_MARCA</text>
+   <rect width="133" height="20" x="515" y="1210" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="520" y="1224" style="fill:black;" font-family="Arial" font-size="16px">ID_ESTADO</text>
+   <rect width="133" height="20" x="515" y="1230" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="520" y="1244" style="fill:black;" font-family="Arial" font-size="16px">PUERTOS</text>
+   <rect width="133" height="20" x="515" y="1250" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="520" y="1264" style="fill:black;" font-family="Arial" font-size="16px">ID_RACK</text>
+   <rect width="133" height="20" x="515" y="1270" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="520" y="1284" style="fill:black;" font-family="Arial" font-size="16px">ID_OFICINA</text>
+   <rect width="133" height="20" x="515" y="1290" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="520" y="1304" style="fill:black;" font-family="Arial" font-size="16px">ID_PROVEEDOR</text>
+   <rect width="133" height="20" x="515" y="1310" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="520" y="1324" style="fill:black;" font-family="Arial" font-size="16px">FACTURA</text>
+   <rect width="133" height="20" x="515" y="1330" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="520" y="1344" style="fill:black;" font-family="Arial" font-size="16px">FECHA</text>
+   <rect width="133" height="20" x="515" y="1350" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="520" y="1364" style="fill:black;" font-family="Arial" font-size="16px">GARANTIA</text>
+   <rect width="133" height="20" x="749" y="974" style="fill:#007;stroke:black;"/>
+   <text width="133" height="20" x="754" y="988" style="fill:#fff;" font-family="Arial" font-size="16px"> telefono</text>
+   <rect width="133" height="20" x="749" y="994" style="fill:#aea;stroke:black;"/>
+   <text width="133" height="20" x="754" y="1008" style="fill:black;" font-family="Arial" font-size="16px">ID_TEL</text>
+   <rect width="133" height="20" x="749" y="1014" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="754" y="1028" style="fill:black;" font-family="Arial" font-size="16px">MODELO</text>
+   <rect width="133" height="20" x="749" y="1034" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="754" y="1048" style="fill:black;" font-family="Arial" font-size="16px">DESCRIPCION</text>
+   <rect width="133" height="20" x="749" y="1054" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="754" y="1068" style="fill:black;" font-family="Arial" font-size="16px">IP</text>
+   <rect width="133" height="20" x="749" y="1074" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="754" y="1088" style="fill:black;" font-family="Arial" font-size="16px">MAC</text>
+   <rect width="133" height="20" x="749" y="1094" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="754" y="1108" style="fill:black;" font-family="Arial" font-size="16px">NRO</text>
+   <rect width="133" height="20" x="749" y="1114" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="754" y="1128" style="fill:black;" font-family="Arial" font-size="16px">INTERNO</text>
+   <rect width="133" height="20" x="749" y="1134" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="754" y="1148" style="fill:black;" font-family="Arial" font-size="16px">ID_MARCA</text>
+   <rect width="133" height="20" x="749" y="1154" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="754" y="1168" style="fill:black;" font-family="Arial" font-size="16px">ID_ESTADO</text>
+   <rect width="133" height="20" x="749" y="1174" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="754" y="1188" style="fill:black;" font-family="Arial" font-size="16px">ID_TIPOTEL</text>
+   <rect width="133" height="20" x="749" y="1194" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="754" y="1208" style="fill:black;" font-family="Arial" font-size="16px">FACTURA</text>
+   <rect width="133" height="20" x="749" y="1214" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="754" y="1228" style="fill:black;" font-family="Arial" font-size="16px">GARANTIA</text>
+   <rect width="133" height="20" x="749" y="1234" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="754" y="1248" style="fill:black;" font-family="Arial" font-size="16px">ID_PROVEEDOR</text>
+   <rect width="133" height="20" x="749" y="1254" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="754" y="1268" style="fill:black;" font-family="Arial" font-size="16px">FECHA</text>
+   <rect width="153" height="20" x="639" y="409" style="fill:#007;stroke:black;"/>
+   <text width="153" height="20" x="644" y="423" style="fill:#fff;" font-family="Arial" font-size="16px"> ticket</text>
+   <rect width="153" height="20" x="639" y="429" style="fill:#aea;stroke:black;"/>
+   <text width="153" height="20" x="644" y="443" style="fill:black;" font-family="Arial" font-size="16px">ID_TICKET</text>
+   <rect width="153" height="20" x="639" y="449" style="fill:none;stroke:black;"/>
+   <text width="153" height="20" x="644" y="463" style="fill:black;" font-family="Arial" font-size="16px">FECHA_INICIO</text>
+   <rect width="153" height="20" x="639" y="469" style="fill:none;stroke:black;"/>
+   <text width="153" height="20" x="644" y="483" style="fill:black;" font-family="Arial" font-size="16px">DESCRIPCION</text>
+   <rect width="153" height="20" x="639" y="489" style="fill:none;stroke:black;"/>
+   <text width="153" height="20" x="644" y="503" style="fill:black;" font-family="Arial" font-size="16px">USUARIO</text>
+   <rect width="153" height="20" x="639" y="509" style="fill:none;stroke:black;"/>
+   <text width="153" height="20" x="644" y="523" style="fill:black;" font-family="Arial" font-size="16px">ID_USUARIO</text>
+   <rect width="153" height="20" x="639" y="529" style="fill:none;stroke:black;"/>
+   <text width="153" height="20" x="644" y="543" style="fill:black;" font-family="Arial" font-size="16px">IMAGEN</text>
+   <rect width="153" height="20" x="639" y="549" style="fill:none;stroke:black;"/>
+   <text width="153" height="20" x="644" y="563" style="fill:black;" font-family="Arial" font-size="16px">ID_TIPIFICACION</text>
+   <rect width="153" height="20" x="639" y="569" style="fill:none;stroke:black;"/>
+   <text width="153" height="20" x="644" y="583" style="fill:black;" font-family="Arial" font-size="16px">ID_PRIORIDAD</text>
+   <rect width="153" height="20" x="639" y="589" style="fill:none;stroke:black;"/>
+   <text width="153" height="20" x="644" y="603" style="fill:black;" font-family="Arial" font-size="16px">ID_ESTADO</text>
+   <rect width="153" height="20" x="639" y="609" style="fill:none;stroke:black;"/>
+   <text width="153" height="20" x="644" y="623" style="fill:black;" font-family="Arial" font-size="16px">NRO_EQUIPO</text>
+   <rect width="153" height="20" x="639" y="629" style="fill:none;stroke:black;"/>
+   <text width="153" height="20" x="644" y="643" style="fill:black;" font-family="Arial" font-size="16px">FECHA_SOLUCION</text>
+   <rect width="153" height="20" x="639" y="649" style="fill:none;stroke:black;"/>
+   <text width="153" height="20" x="644" y="663" style="fill:black;" font-family="Arial" font-size="16px">ID_RESOLUTOR</text>
+   <rect width="153" height="20" x="639" y="669" style="fill:none;stroke:black;"/>
+   <text width="153" height="20" x="644" y="683" style="fill:black;" font-family="Arial" font-size="16px">TIPO_RESOLUTOR</text>
+   <rect width="153" height="20" x="639" y="689" style="fill:none;stroke:black;"/>
+   <text width="153" height="20" x="644" y="703" style="fill:black;" font-family="Arial" font-size="16px">ID_WS</text>
+   <rect width="153" height="20" x="639" y="709" style="fill:none;stroke:black;"/>
+   <text width="153" height="20" x="644" y="723" style="fill:black;" font-family="Arial" font-size="16px">HORA</text>
+   <rect width="137" height="20" x="363" y="650" style="fill:#007;stroke:black;"/>
+   <text width="137" height="20" x="368" y="664" style="fill:#fff;" font-family="Arial" font-size="16px"> tipificacion</text>
+   <rect width="137" height="20" x="363" y="670" style="fill:#aea;stroke:black;"/>
+   <text width="137" height="20" x="368" y="684" style="fill:black;" font-family="Arial" font-size="16px">ID_TIPIFICACION</text>
+   <rect width="137" height="20" x="363" y="690" style="fill:none;stroke:black;"/>
+   <text width="137" height="20" x="368" y="704" style="fill:black;" font-family="Arial" font-size="16px">TIPIFICACION</text>
+   <rect width="80" height="20" x="1819" y="329" style="fill:#007;stroke:black;"/>
+   <text width="80" height="20" x="1824" y="343" style="fill:#fff;" font-family="Arial" font-size="16px"> tipodisco</text>
+   <rect width="80" height="20" x="1819" y="349" style="fill:#aea;stroke:black;"/>
+   <text width="80" height="20" x="1824" y="363" style="fill:black;" font-family="Arial" font-size="16px">ID_TIPOD</text>
+   <rect width="80" height="20" x="1819" y="369" style="fill:none;stroke:black;"/>
+   <text width="80" height="20" x="1824" y="383" style="fill:black;" font-family="Arial" font-size="16px">TIPOD</text>
+   <rect width="105" height="20" x="1612" y="982" style="fill:#007;stroke:black;"/>
+   <text width="105" height="20" x="1617" y="996" style="fill:#fff;" font-family="Arial" font-size="16px"> tipomem</text>
+   <rect width="105" height="20" x="1612" y="1002" style="fill:#aea;stroke:black;"/>
+   <text width="105" height="20" x="1617" y="1016" style="fill:black;" font-family="Arial" font-size="16px">ID_TIPOMEM</text>
+   <rect width="105" height="20" x="1612" y="1022" style="fill:none;stroke:black;"/>
+   <text width="105" height="20" x="1617" y="1036" style="fill:black;" font-family="Arial" font-size="16px">TIPOMEM</text>
+   <rect width="79" height="20" x="1910" y="991" style="fill:#007;stroke:black;"/>
+   <text width="79" height="20" x="1915" y="1005" style="fill:#fff;" font-family="Arial" font-size="16px"> tipop</text>
+   <rect width="79" height="20" x="1910" y="1011" style="fill:#aea;stroke:black;"/>
+   <text width="79" height="20" x="1915" y="1025" style="fill:black;" font-family="Arial" font-size="16px">ID_TIPOP</text>
+   <rect width="79" height="20" x="1910" y="1031" style="fill:none;stroke:black;"/>
+   <text width="79" height="20" x="1915" y="1045" style="fill:black;" font-family="Arial" font-size="16px">TIPO</text>
+   <rect width="97" height="20" x="2143" y="957" style="fill:#007;stroke:black;"/>
+   <text width="97" height="20" x="2148" y="971" style="fill:#fff;" font-family="Arial" font-size="16px"> tipotel</text>
+   <rect width="97" height="20" x="2143" y="977" style="fill:#aea;stroke:black;"/>
+   <text width="97" height="20" x="2148" y="991" style="fill:black;" font-family="Arial" font-size="16px">ID_TIPOTEL</text>
+   <rect width="97" height="20" x="2143" y="997" style="fill:none;stroke:black;"/>
+   <text width="97" height="20" x="2148" y="1011" style="fill:black;" font-family="Arial" font-size="16px">TIPOTEL</text>
+   <rect width="94" height="20" x="1560" y="190" style="fill:#007;stroke:black;"/>
+   <text width="94" height="20" x="1565" y="204" style="fill:#fff;" font-family="Arial" font-size="16px"> tipows</text>
+   <rect width="94" height="20" x="1560" y="210" style="fill:#aea;stroke:black;"/>
+   <text width="94" height="20" x="1565" y="224" style="fill:black;" font-family="Arial" font-size="16px">ID_TIPOWS</text>
+   <rect width="94" height="20" x="1560" y="230" style="fill:none;stroke:black;"/>
+   <text width="94" height="20" x="1565" y="244" style="fill:black;" font-family="Arial" font-size="16px">TIPOWS</text>
+   <rect width="173" height="20" x="485" y="827" style="fill:#007;stroke:black;"/>
+   <text width="173" height="20" x="490" y="841" style="fill:#fff;" font-family="Arial" font-size="16px"> tipo_resolutor</text>
+   <rect width="173" height="20" x="485" y="847" style="fill:#aea;stroke:black;"/>
+   <text width="173" height="20" x="490" y="861" style="fill:black;" font-family="Arial" font-size="16px">ID_TIPO_RESOLUTOR</text>
+   <rect width="173" height="20" x="485" y="867" style="fill:none;stroke:black;"/>
+   <text width="173" height="20" x="490" y="881" style="fill:black;" font-family="Arial" font-size="16px">TIPO_RESOLUTOR</text>
+   <rect width="88" height="20" x="975" y="549" style="fill:#007;stroke:black;"/>
+   <text width="88" height="20" x="980" y="563" style="fill:#fff;" font-family="Arial" font-size="16px"> turnos</text>
+   <rect width="88" height="20" x="975" y="569" style="fill:#aea;stroke:black;"/>
+   <text width="88" height="20" x="980" y="583" style="fill:black;" font-family="Arial" font-size="16px">ID_TURNO</text>
+   <rect width="88" height="20" x="975" y="589" style="fill:none;stroke:black;"/>
+   <text width="88" height="20" x="980" y="603" style="fill:black;" font-family="Arial" font-size="16px">TURNO</text>
+   <rect width="189" height="20" x="936" y="204" style="fill:#007;stroke:black;"/>
+   <text width="189" height="20" x="941" y="218" style="fill:#fff;" font-family="Arial" font-size="16px"> usuarios</text>
+   <rect width="189" height="20" x="936" y="224" style="fill:#aea;stroke:black;"/>
+   <text width="189" height="20" x="941" y="238" style="fill:black;" font-family="Arial" font-size="16px">ID_USUARIO</text>
+   <rect width="189" height="20" x="936" y="244" style="fill:none;stroke:black;"/>
+   <text width="189" height="20" x="941" y="258" style="fill:black;" font-family="Arial" font-size="16px">NOMBRE</text>
+   <rect width="189" height="20" x="936" y="264" style="fill:none;stroke:black;"/>
+   <text width="189" height="20" x="941" y="278" style="fill:black;" font-family="Arial" font-size="16px">CUIL</text>
+   <rect width="189" height="20" x="936" y="284" style="fill:none;stroke:black;"/>
+   <text width="189" height="20" x="941" y="298" style="fill:black;" font-family="Arial" font-size="16px">ID_AREA</text>
+   <rect width="189" height="20" x="936" y="304" style="fill:none;stroke:black;"/>
+   <text width="189" height="20" x="941" y="318" style="fill:black;" font-family="Arial" font-size="16px">PISO</text>
+   <rect width="189" height="20" x="936" y="324" style="fill:none;stroke:black;"/>
+   <text width="189" height="20" x="941" y="338" style="fill:black;" font-family="Arial" font-size="16px">INTERNO</text>
+   <rect width="189" height="20" x="936" y="344" style="fill:none;stroke:black;"/>
+   <text width="189" height="20" x="941" y="358" style="fill:black;" font-family="Arial" font-size="16px">CORREO</text>
+   <rect width="189" height="20" x="936" y="364" style="fill:none;stroke:black;"/>
+   <text width="189" height="20" x="941" y="378" style="fill:black;" font-family="Arial" font-size="16px">CORREO_PERSONAL</text>
+   <rect width="189" height="20" x="936" y="384" style="fill:none;stroke:black;"/>
+   <text width="189" height="20" x="941" y="398" style="fill:black;" font-family="Arial" font-size="16px">TELEFONO_PERSONAL</text>
+   <rect width="189" height="20" x="936" y="404" style="fill:none;stroke:black;"/>
+   <text width="189" height="20" x="941" y="418" style="fill:black;" font-family="Arial" font-size="16px">ID_TURNO</text>
+   <rect width="189" height="20" x="936" y="424" style="fill:none;stroke:black;"/>
+   <text width="189" height="20" x="941" y="438" style="fill:black;" font-family="Arial" font-size="16px">ACTIVO</text>
+   <rect width="189" height="20" x="936" y="444" style="fill:none;stroke:black;"/>
+   <text width="189" height="20" x="941" y="458" style="fill:black;" font-family="Arial" font-size="16px">OBSERVACION</text>
+   <rect width="133" height="20" x="2163" y="486" style="fill:#007;stroke:black;"/>
+   <text width="133" height="20" x="2168" y="500" style="fill:#fff;" font-family="Arial" font-size="16px"> wsmem</text>
+   <rect width="133" height="20" x="2163" y="506" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="2168" y="520" style="fill:black;" font-family="Arial" font-size="16px">ID_WS</text>
+   <rect width="133" height="20" x="2163" y="526" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="2168" y="540" style="fill:black;" font-family="Arial" font-size="16px">ID_MEMORIA</text>
+   <rect width="133" height="20" x="2163" y="546" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="2168" y="560" style="fill:black;" font-family="Arial" font-size="16px">ID_TIPOMEM</text>
+   <rect width="133" height="20" x="2163" y="566" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="2168" y="580" style="fill:black;" font-family="Arial" font-size="16px">ID_PROVEEDOR</text>
+   <rect width="133" height="20" x="2163" y="586" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="2168" y="600" style="fill:black;" font-family="Arial" font-size="16px">FACTURA</text>
+   <rect width="133" height="20" x="2163" y="606" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="2168" y="620" style="fill:black;" font-family="Arial" font-size="16px">FECHA</text>
+   <rect width="133" height="20" x="2163" y="626" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="2168" y="640" style="fill:black;" font-family="Arial" font-size="16px">ID_MARCA</text>
+   <rect width="133" height="20" x="2163" y="646" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="2168" y="660" style="fill:black;" font-family="Arial" font-size="16px">GARANTIA</text>
+   <rect width="133" height="20" x="2163" y="666" style="fill:none;stroke:black;"/>
+   <text width="133" height="20" x="2168" y="680" style="fill:black;" font-family="Arial" font-size="16px">SLOT</text>
+   <rect width="104" height="20" x="1278" y="213" style="fill:#007;stroke:black;"/>
+   <text width="104" height="20" x="1283" y="227" style="fill:#fff;" font-family="Arial" font-size="16px"> wsusuario</text>
+   <rect width="104" height="20" x="1278" y="233" style="fill:#aea;stroke:black;"/>
+   <text width="104" height="20" x="1283" y="247" style="fill:black;" font-family="Arial" font-size="16px">ID_WSUSU</text>
+   <rect width="104" height="20" x="1278" y="253" style="fill:none;stroke:black;"/>
+   <text width="104" height="20" x="1283" y="267" style="fill:black;" font-family="Arial" font-size="16px">ID_WS</text>
+   <rect width="104" height="20" x="1278" y="273" style="fill:none;stroke:black;"/>
+   <text width="104" height="20" x="1283" y="287" style="fill:black;" font-family="Arial" font-size="16px">ID_USUARIO</text>
+</svg>
