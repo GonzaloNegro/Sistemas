@@ -1,0 +1,303 @@
+body{
+  background-color: rgb(226, 226, 226);
+}
+
+#calendar {
+  max-width: 900px;
+  margin: 0 auto;
+  color: rgb(18, 0, 97);
+  font-weight: bold;
+  border: 2px solid rgb(209, 208, 208);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+#title{
+  color: #ffffff;
+  font-weight: 800;
+  border-bottom: 3px solid #FFFFFF;
+  background: rgb(18, 0, 97);
+  padding: 8px 30px;
+}
+
+/****************/
+input {
+  display: none;
+}
+
+
+.fc-content{
+  color: #fff !important;
+}
+
+#btnCerrar{
+  color:red;
+  padding: 5px;
+  background: #8888;
+  border-radius: 25px;
+  font-size: 17px;
+  font-weight: 600;
+}
+#btnCerrar:hover{
+  cursor: pointer;
+  background-color: #333;
+}
+
+
+.circu{
+  padding: 25px;
+  background: #ccc;
+  border-radius: 50px;
+}
+
+#grupoRadio label:hover{
+  cursor: pointer;
+}
+
+#grupoRadio input[type="radio"]:checked + label {
+  border: 3px solid #ccc !important;  
+}
+
+
+.activado input[type=radio]:checked + label {
+  border: 3px solid #555 !important;  
+}
+
+.fc-center{
+  text-transform: uppercase;
+}
+
+.fc-day:hover{
+  background-color:rgb(182, 255, 182);
+}
+
+.fc-sun:hover, .fc-sat:hover{
+  background-color: #555;
+}
+
+.fc-day-header {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* rgb(216, 216, 216); */
+/* <th class="fc-day-header fc-widget-header fc-mon"><span>lun.</span></th> */
+
+
+
+section, header{
+	width: 97%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@font-face{
+	font-family: TrasandinaBlack;
+	src: url("fuente/TrasandinaBlack.otf");
+}
+@font-face{
+	font-family: TrasandinaBold; 
+	src: url("fuente/TrasandinaBold.otf");
+	}
+
+@font-face{
+	font-family: TrasandinaBook; 
+	src: url("fuente/TrasandinaBook.otf");
+	}
+
+@font-face{
+	font-family: TrasandinaMedium; 
+	src: url("fuente/TrasandinaMedium.otf");
+	}	
+
+h1{
+	text-align: center;	
+	color: #53AAE0;
+	font-family: TrasandinaBlack;
+	margin-bottom: 40px;
+	margin-top:25px;
+	font-size: 32px;
+	letter-spacing: 5px;
+}
+
+
+h2{
+	text-align: center;	
+	font-family: TrasandinaBook;
+	font-size: 16px;
+	color: #53AAE0;
+	margin-left: 10px;
+}
+
+h4{
+	text-align: center;	
+	font-family: TrasandinaBook;
+	font-size: 14px;
+	text-transform: uppercase;
+}
+
+#Inicio{
+    width: auto;
+	height: auto;
+}
+
+#titulo{
+	width: 100%;
+	height: 54px;
+}
+
+#principal{
+    width: 900px;
+    height: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#izq{
+    width: 350px;
+    float: left;
+}
+
+#der{
+    width: 350px;
+    float:left;
+    margin-left: 200px;
+}
+
+#izq, #der{
+    margin-bottom: 20px;
+}
+
+.but1{
+	width: 350px;
+	height: 60px;
+	border-radius: 15px;transition-duration: 0.5s;
+	transition-delay: 0s;
+    margin-top: 5px;
+}
+
+.but2{
+	width: 350px;
+	height: 50px;
+	border-radius: 15px;transition-duration: 0.5s;
+	transition-delay: 0s;
+    margin-top: 5px;
+}
+
+.button{
+    text-decoration: none;
+	color: #29343e;
+	font-size: 30px;
+	font-family: TrasandinaBook;
+	background-color: #dbe5e9;
+	border-color: #f7fbfd;
+}
+
+.button:hover{
+	background-color: #f7fbfd;
+	color: #29343e;
+    border-color: #29343e;
+	transition-property: background-color, #f7fbfd;
+	transition-duration: 0.2s;
+	transition-timing-function: linear;
+	transition-delay: 0s;
+	font-size: 31px;
+}
+
+
+#foto{
+    width: 100px;
+    height: 80px;
+
+    background-image: url("./../../imagenes/logoObrasPúblicas.png");
+    background-repeat: no-repeat;
+    background-size: 140%;
+	cursor: default;
+}
+
+.espacio{
+    margin-left: 20px;
+}
+
+.link{
+    color: #53AAE0 !important;
+    font-size: 20px;
+}
+
+.link{
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    transition: background-size .3s;
+}
+.link:hover, .link:focus {
+    background-size: 100% 2px;
+}
+
+.altura{
+    height: 80px;
+}
+
+.ubicacion{
+    width: 30px;
+    margin-top: 12px;
+
+    text-align: center;
+}
+
+i{
+    color: #53AAE0;
+}
+
+h5{
+    font-size: 12px;
+    color: #53AAE0;
+}
+
+#botonera{
+	width: 100%;
+	height: 60px;
+	background-color: #1c7cd5;
+	float: left;
+	font-weight: bold;
+	border-radius: 20px;
+	transition-duration: 0.5s;
+	transition-delay: 0s;
+}
+
+.nav li a{
+	color: black;
+	display: block;
+} 
+
+.nav > li{
+	float: left;
+}
+
+.nav li ul{
+	display: none;
+	position: absolute;
+}
+
+.nav li:hover >ul{
+	display: block;
+}
+
+footer{
+	height: auto;
+	  border-top: 1px solid #53AAE0;
+  }
+  
+  .footer{
+	  margin: 0 auto;
+	  
+	  width: 400px;
+	  height: auto;
+  }
+
+.mensaje{
+	background-color: #edf0f5;
+	border: none;
+}

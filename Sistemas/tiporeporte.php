@@ -87,11 +87,9 @@ $row = $resultado->fetch_assoc();
 						<li><a href="estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
                     ';
 					} ?>
+			      <li><a href="calen/calen.php" class="nav-link px-2 link-dark link">CALENDARIO</a>
             <li class="ubicacion"><a href="bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
         </ul>
-        <form method="POST" action="mensajes.php">
-			    <button href="mensajes.php" class="mensaje" style="margin-right: 50px;"><i class="bi bi-chat-square-text"></i></button>
-		    </form>
         <div class="dropdown text-end">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"><h5><i class="bi bi-person rounded-circle"></i><?php echo utf8_decode($row['RESOLUTOR']);?></h5></a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
