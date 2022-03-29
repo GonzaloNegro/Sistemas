@@ -91,12 +91,8 @@ $row = $resultado->fetch_assoc();
 				echo "<table width=100%>
 						<thead>
 							<tr>
-								<th><p>PLACAM</p></th>
+								<th><p>PLACA MADRE</p></th>
 								<th><p>MARCA</p></th>
-								<th><p>FACTURA</p></th>
-								<th><p>PROVEEDOR</p></th>
-                                <th><p>GARANTIA</p></th>
-                                <th><p>FECHA</p></th>
 								<th><p>MODIFICAR</p></th>
 							</tr>
 						</thead>
@@ -104,32 +100,18 @@ $row = $resultado->fetch_assoc();
 					if(isset($_POST['btn2']))
 					{
 						$doc = $_POST['buscar'];
-						$consultar=mysqli_query($datos_base, "SELECT pl.ID_PLACAM, pl.PLACAM, ma.MARCA, pl.FACTURA, p.PROVEEDOR, pl.GARANTIA, pl.FECHA
+						$consultar=mysqli_query($datos_base, "SELECT pl.ID_PLACAM, pl.PLACAM, ma.MARCA
                         FROM placam pl
                         LEFT JOIN marcas AS ma ON ma.ID_MARCA = pl.ID_MARCA
-                        LEFT JOIN proveedor AS p ON p.ID_PROVEEDOR = pl.ID_PROVEEDOR
-						WHERE pl.PLACAM LIKE '%$doc%' OR ma.MARCA LIKE '%$doc%' OR pl.FACTURA LIKE '%$doc%' OR p.PROVEEDOR LIKE '%$doc%' OR pl.GARANTIA LIKE '%$doc%' OR pl.FECHA LIKE '%$doc%' 
+						WHERE pl.PLACAM LIKE '%$doc%' OR ma.MARCA LIKE '%$doc%'
                         ORDER BY pl.PLACAM ASC");
 									while($listar = mysqli_fetch_array($consultar))
 									{
-										$fecha = "0000-00-00";
-										if($listar['FECHA'] == $fecha)
-										{
-											$fec = date("d-m-Y", strtotime($listar['FECHA']));
-											$fec = "-";
-										}
-										else{
-											$fec = date("d-m-Y", strtotime($listar['FECHA']));
-										}
 										echo
 										" 
 											<tr>
 												<td><h4 style='font-size:16px;'>".$listar['PLACAM']."</h4></td>
 												<td><h4 style='font-size:16px;'>".$listar['MARCA']."</h4></td>
-												<td><h4 style='font-size:16px;'>".$listar['FACTURA']."</h4></td>
-												<td><h4 style='font-size:16px;'>".$listar['PROVEEDOR']."</h4></td>
-												<td><h4 style='font-size:16px;'>".$listar['GARANTIA']."</h4></td>
-												<td><h4 style='font-size:16px;'>".$fec."</h4></td>
 												<td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=modplacam.php?no=".$listar['ID_PLACAM']." class=mod><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil-square' viewBox='0 0 16 16'>
 															<path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>
 															<path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z'/>
@@ -141,31 +123,17 @@ $row = $resultado->fetch_assoc();
 					
 					else
 					{
-						$consultar=mysqli_query($datos_base, "SELECT pl.ID_PLACAM, pl.PLACAM, ma.MARCA, pl.FACTURA, p.PROVEEDOR, pl.GARANTIA, pl.FECHA
+						$consultar=mysqli_query($datos_base, "SELECT pl.ID_PLACAM, pl.PLACAM, ma.MARCA
                         FROM placam pl
                         LEFT JOIN marcas AS ma ON ma.ID_MARCA = pl.ID_MARCA
-                        LEFT JOIN proveedor AS p ON p.ID_PROVEEDOR = pl.ID_PROVEEDOR 
                         ORDER BY pl.PLACAM ASC");
 									while($listar = mysqli_fetch_array($consultar))
 									{
-										$fecha = "0000-00-00";
-										if($listar['FECHA'] == $fecha)
-										{
-											$fec = date("d-m-Y", strtotime($listar['FECHA']));
-											$fec = "-";
-										}
-										else{
-											$fec = date("d-m-Y", strtotime($listar['FECHA']));
-										}
 										echo
 										" 
 											<tr>
 												<td><h4 style='font-size:16px;'>".$listar['PLACAM']."</h4></td>
 												<td><h4 style='font-size:16px;'>".$listar['MARCA']."</h4></td>
-												<td><h4 style='font-size:16px;'>".$listar['FACTURA']."</h4></td>
-												<td><h4 style='font-size:16px;'>".$listar['PROVEEDOR']."</h4></td>
-												<td><h4 style='font-size:16px;'>".$listar['GARANTIA']."</h4></td>
-												<td><h4 style='font-size:16px;'>".$fec."</h4></td>
 												<td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=modplacam.php?no=".$listar['ID_PLACAM']." class=mod><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil-square' viewBox='0 0 16 16'>
 															<path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>
 															<path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z'/>

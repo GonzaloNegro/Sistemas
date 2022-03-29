@@ -4,7 +4,7 @@ include('conexion.php');
 $id = $_POST['id'];
 $placam = $_POST['placam'];
 $marca = $_POST['marca'];
-$proveedor = $_POST['proveedor'];
+/* $proveedor = $_POST['proveedor'];
 $garantia = $_POST['garantia'];
 $factura = $_POST['factura'];
 if(isset($_POST['fecha'])){
@@ -13,16 +13,9 @@ if(isset($_POST['fecha'])){
 		$date = strtotime($date);
 		$date = date('Y-m-d', $date);
 	}
-}
+} */
 
 /*TRAIGO VALORES DE LOS CMB*/
-if($tipo == "200"){
-    $sql4 = "SELECT ID_PROVEEDOR FROM placam WHERE ID_PLACAM = '$id'";
-    $result4 = $datos_base->query($sql4);
-    $row4 = $result4->fetch_assoc();
-  
-    $proveedor = $row4['ID_PROVEEDOR'];
-}
 
 if($marca == "100"){
     $sql3 = "SELECT ID_MARCA FROM placam WHERE ID_PLACAM = '$id'";
@@ -51,11 +44,11 @@ if($placam == $pcm AND $marca == $mar){
     header("Location: abmplacamadre.php?no");
 }
 elseif($placam == $pm){
-    mysqli_query($datos_base, "UPDATE placam SET PLACAM = '$placam', ID_MARCA = '$marca', FACTURA = '$factura', ID_PROVEEDOR = '$proveedor', GARANTIA = '$garantia', FECHA = '$date' WHERE ID_PLACAM = '$id'"); 
+    mysqli_query($datos_base, "UPDATE placam SET PLACAM = '$placam', ID_MARCA = '$marca' WHERE ID_PLACAM = '$id'"); 
     header("Location: abmplacamadre.php?repeat");
 }
 else{
-    mysqli_query($datos_base, "UPDATE placam SET PLACAM = '$placam', ID_MARCA = '$marca', FACTURA = '$factura', ID_PROVEEDOR = '$proveedor', GARANTIA = '$garantia', FECHA = '$date' WHERE ID_PLACAM = '$id'");  
+    mysqli_query($datos_base, "UPDATE placam SET PLACAM = '$placam', ID_MARCA = '$marca' WHERE ID_PLACAM = '$id'");  
     header("Location: abmplacamadre.php?ok");
 }
 mysqli_close($datos_base);

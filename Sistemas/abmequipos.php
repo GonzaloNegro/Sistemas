@@ -90,14 +90,16 @@ $row = $resultado->fetch_assoc();
 					if(isset($_POST['btn2']))
 					{
 						$doc = $_POST['buscar'];
-						$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, a.AREA, u.NOMBRE, i.SERIEG, pl.PLACAM, s.SIST_OP, m.MICRO
+						$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, a.AREA, u.NOMBRE, i.SERIEG, p.PLACAM, s.SIST_OP, m.MICRO
                         FROM inventario i 
                         LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-						LEFT JOIN placam AS pl ON pl.ID_PLACAM = i.ID_PLACAM
-						LEFT JOIN micro AS m ON m.ID_MICRO = i.ID_MICRO
+						LEFT JOIN placamws AS pl ON pl.ID_WS = i.ID_WS
+						LEFT JOIN placam AS p ON p.ID_PLACAM = pl.ID_PLACAM
+						LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
+						LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
                         INNER JOIN area AS a ON a.ID_AREA = i.ID_AREA 
                         INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-						WHERE a.AREA LIKE '%$doc%' OR u.NOMBRE LIKE '%$doc%' OR i.SERIEG LIKE '%$doc%' OR pl.PLACAM LIKE '%$doc%' OR s.SIST_OP LIKE '%$doc%' OR i.MICRO LIKE '%$doc%'
+						WHERE a.AREA LIKE '%$doc%' OR u.NOMBRE LIKE '%$doc%' OR i.SERIEG LIKE '%$doc%' OR p.PLACAM LIKE '%$doc%' OR s.SIST_OP LIKE '%$doc%' OR m.MICRO LIKE '%$doc%'
                         ORDER BY u.NOMBRE ASC, i.SERIEG ASC");
 									while($listar = mysqli_fetch_array($consultar))
 									{
@@ -120,11 +122,13 @@ $row = $resultado->fetch_assoc();
 					}
 					else
 					{
-						$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, a.AREA, u.NOMBRE, i.SERIEG, pl.PLACAM, s.SIST_OP, m.MICRO
+						$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, a.AREA, u.NOMBRE, i.SERIEG, p.PLACAM, s.SIST_OP, m.MICRO
                         FROM inventario i 
                         LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-						LEFT JOIN placam AS pl ON pl.ID_PLACAM = i.ID_PLACAM
-						LEFT JOIN micro AS m ON m.ID_MICRO = i.ID_MICRO
+						LEFT JOIN placamws AS pl ON pl.ID_WS = i.ID_WS
+						LEFT JOIN placam AS p ON p.ID_PLACAM = pl.ID_PLACAM
+						LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
+						LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
                         INNER JOIN area AS a ON a.ID_AREA = i.ID_AREA 
                         INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
                         ORDER BY u.NOMBRE ASC, i.SERIEG ASC");

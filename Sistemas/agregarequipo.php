@@ -247,7 +247,7 @@ $row = $resultado->fetch_assoc();
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingpl">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsepl" aria-expanded="false" aria-controls="flush-collapsepl">
-        SLOT 1
+      <u>1°&nbspPLACA</u>
       </button>
     </h2>
     <div id="flush-collapsepl" class="accordion-collapse collapse" aria-labelledby="flush-headingpl" data-bs-parent="#accordionFlushExample">
@@ -347,7 +347,7 @@ $row = $resultado->fetch_assoc();
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-heading1">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse1" aria-expanded="false" aria-controls="flush-collapse1">
-        SLOT 1
+        <u>1°&nbspMEMORIA</u>
       </button>
     </h2>
     <div id="flush-collapse1" class="accordion-collapse collapse" aria-labelledby="flush-heading1" data-bs-parent="#accordionFlushExample">
@@ -420,7 +420,7 @@ $row = $resultado->fetch_assoc();
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-heading2">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse2" aria-expanded="false" aria-controls="flush-collapse2">
-        SLOT 2
+        <u>2°&nbspMEMORIA</u>
       </button>
     </h2>
     <div id="flush-collapse2" class="accordion-collapse collapse" aria-labelledby="flush-heading2" data-bs-parent="#accordionFlushExample">
@@ -493,7 +493,7 @@ $row = $resultado->fetch_assoc();
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-heading3">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse3" aria-expanded="false" aria-controls="flush-collapse3">
-        SLOT 3
+        <u>3°&nbspMEMORIA</u>
       </button>
     </h2>
     <div id="flush-collapse3" class="accordion-collapse collapse" aria-labelledby="flush-heading3" data-bs-parent="#accordionFlushExample">
@@ -566,7 +566,7 @@ $row = $resultado->fetch_assoc();
 <div class="accordion-item">
     <h2 class="accordion-header" id="flush-heading4">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse4" aria-expanded="false" aria-controls="flush-collapse4">
-        SLOT 4
+        <u>4°&nbspMEMORIA</u>
       </button>
     </h2>
     <div id="flush-collapse4" class="accordion-collapse collapse" aria-labelledby="flush-heading4" data-bs-parent="#accordionFlushExample">
@@ -651,7 +651,7 @@ $row = $resultado->fetch_assoc();
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingOne">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-        SLOT DE DISCO 1
+        <u>1°&nbspDISCO</u>
       </button>
     </h2>
     <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
@@ -724,7 +724,7 @@ $row = $resultado->fetch_assoc();
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingTwo">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-      SLOT DE DISCO 2
+        <u>2°&nbspDISCO</u>
       </button>
     </h2>
     <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
@@ -797,7 +797,7 @@ $row = $resultado->fetch_assoc();
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingThree">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-      SLOT DE DISCO 3
+        <u>3°&nbspDISCO</u>
       </button>
     </h2>
     <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
@@ -870,7 +870,7 @@ $row = $resultado->fetch_assoc();
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingThree">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-      SLOT DE DISCO 4
+        <u>4°&nbspDISCO</u>
       </button>
     </h2>
     <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">

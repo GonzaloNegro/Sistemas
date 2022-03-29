@@ -13,11 +13,7 @@ function ConsultarIncidente($no_tic)
 	return [
 		$filas['ID_PLACAM'],/*0*/
 		$filas['PLACAM'],/*1*/
-        $filas['ID_MARCA'],/*2*/
-        $filas['ID_PROVEEDOR'],/*3*/
-        $filas['GARANTIA'],/*4*/
-        $filas['FACTURA'],/*5*/
-        $filas['FECHA']/*6*/
+        $filas['ID_MARCA']/*2*/
 	];
 }
 
@@ -51,12 +47,6 @@ function ConsultarIncidente($no_tic)
 	<div id="principalu" style="width: 97%" class="container-fluid">
                         <?php 
                         include("conexion.php");
-                        $sent= "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR = $consulta[3]";
-                        $resultado = $datos_base->query($sent);
-                        $row = $resultado->fetch_assoc();
-                        $pr = $row['PROVEEDOR'];?>
-                        <?php 
-                        include("conexion.php");
                         $sent= "SELECT MARCA FROM marcas WHERE ID_MARCA = $consulta[2]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
@@ -67,18 +57,6 @@ function ConsultarIncidente($no_tic)
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                                 <label id="lblForm" class="col-form-label col-xl col-lg">PLACA MADRE:</label>
                                 <input class="form-control col-xl col-lg" type="text" name="placam" placeholder="NOMBRE DEL MODELO" value="<?php echo $consulta[1]?>" required>
-                                <label id="lblForm" class="col-form-label col-xl col-lg">GARANTIA:</label>
-                                <input class="form-control col-xl col-lg" type="text" name="garantia" placeholder="TIEMPO DE GARANTIA" value="<?php echo $consulta[4]?>">
-                            </div>
-
-                            <div class="form-group row" style="margin: 10px; padding:10px;">
-                                <label id="lblForm" class="col-form-label col-xl col-lg">N°FACTURA:</label>
-                                <input class="form-control col-xl col-lg" type="text" name="factura" placeholder="N°" value="<?php echo $consulta[5]?>">
-                                <label id="lblForm" class="col-form-label col-xl col-lg">FECHA:</label>
-                                <input type="date" class="form-control col-xl col-lg" name="fecha" value="<?php echo $consulta[6]?>">
-                            </div>
-
-                            <div class="form-group row" style="margin: 10px; padding:10px;">
                                 <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
                                 <select name="marca" class="form-control col-xl col-lg">
                                         <option selected value="100"><?php echo $ma?></option>
@@ -91,21 +69,8 @@ function ConsultarIncidente($no_tic)
                                         <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                                         <?php endforeach?>
                                 </select>
-                                <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:</label>
-                                <select name="proveedor" class="form-control col-xl col-lg">
-                                        <option selected value="200"><?php echo $pr?></option>
-                                        <?php
-                                        include("conexion.php");
-                                        $consulta= "SELECT * FROM proveedor";
-                                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                        ?>
-                                        <?php foreach ($ejecutar as $opciones): ?> 
-                                        <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
-                                        <?php endforeach?>
-                                </select>
                             </div>
-                    <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
-                    <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
+
                     <div class="row justify-content-end" style="margin: 10px; padding:10px;">
                         <input style="width: 20%;"class="col-3 button" type="submit" value="MODIFICAR" >
                     </div>

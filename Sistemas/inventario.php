@@ -121,11 +121,13 @@ $row = $resultado->fetch_assoc();
 					if(isset($_POST['btn2'])){
 						$doc = $_POST['buscar'];
 						$contador = 0;
-						$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, i.MOTHERBOARD, s.SIST_OP, i.MICRO
+						$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO
 								FROM inventario i 
 								LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 								LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
 								LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA 
+								LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
+								LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
 								INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
 								WHERE 
 								a.AREA LIKE '%$doc%' 
@@ -133,7 +135,7 @@ $row = $resultado->fetch_assoc();
 								OR i.SERIEG LIKE '%$doc%' 
 								OR r.REPA LIKE '%$doc%'  
 								OR s.SIST_OP LIKE '%$doc%'
-								OR i.MICRO LIKE '%$doc%'
+								OR m.MICRO LIKE '%$doc%'
 								ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 									while($listar = mysqli_fetch_array($consultar))
 									{
@@ -163,11 +165,13 @@ $row = $resultado->fetch_assoc();
 					else
 					{
 					$contador = 0;
-					$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, i.MOTHERBOARD, s.SIST_OP, i.MICRO
+					$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO
 								FROM inventario i 
 								LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 								LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
 								LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
+								LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
+								LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
 								INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
 								ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 									while($listar = mysqli_fetch_array($consultar))

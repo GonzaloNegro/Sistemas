@@ -3,7 +3,7 @@ include('conexion.php');
 
 $micro = $_POST['micro'];
 $marca = $_POST['marca'];
-$factura = $_POST['factura'];
+/* $factura = $_POST['factura'];
 $proveedor = $_POST['proveedor'];
 $garantia = $_POST['garantia'];
 if(isset($_POST['fecha'])){
@@ -12,7 +12,7 @@ if(isset($_POST['fecha'])){
 		$date = strtotime($date);
 		$date = date('Y-m-d', $date);
 	}
-}
+} */
 
 /* SI UNO DE LOS CAMPOS ESTA REPETIDO */
 $sql = "SELECT * FROM micro WHERE MICRO = '$micro'";
@@ -33,11 +33,11 @@ if($micro == $mic AND $marca == $mar){
     header("Location: agregarmicro.php?no");
 }
 elseif($micro == $mi){
-    mysqli_query($datos_base, "INSERT INTO micro VALUES (DEFAULT, '$micro', '$marca', '$factura', '$proveedor', '$garantia', '$date')"); 
+    mysqli_query($datos_base, "INSERT INTO micro VALUES (DEFAULT, '$micro', '$marca')"); 
     header("Location: agregarmicro.php?repeat");
 }
 else{
-    mysqli_query($datos_base, "INSERT INTO micro VALUES (DEFAULT, '$micro', '$marca', '$factura', '$proveedor', '$garantia', '$date')"); 
+    mysqli_query($datos_base, "INSERT INTO micro VALUES (DEFAULT, '$micro', '$marca')"); 
     header("Location: agregarmicro.php?ok");
 }
 mysqli_close($datos_base);

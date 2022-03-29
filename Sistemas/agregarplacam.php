@@ -98,31 +98,6 @@ $row = $resultado->fetch_assoc();
                                 </select>
                             </div>
 
-                            <div class="form-group row" style="margin: 10px; padding:10px;">
-                            <label id="lblForm" class="col-form-label col-xl col-lg">N°FACTURA:</label>
-                                <input class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="factura" placeholder="N°" >
-                            <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:</label>
-                                <select name="proveedor" class="form-control col-xl col-lg" required>
-                                <option selected disabled>-SELECCIONE UNA-</option>
-                                <?php
-                                include("conexion.php");
-
-                                $consulta= "SELECT * FROM proveedor";
-                                $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                ?>
-                                <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value="<?php echo $opciones['ID_PROVEEDOR']?>"><?php echo $opciones['PROVEEDOR']?></option>						
-                                <?php endforeach ?>
-                                </select>
-                            </div>
-
-                            <div class="form-group row" style="margin: 10px; padding:10px;">
-                                <label id="lblForm" class="col-form-label col-xl col-lg">GARANTIA:</label>
-                                <input class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="garantia" placeholder="TIEMPO DE GARANTIA">
-                                <label id="lblForm" class="col-form-label col-xl col-lg">FECHA:</label>
-                                <input class="form-control col-xl col-lg" type="date" name="fecha">
-                            </div>
-
                             <div class="row justify-content-end" style="margin: 10px; padding:10px;">
                                 <input style="width: 20%;"class="col-3 button" type="submit" value="GUARDAR" >
                             </div>

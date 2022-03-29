@@ -33,7 +33,7 @@
 									<option value="" selected disabled="tipificacion">-SELECCIONE UNA-</option>
 									<?php
 									include('./../conexion.php');
-									$consulta= "SELECT * FROM resolutor";
+									$consulta= "SELECT * FROM resolutor WHERE ID_RESOLUTOR = 2 OR ID_RESOLUTOR = 3 OR ID_RESOLUTOR = 4 OR ID_RESOLUTOR = 5 OR ID_RESOLUTOR = 6 OR ID_RESOLUTOR = 10 OR ID_RESOLUTOR = 13 OR ID_RESOLUTOR = 15 OR ID_RESOLUTOR = 19 OR ID_RESOLUTOR = 20 OR ID_RESOLUTOR = 21";
 									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 									?>
 									<?php foreach ($ejecutar as $opciones): ?> 
