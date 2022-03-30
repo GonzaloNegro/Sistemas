@@ -23,7 +23,8 @@ function ConsultarIncidente($no_tic)
 <!DOCTYPE html>
 <html>
 <head>
-<title>MODIFICAR ÁREA</title>
+	<title>MODIFICAR ÁREA</title>
+	<link rel="icon" href="imagenes/logoObrasPúblicas.png">
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="estiloagregar.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">

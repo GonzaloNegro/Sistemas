@@ -16,23 +16,19 @@ function ConsultarIncidente($no_tic)
         $filas['SERIALN'],/*2*/
         $filas['SERIEG'],/*3*/
         $filas['ID_MARCA'],/*4*/
-        $filas['MOTHERBOARD'],/*5*/
-        $filas['ID_SO'],/*6*/
-        $filas['MICRO'],/*7*/
-        $filas['ID_ESTADOWS'],/*8*/
-        $filas['OBSERVACION'],/*9*/
-        $filas['ID_PROVEEDOR'],/*10*/
-        $filas['FACTURA'],/*11*/
-        $filas['MASTERIZADA'],/*12*/
-        $filas['MAC'],/*13*/
-        $filas['RIP'],/*14*/
-        $filas['IP'],/*15*/
-        $filas['ID_RED'],/*16*/
-        $filas['ID_TIPOWS'],/*17*/
-        $filas['ID_USUARIO'],/*18*/
-        $filas['GARANTIA'],/*19*/
-        $filas['ID_MICRO'],/*20*/
-        $filas['ID_PLACAM']/*21*/
+        $filas['ID_SO'],/*5*/
+        $filas['ID_ESTADOWS'],/*6*/
+        $filas['OBSERVACION'],/*7*/
+        $filas['ID_PROVEEDOR'],/*8*/
+        $filas['FACTURA'],/*9*/
+        $filas['MASTERIZADA'],/*10*/
+        $filas['MAC'],/*11*/
+        $filas['RIP'],/*12*/
+        $filas['IP'],/*13*/
+        $filas['ID_RED'],/*14*/
+        $filas['ID_TIPOWS'],/*15*/
+        $filas['ID_USUARIO'],/*16*/
+        $filas['GARANTIA']/*17*/
 	];
 }
 
@@ -41,6 +37,7 @@ function ConsultarIncidente($no_tic)
 <html>
 <head>
 <title>MODIFICAR EQUIPO</title>
+<link rel="icon" href="imagenes/logoObrasPúblicas.png">
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="estiloagregar.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,56 +64,42 @@ function ConsultarIncidente($no_tic)
         <div id="principalu" style="width: 97%" class="container-fluid">
                 <?php 
                     include("conexion.php");
-                    $sent= "SELECT RED FROM red WHERE ID_RED = $consulta[16]";
+                    $sent= "SELECT RED FROM red WHERE ID_RED = $consulta[14]";
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
                     $red = $row['RED'];
                 ?>
                 <?php 
                     include("conexion.php");
-                    $sent= "SELECT PLACAM FROM placam WHERE ID_PLACAM = $consulta[21]";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $pla = $row['PLACAM'];
-                ?>
-                <?php 
-                    include("conexion.php");
-                    $sent= "SELECT SIST_OP FROM so WHERE ID_SO = $consulta[6]";
+                    $sent= "SELECT SIST_OP FROM so WHERE ID_SO = $consulta[5]";
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
                     $so = $row['SIST_OP'];
                 ?>
                 <?php 
                     include("conexion.php");
-                    $sent= "SELECT MICRO FROM micro WHERE ID_MICRO = $consulta[20]";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $mic = $row['MICRO'];
-                ?>  
-                <?php 
-                    include("conexion.php");
-                    $sent= "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = $consulta[8]";
+                    $sent= "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = $consulta[6]";
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
                     $est = $row['ESTADO'];
                 ?>
                 <?php 
                     include("conexion.php");
-                    $sent= "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR = $consulta[10]";
+                    $sent= "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR = $consulta[8]";
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
                     $pro = $row['PROVEEDOR'];
                 ?>
                 <?php 
                     include("conexion.php");
-                    $sent= "SELECT TIPOWS FROM tipows WHERE ID_TIPOWS = $consulta[17]";
+                    $sent= "SELECT TIPOWS FROM tipows WHERE ID_TIPOWS = $consulta[15]";
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
                     $tip = $row['TIPOWS'];
                 ?>  
                 <?php 
                     include("conexion.php");
-                    $sent= "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = $consulta[18]";
+                    $sent= "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = $consulta[16]";
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
                     $usu = $row['NOMBRE'];
@@ -564,7 +547,28 @@ function ConsultarIncidente($no_tic)
 
 
 
-
+                <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT p.PLACAM 
+                    FROM inventario i 
+                    LEFT JOIN placamws pw ON pw.ID_WS = i.ID_WS
+                    LEFT JOIN placam p ON p.ID_PLACAM = pw.ID_PLACAM
+                    WHERE i.ID_WS = '$consulta[0]'";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $placam = $row['PLACAM'];
+                ?>
+                <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT m.MICRO 
+                    FROM inventario i 
+                    LEFT JOIN microws mws ON mws.ID_WS = i.ID_WS
+                    LEFT JOIN micro m ON m.ID_MICRO= mws.ID_MICRO
+                    WHERE i.ID_WS='$consulta[0]'";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $micro = $row['MICRO'];
+                ?>
 
 
 
@@ -583,25 +587,25 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">MAC: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="mac" value="<?php echo $consulta[13]?>">
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="mac" value="<?php echo $consulta[12]?>">
                         <label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIÓN: </label>
-                        <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" rows="3"><?php echo $consulta[9]?></textarea>
+                        <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" rows="3"><?php echo $consulta[8]?></textarea>
                     </div>
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">IP: </label>
-                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="ip" value="<?php echo $consulta[15]?>">
+                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="ip" value="<?php echo $consulta[13]?>">
                         <label id="lblForm"class="col-form-label col-xl col-lg">FACTURA: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="fac" value="<?php echo $consulta[11]?>">
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="fac" value="<?php echo $consulta[9]?>">
                     </div>
 
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="gar" value="<?php echo $consulta[19]?>">
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="gar" value="<?php echo $consulta[17]?>">
                         <label id="lblForm"class="col-form-label col-xl col-lg">MASTERIZACIÓN: </label>
                         <select style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" name="masterizacion">
-                        <option selected value="100"><?php echo $consulta[12]?></option>
+                        <option selected value="100"><?php echo $consulta[10]?></option>
                         <option value="SI">SI</option>
                             <option value ="NO">NO</option>
                         </select>
@@ -611,7 +615,7 @@ function ConsultarIncidente($no_tic)
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">RIP: </label>
                         <select style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" name="reserva">
-                        <option selected value="200"><?php echo $consulta[14]?></option>
+                        <option selected value="200"><?php echo $consulta[12]?></option>
                             <option value ="NO">NO</option>
                             <option value="SI">SI</option>
                         </select>
@@ -741,14 +745,159 @@ function ConsultarIncidente($no_tic)
                                     </select>
                     </div>
 
-                    <hr style='display: block; height: 3px;'>
-                    <h1 style="font-size: 32px; color: #5c6f82; text-decoration: underline;">MEMORIAS</h1>
 
-<div class="accordion accordion-flush" id="accordionFlushExample">
+
+
+<!-- <h1 style="font-size: 32px; color: #5c6f82; text-decoration: underline;">PLACA DE VIDEO</h1> -->
+
+<div class="accordion accordion-flush" id="accordionFlushExample" style="margin-top: 25px;">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingpl">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsepl" aria-expanded="false" aria-controls="flush-collapsepl">
+      <u>1°&nbspPLACA DE VIDEO</u>
+      </button>
+    </h2>
+    <div id="flush-collapsepl" class="accordion-collapse collapse" aria-labelledby="flush-headingpl" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body" style="color: #53AAE0;">
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">PLACA:</label> 
+							    <select name="pvmem" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM memoria";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MEMORIA'] ?>><?php echo $opciones['MEMORIA']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
+                            <select name="pvmod" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM modelo";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']?></option>
+                                    <?php endforeach?>
+                                </select>
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="pvprov" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="pvfact" placeholder="N° FACTURA">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">N° SERIE:</label> 
+          <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="pvnserie" placeholder="N° SERIE">
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="pvfec">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="pvgar" placeholder="TIEMPO DE GARANTIA">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingpl1">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsepl1" aria-expanded="false" aria-controls="flush-collapsepl1">
+      <u>2°&nbspPLACA DE VIDEO</u>
+      </button>
+    </h2>
+    <div id="flush-collapsepl1" class="accordion-collapse collapse" aria-labelledby="flush-headingpl1" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body" style="color: #53AAE0;">
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">PLACA:</label> 
+							    <select name="pvmem1" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM memoria";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MEMORIA'] ?>><?php echo $opciones['MEMORIA']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
+                            <select name="pvmod1" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM modelo";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']?></option>
+                                    <?php endforeach?>
+                                </select>
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="pvprov1" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="pvfact1" placeholder="N° FACTURA">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">N° SERIE:</label> 
+          <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="pvnserie1" placeholder="N° SERIE">
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="pvfec1">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="pvgar1" placeholder="TIEMPO DE GARANTIA">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <h1 style="font-size: 32px; color: #5c6f82; text-decoration: underline;">MEMORIAS</h1> -->
+
+<div class="accordion accordion-flush" id="accordionFlushExample" style="margin-top: 25px;">
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-heading1">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse1" aria-expanded="false" aria-controls="flush-collapse1">
-        SLOT 1
+      <u>1°&nbspMEMORIA</u>
       </button>
     </h2>
     <div id="flush-collapse1" class="accordion-collapse collapse" aria-labelledby="flush-heading1" data-bs-parent="#accordionFlushExample">
@@ -821,7 +970,7 @@ function ConsultarIncidente($no_tic)
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-heading2">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse2" aria-expanded="false" aria-controls="flush-collapse2">
-        SLOT 2
+      <u>2°&nbspMEMORIA</u>
       </button>
     </h2>
     <div id="flush-collapse2" class="accordion-collapse collapse" aria-labelledby="flush-heading2" data-bs-parent="#accordionFlushExample">
@@ -894,7 +1043,7 @@ function ConsultarIncidente($no_tic)
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-heading3">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse3" aria-expanded="false" aria-controls="flush-collapse3">
-        SLOT 3
+      <u>3°&nbspMEMORIA</u>
       </button>
     </h2>
     <div id="flush-collapse3" class="accordion-collapse collapse" aria-labelledby="flush-heading3" data-bs-parent="#accordionFlushExample">
@@ -967,7 +1116,7 @@ function ConsultarIncidente($no_tic)
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-heading4">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse4" aria-expanded="false" aria-controls="flush-collapse4">
-        SLOT 4
+      <u>4°&nbspMEMORIA</u>
       </button>
     </h2>
     <div id="flush-collapse4" class="accordion-collapse collapse" aria-labelledby="flush-heading4" data-bs-parent="#accordionFlushExample">
@@ -1048,14 +1197,13 @@ function ConsultarIncidente($no_tic)
 
                         
 
-<hr style='display: block; height: 3px;'>
-<h1 style="font-size: 32px; color: #5c6f82; text-decoration: underline;">DISCOS</h1>
+<!-- <h1 style="font-size: 32px; color: #5c6f82; text-decoration: underline;">DISCOS</h1> -->
 
-<div class="accordion accordion-flush" id="accordionFlushExample">
+<div class="accordion accordion-flush" id="accordionFlushExample" style="margin-top: 25px;">
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingOne">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-        SLOT DE DISCO 1
+      <u>1°&nbspDISCO</u>
       </button>
     </h2>
     <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
@@ -1128,7 +1276,7 @@ function ConsultarIncidente($no_tic)
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingTwo">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-      SLOT DE DISCO 2
+      <u>2°&nbspDISCO</u>
       </button>
     </h2>
     <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
@@ -1201,7 +1349,7 @@ function ConsultarIncidente($no_tic)
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingThree">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-      SLOT DE DISCO 3
+      <u>3°&nbspDISCO</u>
       </button>
     </h2>
     <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
@@ -1274,7 +1422,7 @@ function ConsultarIncidente($no_tic)
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingThree">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-      SLOT DE DISCO 4
+      <u>4°&nbspDISCO</u>
       </button>
     </h2>
     <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">

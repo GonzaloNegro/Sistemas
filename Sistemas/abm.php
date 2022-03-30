@@ -102,14 +102,14 @@ $row = $resultado->fetch_assoc();
                         echo'
 
                     
-                    <a href=abmtipificacion.php><input type="button" class="button but2" value="ABM TIPIFICACIÓN"></a>
-                    <a href=abmresolutor.php><input type="button" class="button but2" value="ABM RESOLUTOR"></a>
-                    <a href="abmequipos.php"><input type="button" class="button but2" value="ABM EQUIPOS"></a>
+                    <a href=abmtipificacion.php><input type="button" class="button but2" value="TIPIFICACIÓN"></a>
+                    <a href=abmresolutor.php><input type="button" class="button but2" value="RESOLUTOR"></a>
+                    <a href="abmequipos.php"><input type="button" class="button but2" value="EQUIPOS"></a>
                  ';
 					} ?>
-                    <a href=abmarea.php><input type="button" class="button but2" value="ABM ÁREA"></a>
-                    <a href="abmimpresoras.php"><input type="button" class="button but2" value="ABM IMPRESORAS"></a>
-                    <a href="abmmonitores.php"><input type="button" class="button but2" value="ABM MONITORES"></a>
+                    <a href=abmarea.php><input type="button" class="button but2" value="ÁREA"></a>
+                    <a href="abmimpresoras.php"><input type="button" class="button but2" value="IMPRESORAS"></a>
+                    <a href="abmmonitores.php"><input type="button" class="button but2" value="MONITORES"></a>
             </div>
             <div id=der
             data-aos="fade-left"
@@ -124,14 +124,15 @@ $row = $resultado->fetch_assoc();
 					/*OR $row['ID_RESOLUTOR'] == 20 //GUSTAVO*/
 					){
                         echo'
-                    <a href="abmmarcas.php"><input type="button" class="button but2" value="ABM MARCAS"></a>
-                    <a href="abmmicro.php"><input type="button" class="button but2" value="ABM MICRO"></a>
-                    <a href="abmmodelos.php"><input type="button" class="button but2" value="ABM MODELOS"></a>
-                    <a href="abmplacamadre.php"><input type="button" class="button but2" value="ABM PLACA MADRE"></a>
+                    <a href="abmmarcas.php"><input type="button" class="button but2" value="MARCAS"></a>
+                    <a href="abmmicro.php"><input type="button" class="button but2" value="MICRO"></a>
+                    <a href="abmmodelos.php"><input type="button" class="button but2" value="MODELOS"></a>
+                    <a href="abmplacamadre.php"><input type="button" class="button but2" value="PLACA MADRE"></a>
+                    <a href="#"><input type="button" class="button but2" value="PLACA DE VIDEO"></a>
                     ';
 					} ?>
-                    <a href="abmotros.php"><input type="button" class="button but2" value="ABM OTROS PERIFERICOS"></a>
-                    <a href="abmusuario.php"><input type="button" class="button but2" value="ABM USUARIO"></a>
+                    <a href="abmotros.php"><input type="button" class="button but2" value="OTROS PERIFERICOS"></a>
+                    <a href="abmusuario.php"><input type="button" class="button but2" value="USUARIO"></a>
 
             </div>
         </div>

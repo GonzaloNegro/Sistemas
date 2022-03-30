@@ -1,4 +1,5 @@
 <?php 
+error_reporting(0);
 session_start();
 include('conexion.php');
 
@@ -16,21 +17,19 @@ function ConsultarIncidente($no_tic)
 		$filas['SERIALN'],/*2*/
         $filas['SERIEG'],/*3*/
         $filas['ID_MARCA'],/*4*/
-		$filas['MOTHERBOARD'],/*5*/
-		$filas['ID_SO'],/*6*/
-		$filas['MICRO'],/*7*/
-		$filas['ID_ESTADOWS'],/*8*/
-        $filas['OBSERVACION'],/*9*/
-		$filas['ID_PROVEEDOR'],/*10*/
-        $filas['FACTURA'],/*11*/
-		$filas['MASTERIZADA'],/*12*/
-        $filas['MAC'],/*13*/
-        $filas['RIP'],/*14*/
-        $filas['IP'],/*15*/
-        $filas['ID_RED'],/*16*/
-		$filas['ID_TIPOWS'],/*17*/
-        $filas['ID_USUARIO'],/*18*/
-		$filas['GARANTIA']/*19*/
+		$filas['ID_SO'],/*5*/
+		$filas['ID_ESTADOWS'],/*6*/
+        $filas['OBSERVACION'],/*7*/
+		$filas['ID_PROVEEDOR'],/*8*/
+        $filas['FACTURA'],/*9*/
+		$filas['MASTERIZADA'],/*10*/
+        $filas['MAC'],/*11*/
+        $filas['RIP'],/*12*/
+        $filas['IP'],/*13*/
+        $filas['ID_RED'],/*14*/
+		$filas['ID_TIPOWS'],/*15*/
+        $filas['ID_USUARIO'],/*16*/
+		$filas['GARANTIA']/*17*/
 	];
 }
 
@@ -39,6 +38,7 @@ function ConsultarIncidente($no_tic)
 <html>
 <head>
     <title>DETALLES DEL EQUIPO</title>
+    <link rel="icon" href="imagenes/logoObrasPúblicas.png">
 	<meta charset="utf-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -78,7 +78,7 @@ function ConsultarIncidente($no_tic)
             <div id="detalles" class="container-fluid">
                 <?php
                     /*/////////////////////NOMBRE//////////////////////*/
-                    $sql = "SELECT u.NOMBRE FROM inventario i LEFT JOIN usuarios u ON i.ID_USUARIO = u.ID_USUARIO WHERE i.ID_USUARIO='$consulta[18]'";
+                    $sql = "SELECT u.NOMBRE FROM inventario i LEFT JOIN usuarios u ON i.ID_USUARIO = u.ID_USUARIO WHERE i.ID_USUARIO='$consulta[16]'";
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
                     $nom = $row['NOMBRE'];
@@ -88,12 +88,12 @@ function ConsultarIncidente($no_tic)
                     $row = $resultado->fetch_assoc();
                     $are = $row['AREA'];
                     /*/////////////////////ESTADO//////////////////////*/
-                    $sql = "SELECT e.ESTADO FROM inventario i INNER JOIN estado_ws e ON e.ID_ESTADOWS = i.ID_ESTADOWS WHERE i.ID_ESTADOWS='$consulta[8]'";
+                    $sql = "SELECT e.ESTADO FROM inventario i INNER JOIN estado_ws e ON e.ID_ESTADOWS = i.ID_ESTADOWS WHERE i.ID_ESTADOWS='$consulta[6]'";
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
                     $est = $row['ESTADO'];
                     /*/////////////////////TIPO//////////////////////*/
-                    $sql = "SELECT t.TIPOWS FROM inventario i LEFT JOIN tipows t ON t.ID_TIPOWS = i.ID_TIPOWS WHERE i.ID_TIPOWS='$consulta[17]'";
+                    $sql = "SELECT t.TIPOWS FROM inventario i LEFT JOIN tipows t ON t.ID_TIPOWS = i.ID_TIPOWS WHERE i.ID_TIPOWS='$consulta[15]'";
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
                     $tip = $row['TIPOWS'];
@@ -103,7 +103,7 @@ function ConsultarIncidente($no_tic)
                     $row = $resultado->fetch_assoc();
                     $mar = $row['MARCA'];
                     /*/////////////////////SO//////////////////////*/
-                    $sql = "SELECT s.SIST_OP FROM inventario i INNER JOIN so s ON s.ID_SO = i.ID_SO WHERE i.        ID_SO='$consulta[6]'";
+                    $sql = "SELECT s.SIST_OP FROM inventario i INNER JOIN so s ON s.ID_SO = i.ID_SO WHERE i.        ID_SO='$consulta[5]'";
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
                     $so = $row['SIST_OP'];
@@ -280,7 +280,7 @@ function ConsultarIncidente($no_tic)
                     WHERE i.ID_WS='$consulta[0]' AND ws.SLOT = 1";
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
-                    $pmem1 = $row['PROVEEDOR'];
+                    $pmem3 = $row['PROVEEDOR'];
                     /*/////////////////////MARCA MEMORIA 3//////////////////////*/
                     $sql = "SELECT m.MARCA 
                     FROM inventario i 
@@ -388,6 +388,42 @@ function ConsultarIncidente($no_tic)
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
                     $tdisc1 = $row['TIPOD'];
+                    /*/////////////////////PROVEEDOR DISCO 1//////////////////////*/
+                    $sql = "SELECT p.PROVEEDOR 
+                    FROM inventario i 
+                    LEFT JOIN discows dw ON dw.ID_WS = i.ID_WS
+                    LEFT JOIN proveedor p ON p.ID_PROVEEDOR= dw.ID_PROVEEDOR
+                    WHERE i.ID_WS='$consulta[0]' AND dw.NUMERO = 1";
+                    $resultado = $datos_base->query($sql);
+                    $row = $resultado->fetch_assoc();
+                    $pdisc1 = $row['PROVEEDOR'];
+                    /*/////////////////////MARCA DISCO 1//////////////////////*/
+                    $sql = "SELECT m.MARCA 
+                    FROM inventario i 
+                    LEFT JOIN discows dw ON dw.ID_WS = i.ID_WS
+                    LEFT JOIN marcas m ON m.ID_MARCA= dw.ID_MARCA
+                    WHERE i.ID_WS='$consulta[0]' AND dw.NUMERO = 1";
+                    $resultado = $datos_base->query($sql);
+                    $row = $resultado->fetch_assoc();
+                    $mdisc1 = $row['MARCA'];
+                    /*/////////////////////FACTURA DISCO 1//////////////////////*/
+                    $sql = "SELECT FACTURA FROM discows WHERE ID_WS='$consulta[0]' AND NUMERO = 1";
+                    $resultado = $datos_base->query($sql);
+                    $row = $resultado->fetch_assoc();
+                    $fadisc1 = $row['FACTURA'];
+                    /*/////////////////////GARANTIA DISCO 1//////////////////////*/
+                    $sql = "SELECT GARANTIA FROM discows WHERE ID_WS='$consulta[0]' AND NUMERO = 1";
+                    $resultado = $datos_base->query($sql);
+                    $row = $resultado->fetch_assoc();
+                    $gdisc1 = $row['GARANTIA'];
+                    /*/////////////////////FECHA DISCO 1//////////////////////*/
+                    $sql = "SELECT FECHA FROM discows WHERE ID_WS='$consulta[0]' AND NUMERO = 1";;
+                    $resultado = $datos_base->query($sql);
+                    $row = $resultado->fetch_assoc();
+                    $fdisc1 = $row['FECHA'];
+
+
+
                     /*/////////////////////DISCO 2//////////////////////*/
                     $sql = "SELECT d.DISCO 
                     FROM inventario i 
@@ -406,6 +442,42 @@ function ConsultarIncidente($no_tic)
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
                     $tdisc2 = $row['TIPOD'];
+                    /*/////////////////////PROVEEDOR DISCO 2//////////////////////*/
+                    $sql = "SELECT p.PROVEEDOR 
+                    FROM inventario i 
+                    LEFT JOIN discows dw ON dw.ID_WS = i.ID_WS
+                    LEFT JOIN proveedor p ON p.ID_PROVEEDOR= dw.ID_PROVEEDOR
+                    WHERE i.ID_WS='$consulta[0]' AND dw.NUMERO = 2";
+                    $resultado = $datos_base->query($sql);
+                    $row = $resultado->fetch_assoc();
+                    $pdisc2 = $row['PROVEEDOR'];
+                    /*/////////////////////MARCA DISCO 2//////////////////////*/
+                    $sql = "SELECT m.MARCA 
+                    FROM inventario i 
+                    LEFT JOIN discows dw ON dw.ID_WS = i.ID_WS
+                    LEFT JOIN marcas m ON m.ID_MARCA= dw.ID_MARCA
+                    WHERE i.ID_WS='$consulta[0]' AND dw.NUMERO = 2";
+                    $resultado = $datos_base->query($sql);
+                    $row = $resultado->fetch_assoc();
+                    $mdisc2 = $row['MARCA'];
+                    /*/////////////////////FACTURA DISCO 2//////////////////////*/
+                    $sql = "SELECT FACTURA FROM discows WHERE ID_WS='$consulta[0]' AND NUMERO = 2";
+                    $resultado = $datos_base->query($sql);
+                    $row = $resultado->fetch_assoc();
+                    $fadisc2 = $row['FACTURA'];
+                    /*/////////////////////GARANTIA DISCO 2//////////////////////*/
+                    $sql = "SELECT GARANTIA FROM discows WHERE ID_WS='$consulta[0]' AND NUMERO = 2";
+                    $resultado = $datos_base->query($sql);
+                    $row = $resultado->fetch_assoc();
+                    $gdisc2 = $row['GARANTIA'];
+                    /*/////////////////////FECHA DISCO 2//////////////////////*/
+                    $sql = "SELECT FECHA FROM discows WHERE ID_WS='$consulta[0]' AND NUMERO = 2";;
+                    $resultado = $datos_base->query($sql);
+                    $row = $resultado->fetch_assoc();
+                    $fdisc2 = $row['FECHA'];
+
+
+
                     /*/////////////////////DISCO 3//////////////////////*/
                     $sql = "SELECT d.DISCO 
                     FROM inventario i 
@@ -415,7 +487,7 @@ function ConsultarIncidente($no_tic)
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
                     $disc3 = $row['DISCO'];
-                     /*/////////////////////TIPO DISCO 1//////////////////////*/
+                     /*/////////////////////TIPO DISCO 3//////////////////////*/
                     $sql = "SELECT t.TIPOD 
                     FROM inventario i 
                     LEFT JOIN discows dw ON dw.ID_WS = i.ID_WS
@@ -424,6 +496,42 @@ function ConsultarIncidente($no_tic)
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
                     $tdisc3 = $row['TIPOD'];
+                    /*/////////////////////PROVEEDOR DISCO 3//////////////////////*/
+                    $sql = "SELECT p.PROVEEDOR 
+                    FROM inventario i 
+                    LEFT JOIN discows dw ON dw.ID_WS = i.ID_WS
+                    LEFT JOIN proveedor p ON p.ID_PROVEEDOR= dw.ID_PROVEEDOR
+                    WHERE i.ID_WS='$consulta[0]' AND dw.NUMERO = 3";
+                    $resultado = $datos_base->query($sql);
+                    $row = $resultado->fetch_assoc();
+                    $pdisc3 = $row['PROVEEDOR'];
+                    /*/////////////////////MARCA DISCO 3//////////////////////*/
+                    $sql = "SELECT m.MARCA 
+                    FROM inventario i 
+                    LEFT JOIN discows dw ON dw.ID_WS = i.ID_WS
+                    LEFT JOIN marcas m ON m.ID_MARCA= dw.ID_MARCA
+                    WHERE i.ID_WS='$consulta[0]' AND dw.NUMERO = 3";
+                    $resultado = $datos_base->query($sql);
+                    $row = $resultado->fetch_assoc();
+                    $mdisc3 = $row['MARCA'];
+                    /*/////////////////////FACTURA DISCO 3//////////////////////*/
+                    $sql = "SELECT FACTURA FROM discows WHERE ID_WS='$consulta[0]' AND NUMERO = 3";
+                    $resultado = $datos_base->query($sql);
+                    $row = $resultado->fetch_assoc();
+                    $fadisc3 = $row['FACTURA'];
+                    /*/////////////////////GARANTIA DISCO 3//////////////////////*/
+                    $sql = "SELECT GARANTIA FROM discows WHERE ID_WS='$consulta[0]' AND NUMERO = 3";
+                    $resultado = $datos_base->query($sql);
+                    $row = $resultado->fetch_assoc();
+                    $gdisc3 = $row['GARANTIA'];
+                    /*/////////////////////FECHA DISCO 3//////////////////////*/
+                    $sql = "SELECT FECHA FROM discows WHERE ID_WS='$consulta[0]' AND NUMERO = 3";;
+                    $resultado = $datos_base->query($sql);
+                    $row = $resultado->fetch_assoc();
+                    $fdisc3 = $row['FECHA'];
+
+
+
                     /*/////////////////////DISCO 4//////////////////////*/
                     $sql = "SELECT d.DISCO 
                     FROM inventario i 
@@ -433,7 +541,7 @@ function ConsultarIncidente($no_tic)
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
                     $disc4 = $row['DISCO'];
-                     /*/////////////////////TIPO DISCO 1//////////////////////*/
+                     /*/////////////////////TIPO DISCO 4//////////////////////*/
                     $sql = "SELECT t.TIPOD 
                     FROM inventario i 
                     LEFT JOIN discows dw ON dw.ID_WS = i.ID_WS
@@ -442,8 +550,55 @@ function ConsultarIncidente($no_tic)
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
                     $tdisc4 = $row['TIPOD'];
+                    /*/////////////////////PROVEEDOR DISCO 4//////////////////////*/
+                    $sql = "SELECT p.PROVEEDOR 
+                    FROM inventario i 
+                    LEFT JOIN discows dw ON dw.ID_WS = i.ID_WS
+                    LEFT JOIN proveedor p ON p.ID_PROVEEDOR= dw.ID_PROVEEDOR
+                    WHERE i.ID_WS='$consulta[0]' AND dw.NUMERO = 4";
+                    $resultado = $datos_base->query($sql);
+                    $row = $resultado->fetch_assoc();
+                    $pdisc4 = $row['PROVEEDOR'];
+                    /*/////////////////////MARCA DISCO 4//////////////////////*/
+                    $sql = "SELECT m.MARCA 
+                    FROM inventario i 
+                    LEFT JOIN discows dw ON dw.ID_WS = i.ID_WS
+                    LEFT JOIN marcas m ON m.ID_MARCA= dw.ID_MARCA
+                    WHERE i.ID_WS='$consulta[0]' AND dw.NUMERO = 4";
+                    $resultado = $datos_base->query($sql);
+                    $row = $resultado->fetch_assoc();
+                    $mdisc4 = $row['MARCA'];
+                    /*/////////////////////FACTURA DISCO 4//////////////////////*/
+                    $sql = "SELECT FACTURA FROM discows WHERE ID_WS='$consulta[0]' AND NUMERO = 4";
+                    $resultado = $datos_base->query($sql);
+                    $row = $resultado->fetch_assoc();
+                    $fadisc4 = $row['FACTURA'];
+                    /*/////////////////////GARANTIA DISCO 4//////////////////////*/
+                    $sql = "SELECT GARANTIA FROM discows WHERE ID_WS='$consulta[0]' AND NUMERO = 4";
+                    $resultado = $datos_base->query($sql);
+                    $row = $resultado->fetch_assoc();
+                    $gdisc4 = $row['GARANTIA'];
+                    /*/////////////////////FECHA DISCO 4//////////////////////*/
+                    $sql = "SELECT FECHA FROM discows WHERE ID_WS='$consulta[0]' AND NUMERO = 4";;
+                    $resultado = $datos_base->query($sql);
+                    $row = $resultado->fetch_assoc();
+                    $fdisc4 = $row['FECHA'];
 
+                    function fecha($f){
+                        $fecha = "0000-00-00";
+                        $fv = "";
 
+                        if($f == $fecha OR $f == $fv)
+                        {
+                            $f = date("d-m-Y", strtotime($f));
+                            $f = "-";
+                            /*$fec = "-";*/
+                        }
+                        else{
+                            $f = date("d-m-Y", strtotime($f));
+                        }
+                        return $f;
+                    }
 
                 ?>  
                     <div class="form-group row" style=" padding:5px;">
@@ -483,7 +638,11 @@ function ConsultarIncidente($no_tic)
                                 <div class="accordion-body">
                                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PROVEEDOR:</u>&nbsp &nbsp &nbsp<?php echo $pmem1?></h4>
                                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u>&nbsp &nbsp &nbsp<?php echo $famem1?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA:</u>&nbsp &nbsp &nbsp<?php echo $fmem1?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA:</u>&nbsp &nbsp &nbsp
+                                        <?php 
+                                        $f1= fecha($fmem1); 
+                                        echo $f1;
+                                        ?></h4>
                                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MARCA:</u>&nbsp &nbsp &nbsp<?php echo $mmem1?></h4>
                                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $gmem1?></h4>
                                 </div>
@@ -499,7 +658,11 @@ function ConsultarIncidente($no_tic)
                                 <div class="accordion-body">
                                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PROVEEDOR:</u>&nbsp &nbsp &nbsp<?php echo $pmem2?></h4>
                                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u>&nbsp &nbsp &nbsp<?php echo $famem2?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA:</u>&nbsp &nbsp &nbsp<?php echo $fmem2?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA:</u>&nbsp &nbsp &nbsp
+                                        <?php 
+                                        $f1= fecha($fmem2); 
+                                        echo $f1;
+                                        ?></h4>
                                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MARCA:</u>&nbsp &nbsp &nbsp<?php echo $mmem2?></h4>
                                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $gmem2?></h4>
                                 </div>
@@ -515,7 +678,11 @@ function ConsultarIncidente($no_tic)
                                 <div class="accordion-body">
                                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PROVEEDOR:</u>&nbsp &nbsp &nbsp<?php echo $pmem3?></h4>
                                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u>&nbsp &nbsp &nbsp<?php echo $famem3?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA:</u>&nbsp &nbsp &nbsp<?php echo $fmem3?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA:</u>&nbsp &nbsp &nbsp
+                                        <?php 
+                                        $f1= fecha($fmem3); 
+                                        echo $f1;
+                                        ?></h4>
                                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MARCA:</u>&nbsp &nbsp &nbsp<?php echo $mmem3?></h4>
                                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $gmem3?></h4>
                                 </div>
@@ -531,7 +698,11 @@ function ConsultarIncidente($no_tic)
                                 <div class="accordion-body">
                                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PROVEEDOR:</u>&nbsp &nbsp &nbsp<?php echo $pmem4?></h4>
                                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u>&nbsp &nbsp &nbsp<?php echo $famem4?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA:</u>&nbsp &nbsp &nbsp<?php echo $fmem4?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA:</u>&nbsp &nbsp &nbsp
+                                        <?php 
+                                        $f1= fecha($fmem4); 
+                                        echo $f1;
+                                        ?></h4>
                                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MARCA:</u>&nbsp &nbsp &nbsp<?php echo $mmem4?></h4>
                                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $gmem4?></h4>
                                 </div>
@@ -539,7 +710,6 @@ function ConsultarIncidente($no_tic)
                             </div>
                         </div>
                     </div>
-
 
 
 
@@ -555,7 +725,15 @@ function ConsultarIncidente($no_tic)
                                 </h2>
                                 <div id="flush-collapseOn" class="accordion-collapse collapse" aria-labelledby="flush-headingOn" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
-                                
+                                <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PROVEEDOR:</u>&nbsp &nbsp &nbsp<?php echo $pdisc1?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u>&nbsp &nbsp &nbsp<?php echo $fadisc1?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA:</u>&nbsp &nbsp &nbsp
+                                        <?php 
+                                        $f1= fecha($fdisc1); 
+                                        echo $f1;
+                                        ?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MARCA:</u>&nbsp &nbsp &nbsp<?php echo $mdisc1?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $gdisc1?></h4>
                                 </div>
                                 </div>
                             </div>
@@ -567,7 +745,14 @@ function ConsultarIncidente($no_tic)
                                 </h2>
                                 <div id="flush-collapseTw" class="accordion-collapse collapse" aria-labelledby="flush-headingTw" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
-                                
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u>&nbsp &nbsp &nbsp<?php echo $fadisc2?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA:</u>&nbsp &nbsp &nbsp
+                                    <?php 
+                                    $f1= fecha($fdisc2); 
+                                    echo $f1;
+                                    ?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MARCA:</u>&nbsp &nbsp &nbsp<?php echo $mdisc2?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $gdisc2?></h4>
                                 </div>
                                 </div>
                             </div>
@@ -579,7 +764,14 @@ function ConsultarIncidente($no_tic)
                                 </h2>
                                 <div id="flush-collapseThre" class="accordion-collapse collapse" aria-labelledby="flush-headingThre" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
-                                
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u>&nbsp &nbsp &nbsp<?php echo $fadisc3?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA:</u>&nbsp &nbsp &nbsp
+                                    <?php 
+                                    $f1= fecha($fdisc3); 
+                                    echo $f1;
+                                    ?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MARCA:</u>&nbsp &nbsp &nbsp<?php echo $mdisc3?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $gdisc3?></h4>
                                 </div>
                                 </div>
                             </div>
@@ -591,7 +783,14 @@ function ConsultarIncidente($no_tic)
                                 </h2>
                                 <div id="flush-collapseFou" class="accordion-collapse collapse" aria-labelledby="flush-headingFou" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
-                                
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u>&nbsp &nbsp &nbsp<?php echo $fadisc4?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA:</u>&nbsp &nbsp &nbsp
+                                    <?php 
+                                    $f1= fecha($fdisc4); 
+                                    echo $f1;
+                                    ?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MARCA:</u>&nbsp &nbsp &nbsp<?php echo $mdisc4?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $gdisc4?></h4>
                                 </div>
                                 </div>
                             </div>
@@ -605,20 +804,20 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row" style="padding:5px;">
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>SERIALN:</u>&nbsp &nbsp &nbsp<?php echo $consulta[2]?></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MASTERIZACIÓN:</u>&nbsp &nbsp &nbsp<?php echo $consulta[12]?></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>OBSERVACIÓN:</u>&nbsp &nbsp &nbsp<?php echo $consulta[9]?></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MASTERIZACIÓN:</u>&nbsp &nbsp &nbsp<?php echo $consulta[10]?></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>OBSERVACIÓN:</u>&nbsp &nbsp &nbsp<?php echo $consulta[7]?></h4>
                     </div>
 
                     <div class="form-group row" style="padding:5px;">
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>RED:</u>&nbsp &nbsp &nbsp<?php echo $red?></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>NRO MAC:</u>&nbsp &nbsp &nbsp<?php echo $consulta[13]?></h4> 
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>RESERVA DE IP:</u>&nbsp &nbsp &nbsp<?php echo $consulta[14]?></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>NRO MAC:</u>&nbsp &nbsp &nbsp<?php echo $consulta[11]?></h4> 
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>RESERVA DE IP:</u>&nbsp &nbsp &nbsp<?php echo $consulta[12]?></h4>
                     </div>
 
                     <div class="form-group row" style="padding:5px;">
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PROVEEDOR:</u>&nbsp &nbsp &nbsp<?php echo $prov?></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u>&nbsp &nbsp &nbsp<?php echo $consulta[11]?></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $consulta[19]?></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u>&nbsp &nbsp &nbsp<?php echo $consulta[9]?></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $consulta[17]?></h4>
                     </div>
             </div>
 	</section>

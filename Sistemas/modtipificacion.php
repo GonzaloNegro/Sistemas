@@ -21,6 +21,7 @@ function ConsultarIncidente($no_tic)
 <html>
 <head>
 <title>MODIFICAR TIPIFICACIÓN</title>
+<link rel="icon" href="imagenes/logoObrasPúblicas.png">
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="estiloagregar.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">

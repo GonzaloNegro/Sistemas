@@ -15,6 +15,7 @@ $row = $resultado->fetch_assoc();
 <html>
 <head>
 	<title>AGREGAR EQUIPO</title><meta charset="utf-8">
+  <link rel="icon" href="imagenes/logoObrasPúblicas.png">
 	<link rel="stylesheet" type="text/css" href="estiloagregar.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -133,34 +134,6 @@ $row = $resultado->fetch_assoc();
 
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
-                            <label id="lblForm"class="col-form-label col-xl col-lg">PROCESADOR:</label>
-                            <select name="micro" class="form-control col-xl col-lg" required>
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                                    <?php
-                                    include("conexion.php");
-                                    $consulta= "SELECT * FROM micro";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_MICRO'] ?>><?php echo $opciones['MICRO']?></option>
-                                    <?php endforeach?>
-                                </select>
-                                <label id="lblForm"class="col-form-label col-xl col-lg">PLACA MADRE:</label>
-                                <select name="placam" class="form-control col-xl col-lg" required>
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                                    <?php
-                                    include("conexion.php");
-                                    $consulta= "SELECT * FROM placam";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_PLACAM'] ?>><?php echo $opciones['PLACAM']?></option>
-                                    <?php endforeach?>
-                                </select>
-                        </div> 
-
-
-                        <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm" class="col-form-label col-xl col-lg">TIPO PC:</label> 
 							              <select name="tippc" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
@@ -240,14 +213,154 @@ $row = $resultado->fetch_assoc();
 
 
 
-  <hr style='display: block; height: 3px;'>
-  <h1 style="font-size: 32px; color: #5c6f82; text-decoration: underline;">PLACA DE VIDEO</h1>
 
-<div class="accordion accordion-flush" id="accordionFlushExample">
+
+
+<!-- <h1 style="font-size: 32px; color: #5c6f82; text-decoration: underline;">PLACA MADRE</h1> -->
+
+<div class="accordion accordion-flush" id="accordionFlushExample" style="margin-top: 25px;">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingpm">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsepm" aria-expanded="false" aria-controls="flush-collapsepm">
+      <u>PLACA MADRE</u>
+      </button>
+    </h2>
+    <div id="flush-collapsepm" class="accordion-collapse collapse" aria-labelledby="flush-headingpm" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body" style="color: #53AAE0;">
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">PLACA:</label> 
+							    <select name="ppla" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM micro";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MICRO'] ?>><?php echo $opciones['MICRO']?></option>
+                                    <?php endforeach?>
+                                </select>
+          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="prpla" class="form-control col-xl col-lg">
+                  <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fapla" placeholder="N° FACTURA">
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="fpla">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gpla" placeholder="TIEMPO DE GARANTIA">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <h1 style="font-size: 32px; color: #5c6f82; text-decoration: underline;">MICROPROCESADOR</h1> -->
+
+<div class="accordion accordion-flush" id="accordionFlushExample" style="margin-top: 25px;">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingmi">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsemi" aria-expanded="false" aria-controls="flush-collapsepmi">
+      <u>MICROPROCESADOR</u>
+      </button>
+    </h2>
+    <div id="flush-collapsemi" class="accordion-collapse collapse" aria-labelledby="flush-headingmi" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body" style="color: #53AAE0;">
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">MICRO:</label> 
+							    <select name="mmic" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM micro";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MICRO'] ?>><?php echo $opciones['MICRO']?></option>
+                                    <?php endforeach?>
+                                </select>
+          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="pmic" class="form-control col-xl col-lg">
+                  <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="facmic" placeholder="N° FACTURA">
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="fmic">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gmic" placeholder="TIEMPO DE GARANTIA">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--   <h1 style="font-size: 32px; color: #5c6f82; text-decoration: underline;">PLACA DE VIDEO</h1> -->
+
+<div class="accordion accordion-flush" id="accordionFlushExample" style="margin-top: 25px;">
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingpl">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsepl" aria-expanded="false" aria-controls="flush-collapsepl">
-      <u>1°&nbspPLACA</u>
+      <u>1°&nbspPLACA DE VIDEO</u>
       </button>
     </h2>
     <div id="flush-collapsepl" class="accordion-collapse collapse" aria-labelledby="flush-headingpl" data-bs-parent="#accordionFlushExample">
@@ -307,6 +420,69 @@ $row = $resultado->fetch_assoc();
       </div>
     </div>
   </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingpl1">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsepl1" aria-expanded="false" aria-controls="flush-collapsepl1">
+      <u>2°&nbspPLACA DE VIDEO</u>
+      </button>
+    </h2>
+    <div id="flush-collapsepl1" class="accordion-collapse collapse" aria-labelledby="flush-headingpl1" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body" style="color: #53AAE0;">
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">MEMORIA:</label> 
+							    <select name="pvmem1" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM memoria";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MEMORIA'] ?>><?php echo $opciones['MEMORIA']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
+                            <select name="pvmod1" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM modelo";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']?></option>
+                                    <?php endforeach?>
+                                </select>
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="pvprov1" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM proveedor";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <?php endforeach?>
+                                </select>
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="pvfact1" placeholder="N° FACTURA">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">N° SERIE:</label> 
+          <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="pvnserie1" placeholder="N° SERIE">
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="pvfec1">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="pvgar1" placeholder="TIEMPO DE GARANTIA">
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 
@@ -338,12 +514,10 @@ $row = $resultado->fetch_assoc();
 
 
 
-                        <hr style='display: block; height: 3px;'>
-                        <h1 style="font-size: 32px; color: #5c6f82; text-decoration: underline;">MEMORIAS</h1>
-                        <!-- <label id="lblForm" class="col-form-label col-xl col-lg"><u>MEMORIAS:</u></label>  -->
 
+<!-- <h1 style="font-size: 32px; color: #5c6f82; text-decoration: underline;">MEMORIAS</h1> -->
 
-<div class="accordion accordion-flush" id="accordionFlushExample">
+<div class="accordion accordion-flush" id="accordionFlushExample" style="margin-top: 25px;">
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-heading1">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse1" aria-expanded="false" aria-controls="flush-collapse1">
@@ -644,10 +818,9 @@ $row = $resultado->fetch_assoc();
 
 
 
-                        <hr style='display: block; height: 3px;'>
-<h1 style="font-size: 32px; color: #5c6f82; text-decoration: underline;">DISCOS</h1>
+<!-- <h1 style="font-size: 32px; color: #5c6f82; text-decoration: underline;">DISCOS</h1> -->
 
-<div class="accordion accordion-flush" id="accordionFlushExample">
+<div class="accordion accordion-flush" id="accordionFlushExample" style="margin-top: 25px;">
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingOne">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
