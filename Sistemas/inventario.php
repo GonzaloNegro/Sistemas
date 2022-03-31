@@ -38,7 +38,7 @@ $row = $resultado->fetch_assoc();
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 espacio">
             <li><a href="cargadeincidentes.php" class="nav-link px-2 link-secondary link">CARGA</a></li>
             <li><a href="consulta.php" class="nav-link px-2 link-dark link">CONSULTA</a></li>
-            <li><a href="inventario.php" class="nav-link px-2 link-dark link">INVENTARIO</a>
+            <li><a href="inventario.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">INVENTARIO</a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
                     <li><a class="dropdown-item" href="inventario.php">EQUIPOS</a></li>
                     <li><hr class="dropdown-divider"></li>

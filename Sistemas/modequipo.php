@@ -547,6 +547,7 @@ function ConsultarIncidente($no_tic)
 
 
 
+
                 <?php
                     include("conexion.php");
                     $sentencia = "SELECT p.PLACAM 
@@ -557,8 +558,57 @@ function ConsultarIncidente($no_tic)
                     $resultado = $datos_base->query($sentencia);
                     $row = $resultado->fetch_assoc();
                     $placam = $row['PLACAM'];
+                    ?>
+                    <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT pr.PROVEEDOR 
+                    FROM inventario i 
+                    LEFT JOIN placamws pw ON pw.ID_WS = i.ID_WS
+                    LEFT JOIN proveedor pr ON pr.ID_PROVEEDOR = pw.ID_PROVEEDOR 
+                    WHERE i.ID_WS = '$consulta[0]'";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $placamprov = $row['PROVEEDOR'];
+                    ?>
+                    <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT pw.FACTURA 
+                    FROM inventario i 
+                    LEFT JOIN placamws pw ON pw.ID_WS = i.ID_WS
+                    WHERE i.ID_WS = '$consulta[0]'";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $placamfact = $row['FACTURA'];
+                    ?>
+                    <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT pw.FECHA 
+                    FROM inventario i 
+                    LEFT JOIN placamws pw ON pw.ID_WS = i.ID_WS
+                    WHERE i.ID_WS = '$consulta[0]'";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $placamfecha = $row['FECHA'];
+                    ?>
+                    <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT pw.GARANTIA 
+                    FROM inventario i 
+                    LEFT JOIN placamws pw ON pw.ID_WS = i.ID_WS
+                    WHERE i.ID_WS = '$consulta[0]'";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $placamgar = $row['GARANTIA'];
                 ?>
-                <?php
+
+
+
+
+
+
+
+
+                  <?php
                     include("conexion.php");
                     $sentencia = "SELECT m.MICRO 
                     FROM inventario i 
@@ -568,7 +618,48 @@ function ConsultarIncidente($no_tic)
                     $resultado = $datos_base->query($sentencia);
                     $row = $resultado->fetch_assoc();
                     $micro = $row['MICRO'];
-                ?>
+                  ?>
+                  <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT p.PROVEEDOR 
+                    FROM inventario i 
+                    LEFT JOIN microws mws ON mws.ID_WS = i.ID_WS
+                    LEFT JOIN proveedor p ON p.ID_PROVEEDOR= mws.ID_PROVEEDOR
+                    WHERE i.ID_WS='$consulta[0]'";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $microprov = $row['PROVEEDOR'];
+                  ?>
+                  <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT mws.FACTURA 
+                    FROM inventario i 
+                    LEFT JOIN microws mws ON mws.ID_WS = i.ID_WS
+                    WHERE i.ID_WS='$consulta[0]'";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $microfac = $row['FACTURA'];
+                  ?>
+                  <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT mws.FECHA 
+                    FROM inventario i 
+                    LEFT JOIN microws mws ON mws.ID_WS = i.ID_WS
+                    WHERE i.ID_WS='$consulta[0]'";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $microfec = $row['FECHA'];
+                  ?>
+                  <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT mws.GARANTIA 
+                    FROM inventario i 
+                    LEFT JOIN microws mws ON mws.ID_WS = i.ID_WS
+                    WHERE i.ID_WS='$consulta[0]'";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $microgar = $row['GARANTIA'];
+                  ?>
 
 
 
@@ -635,18 +726,7 @@ function ConsultarIncidente($no_tic)
 
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
-                    <label id="lblForm"class="col-form-label col-xl col-lg">PLACA MADRE: </label>
-                    <select style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" name="placam">
-                                    <option selected value="400"><?php echo $pla?></option>
-                                    <?php
-                                    include("conexion.php");
-                                    $consulta= "SELECT * FROM placam";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_PLACAM'] ?>><?php echo $opciones['PLACAM']?></option>
-                                    <?php endforeach?>
-                                </select>
+
                     <label id="lblForm"class="col-form-label col-xl col-lg">SISTEMA OPERATIVO: </label>
                         <select style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" name="so">
                                     <option selected value="500"><?php echo $so?></option>
@@ -658,23 +738,7 @@ function ConsultarIncidente($no_tic)
                                     <?php foreach ($ejecutar as $opciones): ?> 
                                     <option value= <?php echo $opciones['ID_SO'] ?>><?php echo $opciones['SIST_OP']?></option>
                                     <?php endforeach?>
-                                </select>
-                    </div>
-
-
-                    <div class="form-group row" style="margin: 10px; padding:10px;">           
-                        <label id="lblForm"class="col-form-label col-xl col-lg">MICRO: </label>
-                        <select style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" name="micro">
-                                        <option selected value="600"><?php echo $mic?></option>
-                                        <?php
-                                        include("conexion.php");
-                                        $consulta= "SELECT * FROM micro";
-                                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                        ?>
-                                        <?php foreach ($ejecutar as $opciones): ?> 
-                                        <option value= <?php echo $opciones['ID_MICRO'] ?>><?php echo $opciones['MICRO']?></option>
-                                        <?php endforeach?>
-                                    </select>
+                                </select>      
                         <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO: </label>
                         <select style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" name="est">
                                         <option selected value="700"><?php echo $est?></option>
@@ -744,6 +808,128 @@ function ConsultarIncidente($no_tic)
                                         <?php endforeach?>
                                     </select>
                     </div>
+
+
+
+
+<div class="accordion accordion-flush" id="accordionFlushExample" style="margin-top: 25px;">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingpm">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsepm" aria-expanded="false" aria-controls="flush-collapsepm">
+      <u>PLACA MADRE</u>
+      </button>
+    </h2>
+    <div id="flush-collapsepm" class="accordion-collapse collapse" aria-labelledby="flush-headingpm" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body" style="color: #53AAE0;">
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">PLACA:</label> 
+							    <select name="placam" class="form-control col-xl col-lg">
+                      <option selected value="2000"><?php echo $placam?></option>
+                      <?php
+                      include("conexion.php");
+                      $consulta= "SELECT * FROM placam";
+                      $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                      ?>
+                      <?php foreach ($ejecutar as $opciones): ?> 
+                      <option value= <?php echo $opciones['ID_PLACAM'] ?>><?php echo $opciones['PLACAM']?></option>
+                      <?php endforeach?>
+                  </select>
+          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="placamprov" class="form-control col-xl col-lg">
+                      <option selected value="2001"><?php echo $placamprov?></option>
+                      <?php
+                      include("conexion.php");
+                      $consulta= "SELECT * FROM proveedor";
+                      $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                      ?>
+                      <?php foreach ($ejecutar as $opciones): ?> 
+                      <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                      <?php endforeach?>
+                  </select>
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="placamfact" value="<?php echo $placamfact?>">
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="placamfecha" value="<?php echo $placamfecha?>">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="placamgar" value="<?php echo $placamgar?>">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <h1 style="font-size: 32px; color: #5c6f82; text-decoration: underline;">MICROPROCESADOR</h1> -->
+
+<div class="accordion accordion-flush" id="accordionFlushExample" style="margin-top: 25px;">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingmi">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsemi" aria-expanded="false" aria-controls="flush-collapsepmi">
+      <u>MICROPROCESADOR</u>
+      </button>
+    </h2>
+    <div id="flush-collapsemi" class="accordion-collapse collapse" aria-labelledby="flush-headingmi" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body" style="color: #53AAE0;">
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">MICRO:</label> 
+							    <select name="micro" class="form-control col-xl col-lg">
+                    <option selected value="2100"><?php echo $micro?></option>
+                    <?php
+                    include("conexion.php");
+                    $consulta= "SELECT * FROM micro";
+                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                    ?>
+                    <?php foreach ($ejecutar as $opciones):?> 
+                    <option value= <?php echo $opciones['ID_MICRO'] ?>><?php echo $opciones['MICRO']?></option>
+                    <?php endforeach?>
+                  </select>
+          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="microprov" class="form-control col-xl col-lg">
+                    <option selected value="2101"><?php echo $microprov?></option>
+                    <?php
+                    include("conexion.php");
+                    $consulta= "SELECT * FROM proveedor";
+                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                    ?>
+                    <?php foreach ($ejecutar as $opciones): ?> 
+                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                    <?php endforeach?>
+                  </select>
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="microfac" value="<?php echo $microfac?>">
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="microfec" value="<?php echo $microfec?>">>
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="microgar" value="<?php echo $microgar?>">
+        </div>
+      </div>
+    </div>
+  </div> 
+
+
+
+
+
 
 
 
@@ -1177,7 +1363,7 @@ function ConsultarIncidente($no_tic)
                                     <?php endforeach?>
                                 </select>
 							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
-              <input type="date" class="form-control col-xl col-lg" name="fec4" value="<?php echo $fec4?>">>
+              <input type="date" class="form-control col-xl col-lg" name="fec4" value="<?php echo $fec4?>">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>

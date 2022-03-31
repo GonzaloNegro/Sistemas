@@ -21,11 +21,11 @@ $row = $resultado->fetch_assoc();
   <link rel="icon" href="./../imagenes/logoObrasPúblicas.png">
 	<link rel="stylesheet" href="">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<link rel="stylesheet" type="text/css" href="css/fullcalendar.min.css">
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+
   <link rel="stylesheet" type="text/css" href="css/home.css">
   <style>
     	body{
@@ -82,7 +82,7 @@ $row = $resultado->fetch_assoc();
 						<li><a href="./../estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
                     ';
 					} ?>
-			      <li><a href="calen/calen.php" class="nav-link px-2 link-dark link">CALENDARIO</a>
+			      <li><a href="calen/calen.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">CALENDARIO</a>
             <li class="ubicacion"><a href="./../bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
         </ul>
         <div class="dropdown text-end">
@@ -260,6 +260,9 @@ eventClick:function(event){
 
 });
 
+</script>
+<script 
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
 </script>
 </body>
 </html>

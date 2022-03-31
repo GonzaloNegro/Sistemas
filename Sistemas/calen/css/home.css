@@ -80,6 +80,14 @@ input {
   border-top-right-radius: 10px;
 }
 
+.fc-center h2{
+	font-size: 24px;
+	color: rgb(18, 0, 97);
+}
+
+.fc-day-top a{
+	color: rgb(18, 0, 97);
+}
 /* rgb(216, 216, 216); */
 /* <th class="fc-day-header fc-widget-header fc-mon"><span>lun.</span></th> */
 

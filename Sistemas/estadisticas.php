@@ -62,7 +62,7 @@ $row = $resultado->fetch_assoc();
 					OR $row['ID_RESOLUTOR'] == 20 //GUSTAVO
 					){
                         echo'
-						<li><a href="estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
+						<li><a href="estadisticas.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">ESTADISTICAS</a></li>
                     ';
 					} ?>
             <li><a href="calen/calen.php" class="nav-link px-2 link-dark link">CALENDARIO</a>

@@ -59,7 +59,7 @@ $row = $resultado->fetch_assoc();
                     <li><a class="dropdown-item" href="otrosp.php">OTROS PERIFÉRICOS</a></li>
                 </ul>
             </li>
-            <li><a href="abm.php" class="nav-link px-2 link-dark link">ABM</a></li>
+            <li><a href="abm.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">ABM</a></li>
             <li><a href="tiporeporte.php" class="nav-link px-2 link-dark link">REPORTES</a></li>
             <?php if($row['ID_RESOLUTOR'] == 6//GONZALO
 					/*OR $row['ID_RESOLUTOR'] == 2 //CLAUDIA*/
