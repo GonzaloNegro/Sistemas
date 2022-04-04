@@ -8,9 +8,6 @@ $serialn = $_POST['serialn'];
 $tippc = $_POST['tippc'];
 $est = $_POST['est'];
 $so = $_POST['so'];
-$micro = $_POST['micro'];
-$placam = $_POST['placam'];
-
 $masterizacion = $_POST['masterizacion'];
 $red = $_POST['red'];
 $mac = $_POST['mac'];
@@ -89,6 +86,37 @@ $dfact4 = $_POST['dfact4'];
 $dmarc4 = $_POST['dmarc4'];
 $dfec4 = $_POST['dfec4'];
 $dgar4 = $_POST['dgar4'];
+
+
+/* ////////////////////////// */
+
+$ppla = $_POST['ppla'];
+$prpla = $_POST['prpla'];
+$fapla = $_POST['fapla'];
+$fpla = $_POST['fpla'];
+$gpla = $_POST['gpla'];
+
+$mmic = $_POST['mmic'];
+$pmic = $_POST['pmic'];
+$facmic = $_POST['facmic'];
+$fmic = $_POST['fmic'];
+$gmic = $_POST['gmic'];
+
+$pvmem = $_POST['pvmem'];
+$pvmod = $_POST['pvmod'];
+$pvprov = $_POST['pvprov'];
+$pvfact = $_POST['pvfact'];
+$pvnserie = $_POST['pvnserie'];
+$pvfec = $_POST['pvfec'];
+$pvgar = $_POST['pvgar'];
+
+$pvmem1 = $_POST['pvmem1'];
+$pvmod1 = $_POST['pvmod1'];
+$pvprov1 = $_POST['pvprov1'];
+$pvfact1 = $_POST['pvfact1'];
+$pvnserie1 = $_POST['pvnserie1'];
+$pvfec1 = $_POST['pvfec1'];
+$pvgar1 = $_POST['pvgar1'];
 /* ////////////////////////// */
 
 /* FECHAS */
@@ -101,6 +129,12 @@ $dfec1 = date("Y-m-d", strtotime($fec1);
 $dfec2 = date("Y-m-d", strtotime($dfec2);
 $dfec3 = date("Y-m-d", strtotime($dfec3);
 $dfec4 = date("Y-m-d", strtotime($dfec4);
+
+$fpla = date("Y-m-d", strtotime($fpla);
+$fmic = date("Y-m-d", strtotime($fmic);
+$pvfec = date("Y-m-d", strtotime($pvfec);
+$pvfec1 = date("Y-m-d", strtotime($pvfec1);
+
 /* ////////////////////////// */
 /*SI AMBOS CAMPOS ESTAN REPETIDOS*/
 $sqli = "SELECT * FROM inventario WHERE SERIEG = '$serieg'";

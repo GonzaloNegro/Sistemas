@@ -9,8 +9,15 @@ $serialn = $_POST['serialn'];
 $tippc = $_POST['tippc'];
 $est = $_POST['est'];
 $so = $_POST['so'];
-$micro = $_POST['micro'];
-$placam = $_POST['placam'];
+$masterizacion = $_POST['masterizacion'];
+$red = $_POST['red'];
+$mac = $_POST['mac'];
+$reserva = $_POST['reserva'];
+$ip = $_POST['ip'];
+$prov = $_POST['prov'];
+$fac = $_POST['fac'];
+$gar = $_POST['gar'];
+$obs = $_POST['obs'];
 
 
 $mem1 = $_POST['mem1'];
@@ -21,7 +28,6 @@ $fact1 = $_POST['fact1'];
 $fec1 = $_POST['fec1'];
 $gar1 = $_POST['gar1'];
 
-
 $mem2 = $_POST['mem2'];
 $tmem2 = $_POST['tmem2'];
 $prov2 = $_POST['prov2'];
@@ -30,7 +36,6 @@ $fact2 = $_POST['fact2'];
 $fec2 = $_POST['fec2'];
 $gar2 = $_POST['gar2'];
 
-
 $mem3 = $_POST['mem3'];
 $tmem3 = $_POST['tmem3'];
 $prov3 = $_POST['prov3'];
@@ -38,7 +43,6 @@ $marc3 = $_POST['marc3'];
 $fact3 = $_POST['fact3'];
 $fec3 = $_POST['fec3'];
 $gar3 = $_POST['gar3'];
-
 
 $mem4 = $_POST['mem4'];
 $tmem4 = $_POST['tmem4'];
@@ -58,7 +62,6 @@ $dfact1 = $_POST['dfact1'];
 $dfec1 = $_POST['dfec1'];
 $dgar1 = $_POST['dgar1'];
 
-
 $disc2 = $_POST['disc2'];
 $tdisc2 = $_POST['tdisc2'];
 $dprov2 = $_POST['dprov2'];
@@ -67,7 +70,6 @@ $dfact2 = $_POST['dfact2'];
 $dfec2 = $_POST['dfec2'];
 $dgar2 = $_POST['dgar2'];
 
-
 $disc3 = $_POST['disc3'];
 $tdisc3 = $_POST['tdisc3'];
 $dprov3 = $_POST['dprov3'];
@@ -75,7 +77,6 @@ $dmarc3 = $_POST['dmarc3'];
 $dfact3 = $_POST['dfact3'];
 $dfec3 = $_POST['dfec3'];
 $dgar3 = $_POST['dgar3'];
-
 
 $disc4 = $_POST['disc4'];
 $tdisc4 = $_POST['tdisc4'];
@@ -87,16 +88,36 @@ $dgar4 = $_POST['dgar4'];
 
 
 
-$masterizacion = $_POST['masterizacion'];
-$red = $_POST['red'];
-$mac = $_POST['mac'];
-$reserva = $_POST['reserva'];
-$ip = $_POST['ip'];
-$prov = $_POST['prov'];
-$fac = $_POST['fac'];
-$gar = $_POST['gar'];
-$obs = $_POST['obs'];
 
+/* ////////////////////////// */
+$placam = $_POST['placam'];
+$placamprov = $_POST['placamprov'];
+$placamfact = $_POST['placamfact'];
+$placamfecha = $_POST['placamfecha'];
+$placamgar = $_POST['placamgar'];
+
+$micro = $_POST['micro'];
+$microprov = $_POST['microprov'];
+$microfac = $_POST['microfac'];
+$microfec = $_POST['microfec'];
+$microgar = $_POST['microgar'];
+
+$pvmem = $_POST['pvmem'];
+$pvmod = $_POST['pvmod'];
+$pvprov = $_POST['pvprov'];
+$pvfact = $_POST['pvfact'];
+$pvnserie = $_POST['pvnserie'];
+$pvfec = $_POST['pvfec'];
+$pvgar = $_POST['pvgar'];
+
+$pvmem1 = $_POST['pvmem1'];
+$pvmod1 = $_POST['pvmod1'];
+$pvprov1 = $_POST['pvprov1'];
+$pvfact1 = $_POST['pvfact1'];
+$pvnserie1 = $_POST['pvnserie1'];
+$pvfec1 = $_POST['pvfec1'];
+$pvgar1 = $_POST['pvgar1'];
+/* ////////////////////////// */
 if($masterizacion == "100"){
     $sql = "SELECT MASTERIZADA FROM inventario WHERE ID_WS = '$id'";
     $result = $datos_base->query($sql);
