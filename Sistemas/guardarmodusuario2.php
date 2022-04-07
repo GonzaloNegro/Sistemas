@@ -38,7 +38,7 @@ if($tur == "100"){
 }
 
 /* SI UNO DE LOS CAMPOS ESTA REPETIDO */
-$sql = "SELECT NOMBRE, CUIL FROM usuarios WHERE NOMBRE = '$nombre' OR CUIL ='$cuil' AND ID_USUARIO != '$id'";
+$sql = "SELECT * FROM usuarios WHERE (CUIL ='$cuil' AND ID_USUARIO != '$id')";
 $resultado = $datos_base->query($sql);
 $row = $resultado->fetch_assoc();
 $cui = $row['CUIL'];

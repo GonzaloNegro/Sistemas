@@ -14,11 +14,15 @@ $row2 = $resultado2->fetch_assoc();
 $are = $row2['AREA'];
 $rep = $row2['ID_REPA'];
 
+$fecha = date('Y-m-d');
 
 if($area == $are AND $repa == $rep){ 
     header("Location: agregararea.php?no");
 }
 else{
+
+    mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'ÁREA', '$area', '$fecha')");
+
     mysqli_query($datos_base, "INSERT INTO area VALUES (DEFAULT, '$area', '$repa', '$est', '$obs')");
     header("Location: agregararea.php?ok");
 }

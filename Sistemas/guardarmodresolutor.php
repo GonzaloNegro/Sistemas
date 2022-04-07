@@ -15,6 +15,7 @@ $row = $resultado->fetch_assoc();
 $res = $row['RESOLUTOR'];
 $cui = $row['CUIL'];
 
+$fecha = date('Y-m-d');
 
 if($cuil == $cui)
 {
@@ -22,11 +23,15 @@ if($cuil == $cui)
 }
 else if($resolutor == $res)
 {
+    mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'RESOLUTOR', '$resolutor', '$fecha')");
+
     mysqli_query($datos_base, "INSERT INTO resolutor VALUES (DEFAULT, '$resolutor', '$tipo', '$cuil', '$correo', '$telefono', 1234)");
     header("Location: agregarresolutor.php?repeat");
 }
 else
 {
+    mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'RESOLUTOR', '$resolutor', '$fecha')");
+    
     mysqli_query($datos_base, "INSERT INTO resolutor VALUES (DEFAULT, '$resolutor', '$tipo', '$cuil', '$correo', '$telefono', 1234)"); 
 header("Location: agregarresolutor.php?ok");
 }

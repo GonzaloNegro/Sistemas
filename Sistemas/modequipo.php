@@ -1,4 +1,5 @@
 <?php 
+error_reporting(0);
 session_start();
 include('conexion.php');
 
@@ -547,7 +548,9 @@ function ConsultarIncidente($no_tic)
 
 
 
-
+                        <!-- PLACA MADRE -->
+                <!-- ///////////////////////////////// -->
+                <!-- ///////////////////////////////// -->
                 <?php
                     include("conexion.php");
                     $sentencia = "SELECT p.PLACAM 
@@ -607,7 +610,9 @@ function ConsultarIncidente($no_tic)
 
 
 
-
+                        <!-- MICRO -->
+                <!-- ///////////////////////////////// -->
+                <!-- ///////////////////////////////// -->
                   <?php
                     include("conexion.php");
                     $sentencia = "SELECT m.MICRO 
@@ -660,6 +665,142 @@ function ConsultarIncidente($no_tic)
                     $row = $resultado->fetch_assoc();
                     $microgar = $row['GARANTIA'];
                   ?>
+
+
+
+
+
+                        <!-- PLACA VIDEO -->
+                <!-- ///////////////////////////////// -->
+                <!-- ///////////////////////////////// -->
+                  <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT p.MODELO 
+                    FROM inventario i 
+                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
+                    LEFT JOIN pvideo p ON p.ID_PVIDEO= pws.ID_PVIDEO
+                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 1";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $pvmem = $row['MODELO'];
+                  ?>
+                  <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT pws.NSERIE 
+                    FROM inventario i 
+                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
+                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 1";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $pvnserie = $row['NSERIE'];
+                  ?>
+                  <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT p.PROVEEDOR 
+                    FROM inventario i 
+                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
+                    LEFT JOIN proveedor p ON p.ID_PROVEEDOR = pws.ID_PROVEEDOR
+                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 1";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $pvprov = $row['PROVEEDOR'];
+                  ?>
+                  <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT pws.FACTURA 
+                    FROM inventario i 
+                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
+                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 1";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $pvfact = $row['FACTURA'];
+                  ?>
+                  <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT pws.FECHA 
+                    FROM inventario i 
+                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
+                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 1";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $pvfec = $row['FECHA'];
+                  ?>
+                  <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT pws.GARANTIA 
+                    FROM inventario i 
+                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
+                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 1";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $pvgar = $row['GARANTIA'];
+                  ?>
+
+
+
+                  <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT p.MODELO 
+                    FROM inventario i 
+                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
+                    LEFT JOIN pvideo p ON p.ID_PVIDEO= pws.ID_PVIDEO
+                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 2";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $pvmem1 = $row['MODELO'];
+                  ?>
+                  <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT pws.NSERIE 
+                    FROM inventario i 
+                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
+                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 2";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $pvnserie1 = $row['NSERIE'];
+                  ?>
+                  <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT p.PROVEEDOR 
+                    FROM inventario i 
+                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
+                    LEFT JOIN proveedor p ON p.ID_PROVEEDOR = pws.ID_PROVEEDOR
+                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 2";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $pvprov1 = $row['PROVEEDOR'];
+                  ?>
+                  <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT pws.FACTURA 
+                    FROM inventario i 
+                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
+                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 2";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $pvfact1 = $row['FACTURA'];
+                  ?>
+                  <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT pws.FECHA 
+                    FROM inventario i 
+                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
+                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 2";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $pvfec1 = $row['FECHA'];
+                  ?>
+                  <?php
+                    include("conexion.php");
+                    $sentencia = "SELECT pws.GARANTIA 
+                    FROM inventario i 
+                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
+                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 2";
+                    $resultado = $datos_base->query($sentencia);
+                    $row = $resultado->fetch_assoc();
+                    $pvgar1 = $row['GARANTIA'];
+                  ?>
+
 
 
 
@@ -946,9 +1087,21 @@ function ConsultarIncidente($no_tic)
     <div id="flush-collapsepl" class="accordion-collapse collapse" aria-labelledby="flush-headingpl" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
+            <label id="lblForm" class="col-form-label col-xl col-lg">N° SERIE:</label> 
+            <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="pvnserie" placeholder="N° SERIE">
+                <label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+                <input type="date" class="form-control col-xl col-lg" name="pvfec">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="pvfact" placeholder="N° FACTURA">
+							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="pvgar" placeholder="TIEMPO DE GARANTIA">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">PLACA:</label> 
 							    <select name="pvmem" class="form-control col-xl col-lg">
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                  <option selected value="2200"><?php echo $pvmem?></option>
                                     <?php
                                     include("conexion.php");
                                     $consulta= "SELECT * FROM memoria";
@@ -958,23 +1111,9 @@ function ConsultarIncidente($no_tic)
                                     <option value= <?php echo $opciones['ID_MEMORIA'] ?>><?php echo $opciones['MEMORIA']?></option>
                                     <?php endforeach?>
                                 </select>
-							<label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
-                            <select name="pvmod" class="form-control col-xl col-lg">
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                                    <?php
-                                    include("conexion.php");
-                                    $consulta= "SELECT * FROM modelo";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']?></option>
-                                    <?php endforeach?>
-                                </select>
-        </div>
-        <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
 							    <select name="pvprov" class="form-control col-xl col-lg">
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                  <option selected value="2201"><?php echo $pvprov?></option>
                                     <?php
                                     include("conexion.php");
                                     $consulta= "SELECT * FROM proveedor";
@@ -984,18 +1123,6 @@ function ConsultarIncidente($no_tic)
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
-							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
-              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="pvfact" placeholder="N° FACTURA">
-        </div>
-        <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">N° SERIE:</label> 
-          <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="pvnserie" placeholder="N° SERIE">
-							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
-              <input type="date" class="form-control col-xl col-lg" name="pvfec">
-        </div>
-        <div class="form-group row" style="margin: 10px; padding:10px;">
-							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
-              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="pvgar" placeholder="TIEMPO DE GARANTIA">
         </div>
       </div>
     </div>
@@ -1009,9 +1136,21 @@ function ConsultarIncidente($no_tic)
     <div id="flush-collapsepl1" class="accordion-collapse collapse" aria-labelledby="flush-headingpl1" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm" class="col-form-label col-xl col-lg">N° SERIE:</label> 
+          <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="pvnserie1">
+          <label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="pvfec1">
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
+          <label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
+          <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="pvfact1">
+					<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+          <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="pvgar1">
+      </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">PLACA:</label> 
 							    <select name="pvmem1" class="form-control col-xl col-lg">
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                  <option selected value="2300"><?php echo $pvmem1?></option>
                                     <?php
                                     include("conexion.php");
                                     $consulta= "SELECT * FROM memoria";
@@ -1021,23 +1160,9 @@ function ConsultarIncidente($no_tic)
                                     <option value= <?php echo $opciones['ID_MEMORIA'] ?>><?php echo $opciones['MEMORIA']?></option>
                                     <?php endforeach?>
                                 </select>
-							<label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
-                            <select name="pvmod1" class="form-control col-xl col-lg">
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                                    <?php
-                                    include("conexion.php");
-                                    $consulta= "SELECT * FROM modelo";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']?></option>
-                                    <?php endforeach?>
-                                </select>
-        </div>
-        <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
 							    <select name="pvprov1" class="form-control col-xl col-lg">
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                  <option selected value="2301"><?php echo $pvprov1?></option>
                                     <?php
                                     include("conexion.php");
                                     $consulta= "SELECT * FROM proveedor";
@@ -1047,18 +1172,7 @@ function ConsultarIncidente($no_tic)
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
-							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
-              <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="pvfact1" placeholder="N° FACTURA">
-        </div>
-        <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">N° SERIE:</label> 
-          <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="pvnserie1" placeholder="N° SERIE">
-							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
-              <input type="date" class="form-control col-xl col-lg" name="pvfec1">
-        </div>
-        <div class="form-group row" style="margin: 10px; padding:10px;">
-							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
-              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="pvgar1" placeholder="TIEMPO DE GARANTIA">
+      </div>
         </div>
       </div>
     </div>

@@ -71,7 +71,7 @@ $row = $resultado->fetch_assoc();
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">TIPO MONITOR:</label>
-                            <select name="tipop" class="form-control col-xl col-lg">
+                            <select name="tipop" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -90,7 +90,7 @@ $row = $resultado->fetch_assoc();
                             <label id="lblForm" class="col-form-label col-xl col-lg">N° SERIE:</label> 
 							<input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="serie" required>
 							<label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
-                            <select name="marca" class="form-control col-xl col-lg">
+                            <select name="marca" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -105,7 +105,7 @@ $row = $resultado->fetch_assoc();
 
                         <div class="form-group row" style="margin: 10px; padding:10px;"> 
                                 <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
-                                <select name="usu" class="form-control col-xl col-lg">
+                                <select name="usu" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -117,7 +117,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
                                 <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
-                            <select name="mod" class="form-control col-xl col-lg">
+                            <select name="mod" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -133,7 +133,7 @@ $row = $resultado->fetch_assoc();
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
-                            <select name="est" class="form-control col-xl col-lg">
+                            <select name="est" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -153,7 +153,7 @@ $row = $resultado->fetch_assoc();
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm" class="col-form-label col-xl col-lg">GARANTIA:</label> 
 							<input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar" placeholder ="TIEMPO DE GARANTIA">
-							<label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:</label>
+							<label id="lblForm"class="col-form-label col-xl col-lg" required>PROVEEDOR:</label>
                             <select name="prov" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
@@ -169,8 +169,8 @@ $row = $resultado->fetch_assoc();
 
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
-                            <label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓNES:</label> 
-                            <textarea class="form-control col-xl col-lg" name="obs" placeholder="Observaciónes" style="text-transform:uppercase" rows="3"></textarea>
+                            <label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓN:</label> 
+                            <textarea class="form-control col-xl col-lg" name="obs" placeholder="Observación" style="text-transform:uppercase" rows="3"></textarea>
                         </div>
 
                         <div class="form-group row justify-content-end" style="margin: 10px; padding:10px;">

@@ -90,9 +90,9 @@ $row = $resultado->fetch_assoc();
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm" class="col-form-label col-xl col-lg">CORREO:</label> 
-							<input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="mail" name="correo" placeholder="CORREO" required>
+							<input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="mail" name="correo" placeholder="CORREO">
 							<label id="lblForm"class="col-form-label col-xl col-lg">TELEFONO:</label>
-                            <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="number" name="telefono" placeholder="TELEFONO" required>
+                            <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="number" name="telefono" placeholder="TELEFONO">
                         </div>    
 						
 						<div class="form-group row" style="margin: 10px; padding:10px;">

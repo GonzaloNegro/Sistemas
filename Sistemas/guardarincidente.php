@@ -30,34 +30,28 @@ $descripcion = $_POST['descripcion'];
 $usuario = $_POST['usuario'];
 $tipificacion = $_POST['tipificacion'];
 $estado = $_POST['estado'];
-
-/* if(empty($_FILES['imagen'])){
-	$imagen = '-';
-}
-else{
-	$imagen = addslashes(file_get_contents($_FILES['imagen']['tmp_name']));
-}
- */
-
-/*$fecha2 = $_POST['fecha_solucion'];*/
-/*$tipo = $_POST['tiporesolutor'];*/
 $prioridad = $_POST['prioridad'];
 
-if(isset($_POST['fecha_inicio'])){
+/* if(isset($_POST['fecha_inicio'])){
 	if(!empty($_POST['fecha_inicio'])){
 		$date = $_POST['fecha_inicio'];
 		$date = strtotime($date);
 		$date = date('Y-m-d', $date);
 	}
-}
+} */
 
-if(isset($_POST['fecha_solucion'])){
+/* if(isset($_POST['fecha_solucion'])){
 	if(!empty($_POST['fecha_solucion'])){
 		$date2 = $_POST['fecha_solucion'];
 		$date2 = strtotime($date2);
 		$date2 = date('Y-m-d', $date2);
 	}
-}
+} */
+$date = $_POST['fecha_inicio'];
+$date = date('Y-m-d');
+
+$date2 = $_POST['fecha_solucion'];
+$date2 = date('Y-m-d');
 
 /* GUARDO EL TICKET YA SEA DERIVADO O GENERADO POR USUARIO LOGUEADO*/
 	if($estado == "3"){
@@ -75,7 +69,12 @@ if(isset($_POST['fecha_solucion'])){
 		$row = $resultado->fetch_assoc();
 		$renv = $row['ID_TIPO_RESOLUTOR'];
 
-		mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion', '$idusu', '$usuario', DEFAULT, '$tipificacion', '$prioridad', '$estado', DEFAULT, '$date2', '$original','$renv', DEFAULT, '$hora')");
+		$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
+		$resultado = $datos_base->query($sql);
+		$row = $resultado->fetch_assoc();
+		$ws = $row['ID_WS'];
+
+		mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion', '$idusu', '$usuario', DEFAULT, '$tipificacion', '$prioridad', '$estado', DEFAULT, '$date2', '$original','$renv', '$ws', '$hora')");
 
 		mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, '$estado', '$motivo', '$date', '$original', DEFAULT)");
 
@@ -125,7 +124,12 @@ if(isset($_POST['fecha_solucion'])){
 		$row = $resultado->fetch_assoc();
 		$renu = $row['ID_TIPO_RESOLUTOR'];
 
-		mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion', '$idusu', '$usuario', DEFAULT,'$tipificacion', '$prioridad', '$estado', DEFAULT, '$date2', '$original','$renu', DEFAULT, '$hora')"); 
+		$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
+		$resultado = $datos_base->query($sql);
+		$row = $resultado->fetch_assoc();
+		$ws = $row['ID_WS'];
+
+		mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion', '$idusu', '$usuario', DEFAULT,'$tipificacion', '$prioridad', '$estado', DEFAULT, '$date2', '$original','$renu', '$ws', '$hora')"); 
 
 		mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, '$estado', '', '$date', '$original', DEFAULT)");
 		/*MAIL GENERADO PARA EL USUARIO LOGUEADO*/

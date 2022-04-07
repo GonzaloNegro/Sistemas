@@ -29,14 +29,14 @@ $row = $resultado->fetch_assoc();
 </head>
 <body>
 <header class="p-3 mb-3 border-bottom altura">
-    <div class="container">
+    <div class="container-fluid">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <a href="" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"><div id="foto"></div>
           <!-- <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use> </svg>-->
         </a>
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 espacio">
-            <li><a href="cargadeincidentes.php" class="nav-link px-2 link-secondary link">CARGA</a></li>
+            <li><a href="cargadeincidentes.php" class="nav-link px-2 link-secondary link destacado">NUEVO INCIDENTE</a></li>
             <li><a href="consulta.php" class="nav-link px-2 link-dark link">CONSULTA</a></li>
             <li><a href="inventario.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">INVENTARIO</a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
@@ -61,12 +61,16 @@ $row = $resultado->fetch_assoc();
 						<li><a href="estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
                     ';
 					} ?>
-			<li><a href="calen/calen.php" class="nav-link px-2 link-dark link">CALENDARIO</a>
-            <li class="ubicacion"><a href="bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
+			<li><a href="calen/calen.php" class="nav-link px-2 link-dark link"><i class="bi bi-calendar3"></i></a>
+            <li class="ubicacion link"><a href="bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
         </ul>
         <div class="dropdown text-end">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"><h5><i class="bi bi-person rounded-circle"></i><?php echo utf8_decode($row['RESOLUTOR']);?></h5></a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+			<?php if($row['ID_RESOLUTOR'] == 6)
+			{ echo '
+		  	<li><a class="dropdown-item" href="agregados.php">CAMBIOS AGREGADOS</a></li>
+            <li><hr class="dropdown-divider"></li>';}?>
             <li><a class="dropdown-item" href="contraseña.php">CAMBIAR CONTRASEÑA</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="salir.php">CERRAR SESIÓN</a></li>
@@ -113,7 +117,6 @@ $row = $resultado->fetch_assoc();
 								<th><p>ÁREA</p></th>
 								<th><p>TIPO</p></th>
                                 <th><p>MARCA</p></th>
-								<th><p>N° WS</p></th>
 								<th><p>MAS DETALLES</p></th>
 							</tr>
 						</thead>
@@ -121,14 +124,15 @@ $row = $resultado->fetch_assoc();
 					if(isset($_POST['btn2'])){
 						$doc = $_POST['buscar'];
 						$contador = 0;
-						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, u.NOMBRE, p.NOMBREP, t.TIPO, m.MARCA, p.SERIEG, a.AREA
+						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, a.AREA
 								FROM periferico p
+								LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
 								LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO
 								LEFT JOIN area AS a ON  u.ID_AREA = a.ID_AREA
 								INNER JOIN tipop AS t ON p.ID_TIPOP = t.ID_TIPOP
 								INNER JOIN marcas AS m ON p.ID_MARCA = m.ID_MARCA
 								WHERE p.TIPOP = 'MONITOR'
-									AND (p.NOMBREP LIKE '%$doc%'
+									AND (mo.MODELO LIKE '%$doc%'
 									OR u.NOMBRE LIKE '%$doc%'
 									OR t.TIPO LIKE '%$doc%'
 									OR m.MARCA LIKE '%$doc%' 
@@ -139,12 +143,11 @@ $row = $resultado->fetch_assoc();
 										echo
 										" 
 											<tr>
-											<td><h4 style='font-size:16px;'>".$listar['NOMBREP']."</h4></td>
+											<td><h4 style='font-size:16px;'>".$listar['MODELO']."</h4></td>
 											<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>
 											<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4></td>
 											<td><h4 style='font-size:16px;'>".$listar['TIPO']."</h4></td>
 											<td><h4 style='font-size:16px;'>".$listar['MARCA']."</h4></td>
-											<td><h4 style='font-size:16px;'>".$listar['SERIEG']."</h4></td>
 											<td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=consultadetallemon.php?no=".$listar['ID_PERI']." target=new class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
 										<path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
 										<path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
@@ -156,8 +159,9 @@ $row = $resultado->fetch_assoc();
 						else
 						{
 							$contador = 0;
-							$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, u.NOMBRE, p.NOMBREP, t.TIPO, m.MARCA, p.SERIEG, a.AREA
+							$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, a.AREA
 									FROM periferico p
+									LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
 									LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO
 									LEFT JOIN area AS a ON  a.ID_AREA = p.ID_AREA
 									INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
@@ -168,12 +172,11 @@ $row = $resultado->fetch_assoc();
 											echo
 											" 
 												<tr>
-												<td><h4 style='font-size:16px;'>".$listar['NOMBREP']."</h4></td>
+												<td><h4 style='font-size:16px;'>".$listar['MODELO']."</h4></td>
 												<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>
 												<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4></td>
 												<td><h4 style='font-size:16px;'>".$listar['TIPO']."</h4></td>
 												<td><h4 style='font-size:16px;'>".$listar['MARCA']."</h4></td>
-												<td><h4 style='font-size:16px;'>".$listar['SERIEG']."</h4></td>
 												<td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=consultadetallemon.php?no=".$listar['ID_PERI']." target=new class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
 										<path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
 										<path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>

@@ -103,7 +103,6 @@ $fmic = $_POST['fmic'];
 $gmic = $_POST['gmic'];
 
 $pvmem = $_POST['pvmem'];
-$pvmod = $_POST['pvmod'];
 $pvprov = $_POST['pvprov'];
 $pvfact = $_POST['pvfact'];
 $pvnserie = $_POST['pvnserie'];
@@ -111,7 +110,6 @@ $pvfec = $_POST['pvfec'];
 $pvgar = $_POST['pvgar'];
 
 $pvmem1 = $_POST['pvmem1'];
-$pvmod1 = $_POST['pvmod1'];
 $pvprov1 = $_POST['pvprov1'];
 $pvfact1 = $_POST['pvfact1'];
 $pvnserie1 = $_POST['pvnserie1'];
@@ -216,6 +214,26 @@ if($dfact4 == ""){$dfact4 = "-";}
 if($dmarc4 == 0){$dmarc4 = 1;}
 if($dgar4 == ""){$dgar4 = "-";}
 
+
+if($prpla == 0){$prpla = 7;}
+if($fapla == ""){$fapla = "-";}
+if($gpla == ""){$gpla = "-";}
+
+
+if($pmic == 0){$pmic = 7;}
+if($facmic == ""){$facmic = "-";}
+if($gmic == ""){$gmic = "-";}
+
+
+if($pvprov == ""){$pvprov = "7";}
+if($pvfact == ""){$pvfact = "-";}
+if($pvnserie == ""){$pvnserie = "-";}
+if($pvgar == ""){$pvgar = "-";}
+
+if($pvprov1 == ""){$pvprov1 = "7";}
+if($pvfact1 == ""){$pvfact1 = "-";}
+if($pvnserie1 == ""){$pvnserie1 = "-";}
+if($pvgar1 == ""){$pvgar1 = "-";}
 /* ////////////////////////// */
 if($serieg == $serg OR $serialn == $ser){ 
     header("Location: agregarequipo.php?no");
@@ -227,7 +245,18 @@ else{
 		if ($row = mysqli_fetch_row($tic)) {
 			$idws = trim($row[0]);
 			}
+    /* PLACA MADRE */
+    mysqli_query($datos_base, "INSERT INTO placamws VALUES ('$idws', '$ppla', '$prpla', '$fapla', '$fpla', '$gpla')");
 
+    /* MICRO */
+    mysqli_query($datos_base, "INSERT INTO microws VALUES ('$idws', '$mmic', '$pmic', '$facmic', '$fmic', '$gmic')");
+
+    /* PVIDEO */
+    mysqli_query($datos_base, "INSERT INTO pvideows VALUES ('$idws', '$pvmem', '$pvnserie', '$pvprov', '$pvfact', '$pvfec', '$pvgar', 1)");
+
+    mysqli_query($datos_base, "INSERT INTO pvideows VALUES ('$idws', '$pvmem1', '$pvnserie1', '$pvprov1', '$pvfact1', '$pvfec1', '$pvgar1', 2)");
+
+    /* DISCO */
     mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc1', '$dprov1', '$dfact1', '$dfec1', '$dmarc1', '$dgar1', '$tdisc1', 1)");
 
     mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc2', '$dprov2', '$dfact2', '$dfec2', '$dmarc2', '$dgar2', '$tdisc2', 2)");
@@ -237,7 +266,7 @@ else{
     mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc4', '$dprov4', '$dfact4', '$dfec4', '$dmarc4', '$dgar4', '$tdisc4', 4)");
 
 
-
+    /* MEMORIA */
     mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem1', '$tmem1', '$prov1', '$fact1', '$fec1', '$marc1', '$gar1', 1)");
     
     mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem2', '$tmem2', '$prov2', '$fact2', '$fec2', '$marc2', '$gar2', 2)");

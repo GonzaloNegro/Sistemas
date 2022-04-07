@@ -20,12 +20,12 @@ $row = $resultado->fetch_assoc();
 	<title>CALENDARIO</title>
   <link rel="icon" href="./../imagenes/logoObrasPúblicas.png">
 	<link rel="stylesheet" href="">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-	<link rel="stylesheet" type="text/css" href="css/fullcalendar.min.css">
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"> -->
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/fullcalendar.min.css">
   <link rel="stylesheet" type="text/css" href="css/home.css">
   <style>
     	body{
@@ -49,53 +49,11 @@ $row = $resultado->fetch_assoc();
 
   </style>
 </head>
-<header class="p-3 mb-3 border-bottom altura">
-    <div class="container">
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <a class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"><div id="foto"></div>
-          <!-- <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use> </svg>-->
-        </a>
-
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 espacio">
-            <li><a href="./../cargadeincidentes.php" class="nav-link px-2 link-secondary link">CARGA</a></li>
-            <li><a href="./../consulta.php" class="nav-link px-2 link-dark link">CONSULTA</a></li>
-            <li><a href="./../inventario.php" class="nav-link px-2 link-dark link">INVENTARIO</a>
-                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="./../inventario.php">EQUIPOS</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="./../impresoras.php">IMPRESORAS</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="./../monitores.php">MONITORES</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="./../otrosp.php">OTROS PERIFÉRICOS</a></li>
-                </ul>
-            </li>
-            <li><a href="./../abm.php" class="nav-link px-2 link-dark link">ABM</a></li>
-            <li><a href="./../tiporeporte.php" class="nav-link px-2 link-dark link">REPORTES</a></li>
-            <?php if($row['ID_RESOLUTOR'] == 6//GONZALO
-					/*OR $row['ID_RESOLUTOR'] == 2 //CLAUDIA*/
-					OR $row['ID_RESOLUTOR'] == 10 //EUGENIA
-					OR $row['ID_RESOLUTOR'] == 15 //RODRIGO
-					OR $row['ID_RESOLUTOR'] == 20 //GUSTAVO
-					){
-                        echo'
-						<li><a href="./../estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
-                    ';
-					} ?>
-			      <li><a href="calen/calen.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">CALENDARIO</a>
-            <li class="ubicacion"><a href="./../bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
-        </ul>
-        <div class="dropdown text-end">
-          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"><h5><i class="bi bi-person rounded-circle"></i><?php echo utf8_decode($row['RESOLUTOR']);?></h5></a>
-          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-            <li><a class="dropdown-item" href="./../contraseña.php">CAMBIAR CONTRASEÑA</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="./../salir.php">CERRAR SESIÓN</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </header>
+  <div style="width: 40%; margin-left: 20px;">   
+            <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
+                <a id="vlv"  href="./../consulta.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+            </div>					
+         </div>
 <body>
 
 <?php
@@ -132,7 +90,6 @@ include('./../conexion.php');
   include('modalNuevoEvento.php');
   include('modalUpdateEvento.php');
 ?>
-
 
 
 <script src ="js/jquery-3.0.0.min.js"> </script>
@@ -261,8 +218,6 @@ eventClick:function(event){
 });
 
 </script>
-<script 
-  src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-</script>
+
 </body>
 </html>

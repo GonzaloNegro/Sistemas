@@ -31,14 +31,14 @@ $cu = $row['CUIL'];
 </head>
 <body>
 <header class="p-3 mb-3 border-bottom altura">
-    <div class="container">
+    <div class="container-fluid">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <a class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"><div id="foto"></div>
           <!-- <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use> </svg>-->
         </a>
 
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 espacio">
-            <li><a href="cargadeincidentes.php" class="nav-link px-2 link-secondary link">CARGA</a></li>
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="cargadeincidentes.php" class="nav-link px-2 link-secondary link destacado">NUEVO INCIDENTE</a></li>
             <li><a href="consulta.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">CONSULTA</a></li>
             <li><a href="inventario.php" class="nav-link px-2 link-dark link">INVENTARIO</a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
@@ -63,12 +63,16 @@ $cu = $row['CUIL'];
 						<li><a href="estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
                     ';
 					} ?>
-			<li><a href="calen/calen.php" class="nav-link px-2 link-dark link">CALENDARIO</a>
-			<li class="ubicacion"><a href="bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
+			<li><a href="calen/calen.php" class="nav-link px-2 link-dark link"><i class="bi bi-calendar3"></i></a>
+			<li class="ubicacion link"><a href="bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
         </ul>
         <div class="dropdown text-end">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"><h5><i class="bi bi-person rounded-circle"></i><?php echo utf8_decode($row['RESOLUTOR']);?></h5></a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+		  <?php if($row['ID_RESOLUTOR'] == 6)
+		  { echo '
+		  	<li><a class="dropdown-item" href="agregados.php">CAMBIOS AGREGADOS</a></li>
+            <li><hr class="dropdown-divider"></li>';}?>
             <li><a class="dropdown-item" href="contraseña.php">CAMBIAR CONTRASEÑA</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="salir.php">CERRAR SESIÓN</a></li>
@@ -143,8 +147,9 @@ $cu = $row['CUIL'];
 							{
 								/*$doc = $_POST['buscar'];*/
 								 $contador = 0;
-							$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, t.USUARIO, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
+							$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
 							FROM ticket t 
+							LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO
 							LEFT JOIN prioridad p ON  p.ID_PRIORIDAD = t.ID_PRIORIDAD 
 							LEFT JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO
 							LEFT JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR
@@ -178,7 +183,7 @@ $cu = $row['CUIL'];
 										<tr>
 										<td><h4 style='margin-top:12px;margin-bottom: 12px; font-size:16px;'>".$listar['ID_TICKET']."</h4 ></td>
 										<td><h4 style='margin-top:12px;margin-bottom: 12px; font-size:16px;'>".$fecord."</h4 ></td>
-										<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:16px;'>".$listar['USUARIO']."</h4 ></td>
+										<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:16px;'>".$listar['NOMBRE']."</h4 ></td>
 										<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:16px;'>".$listar['DESCRIPCION']."</h4 ></td>
 										<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:16px;'>".$listar['ESTADO']/*$est*/."</h4 ></td>
 										<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:16px;'>".$fec."</h4 ></td>
@@ -197,8 +202,9 @@ $cu = $row['CUIL'];
 						{
 						/*$doc = $_POST['buscar'];*/
 						$contador = 0;
-						$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, t.USUARIO, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
+						$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
 						FROM ticket t 
+						LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO
 						LEFT JOIN prioridad p ON  p.ID_PRIORIDAD = t.ID_PRIORIDAD 
 						LEFT JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO
 						LEFT JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR
@@ -232,7 +238,7 @@ $cu = $row['CUIL'];
 									<tr>
 									<td><h4 style='margin-top:12px;margin-bottom: 12px; font-size:16px;'>".$listar['ID_TICKET']."</h4 ></td>
 									<td><h4 style='margin-top:12px;margin-bottom: 12px; font-size:16px;'>".$fecord."</h4 ></td>
-									<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:16px;'>".$listar['USUARIO']."</h4 ></td>
+									<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:16px;'>".$listar['NOMBRE']."</h4 ></td>
 									<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:16px;'>".$listar['DESCRIPCION']."</h4 ></td>
 									<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:16px;'>".$listar['ESTADO']/*$est*/."</h4 ></td>
 									<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:16px;'>".$fec."</h4 ></td>
@@ -251,12 +257,13 @@ $cu = $row['CUIL'];
 							{
 								$doc = $_POST['buscar'];
 								$contador = 0;
-								$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, t.USUARIO, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
+								$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
 								FROM ticket t 
+								LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO
 								LEFT JOIN prioridad p ON  p.ID_PRIORIDAD = t.ID_PRIORIDAD 
 								LEFT JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO
 								LEFT JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR
-								WHERE t.ID_TICKET LIKE '$doc' OR t.DESCRIPCION LIKE '%$doc%' OR t.USUARIO LIKE '%$doc%'
+								WHERE t.ID_TICKET LIKE '$doc' OR t.DESCRIPCION LIKE '%$doc%' OR u.NOMBRE LIKE '%$doc%'
 								OR t.FECHA_INICIO LIKE '%$doc%' OR p.PRIORIDAD LIKE '%$doc%'  OR e.ESTADO LIKE '%$doc%'
 								OR t.NRO_EQUIPO LIKE '%$doc%'  OR t.FECHA_SOLUCION LIKE '%$doc%'  OR r.RESOLUTOR LIKE '%$doc%'
 								ORDER BY t.FECHA_INICIO DESC, t.ID_TICKET DESC");
@@ -285,7 +292,7 @@ $cu = $row['CUIL'];
 													<tr>
 													<td><h4 style='font-size:16px;'>".$listar['ID_TICKET']."</h4 ></td>
 													<td><h4 style='font-size:16px;'>".$fecord."</h4 ></td>
-													<td><h4 style='font-size:16px;'>".$listar['USUARIO']."</h4 ></td>
+													<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4 ></td>
 													<td><h4 style='font-size:16px;'>".$listar['DESCRIPCION']."</h4 ></td>
 													<td><h4 style='font-size:16px;'>".$listar['ESTADO']/*$est*/."</h4 ></td>
 													<td><h4 style='font-size:16px;'>".$fec."</h4 ></td>
@@ -300,8 +307,9 @@ $cu = $row['CUIL'];
 								} /*echo "</table>"*/;} 
 								else{
 									$contador = 0;
-							$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, t.USUARIO, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
-							FROM ticket t 
+							$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
+							FROM ticket t
+							LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO 
 							LEFT JOIN prioridad p ON  p.ID_PRIORIDAD = t.ID_PRIORIDAD 
 							LEFT JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO
 							LEFT JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR
@@ -333,7 +341,7 @@ $cu = $row['CUIL'];
 										<tr>
 										<td><h4 style='font-size:16px;'>".$listar['ID_TICKET']."</h4></td>
 										<td><h4 style='font-size:16px;'>".$fecord."</h4></td>
-										<td><h4 style='font-size:16px;'>".$listar['USUARIO']."</h4></td>
+										<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>
 										<td><h4 style='font-size:16px;'>".$listar['DESCRIPCION']."</h4></td>
 										<td><h4 style='font-size:16px;'>".$listar['ESTADO']/*$est*/."</h4></td>
 										<td><h4 style='font-size:16px;'>".$fec."</h4 ></td>

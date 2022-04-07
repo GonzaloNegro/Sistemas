@@ -1,4 +1,5 @@
 <?php 
+error_reporting(0);
 session_start();
 include('conexion.php');
 
@@ -30,6 +31,7 @@ function ConsultarIncidente($no_tic)
 <html>
 <head>
 	<title>DETALLES DEL INCIDENTE</title><meta charset="utf-8">
+	<link rel="icon" href="imagenes/logoObrasPúblicas.png">
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -131,11 +133,11 @@ function ConsultarIncidente($no_tic)
             $usu = $row['NOMBRE'];
 			?>
 			<?php 
-           /*  include("conexion.php");
+           	include("conexion.php");
             $sent= "SELECT SERIEG FROM inventario WHERE ID_WS = $consulta[5]";
             $resultado = $datos_base->query($sent);
             $row = $resultado->fetch_assoc();
-            $nro = $row['SERIEG']; */
+            $nro = $row['SERIEG'];
 			?>
 			<?php
 			$des = $consulta[3];
@@ -164,7 +166,7 @@ function ConsultarIncidente($no_tic)
 				}
 				?>
 				<h4 id="lblForm"class="col-form-label col-xl col-lg"><u>RESOLUTOR:</u> <?php echo $nom?></h4>
-				<h4 id="lblForm"class="col-form-label col-xl col-lg"><u>NRO EQUIPO:</u> <?php?></h4>
+				<h4 id="lblForm"class="col-form-label col-xl col-lg"><u>NRO EQUIPO:</u> <?php echo $nro?></h4>
 			</div>
 
 			<div class="form-group row" style="margin: 5px; padding:10px;">

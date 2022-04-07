@@ -29,14 +29,14 @@ $row = $resultado->fetch_assoc();
 </head>
 <body>
 <header class="p-3 mb-3 border-bottom altura">
-    <div class="container">
+    <div class="container-fluid">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <a href="" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"><div id="foto"></div>
           <!-- <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use> </svg>-->
         </a>
 
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 espacio">
-            <li><a href="cargadeincidentes.php" class="nav-link px-2 link-secondary link">CARGA</a></li>
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="cargadeincidentes.php" class="nav-link px-2 link-secondary link destacado">NUEVO INCIDENTE</a></li>
             <li><a href="consulta.php" class="nav-link px-2 link-dark link">CONSULTA</a></li>
             <li><a href="inventario.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">INVENTARIO</a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
@@ -61,13 +61,17 @@ $row = $resultado->fetch_assoc();
 						<li><a href="estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
                     ';
 					} ?>
-			<li><a href="calen/calen.php" class="nav-link px-2 link-dark link">CALENDARIO</a>
-            <li class="ubicacion"><a href="bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
+			<li><a href="calen/calen.php" class="nav-link px-2 link-dark link"><i class="bi bi-calendar3"></i></a>
+            <li class="ubicacion link"><a href="bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
         </ul>
 
         <div class="dropdown text-end">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"><h5><i class="bi bi-person rounded-circle"></i><?php echo utf8_decode($row['RESOLUTOR']);?></h5></a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+		  <?php if($row['ID_RESOLUTOR'] == 6)
+		  { echo '
+		  	<li><a class="dropdown-item" href="agregados.php">CAMBIOS AGREGADOS</a></li>
+            <li><hr class="dropdown-divider"></li>';}?>
             <li><a class="dropdown-item" href="contraseña.php">CAMBIAR CONTRASEÑA</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="salir.php">CERRAR SESIÓN</a></li>
@@ -112,7 +116,7 @@ $row = $resultado->fetch_assoc();
 								<th><p>IMPRESORA</p></th>
 								<th><p>USUARIO</p></th>
 								<th><p>ÁREA</p></th>
-                                <th><p>N° WS</p></th>
+                                <th><p>SERIEG</p></th>
 								<th><p>TIPO</p></th>
                                 <th><p>MARCA</p></th>
 								<th><p>MAS DETALLES</p></th>
@@ -122,8 +126,9 @@ $row = $resultado->fetch_assoc();
 					if(isset($_POST['btn2'])){
 						$doc = $_POST['buscar'];
 						$contador = 0;
-						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA			
-								FROM periferico p 
+						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, mo.MODELO, t.TIPO, m.MARCA			
+						FROM periferico p 
+						LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
 										LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
 										LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
 										INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
@@ -131,7 +136,7 @@ $row = $resultado->fetch_assoc();
 										WHERE p.TIPOP = 'IMPRESORA'
 										AND (u.NOMBRE LIKE '%$doc%' 
 										OR t.TIPO LIKE '%$doc%' 
-										OR p.NOMBREP LIKE '%$doc%' 
+										OR mo.MODELO LIKE '%$doc%' 
 										OR m.MARCA LIKE '%$doc%'  
 										OR p.SERIEG LIKE '%$doc%'
 										OR a.AREA LIKE '%$doc%')
@@ -141,7 +146,7 @@ $row = $resultado->fetch_assoc();
 										echo
 										" 
 											<tr>
-											<td><h4 style='font-size:16px;'>".$listar['NOMBREP']."</h4></td>
+											<td><h4 style='font-size:16px;'>".$listar['MODELO']."</h4></td>
 											<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>
 											<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4></td>
 											<td><h4 style='font-size:16px;'>".$listar['SERIEG']."</h4></td>
@@ -158,8 +163,9 @@ $row = $resultado->fetch_assoc();
 							else
 							{
 								$contador = 0;
-								$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA			
+								$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, mo.MODELO, t.TIPO, m.MARCA			
 										FROM periferico p 
+										LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
 										LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
 										LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
 										INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
@@ -171,7 +177,7 @@ $row = $resultado->fetch_assoc();
 												echo
 												" 
 													<tr>
-													<td><h4 style='font-size:16px;'>".$listar['NOMBREP']."</h4></td>
+													<td><h4 style='font-size:16px;'>".$listar['MODELO']."</h4></td>
 													<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>
 													<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4></td>
 													<td><h4 style='font-size:16px;'>".$listar['SERIEG']."</h4></td>

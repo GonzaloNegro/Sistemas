@@ -10,10 +10,14 @@ $resultado = $datos_base->query($sql);
 $row = $resultado->fetch_assoc();
 $ti = $row['TIPIFICACION'];
 
+$fecha = date('Y-m-d');
+
 if($tip == $ti){
   header("Location: agregartipificacion.php?no");
 }
 else{
+  mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'TIPIFICACIÓN', '$tip', '$fecha')");
+
   mysqli_query($datos_base, "INSERT INTO tipificacion VALUES (DEFAULT, '$tip')"); 
   header("Location: agregartipificacion.php?ok");
 }

@@ -30,7 +30,7 @@ $row = $resultado->fetch_assoc();
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="estilocarga.css">
-	<script>
+<!-- 	<script>
 		$(function (){
 			$("#txtfechainicio").datepicker() ({
 				dateformat: "yyyy-mm-dd"
@@ -43,7 +43,7 @@ $row = $resultado->fetch_assoc();
 				dateformat: "yyyy-mm-dd"
 			});
 		});
-	</script>
+	</script> -->
 		<script>
 	$(document).ready(function(){
     $("#slctestado").change(function(){
@@ -120,15 +120,15 @@ $row = $resultado->fetch_assoc();
 						}
 			</script>
 <header class="p-3 mb-3 border-bottom altura">
-    <div class="container">
+    <div class="container-fluid">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <a class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"><div id="foto"></div>
           <!-- <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use> </svg>-->
         </a>
 
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 espacio">
-            <li><a href="cargadeincidentes.php" class="nav-link px-2 link-secondary link" 
-			style="border-left: 5px solid #53AAE0;">CARGA</a></li>
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ">
+            <li><a href="cargadeincidentes.php" class="nav-link px-2 link-secondary link destacado" 
+			style="border-left: 5px solid #53AAE0;">NUEVO INCIDENTE</a></li>
             <li><a href="consulta.php" class="nav-link px-2 link-dark link">CONSULTA</a></li>
             <li><a href="inventario.php" class="nav-link px-2 link-dark link">INVENTARIO</a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
@@ -153,12 +153,16 @@ $row = $resultado->fetch_assoc();
 						<li><a href="estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
                     ';
 					} ?>
-			<li><a href="calen/calen.php" class="nav-link px-2 link-dark link">CALENDARIO</a>
-            <li class="ubicacion"><a href="bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
+			<li><a href="calen/calen.php" class="nav-link px-2 link-dark link"><i class="bi bi-calendar3"></i></a>
+            <li class="ubicacion link"><a href="bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
         </ul>
         <div class="dropdown text-end">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"><h5><i class="bi bi-person rounded-circle"></i><?php echo utf8_decode($row['RESOLUTOR']);?></h5></a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+		  <?php if($row['ID_RESOLUTOR'] == 6)
+		  { echo '
+		  	<li><a class="dropdown-item" href="agregados.php">CAMBIOS AGREGADOS</a></li>
+            <li><hr class="dropdown-divider"></li>';}?>
             <li><a class="dropdown-item" href="contraseña.php">CAMBIAR CONTRASEÑA</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="salir.php">CERRAR SESIÓN</a></li>
@@ -177,7 +181,8 @@ $row = $resultado->fetch_assoc();
 
 							<div class="form-group row" style="margin: 10px; padding:10px;">
 								<label class="col-form-label col-xl col-lg">FECHA INICIO:</label>
-								<input class="form-control col-xl col-lg" type="text" name="fecha_inicio" id="txtfechainicio" required>
+								<input type="date" class="form-control col-xl col-lg"  name="fecha_inicio" required>
+								<!-- <input class="form-control col-xl col-lg" type="text" name="fecha_inicio" id="txtfechainicio" required> -->
 								<!--//////////////////////////////////////////////////////////////////-->
 								<!--//////////////////////////////////////////////////////////////////-->
 								<label class="col-form-label col-xl col-lg">USUARIO:</label>
@@ -250,11 +255,11 @@ $row = $resultado->fetch_assoc();
 
 								<!--BUSCADOR-->
 								<script>
-										$('#tip').select2();
+								/* 		$('#tip').select2(); */
 									</script>
 
 									<script>
-										$(document).ready(function(){
+/* 										$(document).ready(function(){
 											$('#tip').change(function(){
 												buscador='b='+$('#tip').val();
 												$.ajax({
@@ -266,7 +271,7 @@ $row = $resultado->fetch_assoc();
 													}
 												})
 											})
-										})
+										}) */
 									</script>
 
 
@@ -283,7 +288,7 @@ $row = $resultado->fetch_assoc();
 							<!--//////////////////////////////////////////////////////////////////-->
 							<div class="row" style="margin: 10px; padding:10px;">
 								<label class="col-form-label col-xl">FECHA SOLUCIÓN: </label>
-								<input type="text" name="fecha_solucion" id="txtfechafin" class="form-control col-xl derecha">
+								<input type="date" name="fecha_solucion" id="txtfechafin" class="form-control col-xl derecha">
 							<label class="col-form-label col-xl">ESTADO INCIDENTE: </label>
 							<select id="slctestado" name="estado" required class="form-control col-xl derecha" >
 								<option value='0' selected disabled="estado">-SELECCIONE UNA-</option>

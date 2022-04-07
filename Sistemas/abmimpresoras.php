@@ -92,20 +92,21 @@ $row = $resultado->fetch_assoc();
 					if(isset($_POST['btn2']))
 					{
 						$doc = $_POST['buscar'];
-						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA			
+						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, mo.MODELO, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA			
 						FROM periferico p 
+						LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
 						LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
 						LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
 						INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
 						INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
-						WHERE p.TIPOP LIKE '%IMPRESORA%' AND (a.AREA LIKE '%$doc%' OR u.NOMBRE LIKE '%$doc%' OR p.SERIEG LIKE '%$doc%' OR p.NOMBREP LIKE '%$doc%' OR t.TIPO LIKE '%$doc%' OR m.MARCA LIKE '%$doc%')
+						WHERE p.TIPOP LIKE '%IMPRESORA%' AND (a.AREA LIKE '%$doc%' OR u.NOMBRE LIKE '%$doc%' OR p.SERIEG LIKE '%$doc%' OR mo.MODELO LIKE '%$doc%' OR t.TIPO LIKE '%$doc%' OR m.MARCA LIKE '%$doc%')
 						ORDER BY u.NOMBRE ASC");
 							while($listar = mysqli_fetch_array($consultar))
 							{
 								echo
 								" 
 									<tr>
-										<td><h4 style='font-size:16px;'>".$listar['NOMBREP']."</h4></td>
+										<td><h4 style='font-size:16px;'>".$listar['MODELO']."</h4></td>
 										<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>
 										<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4></td>
 										<td><h4 style='font-size:16px;'>".$listar['SERIEG']."</h4></td>
@@ -121,8 +122,9 @@ $row = $resultado->fetch_assoc();
 					}
 					else
 					{
-					$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA			
+					$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, mo.MODELO, t.TIPO, m.MARCA			
                     FROM periferico p 
+					LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
                     LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
                     LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
                     INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
@@ -134,7 +136,7 @@ $row = $resultado->fetch_assoc();
                             echo
                             " 
                                 <tr>
-                                    <td><h4 style='font-size:16px;'>".$listar['NOMBREP']."</h4></td>
+                                    <td><h4 style='font-size:16px;'>".$listar['MODELO']."</h4></td>
                                     <td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>
                                     <td><h4 style='font-size:16px;'>".$listar['AREA']."</h4></td>
                                     <td><h4 style='font-size:16px;'>".$listar['SERIEG']."</h4></td>

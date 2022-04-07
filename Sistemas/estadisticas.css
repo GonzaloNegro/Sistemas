@@ -225,8 +225,8 @@ cursor: default;
 
 .ubicacion{
   width: 30px;
-  margin-top: 12px;
-
+margin-left: 15px;
+  margin-top: 8px;
   text-align: center;
 }
 
@@ -332,4 +332,10 @@ footer{
   border: 1px solid #000000;
   margin-left: 20px;
   margin-bottom: 20px;
+}
+
+.destacado{
+	color: #f7fbfd !important;
+	background-color: #00519C;
+	border-top-right-radius: 5px;
 }

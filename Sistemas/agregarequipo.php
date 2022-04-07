@@ -206,8 +206,8 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_RED'] ?>><?php echo $opciones['RED']?></option>
                                     <?php endforeach?>
                                 </select>
-                            <label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓNES:</label> 
-                              <textarea class="form-control col-xl col-lg" name="obs" placeholder="Observaciónes" style="text-transform:uppercase" rows="3" ></textarea>
+                            <label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓN:</label> 
+                              <textarea class="form-control col-xl col-lg" name="obs" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3" ></textarea>
                         </div>
 
 
@@ -229,7 +229,7 @@ $row = $resultado->fetch_assoc();
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">PLACA:</label> 
-							    <select name="ppla" class="form-control col-xl col-lg">
+							    <select name="ppla" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -296,7 +296,7 @@ $row = $resultado->fetch_assoc();
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">MICRO:</label> 
-							    <select name="mmic" class="form-control col-xl col-lg">
+							    <select name="mmic" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -378,20 +378,6 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_MEMORIA'] ?>><?php echo $opciones['MEMORIA']?></option>
                                     <?php endforeach?>
                                 </select>
-							<label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
-                            <select name="pvmod" class="form-control col-xl col-lg">
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                                    <?php
-                                    include("conexion.php");
-                                    $consulta= "SELECT * FROM modelo";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']?></option>
-                                    <?php endforeach?>
-                                </select>
-        </div>
-        <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
 							    <select name="pvprov" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
@@ -404,16 +390,16 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="pvfact" placeholder="N° FACTURA">
-        </div>
-        <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">N° SERIE:</label> 
           <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="pvnserie" placeholder="N° SERIE">
-							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
-              <input type="date" class="form-control col-xl col-lg" name="pvfec">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="pvfec">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
               <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="pvgar" placeholder="TIEMPO DE GARANTIA">
         </div>
@@ -441,20 +427,6 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_MEMORIA'] ?>><?php echo $opciones['MEMORIA']?></option>
                                     <?php endforeach?>
                                 </select>
-							<label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
-                            <select name="pvmod1" class="form-control col-xl col-lg">
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                                    <?php
-                                    include("conexion.php");
-                                    $consulta= "SELECT * FROM modelo";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']?></option>
-                                    <?php endforeach?>
-                                </select>
-        </div>
-        <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
 							    <select name="pvprov1" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
@@ -467,16 +439,16 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+        </div>
+        <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="pvfact1" placeholder="N° FACTURA">
-        </div>
-        <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">N° SERIE:</label> 
           <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="pvnserie1" placeholder="N° SERIE">
-							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
-              <input type="date" class="form-control col-xl col-lg" name="pvfec1">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
+							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="pvfec1">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
               <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="pvgar1" placeholder="TIEMPO DE GARANTIA">
         </div>

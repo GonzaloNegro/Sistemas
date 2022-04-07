@@ -103,7 +103,6 @@ $microfec = $_POST['microfec'];
 $microgar = $_POST['microgar'];
 
 $pvmem = $_POST['pvmem'];
-$pvmod = $_POST['pvmod'];
 $pvprov = $_POST['pvprov'];
 $pvfact = $_POST['pvfact'];
 $pvnserie = $_POST['pvnserie'];
@@ -111,7 +110,6 @@ $pvfec = $_POST['pvfec'];
 $pvgar = $_POST['pvgar'];
 
 $pvmem1 = $_POST['pvmem1'];
-$pvmod1 = $_POST['pvmod1'];
 $pvprov1 = $_POST['pvprov1'];
 $pvfact1 = $_POST['pvfact1'];
 $pvnserie1 = $_POST['pvnserie1'];
@@ -452,6 +450,64 @@ if($dmarc4 == "1903"){
     $dmarc4 = $row6['ID_MARCA'];
 
 
+
+
+/* ////////////////////PLACA MADRE///////////////////////////// */
+/* //////////////////////////////////////////////////////// */
+if($placam == "2000"){
+    $sql6 = "SELECT ID_PLACAM FROM placamws WHERE ID_WS = '$id'";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $placam = $row6['ID_PLACAM'];
+
+if($placamprov == "2001"){
+    $sql6 = "SELECT ID_PROVEEDOR FROM placamws WHERE ID_WS = '$id'";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $placamprov = $row6['ID_PROVEEDOR'];
+
+/* ////////////////////MICROPROCESADOR///////////////////////////// */
+/* //////////////////////////////////////////////////////// */
+if($micro == "2100"){
+    $sql6 = "SELECT ID_MICRO FROM microws WHERE ID_WS = '$id'";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $micro = $row6['ID_MICRO'];
+
+if($microprov == "2101"){
+    $sql6 = "SELECT ID_PROVEEDOR FROM microws WHERE ID_WS = '$id'";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $microprov = $row6['ID_PROVEEDOR'];
+
+/* ////////////////////PLACA DE VIDEO///////////////////////////// */
+/* //////////////////////////////////////////////////////// */
+if($pvmem == "2200"){
+    $sql6 = "SELECT ID_PVIDEO FROM pvideows WHERE ID_WS = '$id' AND SLOT = 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $pvmem = $row6['ID_PVIDEO'];
+
+if($pvprov == "2201"){
+    $sql6 = "SELECT ID_PROVEEDOR FROM pvideows WHERE ID_WS = '$id' AND SLOT = 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $pvprov = $row6['ID_PROVEEDOR'];
+
+
+if($pvmem1 == "2300"){
+    $sql6 = "SELECT ID_PVIDEO FROM pvideows WHERE ID_WS = '$id' AND SLOT = 2";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $pvmem1 = $row6['ID_PVIDEO'];
+
+if($pvprov1 == "2301"){
+    $sql6 = "SELECT ID_PROVEEDOR FROM pvideows WHERE ID_WS = '$id' AND SLOT = 2";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $pvprov1 = $row6['ID_PROVEEDOR'];
+
+
 /*SI AMBOS CAMPOS ESTAN REPETIDOS*/
 /* $sqli = "SELECT * FROM periferico WHERE SERIEG = '$serieg'";
 $resultado2 = $datos_base->query($sqli);
@@ -480,6 +536,26 @@ if($serieg == $serg OR $serialn == $ser){
 else{
     mysqli_query($datos_base, "UPDATE inventario SET ID_AREA = '$area', SERIALN = '$serialn', SERIEG = '$serieg', ID_MARCA = '$marca', ID_ESTADOWS = '$est', OBSERVACION = '$obs', ID_PROVEEDOR = '$prov', FACTURA = '$fac', MASTERIZADA = '$masterizacion', MAC = '$mac', RIP = '$reserva', IP = '$ip', RED = '$red', ID_TIPOWS = '$tippc', ID_USUARIO = '$usu', GARANTIA = '$gar', ID_MICRO = '$micro', ID_PLACAM = '$placam' WHERE ID_WS = '$id'");
 
+
+    /* PLACA MADRE */
+    mysqli_query($datos_base, "UPDATE placamws SET ID_PLACAM = '$placam', ID_PROVEEDOR = '$placamprov', GARANTIA = '$placamgar', FACTURA = '$placamfact', FECHA = '$placamfecha' WHERE ID_WS = '$id'")
+
+
+
+
+    /* MICROPROCESADOR */
+    mysqli_query($datos_base, "UPDATE microws SET ID_MICRO = '$micro', ID_PROVEEDOR = '$microprov', GARANTIA = '$microgar', FACTURA = '$microfac', FECHA = '$microfec' WHERE ID_WS = '$id'")
+
+
+
+
+    /* PLACA DE VIDEO */
+    mysqli_query($datos_base, "UPDATE pvideows SET ID_PVIDEO = '$pvmem', ID_PROVEEDOR = '$pvprov', NSERIE = '$pvnserie', GARANTIA = '$pvgar', FACTURA = '$pvfact', FECHA = '$pvfec' WHERE ID_WS = '$id' AND SLOT = 1")
+
+    mysqli_query($datos_base, "UPDATE pvideows SET ID_PVIDEO = '$pvmem1', ID_PROVEEDOR = '$pvprov1', NSERIE = '$pvnserie1', GARANTIA = '$pvgar1', FACTURA = '$pvfact1', FECHA = '$pvfec1' WHERE ID_WS = '$id' AND SLOT = 2")
+
+
+    /* DISCO */
     mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc1', ID_TIPOD = '$tdisc1', ID_PROVEEDOR = '$dprov1', FACTURA = '$dfact1', FECHA = '$dfec1', ID_MARCA = '$dmarc1', GARANTIA = '$dgar1' WHERE ID_WS = '$id' AND NUMERO = 1");
 
     mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc2', ID_TIPOD = '$tdisc2', ID_PROVEEDOR = '$dprov2', FACTURA = '$dfact2', FECHA = '$dfec2', ID_MARCA = '$dmarc2', GARANTIA = '$dgar2' WHERE ID_WS = '$id' AND NUMERO = 2");
@@ -489,6 +565,9 @@ else{
     mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc4', ID_TIPOD = '$tdisc4', ID_PROVEEDOR = '$dprov4', FACTURA = '$dfact4', FECHA = '$dfec4', ID_MARCA = '$dmarc4', GARANTIA = '$dgar4' WHERE ID_WS = '$id' AND NUMERO = 4");
 
 
+
+
+    /* MEMORIA */
     mysqli_query($datos_base, "UPDATE wsmem SET ID_MEMORIA = '$mem1', ID_TIPOMEM = '$tmem1', ID_PROVEEDOR = '$prov1', FACTURA = '$fact1', FECHA = '$fec1', ID_MARCA = '$marc1', GARANTIA = '$gar1' WHERE ID_WS = '$id' AND SLOT = 1");
 
     mysqli_query($datos_base, "UPDATE wsmem SET ID_MEMORIA = '$mem2', ID_TIPOMEM = '$tmem2', ID_PROVEEDOR = '$prov2', FACTURA = '$fact2', FECHA = '$fec2', ID_MARCA = '$marc2', GARANTIA = '$gar2' WHERE ID_WS = '$id' AND SLOT = 2");

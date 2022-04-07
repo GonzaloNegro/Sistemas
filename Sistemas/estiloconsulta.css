@@ -295,8 +295,8 @@ tr:hover td{
 
 .ubicacion{
     width: 30px;
-    margin-top: 12px;
-
+	margin-left: 15px;
+    margin-top: 8px;
     text-align: center;
 }
 
@@ -395,4 +395,10 @@ color: #176AB5;
 .mensaje{
 	background-color: #edf0f5;
 	border: none;
+}
+
+.destacado{
+	color: #f7fbfd !important;
+	background-color: #00519C;
+	border-top-right-radius: 5px;
 }

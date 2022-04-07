@@ -45,7 +45,7 @@ $row = $resultado->fetch_assoc();
         <div id="mostrar_reporte" style="width: 97%; margin-left: 20px; display: block;">
 			
 		            <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-	                    <a id="vlv"  href="reporteinventario.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+	                    <a id="vlv" href="tiporeporte.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
                         <button id="pr" class="btn btn-success" style="width: 50px; border-radius: 10px;" onClick="imprimir()"><i class='bi bi-printer'></i></button>
 		            </div>
 		            <style type="text/css" media="print">

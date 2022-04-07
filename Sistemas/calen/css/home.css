@@ -309,3 +309,23 @@ footer{
 	background-color: #edf0f5;
 	border: none;
 }
+
+.destacado{
+	color: #f7fbfd !important;
+	background-color: #00519C;
+	border-top-right-radius: 5px;
+}
+
+#vlv{
+	width: 10%; 
+	height: 45px; 
+	background-color: #1c7cd5; 
+	border-color: #f7fbfd; 
+	font-size: 20px; 
+	font-family: TrasandinaBook;
+    border-radius: 20px;
+	
+}
+#vlv:hover{
+background-color: #176AB5;
+}
