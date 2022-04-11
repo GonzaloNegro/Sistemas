@@ -158,10 +158,10 @@ $row = $resultado->fetch_assoc();
             <a href="reporteestadotodos.php">ESTADO INVENTARIO</a> 
             </div>
             <div class="link">
-            <a href="reporteimpresora.php">IMPRESORAS</a> 
+            <a href="reporteimpresora.php">IMPRESORAS DINAMICO</a> 
             </div>
             <div class="link">
-            <a href="reporteequipo.php">EQUIPOS TOTAL</a> 
+            <a href="reporteequipo.php">EQUIPOS DINAMICO</a> 
             </div>
           </div>
         </div>

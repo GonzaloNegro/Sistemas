@@ -114,8 +114,10 @@ $row = $resultado->fetch_assoc();
 						<!--<th id='cabeceraacc' class='cabecera' width=65px><p>ACCIÓN</p></th>-->
 						</tr>
 						</thead>";
-						$consultar=mysqli_query($datos_base, "select i.SERIEG as N°WS, u.NOMBRE, i.MICRO, s.SIST_OP, m.MEMORIA, t.TIPOMEM, e.ESTADO, ts.TIPOWS from inventario i left join usuarios u on i.ID_USUARIO=u.ID_USUARIO left join so s on i.ID_SO=s.ID_SO 
-						LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS  left join memoria m ON ws.ID_MEMORIA = m.ID_MEMORIA left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM left join estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS left join tipows ts on ts.ID_TIPOWS=i.ID_TIPOWS where i.ID_AREA=$area");
+						$consultar=mysqli_query($datos_base, "select i.SERIEG as N°WS, u.NOMBRE, mi.MICRO, s.SIST_OP, m.MEMORIA, t.TIPOMEM, e.ESTADO, ts.TIPOWS from inventario i left join usuarios u on i.ID_USUARIO=u.ID_USUARIO left join so s on i.ID_SO=s.ID_SO 
+						LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS  left join memoria m ON ws.ID_MEMORIA = m.ID_MEMORIA left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM left join estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS left join tipows ts on ts.ID_TIPOWS=i.ID_TIPOWS
+                        LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
+	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO where i.ID_AREA=$area");
 									while($listar = mysqli_fetch_array($consultar))
 									{
 										echo

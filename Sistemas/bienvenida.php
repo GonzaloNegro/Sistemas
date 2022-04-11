@@ -28,9 +28,9 @@
             <ul class="list-unstyled">
                 <li>
                     <ul>
-                        <li>Se agregó la página de ESTADISTICAS y CALENDARIO.</li>
-                        <li>Se modificó el botón de CARGA a NUEVO INCIDENTE.</li>
-<!--                         <li>Cambio 2</li>
+                        <li>Sin cambios</li>
+<!--                         <li></li>
+                         <li>Cambio 2</li>
                         <li>Cambio 3</li> -->
                     </ul>
                 </li>

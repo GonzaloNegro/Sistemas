@@ -399,8 +399,10 @@ if($reparticion==0) {
                                     </th>
                                 </tr>
                             </thead>";
-                            $consultar=mysqli_query($datos_base, "SELECT i.MICRO, count(*) as TOTAL from inventario i
-                            group by i.MICRO ORDER BY TOTAL DESC");
+                            $consultar=mysqli_query($datos_base, "SELECT mi.ID_MICRO, mi.MICRO, count(*) as TOTAL from inventario i
+                            LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
+	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
+                            group by mi.MICRO ORDER BY TOTAL DESC");
                             while($listar = mysqli_fetch_array($consultar))
                             {
                             echo
@@ -413,7 +415,7 @@ if($reparticion==0) {
                                     <h4 style='text-align: center;	'>".$listar['TOTAL']."</h4>
                                 </td>
                                 <td class='text-center text-nowrap' id='accion'><a class='btn btn-sm btn-outline-primary'
-                                        href='reportemicroequipo.php?Micro=".$listar['MICRO']."&Repa=$reparticion' class=mod><svg
+                                        href='reportemicroequipo.php?Micro=".$listar['ID_MICRO']."&Repa=$reparticion' class=mod><svg
                                             xmlns='http://www.w3.org/2000/svg' width='20' height='20'
                                             fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
                                             <path
@@ -648,11 +650,14 @@ if($reparticion==0) {
 						</th>
 						</tr>
 					</thead>";
-			$consultar=mysqli_query($datos_base, "SELECT i.MICRO, count(*) as TOTAL
-			 from inventario i 
-			left join area a on i.ID_AREA=a.ID_AREA left join reparticion r on
-			a.ID_REPA=r.ID_REPA where a.ID_REPA=$reparticion
-			group by i.MICRO ORDER BY TOTAL DESC");
+			$consultar=mysqli_query($datos_base, "SELECT mi.ID_MICRO, mi.MICRO, count(*) as TOTAL
+            from inventario i 
+           left join area a on i.ID_AREA=a.ID_AREA left join reparticion r on
+           a.ID_REPA=r.ID_REPA 
+           LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
+   LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
+            where a.ID_REPA=$reparticion
+			group by mi.MICRO ORDER BY TOTAL DESC");
 			while($listar = mysqli_fetch_array($consultar))
 				{
 			
@@ -665,7 +670,7 @@ if($reparticion==0) {
 						    <h4 style='text-align: center;	'>".$listar['TOTAL']."</h4>
 						</td>
 						<td class='text-center text-nowrap' id='accion'><a class='btn btn-sm btn-outline-primary'
-                                        href='reportemicroequipo.php?Micro=".$listar['MICRO']."&Repa=$reparticion' class=mod><svg
+                                        href='reportemicroequipo.php?Micro=".$listar['ID_MICRO']."&Repa=$reparticion' class=mod><svg
                                             xmlns='http://www.w3.org/2000/svg' width='20' height='20'
                                             fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
                                             <path

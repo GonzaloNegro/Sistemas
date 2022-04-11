@@ -92,7 +92,7 @@ $row = $resultado->fetch_assoc();
                           </select>
 		        
 				<label id="lblForm"class="col-form-label col-xl col-lg" style="color: black;">AREA:</label>
-                <select name="slcarea" id="slcarea" class="form-control col-xl col-lg">
+                <select name="slcarea" id="slcarea" class="col-xl col-lg" style="height: 20px;">
 									<option value="" selected disabled>-SELECCIONE UNA-</option>
                                     <?php
 									include("conexion.php");
@@ -140,7 +140,7 @@ $row = $resultado->fetch_assoc();
 
 
                 <div class="form-group row">
-				<label id="lblForm"class="col-form-label col-xl col-lg" style="color: black;">SISTEMA OPERATIVO:</label>
+				<label id="lblForm"class="col-form-label col-xl col-lg" style="color: black;">SIST. OP:</label>
                 <select name="so" class="form-control col-xl col-lg">
 									<option value="" selected disabled="tipop">-SELECCIONE UNA-</option>
 									<?php
@@ -153,7 +153,7 @@ $row = $resultado->fetch_assoc();
 									<?php endforeach ?>
 								</select>
 				<label id="lblForm"class="col-form-label col-xl col-lg" style="color: black;">MICROPROCESADOR:</label>
-                <select name="micro" class="form-control col-xl col-lg">
+                <select name="micro" id="micro" class="form-control col-xl col-lg">
 									<option value="" selected disabled="marca">-SELECCIONE UNA-</option>
 									<?php
 									include("conexion.php");
@@ -164,6 +164,25 @@ $row = $resultado->fetch_assoc();
 									<option value="<?php echo $opciones['ID_MICRO']?>"><?php echo $opciones['MICRO']?></option>
 									<?php endforeach ?>
 								</select>
+
+								<script>
+										$('#micro').select2();
+								</script>
+								<script>
+										$(document).ready(function(){
+											$('#micro').change(function(){
+												buscador='b='+$('#buscador').val();
+												$.ajax({
+													type: 'post',
+													url: 'Controladores/session.php',
+													data: buscador,
+													success: function(r){
+														$('#tabla').load('Componentes/Tabla.php');
+													}
+												})
+											})
+										})
+									</script>
 					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn2" value="BUSCAR"></input>
 
 					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn1" value="LIMPIAR"></input>

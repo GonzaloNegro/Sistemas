@@ -18,11 +18,15 @@ $act = $_POST['act'];
 /*BOTON MODIFICAR*/
 if($pis == "400"){
   $sqlp = "SELECT PISO FROM usuarios WHERE ID_USUARIO = '$id'";
-  $pis = $sqlp;
+  $result = $datos_base->query($sqlp);
+  $row = $result->fetch_assoc();
+  $pis = $row;
 }
 if($act == "300"){
   $sqla = "SELECT ACTIVO FROM usuarios WHERE ID_USUARIO = '$id'";
-  $act = $sqla;
+  $result = $datos_base->query($sqla);
+  $row = $result->fetch_assoc();
+  $act = $row;
 }
 if($are == "200"){
   $sql = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$id'";

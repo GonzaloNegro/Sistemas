@@ -122,10 +122,11 @@ $row = $resultado->fetch_assoc();
 					}
 					else
 					{
-						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, p.SERIEG, a.AREA
+						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, a.AREA, i.SERIEG
 						FROM periferico p
 						LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
 						INNER JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO
+						LEFT JOIN inventario AS i ON i.ID_USUARIO = u.ID_USUARIO
 						LEFT JOIN area AS a ON  u.ID_AREA = a.ID_AREA
 						LEFT JOIN tipop AS t ON p.ID_TIPOP = t.ID_TIPOP
 						LEFT JOIN marcas AS m ON p.ID_MARCA = m.ID_MARCA
