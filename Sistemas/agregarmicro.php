@@ -85,7 +85,7 @@ $row = $resultado->fetch_assoc();
                                 <label id="lblForm" class="col-form-label col-xl col-lg">MICRO:</label>
                                 <input class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="micro" placeholder="NOMBRE DEL MODELO" required>
                             <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
-                                <select name="marca" class="form-control col-xl col-lg" required>
+                                <select name="marca" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                 <option selected disabled="area">-SELECCIONE UNA-</option>
                                 <?php
                                 include("conexion.php");

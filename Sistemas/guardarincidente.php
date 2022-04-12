@@ -113,6 +113,7 @@ $date2 = date('Y-m-d');
 			}
 		mysqli_query($datos_base, "INSERT INTO fecha_ticket VALUES(DEFAULT, '$tic1','$fec1')");
 	}
+	/* SI NO DERIVO */
 	else{
 		$sqla = "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = '$usuario'";
 		$result = $datos_base->query($sqla);
@@ -131,7 +132,7 @@ $date2 = date('Y-m-d');
 
 		mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion', '$idusu', '$usuario', DEFAULT,'$tipificacion', '$prioridad', '$estado', DEFAULT, '$date2', '$original','$renu', '$ws', '$hora')"); 
 
-		mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, '$estado', '', '$date', '$original', DEFAULT)");
+		mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, '$estado', '$motivo', '$date', '$original', DEFAULT)");
 		/*MAIL GENERADO PARA EL USUARIO LOGUEADO*/
 
 		$tic=mysqli_query($datos_base, "SELECT MAX(ID_TICKET) AS id FROM ticket");

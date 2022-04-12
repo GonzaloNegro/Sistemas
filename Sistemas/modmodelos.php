@@ -73,7 +73,7 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm" class="col-form-label col-xl col-lg">MARCA: </label>
-                        <select name="marca" class="form-control col-xl col-lg">
+                        <select name="marca" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                         <option selected value="100"><?php echo $ma?></option>
                                         <?php
                                         include("conexion.php");
@@ -85,7 +85,7 @@ function ConsultarIncidente($no_tic)
                                         <?php endforeach?>
                         </select>
                         <label id="lblForm" class="col-form-label col-xl col-lg">TIPO: </label>
-                        <select name="tipo" class="form-control col-xl col-lg">
+                        <select name="tipo" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                         <option selected value="200"><?php echo $tp?></option>
                                         <?php
                                         include("conexion.php");

@@ -76,7 +76,7 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm" class="col-form-label col-xl col-lg">TIPO DE RESOLUTOR:</label>
-                        <select name="tipo" class="form-control col-xl col-lg">
+                        <select name="tipo" class="form-control col-xl col-lg" style="text-transform:uppercase">
                                         <option selected value="100"><?php echo $tr?></option>
                                         <?php
                                         include("conexion.php");

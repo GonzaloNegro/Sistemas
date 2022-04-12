@@ -71,7 +71,7 @@ $row = $resultado->fetch_assoc();
                         
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
-                                <select name="usu" class="form-control col-xl col-lg" required>
+                                <select name="usu" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -83,7 +83,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
                                 <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
-                                <select name="est" class="form-control col-xl col-lg" required>
+                                <select name="est" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -107,7 +107,7 @@ $row = $resultado->fetch_assoc();
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
-                            <select name="marca" class="form-control col-xl col-lg" required>
+                            <select name="marca" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -119,7 +119,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
                                 <label id="lblForm"class="col-form-label col-xl col-lg">S.O:</label>
-                                <select name="so" class="form-control col-xl col-lg" required>
+                                <select name="so" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -135,7 +135,7 @@ $row = $resultado->fetch_assoc();
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm" class="col-form-label col-xl col-lg">TIPO PC:</label> 
-							              <select name="tippc" class="form-control col-xl col-lg" required>
+							              <select name="tippc" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -147,7 +147,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
                             <label id="lblForm"class="col-form-label col-xl col-lg">MASTERIZACIÓN:</label>
-                            <select name="masterizacion" class="form-control col-xl col-lg" required>
+                            <select name="masterizacion" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                 <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                 <option value="SI">SI</option>
                                 <option value="NO">NO</option>
@@ -159,7 +159,7 @@ $row = $resultado->fetch_assoc();
                             <label id="lblForm" class="col-form-label col-xl col-lg">MAC:</label> 
 							              <input class="form-control col-xl col-lg" name="mac" placeholder="N° MAC">
                             <label id="lblForm"class="col-form-label col-xl col-lg">RIP:</label>
-                            <select name="reserva" class="form-control col-xl col-lg" required>
+                            <select name="reserva" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                 <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                 <option value="SI">SI</option>
                                 <option value="NO">NO</option>
@@ -171,7 +171,7 @@ $row = $resultado->fetch_assoc();
                             <label id="lblForm" class="col-form-label col-xl col-lg">IP:</label> 
 						              	<input class="form-control col-xl col-lg" name="ip" placeholder="N° IP">
                             <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:</label>
-                            <select name="prov" class="form-control col-xl col-lg" required>
+                            <select name="prov" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -195,7 +195,7 @@ $row = $resultado->fetch_assoc();
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm"class="col-form-label col-xl col-lg">RED:</label>
-                            <select name="red" class="form-control col-xl col-lg" required>
+                            <select name="red" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -229,7 +229,7 @@ $row = $resultado->fetch_assoc();
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">PLACA:</label> 
-							    <select name="ppla" class="form-control col-xl col-lg" required>
+							    <select name="ppla" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -241,7 +241,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
           <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="prpla" class="form-control col-xl col-lg">
+							    <select name="prpla" style="text-transform:uppercase" class="form-control col-xl col-lg">
                   <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -296,7 +296,7 @@ $row = $resultado->fetch_assoc();
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">MICRO:</label> 
-							    <select name="mmic" class="form-control col-xl col-lg" required>
+							    <select name="mmic" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -308,7 +308,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
           <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="pmic" class="form-control col-xl col-lg">
+							    <select name="pmic" style="text-transform:uppercase" class="form-control col-xl col-lg">
                   <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -367,7 +367,7 @@ $row = $resultado->fetch_assoc();
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">MEMORIA:</label> 
-							    <select name="pvmem" class="form-control col-xl col-lg">
+							    <select name="pvmem" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -379,7 +379,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
           <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="pvprov" class="form-control col-xl col-lg">
+							    <select name="pvprov" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -416,7 +416,7 @@ $row = $resultado->fetch_assoc();
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">MEMORIA:</label> 
-							    <select name="pvmem1" class="form-control col-xl col-lg">
+							    <select name="pvmem1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -428,7 +428,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
           <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="pvprov1" class="form-control col-xl col-lg">
+							    <select name="pvprov1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -500,7 +500,7 @@ $row = $resultado->fetch_assoc();
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">CAPACIDAD:</label> 
-							    <select name="mem1" class="form-control col-xl col-lg">
+							    <select name="mem1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -512,7 +512,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
 							<label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
-                            <select name="tmem1" class="form-control col-xl col-lg">
+                            <select name="tmem1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -526,7 +526,7 @@ $row = $resultado->fetch_assoc();
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="prov1" class="form-control col-xl col-lg">
+							    <select name="prov1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -542,7 +542,7 @@ $row = $resultado->fetch_assoc();
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
-							    <select name="marc1" class="form-control col-xl col-lg">
+							    <select name="marc1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -573,7 +573,7 @@ $row = $resultado->fetch_assoc();
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
             <label id="lblForm" class="col-form-label col-xl col-lg">CAPACIDAD:</label> 
-							    <select name="mem2" class="form-control col-xl col-lg">
+							    <select name="mem2" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -585,7 +585,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
 							<label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
-                            <select name="tmem2" class="form-control col-xl col-lg">
+                            <select name="tmem2" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -599,7 +599,7 @@ $row = $resultado->fetch_assoc();
                         </div>
                         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="prov2" class="form-control col-xl col-lg">
+							    <select name="prov2" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -615,7 +615,7 @@ $row = $resultado->fetch_assoc();
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
-							    <select name="marc2" class="form-control col-xl col-lg">
+							    <select name="marc2" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -646,7 +646,7 @@ $row = $resultado->fetch_assoc();
       <div class="accordion-body" style="color: #53AAE0;">
             <div class="form-group row" style="margin: 10px; padding:10px;">
                 <label id="lblForm" class="col-form-label col-xl col-lg">CAPACIDAD:</label> 
-							    <select name="mem3" class="form-control col-xl col-lg">
+							    <select name="mem3" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -658,7 +658,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
 							<label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
-                            <select name="tmem3" class="form-control col-xl col-lg">
+                            <select name="tmem3" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -672,7 +672,7 @@ $row = $resultado->fetch_assoc();
             </div> 
             <div class="form-group row" style="margin: 10px; padding:10px;">
                   <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="prov3" class="form-control col-xl col-lg">
+							    <select name="prov3" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -688,7 +688,7 @@ $row = $resultado->fetch_assoc();
           </div>
           <div class="form-group row" style="margin: 10px; padding:10px;">
             <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
-							    <select name="marc3" class="form-control col-xl col-lg">
+							    <select name="marc3" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -719,7 +719,7 @@ $row = $resultado->fetch_assoc();
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">CAPACIDAD:</label> 
-							    <select name="mem4" class="form-control col-xl col-lg">
+							    <select name="mem4" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -731,7 +731,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
 							<label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
-                            <select name="tmem4" class="form-control col-xl col-lg">
+                            <select name="tmem4" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -745,7 +745,7 @@ $row = $resultado->fetch_assoc();
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
             <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="prov4" class="form-control col-xl col-lg">
+							    <select name="prov4" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -761,7 +761,7 @@ $row = $resultado->fetch_assoc();
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
-							    <select name="marc4" class="form-control col-xl col-lg">
+							    <select name="marc4" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -803,7 +803,7 @@ $row = $resultado->fetch_assoc();
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
 			    <label id="lblForm"class="col-form-label col-xl col-lg">CAPACIDAD:</label>
-                            <select name="disc1" class="form-control col-xl col-lg">
+                            <select name="disc1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -815,7 +815,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
                             <label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
-                            <select name="tdisc1" class="form-control col-xl col-lg">
+                            <select name="tdisc1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -829,7 +829,7 @@ $row = $resultado->fetch_assoc();
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
             <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="dprov1" class="form-control col-xl col-lg">
+							    <select name="dprov1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -845,7 +845,7 @@ $row = $resultado->fetch_assoc();
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
-							    <select name="dmarc1" class="form-control col-xl col-lg">
+							    <select name="dmarc1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -876,7 +876,7 @@ $row = $resultado->fetch_assoc();
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
 			    <label id="lblForm"class="col-form-label col-xl col-lg">CAPACIDAD:</label>
-                            <select name="disc2" class="form-control col-xl col-lg">
+                            <select name="disc2" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -888,7 +888,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
                             <label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
-                            <select name="tdisc2" class="form-control col-xl col-lg">
+                            <select name="tdisc2" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -902,7 +902,7 @@ $row = $resultado->fetch_assoc();
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
             <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="dprov2" class="form-control col-xl col-lg">
+							    <select name="dprov2" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -918,7 +918,7 @@ $row = $resultado->fetch_assoc();
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
-							    <select name="dmarc2" class="form-control col-xl col-lg">
+							    <select name="dmarc2" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -949,7 +949,7 @@ $row = $resultado->fetch_assoc();
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
 			<label id="lblForm"class="col-form-label col-xl col-lg">CAPACIDAD:</label>
-                            <select name="disc3" class="form-control col-xl col-lg">
+                            <select name="disc3" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -961,7 +961,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
                             <label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
-                            <select name="tdisc3" class="form-control col-xl col-lg">
+                            <select name="tdisc3" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -975,7 +975,7 @@ $row = $resultado->fetch_assoc();
           </div>
           <div class="form-group row" style="margin: 10px; padding:10px;">
             <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="dprov3" class="form-control col-xl col-lg">
+							    <select name="dprov3" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -991,7 +991,7 @@ $row = $resultado->fetch_assoc();
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
-							    <select name="dmarc3" class="form-control col-xl col-lg">
+							    <select name="dmarc3" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -1022,7 +1022,7 @@ $row = $resultado->fetch_assoc();
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
 			<label id="lblForm"class="col-form-label col-xl col-lg">CAPACIDAD:</label>
-                            <select name="disc4" class="form-control col-xl col-lg">
+                            <select name="disc4" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -1034,7 +1034,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
                             <label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
-                            <select name="tdisc4" class="form-control col-xl col-lg">
+                            <select name="tdisc4" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -1048,7 +1048,7 @@ $row = $resultado->fetch_assoc();
           </div>
           <div class="form-group row" style="margin: 10px; padding:10px;">
             <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="dprov4" class="form-control col-xl col-lg">
+							    <select name="dprov4" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
@@ -1064,7 +1064,7 @@ $row = $resultado->fetch_assoc();
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
           <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
-							    <select name="dmarc4" class="form-control col-xl col-lg">
+							    <select name="dmarc4" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");

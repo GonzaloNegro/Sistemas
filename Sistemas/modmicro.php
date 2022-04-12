@@ -60,7 +60,7 @@ function ConsultarIncidente($no_tic)
                                 <label id="lblForm" class="col-form-label col-xl col-lg">MICRO:</label>
                                 <input class="form-control col-xl col-lg" type="text" name="micro" placeholder="NOMBRE DEL MODELO" value="<?php echo $consulta[1]?>" required>
                                 <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
-                                <select name="marca" class="form-control col-xl col-lg">
+                                <select name="marca" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                         <option selected value="100"><?php echo $ma?></option>
                                         <?php
                                         include("conexion.php");

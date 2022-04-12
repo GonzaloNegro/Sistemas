@@ -93,7 +93,7 @@ function ConsultarIncidente($no_tic)
 				    <!--/////////////////////////////////////USUARIO///////////////////////////////////////////-->
 				    <!--/////////////////////////////////////USUARIO///////////////////////////////////////////-->
 				    <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
-				    <select class="form-control col-xl col-lg"   name="usuario">
+				    <select class="form-control col-xl col-lg" style="text-transform:uppercase"  name="usuario">
 									<option selected value="150"><?php echo $usu?></option>
 									<?php
 									include("conexion.php");
@@ -110,7 +110,7 @@ function ConsultarIncidente($no_tic)
 				<!--/////////////////////////////////////FECHA SOLUCION///////////////////////////////////////////-->
 				<div class="form-group row" style="margin: 10px; padding:10px;">
 				    <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO: </label>
-				    <select name="estado" class="form-control col-xl col-lg">
+				    <select name="estado" class="form-control col-xl col-lg" style="text-transform:uppercase">
 									<option selected value ="50"><?php echo $est?></option>
 									<?php
 									include("conexion.php");
@@ -123,7 +123,7 @@ function ConsultarIncidente($no_tic)
 								</select>
 				<?php $default_res = $consulta[7];?>
 					<label id="lblForm"class="col-form-label col-xl col-lg">RESOLUTOR: </label>
-					<select name="resolutor" class="form-control col-xl col-lg">
+					<select name="resolutor" class="form-control col-xl col-lg" style="text-transform:uppercase">
 									<option selected value="100"><?php echo $nom?></option>
 									<?php
 									include("conexion.php");

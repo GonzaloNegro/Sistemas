@@ -77,7 +77,7 @@ function ConsultarIncidente($no_tic)
                                     <option value="INACTIVO">INACTIVO</option>
                                 </select>
                     <label id="lblForm"class="col-form-label col-xl col-lg">REPARTICIÓN:</label>&nbsp &nbsp
-                        <select name="repa" style="margin-top: 5px"class="form-control col-form-label col-xl col-lg">
+                        <select name="repa" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                                         <option selected value="100"><?php echo $repa?></option>
                                         <?php
                                         include("conexion.php");

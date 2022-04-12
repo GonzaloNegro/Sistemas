@@ -117,11 +117,11 @@ function ConsultarIncidente($no_tic)
                                     <option value="INACTIVO">INACTIVO</option>
                                 </select>
                         <label id="lblForm" class="col-form-label col-xl col-lg">ÁREA:</label>&nbsp &nbsp
-                        <select  class="form-control col-xl col-lg" name="are">
+                        <select  class="form-control col-xl col-lg" name="are" style="text-transform:uppercase">
                                         <option selected value="200"><?php echo $ar?></option>
                                         <?php
                                         include("conexion.php");
-                                        $consulta= "SELECT * FROM area";
+                                        $consulta= "SELECT * FROM area ORDER BY ID_REPA ASC";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>
                                         <?php foreach ($ejecutar as $opciones): ?> 
@@ -132,7 +132,7 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                     <label id="lblForm" class="col-form-label col-xl col-lg">TURNO:</label>&nbsp &nbsp
-                    <select  class="form-control col-xl col-lg" name="tur">
+                    <select  class="form-control col-xl col-lg" name="tur" style="text-transform:uppercase">
                                     <option selected value="100"><?php echo $turno?></option>
                                     <?php
                                     include("conexion.php");

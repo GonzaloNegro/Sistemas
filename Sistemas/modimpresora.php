@@ -155,7 +155,7 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
-                            <select name="modelo" style="margin-top: 5px"class="form-control col-form-label col-xl col-lg">
+                            <select name="modelo" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                                             <option selected value="200"><?php echo $mod?></option>
                                             <?php
                                             include("conexion.php");
@@ -167,7 +167,7 @@ function ConsultarIncidente($no_tic)
                                             <?php endforeach?>
                                         </select>
                         <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO: </label>
-                        <select name="estado" style="margin-top: 5px" class="form-control col-form-label col-xl col-lg">
+                        <select name="estado" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                                         <option selected value="300"><?php echo $est?></option>
                                         <?php
                                         include("conexion.php");
@@ -182,7 +182,7 @@ function ConsultarIncidente($no_tic)
                                     
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                     <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR: </label>
-                    <select name="prov" style="margin-top: 5px"class="form-control col-form-label col-xl col-lg">
+                    <select name="prov" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                                     <option selected value="400"><?php echo $prov?></option>
                                     <?php
                                     include("conexion.php");
@@ -194,7 +194,7 @@ function ConsultarIncidente($no_tic)
                                     <?php endforeach?>
                                 </select>
                     <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DE IMPRESORA: </label>
-                    <select name="tipop" style="margin-top: 5px"class="form-control col-form-label col-xl col-lg">
+                    <select name="tipop" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                                     <option selected value="500"><?php echo $tip?></option>
                                     <?php
                                     include("conexion.php");
@@ -209,7 +209,7 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO: </label>
-                        <select name="usu" style="margin-top: 5px"class="form-control col-form-label col-xl col-lg">
+                        <select name="usu" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                                         <option selected value="600"><?php echo $usu?></option>
                                         <?php
                                         include("conexion.php");
@@ -221,7 +221,7 @@ function ConsultarIncidente($no_tic)
                                         <?php endforeach?>
                                     </select>
                         <label id="lblForm"class="col-form-label col-xl col-lg">MARCA: </label>
-                        <select name="mar" style="margin-top: 5px"class="form-control col-form-label col-xl col-lg">
+                        <select name="mar" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                                         <option selected value="700"><?php echo $mar?></option>
                                         <?php
                                         include("conexion.php");
@@ -236,7 +236,7 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">            
                         <label id="lblForm"class="col-form-label col-xl col-lg">PROCEDENCIA: </label>
-                        <select name="proc" style="margin-top: 5px"class="form-control col-form-label col-xl col-lg">
+                        <select name="proc" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                                         <option selected value="800"><?php echo $proc?></option>
                                         <?php
                                         include("conexion.php");

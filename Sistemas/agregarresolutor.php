@@ -97,7 +97,7 @@ $row = $resultado->fetch_assoc();
 						
 						<div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
-								<select name="tipo" class="form-control col-xl col-lg" required>
+								<select name="tipo" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 								<option selected disabled="area">-SELECCIONE UNA-</option>
 								<?php
 								include("conexion.php");

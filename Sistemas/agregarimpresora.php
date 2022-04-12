@@ -71,7 +71,7 @@ $row = $resultado->fetch_assoc();
 
                             <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm"class="col-form-label col-xl col-lg">TIPO IMPRESORA:</label>
-                                <select name="tipop" class="form-control col-xl col-lg" required>
+                                <select name="tipop" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                 <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                         <?php
                                         include("conexion.php");
@@ -83,7 +83,7 @@ $row = $resultado->fetch_assoc();
                                         <?php endforeach?>
                                 </select>
                                 <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
-                                <select name="marca" class="form-control col-xl col-lg" required>
+                                <select name="marca" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                         <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                         <?php
                                         include("conexion.php");
@@ -99,7 +99,7 @@ $row = $resultado->fetch_assoc();
 
                             <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
-                                <select name="modelo" class="form-control col-xl col-lg" required>
+                                <select name="modelo" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                         <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                         <?php
                                         include("conexion.php");
@@ -123,7 +123,7 @@ $row = $resultado->fetch_assoc();
                                 <label id="lblForm" class="col-form-label col-xl col-lg">N° SERIE:</label> 
                                 <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="serie" required>
                                 <label id="lblForm"class="col-form-label col-xl col-lg">PROCEDENCIA:</label>
-                                <select name="proc" class="form-control col-xl col-lg" required>
+                                <select name="proc" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                         <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                         <?php
                                         include("conexion.php");
@@ -141,7 +141,7 @@ $row = $resultado->fetch_assoc();
 
                             <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
-                            <select name="usu" class="form-control col-xl col-lg" required>
+                            <select name="usu" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                         <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                         <?php
                                         include("conexion.php");
@@ -153,7 +153,7 @@ $row = $resultado->fetch_assoc();
                                         <?php endforeach?>
                                     </select>
                                 <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
-                                <select name="est" class="form-control col-xl col-lg" required>
+                                <select name="est" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                         <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                         <?php
                                         include("conexion.php");
@@ -173,7 +173,7 @@ $row = $resultado->fetch_assoc();
                                 <label id="lblForm" class="col-form-label col-xl col-lg">GARANTIA:</label> 
                                 <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar" placeholder="TIEMPO DE GARANTIA" >
                                 <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:</label>
-                                <select name="prov" class="form-control col-xl col-lg">
+                                <select name="prov" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                         <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                         <?php
                                         include("conexion.php");

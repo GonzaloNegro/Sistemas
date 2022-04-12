@@ -72,7 +72,7 @@ $row = $resultado->fetch_assoc();
 							<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="area" placeholder="NOMBRE DEL ÁREA" required>
 
 							<label id="lblForm"class="col-form-label col-xl col-lg">REPARTICIÓN:</label>
-							<select name="repa" class="form-control col-xl col-lg" required>
+							<select name="repa" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 							<option selected disabled>-SELECCIONE UNA-</option>
 							<?php
 							include("conexion.php");
