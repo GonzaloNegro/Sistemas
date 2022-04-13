@@ -52,12 +52,13 @@ $row = $resultado->fetch_assoc();
 						");
 						while($listar = mysqli_fetch_array($consulta)) 
 						{
+						$fecha = date("d-m-Y", strtotime($listar['FECHA']));
 						echo
 						" 
 						<tr>
                         <td><h4 style='font-size:16px;'>".$listar['LUGAR']."</h4 ></td>
 						<td><h4 style='font-size:16px;'>".$listar['AGREGADO']."</h4 ></td>
-						<td><h4 style='font-size:16px;'>".$listar['FECHA']."</h4 ></td>
+						<td><h4 style='font-size:16px;'>".$fecha."</h4 ></td>
 						";
 						}
 			?>
