@@ -538,6 +538,90 @@ if(isset($_POST['btn2']))
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
+	if(isset($_POST['so']) & isset($_POST['micro']))
+		   {
+		   
+		   $micro = $_POST['micro'];
+		   $so = $_POST['so'];
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   FROM inventario i 
+		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
+		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
+		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
+		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
+		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
+		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
+		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
+		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
+		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
+		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
+		   WHERE i.ID_SO=$so and m.ID_MICRO=$micro
+		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
+	}
+
+	if(isset($_POST['selectorrepart']) & isset($_POST['so']) & isset($_POST['micro']))
+		   {
+		   $reparticion = $_POST['selectorrepart'];
+		   $micro = $_POST['micro'];
+		   $so = $_POST['so'];
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   FROM inventario i 
+		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
+		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
+		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
+		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
+		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
+		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
+		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
+		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
+		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
+		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
+		   WHERE a.ID_REPA = $reparticion and i.ID_SO=$so and m.ID_MICRO=$micro
+		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
+	}
+
+	if(isset($_POST['slcarea']) & isset($_POST['so']) & isset($_POST['micro']))
+		   {
+		   $area = $_POST['slcarea'];
+		   $micro = $_POST['micro'];
+		   $so = $_POST['so'];
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   FROM inventario i 
+		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
+		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
+		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
+		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
+		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
+		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
+		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
+		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
+		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
+		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
+		   WHERE i.ID_AREA=$area and i.ID_SO=$so and m.ID_MICRO=$micro
+		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
+	}
+
+	if(isset($_POST['slcestado']) & isset($_POST['so']) & isset($_POST['micro']))
+		   {
+		   $estado = $_POST['slcestado'];
+		   $micro = $_POST['micro'];
+		   $so = $_POST['so'];
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   FROM inventario i 
+		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
+		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
+		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
+		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
+		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
+		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
+		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
+		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
+		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
+		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
+		   WHERE i.ID_ESTADOWS=$estado and i.ID_SO=$so and m.ID_MICRO=$micro
+		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
+	}
+
 	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['slcestado']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];

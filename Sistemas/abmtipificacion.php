@@ -89,7 +89,7 @@ $row = $resultado->fetch_assoc();
 									$doc = $_POST['buscar'];
 									$consulta=mysqli_query($datos_base, "SELECT ID_TIPIFICACION, TIPIFICACION
 									FROM tipificacion
-									WHERE TIPIFICACION LIKE '%$doc%'
+									WHERE TIPIFICACION LIKE '%$doc%' AND ID_TIPIFICACION >= 20
 									ORDER BY TIPIFICACION ASC
 									");
 										while($listar = mysqli_fetch_array($consulta)) 
@@ -110,6 +110,7 @@ $row = $resultado->fetch_assoc();
 								else{
 									$consulta=mysqli_query($datos_base, "SELECT ID_TIPIFICACION, TIPIFICACION
 									FROM tipificacion
+									WHERE ID_TIPIFICACION >= 20
 									ORDER BY TIPIFICACION ASC
 									");
 										while($listar = mysqli_fetch_array($consulta)) 

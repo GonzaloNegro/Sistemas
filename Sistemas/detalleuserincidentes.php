@@ -77,7 +77,9 @@ $row = $resultado->fetch_assoc();
 					    $fechadesde=$_GET['desde'];
 					    $fechahasta=$_GET['hasta'];
 					    $usuario = $_GET['User'];
-						 $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from ticket t where t.USUARIO like '%$usuario%' and t.FECHA_INICIO between '$fechadesde' and '$fechahasta'");
+						$tit=mysqli_query($datos_base, "SELECT NOMBRE from usuarios where ID_USUARIO=$usuario");
+			            $nomusuario = mysqli_fetch_array($tit);
+						 $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from ticket t where t.ID_USUARIO=$usuario and t.FECHA_INICIO between '$fechadesde' and '$fechahasta'");
 			            $total = mysqli_fetch_array($conttotal);
 						$fecha = date("d-m-y");
 						$date = date('Y-m-d');
@@ -85,7 +87,7 @@ $row = $resultado->fetch_assoc();
 						// $consultit=mysqli_fetch_array($consularea);
 						
 						echo "
-						<h1 id='titulo'>REPORTE DE INCIDENTES POR USUARIO:".$usuario."</h1>
+						<h1 id='titulo'>REPORTE DE INCIDENTES POR USUARIO:".$nomusuario['NOMBRE']."</h1>
                         <hr style='margin-top:60px;'>
 						<h4 class='indicadores'>PERIODO</h2>
 		        		 <h4 class='indicadores'>DESDE: $fechadesde</h2>
@@ -107,11 +109,14 @@ $row = $resultado->fetch_assoc();
 								<!--<th class='cabecera' id='cabeceraacc' width=65px><p>ACCIÓN</p></th>-->
 						</tr>
 						</thead>";
-						$consultar=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, t.USUARIO, t.DESCRIPCION, i.TIPIFICACION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
+						$consultar=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, i.TIPIFICACION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
 						FROM ticket t 
 						LEFT JOIN prioridad p ON  p.ID_PRIORIDAD = t.ID_PRIORIDAD 
 						LEFT JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO
-						LEFT JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR left join tipificacion i on t.ID_TIPIFICACION=i.ID_TIPIFICACION where t.USUARIO like '%$usuario%' and t.FECHA_INICIO between '$fechadesde' and '$fechahasta'
+						LEFT JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR 
+						left join tipificacion i on t.ID_TIPIFICACION=i.ID_TIPIFICACION 
+						left join usuarios u on t.ID_USUARIO=u.ID_USUARIO
+						where t.ID_USUARIO=$usuario and t.FECHA_INICIO between '$fechadesde' and '$fechahasta'
 						ORDER BY t.FECHA_INICIO DESC, t.ID_TICKET DESC");
 									while($listar = mysqli_fetch_array($consultar))
 									{
@@ -132,7 +137,7 @@ $row = $resultado->fetch_assoc();
 													<tr>
 													<td><h4 style='font-size:16px;'>".$listar['ID_TICKET']."</h4></td>
 													<td><h4 style='font-size:16px;'>".$fecord."</h4></td>
-													<td><h4 style='font-size:16px;'>".$listar['USUARIO']."</h4></td>
+													<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>
 													<td><h4 style='font-size:16px;'>".$listar['DESCRIPCION']."</h4></td>
 													<td><h4 style='font-size:16px;'>".$listar['PRIORIDAD']/*$res*/."</h4></td>
                                                     <td><h4 style='font-size:16px;'>".$listar['ESTADO']/*$res*/."</h4></td>

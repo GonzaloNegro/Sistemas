@@ -84,15 +84,10 @@ function ConsultarIncidente($no_tic)
                     </div>
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
-                        <label id="lblForm" class="col-form-label col-xl col-lg">PISO:</label>
-                            <select name="piso" class="form-control col-xl col-lg" required>
-                                <option selected value="400"><?php echo $consulta[4]?></option>
-								<option value="PB">PB</option>
-								<option value="P1">P1</option>
-								<option value="P2">P2</option>
-							</select>
                         <label id="lblForm" class="col-form-label col-xl col-lg">INTERNO:</label>
                         <input class="form-control col-xl col-lg" type="text" name="int" value="<?php echo $consulta[5]?>">
+                        <label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓN:</label> &nbsp &nbsp
+                        <textarea class="form-control col-xl col-lg" name="obs" style="text-transform:uppercase" rows="3"><?php echo $consulta[11]?></textarea>
                     </div>
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
@@ -103,16 +98,21 @@ function ConsultarIncidente($no_tic)
                     </div>
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
-                        <label id="lblForm" class="col-form-label col-xl col-lg">TELEFONO: </label>&nbsp &nbsp
+                        <label id="lblForm" class="col-form-label col-xl col-lg">TELEFONO: </label>
                         <input class="form-control col-xl col-lg" type="text" name="tel" value="<?php echo $consulta[8]?>">
-                        <label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓNES:</label> &nbsp &nbsp
-                        <textarea class="form-control col-xl col-lg" name="obs" style="text-transform:uppercase" rows="3"><?php echo $consulta[11]?></textarea>
+                        <label id="lblForm" class="col-form-label col-xl col-lg">PISO:</label>
+                            <select name="piso" class="form-control col-xl col-lg">
+                                <option selected value="300"><?php echo $consulta[4]?></option>
+								<option value="PB">PB</option>
+								<option value="P1">P1</option>
+								<option value="P2">P2</option>
+							</select>
                     </div>
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
-                        <label id="lblForm" class="col-form-label col-xl col-lg">ESTADO:</label>&nbsp &nbsp
-                        <select class="form-control col-xl col-lg" name="act" required>
-                                    <option selected value="300"><?php echo $consulta[10]?></option>
+                        <label id="lblForm" class="col-form-label col-xl col-lg">ESTADO:</label>
+                        <select class="form-control col-xl col-lg" name="act">
+                                    <option selected value="400"><?php echo $consulta[10]?></option>
                                     <option value="ACTIVO">ACTIVO</option>
                                     <option value="INACTIVO">INACTIVO</option>
                                 </select>

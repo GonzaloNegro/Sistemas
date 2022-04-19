@@ -30,7 +30,7 @@ $row = $resultado->fetch_assoc();
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="estilocarga.css">
-<!-- 	<script>
+<!--  	<script>
 		$(function (){
 			$("#txtfechainicio").datepicker() ({
 				dateformat: "yyyy-mm-dd"
@@ -44,15 +44,25 @@ $row = $resultado->fetch_assoc();
 			});
 		});
 	</script> -->
+
 		<script>
 	$(document).ready(function(){
     $("#slctestado").change(function(){
-        if ($("#slctestado").val() == '3') {
+        
+		
+
+
+		if ($("#slctestado").val() == '3') {
 			$("#txtaDerivacion").show(1300);
 		    $("#resoderi").show(1300);
 		    $("#slctResoDer").show(1300);
 		}
-		else{
+		if ($("#slctestado").val() == '2' || $("#slctestado").val() == '5') {
+			$("#txtaDerivacion").show(1300);
+		}
+
+		
+		if($("#slctestado").val() == '1' || $("#slctestado").val() == '4'){
 			$("#txtaDerivacion").hide(1000);
 		    $("#resoderi").hide(1000);
 		    $("#slctResoDer").hide(1000);
@@ -113,12 +123,18 @@ $row = $resultado->fetch_assoc();
 								alert("Por favor, ingresa la fecha de solucion"); 
 								form.fecha_solucion.focus(); 
 								return true; }
+								// if (motivo.value ==""){
+								// alert("Por favor, complete el campo"); 
+								// form.fecha_solucion.focus(); 
+								// return true; }
 								
 								}
+								
 						
 									form.submit()
 						}
 			</script>
+
 <header class="p-3 mb-3 border-bottom altura">
     <div class="container-fluid">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -181,7 +197,7 @@ $row = $resultado->fetch_assoc();
 
 							<div class="form-group row" style="margin: 10px; padding:10px;">
 								<label class="col-form-label col-xl col-lg">FECHA INICIO:</label>
-								<input type="date" class="form-control col-xl col-lg"  name="fecha_inicio" required>
+								<input type="date" class="form-control col-xl col-lg" name="fecha_inicio" id="txtfechafin" required>
 								<!-- <input class="form-control col-xl col-lg" type="text" name="fecha_inicio" id="txtfechainicio" required> -->
 								<!--//////////////////////////////////////////////////////////////////-->
 								<!--//////////////////////////////////////////////////////////////////-->
@@ -221,58 +237,61 @@ $row = $resultado->fetch_assoc();
 
 								<!--//////////////////////////////////////////////////////////////////-->
 								<!--//////////////////////////////////////////////////////////////////-->
-
 		                    </div>	
 							
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
-							<div class="row" style="margin: 10px; padding:10px;">
-							<label class="col-form-label col-xl col-lg">PRIORIDAD: </label>
-								<select name="prioridad" class="form-control col-xl col-lg" required>
-									<option value="" selected disabled="prioridad">-SELECCIONE UNA-</option>
-									<?php
-									include("conexion.php");
-									$consulta= "SELECT * FROM prioridad";
-									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-									?>
-									<?php foreach ($ejecutar as $opciones): ?> 
-									<option value="<?php echo $opciones['ID_PRIORIDAD']?>"><?php echo $opciones['PRIORIDAD']?></option>
-									<?php endforeach ?>
-								</select>
-								<label class="col-form-label col-xl">TIPIFICACIÓN: </label>
-								<select name="tipificacion" id="tip" class="form-control col-xl" required>
-									<option value="" selected disabled="tipificacion">-SELECCIONE UNA-</option>
-									<?php
-									include("conexion.php");
-									$consulta= "SELECT * FROM tipificacion WHERE ID_TIPIFICACION >= 20";
-									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-									?>
-									<?php foreach ($ejecutar as $opciones): ?> 
-										<option value="<?php echo $opciones['ID_TIPIFICACION']?>"><?php echo $opciones['TIPIFICACION']?></option>
-									<?php endforeach ?>
-								</select>
-								
+							<div class="form-group row" style="margin: 10px; padding:10px;">
+<!-- 								<label class="col-form-label col-xl col-lg">EQUIPO DEL USUARIO: </label>
+									<select name="equipo" class="form-control col-xl col-lg" required>
+									</select> -->
 
-								<!--BUSCADOR-->
-								<script>
-								/* 		$('#tip').select2(); */
-									</script>
+								<label class="col-form-label col-xl col-lg">PRIORIDAD: </label>
+									<select name="prioridad" class="form-control col-xl col-lg" required>
+										<option value="" selected disabled="prioridad">-SELECCIONE UNA-</option>
+										<?php
+										include("conexion.php");
+										$consulta= "SELECT * FROM prioridad";
+										$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+										?>
+										<?php foreach ($ejecutar as $opciones): ?> 
+										<option value="<?php echo $opciones['ID_PRIORIDAD']?>"><?php echo $opciones['PRIORIDAD']?></option>
+										<?php endforeach ?>
+									</select>
+									<label class="col-form-label col-xl">TIPIFICACIÓN: </label>
+									<select name="tipificacion" id="tip" class="form-control col-xl" required>
+										<option value="" selected disabled="tipificacion">-SELECCIONE UNA-</option>
+										<?php
+										include("conexion.php");
+										$consulta= "SELECT * FROM tipificacion WHERE ID_TIPIFICACION >= 20";
+										$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+										?>
+										<?php foreach ($ejecutar as $opciones): ?> 
+											<option value="<?php echo $opciones['ID_TIPIFICACION']?>"><?php echo $opciones['TIPIFICACION']?></option>
+										<?php endforeach ?>
+									</select>
+									
 
+									<!--BUSCADOR-->
 									<script>
-/* 										$(document).ready(function(){
-											$('#tip').change(function(){
-												buscador='b='+$('#tip').val();
-												$.ajax({
-													type: 'post',
-													url: 'Controladores/session.php',
-													data: tip,
-													success: function(r){
-														$('#tabla').load('Componentes/Tabla.php');
-													}
+									/* 		$('#tip').select2(); */
+										</script>
+
+										<script>
+	/* 										$(document).ready(function(){
+												$('#tip').change(function(){
+													buscador='b='+$('#tip').val();
+													$.ajax({
+														type: 'post',
+														url: 'Controladores/session.php',
+														data: tip,
+														success: function(r){
+															$('#tabla').load('Componentes/Tabla.php');
+														}
+													})
 												})
-											})
-										}) */
-									</script>
+											}) */
+										</script>
 
 
 								<!--//////////////////////////////////////////////////////////////////-->
@@ -281,12 +300,11 @@ $row = $resultado->fetch_assoc();
 														<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
 							<div class="form-group row" style="margin: 10px; padding:10px;">
-							<label class="col-form-label col-xl col-lg">DESCRIPCIÓN: </label>
-								<textarea name="descripcion" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN" rows="3" required></textarea>
+								<textarea name="descripcion" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE" rows="3" required></textarea>
 							</div>
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
-							<div class="row" style="margin: 10px; padding:10px;">
+							<div class="form-group row" style="margin: 10px; padding:10px;">
 								<label class="col-form-label col-xl">FECHA SOLUCIÓN: </label>
 								<input type="date" name="fecha_solucion" id="txtfechafin" class="form-control col-xl derecha">
 							<label class="col-form-label col-xl">ESTADO INCIDENTE: </label>

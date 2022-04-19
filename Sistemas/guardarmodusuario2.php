@@ -16,18 +16,22 @@ $obs = $_POST['obs'];
 $act = $_POST['act'];
 
 /*BOTON MODIFICAR*/
-if($pis == "400"){
+if($pis == "300"){
   $sqlp = "SELECT PISO FROM usuarios WHERE ID_USUARIO = '$id'";
   $result = $datos_base->query($sqlp);
   $row = $result->fetch_assoc();
-  $pis = $row;
-}
-if($act == "300"){
+  $pis = $row['PISO'];
+}/* else{
+  $pis = $_POST['piso'];
+} */
+if($act == "400"){
   $sqla = "SELECT ACTIVO FROM usuarios WHERE ID_USUARIO = '$id'";
   $result = $datos_base->query($sqla);
   $row = $result->fetch_assoc();
-  $act = $row;
-}
+  $act = $row['ACTIVO'];
+}/* else{
+  $act = $_POST['act'];
+} */
 if($are == "200"){
   $sql = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$id'";
   $result = $datos_base->query($sql);

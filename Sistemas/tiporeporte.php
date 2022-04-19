@@ -136,7 +136,7 @@ $row = $resultado->fetch_assoc();
           <div class="face back">
             <h3>INCIDENTES</h3>
             <div class="link">
-              <a href="reporteinventario.php">EQUIPOS</a> 
+              <a href="reporteincidentes.php">INCIDENTES</a> 
             </div>
           </div>
         </div>

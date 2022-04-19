@@ -21,14 +21,14 @@
     <div class="bienvenida" data-aos="zoom-in-up">
         <div class="fecha">    
             <?php  $fechaActual = date('d-m-Y');?>
-            <p class="h5"><u>ULTIMA ACTUALIZACIÓN</u>: 13/04/2022</p>
+            <p class="h5"><u>ULTIMA ACTUALIZACIÓN</u>: 19/04/2022</p>
         </div>
         <hr style='display: block; height: 2px;'>
         <div class="info">
             <ul class="list-unstyled">
                 <li>
                     <ul>
-                        <li>Se agregaron las áreas: "COCINA P.A." y "COCINA P.B."</li>
+                        <li>Sin Cambios</li>
 <!--                         <li></li>
                         <li>Cambio 2</li>
                         <li>Cambio 3</li> -->

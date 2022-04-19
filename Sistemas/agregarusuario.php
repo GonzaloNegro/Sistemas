@@ -105,8 +105,8 @@ $row = $resultado->fetch_assoc();
 
 							<label id="lblForm"class="col-form-label col-xl col-lg">PISO:</label>
                             <select name="piso" style="text-transform:uppercase" class="form-control col-xl col-lg">
-								<option selected disabled="piso">-SELECCIONE UNA-</option>
-								<option value="PB">PB</option>
+<!-- 								<option selected disabled="piso">-SELECCIONE UNA-</option> -->
+								<option value="PB" selected>PB</option>
 								<option value="P1">P1</option>
 								<option value="P2">P2</option>
 							</select>
@@ -139,8 +139,8 @@ $row = $resultado->fetch_assoc();
 							</select>
 							<label id="lblForm"class="col-form-label col-xl col-lg">ACTIVO:</label>
 							<select name="activo" class="form-control col-xl col-lg" required>
-								<option selected disabled>-SELECCIONE UNA-</option>
-								<option value="ACTIVO">ACTIVO</option>
+<!-- 								<option selected disabled>-SELECCIONE UNA-</option> -->
+								<option value="ACTIVO" selected>ACTIVO</option>
 								<option value="INACTIVO">INACTIVO</option>
 							</select>
 							</div>

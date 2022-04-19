@@ -32,26 +32,26 @@ $tipificacion = $_POST['tipificacion'];
 $estado = $_POST['estado'];
 $prioridad = $_POST['prioridad'];
 
-/* if(isset($_POST['fecha_inicio'])){
+if(isset($_POST['fecha_inicio'])){
 	if(!empty($_POST['fecha_inicio'])){
 		$date = $_POST['fecha_inicio'];
 		$date = strtotime($date);
 		$date = date('Y-m-d', $date);
 	}
-} */
+}
 
-/* if(isset($_POST['fecha_solucion'])){
+if(isset($_POST['fecha_solucion'])){
 	if(!empty($_POST['fecha_solucion'])){
 		$date2 = $_POST['fecha_solucion'];
 		$date2 = strtotime($date2);
 		$date2 = date('Y-m-d', $date2);
 	}
-} */
-$date = $_POST['fecha_inicio'];
+}
+/* $date = $_POST['fecha_inicio'];
 $date = date('Y-m-d');
 
 $date2 = $_POST['fecha_solucion'];
-$date2 = date('Y-m-d');
+$date2 = date('Y-m-d'); */
 
 /* GUARDO EL TICKET YA SEA DERIVADO O GENERADO POR USUARIO LOGUEADO*/
 	if($estado == "3"){
@@ -74,7 +74,7 @@ $date2 = date('Y-m-d');
 		$row = $resultado->fetch_assoc();
 		$ws = $row['ID_WS'];
 
-		mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion', '$idusu', '$usuario', DEFAULT, '$tipificacion', '$prioridad', '$estado', DEFAULT, '$date2', '$original','$renv', '$ws', '$hora')");
+		mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion', '$idusu', '$usuario', DEFAULT, '$tipificacion', '$prioridad', '$estado', DEFAULT, DEFAULT, '$original','$renv', '$ws', '$hora')");
 
 		mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, '$estado', '$motivo', '$date', '$original', DEFAULT)");
 
@@ -130,7 +130,27 @@ $date2 = date('Y-m-d');
 		$row = $resultado->fetch_assoc();
 		$ws = $row['ID_WS'];
 
-		mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion', '$idusu', '$usuario', DEFAULT,'$tipificacion', '$prioridad', '$estado', DEFAULT, '$date2', '$original','$renu', '$ws', '$hora')"); 
+			/* SI ESTA CERRADO */
+		if($estado == "2" OR $estado == "5"){
+			mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion', '$idusu', '$usuario', DEFAULT,'$tipificacion', '$prioridad', '$estado', DEFAULT, '$date2', '$original','$renu', '$ws', '$hora')"); 
+
+			mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, '$estado', '$motivo', '$date', '$original', DEFAULT)");
+			/*MAIL GENERADO PARA EL USUARIO LOGUEADO*/
+	
+			$tic=mysqli_query($datos_base, "SELECT MAX(ID_TICKET) AS id FROM ticket");
+			if ($row = mysqli_fetch_row($tic)) {
+				$tic1 = trim($row[0]);
+				}
+			
+			$fec=mysqli_query($datos_base, "SELECT MAX(ID_FECHA) AS id FROM fecha");
+			if ($row = mysqli_fetch_row($fec)) {
+				$fec1 = trim($row[0]);
+				}
+			mysqli_query($datos_base, "INSERT INTO fecha_ticket VALUES(DEFAULT, '$tic1','$fec1')");
+		}
+		else{
+		/* FIN SI ESTA CERRADO */
+		mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion', '$idusu', '$usuario', DEFAULT,'$tipificacion', '$prioridad', '$estado', DEFAULT, DEFAULT, '$original','$renu', '$ws', '$hora')"); 
 
 		mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, '$estado', '$motivo', '$date', '$original', DEFAULT)");
 		/*MAIL GENERADO PARA EL USUARIO LOGUEADO*/
@@ -145,6 +165,7 @@ $date2 = date('Y-m-d');
 			$fec1 = trim($row[0]);
 			}
 		mysqli_query($datos_base, "INSERT INTO fecha_ticket VALUES(DEFAULT, '$tic1','$fec1')");
+		}
 	}
 header("Location: cargadeincidentes.php?ok");
 mysqli_close($datos_base);		

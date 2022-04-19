@@ -345,6 +345,22 @@ if(isset($_POST['btn2']))
 		   and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
 
+	if(isset($_POST['slcarea']) & isset($_POST['slcestado']))
+		   {
+		$area = $_POST['slcarea'];
+		   $estado = $_POST['slcestado'];
+		   $consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, r.REPA, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO		
+		   FROM periferico p 
+		   LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
+		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
+		   INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
+		   INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
+		   inner join reparticion r on a.ID_REPA=r.ID_REPA
+		   left join modelo mo on p.ID_MODELO=mo.ID_MODELO
+		   WHERE a.ID_AREA = $area and p.ID_ESTADOWS=$estado
+		   and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
+	}
+
 	if(isset($_POST['selectorrepart']) & isset($_POST['tipop']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
@@ -394,6 +410,60 @@ if(isset($_POST['btn2']))
 		   and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
 
+	if(isset($_POST['tipop']) AND isset($_POST['marca']) AND isset($_POST['slcestado']))
+	{
+		$estado = $_POST['slcestado'];
+		$tipop = $_POST['tipop'];
+		$marca = $_POST['marca'];
+		$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, r.REPA, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO		
+           FROM periferico p 
+           LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
+           LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
+           INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
+           INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
+		   inner join reparticion r on a.ID_REPA=r.ID_REPA
+		   left join modelo mo on p.ID_MODELO=mo.ID_MODELO
+           WHERE p.ID_TIPOP = $tipop AND p.ID_MARCA = $marca and p.ID_ESTADOWS=$estado
+           and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
+		   }
+
+	if(isset($_POST['tipop']) AND isset($_POST['marca']) AND isset($_POST['slcarea']))
+	{
+		$area = $_POST['slcarea'];
+		$tipop = $_POST['tipop'];
+		$marca = $_POST['marca'];
+		$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, r.REPA, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO		
+           FROM periferico p 
+           LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
+           LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
+           INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
+           INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
+		   inner join reparticion r on a.ID_REPA=r.ID_REPA
+		   left join modelo mo on p.ID_MODELO=mo.ID_MODELO
+           WHERE p.ID_TIPOP = $tipop AND p.ID_MARCA = $marca and a.ID_AREA = $area
+           and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
+		   }
+
+
+	if(isset($_POST['tipop']) AND isset($_POST['marca']) AND isset($_POST['selectorrepart']))
+	{
+		$reparticion = $_POST['selectorrepart'];
+		$tipop = $_POST['tipop'];
+		$marca = $_POST['marca'];
+		$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, r.REPA, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO		
+           FROM periferico p 
+           LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
+           LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
+           INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
+           INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
+		   inner join reparticion r on a.ID_REPA=r.ID_REPA
+		   left join modelo mo on p.ID_MODELO=mo.ID_MODELO
+           WHERE p.ID_TIPOP = $tipop AND p.ID_MARCA = $marca and a.ID_REPA = $reparticion
+           and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
+		   }
+
+	
+
 	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['tipop']))
 	{
 	$reparticion = $_POST['selectorrepart'];
@@ -411,12 +481,29 @@ if(isset($_POST['btn2']))
 	and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
 
+	if(isset($_POST['selectorrepart']) & isset($_POST['slcestado']) & isset($_POST['tipop']))
+	{
+	$reparticion = $_POST['selectorrepart'];
+	$estado = $_POST['slcestado'];
+	$tipo = $_POST['tipop'];
+	$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, r.REPA, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO			
+	FROM periferico p 
+	LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
+	LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
+	INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
+	INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
+	inner join reparticion r on a.ID_REPA=r.ID_REPA
+	left join modelo mo on p.ID_MODELO=mo.ID_MODELO
+	WHERE a.ID_REPA = $reparticion and p.ID_ESTADOWS=$estado and p.ID_TIPOP=$tipo
+	and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
+	}
+
 	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['marca']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
 		   $area = $_POST['slcarea'];
 		   $marca = $_POST['marca'];
-		   $consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, r.REPA, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA. mo.MODELO
+		   $consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, r.REPA, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO
 		   FROM periferico p 
 		   LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
@@ -426,6 +513,58 @@ if(isset($_POST['btn2']))
 		   left join modelo mo on p.ID_MODELO=mo.ID_MODELO
 		   WHERE a.ID_REPA = $reparticion and p.ID_AREA=$area and p.ID_MARCA=$marca
 		   and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
+	}
+
+	if(isset($_POST['selectorrepart']) & isset($_POST['slcestado']) & isset($_POST['marca']))
+		   {
+		   $reparticion = $_POST['selectorrepart'];
+		   $estado = $_POST['slcestado'];
+		   $marca = $_POST['marca'];
+		   $consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, r.REPA, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO
+		   FROM periferico p 
+		   LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
+		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
+		   INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
+		   INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
+		   inner join reparticion r on a.ID_REPA=r.ID_REPA
+		   left join modelo mo on p.ID_MODELO=mo.ID_MODELO
+		   WHERE a.ID_REPA = $reparticion and p.ID_ESTADOWS=$estado and p.ID_MARCA=$marca
+		   and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
+	}
+
+	if(isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['tipop']))
+	{
+		$area = $_POST['slcarea'];
+	$estado = $_POST['slcestado'];
+	$tipo = $_POST['tipop'];
+	$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, r.REPA, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO			
+	FROM periferico p 
+	LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
+	LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
+	INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
+	INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
+	inner join reparticion r on a.ID_REPA=r.ID_REPA
+	left join modelo mo on p.ID_MODELO=mo.ID_MODELO
+	WHERE a.ID_AREA = $area and p.ID_ESTADOWS=$estado and p.ID_TIPOP=$tipo
+	and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
+	}
+
+
+	if(isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['marca']))
+	{
+		$area = $_POST['slcarea'];
+	$estado = $_POST['slcestado'];
+	$marca = $_POST['marca'];
+	$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, r.REPA, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO			
+	FROM periferico p 
+	LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
+	LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
+	INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
+	INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
+	inner join reparticion r on a.ID_REPA=r.ID_REPA
+	left join modelo mo on p.ID_MODELO=mo.ID_MODELO
+	WHERE a.ID_AREA = $area and p.ID_ESTADOWS=$estado and p.ID_MARCA=$marca
+	and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
 
 
