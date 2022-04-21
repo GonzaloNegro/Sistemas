@@ -243,7 +243,7 @@ if(isset($_POST['btn2']))
 	if(isset($_POST['selectorrepart']))
 	{
 	$reparticion = $_POST['selectorrepart'];
-	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS,e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 	FROM inventario i 
 	LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 	LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -255,7 +255,8 @@ if(isset($_POST['btn2']))
 	LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 	left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 	left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-	WHERE a.ID_REPA = $reparticion
+	inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+	WHERE a.ID_REPA = $reparticion and ws.SLOT=1
 	ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 		
 	}
@@ -263,7 +264,7 @@ if(isset($_POST['btn2']))
 	if(isset($_POST['slcarea']))
 	{
 	$area = $_POST['slcarea'];
-	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS,e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 	FROM inventario i 
 	LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 	LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -275,7 +276,8 @@ if(isset($_POST['btn2']))
 	LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 	left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 	left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-	WHERE i.ID_AREA = $area
+	inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+    WHERE i.ID_AREA = $area and ws.SLOT=1
 	ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 		
 	}
@@ -283,7 +285,7 @@ if(isset($_POST['btn2']))
 	if(isset($_POST['slcestado']))
 	{
 	$estado = $_POST['slcestado'];
-	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS,e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 	FROM inventario i 
 	LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 	LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -295,7 +297,8 @@ if(isset($_POST['btn2']))
 	LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 	left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 	left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-	WHERE i.ID_ESTADOWS = $estado
+    inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+	WHERE i.ID_ESTADOWS = $estado and ws.SLOT=1
 	ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 		
 	}
@@ -303,7 +306,7 @@ if(isset($_POST['btn2']))
 	if(isset($_POST['so']))
 	{
 	$so = $_POST['so'];
-	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 	FROM inventario i 
 	LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 	LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -315,7 +318,8 @@ if(isset($_POST['btn2']))
 	LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 	left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 	left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-	WHERE s.ID_SO = $so
+    inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+	WHERE s.ID_SO = $so and ws.SLOT=1
 	ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 		
 	}
@@ -324,7 +328,7 @@ if(isset($_POST['btn2']))
 	if(isset($_POST['micro']))
 	{
 	$micro = $_POST['micro'];
-	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 	FROM inventario i 
 	LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 	LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -336,14 +340,15 @@ if(isset($_POST['btn2']))
 	LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 	left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 	left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-	WHERE m.ID_MICRO = $micro
+    inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS 
+	WHERE m.ID_MICRO = $micro and ws.SLOT=1
 	ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 	if(isset($_POST['so']) AND isset($_POST['micro']))
 	{
 		$so = $_POST['so'];
 		$micro = $_POST['micro'];
-		$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		FROM inventario i 
 		LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -355,14 +360,15 @@ if(isset($_POST['btn2']))
 		LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		WHERE i.ID_SO = $so AND m.ID_MICRO = $micro
+		inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		WHERE i.ID_SO = $so AND m.ID_MICRO = $micro and ws.SLOT=1
 		ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 		   }
 	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
 		   $area = $_POST['slcarea'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		   FROM inventario i 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -374,7 +380,8 @@ if(isset($_POST['btn2']))
 		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area
+		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		   WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -382,7 +389,7 @@ if(isset($_POST['btn2']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
 		   $estado = $_POST['slcestado'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		   FROM inventario i 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -394,7 +401,8 @@ if(isset($_POST['btn2']))
 		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   WHERE a.ID_REPA = $reparticion and i.ID_ESTADOWS=$estado
+		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		   WHERE a.ID_REPA = $reparticion and i.ID_ESTADOWS=$estado and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -402,7 +410,7 @@ if(isset($_POST['btn2']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
 		   $so = $_POST['so'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		   FROM inventario i 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -414,7 +422,8 @@ if(isset($_POST['btn2']))
 		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   WHERE a.ID_REPA = $reparticion and i.ID_SO=$so
+		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		   WHERE a.ID_REPA = $reparticion and i.ID_SO=$so and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -422,7 +431,7 @@ if(isset($_POST['btn2']))
 		   {
 		$area = $_POST['slcarea'];
 		   $so = $_POST['so'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		   FROM inventario i 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -434,7 +443,8 @@ if(isset($_POST['btn2']))
 		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   WHERE a.ID_AREA = $area and i.ID_SO=$so
+		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		   WHERE a.ID_AREA = $area and i.ID_SO=$so and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -442,7 +452,7 @@ if(isset($_POST['btn2']))
 		   {
 		   $estado = $_POST['slcestado'];
 		   $so = $_POST['so'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		   FROM inventario i 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -454,7 +464,8 @@ if(isset($_POST['btn2']))
 		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   WHERE i.ID_ESTADOWS = $estado and i.ID_SO=$so
+		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		   WHERE i.ID_ESTADOWS = $estado and i.ID_SO=$so and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -462,7 +473,7 @@ if(isset($_POST['btn2']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
 		   $micro = $_POST['micro'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		   FROM inventario i 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -474,7 +485,8 @@ if(isset($_POST['btn2']))
 		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   WHERE a.ID_REPA = $reparticion and m.ID_MICRO=$micro
+		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		   WHERE a.ID_REPA = $reparticion and m.ID_MICRO=$micro and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -482,7 +494,7 @@ if(isset($_POST['btn2']))
 		   {
 		   $area = $_POST['slcarea'];
 		   $micro = $_POST['micro'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		   FROM inventario i 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -494,7 +506,8 @@ if(isset($_POST['btn2']))
 		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   WHERE a.ID_AREA = $area and m.ID_MICRO=$micro
+		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		   WHERE a.ID_AREA = $area and m.ID_MICRO=$micro and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -502,7 +515,7 @@ if(isset($_POST['btn2']))
 		   {
 		   $estado = $_POST['slcestado'];
 		   $micro = $_POST['micro'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		   FROM inventario i 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -514,7 +527,8 @@ if(isset($_POST['btn2']))
 		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   WHERE i.ID_ESTADOWS = $estado and m.ID_MICRO=$micro
+		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		   WHERE i.ID_ESTADOWS = $estado and m.ID_MICRO=$micro and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -522,7 +536,7 @@ if(isset($_POST['btn2']))
 		   {
 			$area = $_POST['slcarea'];
 			$estado = $_POST['slcestado'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		   FROM inventario i 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -534,7 +548,8 @@ if(isset($_POST['btn2']))
 		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   WHERE i.ID_AREA=$area and i.ID_ESTADOWS=$estado
+		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		   WHERE i.ID_AREA=$area and i.ID_ESTADOWS=$estado and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -543,7 +558,7 @@ if(isset($_POST['btn2']))
 		   
 		   $micro = $_POST['micro'];
 		   $so = $_POST['so'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		   FROM inventario i 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -555,7 +570,8 @@ if(isset($_POST['btn2']))
 		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   WHERE i.ID_SO=$so and m.ID_MICRO=$micro
+		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		   WHERE i.ID_SO=$so and m.ID_MICRO=$micro and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -564,7 +580,7 @@ if(isset($_POST['btn2']))
 		   $reparticion = $_POST['selectorrepart'];
 		   $micro = $_POST['micro'];
 		   $so = $_POST['so'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		   FROM inventario i 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -576,7 +592,8 @@ if(isset($_POST['btn2']))
 		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   WHERE a.ID_REPA = $reparticion and i.ID_SO=$so and m.ID_MICRO=$micro
+		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		   WHERE a.ID_REPA = $reparticion and i.ID_SO=$so and m.ID_MICRO=$micro and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -585,7 +602,7 @@ if(isset($_POST['btn2']))
 		   $area = $_POST['slcarea'];
 		   $micro = $_POST['micro'];
 		   $so = $_POST['so'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		   FROM inventario i 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -597,7 +614,8 @@ if(isset($_POST['btn2']))
 		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   WHERE i.ID_AREA=$area and i.ID_SO=$so and m.ID_MICRO=$micro
+		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		   WHERE i.ID_AREA=$area and i.ID_SO=$so and m.ID_MICRO=$micro and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -606,7 +624,7 @@ if(isset($_POST['btn2']))
 		   $estado = $_POST['slcestado'];
 		   $micro = $_POST['micro'];
 		   $so = $_POST['so'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		   FROM inventario i 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -618,7 +636,8 @@ if(isset($_POST['btn2']))
 		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   WHERE i.ID_ESTADOWS=$estado and i.ID_SO=$so and m.ID_MICRO=$micro
+		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		   WHERE i.ID_ESTADOWS=$estado and i.ID_SO=$so and m.ID_MICRO=$micro and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -627,7 +646,7 @@ if(isset($_POST['btn2']))
 		   $reparticion = $_POST['selectorrepart'];
 		   $area = $_POST['slcarea'];
 		   $estado = $_POST['slcestado'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		   FROM inventario i 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -639,7 +658,8 @@ if(isset($_POST['btn2']))
 		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and i.ID_ESTADOWS=$estado
+		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		   WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and i.ID_ESTADOWS=$estado and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -648,7 +668,7 @@ if(isset($_POST['btn2']))
 	$reparticion = $_POST['selectorrepart'];
 	$area = $_POST['slcarea'];
 	$so = $_POST['so'];
-	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 	FROM inventario i 
 	LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 	LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -660,7 +680,8 @@ if(isset($_POST['btn2']))
 	LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 	left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 	left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-	WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and i.ID_SO=$so
+	inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+	WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and i.ID_SO=$so and ws.SLOT=1
 	ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -669,7 +690,7 @@ if(isset($_POST['btn2']))
 		   $reparticion = $_POST['selectorrepart'];
 		   $area = $_POST['slcarea'];
 		   $micro = $_POST['micro'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		   FROM inventario i 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -681,7 +702,8 @@ if(isset($_POST['btn2']))
 		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and m.ID_MICRO=$micro
+		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		   WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and m.ID_MICRO=$micro and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -690,7 +712,7 @@ if(isset($_POST['btn2']))
 	$reparticion = $_POST['selectorrepart'];
 	$estado = $_POST['slcestado'];
 	$so = $_POST['so'];
-	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 	FROM inventario i 
 	LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 	LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -702,7 +724,8 @@ if(isset($_POST['btn2']))
 	LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 	left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 	left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-	WHERE a.ID_REPA = $reparticion and i.ID_ESTADOWS=$estado and i.ID_SO=$so
+	inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+	WHERE a.ID_REPA = $reparticion and i.ID_ESTADOWS=$estado and i.ID_SO=$so and ws.SLOT=1
 	ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -711,7 +734,7 @@ if(isset($_POST['btn2']))
 		   $reparticion = $_POST['selectorrepart'];
 		   $estado = $_POST['slcestado'];
 		   $micro = $_POST['micro'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		   FROM inventario i 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -723,7 +746,8 @@ if(isset($_POST['btn2']))
 		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   WHERE a.ID_REPA = $reparticion and i.ID_ESTADOWS=$estado and m.ID_MICRO=$micro
+		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		   WHERE a.ID_REPA = $reparticion and i.ID_ESTADOWS=$estado and m.ID_MICRO=$micro and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -732,7 +756,7 @@ if(isset($_POST['btn2']))
 	$area = $_POST['slcarea'];
 	$estado = $_POST['slcestado'];
 	$so = $_POST['so'];
-	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 	FROM inventario i 
 	LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 	LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -744,7 +768,8 @@ if(isset($_POST['btn2']))
 	LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 	left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 	left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-	WHERE a.ID_AREA = $area and i.ID_ESTADOWS=$estado and i.ID_SO=$so
+	inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+	WHERE a.ID_AREA = $area and i.ID_ESTADOWS=$estado and i.ID_SO=$so and ws.SLOT=1
 	ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -753,7 +778,7 @@ if(isset($_POST['btn2']))
 			$area = $_POST['slcarea'];
 		   $estado = $_POST['slcestado'];
 		   $micro = $_POST['micro'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		   FROM inventario i 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -765,7 +790,8 @@ if(isset($_POST['btn2']))
 		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   WHERE a.ID_AREA = $area and i.ID_ESTADOWS=$estado and m.ID_MICRO=$micro
+		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		   WHERE a.ID_AREA = $area and i.ID_ESTADOWS=$estado and m.ID_MICRO=$micro and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -776,7 +802,7 @@ if(isset($_POST['btn2']))
 		   $area = $_POST['slcarea'];
 		   $estado = $_POST['slcestado'];
 		   $so = $_POST['so'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		   FROM inventario i 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -788,7 +814,8 @@ if(isset($_POST['btn2']))
 		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and i.ID_ESTADOWS=$estado and i.ID_SO=$so
+		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		   WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and i.ID_ESTADOWS=$estado and i.ID_SO=$so and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
@@ -798,7 +825,7 @@ if(isset($_POST['btn2']))
 		   $area = $_POST['slcarea'];
 		   $estado = $_POST['slcestado'];
 		   $micro = $_POST['micro'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		   FROM inventario i 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -810,7 +837,8 @@ if(isset($_POST['btn2']))
 		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and i.ID_ESTADOWS=$estado and m.ID_MICRO=$micro
+		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		   WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and i.ID_ESTADOWS=$estado and m.ID_MICRO=$micro and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['so']) & isset($_POST['micro']))
@@ -820,7 +848,7 @@ if(isset($_POST['btn2']))
 		   $estado = $_POST['slcestado'];
 		   $micro = $_POST['micro'];
 		   $so = $_POST['so'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 		   FROM inventario i 
 		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -832,7 +860,8 @@ if(isset($_POST['btn2']))
 		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and i.ID_ESTADOWS=$estado and i.ID_SO=$so and m.ID_MICRO=$micro
+		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+		   WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and i.ID_ESTADOWS=$estado and i.ID_SO=$so and m.ID_MICRO=$micro and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 	
@@ -840,7 +869,7 @@ if(isset($_POST['btn2']))
 }
 else
 {
-$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
 FROM inventario i 
 LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
@@ -852,6 +881,8 @@ INNER JOIN so AS s ON s.ID_SO = i.ID_SO
 LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
 left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
 left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
+inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+where ws.SLOT=1
 ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	
 }
@@ -861,6 +892,7 @@ ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 							<tr>
 							<th><p>N° GOBIERNO</p></th>
 							<th><p>USUARIO</p></th>
+							<th><p>TIPO</p></th>
                             <th><p>MICRO</p></th>
                             <th><p>MEMORIA</p></th>
                             <th><p>TIPO MEMORIA</p></th>
@@ -879,6 +911,7 @@ ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 			<tr>
 				<td><h4 style='font-size:16px;'>".$listar['SERIEG']."</h4></td>
 				<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>
+				<td><h4 style='font-size:16px;'>".$listar['TIPOWS']."</h4></td>
 				<td><h4 style='font-size:16px;'>".$listar['MICRO']."</h4></td>
 				<td><h4 style='font-size:16px;'>".$listar['MEMORIA']."</h4></td>
                 <td><h4 style='font-size:16px;'>".$listar['TIPOMEM']."</h4></td>

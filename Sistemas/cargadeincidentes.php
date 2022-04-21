@@ -144,7 +144,13 @@ $row = $resultado->fetch_assoc();
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ">
             <li><a href="cargadeincidentes.php" class="nav-link px-2 link-secondary link destacado" 
-			style="border-left: 5px solid #53AAE0;">NUEVO INCIDENTE</a></li>
+			style="border-left: 5px solid #53AAE0;">NUEVO INCIDENTE</a>
+			<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+				<li><a class="dropdown-item" href="cargarapidaporusuario.php">CARGA RÁPIDA POR USUARIO</a></li>
+				<li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li>
+                </ul>
+			</li>
             <li><a href="consulta.php" class="nav-link px-2 link-dark link">CONSULTA</a></li>
             <li><a href="inventario.php" class="nav-link px-2 link-dark link">INVENTARIO</a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
@@ -197,7 +203,7 @@ $row = $resultado->fetch_assoc();
 
 							<div class="form-group row" style="margin: 10px; padding:10px;">
 								<label class="col-form-label col-xl col-lg">FECHA INICIO:</label>
-								<input type="date" class="form-control col-xl col-lg" name="fecha_inicio" id="txtfechafin" required>
+								<input type="date" class="form-control col-xl col-lg" name="fecha_inicio" id="txtfechainicio" required>
 								<!-- <input class="form-control col-xl col-lg" type="text" name="fecha_inicio" id="txtfechainicio" required> -->
 								<!--//////////////////////////////////////////////////////////////////-->
 								<!--//////////////////////////////////////////////////////////////////-->
@@ -242,9 +248,9 @@ $row = $resultado->fetch_assoc();
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
 							<div class="form-group row" style="margin: 10px; padding:10px;">
-<!-- 								<label class="col-form-label col-xl col-lg">EQUIPO DEL USUARIO: </label>
+ 								<label class="col-form-label col-xl col-lg">EQUIPO DEL USUARIO: </label>
 									<select name="equipo" class="form-control col-xl col-lg" required>
-									</select> -->
+									</select>
 
 								<label class="col-form-label col-xl col-lg">PRIORIDAD: </label>
 									<select name="prioridad" class="form-control col-xl col-lg" required>
