@@ -30,6 +30,9 @@ $row = $resultado->fetch_assoc();
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="estilocarga.css">
+	<!--Estilo bootstrap para select2-->
+	<link rel="stylesheet" href="/path/to/select2.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 <!--  	<script>
 		$(function (){
 			$("#txtfechainicio").datepicker() ({
@@ -145,7 +148,7 @@ $row = $resultado->fetch_assoc();
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ">
             <li><a href="cargadeincidentes.php" class="nav-link px-2 link-secondary link destacado" 
 			style="border-left: 5px solid #53AAE0;">NUEVO INCIDENTE</a>
-			<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+ 			<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
 				<li><a class="dropdown-item" href="cargarapidaporusuario.php">CARGA RÁPIDA POR USUARIO</a></li>
 				<li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li>
@@ -222,7 +225,7 @@ $row = $resultado->fetch_assoc();
 								</select>
 									<!--BUSCADOR-->
 									<script>
-										$('#buscador').select2();
+										$('#buscador').select2({theme: 'bootstrap4',});
 									</script>
 									<script>
 										$(document).ready(function(){
@@ -248,7 +251,7 @@ $row = $resultado->fetch_assoc();
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
 							<div class="form-group row" style="margin: 10px; padding:10px;">
- 								<label class="col-form-label col-xl col-lg">EQUIPO DEL USUARIO: </label>
+  								<label class="col-form-label col-xl col-lg">EQUIPO DEL USUARIO: </label>
 									<select name="equipo" class="form-control col-xl col-lg" required>
 									</select>
 

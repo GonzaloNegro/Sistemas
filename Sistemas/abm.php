@@ -98,7 +98,7 @@ $row = $resultado->fetch_assoc();
             data-aos-offset="500"
             data-aos-duration="500">
             <?php if($row['ID_RESOLUTOR'] == 6//GONZALO
-					/*OR $row['ID_RESOLUTOR'] == 2 //CLAUDIA*/
+					OR $row['ID_RESOLUTOR'] == 2 //CLAUDIA
 					OR $row['ID_RESOLUTOR'] == 10 //EUGENIA
 					OR $row['ID_RESOLUTOR'] == 15 //RODRIGO
 					/*OR $row['ID_RESOLUTOR'] == 20 //GUSTAVO*/
@@ -122,7 +122,7 @@ $row = $resultado->fetch_assoc();
             data-aos-duration="500">
 
                 <?php if($row['ID_RESOLUTOR'] == 6//GONZALO
-					/*OR $row['ID_RESOLUTOR'] == 2 //CLAUDIA*/
+					OR $row['ID_RESOLUTOR'] == 2 //CLAUDIA
 					OR $row['ID_RESOLUTOR'] == 10 //EUGENIA
 					OR $row['ID_RESOLUTOR'] == 15 //RODRIGO
 					/*OR $row['ID_RESOLUTOR'] == 20 //GUSTAVO*/

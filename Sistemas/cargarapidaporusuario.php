@@ -29,6 +29,9 @@ $row = $resultado->fetch_assoc();
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	<!--Estilo bootstrap para select2-->
+	<link rel="stylesheet" href="/path/to/select2.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 	<link rel="stylesheet" type="text/css" href="estilocarga.css">
 	<style>
 			body{
@@ -39,7 +42,7 @@ $row = $resultado->fetch_assoc();
 <body>
 	<script type="text/javascript">
 			function done(){
-				swal(  {title: "Se ha cargado su incidente correctamente",
+				swal(  {title: "Se han cargado sus incidentes correctamente",
 						icon: "success",
 						showConfirmButton: true,
 						showCancelButton: false,
@@ -117,172 +120,154 @@ $row = $resultado->fetch_assoc();
 			<h1>CARGA RÁPIDA POR USUARIO</h1>
 		</div>
 		<div id="principal" class="container-fluid" data-aos="zoom-in">
-						<form method="POST" name="formulario_carga" action="guardarincidente.php" enctype="multipart/form-data">
+			<form method="POST" action="guardarcargarapidausu.php">
 
+					<div class="form-group row" style="margin: 10px; padding:10px;">
+						<label class="col-form-label col-xl col-lg">FECHA:</label>
+						<input type="date" class="form-control col-xl col-lg" name="fechaini" id="txtfecha" required>
+						<label class="col-form-label col-xl col-lg">USUARIO:</label>
+						<select name="usuario" id="buscador" required class="form-control col-xl col-lg extend">
+						<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
+						<?php
+						include("conexion.php");
+						$consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' ORDER BY NOMBRE ASC";
+						$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+						?>
+						<?php foreach ($ejecutar as $opciones): ?> 
+							<option value="<?php echo $opciones['ID_USUARIO']?>"><?php echo $opciones['NOMBRE']?></option>
+						<?php endforeach ?>
 
+						</select>
+						<!--BUSCADOR-->
+						<!--Agregar {theme: 'bootstrap4',} dentro de select-->
+						<script>
+							$('#buscador').select2({theme: 'bootstrap4',});
+						</script>
+						<script>
+							$(document).ready(function(){
+								$('#buscador').change(function(){
+									buscador='b='+$('#buscador').val();
+									$.ajax({
+										type: 'post',
+										url: 'Controladores/session.php',
+										data: buscador,
+										success: function(r){
+											$('#tabla').load('Componentes/Tabla.php');
+										}
+									})
+								})
+							})
+						</script>
+						<!--//////////////////////////////////////////////////////////////////-->
+						<!--//////////////////////////////////////////////////////////////////-->
+						<label class="col-form-label col-xl col-lg">EQUIPO DEL USUARIO: </label>
+						<select name="equipo" class="form-control col-xl col-lg">
+						</select>
+		            </div>	
 
-
-
-						<div class="form-group row" style="margin: 10px; padding:10px;">
-								<label class="col-form-label col-xl col-lg">FECHA:</label>
-								<input type="date" class="form-control col-xl col-lg" name="fecha" id="txtfecha" required>
-								<!-- <input class="form-control col-xl col-lg" type="text" name="fecha_inicio" id="txtfechainicio" required> -->
-								<!--//////////////////////////////////////////////////////////////////-->
-								<!--//////////////////////////////////////////////////////////////////-->
-								<label class="col-form-label col-xl col-lg">USUARIO:</label>
-								<select name="usuario" id="buscador" required class="form-control col-xl col-lg extend">
-								<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
-								<?php
-								include("conexion.php");
-								$consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' ORDER BY NOMBRE ASC";
-								$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-								?>
-								<?php foreach ($ejecutar as $opciones): ?> 
-									<option value="<?php echo $opciones['ID_USUARIO']?>"><?php echo $opciones['NOMBRE']?></option>
-								<?php endforeach ?>
-
-								</select>
-									<!--BUSCADOR-->
-									<script>
-										$('#buscador').select2();
-									</script>
-									<script>
-										$(document).ready(function(){
-											$('#buscador').change(function(){
-												buscador='b='+$('#buscador').val();
-												$.ajax({
-													type: 'post',
-													url: 'Controladores/session.php',
-													data: buscador,
-													success: function(r){
-														$('#tabla').load('Componentes/Tabla.php');
-													}
-												})
-											})
-										})
-									</script>
-									
-								<!--//////////////////////////////////////////////////////////////////-->
-								<!--//////////////////////////////////////////////////////////////////-->
-								<label class="col-form-label col-xl col-lg">EQUIPO DEL USUARIO: </label>
-									<select name="equipo" class="form-control col-xl col-lg" required>
-									</select>
-		                    </div>	
-
-
-
-
-<div class="form-group row" style="margin: 10px; padding:10px;">
-	<div class="accordion accordion-flush" id="accordionFlushExample">
-	<div class="accordion-item">
-		<h2 class="accordion-header" id="flush-headingOne">
-		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-		INCIDENTE N°1:
-		</button>
-		</h2>
-		<div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-		<div class="accordion-body">
-			<div class="form-group row" style="margin: 10px; padding:10px;">
-				<label class="col-form-label col-xl">TIPIFICACIÓN: </label>
-					<select name="tipificacion1" id="tipificacion1" class="form-control col-xl" required>
-					<option value="" selected disabled="tipificacion">-SELECCIONE UNA-</option>
-					<?php
-					include("conexion.php");
-					$consulta= "SELECT * FROM tipificacion WHERE ID_TIPIFICACION >= 20";
-					$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-					?>
-					<?php foreach ($ejecutar as $opciones): ?> 
-					<option value="<?php echo $opciones['ID_TIPIFICACION']?>"><?php echo $opciones['TIPIFICACION']?></option>
-					<?php endforeach ?>
-					</select>
-
-			</div>
-			<div class="form-group row" style="margin: 10px; padding:10px;">
-				<textarea name="descripcion1" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE" rows="3" required></textarea>
-			</div>
-		</div>
-		</div>
-	</div>
-	<div class="accordion-item">
-		<h2 class="accordion-header" id="flush-headingTwo">
-		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-		INCIDENTE N°2:
-		</button>
-		</h2>
-		<div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-		<div class="accordion-body">
-		<div class="accordion-body">
-			<div class="form-group row" style="margin: 10px; padding:10px;">
-				<label class="col-form-label col-xl">TIPIFICACIÓN: </label>
-					<select name="tipificacion2" id="tipificacion2" class="form-control col-xl" required>
-					<option value="" selected disabled="tipificacion">-SELECCIONE UNA-</option>
-					<?php
-					include("conexion.php");
-					$consulta= "SELECT * FROM tipificacion WHERE ID_TIPIFICACION >= 20";
-					$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-					?>
-					<?php foreach ($ejecutar as $opciones): ?> 
-					<option value="<?php echo $opciones['ID_TIPIFICACION']?>"><?php echo $opciones['TIPIFICACION']?></option>
-					<?php endforeach ?>
-					</select>
-
-			</div>
-			<div class="form-group row" style="margin: 10px; padding:10px;">
-				<textarea name="descripcion2" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE" rows="3" required></textarea>
-			</div>
-		</div>
-		</div>
-	</div>
-	<div class="accordion-item">
-		<h2 class="accordion-header" id="flush-headingThree">
-		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-		INCIDENTE N°3:
-		</button>
-		</h2>
-		<div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-		<div class="accordion-body">
-		<div class="accordion-body">
-			<div class="form-group row" style="margin: 10px; padding:10px;">
-				<label class="col-form-label col-xl">TIPIFICACIÓN: </label>
-					<select name="tipificacion3" id="tipificacion3" class="form-control col-xl" required>
-					<option value="" selected disabled="tipificacion">-SELECCIONE UNA-</option>
-					<?php
-					include("conexion.php");
-					$consulta= "SELECT * FROM tipificacion WHERE ID_TIPIFICACION >= 20";
-					$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-					?>
-					<?php foreach ($ejecutar as $opciones): ?> 
-					<option value="<?php echo $opciones['ID_TIPIFICACION']?>"><?php echo $opciones['TIPIFICACION']?></option>
-					<?php endforeach ?>
-					</select>
-
-			</div>
-			<div class="form-group row" style="margin: 10px; padding:10px;">
-				<textarea name="descripcion3" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE" rows="3" required></textarea>
-			</div>
-		</div>
-		</div>
-	</div>
-	</div>
-</div>	
-
-
-
-
-							<!--//////////////////////////////////////////////////////////////////-->
-							<!--//////////////////////////////////////////////////////////////////-->
-							<div class="row justify-content-end" style="margin: 10px; padding:10px;">
-							<input id="btnform" type="button" value="GUARDAR" onClick="validar_formulario(this.form)"  name="g1" class="col-2 button">
+				<div class="form-group row" style="margin: 10px; padding:10px;">
+					<div class="accordion accordion-flush" id="accordionFlushExample">
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="flush-headingOne">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+							INCIDENTE N°1:
+							</button>
+							</h2>
+							<div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+							<div class="accordion-body">
+								<div class="form-group row" style="margin: 10px; padding:10px;">
+									<label class="col-form-label col-xl">TIPIFICACIÓN: </label>
+										<select name="tipificacion1" id="tipificacion1" class="form-control col-xl">
+										<option value="" selected disabled="tipificacion">-SELECCIONE UNA-</option>
+										<?php
+										include("conexion.php");
+										$consulta= "SELECT * FROM tipificacion WHERE ID_TIPIFICACION >= 20";
+										$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+										?>
+										<?php foreach ($ejecutar as $opciones): ?> 
+										<option value="<?php echo $opciones['ID_TIPIFICACION']?>"><?php echo $opciones['TIPIFICACION']?></option>
+										<?php endforeach ?>
+										</select>
+								</div>
+								<div class="form-group row" style="margin: 10px; padding:10px;">
+									<textarea name="descripcion1" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE" rows="3"></textarea>
+								</div>
 							</div>
+							</div>
+						</div>
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="flush-headingTwo">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+							INCIDENTE N°2:
+							</button>
+							</h2>
+							<div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+							<div class="accordion-body">
+								<div class="form-group row" style="margin: 10px; padding:10px;">
+									<label class="col-form-label col-xl">TIPIFICACIÓN: </label>
+										<select name="tipificacion2" id="tipificacion2" class="form-control col-xl">
+										<option value="" selected disabled="tipificacion">-SELECCIONE UNA-</option>
+										<?php
+										include("conexion.php");
+										$consulta= "SELECT * FROM tipificacion WHERE ID_TIPIFICACION >= 20";
+										$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+										?>
+										<?php foreach ($ejecutar as $opciones): ?> 
+										<option value="<?php echo $opciones['ID_TIPIFICACION']?>"><?php echo $opciones['TIPIFICACION']?></option>
+										<?php endforeach ?>
+										</select>
+
+								</div>
+								<div class="form-group row" style="margin: 10px; padding:10px;">
+									<textarea name="descripcion2" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE" rows="3"></textarea>
+								</div>
+							</div>
+							</div>
+						</div>
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="flush-headingThree">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+							INCIDENTE N°3:
+							</button>
+							</h2>
+							<div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+							<div class="accordion-body">
+								<div class="form-group row" style="margin: 10px; padding:10px;">
+									<label class="col-form-label col-xl">TIPIFICACIÓN: </label>
+										<select name="tipificacion3" id="tipificacion3" class="form-control col-xl">
+										<option value="" selected disabled="tipificacion">-SELECCIONE UNA-</option>
+										<?php
+										include("conexion.php");
+										$consulta= "SELECT * FROM tipificacion WHERE ID_TIPIFICACION >= 20";
+										$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+										?>
+										<?php foreach ($ejecutar as $opciones): ?> 
+										<option value="<?php echo $opciones['ID_TIPIFICACION']?>"><?php echo $opciones['TIPIFICACION']?></option>
+										<?php endforeach ?>
+										</select>
+								</div>
+								<div class="form-group row" style="margin: 10px; padding:10px;">
+									<textarea name="descripcion3" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE" rows="3"></textarea>
+								</div>
+							</div>
+							</div>
+						</div>
+					</div>
+				</div>	
+
+				<!--//////////////////////////////////////////////////////////////////-->
+				<!--//////////////////////////////////////////////////////////////////-->
+				<div class="row justify-content-end" style="margin: 10px; padding:10px;">
+					<input id="btnform" type="submit" value="GUARDAR" name="g1" class="col-2 button">
+				</div>
 							
-					</form>
-					
-				<?php
-				if(isset($_GET['ok'])){
-					/*echo "<h3>Incidente cargado</h3>";*/?>
-					<script>done();</script>
-					<?php			
-				}
+			</form>		
+			<?php
+			if(isset($_GET['ok'])){
+				/*echo "<h3>Incidente cargado</h3>";*/?>
+				<script>done();</script>
+				<?php			
+			}
 			?>
 		</div>
 	</section>

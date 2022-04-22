@@ -21,14 +21,14 @@
     <div class="bienvenida" data-aos="zoom-in-up">
         <div class="fecha">    
             <?php  $fechaActual = date('d-m-Y');?>
-            <p class="h5"><u>ULTIMA ACTUALIZACIÓN</u>: 19/04/2022</p>
+            <p class="h5"><u>ULTIMA ACTUALIZACIÓN</u>: 22/04/2022</p>
         </div>
         <hr style='display: block; height: 2px;'>
         <div class="info">
             <ul class="list-unstyled">
                 <li>
                     <ul>
-                        <li>Sin Cambios</li>
+                        <li>Se acomodó el campo de busqueda por "USUARIO" en la carga de incidentes</li>
 <!--                         <li></li>
                         <li>Cambio 2</li>
                         <li>Cambio 3</li> -->

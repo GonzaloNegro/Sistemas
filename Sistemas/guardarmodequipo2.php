@@ -57,7 +57,7 @@ $gar4 = $_POST['gar4'];
 $disc1 = $_POST['disc1'];
 $tdisc1 = $_POST['tdisc1'];
 $dprov1 = $_POST['dprov1'];
-$dmarc1 = $_POST['dmarc1'];
+$dmod1 = $_POST['dmod1'];
 $dfact1 = $_POST['dfact1'];
 $dfec1 = $_POST['dfec1'];
 $dgar1 = $_POST['dgar1'];
@@ -65,7 +65,7 @@ $dgar1 = $_POST['dgar1'];
 $disc2 = $_POST['disc2'];
 $tdisc2 = $_POST['tdisc2'];
 $dprov2 = $_POST['dprov2'];
-$dmarc2 = $_POST['dmarc2'];
+$dmod2 = $_POST['dmod2'];
 $dfact2 = $_POST['dfact2'];
 $dfec2 = $_POST['dfec2'];
 $dgar2 = $_POST['dgar2'];
@@ -73,7 +73,7 @@ $dgar2 = $_POST['dgar2'];
 $disc3 = $_POST['disc3'];
 $tdisc3 = $_POST['tdisc3'];
 $dprov3 = $_POST['dprov3'];
-$dmarc3 = $_POST['dmarc3'];
+$dmod3 = $_POST['dmod3'];
 $dfact3 = $_POST['dfact3'];
 $dfec3 = $_POST['dfec3'];
 $dgar3 = $_POST['dgar3'];
@@ -81,7 +81,7 @@ $dgar3 = $_POST['dgar3'];
 $disc4 = $_POST['disc4'];
 $tdisc4 = $_POST['tdisc4'];
 $dprov4 = $_POST['dprov4'];
-$dmarc4 = $_POST['dmarc4'];
+$dmod4 = $_POST['dmod4'];
 $dfact4 = $_POST['dfact4'];
 $dfec4 = $_POST['dfec4'];
 $dgar4 = $_POST['dgar4'];
@@ -353,11 +353,11 @@ if($dprov1 == "1602"){
     $dprov1 = $row6['ID_PROVEEDOR'];
 }
 
-if($dmarc1 == "1603"){
-    $sql6 = "SELECT ID_MARCA FROM discows WHERE ID_WS = '$id' AND NUMERO = 1";
+if($dmod1 == "1603"){
+    $sql6 = "SELECT ID_MODELO FROM discows WHERE ID_WS = '$id' AND NUMERO = 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
-    $dmarc1 = $row6['ID_MARCA'];
+    $dmod1 = $row6['ID_MODELO'];
 }
 
 
@@ -383,11 +383,11 @@ if($dprov2 == "1702"){
     $dprov2 = $row6['ID_PROVEEDOR'];
 }
 
-if($dmarc2 == "1703"){
-    $sql6 = "SELECT ID_MARCA FROM discows WHERE ID_WS = '$id' AND NUMERO = 2";
+if($dmod2 == "1703"){
+    $sql6 = "SELECT ID_MODELO FROM discows WHERE ID_WS = '$id' AND NUMERO = 2";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
-    $dmarc2 = $row6['ID_MARCA'];
+    $dmod2 = $row6['ID_MODELO'];
 }
 
 
@@ -414,11 +414,11 @@ if($dprov3 == "1802"){
     $dprov3 = $row6['ID_PROVEEDOR'];
 }
 
-if($dmarc3 == "1803"){
-    $sql6 = "SELECT ID_MARCA FROM discows WHERE ID_WS = '$id' AND NUMERO = 3";
+if($dmod3 == "1803"){
+    $sql6 = "SELECT ID_MODELO FROM discows WHERE ID_WS = '$id' AND NUMERO = 3";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
-    $dmarc3 = $row6['ID_MARCA'];
+    $dmod3 = $row6['ID_MODELO'];
 }
 
 
@@ -445,11 +445,11 @@ if($dprov4 == "1902"){
     $dprov4 = $row6['ID_PROVEEDOR'];
 }
 
-if($dmarc4 == "1903"){
-    $sql6 = "SELECT ID_MARCA FROM discows WHERE ID_WS = '$id' AND NUMERO = 4";
+if($dmod4 == "1903"){
+    $sql6 = "SELECT ID_MODELO FROM discows WHERE ID_WS = '$id' AND NUMERO = 4";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
-    $dmarc4 = $row6['ID_MARCA'];
+    $dmod4 = $row6['ID_MODELO'];
 }
 
 
@@ -559,13 +559,13 @@ else{
 
 
     /* DISCO */
-    mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc1', ID_TIPOD = '$tdisc1', ID_PROVEEDOR = '$dprov1', FACTURA = '$dfact1', FECHA = '$dfec1', ID_MARCA = '$dmarc1', GARANTIA = '$dgar1' WHERE ID_WS = '$id' AND NUMERO = 1");
+    mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc1', ID_TIPOD = '$tdisc1', ID_PROVEEDOR = '$dprov1', FACTURA = '$dfact1', FECHA = '$dfec1', ID_MODELO = '$dmod1', GARANTIA = '$dgar1' WHERE ID_WS = '$id' AND NUMERO = 1");
 
-    mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc2', ID_TIPOD = '$tdisc2', ID_PROVEEDOR = '$dprov2', FACTURA = '$dfact2', FECHA = '$dfec2', ID_MARCA = '$dmarc2', GARANTIA = '$dgar2' WHERE ID_WS = '$id' AND NUMERO = 2");
+    mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc2', ID_TIPOD = '$tdisc2', ID_PROVEEDOR = '$dprov2', FACTURA = '$dfact2', FECHA = '$dfec2', ID_MODELO = '$dmod2', GARANTIA = '$dgar2' WHERE ID_WS = '$id' AND NUMERO = 2");
     
-    mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc3', ID_TIPOD = '$tdisc3', ID_PROVEEDOR = '$dprov3', FACTURA = '$dfact3', FECHA = '$dfec3', ID_MARCA = '$dmarc3', GARANTIA = '$dgar3' WHERE ID_WS = '$id' AND NUMERO = 3");
+    mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc3', ID_TIPOD = '$tdisc3', ID_PROVEEDOR = '$dprov3', FACTURA = '$dfact3', FECHA = '$dfec3', ID_MODELO = '$dmod3', GARANTIA = '$dgar3' WHERE ID_WS = '$id' AND NUMERO = 3");
 
-    mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc4', ID_TIPOD = '$tdisc4', ID_PROVEEDOR = '$dprov4', FACTURA = '$dfact4', FECHA = '$dfec4', ID_MARCA = '$dmarc4', GARANTIA = '$dgar4' WHERE ID_WS = '$id' AND NUMERO = 4");
+    mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc4', ID_TIPOD = '$tdisc4', ID_PROVEEDOR = '$dprov4', FACTURA = '$dfact4', FECHA = '$dfec4', ID_MODELO = '$dmod4', GARANTIA = '$dgar4' WHERE ID_WS = '$id' AND NUMERO = 4");
 
 
 

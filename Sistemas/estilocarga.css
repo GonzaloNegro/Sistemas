@@ -108,11 +108,26 @@ textarea:hover{
 }
 
 select{
-	width: 200px;
+	width: auto;
 	display: inline;
 	box-sizing: border-box;
 	border-radius: 10px;
 	border-color: white;
+}
+span .select2-selection__arrow{
+	margin-right: 10px;
+	
+}/* FLECHITA DEL CBM */
+
+span .select2-search .select2-search--dropdown
+{
+	width: auto;
+}
+
+.select2-search__field
+{
+	width: auto;
+	margin-left: 1px !important;
 }
 
 textarea{

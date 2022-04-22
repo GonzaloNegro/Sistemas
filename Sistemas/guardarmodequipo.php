@@ -59,7 +59,7 @@ $disc1 = $_POST['disc1'];
 $tdisc1 = $_POST['tdisc1'];
 $dprov1 = $_POST['dprov1'];
 $dfact1 = $_POST['dfact1'];
-$dmarc1 = $_POST['dmarc1'];
+$dmod1 = $_POST['dmod1'];
 $dfec1 = $_POST['dfec1'];
 $dgar1 = $_POST['dgar1'];
 
@@ -67,7 +67,7 @@ $disc2 = $_POST['disc2'];
 $tdisc2 = $_POST['tdisc2'];
 $dprov2 = $_POST['dprov2'];
 $dfact2 = $_POST['dfact2'];
-$dmarc2 = $_POST['dmarc2'];
+$dmod2 = $_POST['dmod2'];
 $dfec2 = $_POST['dfec2'];
 $dgar2 = $_POST['dgar2'];
 
@@ -75,7 +75,7 @@ $disc3 = $_POST['disc3'];
 $tdisc3 = $_POST['tdisc3'];
 $dprov3 = $_POST['dprov3'];
 $dfact3 = $_POST['dfact3'];
-$dmarc3 = $_POST['dmarc3'];
+$dmod3 = $_POST['dmod3'];
 $dfec3 = $_POST['dfec3'];
 $dgar3 = $_POST['dgar3'];
 
@@ -83,7 +83,7 @@ $disc4 = $_POST['disc4'];
 $tdisc4 = $_POST['tdisc4'];
 $dprov4 = $_POST['dprov4'];
 $dfact4 = $_POST['dfact4'];
-$dmarc4 = $_POST['dmarc4'];
+$dmod4 = $_POST['dmod4'];
 $dfec4 = $_POST['dfec4'];
 $dgar4 = $_POST['dgar4'];
 
@@ -190,28 +190,28 @@ if($disc1 == 0){$disc1 = 15;}
 if($tdisc1 == 0){$tdisc1 = 4;}
 if($dprov1 == 0){$dprov1 = 7;}
 if($dfact1 == ""){$dfact1 = "-";}
-if($dmarc1 == 0){$dmarc1 = 1;}
+if($dmod1 == 0){$dmod1 = 197;}
 if($dgar1 == ""){$dgar1 = "-";}
 
 if($disc2 == 0){$disc2 = 15;}
 if($tdisc2 == 0){$tdisc2 = 4;}
 if($dprov2 == 0){$dprov2 = 7;}
 if($dfact2 == ""){$dfact2 = "-";}
-if($dmarc2 == 0){$dmarc2 = 1;}
+if($dmod2 == 0){$dmod2 = 197;}
 if($dgar2 == ""){$dgar2 = "-";}
 
 if($disc3 == 0){$disc3 = 15;}
 if($tdisc3 == 0){$tdisc3 = 4;}
 if($dprov3 == 0){$dprov3 = 7;}
 if($dfact3 == ""){$dfact3 = "-";}
-if($dmarc3 == 0){$dmarc3 = 1;}
+if($dmod3 == 0){$dmod3 = 197;}
 if($dgar3 == ""){$dgar3 = "-";}
 
 if($disc4 == 0){$disc4 = 15;}
 if($tdisc4 == 0){$tdisc4 = 4;}
 if($dprov4 == 0){$dprov4 = 7;}
 if($dfact4 == ""){$dfact4 = "-";}
-if($dmarc4 == 0){$dmarc4 = 1;}
+if($dmod4 == 0){$dmod4 = 197;}
 if($dgar4 == ""){$dgar4 = "-";}
 
 
@@ -257,13 +257,13 @@ else{
     mysqli_query($datos_base, "INSERT INTO pvideows VALUES ('$idws', '$pvmem1', '$pvnserie1', '$pvprov1', '$pvfact1', '$pvfec1', '$pvgar1', 2)");
 
     /* DISCO */
-    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc1', '$dprov1', '$dfact1', '$dfec1', '$dmarc1', '$dgar1', '$tdisc1', 1)");
+    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc1', '$dprov1', '$dfact1', '$dfec1','$dgar1', '$tdisc1', '$dmod1', 1)");
 
-    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc2', '$dprov2', '$dfact2', '$dfec2', '$dmarc2', '$dgar2', '$tdisc2', 2)");
+    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc2', '$dprov2', '$dfact2', '$dfec2', '$dgar2', '$tdisc2', '$dmod2', 2)");
 
-    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc3', '$dprov3', '$dfact3', '$dfec3', '$dmarc3', '$dgar3', '$tdisc3', 3)");
+    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc3', '$dprov3', '$dfact3', '$dfec3', '$dgar3', '$tdisc3', '$dmod3', 3)");
 
-    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc4', '$dprov4', '$dfact4', '$dfec4', '$dmarc4', '$dgar4', '$tdisc4', 4)");
+    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc4', '$dprov4', '$dfact4', '$dfec4','$dgar4', '$tdisc4', '$dmod4', 4)");
 
 
     /* MEMORIA */
