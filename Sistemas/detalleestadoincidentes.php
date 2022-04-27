@@ -102,9 +102,9 @@ $row = $resultado->fetch_assoc();
 						<h4 class='indicadores' >FECHA ACTUAL: ".$date."</h4>
 				        <h4 id='ind' class='indicadores' style='margin-bottom: 20px;'>TOTAL INCIDENTES: ".$total['TOTAL']."</h4>
 						
-						<table id='tablareporte' class='table table-striped table-hover' width=97%>
-						<thead>
-						<tr style='background-color: #00519C'>
+						<table id='tablareporte' width=97%>
+						<thead style='border-bottom: solid 5px #073256 !important;'>
+						<tr>
 						        <th class='cabecera'><p>N° INCIDENTE</p></th>
 								<th width=125px class='cabecera'><p>FECHA INICIO</p></th>
 								<th class='cabecera'><p>USUARIO</p></th>
@@ -140,7 +140,7 @@ $row = $resultado->fetch_assoc();
 									}
 										echo
 													"
-													<tr>
+													<tr style='border-bottom: solid 1px #073256;'>
 													<td><h4 style='font-size:16px;'>".$listar['ID_TICKET']."</h4></td>
 													<td><h4 style='font-size:16px;'>".$fecord."</h4></td>
 													<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>

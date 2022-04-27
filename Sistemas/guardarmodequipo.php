@@ -21,7 +21,7 @@ $obs = $_POST['obs'];
 
 
 /* MEMORIAS */
-$mem1 = $_POST['mem1'];
+/* $mem1 = $_POST['mem1'];
 $tmem1 = $_POST['tmem1'];
 $prov1 = $_POST['prov1'];
 $fact1 = $_POST['fact1'];
@@ -51,7 +51,7 @@ $prov4 = $_POST['prov4'];
 $fact4 = $_POST['fact4'];
 $marc4 = $_POST['marc4'];
 $fec4 = $_POST['fec4'];
-$gar4 = $_POST['gar4'];
+$gar4 = $_POST['gar4']; */
 /* ////////////////////////// */
 
 /* DISCOS */
@@ -118,20 +118,20 @@ $pvgar1 = $_POST['pvgar1'];
 /* ////////////////////////// */
 
 /* FECHAS */
-$fec1 = date("Y-m-d", strtotime($fec1);
-$fec2 = date("Y-m-d", strtotime($fec2);
-$fec3 = date("Y-m-d", strtotime($fec3);
-$fec4 = date("Y-m-d", strtotime($fec4);
+$fec1 = date("Y-m-d", strtotime($fec1));
+$fec2 = date("Y-m-d", strtotime($fec2));
+$fec3 = date("Y-m-d", strtotime($fec3));
+$fec4 = date("Y-m-d", strtotime($fec4));
 
-$dfec1 = date("Y-m-d", strtotime($fec1);
-$dfec2 = date("Y-m-d", strtotime($dfec2);
-$dfec3 = date("Y-m-d", strtotime($dfec3);
-$dfec4 = date("Y-m-d", strtotime($dfec4);
+$dfec1 = date("Y-m-d", strtotime($fec1));
+$dfec2 = date("Y-m-d", strtotime($dfec2));
+$dfec3 = date("Y-m-d", strtotime($dfec3));
+$dfec4 = date("Y-m-d", strtotime($dfec4));
 
-$fpla = date("Y-m-d", strtotime($fpla);
-$fmic = date("Y-m-d", strtotime($fmic);
-$pvfec = date("Y-m-d", strtotime($pvfec);
-$pvfec1 = date("Y-m-d", strtotime($pvfec1);
+$fpla = date("Y-m-d", strtotime($fpla));
+$fmic = date("Y-m-d", strtotime($fmic));
+$pvfec = date("Y-m-d", strtotime($pvfec));
+$pvfec1 = date("Y-m-d", strtotime($pvfec1));
 
 /* ////////////////////////// */
 /*SI AMBOS CAMPOS ESTAN REPETIDOS*/
@@ -145,10 +145,15 @@ $resultado2 = $datos_base->query($sqli);
 $row2 = $resultado2->fetch_assoc();
 $ser = $row2['SERIALN'];
 
-$sqli = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$usu'";
-$resultado2 = $datos_base->query($sqli);
-$row2 = $resultado2->fetch_assoc();
-$area = $row2['ID_AREA'];
+if(isset($_POST['area'])){
+    $area = $_POST['area'];
+}else{
+    $sqli = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$usu'";
+    $resultado2 = $datos_base->query($sqli);
+    $row2 = $resultado2->fetch_assoc();
+    $area = $row2['ID_AREA'];
+}
+/* USUARIO 277 ES SIN ASIGNAR */
 /* ////////////////////////// */
 /*SI LOS CAMPOS ESTAN VACIOS*/
 if($mac == ""){$mac = "-";}
@@ -157,33 +162,33 @@ if($fac == ""){$fac = "-";}
 if($gar == ""){$gar = "-";}
 if($obs == ""){$obs = "-";}
 
-if($mem1 == 0){$mem1 = 9;}
-if($tmem1 == 0){$tmem1 = 5;}
-if($prov1 == 0){$prov1 = 7;}
-if($fact1 == ""){$fact1 = "-";}
-if($marc1 == 0){$marc1 = 1;}
-if($gar1 == ""){$gar1 = "-";}
+if(isset($_POST['mem1'])){$mem1 = $_POST['mem1'];}else{$mem1 = 9;}/* if($mem1 == 0){$mem1 = 9;} */
+if(isset($_POST['tmem1'])){$tmem1 = $_POST['tmem1'];}else{$tmem1 = 5;}/* if($tmem1 == 0){$tmem1 = 5;} */
+if(isset($_POST['prov1'])){$prov1 = $_POST['prov1'];}else{$prov1 = 7;}/* if($prov1 == 0){$prov1 = 7;} */
+if(isset($_POST['fact1'])){$fact1 = $_POST['fact1'];}else{$fact1 = "-";}/* if($fact1 == ""){$fact1 = "-";} */
+if(isset($_POST['marc1'])){$marc1 = $_POST['marc1'];}else{$marc1 = 1;}/* if($marc1 == 0){$marc1 = 1;} */
+if(isset($_POST['gar1'])){$gar1 = $_POST['gar1'];}else{$gar1 = "-";}/* if($gar1 == ""){$gar1 = "-";} */
 
-if($mem2 == 0){$mem2 = 9;}
-if($tmem2 == 0){$tmem2 = 5;}
-if($prov2 == 0){$prov2 = 7;}
-if($fact2 == ""){$fact2 = "-";}
-if($marc2 == 0){$marc2 = 1;}
-if($gar2 == ""){$gar2 = "-";}
+if(isset($_POST['mem2'])){$mem2 = $_POST['mem2'];}else{$mem2 = 9;}/* if($mem1 == 0){$mem1 = 9;} */
+if(isset($_POST['tmem2'])){$tmem2 = $_POST['tmem2'];}else{$tmem2 = 5;}/* if($tmem1 == 0){$tmem1 = 5;} */
+if(isset($_POST['prov2'])){$prov2 = $_POST['prov2'];}else{$prov2 = 7;}/* if($prov1 == 0){$prov1 = 7;} */
+if(isset($_POST['fact2'])){$fact2 = $_POST['fact2'];}else{$fact2 = "-";}/* if($fact1 == ""){$fact1 = "-";} */
+if(isset($_POST['marc2'])){$marc2 = $_POST['marc2'];}else{$marc2 = 1;}/* if($marc1 == 0){$marc1 = 1;} */
+if(isset($_POST['gar2'])){$gar2 = $_POST['gar2'];}else{$gar2 = "-";}/* if($gar1 == ""){$gar1 = "-";} */
 
-if($mem3 == 0){$mem3 = 9;}
-if($tmem3 == 0){$tmem3 = 5;}
-if($prov3 == 0){$prov3 = 7;}
-if($fact3 == ""){$fact3 = "-";}
-if($marc3 == 0){$marc3 = 1;}
-if($gar3 == ""){$gar3 = "-";}
+if(isset($_POST['mem3'])){$mem3 = $_POST['mem3'];}else{$mem3 = 9;}/* if($mem1 == 0){$mem1 = 9;} */
+if(isset($_POST['tmem3'])){$tmem3 = $_POST['tmem3'];}else{$tmem3 = 5;}/* if($tmem1 == 0){$tmem1 = 5;} */
+if(isset($_POST['prov3'])){$prov3 = $_POST['prov3'];}else{$prov3 = 7;}/* if($prov1 == 0){$prov1 = 7;} */
+if(isset($_POST['fact3'])){$fact3 = $_POST['fact3'];}else{$fact3 = "-";}/* if($fact1 == ""){$fact1 = "-";} */
+if(isset($_POST['marc3'])){$marc3 = $_POST['marc3'];}else{$marc3 = 1;}/* if($marc1 == 0){$marc1 = 1;} */
+if(isset($_POST['gar3'])){$gar3 = $_POST['gar3'];}else{$gar3 = "-";}/* if($gar1 == ""){$gar1 = "-";} */
 
-if($mem4 == 0){$mem4 = 9;}
-if($tmem4 == 0){$tmem4 = 5;}
-if($prov4 == 0){$prov4 = 7;}
-if($fact4 == ""){$fact4 = "-";}
-if($marc4 == 0){$marc4 = 1;}
-if($gar4 == ""){$gar4 = "-";}
+if(isset($_POST['mem4'])){$mem4 = $_POST['mem4'];}else{$mem4 = 9;}/* if($mem1 == 0){$mem1 = 9;} */
+if(isset($_POST['tmem4'])){$tmem4 = $_POST['tmem4'];}else{$tmem4 = 5;}/* if($tmem1 == 0){$tmem1 = 5;} */
+if(isset($_POST['prov4'])){$prov4 = $_POST['prov4'];}else{$prov4 = 7;}/* if($prov1 == 0){$prov1 = 7;} */
+if(isset($_POST['fact4'])){$fact4 = $_POST['fact4'];}else{$fact4 = "-";}/* if($fact1 == ""){$fact1 = "-";} */
+if(isset($_POST['marc4'])){$marc4 = $_POST['marc4'];}else{$marc4 = 1;}/* if($marc1 == 0){$marc1 = 1;} */
+if(isset($_POST['gar4'])){$gar4 = $_POST['gar4'];}else{$gar4 = "-";}/* if($gar1 == ""){$gar1 = "-";} */
 
 
 if($disc1 == 0){$disc1 = 15;}
@@ -239,7 +244,7 @@ if($serieg == $serg OR $serialn == $ser){
     header("Location: agregarequipo.php?no");
 }
 else{
-    mysqli_query($datos_base, "INSERT INTO inventario VALUES (DEFAULT, '$area', '$serialn', '$serieg', '$marca', DEFAULT, '$so', DEFAULT, '$est', '$obs', '$prov', '$fac', '$masterizacion', '$mac', '$reserva', '$ip', '$red', '$tippc', '$usu', '$gar', '$micro', '$placam')");
+    mysqli_query($datos_base, "INSERT INTO inventario VALUES (DEFAULT, '$area', '$serialn', '$serieg', '$marca', '$so', '$est', '$obs', '$prov', '$fac', '$masterizacion', '$mac', '$reserva', '$ip', '$red', '$tippc', '$usu', '$gar')");
 
     $tic=mysqli_query($datos_base, "SELECT MAX(ID_WS) FROM inventario");
 		if ($row = mysqli_fetch_row($tic)) {

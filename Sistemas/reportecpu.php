@@ -159,9 +159,9 @@ if($reparticion==0) {
             <h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>TOTAL EQUIPOS:
                 ".$total['TOTAL']."</h4>
             <h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."</h4>
-            <table id='tablareporte' class='table table-striped table-hover' width=97%>
-                <thead>
-                    <tr style='background-color: #00519C'>
+            <table id='tablareporte' width=97%>
+                <thead style='border-bottom: solid 5px #073256 !important;'>
+                    <tr>
                         <th class='cabecera'>
                             <p>AREA</p>
                         </th>
@@ -180,7 +180,7 @@ if($reparticion==0) {
 					{
 			
 						echo
-									"<tr>
+									"<tr style='border-bottom: solid 1px #073256;'>
 									<td>
 										<h4 style='text-align: left;	'>".$listar['AREA']."</h4>
 									</td>
@@ -214,9 +214,9 @@ if($reparticion==0) {
             <h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>TOTAL EQUIPOS:
                 ".$total['TOTAL']."</h4>
             <h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."</h4>
-            <table id='tablareporte' class='table table-striped table-hover' width=97%>
-                <thead>
-                    <tr style='background-color: #00519C'>
+            <table id='tablareporte' width=97%>
+                <thead style='border-bottom: solid 5px #073256 !important;>
+                    <tr >
                         <th class='cabecera'>
                             <p>ESTADO</p>
                         </th>
@@ -235,7 +235,7 @@ if($reparticion==0) {
                 {
                 echo
                 "
-                <tr>
+                <tr style='border-bottom: solid 1px #073256;'>
                     <td>
                         <h4 style='text-align: left;	'>".$listar['ESTADO']."</h4>
                     </td>
@@ -269,9 +269,9 @@ if($reparticion==0) {
             <h4 id='ind' class='indicadores' style='margin-top: 20px;'>NRO. DE NOTEBOOKS: ".$totalNB['TOTAL']."</h4>    
             <h4 id='ind' class='indicadores' style='margin-top: 20px;'>TOTAL EQUIPOS:".$total['TOTAL']."</h4>
                 <h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."</h4>
-                <table id='tablareporte' class='table table-striped table-hover' width=97%>
-                    <thead>
-                        <tr style='background-color: #00519C'>
+                <table id='tablareporte' width=97%>
+                    <thead style='border-bottom: solid 5px #073256 !important;>
+                        <tr>
                             <th class='cabecera'>
                                 <p>PROVEEDOR</p>
                             </th>
@@ -290,7 +290,7 @@ if($reparticion==0) {
                     {
                     echo
                     "
-                    <tr>
+                    <tr style='border-bottom: solid 1px #073256;'>
                         <td>
                             <h4 style='text-align: left;	'>".$listar['PROVEEDOR']."</h4>
                         </td>
@@ -328,9 +328,9 @@ if($reparticion==0) {
             <h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>TOTAL EQUIPOS:
                         ".$total['TOTAL']."</h4>
                     <h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."</h4>
-                    <table id='tablareporte' class='table table-striped table-hover' width=97%>
-                        <thead>
-                            <tr style='background-color: #00519C'>
+                    <table id='tablareporte' width=97%>
+                        <thead style='border-bottom: solid 5px #073256 !important;>
+                            <tr>
                                 <th class='cabecera'>
                                     <p>SO</p>
                                 </th>
@@ -349,7 +349,7 @@ if($reparticion==0) {
                         {
                         echo
                         "
-                        <tr>
+                        <tr style='border-bottom: solid 1px #073256;'>
                             <td>
                                 <h4 style='text-align: left;	'>".$listar['SIST_OP']."</h4>
                             </td>
@@ -385,9 +385,9 @@ if($reparticion==0) {
                             ".$total['TOTAL']."</h4>
                         <h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."
                         </h4>
-                        <table id='tablareporte' class='table table-striped table-hover' width=97%>
-                            <thead>
-                                <tr style='background-color: #00519C'>
+                        <table id='tablareporte' width=97%>
+                            <thead  style='border-bottom: solid 5px #073256 !important;>
+                                <tr>
                                     <th class='cabecera'>
                                         <p>MICROPROCESADOR</p>
                                     </th>
@@ -407,7 +407,7 @@ if($reparticion==0) {
                             {
                             echo
                             "
-                            <tr>
+                            <tr style='border-bottom: solid 1px #073256;'>
                                 <td>
                                     <h4 style='text-align: left;	'>".$listar['MICRO']."</h4>
                                 </td>
@@ -465,9 +465,9 @@ if($reparticion==0) {
                             ".$total['TOTAL']."</h4>
                         <h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."
                         </h4>
-                        <table id='tablareporte' class='table table-striped table-hover' width=97%>
-                            <thead>
-                                <tr style='background-color: #00519C'>
+                        <table id='tablareporte' width=97%>
+                            <thead style='border-bottom: solid 5px #073256 !important;>
+                                <tr>
                                     <th class='cabecera'>
                                         <p>AREA</p>
                                     </th>
@@ -488,7 +488,7 @@ if($reparticion==0) {
 
                             echo
                             "
-                            <tr>
+                            <tr style='border-bottom: solid 1px #073256;'>
                                 <td>
                                     <h4 style='text-align: left;	'>".$listar['AREA']."</h4>
                                 </td>
@@ -523,9 +523,9 @@ if($reparticion==0) {
                                         TOTAL EQUIPOS: ".$total['TOTAL']."</h4>
                                     <h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL:
                                         ".$fecha."</h4>
-                                    <table id='tablareporte' class='table table-striped table-hover' width=97%>
-                                        <thead>
-                                            <tr style='background-color: #00519C'>
+                                    <table id='tablareporte' width=97%>
+                                        <thead style='border-bottom: solid 5px #073256 !important;'>
+                                            <tr >
                                                 <th class='cabecera'>
                                                     <p>ESTADO</p>
                                                 </th>
@@ -546,7 +546,7 @@ if($reparticion==0) {
                                         {
 
                                         echo"
-                                        <tr>
+                                        <tr style='border-bottom: solid 1px #073256;'>
                                             <td>
                                                 <h4 style='text-align: left;	'>".$listar['ESTADO']."</h4>
                                             </td>
@@ -582,9 +582,9 @@ if($reparticion==0) {
                                             TOTAL EQUIPOS: ".$total['TOTAL']."</h4>
                                         <h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA
                                             ACTUAL: ".$fecha."</h4>
-                                        <table id='tablareporte' class='table table-striped table-hover' width=97%>
-                                            <thead>
-                                                <tr style='background-color: #00519C'>
+                                        <table id='tablareporte' width=97%>
+                                            <thead  style='border-bottom: solid 5px #073256 !important;'>
+                                                <tr >
                                                     <th class='cabecera'>
                                                         <p>ESTADO</p>
                                                     </th>
@@ -603,7 +603,7 @@ if($reparticion==0) {
                                 {
 
                                             echo"
-                                            <tr>
+                                            <tr style='border-bottom: solid 1px #073256;'>
                                                 <td>
                                                     <h4 style='text-align: left;	'>".$listar['SIST_OP']."</h4>
                                                 </td>
@@ -636,9 +636,9 @@ if($reparticion==0) {
 				TOTAL EQUIPOS: ".$total['TOTAL']."</h4>
 				<h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL:
 					".$fecha."</h4>
-				<table id='tablareporte' class='table table-striped table-hover' width=97%>
-					<thead>
-						<tr style='background-color: #00519C'>
+				<table id='tablareporte' width=97%>
+					<thead style='border-bottom: solid 5px #073256 !important;'>
+						<tr >
 						<th class='cabecera'>
 						<p>ESTADO</p>
 						</th>
@@ -662,7 +662,7 @@ if($reparticion==0) {
 				{
 			
 					echo"
-					<tr>
+					<tr style='border-bottom: solid 1px #073256;'>
 						<td>
 							<h4 style='text-align: left;	'>".$listar['MICRO']."</h4>
 						</td>
@@ -711,7 +711,7 @@ if($reparticion==0) {
                             //     ".$fecha."</h4>
                             // <table id='tablareporte' class='table table-striped table-hover' width=97%>
                             //     <thead>
-                            //         <tr style='background-color: #00519C'>
+                            //         <tr >
                             //             <th class='cabecera'>
                             //                 <p>AREA</p>
                             //             </th>
@@ -784,7 +784,7 @@ if($reparticion==0) {
                             //         ".$fecha."</h4>
                             //     <table id='tablareporte' class='table table-striped table-hover' width=97%>
                             //         <thead>
-                            //             <tr style='background-color: #00519C'>
+                            //             <tr >
                             //                 <th class='cabecera'>
                             //                     <p>AREA</p>
                             //                 </th>

@@ -111,7 +111,7 @@ $row = $resultado->fetch_assoc();
                                         <?php endforeach?>
                                     </select>
                                 <label id="lblForm" class="col-form-label col-xl col-lg" >N° GOBIERNO:</label> 
-                                <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="serieg" required>
+                                <input class="form-control col-xl col-lg" placeholder="DE LA IMPRESORA" style="text-transform:uppercase;" name="serieg" required>
 
                             </div>    
 

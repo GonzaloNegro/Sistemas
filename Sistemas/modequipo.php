@@ -46,6 +46,23 @@ function ConsultarIncidente($no_tic)
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script type="text/javascript" src="jquery/1/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="jquery/1/jquery-ui.js"></script>
+  
+
+  <script>
+	$(document).ready(function(){
+    $("#slcusu").change(function(){
+        
+		if ($("#slcusu").val() == '277') {
+			$("#slcarea").prop('disabled', false);
+		}
+		if ($("#slcusu").val() != '277') {
+			$("#slcarea").prop('disabled', true);
+		}
+    });
+    });
+</script>
 	<style>
 			body{
 			background-color: #edf0f5;
@@ -112,6 +129,15 @@ function ConsultarIncidente($no_tic)
                     $row = $resultado->fetch_assoc();
                     $mar = $row['MARCA'];
                 ?>
+                <?php 
+                    include("conexion.php");
+                    $sent= "SELECT AREA FROM area WHERE ID_AREA = $consulta[1]";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $area = $row['AREA'];
+                ?>
+
+                
 
 
 
@@ -372,6 +398,16 @@ function ConsultarIncidente($no_tic)
                 ?>
                 <?php 
                     include("conexion.php");
+                    $sent= "SELECT ma.MARCA FROM marcas ma 
+                    LEFT JOIN modelo m ON m.ID_MARCA = ma.ID_MARCA 
+                    LEFT JOIN discows dw ON dw.ID_MODELO = m.ID_MODELO
+                    WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 1";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $dmarc1 = $row['MARCA'];
+                ?>
+                <?php 
+                    include("conexion.php");
                     $sentencia = "SELECT FACTURA FROM discows WHERE ID_WS = $consulta[0] AND NUMERO = 1";
                     $resultado = $datos_base->query($sentencia);
                     $row = $resultado->fetch_assoc();
@@ -420,6 +456,16 @@ function ConsultarIncidente($no_tic)
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
                     $dmod2 = $row['MODELO'];
+                ?>
+                 <?php 
+                    include("conexion.php");
+                    $sent= "SELECT ma.MARCA FROM marcas ma 
+                    LEFT JOIN modelo m ON m.ID_MARCA = ma.ID_MARCA 
+                    LEFT JOIN discows dw ON dw.ID_MODELO = m.ID_MODELO
+                    WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 2";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $dmarc2 = $row['MARCA'];
                 ?>
                 <?php 
                     include("conexion.php");
@@ -474,6 +520,16 @@ function ConsultarIncidente($no_tic)
                 ?>
                 <?php 
                     include("conexion.php");
+                    $sent= "SELECT ma.MARCA FROM marcas ma 
+                    LEFT JOIN modelo m ON m.ID_MARCA = ma.ID_MARCA 
+                    LEFT JOIN discows dw ON dw.ID_MODELO = m.ID_MODELO
+                    WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 3";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $dmarc3 = $row['MARCA'];
+                ?>
+                <?php 
+                    include("conexion.php");
                     $sentencia = "SELECT FACTURA FROM discows WHERE ID_WS = $consulta[0] AND NUMERO = 3";
                     $resultado = $datos_base->query($sentencia);
                     $row = $resultado->fetch_assoc();
@@ -523,6 +579,16 @@ function ConsultarIncidente($no_tic)
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
                     $dmod4 = $row['MODELO'];
+                ?>
+                <?php 
+                    include("conexion.php");
+                    $sent= "SELECT ma.MARCA FROM marcas ma 
+                    LEFT JOIN modelo m ON m.ID_MARCA = ma.ID_MARCA 
+                    LEFT JOIN discows dw ON dw.ID_MODELO = m.ID_MODELO
+                    WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 4";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $dmarc4 = $row['MARCA'];
                 ?>
                 <?php 
                     include("conexion.php");
@@ -800,6 +866,7 @@ function ConsultarIncidente($no_tic)
                     $row = $resultado->fetch_assoc();
                     $pvgar1 = $row['GARANTIA'];
                   ?>
+                  
 
 
 
@@ -925,7 +992,7 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">            
                         <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO: </label>
-                        <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="usu">
+                        <select id="slcusu" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="usu">
                                         <option selected value="1000"><?php echo $usu?></option>
                                         <?php
                                         include("conexion.php");
@@ -936,6 +1003,23 @@ function ConsultarIncidente($no_tic)
                                         <option value= <?php echo $opciones['ID_USUARIO'] ?>><?php echo $opciones['NOMBRE']?></option>
                                         <?php endforeach?>
                                     </select>
+                        <label id="lblArea" style="font-size:24px;"class="col-form-label col-xl col-lg">AREA: </label>
+                        <select id="slcarea" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="marca" disabled>
+                        <!-- falta verificar bien eñ value-->
+                                        <option selected value="1100"><?php echo $area?></option>
+                                        <?php
+                                        include("conexion.php");
+                                        $consulta= "SELECT * FROM area";
+                                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                        ?>
+                                        <?php foreach ($ejecutar as $opciones): ?> 
+                                        <option value= <?php echo $opciones['ID_AREA'] ?>><?php echo $opciones['AREA']?></option>
+                                        <?php endforeach?>
+                                    </select>
+                    </div>
+
+                    <div class="form-group row" style="margin: 10px; padding:10px;">            
+                        
                         <label id="lblForm"class="col-form-label col-xl col-lg">MARCA: </label>
                         <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="marca">
                                         <option selected value="1100"><?php echo $mar?></option>
@@ -1551,7 +1635,7 @@ function ConsultarIncidente($no_tic)
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact1" value="<?php echo $dfact1?>">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
+          <label id="lblForm" class="col-form-label col-xl col-lg">MODELO:</label> 
 							    <select name="dmod1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option selected value="1603"><?php echo $dmod1?></option>
                                     <?php
@@ -1563,10 +1647,12 @@ function ConsultarIncidente($no_tic)
                                     <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']?></option>
                                     <?php endforeach?>
                                 </select>
-							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
-              <input type="date" class="form-control col-xl col-lg" name="dfec1" value="<?php echo $dfec1?>">
+              <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
+              <input type="input" class="form-control col-xl col-lg" disabled value="<?php echo $dmarc1?>">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
+        			<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="dfec1" value="<?php echo $dfec1?>">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
               <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="dgar1" value="<?php echo $dgar1?>">
         </div> 
@@ -1624,7 +1710,7 @@ function ConsultarIncidente($no_tic)
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact2" value="<?php echo $dfact2?>">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
+          <label id="lblForm" class="col-form-label col-xl col-lg">MODELO:</label> 
 							    <select name="dmod2" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option selected value="1703"><?php echo $dmod2?></option>
                                     <?php
@@ -1636,10 +1722,12 @@ function ConsultarIncidente($no_tic)
                                     <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']?></option>
                                     <?php endforeach?>
                                 </select>
-							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
-              <input type="date" class="form-control col-xl col-lg" name="dfec2" value="<?php echo $dfec2?>">
+              <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
+              <input type="input" class="form-control col-xl col-lg" disabled value="<?php echo $dmarc2?>">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
+             <label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="dfec2" value="<?php echo $dfec2?>">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
               <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="dgar2" value="<?php echo $dgar2?>">
         </div> 
@@ -1697,7 +1785,7 @@ function ConsultarIncidente($no_tic)
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact3" value="<?php echo $dfact3?>">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
+          <label id="lblForm" class="col-form-label col-xl col-lg">MODELO:</label> 
 							    <select name="dmod3" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option selected value="1803"><?php echo $dmod3?></option>
                                     <?php
@@ -1709,10 +1797,12 @@ function ConsultarIncidente($no_tic)
                                     <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']?></option>
                                     <?php endforeach?>
                                 </select>
-							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
-              <input type="date" class="form-control col-xl col-lg" name="dfec3" value="<?php echo $dfec3?>">
+              <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
+              <input type="input" class="form-control col-xl col-lg" disabled value="<?php echo $dmarc3?>">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
+              <label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="dfec3" value="<?php echo $dfec3?>">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
               <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="dgar3" value="<?php echo $dgar3?>">
         </div> 
@@ -1770,7 +1860,7 @@ function ConsultarIncidente($no_tic)
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact4" value="<?php echo $dfact4?>">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
+          <label id="lblForm" class="col-form-label col-xl col-lg">MODELO:</label> 
 							    <select name="dmod4" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option selected value="1903"><?php echo $dmod4?></option>
                                     <?php
@@ -1782,10 +1872,12 @@ function ConsultarIncidente($no_tic)
                                     <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']?></option>
                                     <?php endforeach?>
                                 </select>
-							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
-              <input type="date" class="form-control col-xl col-lg" name="dfec4" value="<?php echo $dfec4?>">
+              <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
+              <input type="input" class="form-control col-xl col-lg" disabled value="<?php echo $dmarc4?>">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
+              <label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
+              <input type="date" class="form-control col-xl col-lg" name="dfec4" value="<?php echo $dfec4?>">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
               <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="dgar4" value="<?php echo $dgar4?>">
         </div> 

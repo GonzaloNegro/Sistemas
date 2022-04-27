@@ -22,11 +22,30 @@ $row = $resultado->fetch_assoc();
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-	<style>
+    <script type="text/javascript" src="jquery/1/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="jquery/1/jquery-ui.js"></script>
+  
+  <style>
 			body{
 			background-color: #edf0f5;
 			}
 	</style>
+
+<script>
+	$(document).ready(function(){
+    $("#slcusu").change(function(){
+        
+		if ($("#slcusu").val() == '277') {
+			$("#lblarea").show(1300);
+		    $("#slcarea").show(1300);
+		}
+		if ($("#slcusu").val() != '277') {
+			$("#lblarea").hide(1000);
+		    $("#slcarea").hide(1000);
+		}
+    });
+    });
+</script>
 </head>
 <body>
 <script type="text/javascript">
@@ -57,6 +76,8 @@ $row = $resultado->fetch_assoc();
 						);
 			}	
 			</script>
+
+
 		<div id="reporteEst" style="width: 97%; margin-left: 20px;">   
 				<div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
 					<a id="vlv"  href="abmequipos.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
@@ -71,8 +92,8 @@ $row = $resultado->fetch_assoc();
                         
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
-                                <select name="usu" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                <select name="usu" id="slcusu" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                                    <option  value="0" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
                                     $consulta= "SELECT * FROM usuarios";
@@ -82,7 +103,23 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_USUARIO'] ?>><?php echo $opciones['NOMBRE']?></option>
                                     <?php endforeach?>
                                 </select>
-                                <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
+                                <label  name="txtarea" id="lblarea" class="col-form-label col-xl col-lg" style="display: none; font-size: 23px;">AREA:</label>
+                                <select name="area" id="slcarea" style="text-transform:uppercase; display:none;" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM area";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_AREA'] ?>><?php echo $opciones['AREA']?></option>
+                                    <?php endforeach?>
+                                </select>
+                                
+                        </div>
+
+                        <div class="form-group row" style="margin: 10px; padding:10px;">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
                                 <select name="est" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
@@ -94,19 +131,17 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_ESTADOWS'] ?>><?php echo $opciones['ESTADO']?></option>
                                     <?php endforeach?>
                                 </select>
+
+                                <label id="lblForm" class="col-form-label col-xl col-lg">N° WS:</label> 
+							              <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="serieg" placeholder="WSXXXXX" required>
                         </div>
 
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
-                            <label id="lblForm" class="col-form-label col-xl col-lg">N° WS:</label> 
-							<input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="serieg" placeholder="WS N°" required>
+                            
                             <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE:</label>
                             <input class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="serialn" required>
-                        </div>    
-
-
-                        <div class="form-group row" style="margin: 10px; padding:10px;">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
+                            <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
                             <select name="marca" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
@@ -118,6 +153,11 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
+                        </div>    
+
+
+                        <div class="form-group row" style="margin: 10px; padding:10px;">
+                        
                                 <label id="lblForm"class="col-form-label col-xl col-lg">S.O:</label>
                                 <select name="so" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
@@ -130,11 +170,7 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_SO'] ?>><?php echo $opciones['SIST_OP']?></option>
                                     <?php endforeach?>
                                 </select>
-                        </div> 
-
-
-                        <div class="form-group row" style="margin: 10px; padding:10px;">
-                            <label id="lblForm" class="col-form-label col-xl col-lg">TIPO PC:</label> 
+                                <label id="lblForm" class="col-form-label col-xl col-lg">TIPO PC:</label> 
 							              <select name="tippc" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
@@ -146,30 +182,38 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_TIPOWS'] ?>><?php echo $opciones['TIPOWS']?></option>
                                     <?php endforeach?>
                                 </select>
+
+
+                        </div> 
+
+
+                        <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm"class="col-form-label col-xl col-lg">MASTERIZACIÓN:</label>
                             <select name="masterizacion" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                 <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                 <option value="SI">SI</option>
                                 <option value="NO">NO</option>
                             </select>
-                        </div> 
+                            <label id="lblForm" class="col-form-label col-xl col-lg">MAC:</label> 
+							              <input class="form-control col-xl col-lg" name="mac" placeholder="N° MAC">
+                            </div> 
 
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
-                            <label id="lblForm" class="col-form-label col-xl col-lg">MAC:</label> 
-							              <input class="form-control col-xl col-lg" name="mac" placeholder="N° MAC">
+                            
                             <label id="lblForm"class="col-form-label col-xl col-lg">RIP:</label>
                             <select name="reserva" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                 <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                 <option value="SI">SI</option>
                                 <option value="NO">NO</option>
                             </select>
+                            <label id="lblForm" class="col-form-label col-xl col-lg">IP:</label> 
+						              	<input class="form-control col-xl col-lg" name="ip" placeholder="N° IP">
                         </div>
 
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
-                            <label id="lblForm" class="col-form-label col-xl col-lg">IP:</label> 
-						              	<input class="form-control col-xl col-lg" name="ip" placeholder="N° IP">
+                            
                             <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:</label>
                             <select name="prov" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
@@ -182,18 +226,15 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <label id="lblForm" class="col-form-label col-xl col-lg">FACTURA:</label> 
+							              <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="fac" placeholder="N° Factura">
+
                         </div>
 
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
-                            <label id="lblForm" class="col-form-label col-xl col-lg">FACTURA:</label> 
-							              <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="fac" placeholder="N° Factura">
                             <label id="lblForm" class="col-form-label col-xl col-lg">GARANTIA:</label> 
 							              <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar" placeholder="TIEMPO DE GARANTIA">
-                        </div>
-
-
-                        <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm"class="col-form-label col-xl col-lg">RED:</label>
                             <select name="red" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
@@ -206,6 +247,11 @@ $row = $resultado->fetch_assoc();
                                     <option value= <?php echo $opciones['ID_RED'] ?>><?php echo $opciones['RED']?></option>
                                     <?php endforeach?>
                                 </select>
+                        </div>
+
+
+                        <div class="form-group row" style="margin: 10px; padding:10px;">
+                            
                             <label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓN:</label> 
                               <textarea class="form-control col-xl col-lg" name="obs" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3" ></textarea>
                         </div>

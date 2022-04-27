@@ -93,7 +93,7 @@ $row = $resultado->fetch_assoc();
 							<?php
 							include("conexion.php");
 
-							$consulta= "SELECT * FROM marcas";
+							$consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
 							$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 							?>
 							<?php foreach ($ejecutar as $opciones): ?> 
@@ -107,7 +107,7 @@ $row = $resultado->fetch_assoc();
 							<?php
 							include("conexion.php");
 
-							$consulta= "SELECT * FROM tipop";
+							$consulta= "SELECT * FROM tipop ORDER BY TIPO ASC";
 							$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 							?>
 							<?php foreach ($ejecutar as $opciones): ?> 

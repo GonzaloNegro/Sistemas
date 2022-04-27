@@ -100,24 +100,24 @@ $row = $resultado->fetch_assoc();
                     $totalnotbaja = mysqli_fetch_array($contnotbaja);
                     ?>
                     <h1 id='titulo'>REPORTE DE EQUIPOS</h1>
-                    <table id='tablareporte' class='table table-striped table-hover' width=97%>
-						<thead>
-						<tr style='background-color: #00519C'>
-						<th class='cabecera'><p>PC EN USO</p></th>
-                        <th class='cabecera'><p>PC EN STOCK</p></th>
-                        <th class='cabecera'><p>PC BAJA</p></th>
-                        <th class='cabecera'><p>PC TOTAL</p></th>
-                        <th class='cabecera'><p>MONITORES EN USO</p></th>
-                        <th class='cabecera'><p>MONITORES EN STOCK</p></th>
-                        <th class='cabecera'><p>MONITORES TOTAL</p></th>
-                        <th class='cabecera'><p>NOTEBOOK EN USO</p></th>
-                        <th class='cabecera'><p>NOTEBOOK EN STOCK</p></th>
-                        <th class='cabecera'><p>NOTEBOOK BAJA</p></th>
-                        <th class='cabecera'><p>NOTEBOOK TOTAL</p></th>
+                    <table width=97%>
+						<thead style="border-bottom: solid 5px #073256 !important;">
+						<tr>
+						<th><p>PC EN USO</p></th>
+                        <th><p>PC EN STOCK</p></th>
+                        <th><p>PC BAJA</p></th>
+                        <th><p>PC TOTAL</p></th>
+                        <th><p>MONITORES EN USO</p></th>
+                        <th><p>MONITORES EN STOCK</p></th>
+                        <th><p>MONITORES TOTAL</p></th>
+                        <th><p>NOTEBOOK EN USO</p></th>
+                        <th><p>NOTEBOOK EN STOCK</p></th>
+                        <th><p>NOTEBOOK BAJA</p></th>
+                        <th><p>NOTEBOOK TOTAL</p></th>
 						</tr>
 						</thead>
                         <?php echo"
-                        <tr>
+                        <tr style='border-bottom: solid 1px #073256;'>
                         <td><h4 style='text-align: center;	'>".$totalpcact['TOTAL']."</h4></td>
                         <td><h4 style='text-align: center;	'>".$totalpcbaja['TOTAL']."</h4></td>
 						<td><h4 style='text-align: center;	'>".$totalpcstk['TOTAL']."</h4></td>
@@ -156,24 +156,24 @@ $row = $resultado->fetch_assoc();
                     $conttotaltk=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='TICKEADORA'");
 					$totaltk = mysqli_fetch_array($conttotaltk);
                     ?>
-                    <h1 id='titulo'>REPORTE DE PERIFERICOS</h1>
-                    <table id='tablareporte' class='table table-striped table-hover' width=97%>
-						<thead>
-						<tr style='background-color: #00519C'>
-						<th class='cabecera'><p>IMPRESORAS PROPIAS EN USO</p></th>
-                        <th class='cabecera'><p>IMPRESORAS PROPIAS EN STOCK</p></th>
-                        <th class='cabecera'><p>IMPRESORAS ALQUILADAS</p></th>
-                        <th class='cabecera'><p>IMPRESORAS TOTAL</p></th>
-                        <th class='cabecera'><p>SCANNERS EN USO</p></th>
-                        <th class='cabecera'><p>SCANNERS EN STOCK</p></th>
-                        <th class='cabecera'><p>SCANNERS TOTAL</p></th>
-                        <th class='cabecera'><p>TICKEADORA EN USO</p></th>
-                        <th class='cabecera'><p>TICKEADORA EN STOCK</p></th>
-                        <th class='cabecera'><p>TICKEADORA TOTAL</p></th>
+                    <h1 id='titulo' style="margin-top:50px;">REPORTE DE PERIFERICOS</h1>
+                    <table width=97%>
+						<thead style="border-bottom: solid 5px #073256 !important;">
+						<tr>
+						<th><p>IMPRESORAS PROPIAS EN USO</p></th>
+                        <th><p>IMPRESORAS PROPIAS EN STOCK</p></th>
+                        <th><p>IMPRESORAS ALQUILADAS</p></th>
+                        <th><p>IMPRESORAS TOTAL</p></th>
+                        <th><p>SCANNERS EN USO</p></th>
+                        <th><p>SCANNERS EN STOCK</p></th>
+                        <th><p>SCANNERS TOTAL</p></th>
+                        <th><p>TICKEADORA EN USO</p></th>
+                        <th><p>TICKEADORA EN STOCK</p></th>
+                        <th><p>TICKEADORA TOTAL</p></th>
 						</tr>
 						</thead>
                         <?php echo"
-                        <tr>
+                        <tr style='border-bottom: solid 1px #073256;'>
                         <td><h4 style='text-align: center;	'>".$totalimppropact['TOTAL']."</h4></td>
                         <td><h4 style='text-align: center;	'>".$totalimpbaja['TOTAL']."</h4></td>
 						<td><h4 style='text-align: center;	'>".$totalimpalq['TOTAL']."</h4></td>

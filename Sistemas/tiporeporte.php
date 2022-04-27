@@ -155,7 +155,7 @@ $row = $resultado->fetch_assoc();
             <a href="reporteperifericos.php">PERIFÉRICOS</a> 
             </div>
             <div class="link">
-            <a href="reporteestadotodos.php">ESTADO INVENTARIO</a> 
+            <a href="relevamientoinventario.php">INVENTARIO</a> 
             </div>
             <div class="link">
             <a href="reporteimpresora.php">IMPRESORAS DINAMICO</a> 
@@ -177,7 +177,7 @@ $row = $resultado->fetch_assoc();
 				</div>
 			</div>
 		</div>
-	</footer>
+	</footer> 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script>
   		AOS.init();

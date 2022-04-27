@@ -183,7 +183,7 @@ if($usu == "1000"){
     $sql6 = "SELECT ID_USUARIO FROM inventario WHERE ID_WS = '$id'";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
-    $proc = $row6['ID_USUARIO'];
+    $usu = $row6['ID_USUARIO'];
 }
 
 if($marca == "1100"){

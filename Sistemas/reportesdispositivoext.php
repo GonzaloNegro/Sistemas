@@ -81,12 +81,12 @@ if ($tipodisp == 'scanner') {
             <hr style='display: block;'>
             <h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>TOTAL EQUIPOS: ".$total['TOTAL']."</h4>
             <h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."</h4>
-            <table id='tablareporte' class='table table-striped table-hover' width=97%>
-                <thead>
-                    <tr style='background-color: #00519C'>
-                    <th class='cabecera'><p>AREA</p></th>
-                    <th class='cabecera'><p>TOTAL</p></th>
-                    <th class='cabe'><p class='cabecera'>ACCION</p></th>
+            <table width=97%>
+                <thead style='border-bottom: solid 5px #073256 !important;'>
+                    <tr>
+                    <th><p>AREA</p></th>
+                    <th><p>TOTAL</p></th>
+                    <th class='cabe'><p>ACCION</p></th>
                     </tr>
                 </thead>";
                         $consultar=mysqli_query($datos_base, "SELECT a.AREA, p.ID_AREA, count(*) as TOTAL from periferico p left join area a on p.ID_AREA=a.ID_AREA
@@ -102,7 +102,7 @@ if ($tipodisp == 'scanner') {
                 
                                                     echo
                                                     "
-                                                        <tr>
+                                                        <tr style='border-bottom: solid 1px #073256;'>
                                                         <td><h4 style='text-align: left;	'>".$nombre."</h4></td>
                                                         <td><h4 style='text-align: center;	'>".$listar['TOTAL']."</h4></td>
                                                         <td class='text-center text-nowrap' id='accion' style='width: 80px;'><a class='btn btn-sm btn-outline-primary' href='detalleareaperif.php?Area=".$listar['ID_AREA']."&Tipo=$tipodisp' class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
@@ -127,11 +127,11 @@ if ($tipodisp == 'scanner') {
                                 <h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>TOTAL EQUIPOS: ".$total['TOTAL']."</h4>
                                 <h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."</h4>
                                 <table id='tablareporte' class='table table-striped table-hover' width=97%>
-                                <thead>
-                                <tr style='background-color: #00519C'>
-                                <th class='cabecera'><p>ESTADO</p></th>
-                                <th class='cabecera'><p>TOTAL</p></th>
-                                <th class='cabe'><p class='cabecera' style='width: 80px;' >ACCION</p></th>
+                                <thead  style='border-bottom: solid 5px #073256 !important;'>
+                                <tr>
+                                <th><p>ESTADO</p></th>
+                                <th><p>TOTAL</p></th>
+                                <th class='cabe'><p style='width: 80px;' >ACCION</p></th>
                                 </tr>
                                 </thead>";
                                 $consultar=mysqli_query($datos_base, "SELECT e.ESTADO, p.ID_ESTADOWS, count(*) as TOTAL from periferico p left join estado_ws e on p.ID_ESTADOWS=e.ID_ESTADOWS
@@ -147,7 +147,7 @@ if ($tipodisp == 'scanner') {
                             
                                                             echo
                                                             "
-                                                                <tr>
+                                                                <tr style='border-bottom: solid 1px #073256;'>
                                                                 <td><h4 style='text-align: left;	'>".$nombre."</h4></td>
                                                                 <td><h4 style='text-align: center;	'>".$listar['TOTAL']."</h4></td>
                                                                 <td class='text-center text-nowrap' id='accion' style='width: 80px;'><a class='btn btn-sm btn-outline-primary' href='detalleestadoperif.php?Estado=".$listar['ID_ESTADOWS']."&Tipo=$tipodisp' class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
@@ -172,11 +172,11 @@ if ($tipodisp == 'scanner') {
                     <h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>TOTAL EQUIPOS: ".$total['TOTAL']."</h4>
                     <h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."</h4>
                     <table id='tablareporte' class='table table-striped table-hover' width=97%>
-                    <thead>
-                    <tr style='background-color: #00519C'>
-                    <th class='cabecera'><p>PROVEEDOR</p></th>
-                    <th class='cabecera'><p>TOTAL</p></th>
-                    <th class='cabe'><p class='cabecera' style='width: 80px;' >ACCION</p></th>
+                    <thead style='border-bottom: solid 5px #073256 !important;'>
+                    <tr >
+                    <th><p>PROVEEDOR</p></th>
+                    <th><p>TOTAL</p></th>
+                    <th class='cabe'><p style='width: 80px;' >ACCION</p></th>
                     </tr>
                     </thead>";
                     $consultar=mysqli_query($datos_base, "SELECT e.PROVEEDOR, p.ID_PROVEEDOR, count(*) as TOTAL from periferico p left join proveedor e on p.ID_PROVEEDOR=e.ID_PROVEEDOR
@@ -192,7 +192,7 @@ if ($tipodisp == 'scanner') {
                 
                                                 echo
                                                 "
-                                                    <tr>
+                                                    <tr style='border-bottom: solid 1px #073256;'>
                                                     <td><h4 style='text-align: left;	'>".$nombre."</h4></td>
                                                     <td><h4 style='text-align: center;	'>".$listar['TOTAL']."</h4></td>
                                                     <td class='text-center text-nowrap' id='accion' style='width: 80px;'><a class='btn btn-sm btn-outline-primary' href='detalleproveedorperif.php?Proveedor=".$listar['ID_PROVEEDOR']."&Tipo=$tipodisp' class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
@@ -220,11 +220,11 @@ if ($tipodisp == 'scanner') {
     		<h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>TOTAL EQUIPOS: ".$total['TOTAL']."</h4>
     		<h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."</h4>
     		<table id='tablareporte' class='table table-striped table-hover' width=97%>
-    		    <thead>
-    				<tr style='background-color: #00519C'>
-    				<th class='cabecera'><p>AREA</p></th>
-    				<th class='cabecera'><p>TOTAL</p></th>
-    				<th class='cabe'><p class='cabecera'>ACCION</p></th>
+    		    <thead style='border-bottom: solid 5px #073256 !important;'>
+    				<tr>
+    				<th><p>AREA</p></th>
+    				<th><p>TOTAL</p></th>
+    				<th class='cabe'><p>ACCION</p></th>
     				</tr>
     			</thead>";
     					$consultar=mysqli_query($datos_base, "SELECT a.AREA, p.ID_AREA, count(*) as TOTAL from periferico p left join area a on p.ID_AREA=a.ID_AREA
@@ -240,7 +240,7 @@ if ($tipodisp == 'scanner') {
                 
     												echo
     												"
-    													<tr>
+    													<tr style='border-bottom: solid 1px #073256;'>
     													<td><h4 style='text-align: left;	'>".$nombre."</h4></td>
     													<td><h4 style='text-align: center;	'>".$listar['TOTAL']."</h4></td>
     													<td class='text-center text-nowrap' id='accion' style='width: 80px;'><a class='btn btn-sm btn-outline-primary' href='detalleareaperif.php?Area=".$listar['ID_AREA']."&Tipo=$tipodisp' class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
@@ -265,11 +265,11 @@ if ($tipodisp == 'scanner') {
     							<h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>TOTAL EQUIPOS: ".$total['TOTAL']."</h4>
     							<h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."</h4>
     							<table id='tablareporte' class='table table-striped table-hover' width=97%>
-    							<thead>
-    							<tr style='background-color: #00519C'>
-    							<th class='cabecera'><p>ESTADO</p></th>
-    							<th class='cabecera'><p>TOTAL</p></th>
-    							<th class='cabe'><p class='cabecera' style='width: 80px;' >ACCION</p></th>
+    							<thead style='border-bottom: solid 5px #073256 !important;'>
+    							<tr>
+    							<th><p>ESTADO</p></th>
+    							<th><p>TOTAL</p></th>
+    							<th class='cabe'><p style='width: 80px;' >ACCION</p></th>
     							</tr>
     							</thead>";
     							$consultar=mysqli_query($datos_base, "SELECT e.ESTADO, p.ID_ESTADOWS, count(*) as TOTAL from periferico p left join estado_ws e on p.ID_ESTADOWS=e.ID_ESTADOWS
@@ -285,7 +285,7 @@ if ($tipodisp == 'scanner') {
                             
     														echo
     														"
-    															<tr>
+    															<tr style='border-bottom: solid 1px #073256;'>
     															<td><h4 style='text-align: left;	'>".$nombre."</h4></td>
     															<td><h4 style='text-align: center;	'>".$listar['TOTAL']."</h4></td>
     															<td class='text-center text-nowrap' id='accion' style='width: 80px;'><a class='btn btn-sm btn-outline-primary' href='detalleestadoperif.php?Estado=".$listar['ID_ESTADOWS']."&Tipo=$tipodisp' class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
@@ -310,11 +310,11 @@ if ($tipodisp == 'scanner') {
                     <h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>TOTAL EQUIPOS: ".$total['TOTAL']."</h4>
                     <h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."</h4>
                     <table id='tablareporte' class='table table-striped table-hover' width=97%>
-                    <thead>
-                    <tr style='background-color: #00519C'>
-                    <th class='cabecera'><p>PROVEEDOR</p></th>
-                    <th class='cabecera'><p>TOTAL</p></th>
-                    <th class='cabe'><p class='cabecera' style='width: 80px;' >ACCION</p></th>
+                    <thead style='border-bottom: solid 5px #073256 !important;'>
+                    <tr>
+                    <th><p>PROVEEDOR</p></th>
+                    <th><p>TOTAL</p></th>
+                    <th class='cabe'><p style='width: 80px;' >ACCION</p></th>
                     </tr>
                     </thead>";
                     $consultar=mysqli_query($datos_base, "SELECT e.PROVEEDOR, p.ID_PROVEEDOR, count(*) as TOTAL from periferico p left join proveedor e on p.ID_PROVEEDOR=e.ID_PROVEEDOR
@@ -330,7 +330,7 @@ if ($tipodisp == 'scanner') {
                 
                                                 echo
                                                 "
-                                                    <tr>
+                                                    <tr style='border-bottom: solid 1px #073256;'>
                                                     <td><h4 style='text-align: left;	'>".$nombre."</h4></td>
                                                     <td><h4 style='text-align: center;	'>".$listar['TOTAL']."</h4></td>
                                                     <td class='text-center text-nowrap' id='accion' style='width: 80px;'><a class='btn btn-sm btn-outline-primary' href='detalleproveedorperif.php?Proveedor=".$listar['ID_PROVEEDOR']."&Tipo=$tipodisp' class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
