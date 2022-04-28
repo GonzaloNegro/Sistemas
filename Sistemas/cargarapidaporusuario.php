@@ -55,7 +55,29 @@ $row = $resultado->fetch_assoc();
 						);
 			}	
 			</script>
+<!--Select dinamico-->
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#buscador').val(1);
+		recargarLista();
 
+		$('#buscador').change(function(){
+			recargarLista();
+		});
+	})
+</script>
+<script type="text/javascript">
+	function recargarLista(){
+		$.ajax({
+			type:"POST",
+			url:"datos.php",
+			data:"usuario=" + $('#buscador').val(),
+			success:function(r){
+				$('#select2lista').html(r);
+			}
+		});
+	}
+</script>
 
 <header class="p-3 mb-3 border-bottom altura">
     <div class="container-fluid">
@@ -69,8 +91,8 @@ $row = $resultado->fetch_assoc();
 			style="border-left: 5px solid #53AAE0;">NUEVO INCIDENTE</a>
 			<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
 				<li><a class="dropdown-item" href="cargarapidaporusuario.php">CARGA RÁPIDA POR USUARIO</a></li>
-				<li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li>
+<!-- 				<li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li> -->
                 </ul>
 			</li>
             <li><a href="consulta.php" class="nav-link px-2 link-dark link">CONSULTA</a></li>
@@ -160,10 +182,10 @@ $row = $resultado->fetch_assoc();
 						</script>
 						<!--//////////////////////////////////////////////////////////////////-->
 						<!--//////////////////////////////////////////////////////////////////-->
-						<label class="col-form-label col-xl col-lg">EQUIPO DEL USUARIO: </label>
-						<select name="equipo" class="form-control col-xl col-lg">
-						</select>
-		            </div>	
+		            </div>
+  					<!--select equipo-->
+						<div class="form-group row" style="margin: 10px; padding:10px;" id="select2lista"></div>
+                    <!--////-->	
 
 				<div class="form-group row" style="margin: 10px; padding:10px;">
 					<div class="accordion accordion-flush" id="accordionFlushExample">

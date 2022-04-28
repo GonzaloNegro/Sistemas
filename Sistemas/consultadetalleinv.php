@@ -401,7 +401,8 @@ function ConsultarIncidente($no_tic)
                     $sql = "SELECT m.MARCA 
                     FROM inventario i 
                     LEFT JOIN discows dw ON dw.ID_WS = i.ID_WS
-                    LEFT JOIN marcas m ON m.ID_MARCA= dw.ID_MARCA
+                    LEFT JOIN modelo mo ON mo.ID_MODELO = dw.ID_MODELO
+                    LEFT JOIN marcas m ON m.ID_MARCA= mo.ID_MARCA
                     WHERE i.ID_WS='$consulta[0]' AND dw.NUMERO = 1";
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
@@ -455,7 +456,8 @@ function ConsultarIncidente($no_tic)
                     $sql = "SELECT m.MARCA 
                     FROM inventario i 
                     LEFT JOIN discows dw ON dw.ID_WS = i.ID_WS
-                    LEFT JOIN marcas m ON m.ID_MARCA= dw.ID_MARCA
+                    LEFT JOIN modelo mo ON mo.ID_MODELO = dw.ID_MODELO
+                    LEFT JOIN marcas m ON m.ID_MARCA= mo.ID_MARCA
                     WHERE i.ID_WS='$consulta[0]' AND dw.NUMERO = 2";
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
@@ -509,7 +511,8 @@ function ConsultarIncidente($no_tic)
                     $sql = "SELECT m.MARCA 
                     FROM inventario i 
                     LEFT JOIN discows dw ON dw.ID_WS = i.ID_WS
-                    LEFT JOIN marcas m ON m.ID_MARCA= dw.ID_MARCA
+                    LEFT JOIN modelo mo ON mo.ID_MODELO = dw.ID_MODELO
+                    LEFT JOIN marcas m ON m.ID_MARCA= mo.ID_MARCA
                     WHERE i.ID_WS='$consulta[0]' AND dw.NUMERO = 3";
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
@@ -563,7 +566,8 @@ function ConsultarIncidente($no_tic)
                     $sql = "SELECT m.MARCA 
                     FROM inventario i 
                     LEFT JOIN discows dw ON dw.ID_WS = i.ID_WS
-                    LEFT JOIN marcas m ON m.ID_MARCA= dw.ID_MARCA
+                    LEFT JOIN modelo mo ON mo.ID_MODELO = dw.ID_MODELO
+                    LEFT JOIN marcas m ON m.ID_MARCA= mo.ID_MARCA
                     WHERE i.ID_WS='$consulta[0]' AND dw.NUMERO = 4";
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();

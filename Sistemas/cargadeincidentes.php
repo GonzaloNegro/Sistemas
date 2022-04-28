@@ -137,6 +137,29 @@ $row = $resultado->fetch_assoc();
 									form.submit()
 						}
 			</script>
+<!--Select dinamico-->
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#buscador').val(1);
+		recargarLista();
+
+		$('#buscador').change(function(){
+			recargarLista();
+		});
+	})
+</script>
+<script type="text/javascript">
+	function recargarLista(){
+		$.ajax({
+			type:"POST",
+			url:"datos.php",
+			data:"usuario=" + $('#buscador').val(),
+			success:function(r){
+				$('#select2lista').html(r);
+			}
+		});
+	}
+</script>
 
 <header class="p-3 mb-3 border-bottom altura">
     <div class="container-fluid">
@@ -250,11 +273,11 @@ $row = $resultado->fetch_assoc();
 							
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
-							<div class="form-group row" style="margin: 10px; padding:10px;">
-  								<label class="col-form-label col-xl col-lg">EQUIPO DEL USUARIO: </label>
-									<select name="equipo" class="form-control col-xl col-lg" required>
-									</select>
-
+							
+  								<!--select equipo-->
+								<div class="form-group row" style="margin: 10px; padding:10px;" id="select2lista"></div>
+                                <!--////-->
+								<div class="form-group row" style="margin: 10px; padding:10px;">
 								<label class="col-form-label col-xl col-lg">PRIORIDAD: </label>
 									<select name="prioridad" class="form-control col-xl col-lg" required>
 										<option value="" selected disabled="prioridad">-SELECCIONE UNA-</option>

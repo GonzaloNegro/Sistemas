@@ -57,10 +57,15 @@ if(isset($tipificacion1) AND isset($descripcion1)){
 	$r = $result->fetch_assoc();
 	$idusu = $r['NOMBRE'];/* USUARIO ATENDIDO */
 
-	$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
-	$resultado = $datos_base->query($sql);
-	$row = $resultado->fetch_assoc();
-	$ws = $row['ID_WS'];/* MAQUINA DEL USUARIO */
+	if(isset($_POST['equipo'])){
+		$ws = $_POST['equipo'];
+	}else{
+/* 			$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
+		$resultado = $datos_base->query($sql);
+		$row = $resultado->fetch_assoc();
+		$ws = $row['ID_WS']; */
+		$ws = 0;
+	}
 
     /* TICKET */
 	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion1', '$idusu', '$usuario', DEFAULT, '$tipificacion1', 2, 2, DEFAULT, '$date', '$original', 1, '$ws', '$hora')");
@@ -92,10 +97,15 @@ if(isset($tipificacion2) AND isset($descripcion2)){
 	$r = $result->fetch_assoc();
 	$idusu = $r['NOMBRE'];/* USUARIO ATENDIDO */
 
-	$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
-	$resultado = $datos_base->query($sql);
-	$row = $resultado->fetch_assoc();
-	$ws = $row['ID_WS'];/* MAQUINA DEL USUARIO */
+	if(isset($_POST['equipo'])){
+		$ws = $_POST['equipo'];
+	}else{
+/* 			$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
+		$resultado = $datos_base->query($sql);
+		$row = $resultado->fetch_assoc();
+		$ws = $row['ID_WS']; */
+		$ws = 0;
+	}
 
     /* TICKET */
 	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion2', '$idusu', '$usuario', DEFAULT, '$tipificacion2', 2, 2, DEFAULT, '$date', '$original', 1, '$ws', '$hora')");
@@ -125,10 +135,15 @@ if(isset($tipificacion2) AND isset($descripcion2)){
 	$r = $result->fetch_assoc();
 	$idusu = $r['NOMBRE'];/* USUARIO ATENDIDO */
 
-	$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
-	$resultado = $datos_base->query($sql);
-	$row = $resultado->fetch_assoc();
-	$ws = $row['ID_WS'];/* MAQUINA DEL USUARIO */
+	if(isset($_POST['equipo'])){
+		$ws = $_POST['equipo'];
+	}else{
+/* 			$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
+		$resultado = $datos_base->query($sql);
+		$row = $resultado->fetch_assoc();
+		$ws = $row['ID_WS']; */
+		$ws = 0;
+	}
 
     /* TICKET */
 	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion3', '$idusu', '$usuario', DEFAULT, '$tipificacion3', 2, 2, DEFAULT, '$date', '$original', 1, '$ws', '$hora')");

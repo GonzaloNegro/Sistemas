@@ -741,10 +741,11 @@ function ConsultarIncidente($no_tic)
                 <!-- ///////////////////////////////// -->
                   <?php
                     include("conexion.php");
-                    $sentencia = "SELECT p.MODELO 
+                    $sentencia = "SELECT m.MODELO 
                     FROM inventario i 
                     LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
                     LEFT JOIN pvideo p ON p.ID_PVIDEO= pws.ID_PVIDEO
+                    LEFT JOIN modelo m ON m.ID_MODELO = p.ID_MODELO
                     WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 1";
                     $resultado = $datos_base->query($sentencia);
                     $row = $resultado->fetch_assoc();
@@ -806,10 +807,11 @@ function ConsultarIncidente($no_tic)
 
                   <?php
                     include("conexion.php");
-                    $sentencia = "SELECT p.MODELO 
+                    $sentencia = "SELECT m.MODELO 
                     FROM inventario i 
                     LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
                     LEFT JOIN pvideo p ON p.ID_PVIDEO= pws.ID_PVIDEO
+                    LEFT JOIN modelo m ON m.ID_MODELO = p.ID_MODELO
                     WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 2";
                     $resultado = $datos_base->query($sentencia);
                     $row = $resultado->fetch_assoc();
