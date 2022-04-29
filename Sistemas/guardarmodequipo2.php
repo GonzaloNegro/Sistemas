@@ -27,6 +27,7 @@ $marc1 = $_POST['marc1'];
 $fact1 = $_POST['fact1'];
 $fec1 = $_POST['fec1'];
 $gar1 = $_POST['gar1'];
+$pvel1 = $_POST['pvel1'];
 
 $mem2 = $_POST['mem2'];
 $tmem2 = $_POST['tmem2'];
@@ -35,6 +36,7 @@ $marc2 = $_POST['marc2'];
 $fact2 = $_POST['fact2'];
 $fec2 = $_POST['fec2'];
 $gar2 = $_POST['gar2'];
+$pvel2 = $_POST['pvel2'];
 
 $mem3 = $_POST['mem3'];
 $tmem3 = $_POST['tmem3'];
@@ -43,6 +45,7 @@ $marc3 = $_POST['marc3'];
 $fact3 = $_POST['fact3'];
 $fec3 = $_POST['fec3'];
 $gar3 = $_POST['gar3'];
+$pvel3 = $_POST['pvel3'];
 
 $mem4 = $_POST['mem4'];
 $tmem4 = $_POST['tmem4'];
@@ -51,6 +54,7 @@ $marc4 = $_POST['marc4'];
 $fact4 = $_POST['fact4'];
 $fec4 = $_POST['fec4'];
 $gar4 = $_POST['gar4'];
+$pvel4 = $_POST['pvel4'];
 
 
 
@@ -95,12 +99,14 @@ $placamprov = $_POST['placamprov'];
 $placamfact = $_POST['placamfact'];
 $placamfecha = $_POST['placamfecha'];
 $placamgar = $_POST['placamgar'];
+$planro = $_POST['planro'];
 
 $micro = $_POST['micro'];
 $microprov = $_POST['microprov'];
 $microfac = $_POST['microfac'];
 $microfec = $_POST['microfec'];
 $microgar = $_POST['microgar'];
+$micnro = $_POST['micnro'];
 
 $pvmem = $_POST['pvmem'];
 $pvprov = $_POST['pvprov'];
@@ -232,6 +238,13 @@ if($marc1 == "1203"){
     $marc1 = $row6['ID_MARCA'];
 }
 
+if($pvel1 == "1204"){
+    $sql6 = "SELECT ID_FRECUENCIA FROM wsmem WHERE ID_WS = '$id' AND SLOT = 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $pvel1 = $row6['ID_FRECUENCIA'];
+}
+
 
 
 
@@ -261,6 +274,13 @@ if($marc2 == "1303"){
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $marc2 = $row6['ID_MARCA'];
+}
+
+if($pvel2 == "1304"){
+    $sql6 = "SELECT ID_FRECUENCIA FROM wsmem WHERE ID_WS = '$id' AND SLOT = 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $pvel2 = $row6['ID_FRECUENCIA'];
 }
 
 
@@ -293,6 +313,12 @@ if($marc3 == "1403"){
     $marc3 = $row6['ID_MARCA'];
 }
 
+if($pvel3 == "1404"){
+    $sql6 = "SELECT ID_FRECUENCIA FROM wsmem WHERE ID_WS = '$id' AND SLOT = 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $pvel3 = $row6['ID_FRECUENCIA'];
+}
 
 
 if($mem4 == "1500"){
@@ -321,6 +347,13 @@ if($marc4 == "1503"){
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $marc4 = $row6['ID_MARCA'];
+}
+
+if($pvel4 == "1504"){
+    $sql6 = "SELECT ID_FRECUENCIA FROM wsmem WHERE ID_WS = '$id' AND SLOT = 1";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $pvel4 = $row6['ID_FRECUENCIA'];
 }
 
 
@@ -541,13 +574,13 @@ else{
 
 
     /* PLACA MADRE */
-    mysqli_query($datos_base, "UPDATE placamws SET ID_PLACAM = '$placam', ID_PROVEEDOR = '$placamprov', GARANTIA = '$placamgar', FACTURA = '$placamfact', FECHA = '$placamfecha' WHERE ID_WS = '$id'");
+    mysqli_query($datos_base, "UPDATE placamws SET ID_PLACAM = '$placam', ID_PROVEEDOR = '$placamprov', GARANTIA = '$placamgar', FACTURA = '$placamfact', FECHA = '$placamfecha', NSERIE = '$planro' WHERE ID_WS = '$id'");
 
 
 
 
     /* MICROPROCESADOR */
-    mysqli_query($datos_base, "UPDATE microws SET ID_MICRO = '$micro', ID_PROVEEDOR = '$microprov', GARANTIA = '$microgar', FACTURA = '$microfac', FECHA = '$microfec' WHERE ID_WS = '$id'");
+    mysqli_query($datos_base, "UPDATE microws SET ID_MICRO = '$micro', ID_PROVEEDOR = '$microprov', GARANTIA = '$microgar', FACTURA = '$microfac', FECHA = '$microfec', NSERIE = '$micnro' WHERE ID_WS = '$id'");
 
 
 
@@ -571,13 +604,13 @@ else{
 
 
     /* MEMORIA */
-    mysqli_query($datos_base, "UPDATE wsmem SET ID_MEMORIA = '$mem1', ID_TIPOMEM = '$tmem1', ID_PROVEEDOR = '$prov1', FACTURA = '$fact1', FECHA = '$fec1', ID_MARCA = '$marc1', GARANTIA = '$gar1' WHERE ID_WS = '$id' AND SLOT = 1");
+    mysqli_query($datos_base, "UPDATE wsmem SET ID_MEMORIA = '$mem1', ID_TIPOMEM = '$tmem1', ID_PROVEEDOR = '$prov1', FACTURA = '$fact1', FECHA = '$fec1', ID_MARCA = '$marc1', GARANTIA = '$gar1', ID_FRECUENCIA = $pvel1 WHERE ID_WS = '$id' AND SLOT = 1");
 
-    mysqli_query($datos_base, "UPDATE wsmem SET ID_MEMORIA = '$mem2', ID_TIPOMEM = '$tmem2', ID_PROVEEDOR = '$prov2', FACTURA = '$fact2', FECHA = '$fec2', ID_MARCA = '$marc2', GARANTIA = '$gar2' WHERE ID_WS = '$id' AND SLOT = 2");
+    mysqli_query($datos_base, "UPDATE wsmem SET ID_MEMORIA = '$mem2', ID_TIPOMEM = '$tmem2', ID_PROVEEDOR = '$prov2', FACTURA = '$fact2', FECHA = '$fec2', ID_MARCA = '$marc2', GARANTIA = '$gar2', ID_FRECUENCIA = $pvel2 WHERE ID_WS = '$id' AND SLOT = 2");
 
-    mysqli_query($datos_base, "UPDATE wsmem SET ID_MEMORIA = '$mem3', ID_TIPOMEM = '$tmem3', ID_PROVEEDOR = '$prov3', FACTURA = '$fact3', FECHA = '$fec3', ID_MARCA = '$marc3', GARANTIA = '$gar3' WHERE ID_WS = '$id' AND SLOT = 3");
+    mysqli_query($datos_base, "UPDATE wsmem SET ID_MEMORIA = '$mem3', ID_TIPOMEM = '$tmem3', ID_PROVEEDOR = '$prov3', FACTURA = '$fact3', FECHA = '$fec3', ID_MARCA = '$marc3', GARANTIA = '$gar3', ID_FRECUENCIA = $pvel3 WHERE ID_WS = '$id' AND SLOT = 3");
 
-    mysqli_query($datos_base, "UPDATE wsmem SET ID_MEMORIA = '$mem4', ID_TIPOMEM = '$tmem4', ID_PROVEEDOR = '$prov4', FACTURA = '$fact4', FECHA = '$fec4', ID_MARCA = '$marc4', GARANTIA = '$gar4' WHERE ID_WS = '$id' AND SLOT = 4");
+    mysqli_query($datos_base, "UPDATE wsmem SET ID_MEMORIA = '$mem4', ID_TIPOMEM = '$tmem4', ID_PROVEEDOR = '$prov4', FACTURA = '$fact4', FECHA = '$fec4', ID_MARCA = '$marc4', GARANTIA = '$gar4', ID_FRECUENCIA = $pvel4 WHERE ID_WS = '$id' AND SLOT = 4");
 
     header("Location: abmequipos.php?ok");
 }

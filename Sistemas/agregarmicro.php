@@ -83,7 +83,7 @@ $row = $resultado->fetch_assoc();
 						<form method="POST" action="guardarmodmicro.php">
                             <div class="form-group row" style="margin: 10px; padding:10px;">
                                 <label id="lblForm" class="col-form-label col-xl col-lg">MICRO:</label>
-                                <input class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="micro" placeholder="NOMBRE DEL MODELO" required>
+                                <input class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="micro" placeholder="NOMBRE DEL MICRO" required>
                             <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
                                 <select name="marca" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                 <option selected disabled="area">-SELECCIONE UNA-</option>

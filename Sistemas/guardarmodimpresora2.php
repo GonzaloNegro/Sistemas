@@ -14,9 +14,9 @@ $modelo = $_POST['modelo'];
 $estado = $_POST['estado'];
 $prov = $_POST['prov'];
 $tipop = $_POST['tipop'];
-$marca = $_POST['mar'];
 $usu = $_POST['usu'];
 $proc = $_POST['proc'];
+
 
 if($rip == "100"){
     $sql = "SELECT RIP FROM periferico WHERE ID_PERI = '$id'";
@@ -60,12 +60,6 @@ if($usu == "600"){
     $usu = $row5['ID_USUARIO'];
 }
 
-if($marca == "700"){
-    $sql6 = "SELECT ID_MARCA FROM periferico WHERE ID_PERI = '$id'";
-    $result6 = $datos_base->query($sql6);
-    $row6 = $result6->fetch_assoc();
-    $marca = $row6['ID_MARCA'];
-}
 
 if($marca == "800"){
     $sql6 = "SELECT ID_PROCEDENCIA FROM periferico WHERE ID_PERI = '$id'";
@@ -79,6 +73,11 @@ if($marca == "800"){
 $resultado2 = $datos_base->query($sqli);
 $row2 = $resultado2->fetch_assoc();
 $serg = $row2['SERIEG']; */
+
+$sqli = "SELECT ID_MARCA FROM modelo WHERE ID_MODELO = '$modelo'";
+$resultado2 = $datos_base->query($sqli);
+$row2 = $resultado2->fetch_assoc();
+$marca = $row2['ID_MARCA'];
 
 $sqli = "SELECT * FROM periferico WHERE SERIE ='$serie' AND ID_PERI != '$id' ";
 $resultado2 = $datos_base->query($sqli);

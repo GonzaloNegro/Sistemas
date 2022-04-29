@@ -65,12 +65,6 @@ function ConsultarIncidente($no_tic)
         <div id="principalu" style="width: 97%" class="container-fluid">
 
                         <!--  CONSULTA DE DATOS -->
-                        <?php 
-                        include("conexion.php");
-                        $sent= "SELECT MARCA FROM marcas WHERE ID_MARCA = $consulta[4]";
-                        $resultado = $datos_base->query($sent);
-                        $row = $resultado->fetch_assoc();
-                        $mar = $row['MARCA'];?>
                          <?php 
                         include("conexion.php");
                         $sent= "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR = $consulta[12]";
@@ -91,10 +85,13 @@ function ConsultarIncidente($no_tic)
                         $est = $row['ESTADO'];?>
                          <?php 
                         include("conexion.php");
-                        $sent= "SELECT MODELO FROM modelo WHERE ID_MODELO = $consulta[18]";
+                        $sent= "SELECT mo.MODELO, ma.MARCA 
+                        FROM modelo mo
+                        INNER JOIN marcas ma ON ma.ID_MARCA = mo.ID_MARCA 
+                        WHERE mo.ID_MODELO = $consulta[18]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
-                        $mod = $row['MODELO'];?>
+                        $mod = $row['MODELO']." - ".$row['MARCA'];?>
                          <?php 
                         include("conexion.php");
                         $sent= "SELECT TIPO FROM tipop WHERE ID_TIPOP = $consulta[1]";
@@ -129,33 +126,25 @@ function ConsultarIncidente($no_tic)
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA: </label>
                         <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="garantia" value="<?php echo $consulta[16]?>">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">MARCA: </label>
-                        <select name="mar" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
-                                        <option selected value="100"><?php echo $mar?></option>
-                                        <?php
-                                        include("conexion.php");
-                                        $consulta= "SELECT * FROM marcas";
-                                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                        ?>
-                                        <?php foreach ($ejecutar as $opciones): ?> 
-                                        <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
-                                        <?php endforeach?>
-                                    </select>
-                    </div>
-
-                    <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
                             <select name="modelo" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                                             <option selected value="200"><?php echo $mod?></option>
                                             <?php
-                                            include("conexion.php");
-                                            $consulta= "SELECT * FROM modelo";
-                                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                            ?>
-                                            <?php foreach ($ejecutar as $opciones): ?> 
-                                            <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']?></option>
-                                            <?php endforeach?>
+                                    include("conexion.php");
+                                    $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA
+                                    FROM modelo m
+                                    INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
+                                    INNER JOIN tipop t ON t.ID_TIPOP = m.ID_TIPOP
+                                    WHERE (m.ID_TIPOP = 7 OR m.ID_TIPOP = 8)";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA']?></option>
+                                    <?php endforeach?>
                                         </select>
+                    </div>
+
+                    <div class="form-group row" style="margin: 10px; padding:10px;"> 
                         <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO: </label>
                         <select name="estado" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                                         <option selected value="300"><?php echo $est?></option>
@@ -168,9 +157,6 @@ function ConsultarIncidente($no_tic)
                                         <option value= <?php echo $opciones['ID_ESTADOWS'] ?>><?php echo $opciones['ESTADO']?></option>
                                         <?php endforeach?>
                                     </select>
-                    </div>
-                                    
-                    <div class="form-group row" style="margin: 10px; padding:10px;">
                     <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR: </label>
                     <select name="prov" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                                     <option selected value="400"><?php echo $prov?></option>
@@ -183,6 +169,9 @@ function ConsultarIncidente($no_tic)
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                    </div>
+                                    
+                    <div class="form-group row" style="margin: 10px; padding:10px;">
                     <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DE MONITOR: </label>
                     <select name="tipop" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                                     <option selected value="500"><?php echo $tip?></option>
@@ -195,10 +184,7 @@ function ConsultarIncidente($no_tic)
                                     <option value= <?php echo $opciones['ID_TIPOP'] ?>><?php echo $opciones['TIPO']?></option>
                                     <?php endforeach?>
                                 </select>
-                    </div>
-
-                    <div class="form-group row" style="margin: 10px; padding:10px;">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO: </label>
+                                <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO: </label>
                         <select name="usu" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                                         <option selected value="600"><?php echo $usu?></option>
                                         <?php

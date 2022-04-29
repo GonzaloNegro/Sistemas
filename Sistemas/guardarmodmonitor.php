@@ -3,7 +3,6 @@ include('conexion.php');
 
 $tipop = $_POST['tipop'];
 $serieg = $_POST['serieg'];
-$marca = $_POST['marca'];
 $serie = $_POST['serie'];
 $usu = $_POST['usu'];
 $modelo = $_POST['mod'];
@@ -12,6 +11,13 @@ $gar = $_POST['gar'];
 $prov = $_POST['prov'];
 $fac = $_POST['fac'];
 $obs = $_POST['obs'];
+
+
+$sqli = "SELECT ID_MARCA FROM modelo
+WHERE ID_MODELO = '$modelo'";
+$resultado2 = $datos_base->query($sqli);
+$row2 = $resultado2->fetch_assoc();
+$marca = $row2['ID_MARCA'];
 
 
 /*SI AMBOS CAMPOS ESTAN REPETIDOS*/

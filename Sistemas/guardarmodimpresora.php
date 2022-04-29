@@ -2,7 +2,6 @@
 include('conexion.php');
 
 $modelo = $_POST['modelo'];
-$marca = $_POST['marca'];
 $tipop = $_POST['tipop'];
 $serieg = $_POST['serieg'];
 $serie = $_POST['serie'];
@@ -16,6 +15,12 @@ $reserva = $_POST['reserva'];
 $ip = $_POST['ip'];
 $obs = $_POST['obs'];
 $proc = $_POST['proc'];
+
+$sqli = "SELECT ID_MARCA FROM modelo WHERE ID_MODELO = '$modelo'";
+$resultado2 = $datos_base->query($sqli);
+$row2 = $resultado2->fetch_assoc();
+$marca = $row2['ID_MARCA'];
+
 
 /*SI AMBOS CAMPOS ESTAN REPETIDOS*/
 $sqli = "SELECT * FROM periferico WHERE SERIEG = '$serieg' AND (ID_TIPOP = 1 OR ID_TIPOP = 2 OR ID_TIPOP = 3 OR ID_TIPOP = 4 OR ID_TIPOP = 10 OR ID_TIPOP = 13)";

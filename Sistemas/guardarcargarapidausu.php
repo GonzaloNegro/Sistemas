@@ -57,14 +57,11 @@ if(isset($tipificacion1) AND isset($descripcion1)){
 	$r = $result->fetch_assoc();
 	$idusu = $r['NOMBRE'];/* USUARIO ATENDIDO */
 
-	if(isset($_POST['equipo'])){
-		$ws = $_POST['equipo'];
-	}else{
-/* 			$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
+	if($equipo == 0 OR $equipo == ""){
+		$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
 		$resultado = $datos_base->query($sql);
 		$row = $resultado->fetch_assoc();
-		$ws = $row['ID_WS']; */
-		$ws = 0;
+		$ws = $row['ID_WS'];
 	}
 
     /* TICKET */
@@ -97,14 +94,11 @@ if(isset($tipificacion2) AND isset($descripcion2)){
 	$r = $result->fetch_assoc();
 	$idusu = $r['NOMBRE'];/* USUARIO ATENDIDO */
 
-	if(isset($_POST['equipo'])){
-		$ws = $_POST['equipo'];
-	}else{
-/* 			$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
+	if($equipo == 0 OR $equipo == ""){
+		$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
 		$resultado = $datos_base->query($sql);
 		$row = $resultado->fetch_assoc();
-		$ws = $row['ID_WS']; */
-		$ws = 0;
+		$ws = $row['ID_WS'];
 	}
 
     /* TICKET */
@@ -135,14 +129,11 @@ if(isset($tipificacion2) AND isset($descripcion2)){
 	$r = $result->fetch_assoc();
 	$idusu = $r['NOMBRE'];/* USUARIO ATENDIDO */
 
-	if(isset($_POST['equipo'])){
-		$ws = $_POST['equipo'];
-	}else{
-/* 			$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
+	if($equipo == 0 OR $equipo == ""){
+		$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
 		$resultado = $datos_base->query($sql);
 		$row = $resultado->fetch_assoc();
-		$ws = $row['ID_WS']; */
-		$ws = 0;
+		$ws = $row['ID_WS'];
 	}
 
     /* TICKET */

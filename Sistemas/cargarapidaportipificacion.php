@@ -16,6 +16,7 @@ $row = $resultado->fetch_assoc();
 <head>
 	<title>CARGA RÁPIDA</title><meta charset="utf-8">
 	<link rel="icon" href="imagenes/logoObrasPúblicas.png">
+	<link rel="stylesheet" type="text/css" href="estilocarga.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link rel="stylesheet" href="jquery/1/jquery-ui.min.css">
@@ -32,7 +33,7 @@ $row = $resultado->fetch_assoc();
 		<!--Estilo bootstrap para select2-->
 	<link rel="stylesheet" href="/path/to/select2.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
-	<link rel="stylesheet" type="text/css" href="estilocarga.css">
+	
 	<style>
 			body{
 				background-color: #edf0f5;
@@ -55,6 +56,74 @@ $row = $resultado->fetch_assoc();
 						);
 			}	
 			</script>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#buscador1').val(1);
+		recargarLista();
+
+		$('#buscador1').change(function(){
+			recargarLista();
+		});
+	})
+</script>
+<script type="text/javascript">
+	function recargarLista(){
+		$.ajax({
+			type:"POST",
+			url:"datos.php",
+			data:"usuario=" + $('#buscador1').val(),
+			success:function(r){
+				$('#equip1').html(r);
+			}
+		});
+	}
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#buscador2').val(1);
+		recargarLista();
+
+		$('#buscador2').change(function(){
+			recargarLista();
+		});
+	})
+</script>
+<script type="text/javascript">
+	function recargarLista(){
+		$.ajax({
+			type:"POST",
+			url:"datos.php",
+			data:"usuario=" + $('#buscador2').val(),
+			success:function(r){
+				$('#equip2').html(r);
+			}
+		});
+	}
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#buscador3').val(1);
+		recargarLista();
+
+		$('#buscador3').change(function(){
+			recargarLista();
+		});
+	})
+</script>
+<script type="text/javascript">
+	function recargarLista(){
+		$.ajax({
+			type:"POST",
+			url:"datos.php",
+			data:"usuario=" + $('#buscador3').val(),
+			success:function(r){
+				$('#equip3').html(r);
+			}
+		});
+	}
+</script>
+
 
 <header class="p-3 mb-3 border-bottom altura">
     <div class="container-fluid">
@@ -159,8 +228,9 @@ $row = $resultado->fetch_assoc();
 		<div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
 		<div class="accordion-body">
 			<div class="form-group row" style="margin: 10px; padding:10px;">
-            	<label class="col-form-label col-xl">USUARIO:</label>
-				<select name="usuario1" id="buscador1" required class="form-control col-xl">
+            	<label class='col-form-label col-xl col-lg'>USUARIO:</label>
+                <!--id="buscador1"-->
+				<select name="usuario1"  class='form-control col-xl col-lg'  required >
 					<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
 					<?php
 					include("conexion.php");
@@ -192,10 +262,12 @@ $row = $resultado->fetch_assoc();
 					})
 					</script>
 			</div>
+			<div class="form-group row" style="margin: 10px; padding:10px;" id="equip1"></div>
 			<div class="form-group row" style="margin: 10px; padding:10px;">
 				<textarea name="descripcion1" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°1" rows="3" required></textarea>
 			</div>
 		</div>
+		
 		</div>
 	</div>
 	<div class="accordion-item">
@@ -241,10 +313,12 @@ $row = $resultado->fetch_assoc();
 										})
 									</script>
 			</div>
+			<div class="form-group row" style="margin: 10px; padding:10px;" id="equip2"></div>
 			<div class="form-group row" style="margin: 10px; padding:10px;">
 				<textarea name="descripcion2" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°2" rows="3" required></textarea>
 			</div>
 		</div>
+		
 		</div>
 	</div>
 
@@ -275,7 +349,7 @@ $row = $resultado->fetch_assoc();
                     </script>
                     <script>
                         $(document).ready(function(){
-                            $('#buscador2').change(function(){
+                            $('#buscador3').change(function(){
                                     buscador2='b='+$('#buscador3').val();
                                     $.ajax({
                                         type: 'post',
@@ -289,12 +363,14 @@ $row = $resultado->fetch_assoc();
                         })
                     </script>		
                 </div>
+				<div class="form-group row" style="margin: 10px; padding:10px;" id="equip3"></div>
                 <div class="form-group row" style="margin: 10px; padding:10px;">
                     <textarea name="descripcion3" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°3" rows="3" required></textarea>
                 </div>
             </div>
 		</div>
 	</div>
+	
 	</div>
 </div>	
 

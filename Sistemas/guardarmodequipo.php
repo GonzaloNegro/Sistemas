@@ -95,12 +95,14 @@ $prpla = $_POST['prpla'];
 $fapla = $_POST['fapla'];
 $fpla = $_POST['fpla'];
 $gpla = $_POST['gpla'];
+$nropla = $_POST['nropla'];
 
 $mmic = $_POST['mmic'];
 $pmic = $_POST['pmic'];
 $facmic = $_POST['facmic'];
 $fmic = $_POST['fmic'];
 $gmic = $_POST['gmic'];
+$nromic = $_POST['nromic'];
 
 $pvmem = $_POST['pvmem'];
 $pvprov = $_POST['pvprov'];
@@ -168,6 +170,7 @@ if(isset($_POST['prov1'])){$prov1 = $_POST['prov1'];}else{$prov1 = 7;}/* if($pro
 if(isset($_POST['fact1'])){$fact1 = $_POST['fact1'];}else{$fact1 = "-";}/* if($fact1 == ""){$fact1 = "-";} */
 if(isset($_POST['marc1'])){$marc1 = $_POST['marc1'];}else{$marc1 = 1;}/* if($marc1 == 0){$marc1 = 1;} */
 if(isset($_POST['gar1'])){$gar1 = $_POST['gar1'];}else{$gar1 = "-";}/* if($gar1 == ""){$gar1 = "-";} */
+if(isset($_POST['pvel1'])){$pvel1 = $_POST['pvel1'];}else{$pvel1 = 1;}
 
 if(isset($_POST['mem2'])){$mem2 = $_POST['mem2'];}else{$mem2 = 9;}/* if($mem1 == 0){$mem1 = 9;} */
 if(isset($_POST['tmem2'])){$tmem2 = $_POST['tmem2'];}else{$tmem2 = 5;}/* if($tmem1 == 0){$tmem1 = 5;} */
@@ -175,6 +178,7 @@ if(isset($_POST['prov2'])){$prov2 = $_POST['prov2'];}else{$prov2 = 7;}/* if($pro
 if(isset($_POST['fact2'])){$fact2 = $_POST['fact2'];}else{$fact2 = "-";}/* if($fact1 == ""){$fact1 = "-";} */
 if(isset($_POST['marc2'])){$marc2 = $_POST['marc2'];}else{$marc2 = 1;}/* if($marc1 == 0){$marc1 = 1;} */
 if(isset($_POST['gar2'])){$gar2 = $_POST['gar2'];}else{$gar2 = "-";}/* if($gar1 == ""){$gar1 = "-";} */
+if(isset($_POST['pvel2'])){$pvel2 = $_POST['pvel2'];}else{$pvel2 = 1;}
 
 if(isset($_POST['mem3'])){$mem3 = $_POST['mem3'];}else{$mem3 = 9;}/* if($mem1 == 0){$mem1 = 9;} */
 if(isset($_POST['tmem3'])){$tmem3 = $_POST['tmem3'];}else{$tmem3 = 5;}/* if($tmem1 == 0){$tmem1 = 5;} */
@@ -182,6 +186,7 @@ if(isset($_POST['prov3'])){$prov3 = $_POST['prov3'];}else{$prov3 = 7;}/* if($pro
 if(isset($_POST['fact3'])){$fact3 = $_POST['fact3'];}else{$fact3 = "-";}/* if($fact1 == ""){$fact1 = "-";} */
 if(isset($_POST['marc3'])){$marc3 = $_POST['marc3'];}else{$marc3 = 1;}/* if($marc1 == 0){$marc1 = 1;} */
 if(isset($_POST['gar3'])){$gar3 = $_POST['gar3'];}else{$gar3 = "-";}/* if($gar1 == ""){$gar1 = "-";} */
+if(isset($_POST['pvel3'])){$pvel3 = $_POST['pvel3'];}else{$pvel3 = 1;}
 
 if(isset($_POST['mem4'])){$mem4 = $_POST['mem4'];}else{$mem4 = 9;}/* if($mem1 == 0){$mem1 = 9;} */
 if(isset($_POST['tmem4'])){$tmem4 = $_POST['tmem4'];}else{$tmem4 = 5;}/* if($tmem1 == 0){$tmem1 = 5;} */
@@ -189,6 +194,7 @@ if(isset($_POST['prov4'])){$prov4 = $_POST['prov4'];}else{$prov4 = 7;}/* if($pro
 if(isset($_POST['fact4'])){$fact4 = $_POST['fact4'];}else{$fact4 = "-";}/* if($fact1 == ""){$fact1 = "-";} */
 if(isset($_POST['marc4'])){$marc4 = $_POST['marc4'];}else{$marc4 = 1;}/* if($marc1 == 0){$marc1 = 1;} */
 if(isset($_POST['gar4'])){$gar4 = $_POST['gar4'];}else{$gar4 = "-";}/* if($gar1 == ""){$gar1 = "-";} */
+if(isset($_POST['pvel4'])){$pvel4 = $_POST['pvel4'];}else{$pvel4 = 1;}
 
 
 if($disc1 == 0){$disc1 = 15;}
@@ -251,10 +257,10 @@ else{
 			$idws = trim($row[0]);
 			}
     /* PLACA MADRE */
-    mysqli_query($datos_base, "INSERT INTO placamws VALUES ('$idws', '$ppla', '$prpla', '$fapla', '$fpla', '$gpla')");
+    mysqli_query($datos_base, "INSERT INTO placamws VALUES ('$idws', '$ppla', '$prpla', '$fapla', '$fpla', '$gpla', '$nropla')");
 
     /* MICRO */
-    mysqli_query($datos_base, "INSERT INTO microws VALUES ('$idws', '$mmic', '$pmic', '$facmic', '$fmic', '$gmic')");
+    mysqli_query($datos_base, "INSERT INTO microws VALUES ('$idws', '$mmic', '$pmic', '$facmic', '$gmic', '$fmic', '$nromic')");
 
     /* PVIDEO */
     mysqli_query($datos_base, "INSERT INTO pvideows VALUES ('$idws', '$pvmem', '$pvnserie', '$pvprov', '$pvfact', '$pvfec', '$pvgar', 1)");
@@ -272,13 +278,13 @@ else{
 
 
     /* MEMORIA */
-    mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem1', '$tmem1', '$prov1', '$fact1', '$fec1', '$marc1', '$gar1', 1)");
+    mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem1', '$tmem1', '$prov1', '$fact1', '$fec1', '$marc1', '$gar1', 1, '$pvel1')");
     
-    mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem2', '$tmem2', '$prov2', '$fact2', '$fec2', '$marc2', '$gar2', 2)");
+    mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem2', '$tmem2', '$prov2', '$fact2', '$fec2', '$marc2', '$gar2', 2, '$pvel2')");
 
-    mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem3', '$tmem3', '$prov3', '$fact3', '$fec3', '$marc3', '$gar3', 3)");
+    mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem3', '$tmem3', '$prov3', '$fact3', '$fec3', '$marc3', '$gar3', 3, '$pvel3')");
 
-    mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem4', '$tmem4', '$prov4', '$fact4', '$fec4', '$marc4', '$gar4', 4)");
+    mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem4', '$tmem4', '$prov4', '$fact4', '$fec4', '$marc4', '$gar4', 4, '$pvel4')");
 
     header("Location: agregarequipo.php?ok");
 }

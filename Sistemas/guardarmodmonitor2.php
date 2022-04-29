@@ -4,7 +4,6 @@ include('conexion.php');
 $id = $_POST['id'];
 $tipop = $_POST['tipop'];
 $serieg = $_POST['serieg'];
-$marca = $_POST['mar'];
 $serie = $_POST['serie'];
 $usu = $_POST['usu'];
 $modelo = $_POST['modelo'];
@@ -14,12 +13,11 @@ $prov = $_POST['prov'];
 $fac = $_POST['fac'];
 $obs = $_POST['obs'];
 
-if($marca == "100"){
-    $sql6 = "SELECT ID_MARCA FROM periferico WHERE ID_PERI = '$id'";
-    $result6 = $datos_base->query($sql6);
-    $row6 = $result6->fetch_assoc();
-    $marca = $row6['ID_MARCA'];
-}
+$sqli = "SELECT ID_MARCA FROM modelo
+WHERE ID_MODELO = '$modelo'";
+$resultado2 = $datos_base->query($sqli);
+$row2 = $resultado2->fetch_assoc();
+$marca = $row2['ID_MARCA'];
 
 if($modelo == "200"){
     $sql1 = "SELECT ID_MODELO FROM periferico WHERE ID_PERI = '$id'";

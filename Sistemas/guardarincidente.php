@@ -31,6 +31,7 @@ $usuario = $_POST['usuario'];
 $tipificacion = $_POST['tipificacion'];
 $estado = $_POST['estado'];
 $prioridad = $_POST['prioridad'];
+$ws = $_POST['equipo'];
 
 if(isset($_POST['fecha_inicio'])){
 	if(!empty($_POST['fecha_inicio'])){
@@ -70,16 +71,20 @@ $date2 = date('Y-m-d'); */
 		$renv = $row['ID_TIPO_RESOLUTOR'];
 
 
-		if(isset($_POST['equipo'])){
+/* 		if(isset($_POST['equipo'])){
 			$ws = $_POST['equipo'];
-		}else{
-/* 			$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
+		}elseif($_POST['equipo'] == 0 OR $_POST['equipo'] == ""){
+			$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
 			$resultado = $datos_base->query($sql);
 			$row = $resultado->fetch_assoc();
-			$ws = $row['ID_WS']; */
-			$ws = 0;
+			$ws = $row['ID_WS'];
+		} */
+		if($equipo == 0 OR $equipo == ""){
+			$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
+			$resultado = $datos_base->query($sql);
+			$row = $resultado->fetch_assoc();
+			$ws = $row['ID_WS'];
 		}
-
 
 
 		mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion', '$idusu', '$usuario', DEFAULT, '$tipificacion', '$prioridad', '$estado', DEFAULT, DEFAULT, '$original','$renv', '$ws', '$hora')");
@@ -133,14 +138,18 @@ $date2 = date('Y-m-d'); */
 		$row = $resultado->fetch_assoc();
 		$renu = $row['ID_TIPO_RESOLUTOR'];
 
-		if(isset($_POST['equipo'])){
+/* 		if(isset($_POST['equipo'])){
 			$ws = $_POST['equipo'];
-		}else{
-/* 			$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
+		}elseif($_POST['equipo'] == 0 OR $_POST['equipo'] == ""){
 			$resultado = $datos_base->query($sql);
 			$row = $resultado->fetch_assoc();
-			$ws = $row['ID_WS']; */
-			$ws = 0;
+			$ws = $row['ID_WS'];
+		} */
+		if($equipo == 0 OR $equipo == ""){
+			$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
+			$resultado = $datos_base->query($sql);
+			$row = $resultado->fetch_assoc();
+			$ws = $row['ID_WS'];
 		}
 
 			/* SI ESTA CERRADO */

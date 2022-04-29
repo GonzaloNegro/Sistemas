@@ -308,6 +308,8 @@ $row = $resultado->fetch_assoc();
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
               <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gpla" placeholder="TIEMPO DE GARANTIA">
+              <label id="lblForm"class="col-form-label col-xl col-lg">N°SERIE:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="nropla" placeholder="N° DE SERIE">
         </div>
       </div>
     </div>
@@ -375,6 +377,8 @@ $row = $resultado->fetch_assoc();
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
               <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gmic" placeholder="TIEMPO DE GARANTIA">
+              <label id="lblForm"class="col-form-label col-xl col-lg">N°SERIE:</label>
+              <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="nromic" placeholder="N° DE SERIE">
         </div>
       </div>
     </div>
@@ -605,6 +609,18 @@ $row = $resultado->fetch_assoc();
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
               <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar1" placeholder="TIEMPO DE GARANTIA">
+              <label id="lblForm" class="col-form-label col-xl col-lg">VELOCIDAD:</label> 
+							    <select name="pvel1" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM velocidad";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_FRECUENCIA'] ?>><?php echo $opciones['FRECUENCIA_RAM']?></option>
+                                    <?php endforeach?>
+                                </select>
         </div>
       </div>
     </div>
@@ -678,6 +694,18 @@ $row = $resultado->fetch_assoc();
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
               <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar2" placeholder="TIEMPO DE GARANTIA">
+              <label id="lblForm" class="col-form-label col-xl col-lg">VELOCIDAD:</label> 
+							    <select name="pvel2" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM velocidad";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_FRECUENCIA'] ?>><?php echo $opciones['FRECUENCIA_RAM']?></option>
+                                    <?php endforeach?>
+                                </select>
         </div> 
       </div>
     </div>
@@ -751,6 +779,18 @@ $row = $resultado->fetch_assoc();
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
               <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar3" placeholder="TIEMPO DE GARANTIA">
+              <label id="lblForm" class="col-form-label col-xl col-lg">VELOCIDAD:</label> 
+							    <select name="pvel3" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM velocidad";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_FRECUENCIA'] ?>><?php echo $opciones['FRECUENCIA_RAM']?></option>
+                                    <?php endforeach?>
+                                </select>
         </div> 
     </div>
   </div>
@@ -824,6 +864,18 @@ $row = $resultado->fetch_assoc();
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
               <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar4" placeholder="TIEMPO DE GARANTIA">
+              <label id="lblForm" class="col-form-label col-xl col-lg">VELOCIDAD:</label> 
+							    <select name="pvel4" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("conexion.php");
+                                    $consulta= "SELECT * FROM velocidad";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_FRECUENCIA'] ?>><?php echo $opciones['FRECUENCIA_RAM']?></option>
+                                    <?php endforeach?>
+                                </select>
         </div> 
         </div>
         </div>
@@ -895,11 +947,13 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
-                                    $consulta= "SELECT * FROM modelo";
+                                    $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
+                                    FROM modelo m
+                                    INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']?></option>
+                                    <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
 							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
@@ -968,11 +1022,13 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
-                                    $consulta= "SELECT * FROM modelo";
+                                    $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
+                                    FROM modelo m
+                                    INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']?></option>
+                                    <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
 							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
@@ -1041,11 +1097,13 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
-                                    $consulta= "SELECT * FROM modelo";
+                                    $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
+                                    FROM modelo m
+                                    INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']?></option>
+                                    <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
 							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
@@ -1114,11 +1172,13 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
-                                    $consulta= "SELECT * FROM modelo";
+                                    $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
+                                    FROM modelo m
+                                    INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']?></option>
+                                    <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
 							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
