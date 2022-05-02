@@ -16,7 +16,6 @@ $row = $resultado->fetch_assoc();
 <head>
 	<title>CARGA RÁPIDA</title><meta charset="utf-8">
 	<link rel="icon" href="imagenes/logoObrasPúblicas.png">
-	<link rel="stylesheet" type="text/css" href="estilocarga.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link rel="stylesheet" href="jquery/1/jquery-ui.min.css">
@@ -33,6 +32,7 @@ $row = $resultado->fetch_assoc();
 		<!--Estilo bootstrap para select2-->
 	<link rel="stylesheet" href="/path/to/select2.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
+	<link rel="stylesheet" type="text/css" href="estilocarga.css">
 	
 	<style>
 			body{
@@ -60,15 +60,15 @@ $row = $resultado->fetch_assoc();
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#buscador1').val(1);
-		recargarLista();
+		recargarLista1();
 
 		$('#buscador1').change(function(){
-			recargarLista();
+			recargarLista1();
 		});
 	})
 </script>
 <script type="text/javascript">
-	function recargarLista(){
+	function recargarLista1(){
 		$.ajax({
 			type:"POST",
 			url:"datos.php",
@@ -82,15 +82,15 @@ $row = $resultado->fetch_assoc();
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#buscador2').val(1);
-		recargarLista();
+		recargarLista2();
 
 		$('#buscador2').change(function(){
-			recargarLista();
+			recargarLista2();
 		});
 	})
 </script>
 <script type="text/javascript">
-	function recargarLista(){
+	function recargarLista2(){
 		$.ajax({
 			type:"POST",
 			url:"datos.php",
@@ -104,15 +104,15 @@ $row = $resultado->fetch_assoc();
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#buscador3').val(1);
-		recargarLista();
+		recargarLista3();
 
 		$('#buscador3').change(function(){
-			recargarLista();
+			recargarLista3();
 		});
 	})
 </script>
 <script type="text/javascript">
-	function recargarLista(){
+	function recargarLista3(){
 		$.ajax({
 			type:"POST",
 			url:"datos.php",
@@ -133,12 +133,12 @@ $row = $resultado->fetch_assoc();
         </a>
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ">
-            <li><a href="cargadeincidentes.php" class="nav-link px-2 link-secondary link destacado" 
+			<li><a href="cargadeincidentes.php" class="nav-link px-2 link-secondary link destacado" 
 			style="border-left: 5px solid #53AAE0;">NUEVO INCIDENTE</a>
-			<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="cargarapidaporusuario.php">CARGA RÁPIDA POR USUARIO</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li>
+ 				<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+					<li><a class="dropdown-item" href="cargarapidaporusuario.php">CARGA RÁPIDA POR USUARIO</a></li>
+<!-- 				<li><hr class="dropdown-divider"></li>
+                	<li><a class="dropdown-item" href="cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li> -->
                 </ul>
 			</li>
             <li><a href="consulta.php" class="nav-link px-2 link-dark link">CONSULTA</a></li>
@@ -188,7 +188,7 @@ $row = $resultado->fetch_assoc();
 			<h1>CARGA RÁPIDA POR TIPIFICACIÓN</h1>
 		</div>
 		<div id="principal" class="container-fluid" data-aos="zoom-in">
-						<form method="POST" name="formulario_carga" action="guardarincidente.php" enctype="multipart/form-data">
+						<form method="POST" name="formulario_carga" action="guardarcargarapidatip.php" enctype="multipart/form-data">
 
 
 
@@ -196,7 +196,7 @@ $row = $resultado->fetch_assoc();
 
 						<div class="form-group row" style="margin: 10px; padding:10px;">
 								<label class="col-form-label col-xl col-lg">FECHA:</label>
-								<input type="date" class="form-control col-xl col-lg" name="fecha" id="txtfecha" required>
+								<input type="date" class="form-control col-xl col-lg" name="fechaini" id="txtfecha" required>
 								<!-- <input class="form-control col-xl col-lg" type="text" name="fecha_inicio" id="txtfechainicio" required> -->
 								<!--//////////////////////////////////////////////////////////////////-->
 								<!--//////////////////////////////////////////////////////////////////-->
@@ -229,8 +229,8 @@ $row = $resultado->fetch_assoc();
 		<div class="accordion-body">
 			<div class="form-group row" style="margin: 10px; padding:10px;">
             	<label class='col-form-label col-xl col-lg'>USUARIO:</label>
-                <!--id="buscador1"-->
-				<select name="usuario1"  class='form-control col-xl col-lg'  required >
+                <!---->
+				<select name="usuario1" id="buscador1" class='form-control col-xl col-lg'  required >
 					<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
 					<?php
 					include("conexion.php");

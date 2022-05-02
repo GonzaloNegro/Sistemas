@@ -21,17 +21,17 @@
     <div class="bienvenida" data-aos="zoom-in-up">
         <div class="fecha">    
             <?php  $fechaActual = date('d-m-Y');?>
-            <p class="h5"><u>ULTIMA ACTUALIZACIÓN</u>: 22/04/2022</p>
+            <p class="h5"><u>ULTIMA ACTUALIZACIÓN</u>: 02/05/2022</p>
         </div>
         <hr style='display: block; height: 2px;'>
         <div class="info">
             <ul class="list-unstyled">
                 <li>
                     <ul>
-                        <li>Se acomodó el campo de busqueda por "USUARIO" en la carga de incidentes</li>
-<!--                         <li></li>
-                        <li>Cambio 2</li>
-                        <li>Cambio 3</li> -->
+                        <li>Se agrego la pantalla de "CARGA RÁPIDA POR USUARIO"</li>    
+                        <li>Se agregó la columna de "USUARIOS ACTIVOS" en su respectivo ABM</li>
+                        <li>Se muestran las marcas de los modelos en las listas desplegables de ABM</li>
+                        <li>Se agregaron los campos para filtrar incidentes por fechas</li>
                     </ul>
                 </li>
             </ul>

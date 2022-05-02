@@ -279,11 +279,14 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
-                                    $consulta= "SELECT * FROM placam";
+                                    $consulta= "SELECT p.ID_PLACAM, p.PLACAM, m.MARCA 
+                                    FROM placam p
+                                    INNER JOIN marcas m ON m.ID_MARCA = p.ID_MARCA
+                                    ORDER BY PLACAM ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_PLACAM'] ?>><?php echo $opciones['PLACAM']?></option>
+                                    <option value= <?php echo $opciones['ID_PLACAM']?>><?php echo $opciones['PLACAM']." - ".$opciones['MARCA'] ?></option>
                                     <?php endforeach?>
                                 </select>
           <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
@@ -348,11 +351,14 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("conexion.php");
-                                    $consulta= "SELECT * FROM micro ORDER BY MICRO ASC";
+                                    $consulta= "SELECT m.ID_MICRO, m.MICRO, ma.MARCA 
+                                    FROM micro m
+                                    INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
+                                    ORDER BY MICRO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_MICRO'] ?>><?php echo $opciones['MICRO']?></option>
+                                    <option value= <?php echo $opciones['ID_MICRO'] ?>><?php echo $opciones['MICRO']." - ".$opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
           <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 

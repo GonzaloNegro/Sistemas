@@ -128,6 +128,8 @@ $date2 = date('Y-m-d'); */
 	}
 	/* SI NO DERIVO */
 	else{
+		$motivo = $_POST['motivo'];
+
 		$sqla = "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = '$usuario'";
 		$result = $datos_base->query($sqla);
 		$r = $result->fetch_assoc();
@@ -171,10 +173,11 @@ $date2 = date('Y-m-d'); */
 			mysqli_query($datos_base, "INSERT INTO fecha_ticket VALUES(DEFAULT, '$tic1','$fec1')");
 		}
 		else{
+			$motivo = $_POST['motivo'];
 		/* FIN SI ESTA CERRADO */
 		mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion', '$idusu', '$usuario', DEFAULT,'$tipificacion', '$prioridad', '$estado', DEFAULT, DEFAULT, '$original','$renu', '$ws', '$hora')"); 
 
-		mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, '$estado', '$motivo', '$date', '$original', DEFAULT)");
+		mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, '$estado', '$motivo', '$date', '$original', '$hora')");
 		/*MAIL GENERADO PARA EL USUARIO LOGUEADO*/
 
 		$tic=mysqli_query($datos_base, "SELECT MAX(ID_TICKET) AS id FROM ticket");

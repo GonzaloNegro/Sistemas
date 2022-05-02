@@ -676,14 +676,15 @@ function ConsultarIncidente($no_tic)
                 <!-- ///////////////////////////////// -->
                 <?php
                     include("conexion.php");
-                    $sentencia = "SELECT p.PLACAM 
+                    $sentencia = "SELECT p.PLACAM, m.MARCA
                     FROM inventario i 
                     LEFT JOIN placamws pw ON pw.ID_WS = i.ID_WS
                     LEFT JOIN placam p ON p.ID_PLACAM = pw.ID_PLACAM
+                    LEFT JOIN marcas m ON m.ID_MARCA = p.ID_MARCA
                     WHERE i.ID_WS = '$consulta[0]'";
                     $resultado = $datos_base->query($sentencia);
                     $row = $resultado->fetch_assoc();
-                    $placam = $row['PLACAM'];
+                    $placam = $row['PLACAM'].' - '.$row['MARCA'];
                     ?>
                     <?php
                     include("conexion.php");
@@ -747,14 +748,15 @@ function ConsultarIncidente($no_tic)
                 <!-- ///////////////////////////////// -->
                   <?php
                     include("conexion.php");
-                    $sentencia = "SELECT m.MICRO 
+                    $sentencia = "SELECT m.MICRO, ma.MARCA
                     FROM inventario i 
                     LEFT JOIN microws mws ON mws.ID_WS = i.ID_WS
                     LEFT JOIN micro m ON m.ID_MICRO= mws.ID_MICRO
+                    LEFT JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
                     WHERE i.ID_WS='$consulta[0]'";
                     $resultado = $datos_base->query($sentencia);
                     $row = $resultado->fetch_assoc();
-                    $micro = $row['MICRO'];
+                    $micro = $row['MICRO'].' - '.$row['MARCA'];
                   ?>
                   <?php
                     include("conexion.php");
@@ -1130,11 +1132,14 @@ function ConsultarIncidente($no_tic)
                       <option selected value="2000"><?php echo $placam?></option>
                       <?php
                       include("conexion.php");
-                      $consulta= "SELECT * FROM placam";
+                      $consulta= "SELECT p.ID_PLACAM, p.PLACAM, m.MARCA
+                      FROM placam p
+                      INNER JOIN marcas m ON m.ID_MARCA = p.ID_MARCA
+                      ORDER BY PLACAM ASC";
                       $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                       ?>
                       <?php foreach ($ejecutar as $opciones): ?> 
-                      <option value= <?php echo $opciones['ID_PLACAM'] ?>><?php echo $opciones['PLACAM']?></option>
+                      <option value= <?php echo $opciones['ID_PLACAM'] ?>><?php echo $opciones['PLACAM'].' - '.$opciones['MARCA']?></option>
                       <?php endforeach?>
                   </select>
           <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
@@ -1197,11 +1202,14 @@ function ConsultarIncidente($no_tic)
                     <option selected value="2100"><?php echo $micro?></option>
                     <?php
                     include("conexion.php");
-                    $consulta= "SELECT * FROM micro";
+                    $consulta= "SELECT m.ID_MICRO, m.MICRO, ma.MARCA 
+                    FROM micro m
+                    INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
+                    ORDER BY MICRO ASC";
                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                     ?>
                     <?php foreach ($ejecutar as $opciones):?> 
-                    <option value= <?php echo $opciones['ID_MICRO'] ?>><?php echo $opciones['MICRO']?></option>
+                    <option value= <?php echo $opciones['ID_MICRO'] ?>><?php echo $opciones['MICRO'].' - '.$opciones['MARCA']?></option>
                     <?php endforeach?>
                   </select>
           <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 

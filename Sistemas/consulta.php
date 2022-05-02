@@ -38,7 +38,14 @@ $cu = $row['CUIL'];
         </a>
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="cargadeincidentes.php" class="nav-link px-2 link-secondary link destacado">NUEVO INCIDENTE</a></li>
+		<li><a href="cargadeincidentes.php" class="nav-link px-2 link-secondary link destacado" 
+			style="border-left: 5px solid #53AAE0;">NUEVO INCIDENTE</a>
+ 				<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+					<li><a class="dropdown-item" href="cargarapidaporusuario.php">CARGA RÁPIDA POR USUARIO</a></li>
+<!-- 				<li><hr class="dropdown-divider"></li>
+                	<li><a class="dropdown-item" href="cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li> -->
+                </ul>
+			</li>
             <li><a href="consulta.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">CONSULTA</a></li>
             <li><a href="inventario.php" class="nav-link px-2 link-dark link">INVENTARIO</a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
@@ -98,30 +105,34 @@ $cu = $row['CUIL'];
 		</div>
 		<!--Responsive pero cuando se achique puede salirse un boton hasta que llega al minimo y quedan todos en pila,
 		se puede arreglar poniendo todos los botones sin espacio entremedio-->
-		<div id="filtro"  class="container-fluid">
+		<div id="filtro" class="container-fluid">
 			<form method="POST" action="consulta.php">
 				<div class="form-group row">
-				<input id="vlva1" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn3" value="PENDIENTES"></input>
+					<input id="vlva1" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px; width: 48%;" type="submit" name="btn3" value="PENDIENTES"></input>
 
-				<input id="vlva1" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="pm" value="MIS PENDIENTES"></input>
-				
-				<?php
-				/* if(isset($_POST['btn1']) OR isset($_POST['btn2'])) */
-				if(empty($_POST['btn3']))
-				{ if(empty($_POST['pm'])){?>
-				<input type="text" style="margin-left: 10px; width: 40%; height: 40px; margin-top: 12px; 	box-sizing: border-box; border-radius: 10px; text-transform:uppercase;" name="buscar"  placeholder="Buscar"  class="form-control largo col-xl-4 col-lg-4">
- 				<?php
-				}}
-				?>
-				
-				<?php
-				if(empty($_POST['btn3']))
-				{ if(empty($_POST['pm'])){?>
-				<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn2" value="BUSCAR"></input>
-				<?php
-				}}
-				?>
-				<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn1" value="LIMPIAR"></input>
+					<input id="vlva1" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px; width: 48%;" type="submit" name="pm" value="MIS PENDIENTES"></input>
+				</div>
+				<div>
+					<?php
+					/* if(isset($_POST['btn1']) OR isset($_POST['btn2'])) */
+					if(empty($_POST['btn3']))
+					{ if(empty($_POST['pm'])){?>
+					<input type="text" style="margin-left: 10px; width: 30%; height: 40px; margin-top: 12px; 	box-sizing: border-box; box-sizing: border-box; border-radius: 10px; text-transform:uppercase;" name="buscar"  placeholder="Buscar" >
+					<?php
+					}}
+					?>
+					<label for="fecha1" style="color:#1c7cd5;"><u>DESDE:</u></label>
+					<input type="date" name="fecha1" id="fecha1" style="margin-left: 10px; width: 12%; height: 40px; margin-top: 12px;box-sizing: border-box; border-radius: 10px;	display: inline-block;">
+					<label for="fecha2" style="color:#1c7cd5;"><u>HASTA:</u></label>
+					<input type="date" name="fecha2" id="fecha2" style="margin-left: 10px; width: 12%; height: 40px; margin-top: 12px;box-sizing: border-box; border-radius: 10px;	display: inline-block;">
+					<?php
+					if(empty($_POST['btn3']))
+					{ if(empty($_POST['pm'])){?>
+					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn2" value="BUSCAR"></input>
+					<?php
+					}}
+					?>
+					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn1" value="LIMPIAR"></input>
 				</div>
 			</form>
 		</div>
@@ -256,6 +267,8 @@ $cu = $row['CUIL'];
 							elseif(isset($_POST['btn2']))
 							{
 								$doc = $_POST['buscar'];
+								$fecha1 = date("d-m-Y", strtotime($_POST['fecha1']));
+								$fecha2 = date("d-m-Y", strtotime($_POST['fecha2']));
 								$contador = 0;
 								$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
 								FROM ticket t 
@@ -263,9 +276,8 @@ $cu = $row['CUIL'];
 								LEFT JOIN prioridad p ON  p.ID_PRIORIDAD = t.ID_PRIORIDAD 
 								LEFT JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO
 								LEFT JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR
-								WHERE t.ID_TICKET LIKE '$doc' OR t.DESCRIPCION LIKE '%$doc%' OR u.NOMBRE LIKE '%$doc%'
-								OR t.FECHA_INICIO LIKE '%$doc%' OR p.PRIORIDAD LIKE '%$doc%'  OR e.ESTADO LIKE '%$doc%'
-								OR t.NRO_EQUIPO LIKE '%$doc%'  OR t.FECHA_SOLUCION LIKE '%$doc%'  OR r.RESOLUTOR LIKE '%$doc%'
+								WHERE t.ID_TICKET LIKE '$doc' OR t.DESCRIPCION LIKE '%$doc%' OR u.NOMBRE LIKE '%$doc%' OR t.FECHA_INICIO LIKE '%$doc%' OR p.PRIORIDAD LIKE '%$doc%' OR e.ESTADO LIKE '%$doc%' OR t.NRO_EQUIPO LIKE '%$doc%'  OR t.FECHA_SOLUCION LIKE '%$doc%' OR r.RESOLUTOR LIKE '%$doc%' 
+								AND t.FECHA_INICIO BETWEEN $fecha1 AND $fecha2
 								ORDER BY t.FECHA_INICIO DESC, t.ID_TICKET DESC");
 								while($listar = mysqli_fetch_array($consulta))
 								{

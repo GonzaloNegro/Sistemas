@@ -102,12 +102,13 @@ $row = $resultado->fetch_assoc();
 					if(isset($_POST['btn2']))
 					{
 						$doc = $_POST['buscar'];
-						$consultar=mysqli_query($datos_base, "SELECT pv.ID_PVIDEO, m.MEMORIA, pv.MODELO, t.TIPOMEM
+						$consultar=mysqli_query($datos_base, "SELECT pv.ID_PVIDEO, m.MEMORIA, mo.MODELO, t.TIPOMEM
                         FROM pvideo pv 
                         LEFT JOIN memoria AS m ON m.ID_MEMORIA = pv.ID_MEMORIA
                         LEFT JOIN tipomem AS t ON t.ID_TIPOMEM = pv.ID_TIPOMEM 
-						WHERE m.MEMORIA LIKE '%$doc%' OR pv.MODELO LIKE '%$doc%' OR t.TIPOMEM LIKE '%$doc%'
-                        ORDER BY pv.MODELO ASC");
+						LEFT JOIN modelo AS mo ON mo.ID_MODELO = pv.ID_MODELO
+						WHERE m.MEMORIA LIKE '%$doc%' OR mo.MODELO LIKE '%$doc%' OR t.TIPOMEM LIKE '%$doc%'
+                        ORDER BY mo.MODELO ASC");
 							while($listar = mysqli_fetch_array($consultar))
 								{
 
@@ -128,11 +129,12 @@ $row = $resultado->fetch_assoc();
 					
 					else
 					{
-						$consultar=mysqli_query($datos_base, "SELECT pv.ID_PVIDEO, m.MEMORIA, pv.MODELO, t.TIPOMEM
+						$consultar=mysqli_query($datos_base, "SELECT pv.ID_PVIDEO, m.MEMORIA, mo.MODELO, t.TIPOMEM
                         FROM pvideo pv 
                         LEFT JOIN memoria AS m ON m.ID_MEMORIA = pv.ID_MEMORIA
-                        LEFT JOIN tipomem AS t ON t.ID_TIPOMEM = pv.ID_TIPOMEM 
-                        ORDER BY pv.MODELO ASC");
+                        LEFT JOIN tipomem AS t ON t.ID_TIPOMEM = pv.ID_TIPOMEM
+						LEFT JOIN modelo AS mo ON mo.ID_MODELO = pv.ID_MODELO
+                        ORDER BY mo.MODELO ASC");
 							while($listar = mysqli_fetch_array($consultar))
 								{
 

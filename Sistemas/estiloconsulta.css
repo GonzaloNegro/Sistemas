@@ -144,6 +144,14 @@ label{
 	font-family: TrasandinaBook;
 }
 
+label .fecha{
+	text-align: left;
+	margin-left: 0px;
+	font-size: 20px;
+	color: #f7fbfd;
+	font-family: TrasandinaBook;
+}
+
 ::placeholder { 
 	color: black; 
 }
@@ -364,7 +372,7 @@ color: #176AB5;
 }
 
 #vlva1{
-	width: 15%; 
+	width: 12%; 
 	height: 45px; 
 	background-color: #176AB5; 
 	border-color: #f7fbfd; 
