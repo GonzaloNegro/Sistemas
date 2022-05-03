@@ -74,7 +74,7 @@ $row = $resultado->fetch_assoc();
 			url:"datos.php",
 			data:"usuario=" + $('#buscador1').val(),
 			success:function(r){
-				$('#equip1').html(r);
+				$('#equipo').html(r);
 			}
 		});
 	}
@@ -96,7 +96,7 @@ $row = $resultado->fetch_assoc();
 			url:"datos.php",
 			data:"usuario=" + $('#buscador2').val(),
 			success:function(r){
-				$('#equip2').html(r);
+				$('#equipo2').html(r);
 			}
 		});
 	}
@@ -118,7 +118,7 @@ $row = $resultado->fetch_assoc();
 			url:"datos.php",
 			data:"usuario=" + $('#buscador3').val(),
 			success:function(r){
-				$('#equip3').html(r);
+				$('#equipo3').html(r);
 			}
 		});
 	}
@@ -230,7 +230,7 @@ $row = $resultado->fetch_assoc();
 			<div class="form-group row" style="margin: 10px; padding:10px;">
             	<label class='col-form-label col-xl col-lg'>USUARIO:</label>
                 <!---->
-				<select name="usuario1" id="buscador1" class='form-control col-xl col-lg'  required >
+				<select name="usuario1" id="buscador1" class='form-control col-xl col-lg' style="width:300px;" required >
 					<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
 					<?php
 					include("conexion.php");
@@ -261,8 +261,10 @@ $row = $resultado->fetch_assoc();
 						})
 					})
 					</script>
+			<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label> 
+			<select id='equipo' name='equipo' class='form-control col-xl col-lg' style="width:300px; margin-right: 30px;" required></select>
 			</div>
-			<div class="form-group row" style="margin: 10px; padding:10px;" id="equip1"></div>
+			
 			<div class="form-group row" style="margin: 10px; padding:10px;">
 				<textarea name="descripcion1" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°1" rows="3" required></textarea>
 			</div>
@@ -281,7 +283,7 @@ $row = $resultado->fetch_assoc();
 		<div class="accordion-body">
 			<div class="form-group row" style="margin: 10px; padding:10px;">
             <label class="col-form-label col-xl col-lg">USUARIO:</label>
-								<select name="usuario2" id="buscador2" required class="form-control col-xl col-lg extend">
+								<select name="usuario2" id="buscador2" style="width:300px;" required class="form-control col-xl col-lg extend">
 								<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
 								<?php
 								include("conexion.php");
@@ -312,8 +314,9 @@ $row = $resultado->fetch_assoc();
 											})
 										})
 									</script>
+			<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label> 
+			<select id='equipo2' name='equipo2' class='form-control col-xl col-lg' style="width:300px; margin-right: 30px;" required></select>
 			</div>
-			<div class="form-group row" style="margin: 10px; padding:10px;" id="equip2"></div>
 			<div class="form-group row" style="margin: 10px; padding:10px;">
 				<textarea name="descripcion2" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°2" rows="3" required></textarea>
 			</div>
@@ -333,7 +336,7 @@ $row = $resultado->fetch_assoc();
             <div class="accordion-body">
                 <div class="form-group row" style="margin: 10px; padding:10px;">
                     <label class="col-form-label col-xl col-lg">USUARIO:</label>
-                    <select name="usuario3" id="buscador3" required class="form-control col-xl col-lg extend">
+                    <select name="usuario3" id="buscador3" style="width:300px;" required class="form-control col-xl col-lg extend">
                     <option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
                     <?php
                     include("conexion.php");
@@ -362,8 +365,9 @@ $row = $resultado->fetch_assoc();
                             })
                         })
                     </script>		
-                </div>
-				<div class="form-group row" style="margin: 10px; padding:10px;" id="equip3"></div>
+                <label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label> 
+			    <select id='equipo3' name='equipo3' class='form-control col-xl col-lg' style="width:300px; margin-right: 30px;" required></select>  
+				</div>
                 <div class="form-group row" style="margin: 10px; padding:10px;">
                     <textarea name="descripcion3" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°3" rows="3" required></textarea>
                 </div>

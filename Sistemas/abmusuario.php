@@ -96,7 +96,7 @@ $row = $resultado->fetch_assoc();
 						FROM usuarios u
 						LEFT JOIN area a ON u.ID_AREA = a.ID_AREA
 						LEFT JOIN reparticion r ON r.ID_REPA = a.ID_REPA
-						WHERE u.NOMBRE LIKE '%$doc%' OR u.CUIL LIKE '%$doc%' OR a.AREA LIKE '%$doc%' OR u.CORREO LIKE '%$doc%' OR u.ACTIVO LIKE '%$doc%', r.REPA LIKE '%$doc%'
+						WHERE u.NOMBRE LIKE '%$doc%' OR u.CUIL LIKE '%$doc%' OR a.AREA LIKE '%$doc%' OR u.CORREO LIKE '%$doc%' OR u.ACTIVO LIKE '%$doc%' OR r.REPA LIKE '%$doc%'
 						ORDER BY u.NOMBRE ASC");
 						while($listar = mysqli_fetch_array($consulta)) 
 						{

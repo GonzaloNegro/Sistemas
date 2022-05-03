@@ -807,7 +807,7 @@ function ConsultarIncidente($no_tic)
                     WHERE i.ID_WS='$consulta[0]'";
                     $resultado = $datos_base->query($sentencia);
                     $row = $resultado->fetch_assoc();
-                    $micnro = $row['GARNSERIEANTIA'];
+                    $micnro = $row['NSERIE'];
                   ?>
 
 

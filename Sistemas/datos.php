@@ -20,15 +20,14 @@ $usuario=$_POST['usuario'];
 	$result=mysqli_query($datos_base,$consulta) or die(mysqli_error($datos_base));
     
 	
-	$cadena="<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label> 
-			<select id='equipo' name='equipo' class='form-control col-xl col-lg' required>
-			<option value='0'>-SELECCIONE UNA-</OPTION>";
+	$cadena="<option value='0'>-SELECCIONE UNA-</OPTION>";
 
 	while ($ver=mysqli_fetch_row($result)) {
 		$cadena=$cadena.'<option value='.$ver[0].'>'.utf8_encode($ver[3]).'</option>';
 	}
 
-	echo  $cadena."</select>";
+	echo  $cadena;
+	// ."</select>";
 	
 
 ?>
