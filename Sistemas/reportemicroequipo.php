@@ -91,7 +91,7 @@ $row = $resultado->fetch_assoc();
 						$totalNB = mysqli_fetch_array($contNB);
 						
 						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO where mi.MICRO =$micro");
+	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO where mi.ID_MICRO =$micro");
 			            $total = mysqli_fetch_array($conttotal);
 						$fecha = date("Y-m-d");
 						//$consularea=mysqli_query($datos_base, "select a.SIST_OP from so a where a.ID_SO=$so");
@@ -104,9 +104,9 @@ $row = $resultado->fetch_assoc();
 						<h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>NRO. DE NOTEBOOKS: ".$totalNB['TOTAL']."</h4>
 				        <h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>TOTAL EQUIPOS: ".$total['TOTAL']."</h4>
 						<h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."</h4>
-						<table id='tablareporte' class='table table-striped table-hover' width=97%>
-						<thead>
-						<tr style='background-color: #00519C'>
+						<table id='tablareporte' width=97%>
+						<thead style='border-bottom: solid 5px #073256 !important;'>
+						<tr>
 						<th class='cabecera'><p>N°WS</p></th>
 						<th class='cabecera'><p>USUARIO</p></th>
 						<th class='cabecera'><p>SO</p></th>
@@ -131,7 +131,7 @@ $row = $resultado->fetch_assoc();
 									{
 										echo
 													"
-														<tr>
+														<tr style='border-bottom: solid 1px #073256;'>
 														<td><h4 class='filas' style='text-align: left; '>".$listar['N°WS']."</h4></td>
 														<td><h4 class='filas' style='text-align: center; '>".$listar['NOMBRE']."</h4></td>
 														<td><h4 class='filas' style='text-align: left; '>".$listar['SIST_OP']."</h4></td>
@@ -167,7 +167,7 @@ $row = $resultado->fetch_assoc();
 
 						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
 	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO  left join area a on i.ID_AREA=a.ID_AREA left join reparticion r on
-						a.ID_REPA=r.ID_REPA where mi.MICRO =$micro and a.ID_REPA=$reparticion");
+						a.ID_REPA=r.ID_REPA where mi.ID_MICRO =$micro and a.ID_REPA=$reparticion");
 			            $total = mysqli_fetch_array($conttotal);
 						$fecha = date("Y-m-d");
 						//$consularea=mysqli_query($datos_base, "select a.SIST_OP from so a where a.ID_SO=$so");
@@ -182,9 +182,9 @@ $row = $resultado->fetch_assoc();
 						<h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>NRO. DE NOTEBOOKS: ".$totalNB['TOTAL']."</h4>
 						<h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>TOTAL EQUIPOS: ".$total['TOTAL']."</h4>
 						<h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."</h4>
-						<table id='tablareporte' class='table table-striped table-hover' width=97%>
-						<thead>
-						<tr style='background-color: #00519C'>
+						<table id='tablareporte' width=97%>
+						<thead style='border-bottom: solid 5px #073256 !important;'>
+						<tr>
 						<th class='cabecera'><p>N°WS</p></th>
 						<th class='cabecera'><p>USUARIO</p></th>
 						<th class='cabecera'><p>SO</p></th>
@@ -208,7 +208,7 @@ $row = $resultado->fetch_assoc();
 									{
 										echo
 													"
-														<tr>
+														<tr style='border-bottom: solid 1px #073256;'>
 														<td><h4 class='filas' style='text-align: left; '>".$listar['N°WS']."</h4></td>
 														<td><h4 class='filas' style='text-align: center; '>".$listar['NOMBRE']."</h4></td>
 														<td><h4 class='filas' style='text-align: left; '>".$listar['SIST_OP']."</h4></td>

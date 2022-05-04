@@ -155,7 +155,7 @@ $row = $resultado->fetch_assoc();
 			url:"datos.php",
 			data:"usuario=" + $('#buscador').val(),
 			success:function(r){
-				$('#select2lista').html(r);
+				$('#equipo').html(r);
 			}
 		});
 	}
@@ -173,8 +173,8 @@ $row = $resultado->fetch_assoc();
 			style="border-left: 5px solid #53AAE0;">NUEVO INCIDENTE</a>
  				<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
 					<li><a class="dropdown-item" href="cargarapidaporusuario.php">CARGA RÁPIDA POR USUARIO</a></li>
- 					<li><hr class="dropdown-divider"></li>
-                	<li><a class="dropdown-item" href="cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li>
+<!--  					<li><hr class="dropdown-divider"></li>
+                	<li><a class="dropdown-item" href="cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li> -->
                 </ul>
 			</li>
             <li><a href="consulta.php" class="nav-link px-2 link-dark link">CONSULTA</a></li>
@@ -238,7 +238,7 @@ $row = $resultado->fetch_assoc();
 								<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
 								<?php
 								include("conexion.php");
-								$consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' ORDER BY NOMBRE ASC";
+								$consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' AND ID_USUARIO <> 277 ORDER BY NOMBRE ASC";
 								$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 								?>
 								<?php foreach ($ejecutar as $opciones): ?> 
@@ -275,7 +275,10 @@ $row = $resultado->fetch_assoc();
 							<!--//////////////////////////////////////////////////////////////////-->
 							
   								<!--select equipo-->
-								<div class="form-group row" style="margin: 10px; padding:10px;" id="select2lista"></div>
+								<div class="form-group row" style="margin: 10px; padding:10px;" id="select2lista">
+								<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label> 
+			                    <select id='equipo' name='equipo' class='form-control col-xl col-lg' required></select>
+								</div>
                                 <!--////-->
 								<div class="form-group row" style="margin: 10px; padding:10px;">
 								<label class="col-form-label col-xl col-lg">PRIORIDAD: </label>

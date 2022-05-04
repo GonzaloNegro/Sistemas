@@ -966,9 +966,9 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">MAC: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="mac" value="<?php echo $consulta[12]?>">
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="mac" value="<?php echo $consulta[11]?>">
                         <label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIÓN: </label>
-                        <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" rows="3"><?php echo $consulta[8]?></textarea>
+                        <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" rows="3"><?php echo $consulta[7]?></textarea>
                     </div>
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">

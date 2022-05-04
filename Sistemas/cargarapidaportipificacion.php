@@ -234,7 +234,7 @@ $row = $resultado->fetch_assoc();
 					<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
 					<?php
 					include("conexion.php");
-					$consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' ORDER BY NOMBRE ASC";
+					$consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' AND ID_USUARIO <> 277 ORDER BY NOMBRE ASC";
 					$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 					?>
 					<?php foreach ($ejecutar as $opciones): ?> 
@@ -287,7 +287,7 @@ $row = $resultado->fetch_assoc();
 								<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
 								<?php
 								include("conexion.php");
-								$consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' ORDER BY NOMBRE ASC";
+								$consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' AND ID_USUARIO <> 277 ORDER BY NOMBRE ASC";
 								$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 								?>
 								<?php foreach ($ejecutar as $opciones): ?> 
@@ -340,7 +340,7 @@ $row = $resultado->fetch_assoc();
                     <option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
                     <?php
                     include("conexion.php");
-                    $consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' ORDER BY NOMBRE ASC";
+					$consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' AND ID_USUARIO <> 277 ORDER BY NOMBRE ASC";
                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));?>
                     <?php foreach ($ejecutar as $opciones): ?> 
                     <option value="<?php echo $opciones['ID_USUARIO']?>"><?php echo $opciones['NOMBRE']?></option>

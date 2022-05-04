@@ -100,9 +100,9 @@ $row = $resultado->fetch_assoc();
 						<h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>NRO. DE NOTEBOOKS: ".$totalNB['TOTAL']."</h4>
 				        <h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>TOTAL EQUIPOS: ".$total['TOTAL']."</h4>
 						<h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."</h4>
-						<table id='tablareporte' class='table table-striped table-hover' width=97%>
+						<table id='tablareporte' width=97%>
 						<thead>
-						<tr style='background-color: #00519C'>
+						<tr style='border-bottom: solid 5px #073256 !important;'>
 						<th class='cabecera'><p>N°WS</p></th>
 						<th class='cabecera'><p>USUARIO</p></th>
 						<th class='cabecera'><p>TIPO</p></th>
@@ -122,7 +122,7 @@ $row = $resultado->fetch_assoc();
 									{
 										echo
 													"
-														<tr>
+														<tr style='border-bottom: solid 1px #073256;'>
 														<td><h4 class='fila'>".$listar['N°WS']."</h4></td>
 														<td><h4 class='fila'>".$listar['NOMBRE']."</h4></td>
 														<td><h4 class='fila'>".$listar['TIPOWS']."</h4></td>

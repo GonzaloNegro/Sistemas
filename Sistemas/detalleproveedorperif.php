@@ -112,9 +112,9 @@ $row = $resultado->fetch_assoc();
                         <hr style='display: block;'>
 				        <h4 id='ind' class='indicadores' >TOTAL PERIFERICOS: ".$total['TOTAL']."</h4>
 						<h4 class='indicadores' style='margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."</h4>
-						<table id='tablareporte' class='table table-striped table-hover' width=97%>
-						<thead>
-						<tr style='background-color: #00519C'>
+						<table id='tablareporte' width=97%>
+						<thead style='border-bottom: solid 5px #073256 !important;'>
+						<tr>
 								<th style='text-align:center; color: #f7fbfd'><p>PERIFERICOS</p></th>
                                 <th style='text-align:center; color: #f7fbfd'><p>MARCA</p></th>
 								<th style='text-align:center; color: #f7fbfd'><p>TIPO</p></th>
@@ -138,7 +138,7 @@ $row = $resultado->fetch_assoc();
 									{
 										echo
 													"
-													<tr>
+													<tr style='border-bottom: solid 1px #073256;'>
 													<td><h4 style='font-size:16px;'>".$listar['MODELO']."</h4></td>
 													<td><h4 style='font-size:16px;'>".$listar['MARCA']."</h4></td>
 													<td><h4 style='font-size:16px;'>".$listar['TIPO']."</h4></td>
@@ -172,9 +172,9 @@ $row = $resultado->fetch_assoc();
                         <hr style='display: block;'>
 				        <h4 id='ind' class='indicadores' >TOTAL $perif: ".$total['TOTAL']."</h4>
 						<h4 class='indicadores' style='margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."</h4>
-						<table id='tablareporte' class='table table-striped table-hover' width=97%>
-						<thead>
-						<tr style='background-color: #00519C'>
+						<table id='tablareporte' width=97%>
+						<thead style='border-bottom: solid 5px #073256 !important;'>
+						<tr>
 								<th style='text-align:center; color: #f7fbfd'><p>$perif</p></th>
                                 <th style='text-align:center; color: #f7fbfd'><p>MARCA</p></th>
 								<th style='text-align:center; color: #f7fbfd'><p>TIPO</p></th>
@@ -198,7 +198,7 @@ $row = $resultado->fetch_assoc();
 									{
 										echo
 													"
-													<tr>
+													<tr style='border-bottom: solid 1px #073256;'>
 													<td><h4 style='font-size:16px;'>".$listar['MODELO']."</h4></td>
 													<td><h4 style='font-size:16px;'>".$listar['MARCA']."</h4></td>
 													<td><h4 style='font-size:16px;'>".$listar['TIPO']."</h4></td>

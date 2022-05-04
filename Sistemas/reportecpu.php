@@ -386,7 +386,7 @@ if($reparticion==0) {
                         <h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."
                         </h4>
                         <table id='tablareporte' width=97%>
-                            <thead  style='border-bottom: solid 5px #073256 !important;>
+                            <thead  style='border-bottom: solid 5px #073256 !important;'>
                                 <tr>
                                     <th class='cabecera'>
                                         <p>MICROPROCESADOR</p>
