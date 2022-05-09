@@ -565,24 +565,19 @@ $row2 = $resultado2->fetch_assoc();
 $area = $row2['ID_AREA'];
 
 
-if($serieg == $serg /* OR $serialn == $ser */){ 
+if($serieg == $serg){ 
     header("Location: abmequipos.php?no");
 }
 else{
     mysqli_query($datos_base, "UPDATE inventario SET ID_AREA = '$area', SERIALN = '$serialn', SERIEG = '$serieg', ID_MARCA = '$marca', ID_ESTADOWS = '$est', OBSERVACION = '$obs', ID_PROVEEDOR = '$prov', FACTURA = '$fac', MASTERIZADA = '$masterizacion', MAC = '$mac', RIP = '$reserva', IP = '$ip', ID_RED = '$red', ID_TIPOWS = '$tippc', ID_USUARIO = '$usu' WHERE ID_WS = '$id'");
 
 
-
     /* PLACA MADRE */
     mysqli_query($datos_base, "UPDATE placamws SET ID_PLACAM = '$placam', ID_PROVEEDOR = '$placamprov', GARANTIA = '$placamgar', FACTURA = '$placamfact', FECHA = '$placamfecha', NSERIE = '$planro' WHERE ID_WS = '$id'");
 
 
-
-
     /* MICROPROCESADOR */
     mysqli_query($datos_base, "UPDATE microws SET ID_MICRO = '$micro', ID_PROVEEDOR = '$microprov', GARANTIA = '$microgar', FACTURA = '$microfac', FECHA = '$microfec', NSERIE = '$micnro' WHERE ID_WS = '$id'");
-
-
 
 
     /* PLACA DE VIDEO */
@@ -599,8 +594,6 @@ else{
     mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc3', ID_TIPOD = '$tdisc3', ID_PROVEEDOR = '$dprov3', FACTURA = '$dfact3', FECHA = '$dfec3', ID_MODELO = '$dmod3', GARANTIA = '$dgar3' WHERE ID_WS = '$id' AND NUMERO = 3");
 
     mysqli_query($datos_base, "UPDATE discows SET ID_DISCO = '$disc4', ID_TIPOD = '$tdisc4', ID_PROVEEDOR = '$dprov4', FACTURA = '$dfact4', FECHA = '$dfec4', ID_MODELO = '$dmod4', GARANTIA = '$dgar4' WHERE ID_WS = '$id' AND NUMERO = 4");
-
-
 
 
     /* MEMORIA */

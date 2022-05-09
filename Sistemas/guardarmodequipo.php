@@ -55,7 +55,7 @@ $gar4 = $_POST['gar4']; */
 /* ////////////////////////// */
 
 /* DISCOS */
-$disc1 = $_POST['disc1'];
+/* $disc1 = $_POST['disc1'];
 $tdisc1 = $_POST['tdisc1'];
 $dprov1 = $_POST['dprov1'];
 $dfact1 = $_POST['dfact1'];
@@ -85,24 +85,24 @@ $dprov4 = $_POST['dprov4'];
 $dfact4 = $_POST['dfact4'];
 $dmod4 = $_POST['dmod4'];
 $dfec4 = $_POST['dfec4'];
-$dgar4 = $_POST['dgar4'];
+$dgar4 = $_POST['dgar4']; */
 
 
 /* ////////////////////////// */
 
-$ppla = $_POST['ppla'];
+/* $ppla = $_POST['ppla'];
 $prpla = $_POST['prpla'];
 $fapla = $_POST['fapla'];
 $fpla = $_POST['fpla'];
 $gpla = $_POST['gpla'];
-$nropla = $_POST['nropla'];
+$nropla = $_POST['nropla']; */
 
-$mmic = $_POST['mmic'];
+/* $mmic = $_POST['mmic'];
 $pmic = $_POST['pmic'];
 $facmic = $_POST['facmic'];
 $fmic = $_POST['fmic'];
 $gmic = $_POST['gmic'];
-$nromic = $_POST['nromic'];
+$nromic = $_POST['nromic']; */
 
 $pvmem = $_POST['pvmem'];
 $pvprov = $_POST['pvprov'];
@@ -120,20 +120,23 @@ $pvgar1 = $_POST['pvgar1'];
 /* ////////////////////////// */
 
 /* FECHAS */
-$fec1 = date("Y-m-d", strtotime($fec1));
-$fec2 = date("Y-m-d", strtotime($fec2));
-$fec3 = date("Y-m-d", strtotime($fec3));
-$fec4 = date("Y-m-d", strtotime($fec4));
+if(isset($_POST['fec1'])){$fec1 = $_POST['fec1'];$fec1 = date("Y-m-d", strtotime($fec1))}else{$fec1 = "2000-01-01";}
+if(isset($_POST['fec2'])){$fec2 = $_POST['fec2'];$fec2 = date("Y-m-d", strtotime($fec2))}else{$fec2 = "2000-01-01";}
+if(isset($_POST['fec3'])){$fec3 = $_POST['fec3'];$fec3 = date("Y-m-d", strtotime($fec3))}else{$fec3 = "2000-01-01";}
+if(isset($_POST['fec4'])){$fec4 = $_POST['fec4'];$fec4 = date("Y-m-d", strtotime($fec4))}else{$fec4 = "2000-01-01";}
 
-$dfec1 = date("Y-m-d", strtotime($fec1));
-$dfec2 = date("Y-m-d", strtotime($dfec2));
-$dfec3 = date("Y-m-d", strtotime($dfec3));
-$dfec4 = date("Y-m-d", strtotime($dfec4));
+if(isset($_POST['dfec1'])){$dfec1 = $_POST['dfec1'];$dfec1 = date("Y-m-d", strtotime($dfec1))}else{$dfec1 = "2000-01-01";}
+if(isset($_POST['dfec2'])){$dfec2 = $_POST['dfec2'];$dfec2 = date("Y-m-d", strtotime($dfec2))}else{$dfec2 = "2000-01-01";}
+if(isset($_POST['dfec3'])){$dfec3 = $_POST['dfec3'];$dfec3 = date("Y-m-d", strtotime($dfec3))}else{$dfec3 = "2000-01-01";}
+if(isset($_POST['dfec4'])){$dfec4 = $_POST['dfec4'];$dfec4 = date("Y-m-d", strtotime($dfec4))}else{$dfec4 = "2000-01-01";}
 
-$fpla = date("Y-m-d", strtotime($fpla));
-$fmic = date("Y-m-d", strtotime($fmic));
-$pvfec = date("Y-m-d", strtotime($pvfec));
-$pvfec1 = date("Y-m-d", strtotime($pvfec1));
+
+
+if(isset($_POST['fpla'])){$fpla = $_POST['fpla'];$fpla = date("Y-m-d", strtotime($fpla))}else{$fpla = "2000-01-01";}
+if(isset($_POST['fmic'])){$fmic = $_POST['fmic'];$fmic = date("Y-m-d", strtotime($fmic))}else{$fmic = "2000-01-01";}
+if(isset($_POST['pvfec'])){$pvfec = $_POST['pvfec'];$pvfec = date("Y-m-d", strtotime($pvfec))}else{$pvfec = "2000-01-01";}
+if(isset($_POST['pvfec1'])){$pvfec1 = $_POST['pvfec1'];$pvfec1 = date("Y-m-d", strtotime($pvfec1))}else{$pvfec1 = "2000-01-01";}
+
 
 /* ////////////////////////// */
 /*SI AMBOS CAMPOS ESTAN REPETIDOS*/
@@ -197,56 +200,68 @@ if(isset($_POST['gar4'])){$gar4 = $_POST['gar4'];}else{$gar4 = "-";}/* if($gar1 
 if(isset($_POST['pvel4'])){$pvel4 = $_POST['pvel4'];}else{$pvel4 = 1;}
 
 
-if($disc1 == 0){$disc1 = 15;}
-if($tdisc1 == 0){$tdisc1 = 4;}
-if($dprov1 == 0){$dprov1 = 7;}
-if($dfact1 == ""){$dfact1 = "-";}
-if($dmod1 == 0){$dmod1 = 197;}
-if($dgar1 == ""){$dgar1 = "-";}
-
-if($disc2 == 0){$disc2 = 15;}
-if($tdisc2 == 0){$tdisc2 = 4;}
-if($dprov2 == 0){$dprov2 = 7;}
-if($dfact2 == ""){$dfact2 = "-";}
-if($dmod2 == 0){$dmod2 = 197;}
-if($dgar2 == ""){$dgar2 = "-";}
-
-if($disc3 == 0){$disc3 = 15;}
-if($tdisc3 == 0){$tdisc3 = 4;}
-if($dprov3 == 0){$dprov3 = 7;}
-if($dfact3 == ""){$dfact3 = "-";}
-if($dmod3 == 0){$dmod3 = 197;}
-if($dgar3 == ""){$dgar3 = "-";}
-
-if($disc4 == 0){$disc4 = 15;}
-if($tdisc4 == 0){$tdisc4 = 4;}
-if($dprov4 == 0){$dprov4 = 7;}
-if($dfact4 == ""){$dfact4 = "-";}
-if($dmod4 == 0){$dmod4 = 197;}
-if($dgar4 == ""){$dgar4 = "-";}
 
 
-if($prpla == 0){$prpla = 7;}
-if($fapla == ""){$fapla = "-";}
-if($gpla == ""){$gpla = "-";}
+/* DISCOS */
+if(isset($_POST['disc1'])){$disc1 = $_POST['disc1'];}else{$disc1 = 15;}/* if($disc1 == 0){$disc1 = 15;} */
+if(isset($_POST['tdisc1'])){$tdisc1 = $_POST['tdisc1'];}else{$tdisc1 = 4;}/* if($tdisc1 == 0){$tdisc1 = 4;} */
+if(isset($_POST['dprov1'])){$dprov1 = $_POST['dprov1'];}else{$dprov1 = 7;}/* if($dprov1 == 0){$dprov1 = 7;} */
+if(isset($_POST['dfact1'])){$dfact1 = $_POST['dfact1'];}else{$dfact1 = "-";}/* if($dfact1 == ""){$dfact1 = "-";} */
+if(isset($_POST['dmod1'])){$dmod1 = $_POST['dmod1'];}else{$dmod1 = 197;}/* if($dmod1 == 0){$dmod1 = 197;} */
+if(isset($_POST['dgar1'])){$dgar1 = $_POST['dgar1'];}else{$dgar1 = "-";}/* if($dgar1 == ""){$dgar1 = "-";} */
+
+if(isset($_POST['disc2'])){$disc2 = $_POST['disc2'];}else{$disc2 = 15;}/* if($disc1 == 0){$disc1 = 15;} */
+if(isset($_POST['tdisc2'])){$tdisc2 = $_POST['tdisc2'];}else{$tdisc2 = 4;}/* if($tdisc1 == 0){$tdisc1 = 4;} */
+if(isset($_POST['dprov2'])){$dprov2 = $_POST['dprov2'];}else{$dprov2 = 7;}/* if($dprov1 == 0){$dprov1 = 7;} */
+if(isset($_POST['dfact2'])){$dfact2 = $_POST['dfact2'];}else{$dfact2 = "-";}/* if($dfact1 == ""){$dfact1 = "-";} */
+if(isset($_POST['dmod2'])){$dmod2 = $_POST['dmod2'];}else{$dmod2 = 197;}/* if($dmod1 == 0){$dmod1 = 197;} */
+if(isset($_POST['dgar2'])){$dgar2 = $_POST['dgar2'];}else{$dgar2 = "-";}/* if($dgar1 == ""){$dgar1 = "-";} */
+
+if(isset($_POST['disc3'])){$disc3 = $_POST['disc3'];}else{$disc3 = 15;}/* if($disc1 == 0){$disc1 = 15;} */
+if(isset($_POST['tdisc3'])){$tdisc3 = $_POST['tdisc3'];}else{$tdisc3 = 4;}/* if($tdisc1 == 0){$tdisc1 = 4;} */
+if(isset($_POST['dprov3'])){$dprov3 = $_POST['dprov3'];}else{$dprov3 = 7;}/* if($dprov1 == 0){$dprov1 = 7;} */
+if(isset($_POST['dfact3'])){$dfact3 = $_POST['dfact3'];}else{$dfact3 = "-";}/* if($dfact1 == ""){$dfact1 = "-";} */
+if(isset($_POST['dmod3'])){$dmod3 = $_POST['dmod3'];}else{$dmod3 = 197;}/* if($dmod1 == 0){$dmod1 = 197;} */
+if(isset($_POST['dgar3'])){$dgar3 = $_POST['dgar3'];}else{$dgar3 = "-";}/* if($dgar1 == ""){$dgar1 = "-";} */
+
+if(isset($_POST['disc4'])){$disc4 = $_POST['disc4'];}else{$disc4 = 15;}/* if($disc1 == 0){$disc1 = 15;} */
+if(isset($_POST['tdisc4'])){$tdisc4 = $_POST['tdisc4'];}else{$tdisc4 = 4;}/* if($tdisc1 == 0){$tdisc1 = 4;} */
+if(isset($_POST['dprov4'])){$dprov4 = $_POST['dprov4'];}else{$dprov4 = 7;}/* if($dprov1 == 0){$dprov1 = 7;} */
+if(isset($_POST['dfact4'])){$dfact4 = $_POST['dfact4'];}else{$dfact4 = "-";}/* if($dfact1 == ""){$dfact1 = "-";} */
+if(isset($_POST['dmod4'])){$dmod4 = $_POST['dmod4'];}else{$dmod4 = 197;}/* if($dmod1 == 0){$dmod1 = 197;} */
+if(isset($_POST['dgar4'])){$dgar4 = $_POST['dgar4'];}else{$dgar4 = "-";}/* if($dgar1 == ""){$dgar1 = "-";} */
 
 
-if($pmic == 0){$pmic = 7;}
-if($facmic == ""){$facmic = "-";}
-if($gmic == ""){$gmic = "-";}
+/* PLACA MADRE */
+if(isset($_POST['ppla'])){$ppla = $_POST['ppla'];}else{$ppla = 96;}/* $ppla = $_POST['ppla']; */
+if(isset($_POST['prpla'])){$prpla = $_POST['prpla'];}else{$prpla = 7;}/* if($prpla == 0){$prpla = 7;} */
+if(isset($_POST['fapla'])){$fapla = $_POST['fapla'];}else{$fapla = "-";}/* if($fapla == ""){$fapla = "-";} */
+if(isset($_POST['gpla'])){$gpla = $_POST['gpla'];}else{$gpla = "-";}/* if($gpla == ""){$gpla = "-";} */
+if(isset($_POST['nropla'])){$nropla = $_POST['nropla'];}else{$nropla = "-";}/* $nropla = $_POST['nropla'];*/
+
+/* MICRO */
+
+if(isset($_POST['mmic'])){$mmic = $_POST['mmic'];}else{$mmic = 80;}/* $mmic = $_POST['mmic']; */
+if(isset($_POST['nromic'])){$nromic = $_POST['nromic'];}else{$nromic = "-";}/* $nromic = $_POST['nromic']; */
+if(isset($_POST['pmic'])){$pmic = $_POST['pmic'];}else{$pmic = 7;}/* if($pmic == 0){$pmic = 7;} */
+if(isset($_POST['facmic'])){$facmic = $_POST['facmic'];}else{$facmic = "-";}/*if($facmic == ""){$facmic = "-";}*/
+if(isset($_POST['gmic'])){$gmic = $_POST['gmic'];}else{$gmic = "-";}/* if($gmic == ""){$gmic = "-";}*/
 
 
-if($pvprov == ""){$pvprov = "7";}
-if($pvfact == ""){$pvfact = "-";}
-if($pvnserie == ""){$pvnserie = "-";}
-if($pvgar == ""){$pvgar = "-";}
+/* PLACA DE VIDEO */
+if(isset($_POST['pvprov'])){$pvprov = $_POST['pvprov'];}else{$pvprov = 7;}/* if($pvprov == ""){$pvprov = "7";} */
+if(isset($_POST['pvfact'])){$pvfact = $_POST['pvfact'];}else{$pvfact = "-";}/* if($pvfact == ""){$pvfact = "-";} */
+if(isset($_POST['pvnserie'])){$pvnserie = $_POST['pvnserie'];}else{$pvnserie = "-";}/*if($pvnserie == ""){$pvnserie = "-";}*/
+if(isset($_POST['pvgar'])){$pvgar = $_POST['pvgar'];}else{$pvgar = "-";}/*if($pvgar == ""){$pvgar = "-";}*/
 
-if($pvprov1 == ""){$pvprov1 = "7";}
-if($pvfact1 == ""){$pvfact1 = "-";}
-if($pvnserie1 == ""){$pvnserie1 = "-";}
-if($pvgar1 == ""){$pvgar1 = "-";}
+if(isset($_POST['pvprov1'])){$pvprov1 = $_POST['pvprov1'];}else{$pvprov1 = 7;}
+if(isset($_POST['pvfact1'])){$pvfact1 = $_POST['pvfact1'];}else{$pvfact1 = "-";}
+if(isset($_POST['pvnserie1'])){$pvnserie1 = $_POST['pvnserie1'];}else{$pvnserie1 = "-";}
+if(isset($_POST['pvgar1'])){$pvgar1 = $_POST['pvgar1'];}else{$pvgar1 = "-";}
+
+
 /* ////////////////////////// */
-if($serieg == $serg OR $serialn == $ser){ 
+if($serieg == $serg){ 
     header("Location: agregarequipo.php?no");
 }
 else{
@@ -268,13 +283,13 @@ else{
     mysqli_query($datos_base, "INSERT INTO pvideows VALUES ('$idws', '$pvmem1', '$pvnserie1', '$pvprov1', '$pvfact1', '$pvfec1', '$pvgar1', 2)");
 
     /* DISCO */
-    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc1', '$dprov1', '$dfact1', '$dfec1','$dgar1', '$tdisc1', '$dmod1', 1)");
+    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc1', '$dprov1', '$dfact1', '$dfec1','$dgar1', '$tdisc1', 1, '$dmod1')");
 
-    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc2', '$dprov2', '$dfact2', '$dfec2', '$dgar2', '$tdisc2', '$dmod2', 2)");
+    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc2', '$dprov2', '$dfact2', '$dfec2', '$dgar2', '$tdisc2', 2, '$dmod2')");
 
-    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc3', '$dprov3', '$dfact3', '$dfec3', '$dgar3', '$tdisc3', '$dmod3', 3)");
+    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc3', '$dprov3', '$dfact3', '$dfec3', '$dgar3', '$tdisc3', 3, '$dmod3')");
 
-    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc4', '$dprov4', '$dfact4', '$dfec4','$dgar4', '$tdisc4', '$dmod4', 4)");
+    mysqli_query($datos_base, "INSERT INTO discows VALUES ('$idws', '$disc4', '$dprov4', '$dfact4', '$dfec4','$dgar4', '$tdisc4', 4, '$dmod4')");
 
 
     /* MEMORIA */
