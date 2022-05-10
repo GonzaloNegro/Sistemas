@@ -104,11 +104,11 @@ $fmic = $_POST['fmic'];
 $gmic = $_POST['gmic'];
 $nromic = $_POST['nromic']; */
 
-$pvmem = $_POST['pvmem'];
+/* $pvmem = $_POST['pvmem'];
 $pvprov = $_POST['pvprov'];
 $pvfact = $_POST['pvfact'];
 $pvnserie = $_POST['pvnserie'];
-$pvfec = $_POST['pvfec'];
+
 $pvgar = $_POST['pvgar'];
 
 $pvmem1 = $_POST['pvmem1'];
@@ -116,26 +116,26 @@ $pvprov1 = $_POST['pvprov1'];
 $pvfact1 = $_POST['pvfact1'];
 $pvnserie1 = $_POST['pvnserie1'];
 $pvfec1 = $_POST['pvfec1'];
-$pvgar1 = $_POST['pvgar1'];
+$pvgar1 = $_POST['pvgar1']; */
 /* ////////////////////////// */
 
 /* FECHAS */
-if(isset($_POST['fec1'])){$fec1 = $_POST['fec1'];$fec1 = date("Y-m-d", strtotime($fec1))}else{$fec1 = "2000-01-01";}
-if(isset($_POST['fec2'])){$fec2 = $_POST['fec2'];$fec2 = date("Y-m-d", strtotime($fec2))}else{$fec2 = "2000-01-01";}
-if(isset($_POST['fec3'])){$fec3 = $_POST['fec3'];$fec3 = date("Y-m-d", strtotime($fec3))}else{$fec3 = "2000-01-01";}
-if(isset($_POST['fec4'])){$fec4 = $_POST['fec4'];$fec4 = date("Y-m-d", strtotime($fec4))}else{$fec4 = "2000-01-01";}
+if(isset($_POST['fec1'])){$fec1 = $_POST['fec1'];$fec1 = date("Y-m-d", strtotime($fec1));}else{$fec1 = "2001-01-01";}
+if(isset($_POST['fec2'])){$fec2 = $_POST['fec2'];$fec2 = date("Y-m-d", strtotime($fec2));}else{$fec2 = "2001-01-01";}
+if(isset($_POST['fec3'])){$fec3 = $_POST['fec3'];$fec3 = date("Y-m-d", strtotime($fec3));}else{$fec3 = "2001-01-01";}
+if(isset($_POST['fec4'])){$fec4 = $_POST['fec4'];$fec4 = date("Y-m-d", strtotime($fec4));}else{$fec4 = "2001-01-01";}
 
-if(isset($_POST['dfec1'])){$dfec1 = $_POST['dfec1'];$dfec1 = date("Y-m-d", strtotime($dfec1))}else{$dfec1 = "2000-01-01";}
-if(isset($_POST['dfec2'])){$dfec2 = $_POST['dfec2'];$dfec2 = date("Y-m-d", strtotime($dfec2))}else{$dfec2 = "2000-01-01";}
-if(isset($_POST['dfec3'])){$dfec3 = $_POST['dfec3'];$dfec3 = date("Y-m-d", strtotime($dfec3))}else{$dfec3 = "2000-01-01";}
-if(isset($_POST['dfec4'])){$dfec4 = $_POST['dfec4'];$dfec4 = date("Y-m-d", strtotime($dfec4))}else{$dfec4 = "2000-01-01";}
+if(isset($_POST['dfec1'])){$dfec1 = $_POST['dfec1'];$dfec1 = date("Y-m-d", strtotime($dfec1));}else{$dfec1 = "2001-01-01";}
+if(isset($_POST['dfec2'])){$dfec2 = $_POST['dfec2'];$dfec2 = date("Y-m-d", strtotime($dfec2));}else{$dfec2 = "2001-01-01";}
+if(isset($_POST['dfec3'])){$dfec3 = $_POST['dfec3'];$dfec3 = date("Y-m-d", strtotime($dfec3));}else{$dfec3 = "2001-01-01";}
+if(isset($_POST['dfec4'])){$dfec4 = $_POST['dfec4'];$dfec4 = date("Y-m-d", strtotime($dfec4));}else{$dfec4 = "2001-01-01";}
 
 
 
-if(isset($_POST['fpla'])){$fpla = $_POST['fpla'];$fpla = date("Y-m-d", strtotime($fpla))}else{$fpla = "2000-01-01";}
-if(isset($_POST['fmic'])){$fmic = $_POST['fmic'];$fmic = date("Y-m-d", strtotime($fmic))}else{$fmic = "2000-01-01";}
-if(isset($_POST['pvfec'])){$pvfec = $_POST['pvfec'];$pvfec = date("Y-m-d", strtotime($pvfec))}else{$pvfec = "2000-01-01";}
-if(isset($_POST['pvfec1'])){$pvfec1 = $_POST['pvfec1'];$pvfec1 = date("Y-m-d", strtotime($pvfec1))}else{$pvfec1 = "2000-01-01";}
+if(isset($_POST['fpla'])){$fpla = $_POST['fpla'];$fpla = date("Y-m-d", strtotime($fpla));}else{$fpla = "2001-01-01";}
+if(isset($_POST['fmic'])){$fmic = $_POST['fmic'];$fmic = date("Y-m-d", strtotime($fmic));}else{$fmic = "2001-01-01";}
+if(isset($_POST['pvfec'])){$pvfec = $_POST['pvfec'];$pvfec = date("Y-m-d", strtotime($pvfec));}else{$pvfec = "2001-01-01";}
+if(isset($_POST['pvfec1'])){$pvfec1 = $_POST['pvfec1'];$pvfec1 = date("Y-m-d", strtotime($pvfec1));}else{$pvfec1 = "2001-01-01";}
 
 
 /* ////////////////////////// */
@@ -249,11 +249,15 @@ if(isset($_POST['gmic'])){$gmic = $_POST['gmic'];}else{$gmic = "-";}/* if($gmic 
 
 
 /* PLACA DE VIDEO */
+
+if(isset($_POST['pvmem'])){$pvmem = $_POST['pvmem'];}else{$pvmem = 9;}/*if($pvmem == ""){$pvmem = 9;}*/
 if(isset($_POST['pvprov'])){$pvprov = $_POST['pvprov'];}else{$pvprov = 7;}/* if($pvprov == ""){$pvprov = "7";} */
 if(isset($_POST['pvfact'])){$pvfact = $_POST['pvfact'];}else{$pvfact = "-";}/* if($pvfact == ""){$pvfact = "-";} */
 if(isset($_POST['pvnserie'])){$pvnserie = $_POST['pvnserie'];}else{$pvnserie = "-";}/*if($pvnserie == ""){$pvnserie = "-";}*/
 if(isset($_POST['pvgar'])){$pvgar = $_POST['pvgar'];}else{$pvgar = "-";}/*if($pvgar == ""){$pvgar = "-";}*/
 
+
+if(isset($_POST['pvmem1'])){$pvmem1 = $_POST['pvmem1'];}else{$pvmem1 = 9;}
 if(isset($_POST['pvprov1'])){$pvprov1 = $_POST['pvprov1'];}else{$pvprov1 = 7;}
 if(isset($_POST['pvfact1'])){$pvfact1 = $_POST['pvfact1'];}else{$pvfact1 = "-";}
 if(isset($_POST['pvnserie1'])){$pvnserie1 = $_POST['pvnserie1'];}else{$pvnserie1 = "-";}

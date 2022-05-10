@@ -21,10 +21,6 @@ $marca = $row2['ID_MARCA'];
 
 
 /*SI AMBOS CAMPOS ESTAN REPETIDOS*/
-$sqli = "SELECT * FROM periferico WHERE SERIEG = '$serieg' AND (ID_TIPOP = 7 OR ID_TIPOP = 8)";
-$resultado2 = $datos_base->query($sqli);
-$row2 = $resultado2->fetch_assoc();
-$serg = $row2['SERIEG'];
 
 $sqli = "SELECT * FROM periferico WHERE SERIE ='$serie' AND (ID_TIPOP = 7 OR ID_TIPOP = 8)";
 $resultado2 = $datos_base->query($sqli);
@@ -37,7 +33,7 @@ $row2 = $resultado2->fetch_assoc();
 $area = $row2['ID_AREA'];
 
 
-if($serieg == $serg OR $serie == $ser){ 
+if($serie == $ser){ 
     header("Location: agregarmonitor.php?no");
 }
 else{

@@ -98,6 +98,12 @@ function ConsultarIncidente($no_tic)
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
                         $tip = $row['TIPO'];?>
+                        <?php 
+                        include("conexion.php");
+                        $sent= "SELECT SERIEG FROM inventario WHERE ID_USUARIO = $consulta[15]";
+                        $resultado = $datos_base->query($sent);
+                        $row = $resultado->fetch_assoc();
+                        $equipo = $row['SERIEG'];?>
                         <!--  CONSULTA DE DATOS -->
 
 
@@ -105,6 +111,7 @@ function ConsultarIncidente($no_tic)
                 
                     <label >ID: </label>&nbsp &nbsp
                     <input type="text" class="id" name="id" value="<?php echo $consulta[0]?>">
+                    <label><u>MONITOR ASIGNADO AL EQUIPO:</u> <?php echo $equipo;?> </label>
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm" class="col-form-label col-xl col-lg">N° GOBIERNO: </label>
