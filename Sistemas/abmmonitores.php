@@ -95,11 +95,11 @@ $row = $resultado->fetch_assoc();
 						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, i.SERIEG, a.AREA
 						FROM periferico p
 						LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
-						INNER JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO
+						LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO
 						LEFT JOIN inventario AS i ON i.ID_USUARIO = u.ID_USUARIO
 						LEFT JOIN area AS a ON  u.ID_AREA = a.ID_AREA
-						LEFT JOIN tipop AS t ON p.ID_TIPOP = t.ID_TIPOP
-						LEFT JOIN marcas AS m ON p.ID_MARCA = m.ID_MARCA
+						LEFT JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
+						LEFT JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA
 						WHERE p.TIPOP LIKE '%MONITOR%' AND (a.AREA LIKE '%$doc%' OR u.NOMBRE LIKE '%$doc%' OR i.SERIEG LIKE '%$doc%' OR mo.MODELO LIKE '%$doc%' OR t.TIPO LIKE '%$doc%' OR m.MARCA LIKE '%$doc%')
 						ORDER BY u.NOMBRE ASC");
 							while($listar = mysqli_fetch_array($consultar))
