@@ -80,6 +80,7 @@ $row = $resultado->fetch_assoc();
 							<tr>
 								<th><p>ÁREA</p></th>
 								<th><p>REPARTICIÓN</p></th>
+								<th><p>ESTADO</p></th>
                                 <th><p>MODIFICAR</p></th>
 							</tr>
 						</thead>
@@ -87,10 +88,10 @@ $row = $resultado->fetch_assoc();
 					if(isset($_POST['btn2']))
 							{
 								$doc = $_POST['buscar'];
-								$consulta=mysqli_query($datos_base, "SELECT a.ID_AREA, a.AREA, r.REPA
+								$consulta=mysqli_query($datos_base, "SELECT a.ID_AREA, a.AREA, r.REPA, a.ACTIVO
 								FROM area a
 								LEFT JOIN reparticion AS r ON r.ID_REPA= a.ID_REPA
-								WHERE a.AREA LIKE '%$doc%' OR r.REPA LIKE '%$doc%'
+								WHERE a.AREA LIKE '%$doc%' OR r.REPA LIKE '%$doc%' OR a.ACTIVO LIKE '%$doc%'
 								ORDER BY r.REPA ASC, a.AREA ASC");
 								while($listar = mysqli_fetch_array($consulta))
 								{
@@ -100,6 +101,7 @@ $row = $resultado->fetch_assoc();
 										<tr>
 										<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4 ></td>
 										<td><h4 style='font-size:16px;'>".$listar['REPA']."</h4 ></td>
+										<td><h4 style='font-size:16px;'>".$listar['ACTIVO']."</h4 ></td>
 										<td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=modarea.php?no=".$listar['ID_AREA']." class=mod><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil-square' viewBox='0 0 16 16'>
 											<path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>
 											<path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z'/>
@@ -109,7 +111,7 @@ $row = $resultado->fetch_assoc();
 								} 
 							}
 							else{
-							$consulta=mysqli_query($datos_base, "SELECT a.ID_AREA, a.AREA, r.REPA
+							$consulta=mysqli_query($datos_base, "SELECT a.ID_AREA, a.AREA, r.REPA, a.ACTIVO
 							FROM area a
 							LEFT JOIN reparticion AS r ON r.ID_REPA= a.ID_REPA
                             ORDER BY r.REPA ASC, a.AREA ASC
@@ -121,6 +123,7 @@ $row = $resultado->fetch_assoc();
 										<tr>
 										<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4 ></td>
 										<td><h4 style='font-size:16px;'>".$listar['REPA']."</h4 ></td>
+										<td><h4 style='font-size:16px;'>".$listar['ACTIVO']."</h4 ></td>
 										<td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=modarea.php?no=".$listar['ID_AREA']." class=mod><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil-square' viewBox='0 0 16 16'>
 											<path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>
 											<path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z'/>

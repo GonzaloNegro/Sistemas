@@ -87,7 +87,7 @@ $row = $resultado->fetch_assoc();
 				        </div>	
 						<div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
-							<select name="estado" class="form-control col-xl col-lg">
+							<select name="estado" class="form-control col-xl col-lg" required>
 								<option value="ACTIVO" selected>ACTIVO</option>
 								<option value="INACTIVO" >INACTIVO</option>
 							</select>

@@ -384,7 +384,7 @@ $row = $resultado->fetch_assoc();
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
 							<div class="row" style="margin: 10px; padding:10px;">
-							<textarea name="motivo" style="margin-left: 40px; display: none;" id="txtaDerivacion" class="form-control col" placeholder="MOTIVO DE DERIVACIÓN" style="text-transform:uppercase" rows="3"></textarea>
+							<textarea name="motivo" style="margin-left: 40px; display: none;" id="txtaDerivacion" class="form-control col" placeholder="MOTIVO" style="text-transform:uppercase" rows="3"></textarea>
 							</div>
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
