@@ -54,18 +54,17 @@ $row = $resultado->fetch_assoc();
         
 		
 
-
 		if ($("#slctestado").val() == '3') {
 			$("#txtaDerivacion").show(1300);
 		    $("#resoderi").show(1300);
 		    $("#slctResoDer").show(1300);
 		}
-		if ($("#slctestado").val() == '2' || $("#slctestado").val() == '5') {
+		if ($("#slctestado").val() == '1' || $("#slctestado").val() == '2' || $("#slctestado").val() == '5') {
 			$("#txtaDerivacion").show(1300);
 		}
 
 		
-		if($("#slctestado").val() == '1' || $("#slctestado").val() == '4'){
+		if($("#slctestado").val() == '4'){
 			$("#txtaDerivacion").hide(1000);
 		    $("#resoderi").hide(1000);
 		    $("#slctResoDer").hide(1000);
@@ -121,15 +120,15 @@ $row = $resultado->fetch_assoc();
 								return true; }
 								
 								}
-						if (form.estado.value == "2" || form.estado.value == "5") { 
+						if (form.estado.value == "1" || form.estado.value == "2" || form.estado.value == "3" || form.estado.value == "5") { 
 							if (form.fecha_solucion.value ==""){
 								alert("Por favor, ingresa la fecha de solucion"); 
 								form.fecha_solucion.focus(); 
 								return true; }
-								// if (motivo.value ==""){
-								// alert("Por favor, complete el campo"); 
-								// form.fecha_solucion.focus(); 
-								// return true; }
+								 if (form.motivo.value ==""){
+								 alert("Por favor, complete el campo de motivo"); 
+								 form.motivo.focus(); 
+								 return true; }
 								
 								}
 								
