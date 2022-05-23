@@ -21,14 +21,14 @@
     <div class="bienvenida" data-aos="zoom-in-up">
         <div class="fecha">    
             <?php  $fechaActual = date('d-m-Y');?>
-            <p class="h5"><u>ULTIMA ACTUALIZACIÓN</u>: 12/05/2022</p>
+            <p class="h5"><u>ULTIMA ACTUALIZACIÓN</u>: 16/05/2022</p>
         </div>
         <hr style='display: block; height: 2px;'>
         <div class="info">
             <ul class="list-unstyled">
                 <li>
                     <ul>
-                        <li>SE AGREGÓ LA PANTALLA DE CONSULTA POR USUARIO</li>    
+                        <li>SIN MODIFICACIONES</li>    
 <!--                         <li>Se agregó la columna de "USUARIOS ACTIVOS" en su respectivo ABM</li>
                         <li>Se muestran las marcas de los modelos en las listas desplegables de ABM</li>
                         <li>Se agregaron los campos para filtrar incidentes por fechas</li> -->

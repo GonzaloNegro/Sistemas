@@ -10,7 +10,7 @@ $tel = $_POST['telefono_personal'];
 $correo = $_POST['correo'];
 $correop = $_POST['correo_personal'];
 $turno = $_POST['turno'];
-$act = $_POST['act'];
+$act = $_POST['activo'];
 $obs = $_POST['obs'];
 
 /* SI UNO DE LOS CAMPOS ESTA REPETIDO */

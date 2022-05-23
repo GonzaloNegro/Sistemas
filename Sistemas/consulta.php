@@ -112,7 +112,7 @@ $cu = $row['CUIL'];
 		<!--Responsive pero cuando se achique puede salirse un boton hasta que llega al minimo y quedan todos en pila,
 		se puede arreglar poniendo todos los botones sin espacio entremedio-->
 		<div id="filtro" class="container-fluid">
-			<form method="POST" action="consulta1.php">
+			<form method="POST" action="consulta.php">
 				<div class="form-group row">
 					<input id="vlva1" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px; width: 48%;" type="submit" name="btn3" value="PENDIENTES"></input>
 

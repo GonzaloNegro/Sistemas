@@ -1,9 +1,9 @@
-<?php 
+<?php
 session_start();
 include('conexion.php');
-if(!isset($_SESSION['cuil'])) 
-    {       
-        header('Location: Inicio.php'); 
+if(!isset($_SESSION['cuil']))
+    {
+        header('Location: Inicio.php');
         exit();
     };
 $iduser = $_SESSION['cuil'];
@@ -143,10 +143,10 @@ $cu = $row['CUIL'];
                             LEFT JOIN reparticion r ON r.ID_REPA = a.ID_REPA
                             WHERE u.NOMBRE LIKE '%$doc%' OR u.CUIL LIKE '%$doc%' OR a.AREA LIKE '%$doc%' OR u.INTERNO LIKE '%$doc%' OR u.ACTIVO LIKE '%$doc%' OR r.REPA LIKE '%$doc%'
                             ORDER BY u.NOMBRE ASC");
-                            while($listar = mysqli_fetch_array($consulta)) 
+                            while($listar = mysqli_fetch_array($consulta))
                             {
                             echo
-                                " 
+                                "
                                 <tr>
                                 <td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4 ></td>
                                 <td><h4 style='font-size:16px;'>".$listar['CUIL']."</h4 ></td>
