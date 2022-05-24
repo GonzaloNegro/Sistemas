@@ -23,10 +23,10 @@ $marca = $row2['ID_MARCA'];
 
 
 /*SI AMBOS CAMPOS ESTAN REPETIDOS*/
-$sqli = "SELECT * FROM periferico WHERE SERIEG = '$serieg' AND (ID_TIPOP = 1 OR ID_TIPOP = 2 OR ID_TIPOP = 3 OR ID_TIPOP = 4 OR ID_TIPOP = 10 OR ID_TIPOP = 13)";
+/* $sqli = "SELECT * FROM periferico WHERE SERIEG = '$serieg' AND (ID_TIPOP = 1 OR ID_TIPOP = 2 OR ID_TIPOP = 3 OR ID_TIPOP = 4 OR ID_TIPOP = 10 OR ID_TIPOP = 13)";
 $resultado2 = $datos_base->query($sqli);
 $row2 = $resultado2->fetch_assoc();
-$serg = $row2['SERIEG'];
+$serg = $row2['SERIEG']; */
 
 $sqli = "SELECT * FROM periferico WHERE SERIE ='$serie' AND (ID_TIPOP = 1 OR ID_TIPOP = 2 OR ID_TIPOP = 3 OR ID_TIPOP = 4 OR ID_TIPOP = 10 OR ID_TIPOP = 13)";
 $resultado2 = $datos_base->query($sqli);
@@ -38,7 +38,7 @@ $resultado2 = $datos_base->query($sqli);
 $row2 = $resultado2->fetch_assoc();
 $area = $row2['ID_AREA'];
 
-if($serieg == $serg OR $serie == $ser){ 
+if($serie == $ser){ 
     header("Location: agregarimpresora.php?no");
 }
 else{
