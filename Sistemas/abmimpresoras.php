@@ -93,7 +93,7 @@ $row = $resultado->fetch_assoc();
 					if(isset($_POST['btn2']))
 					{
 						$doc = $_POST['buscar'];
-						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, mo.MODELO, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, p.SERIE	
+						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, mo.MODELO, p.SERIEG, u.NOMBRE, t.TIPO, m.MARCA, p.SERIE	
 						FROM periferico p 
 						LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
 						LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
