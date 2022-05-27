@@ -105,33 +105,69 @@ $row = $resultado->fetch_assoc();
 						<th class='cabecera'><p>N°WS</p></th>
 						<th class='cabecera'><p>USUARIO</p></th>
 						<th class='cabecera'><p>MICRO</p></th>
-						<th class='cabecera'><p>MEMORIA</p></th>
-						<th class='cabecera'><p>TIPO MEMORIA</p></th>
+						<th class='cabecera'><p>MEMORIA RAM</p></th>
+						<th class='cabecera'><p>TIPO DISCO</p></th>
                         <th class='cabecera'><p>ESTADO</p></th>
                         <th class='cabecera'><p>AREA</p></th>
 						<th class='cabecera'><p>REPARTICION</p></th>
 						<!--<th id='cabeceraacc' class='cabecera' width=65px><p>ACCIÓN</p></th>-->
 						</tr>
 						</thead>";
-						$consultar=mysqli_query($datos_base, "select i.ID_WS as N°WS, u.NOMBRE, mi.MICRO, m.MEMORIA, t.TIPOMEM, e.ESTADO, a.AREA, r.REPA 
+						$consultar=mysqli_query($datos_base, "select i.SERIEG as N°WS, i.ID_WS, u.NOMBRE, mi.MICRO, e.ESTADO, a.AREA, r.REPA 
 						from inventario i left join usuarios u on i.ID_USUARIO=u.ID_USUARIO 
 						LEFT JOIN estado_ws e on i.ID_ESTADOWS=E.ID_ESTADOWS
-                        LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS left join memoria m ON ws.ID_MEMORIA = m.ID_MEMORIA 
-						left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM left join area a on i.ID_AREA=a.ID_AREA 
+                        left join area a on i.ID_AREA=a.ID_AREA 
 						LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA  
 						LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
 	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
 						where i.ID_SO=$so");
 									while($listar = mysqli_fetch_array($consultar))
 									{
+
+										$nWS=$listar['ID_WS'];
+										$memoriaram=mysqli_query($datos_base, "SELECT w.ID_WS,w.ID_MEMORIA, m.MEMORIA, w.SLOT from wsmem w inner join memoria m on w.ID_MEMORIA=m.ID_MEMORIA where w.ID_WS=$nWS");
+						                $ram1="";$ram2="";$ram3="";$ram4="";
+										while($memram= mysqli_fetch_array($memoriaram)){
+											if ($memram['SLOT']==1) {
+												$ram1=$memram['MEMORIA'];
+											}
+											if ($memram['SLOT']==2) {
+												$ram2=$memram['MEMORIA'];
+											}
+											if ($memram['SLOT']==3) {
+												$ram3=$memram['MEMORIA'];
+											}
+											if ($memram['SLOT']==4) {
+												$ram4=$memram['MEMORIA'];
+											}
+
+										}
+										$discos=mysqli_query($datos_base, "select d.ID_WS, d.ID_DISCO, d.NUMERO, t.TIPOD from discows d inner join tipodisco t on d.ID_TIPOD=t.ID_TIPOD where d.ID_WS=$nWS");
+						                $disco1="";$disco2="";
+										while($disc= mysqli_fetch_array($discos)){
+											if ($disc['NUMERO']==1) {
+												$disco1=$disc['TIPOD'];
+											}
+											if ($disc['NUMERO']==2) {
+												$disco2=$disc['TIPOD'];
+											}
+											if ($disc['NUMERO']==3) {
+												$disco3=$disc['TIPOD'];
+											}
+											if ($disc['NUMERO']==4) {
+												$disco4=$disc['TIPOD'];
+											}
+
+										}
+
 										echo
 													"
 														<tr style='border-bottom: solid 1px #073256;'>
 														<td><h4 class='filas' style='text-align: left; '>".$listar['N°WS']."</h4></td>
 														<td><h4 class='filas' style='text-align: center; '>".$listar['NOMBRE']."</h4></td>
-														<td><h4 class='filas' style='text-align: left; '>".$listar['MICRO']."</h4></td>
-														<td><h4 class='filas' style='text-align: center; '>".$listar['MEMORIA']."</h4></td>
-														<td><h4 class='filas' style='text-align: center; '>".$listar['TIPOMEM']."</h4></td>
+														<td><h4 class='filas' style='text-align: center; '>".$listar['MICRO']."</h4></td>
+														<td><h4 style='font-size:14px;' class='fila'>$ram1-$ram2-$ram3-$ram4</h4></td>
+														<td><h4 style='font-size:14px;' class='fila'>$disco1-$disco2-$disco3-$disco4</h4></td>
                                                         <td><h4 class='filas' style='text-align: center; '>".$listar['ESTADO']."</h4></td>
                                                         <td><h4 class='filas' style='text-align: center; '>".$listar['AREA']."</h4></td>
 														<td><h4 class='filas' style='text-align: center; '>".$listar['REPA']."</h4></td>
@@ -186,25 +222,61 @@ $row = $resultado->fetch_assoc();
 						<!--<th id='cabeceraacc' class='cabecera' width=65px><p>ACCIÓN</p></th>-->
 						</tr>
 						</thead>";
-						$consultar=mysqli_query($datos_base, "select i.SERIEG as N°WS, u.NOMBRE, mi.MICRO, m.MEMORIA, t.TIPOMEM, e.ESTADO, a.AREA, r.REPA 
+						$consultar=mysqli_query($datos_base, "select i.SERIEG as N°WS, i.ID_WS, u.NOMBRE, mi.MICRO, e.ESTADO, a.AREA, r.REPA 
 						from inventario i left join usuarios u on i.ID_USUARIO=u.ID_USUARIO 
 						LEFT JOIN estado_ws e on i.ID_ESTADOWS=E.ID_ESTADOWS
-                        LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS left join memoria m ON ws.ID_MEMORIA = m.ID_MEMORIA 
-						left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM left join area a on i.ID_AREA=a.ID_AREA 
+                        left join area a on i.ID_AREA=a.ID_AREA 
 						LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA  
 						LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
 	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
 						where i.ID_SO=$so and r.ID_REPA=$reparticion");
 									while($listar = mysqli_fetch_array($consultar))
 									{
+
+										$nWS=$listar['ID_WS'];
+										$memoriaram=mysqli_query($datos_base, "SELECT w.ID_WS,w.ID_MEMORIA, m.MEMORIA, w.SLOT from wsmem w inner join memoria m on w.ID_MEMORIA=m.ID_MEMORIA where w.ID_WS=$nWS");
+						                $ram1="";$ram2="";$ram3="";$ram4="";
+										while($memram= mysqli_fetch_array($memoriaram)){
+											if ($memram['SLOT']==1) {
+												$ram1=$memram['MEMORIA'];
+											}
+											if ($memram['SLOT']==2) {
+												$ram2=$memram['MEMORIA'];
+											}
+											if ($memram['SLOT']==3) {
+												$ram3=$memram['MEMORIA'];
+											}
+											if ($memram['SLOT']==4) {
+												$ram4=$memram['MEMORIA'];
+											}
+
+										}
+										$discos=mysqli_query($datos_base, "select d.ID_WS, d.ID_DISCO, d.NUMERO, t.TIPOD from discows d inner join tipodisco t on d.ID_TIPOD=t.ID_TIPOD where d.ID_WS=$nWS");
+						                $disco1="";$disco2="";
+										while($disc= mysqli_fetch_array($discos)){
+											if ($disc['NUMERO']==1) {
+												$disco1=$disc['TIPOD'];
+											}
+											if ($disc['NUMERO']==2) {
+												$disco2=$disc['TIPOD'];
+											}
+											if ($disc['NUMERO']==3) {
+												$disco3=$disc['TIPOD'];
+											}
+											if ($disc['NUMERO']==4) {
+												$disco4=$disc['TIPOD'];
+											}
+
+										}
+
 										echo
 													"
 														<tr style='border-bottom: solid 1px #073256;'>
 														<td><h4 class='filas' style='text-align: left; '>".$listar['N°WS']."</h4></td>
 														<td><h4 class='filas' style='text-align: center; '>".$listar['NOMBRE']."</h4></td>
-														<td><h4 class='filas' style='text-align: left; '>".$listar['MICRO']."</h4></td>
-														<td><h4 class='filas' style='text-align: center; '>".$listar['MEMORIA']."</h4></td>
-														<td><h4 class='filas' style='text-align: center; '>".$listar['TIPOMEM']."</h4></td>
+														<td><h4 class='filas' style='text-align: center; '>".$listar['MICRO']."</h4></td>
+														<td><h4 style='font-size:14px;' class='fila'>$ram1-$ram2-$ram3-$ram4</h4></td>
+														<td><h4 style='font-size:14px;' class='fila'>$disco1-$disco2-$disco3-$disco4</h4></td>
                                                         <td><h4 class='filas' style='text-align: center; '>".$listar['ESTADO']."</h4></td>
                                                         <td><h4 class='filas' style='text-align: center; '>".$listar['AREA']."</h4></td>
 														<!--<td class='text-center text-nowrap' id='accion'><a class='btn btn-sm btn-outline-primary' href=consultadetalleinv.php?no=".$listar['N°WS']." class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>

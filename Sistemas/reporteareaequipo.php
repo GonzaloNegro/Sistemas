@@ -146,18 +146,24 @@ $row = $resultado->fetch_assoc();
 											if ($disc['NUMERO']==2) {
 												$disco2=$disc['TIPOD'];
 											}
+											if ($disc['NUMERO']==3) {
+												$disco3=$disc['TIPOD'];
+											}
+											if ($disc['NUMERO']==4) {
+												$disco4=$disc['TIPOD'];
+											}
 
 										}
 										echo
 													"
 														<tr style='border-bottom: solid 1px #073256;'>
-														<td><h4 class='fila'>".$listar['N°WS']."</h4></td>
-														<td><h4 class='fila'>".$listar['NOMBRE']."</h4></td>
-														<td><h4 class='fila'>".$listar['MICRO']."</h4></td>
-														<td><h4 class='fila'>$ram1 $ram2 $ram3 $ram4</h4></td>
-														<td><h4 class='fila'>$disco1-$disco2</h4></td>
-														<td><h4 class='fila'>".$listar['SIST_OP']."</h4></td>
-														<td><h4 class='fila'>".$listar['ESTADO']."</h4></td>
+														<td><h4 style='font-size:16px;' class='fila'>".$listar['N°WS']."</h4></td>
+														<td><h4 style='font-size:16px;' class='fila'>".$listar['NOMBRE']."</h4></td>
+														<td><h4 style='font-size:14px;' class='fila'>".$listar['MICRO']."</h4></td>
+														<td><h4 style='font-size:14px;' class='fila'>$ram1-$ram2-$ram3-$ram4</h4></td>
+														<td><h4 style='font-size:14px;' class='fila'>$disco1-$disco2-$disco3-$disco4</h4></td>
+														<td><h4 style='font-size:14px;' class='fila'>".$listar['SIST_OP']."</h4></td>
+														<td><h4 style='font-size:16px;' class='fila'>".$listar['ESTADO']."</h4></td>
 														<!--<td class='text-center text-nowrap' id='accion'><a class='btn btn-sm btn-outline-primary' href=consultadetalleinv.php?no=".$listar['N°WS']." class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
 													<path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
 													<path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>

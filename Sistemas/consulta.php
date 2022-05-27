@@ -74,6 +74,7 @@ $cu = $row['CUIL'];
 					){
                         echo'
 						<li><a href="estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
+						<li><a href="stock.php" class="nav-link px-2 link-dark link">STOCK</a></li>
                     ';
 					} ?>
 			<li><a href="calen/calen.php" class="nav-link px-2 link-dark link"><i class="bi bi-calendar3"></i></a>
