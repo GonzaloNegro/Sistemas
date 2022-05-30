@@ -121,14 +121,11 @@ function ConsultarIncidente($no_tic)
                     </div>
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
-
                         <label id="lblForm"class="col-form-label col-xl col-lg">FACTURA: </label>
                         <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="fac" value="<?php echo $consulta[13]?>">
                         <label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIÓN: </label>
-                        <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" placeholder="OBSERVACIÓN" rows="3" value="<?php echo $consulta[7]?>"></textarea>
-
+                        <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" rows="3"><?php echo $consulta[7]?></textarea>
                     </div>
-
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA: </label>
