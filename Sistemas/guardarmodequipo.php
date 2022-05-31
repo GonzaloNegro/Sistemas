@@ -305,6 +305,9 @@ else{
 
     mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem4', '$tmem4', '$prov4', '$fact4', '$fec4', '$marc4', '$gar4', 4, '$pvel4')");
 
+
+    mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, '$idws', '$usu')");
+
     header("Location: agregarequipo.php?ok");
 }
 mysqli_close($datos_base);
