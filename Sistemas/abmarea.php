@@ -91,7 +91,7 @@ $row = $resultado->fetch_assoc();
 								$consulta=mysqli_query($datos_base, "SELECT a.ID_AREA, a.AREA, r.REPA, a.ACTIVO
 								FROM area a
 								LEFT JOIN reparticion AS r ON r.ID_REPA= a.ID_REPA
-								WHERE a.AREA LIKE '%$doc%' OR r.REPA LIKE '%$doc%' OR a.ACTIVO LIKE '%$doc%'
+								WHERE a.AREA LIKE '%$doc%' OR r.REPA LIKE '%$doc%' OR a.ACTIVO LIKE '$doc'
 								ORDER BY r.REPA ASC, a.AREA ASC");
 								while($listar = mysqli_fetch_array($consulta))
 								{

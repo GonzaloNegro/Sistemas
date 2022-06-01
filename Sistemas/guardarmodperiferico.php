@@ -13,6 +13,7 @@ $prov = $_POST['prov'];
 $fac = $_POST['fac'];
 $obs = $_POST['obs'];
 
+$fechaActual = date('Y-m-d');
 
 /*SI AMBOS CAMPOS ESTAN REPETIDOS*/
 $sqli = "SELECT * FROM periferico WHERE SERIEG = '$serieg' AND (ID_TIPOP = 5 OR ID_TIPOP = 6 OR ID_TIPOP = 9 OR ID_TIPOP = 11 OR ID_TIPOP = 12)";
@@ -51,6 +52,15 @@ if($serieg == $serg OR $serie == $ser){
 }
 else{
     mysqli_query($datos_base, "INSERT INTO periferico VALUES (DEFAULT, '$tipop', DEFAULT, '$serieg', '$marca', '$serie', 3, '$obs', '$tip', DEFAULT, 'NO', DEFAULT, '$prov', '$fac', '$area', '$usu', '$gar', '$est', '$modelo')");
+
+    /* GUARDANDO PARA LOS MOVIMIENTOS */
+    $pe=mysqli_query($datos_base, "SELECT MAX(ID_PERI) AS id FROM periferico");
+    if ($row = mysqli_fetch_row($pe)) {
+        $per = trim($row[0]);
+        }
+
+    mysqli_query($datos_base, "INSERT INTO movimientosperi VALUES (DEFAULT, '$fechaActual', '$per', '$area', '$usu', '$est')");
+
     header("Location: agregarotrosperifericos.php?ok");
 }
 mysqli_close($datos_base);

@@ -55,6 +55,17 @@ $row = $resultado->fetch_assoc();
 			background-color: #edf0f5;
 			}
 	</style>
+
+    <script>
+				function validar_formulario(form){
+						if (form.selectorrepart.value == "" & form.slcarea.value == "" & form.slcestado.value == "" & form.so.value == "" & form.micro.value == "") { 
+							alert("Por favor, complete al menos un campo "); selectorrepart.focus(); return true; 
+							}
+					    else{form.submit();}
+				}
+	</script>
+
+
 </head>
 <body>
     <section id="inicio">
@@ -74,7 +85,7 @@ $row = $resultado->fetch_assoc();
 
 
 	
-		<form id="campos" method="POST" action="reporteequipo.php">
+		<form id="campos" method="POST" action="reporteequipo2.php">
 		
         <div class="form-group row" style="margin-top: 15px;">
 
@@ -183,10 +194,12 @@ $row = $resultado->fetch_assoc();
 											})
 										})
 									</script>
-					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn2" value="BUSCAR"></input>
+					<input type="submit" name="btn2" value="BUSCAR" onclick="validar_formulario(this.form)" id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;"></input>
                     <input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn1" value="LIMPIAR"></input>
 				</div>
 		</form>
+
+		
 		</div>
 		<hr>
 

@@ -19,6 +19,7 @@ $fac = $_POST['fac'];
 $gar = $_POST['gar'];
 $obs = $_POST['obs'];
 
+$fechaActual = date('Y-m-d');
 
 $mem1 = $_POST['mem1'];
 $tmem1 = $_POST['tmem1'];
@@ -568,8 +569,110 @@ $area = $row2['ID_AREA'];
 if($serieg == $serg){ 
     header("Location: abmequipos.php?no");
 }
-else{
-    mysqli_query($datos_base, "UPDATE inventario SET ID_AREA = '$area', SERIALN = '$serialn', SERIEG = '$serieg', ID_MARCA = '$marca', ID_ESTADOWS = '$est', OBSERVACION = '$obs', ID_PROVEEDOR = '$prov', FACTURA = '$fac', MASTERIZADA = '$masterizacion', MAC = '$mac', RIP = '$reserva', IP = '$ip', ID_RED = '$red', ID_TIPOWS = '$tippc', ID_USUARIO = '$usu' WHERE ID_WS = '$id'");
+else{    
+    /* MOVIMIENTOS DEL EQUIPO */
+    $sqli = "SELECT ID_AREA, ID_USUARIO, ID_ESTADOWS, ID_MARCA, ID_SO, MASTERIZADA, MAC, RIP, IP, ID_RED FROM inventario WHERE ID_WS = '$id'";
+    $resultado2 = $datos_base->query($sqli);
+    $row2 = $resultado2->fetch_assoc();
+    $a = $row2['ID_AREA'];
+    $u = $row2['ID_USUARIO'];
+    $e = $row2['ID_ESTADOWS'];
+    $mr = $row2['ID_MARCA'];
+    $s = $row2['ID_SO'];
+    $ma = $row2['MASTERIZADA'];
+    $mc = $row2['MAC'];
+    $r = $row2['RIP'];
+    $i = $row2['IP'];
+    $rd = $row2['ID_RED'];
+    if($a != $area || $u != $usu || $e != $est || $mr != $marca || $s != $so || $ma != $masterizacion || $mc != $mac || $r != $reserva || $i != $ip || $rd != $red){
+        mysqli_query($datos_base, "INSERT INTO movimientos VALUES (DEFAULT, '$fechaActual', '$id', '$usu', '$area', '$est', '$marca', '$so', '$masterizacion', '$mac', '$reserva', '$ip', '$red')");
+    }
+
+    /* GUARDANDO PARA LAS MEJORAS */
+    $sqli = "SELECT ID_PLACAM FROM placamws WHERE ID_WS = '$id'";
+    $resultado2 = $datos_base->query($sqli);
+    $row2 = $resultado2->fetch_assoc();
+    $mejpm = $row2['ID_PLACAM'];
+
+    $sqli = "SELECT ID_MICRO FROM microws WHERE ID_WS = '$id'";
+    $resultado2 = $datos_base->query($sqli);
+    $row2 = $resultado2->fetch_assoc();
+    $mejmic = $row2['ID_MICRO'];
+
+    $sqli = "SELECT ID_PVIDEO FROM pvideows WHERE ID_WS = '$id' AND SLOT = 1";
+    $resultado2 = $datos_base->query($sqli);
+    $row2 = $resultado2->fetch_assoc();
+    $mejpv1 = $row2['ID_PVIDEO'];
+
+    $sqli = "SELECT ID_PVIDEO FROM pvideows WHERE ID_WS = '$id' AND SLOT = 2";
+    $resultado2 = $datos_base->query($sqli);
+    $row2 = $resultado2->fetch_assoc();
+    $mejpv2 = $row2['ID_PVIDEO'];
+
+    /* MEMORIA PARA MEJORAS */
+    $sqli = "SELECT ID_MEMORIA, ID_TIPOMEM, ID_FRECUENCIA FROM wsmem WHERE ID_WS = '$id' AND SLOT = 1";
+    $resultado2 = $datos_base->query($sqli);
+    $row2 = $resultado2->fetch_assoc();
+    $mejmem1 = $row2['ID_MEMORIA'];
+    $mejtmem1 = $row2['ID_TIPOMEM'];
+    $mejfre1 = $row2['ID_FRECUENCIA'];
+
+    $sqli = "SELECT ID_MEMORIA, ID_TIPOMEM, ID_FRECUENCIA FROM wsmem WHERE ID_WS = '$id' AND SLOT = 2";
+    $resultado2 = $datos_base->query($sqli);
+    $row2 = $resultado2->fetch_assoc();
+    $mejmem2 = $row2['ID_MEMORIA'];
+    $mejtmem2 = $row2['ID_TIPOMEM'];
+    $mejfre2 = $row2['ID_FRECUENCIA'];
+
+    $sqli = "SELECT ID_MEMORIA, ID_TIPOMEM, ID_FRECUENCIA FROM wsmem WHERE ID_WS = '$id' AND SLOT = 3";
+    $resultado2 = $datos_base->query($sqli);
+    $row2 = $resultado2->fetch_assoc();
+    $mejmem3 = $row2['ID_MEMORIA'];
+    $mejtmem3 = $row2['ID_TIPOMEM'];
+    $mejfre3 = $row2['ID_FRECUENCIA'];
+
+    $sqli = "SELECT ID_MEMORIA, ID_TIPOMEM, ID_FRECUENCIA FROM wsmem WHERE ID_WS = '$id' AND SLOT = 4";
+    $resultado2 = $datos_base->query($sqli);
+    $row2 = $resultado2->fetch_assoc();
+    $mejmem4 = $row2['ID_MEMORIA'];
+    $mejtmem4 = $row2['ID_TIPOMEM'];
+    $mejfre4 = $row2['ID_FRECUENCIA'];
+
+    /* DISCO PARA MEJORAS */
+    $sqli = "SELECT ID_DISCO, ID_TIPOD FROM discows WHERE ID_WS = '$id' AND NUMERO = 1";
+    $resultado2 = $datos_base->query($sqli);
+    $row2 = $resultado2->fetch_assoc();
+    $mejdis1 = $row2['ID_DISCO'];
+    $mejtdis1 = $row2['ID_TIPOD'];
+
+    $sqli = "SELECT ID_DISCO, ID_TIPOD FROM discows WHERE ID_WS = '$id' AND NUMERO = 2";
+    $resultado2 = $datos_base->query($sqli);
+    $row2 = $resultado2->fetch_assoc();
+    $mejdis2 = $row2['ID_DISCO'];
+    $mejtdis2 = $row2['ID_TIPOD'];
+
+    $sqli = "SELECT ID_DISCO, ID_TIPOD FROM discows WHERE ID_WS = '$id' AND NUMERO = 3";
+    $resultado2 = $datos_base->query($sqli);
+    $row2 = $resultado2->fetch_assoc();
+    $mejdis3 = $row2['ID_DISCO'];
+    $mejtdis3 = $row2['ID_TIPOD'];
+
+    $sqli = "SELECT ID_DISCO, ID_TIPOD FROM discows WHERE ID_WS = '$id' AND NUMERO = 4";
+    $resultado2 = $datos_base->query($sqli);
+    $row2 = $resultado2->fetch_assoc();
+    $mejdis4 = $row2['ID_DISCO'];
+    $mejtdis4 = $row2['ID_TIPOD'];
+
+    if($mejpm != $placam || $mejmic != $micro || $mejpv1 != $pvmem || $mejpv2 != $pvmem1 || $mejmem1 != $mem1 || $mejtmem1 != $tmem1 || $mejfre1 != $pvel1 || $mejmem2 != $mem2 || $mejtmem2 != $tmem2 || $mejfre2 != $pvel2 || $mejmem3 != $mem3 || $mejtmem3 != $tmem3 || $mejfre3 != $pvel3 || $mejmem4 != $mem4 || $mejtmem4 != $tmem4 || $mejfre4 != $pvel4 || $mejdis1 != $disc1 || $mejtdis1 != $tdisc1 || $mejdis2 != $disc2 || $mejtdis2 != $tdisc2 || $mejdis3 != $disc3 || $mejtdis3 != $tdisc3 || $mejdis4 != $disc4 || $mejtdis4 != $tdisc4){
+    mysqli_query($datos_base, "INSERT INTO mejoras VALUES (DEFAULT, '$fechaActual', '$id', '$placam', '$micro', '$pvmem', '$pvmem1', '$mem1', '$tmem1', '$pvel1', '$mem2', '$tmem2', '$pvel2', '$mem3', '$tmem3', '$pvel3', '$mem4', '$tmem4', '$pvel4', '$disc1', '$tdisc1', '$disc2', '$tdisc2', '$disc3', '$tdisc3', '$disc4', '$tdisc4')");
+    }
+
+    $mejdis1 = $row2['ID_DISCO'];
+    $mejtdis1 = $row2['ID_TIPOD'];
+
+
+
+    mysqli_query($datos_base, "UPDATE inventario SET ID_AREA = '$area', SERIALN = '$serialn', SERIEG = '$serieg', ID_MARCA = '$marca', ID_ESTADOWS = '$est', ID_SO = '$so', OBSERVACION = '$obs', ID_PROVEEDOR = '$prov', FACTURA = '$fac', MASTERIZADA = '$masterizacion', MAC = '$mac', RIP = '$reserva', IP = '$ip', ID_RED = '$red', ID_TIPOWS = '$tippc', ID_USUARIO = '$usu' WHERE ID_WS = '$id'");
 
 
     /* PLACA MADRE */

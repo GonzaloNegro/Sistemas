@@ -13,6 +13,8 @@ $prov = $_POST['prov'];
 $fac = $_POST['fac'];
 $obs = $_POST['obs'];
 
+$fechaActual = date('Y-m-d');
+
 $sqli = "SELECT ID_MARCA FROM modelo
 WHERE ID_MODELO = '$modelo'";
 $resultado2 = $datos_base->query($sqli);
@@ -69,7 +71,20 @@ if(/* $serieg == $serg OR */ $serie == $ser){
     header("Location: abmmonitores.php?no");
 }
 else{
+    /* MOVIMIENTOS DEL PERIFERICO */
+    $sqli = "SELECT ID_AREA, ID_USUARIO, ID_ESTADOWS FROM periferico WHERE ID_PERI = '$id'";
+    $resultado2 = $datos_base->query($sqli);
+    $row2 = $resultado2->fetch_assoc();
+    $a = $row2['ID_AREA'];
+    $u = $row2['ID_USUARIO'];
+    $e = $row2['ID_ESTADOWS'];
+    if($a != $area || $u != $usu || $e != $estado){
+    mysqli_query($datos_base, "INSERT INTO movimientosperi VALUES (DEFAULT, '$fechaActual', '$id', '$area', '$usu', '$estado')");
+    }
+
+
     mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg', ID_MARCA = '$marca', SERIE = '$serie', OBSERVACION = '$obs', FACTURA = '$factura', ID_AREA = '$area', ID_USUARIO = '$usu', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
+
     header("Location: abmmonitores.php?ok");
 }
 mysqli_close($datos_base);
