@@ -121,3 +121,10 @@ header{
 #vlv:hover{
 background-color: #176AB5;
 }
+
+.inp{
+	width: 5px;
+	background-color: none;
+	border: none;
+	color: #edf0f5;
+}

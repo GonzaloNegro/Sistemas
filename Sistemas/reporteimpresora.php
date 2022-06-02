@@ -621,6 +621,18 @@ if(isset($_POST['btn2']))
 		   WHERE a.ID_REPA = $reparticion and p.ID_AREA=$area and p.ID_ESTADOWS=$estado and p.ID_TIPOP=$tipo and p.ID_MARCA=$marca
 		   and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
+	else {
+		$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, r.REPA, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO		
+        FROM periferico p 
+        LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
+        LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
+        INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
+        INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
+        inner join reparticion r on a.ID_REPA=r.ID_REPA
+        left join modelo mo on p.ID_MODELO=mo.ID_MODELO
+        WHERE p.TIPOP LIKE '%IMPRESORA%'
+        ORDER BY u.NOMBRE ASC");
+	}
 	
 	
 }
