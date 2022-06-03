@@ -8,21 +8,36 @@ $consulta = ConsultarIncidente($_GET['no']);
 function ConsultarIncidente($no_tic)
 {	
 	$datos_base=mysqli_connect('localhost', 'root', '', 'incidentes') or exit('No se puede conectar con la base de datos');
-	$sentencia =  "SELECT * FROM movimientos WHERE ID_WS='".$no_tic."'";
+	$sentencia =  "SELECT * FROM mejoras WHERE ID_WS='".$no_tic."'";
 	$resultado = mysqli_query($datos_base, $sentencia);
 	$filas = mysqli_fetch_assoc($resultado);
 	return [
 		$filas['ID_WS'],/*0*/
-        $filas['ID_USUARIO'],/*2*/
-        $filas['ID_AREA'],/*3*/
-        $filas['ID_ESTADOWS'],/*4*/
-        $filas['ID_MARCA'],/*5*/
-        $filas['ID_SO'],/*6*/
-        $filas['MASTERIZADA'],/*7*/
-        $filas['MAC'],/*8*/
-        $filas['RIP'],/*9*/
-        $filas['IP'],/*10*/
-        $filas['ID_RED']/*11*/
+        $filas['FECHA'],/*1*/
+        $filas['ID_PLACAM'],/*2*/
+        $filas['ID_MICRO'],/*3*/
+        $filas['PVIDEO1'],/*4*/
+        $filas['PVIDEO2'],/*5*/
+        $filas['MEMORIA1'],/*6*/
+        $filas['TIPOMEM1'],/*7*/
+        $filas['FRECUENCIA1'],/*8*/
+        $filas['MEMORIA2'],/*9*/
+        $filas['TIPOMEM2'],/*10*/
+        $filas['FRECUENCIA2'],/*11*/
+        $filas['MEMORIA3'],/*12*/
+        $filas['TIPOMEM3'],/*13*/
+        $filas['FRECUENCIA3'],/*14*/
+        $filas['MEMORIA4'],/*15*/
+        $filas['TIPOMEM4'],/*16*/
+        $filas['FRECUENCIA4'],/*17*/
+        $filas['DISCO1'],/*18*/
+        $filas['TIPOD1'],/*19*/
+        $filas['DISCO2'],/*20*/
+        $filas['TIPOD2'],/*21*/
+        $filas['DISCO3'],/*22*/
+        $filas['TIPOD3'],/*23*/
+        $filas['DISCO4'],/*24*/
+        $filas['TIPOD4']/*25*/
 	];
 }
 
@@ -30,7 +45,7 @@ function ConsultarIncidente($no_tic)
 <!DOCTYPE html>
 <html>
 <head>
-	<title>MOVIMIENTOS</title>
+	<title>MEJORAS</title>
 	<link rel="icon" href="imagenes/logoObrasPúblicas.png">
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -56,7 +71,7 @@ function ConsultarIncidente($no_tic)
                 $row = $resultado->fetch_assoc();
                 $serg = $row['SERIEG'];
                 ?>
-			<h1>MOVIMIENTOS EQUIPO <?php echo $serg?></h1>
+			<h1>MEJORAS EQUIPO <?php echo $serg?></h1>
 		</div>
 	</header>
 	<section id="movimientos">
@@ -67,26 +82,22 @@ function ConsultarIncidente($no_tic)
 							<tr>
                                 <th><p class=g>FECHA</p></th>
 								<th><p class=g>USUARIO</p></th>
-								<th><p class=g>ÁREA</p></th>
-								<th><p class=g>ESTADO</p></th>
-                                <th><p class=g>MARCA</p></th>
-                                <th><p class=g>S.O.</p></th>
-                                <th><p class=g>MASTER</p></th>
-                                <th><p class=g>MAC</p></th>
-                                <th><p class=g>RIP</p></th>
-                                <th><p class=g>IP</p></th>
-                                <th><p class=g>RED</p></th>
+								<th><p class=g>PLACA MADRE</p></th>
+								<th><p class=g>MICRO</p></th>
+                                <th><p class=g>PLACAS VIDEO</p></th>
+                                <th><p class=g>MEMORIAS</p></th>
+                                <th><p class=g>TIPO MEMORIAS</p></th>
+                                <th><p class=g>DISCOS</p></th>
+                                <th><p class=g>TIPO DISCOS</p></th>
 							</tr>
 						</thead>";
                         $equipo = $consulta[0];
-                        $consultar=mysqli_query($datos_base, "SELECT m.ID_WS, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
-                        FROM movimientos m 
-                        LEFT JOIN usuarios AS u ON u.ID_USUARIO = m.ID_USUARIO
-                        LEFT JOIN area AS a ON a.ID_AREA = m.ID_AREA
-                        LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = m.ID_ESTADOWS
-                        LEFT JOIN marcas AS ma ON ma.ID_MARCA = m.ID_MARCA
-                        LEFT JOIN so AS s ON s.ID_SO = m.ID_SO
-                        LEFT JOIN red AS r ON r.ID_RED = m.ID_RED
+                        $consultar=mysqli_query($datos_base, "SELECT m.ID_WS, m.FECHA, u.NOMBRE, p.PLACAM, mi.MICRO
+                        FROM mejoras m 
+                        LEFT JOIN inventario AS i ON i.ID_WS = m.ID_WS
+                        LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
+                        LEFT JOIN placam AS p ON p.ID_PLACAM = m.ID_PLACAM
+                        LEFT JOIN micro AS mi ON mi.ID_MICRO = m.ID_MICRO
                         WHERE m.ID_WS = $equipo
                         ORDER BY m.FECHA ASC");
 						while($listar = mysqli_fetch_array($consultar))
@@ -96,15 +107,8 @@ function ConsultarIncidente($no_tic)
 								<tr>
                                     <td><h4 style='font-size:14px;'>".$fecord."</h4></td>
                                     <td><h4 style='font-size:14px;'>".$listar['NOMBRE']."</h4></td>
-                                    <td><h4 style='font-size:14px;'>".$listar['AREA']."</h4></td>
-                                    <td><h4 style='font-size:14px;'>".$listar['ESTADO']."</h4></td>
-                                    <td><h4 style='font-size:14px;'>".$listar['MARCA']."</h4></td>
-                                    <td><h4 style='font-size:14px;'>".$listar['SIST_OP']."</h4></td>
-                                    <td><h4 style='font-size:14px;'>".$listar['MASTERIZADA']."</h4></td>
-                                    <td><h4 style='font-size:14px;'>".$listar['MAC']."</h4></td>
-                                    <td><h4 style='font-size:14px;'>".$listar['RIP']."</h4></td>
-									<td><h4 style='font-size:14px;'>".$listar['IP']."</h4></td>
-									<td><h4 style='font-size:14px;'>".$listar['RED']."</h4></td>
+                                    <td><h4 style='font-size:14px;'>".$listar['PLACAM']."</h4></td>
+                                    <td><h4 style='font-size:14px;'>".$listar['MICRO']."</h4></td>
 								</tr>";
 						}
 					echo "</table>";

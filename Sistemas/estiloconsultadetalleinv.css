@@ -128,3 +128,42 @@ background-color: #176AB5;
 	border: none;
 	color: #edf0f5;
 }
+
+table{
+	text-align: left;
+	margin-left: 5px;
+ 	background-color: #dbe5e9;
+
+	border-collapse: collapse;
+	width:100%;
+}
+
+th, td{
+	border: solid 1px #f7fbfd;
+	border-bottom: solid 1px #073256;
+}
+
+thead{
+	background-color: #dbe5e9;
+	border-bottom: solid 5px #073256;
+	width: 100%;
+}/*ACA ESTABA EL PROBLEMA DEL ACOMODAMIENTO EN "VER PENDIENTES" Y "VER" QUE SE ACHICABA EL TABLE*/
+
+tr:nth-child(even){
+	background-color: #edf0f5;
+}
+
+tr:hover td{
+	background-color: #D6D6D6;
+}
+
+.g{
+	color:#176AB5;
+}
+
+#grilla{
+    width: 98%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
