@@ -92,6 +92,7 @@ function ConsultarIncidente($no_tic)
 						while($listar = mysqli_fetch_array($consultar))
 						{
                             $fecord = date("d-m-Y", strtotime($listar['FECHA']));
+							
 						    echo" 
 								<tr>
                                     <td><h4 style='font-size:14px;'>".$fecord."</h4></td>

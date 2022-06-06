@@ -161,9 +161,34 @@ tr:hover td{
 	color:#176AB5;
 }
 
+.a{
+	color:#eb7400;
+}
+
+.g1{
+	background-color: white;
+}
+
 #grilla{
     width: 98%;
     height: auto;
     margin-left: auto;
     margin-right: auto;
+}
+
+#grillamov{
+    width: 98%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+	margin-top: 50px;
+	margin-bottom: 20px;
+}
+
+#grillaini{
+    width: 98%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+	margin-top: 50px;
 }
