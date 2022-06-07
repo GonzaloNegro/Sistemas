@@ -21,7 +21,7 @@
     <div class="bienvenida" data-aos="zoom-in-up">
         <div class="fecha">    
             <?php  $fechaActual = date('d-m-Y');?>
-            <p class="h5"><u>ULTIMA ACTUALIZACIÓN</u>: 16/05/2022</p>
+            <p class="h5"><u>NOVEDADES AL DÍA</u>: <?php echo $fechaActual ?></p>
         </div>
         <hr style='display: block; height: 2px;'>
         <div class="info">
