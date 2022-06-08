@@ -81,21 +81,17 @@ function ConsultarIncidente($no_tic)
 				echo "<table class=g1 width=100%>
 						<thead class=g1>
 							<tr>
-								<th><p class=a>USUARIO</p></th>
 								<th><p class=a>PLACA MADRE</p></th>
 								<th><p class=a>MICRO</p></th>
                                 <th><p class=a>PLACAS VIDEO</p></th>
                                 <th><p class=a>MEMORIAS</p></th>
-                                <th><p class=a>TIPO MEMORIAS</p></th>
                                 <th><p class=a>DISCOS</p></th>
-                                <th><p class=a>TIPO DISCOS</p></th>
 							</tr>
 						</thead>";
                         $equipo = $consulta[0];
-                        $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, u.NOMBRE
-                        FROM inventario i 
-                        LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-                        WHERE i.ID_WS = $equipo");
+                        $consultar=mysqli_query($datos_base, "SELECT ID_WS
+                        FROM inventario
+                        WHERE ID_WS = $equipo");
 						while($listar = mysqli_fetch_array($consultar))
 						{
                             /* PLACA MADRE */
@@ -246,14 +242,11 @@ function ConsultarIncidente($no_tic)
 
 						    echo" 
 								<tr>
-                                    <td><h4 style='font-size:12px;'>".$listar['NOMBRE']."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".$placam."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".$micro."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".'asd'."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".$mem1.' - '.$mem2.' - '.$mem3.' - '.$mem4."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".$tmem1.' - '.$tmem2.' - '.$tmem3.' - '.$tmem4."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".$disc1.' - '.$disc2.' - '.$disc3.' - '.$disc4."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".$tdisc1.' - '.$tdisc2.' - '.$tdisc3.' - '.$tdisc4."</h4></td>
+                                    <td><h4 style='font-size:12px; text-align: center;'>".$placam."</h4></td>
+                                    <td><h4 style='font-size:12px; text-align: center;'>".$micro."</h4></td>
+                                    <td><h4 style='font-size:12px; text-align: center;'>".'asd'."</h4></td>
+                                    <td><h4 style='font-size:12px; text-align: center;'>".$mem1.' - '.$tmem1.' <br> '.$mem2.' - '.$tmem2.' <br> '.$mem3.' - '.$tmem3.' <br> '.$mem4.' - '.$tmem4."</h4></td>
+                                    <td><h4 style='font-size:12px; text-align: center;'>".$disc1.' - '.$tdisc1.' <br> '.$disc2.' - '.$tdisc2.' <br> '.$disc3.' - '.$tdisc3.' <br> '.$disc4.' - '.$tdisc4."</h4></td>
 								</tr>";
 						}
 					echo "</table>";
@@ -265,21 +258,17 @@ function ConsultarIncidente($no_tic)
 				echo "<table class=g1 width=100%>
 						<thead class=g1>
 							<tr>
-								<th><p class=a>USUARIO</p></th>
 								<th><p class=a>PLACA MADRE</p></th>
 								<th><p class=a>MICRO</p></th>
                                 <th><p class=a>PLACAS VIDEO</p></th>
                                 <th><p class=a>MEMORIAS</p></th>
-                                <th><p class=a>TIPO MEMORIAS</p></th>
                                 <th><p class=a>DISCOS</p></th>
-                                <th><p class=a>TIPO DISCOS</p></th>
 							</tr>
 						</thead>";
                         $equipo = $consulta[0];
-                        $consultar=mysqli_query($datos_base, "SELECT m.ID_WS, u.NOMBRE, p.PLACAM, mi.MICRO
+                        $consultar=mysqli_query($datos_base, "SELECT m.ID_WS, p.PLACAM, mi.MICRO
                         FROM mejoras m 
                         LEFT JOIN inventario AS i ON i.ID_WS = m.ID_WS
-                        LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
                         LEFT JOIN placam AS p ON p.ID_PLACAM = m.ID_PLACAM
                         LEFT JOIN micro AS mi ON mi.ID_MICRO = m.ID_MICRO
                         WHERE m.ID_WS = $equipo
@@ -354,7 +343,8 @@ function ConsultarIncidente($no_tic)
                             /* TIPO MEMORIAS */
                             $sent= "SELECT TIPOMEM1
                             FROM mejoras
-                            WHERE ID_WS = '$equipo'";
+                            WHERE ID_WS = '$equipo'
+                            LIMIT 1";
                             $resultado = $datos_base->query($sent);
                             $row = $resultado->fetch_assoc();
                             $t1 = $row['TIPOMEM1'];
@@ -369,7 +359,8 @@ function ConsultarIncidente($no_tic)
 
                             $sent= "SELECT TIPOMEM2
                             FROM mejoras
-                            WHERE ID_WS = '$equipo'";
+                            WHERE ID_WS = '$equipo'
+                            LIMIT 1";
                             $resultado = $datos_base->query($sent);
                             $row = $resultado->fetch_assoc();
                             $t2 = $row['TIPOMEM2'];
@@ -384,7 +375,8 @@ function ConsultarIncidente($no_tic)
 
                             $sent= "SELECT TIPOMEM3
                             FROM mejoras
-                            WHERE ID_WS = '$equipo'";
+                            WHERE ID_WS = '$equipo'
+                            LIMIT 1";
                             $resultado = $datos_base->query($sent);
                             $row = $resultado->fetch_assoc();
                             $t3 = $row['TIPOMEM3'];
@@ -399,7 +391,8 @@ function ConsultarIncidente($no_tic)
 
                             $sent= "SELECT TIPOMEM4
                             FROM mejoras
-                            WHERE ID_WS = '$equipo'";
+                            WHERE ID_WS = '$equipo'
+                            LIMIT 1";
                             $resultado = $datos_base->query($sent);
                             $row = $resultado->fetch_assoc();
                             $t4 = $row['TIPOMEM4'];
@@ -413,91 +406,142 @@ function ConsultarIncidente($no_tic)
 
 
                             /* DISCOS */
-                            $sent= "SELECT d.DISCO
-                            FROM discows dw 
-                            LEFT JOIN disco d ON d.ID_DISCO = dw.ID_DISCO
-                            LEFT JOIN mejoras AS me ON me.ID_WS = dw.ID_WS
-                            WHERE dw.ID_WS = $equipo AND dw.NUMERO = 1
+                            $sent= "SELECT DISCO1
+                            FROM mejoras
+                            WHERE ID_WS = '$equipo'
                             LIMIT 1";
                             $resultado = $datos_base->query($sent);
                             $row = $resultado->fetch_assoc();
-                            $disc1 = $row['DISCO'];
+                            $d1 = $row['DISCO1'];
 
-                            $sent= "SELECT d.DISCO
-                            FROM discows dw 
-                            LEFT JOIN disco d ON d.ID_DISCO = dw.ID_DISCO
-                            WHERE dw.ID_WS = $equipo AND dw.NUMERO = 2
-                            LIMIT 1";
-                            $resultado = $datos_base->query($sent);
-                            $row = $resultado->fetch_assoc();
-                            $disc2 = $row['DISCO'];
+                            $sqli = "SELECT DISCO
+                            FROM disco
+                            WHERE ID_DISCO = '$d1'";
+							$resultado2 = $datos_base->query($sqli);
+							$row2 = $resultado2->fetch_assoc();
+							$disc1 = $row2['DISCO'];
 
-                            $sent= "SELECT d.DISCO
-                            FROM discows dw 
-                            LEFT JOIN disco d ON d.ID_DISCO = dw.ID_DISCO
-                            WHERE dw.ID_WS = $equipo AND dw.NUMERO = 3
-                            LIMIT 1";
-                            $resultado = $datos_base->query($sent);
-                            $row = $resultado->fetch_assoc();
-                            $disc3 = $row['DISCO'];
 
-                            $sent= "SELECT d.DISCO
-                            FROM discows dw 
-                            LEFT JOIN disco d ON d.ID_DISCO = dw.ID_DISCO
-                            WHERE dw.ID_WS = $equipo AND dw.NUMERO = 4
+                            $sent= "SELECT DISCO2
+                            FROM mejoras
+                            WHERE ID_WS = '$equipo'
                             LIMIT 1";
                             $resultado = $datos_base->query($sent);
                             $row = $resultado->fetch_assoc();
-                            $disc4 = $row['DISCO'];
+                            $d2 = $row['DISCO2'];
+
+                            $sqli = "SELECT DISCO
+                            FROM disco
+                            WHERE ID_DISCO = '$d2'";
+							$resultado2 = $datos_base->query($sqli);
+							$row2 = $resultado2->fetch_assoc();
+							$disc2 = $row2['DISCO'];
+
+
+                            $sent= "SELECT DISCO3
+                            FROM mejoras
+                            WHERE ID_WS = '$equipo'
+                            LIMIT 1";
+                            $resultado = $datos_base->query($sent);
+                            $row = $resultado->fetch_assoc();
+                            $d3 = $row['DISCO3'];
+
+                            $sqli = "SELECT DISCO
+                            FROM disco
+                            WHERE ID_DISCO = '$d3'";
+							$resultado2 = $datos_base->query($sqli);
+							$row2 = $resultado2->fetch_assoc();
+							$disc3 = $row2['DISCO'];
+
+
+                            $sent= "SELECT DISCO4
+                            FROM mejoras
+                            WHERE ID_WS = '$equipo'
+                            LIMIT 1";
+                            $resultado = $datos_base->query($sent);
+                            $row = $resultado->fetch_assoc();
+                            $d4 = $row['DISCO4'];
+
+                            $sqli = "SELECT DISCO
+                            FROM disco
+                            WHERE ID_DISCO = '$d4'";
+							$resultado2 = $datos_base->query($sqli);
+							$row2 = $resultado2->fetch_assoc();
+							$disc4 = $row2['DISCO'];
+
 
 
                             /* TIPO DISCO */
-                            $sent= "SELECT t.TIPOD
-                            FROM discows dw 
-                            LEFT JOIN tipodisco t ON t.ID_TIPOD = dw.ID_TIPOD 
-                            WHERE dw.ID_WS = $equipo AND dw.NUMERO = 1
+                            $sent= "SELECT TIPOD1
+                            FROM mejoras
+                            WHERE ID_WS = '$equipo'
                             LIMIT 1";
                             $resultado = $datos_base->query($sent);
                             $row = $resultado->fetch_assoc();
-                            $tdisc1 = $row['TIPOD'];
+                            $td1 = $row['TIPOD1'];
 
-                            $sent= "SELECT t.TIPOD
-                            FROM discows dw 
-                            LEFT JOIN tipodisco t ON t.ID_TIPOD = dw.ID_TIPOD 
-                            WHERE dw.ID_WS = $equipo AND dw.NUMERO = 2
-                            LIMIT 1";
-                            $resultado = $datos_base->query($sent);
-                            $row = $resultado->fetch_assoc();
-                            $tdisc2 = $row['TIPOD'];
+                            $sqli = "SELECT TIPOD
+                            FROM tipodisco
+                            WHERE ID_TIPOD = '$td1'";
+							$resultado2 = $datos_base->query($sqli);
+							$row2 = $resultado2->fetch_assoc();
+							$tdisc1 = $row2['TIPOD'];
 
-                            $sent= "SELECT t.TIPOD
-                            FROM discows dw 
-                            LEFT JOIN tipodisco t ON t.ID_TIPOD = dw.ID_TIPOD 
-                            WHERE dw.ID_WS = $equipo AND dw.NUMERO = 3
-                            LIMIT 1";
-                            $resultado = $datos_base->query($sent);
-                            $row = $resultado->fetch_assoc();
-                            $tdisc3 = $row['TIPOD'];
 
-                            $sent= "SELECT t.TIPOD
-                            FROM discows dw 
-                            LEFT JOIN tipodisco t ON t.ID_TIPOD = dw.ID_TIPOD 
-                            WHERE dw.ID_WS = $equipo AND dw.NUMERO = 4
+                            $sent= "SELECT TIPOD2
+                            FROM mejoras
+                            WHERE ID_WS = '$equipo'
                             LIMIT 1";
                             $resultado = $datos_base->query($sent);
                             $row = $resultado->fetch_assoc();
-                            $tdisc4 = $row['TIPOD'];
+                            $td2 = $row['TIPOD2'];
+
+                            $sqli = "SELECT TIPOD
+                            FROM tipodisco
+                            WHERE ID_TIPOD = '$td2'";
+							$resultado2 = $datos_base->query($sqli);
+							$row2 = $resultado2->fetch_assoc();
+							$tdisc2 = $row2['TIPOD'];
+
+
+                            $sent= "SELECT TIPOD3
+                            FROM mejoras
+                            WHERE ID_WS = '$equipo'
+                            LIMIT 1";
+                            $resultado = $datos_base->query($sent);
+                            $row = $resultado->fetch_assoc();
+                            $td3 = $row['TIPOD3'];
+
+                            $sqli = "SELECT TIPOD
+                            FROM tipodisco
+                            WHERE ID_TIPOD = '$td3'";
+							$resultado2 = $datos_base->query($sqli);
+							$row2 = $resultado2->fetch_assoc();
+							$tdisc3 = $row2['TIPOD'];
+
+
+                            $sent= "SELECT TIPOD4
+                            FROM mejoras
+                            WHERE ID_WS = '$equipo'
+                            LIMIT 1";
+                            $resultado = $datos_base->query($sent);
+                            $row = $resultado->fetch_assoc();
+                            $td4 = $row['TIPOD4'];
+
+                            $sqli = "SELECT TIPOD
+                            FROM tipodisco
+                            WHERE ID_TIPOD = '$td4'";
+							$resultado2 = $datos_base->query($sqli);
+							$row2 = $resultado2->fetch_assoc();
+							$tdisc4 = $row2['TIPOD'];
 
 						    echo" 
 								<tr>
-                                    <td><h4 style='font-size:12px;'>".$listar['NOMBRE']."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".$listar['PLACAM']."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".$listar['MICRO']."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".'asd'."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".$mem1.' - '.$mem2.' - '.$mem3.' - '.$mem4."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".$tmem1.' - '.$tmem2.' - '.$tmem3.' - '.$tmem4."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".$disc1.' - '.$disc2.' - '.$disc3.' - '.$disc4."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".$tdisc1.' - '.$tdisc2.' - '.$tdisc3.' - '.$tdisc4."</h4></td>
+                                    <td><h4 style='font-size:12px; text-align: center;'>".$listar['PLACAM']."</h4></td>
+                                    <td><h4 style='font-size:12px; text-align: center;'>".$listar['MICRO']."</h4></td>
+                                    <td><h4 style='font-size:12px; text-align: center;'>".'asd'."</h4></td>
+                                    <td><h4 style='font-size:12px; text-align: center;'>".$mem1.' - '.$tmem1.' <br> '.$mem2.' - '.$tmem2.' <br> '.$mem3.' - '.$tmem3.' <br> '.$mem4.' - '.$tmem4."</h4></td>
+                                    <td><h4 style='font-size:12px; text-align: center;'>".$disc1.' - '.$tdisc1.' <br> '.$disc2.' - '.$tdisc2.' <br> '.$disc3.' - '.$tdisc3.' <br> '.$disc4.' - '.$tdisc4."</h4></td>
 								</tr>";
 						}
 					echo "</table>";
@@ -514,13 +558,11 @@ function ConsultarIncidente($no_tic)
 								<th><p class=g>MICRO</p></th>
                                 <th><p class=g>PLACAS VIDEO</p></th>
                                 <th><p class=g>MEMORIAS</p></th>
-                                <th><p class=g>TIPO MEMORIAS</p></th>
                                 <th><p class=g>DISCOS</p></th>
-                                <th><p class=g>TIPO DISCOS</p></th>
 							</tr>
 						</thead>";
                         $equipo = $consulta[0];
-                        $consultar=mysqli_query($datos_base, "SELECT m.ID_WS, m.FECHA, p.PLACAM, mi.MICRO
+                        $consultar=mysqli_query($datos_base, "SELECT m.ID_WS, m.FECHA, p.PLACAM, mi.MICRO, m.MEMORIA1, m.TIPOMEM1, m.FRECUENCIA1, m.MEMORIA2, m.TIPOMEM2, m.FRECUENCIA2, m.MEMORIA3, m.TIPOMEM3, m.FRECUENCIA3, m.MEMORIA4, m.TIPOMEM4, m.FRECUENCIA4, DISCO1, TIPOD1, DISCO2, TIPOD2, DISCO3, TIPOD3, DISCO4, TIPOD4
                         FROM mejoras m
                         LEFT JOIN placam AS p ON p.ID_PLACAM = m.ID_PLACAM
                         LEFT JOIN micro AS mi ON mi.ID_MICRO = m.ID_MICRO
@@ -531,144 +573,174 @@ function ConsultarIncidente($no_tic)
                             $f = $listar['FECHA'];
 
                             /* MEMORIAS */
-                            $sqli = "SELECT w.ID_MEMORIA, m.MEMORIA, w.ID_WS, me.FECHA
-                            FROM mejoras me
-                            LEFT JOIN wsmem AS w ON w.ID_WS = me.ID_WS
-                            LEFT JOIN memoria AS m ON m.ID_MEMORIA = w.ID_MEMORIA
-                            WHERE me.ID_WS = '$equipo' AND w.SLOT = 1 AND me.FECHA = '$f'";
+                            $sqli = "SELECT MEMORIA
+                            FROM memoria
+                            WHERE ID_MEMORIA = '$listar[MEMORIA1]'";
 							$resultado2 = $datos_base->query($sqli);
 							$row2 = $resultado2->fetch_assoc();
 							$mem1 = $row2['MEMORIA'];
 
-                            $sqli = "SELECT w.ID_MEMORIA, m.MEMORIA, w.ID_WS, me.FECHA
-                            FROM mejoras me
-                            LEFT JOIN wsmem AS w ON w.ID_WS = me.ID_WS
-                            LEFT JOIN memoria AS m ON m.ID_MEMORIA = w.ID_MEMORIA
-                            WHERE me.ID_WS = '$equipo' AND w.SLOT = 2 AND me.FECHA = '$f'";
+                            $sqli = "SELECT MEMORIA
+                            FROM memoria
+                            WHERE ID_MEMORIA = '$listar[MEMORIA2]'";
 							$resultado2 = $datos_base->query($sqli);
 							$row2 = $resultado2->fetch_assoc();
 							$mem2 = $row2['MEMORIA'];
 
-                            $sqli = "SELECT w.ID_MEMORIA, m.MEMORIA, w.ID_WS, me.FECHA
-                            FROM mejoras me
-                            LEFT JOIN wsmem AS w ON w.ID_WS = me.ID_WS
-                            LEFT JOIN memoria AS m ON m.ID_MEMORIA = w.ID_MEMORIA
-                            WHERE me.ID_WS = '$equipo' AND w.SLOT = 3 AND me.FECHA = '$f'";
+                            $sqli = "SELECT MEMORIA
+                            FROM memoria
+                            WHERE ID_MEMORIA = '$listar[MEMORIA3]'";
 							$resultado2 = $datos_base->query($sqli);
 							$row2 = $resultado2->fetch_assoc();
 							$mem3 = $row2['MEMORIA'];
 
-                            $sqli = "SELECT w.ID_MEMORIA, m.MEMORIA, w.ID_WS, me.FECHA
-                            FROM mejoras me
-                            LEFT JOIN wsmem AS w ON w.ID_WS = me.ID_WS
-                            LEFT JOIN memoria AS m ON m.ID_MEMORIA = w.ID_MEMORIA
-                            WHERE me.ID_WS = '$equipo' AND w.SLOT = 4 AND me.FECHA = '$f'";
+                            $sqli = "SELECT MEMORIA
+                            FROM memoria
+                            WHERE ID_MEMORIA = '$listar[MEMORIA4]'";
 							$resultado2 = $datos_base->query($sqli);
 							$row2 = $resultado2->fetch_assoc();
 							$mem4 = $row2['MEMORIA'];
 
 
                             /* TIPO MEMORIAS */
-                            $sent= "SELECT t.TIPOMEM FROM wsmem w 
-                            LEFT JOIN tipomem t ON t.ID_TIPOMEM = w.ID_TIPOMEM 
-                            WHERE w.ID_WS = $equipo AND w.SLOT = 1";
-                            $resultado = $datos_base->query($sent);
-                            $row = $resultado->fetch_assoc();
-                            $tmem1 = $row['TIPOMEM'];
+                            $sqli = "SELECT TIPOMEM
+                            FROM tipomem
+                            WHERE ID_TIPOMEM = '$listar[TIPOMEM1]'";
+							$resultado2 = $datos_base->query($sqli);
+							$row2 = $resultado2->fetch_assoc();
+							$tmem1 = $row2['TIPOMEM'];
 
-                            $sent= "SELECT t.TIPOMEM FROM wsmem w 
-                            LEFT JOIN tipomem t ON t.ID_TIPOMEM = w.ID_TIPOMEM 
-                            WHERE w.ID_WS = $equipo AND w.SLOT = 2";
-                            $resultado = $datos_base->query($sent);
-                            $row = $resultado->fetch_assoc();
-                            $tmem2 = $row['TIPOMEM'];
+                            $sqli = "SELECT TIPOMEM
+                            FROM tipomem
+                            WHERE ID_TIPOMEM = '$listar[TIPOMEM2]'";
+							$resultado2 = $datos_base->query($sqli);
+							$row2 = $resultado2->fetch_assoc();
+							$tmem2 = $row2['TIPOMEM'];
 
-                            $sent= "SELECT t.TIPOMEM FROM wsmem w 
-                            LEFT JOIN tipomem t ON t.ID_TIPOMEM = w.ID_TIPOMEM 
-                            WHERE w.ID_WS = $equipo AND w.SLOT = 3";
-                            $resultado = $datos_base->query($sent);
-                            $row = $resultado->fetch_assoc();
-                            $tmem3 = $row['TIPOMEM'];
+                            $sqli = "SELECT TIPOMEM
+                            FROM tipomem
+                            WHERE ID_TIPOMEM = '$listar[TIPOMEM3]'";
+							$resultado2 = $datos_base->query($sqli);
+							$row2 = $resultado2->fetch_assoc();
+							$tmem3 = $row2['TIPOMEM'];
 
-                            $sent= "SELECT t.TIPOMEM FROM wsmem w 
-                            LEFT JOIN tipomem t ON t.ID_TIPOMEM = w.ID_TIPOMEM 
-                            WHERE w.ID_WS = $equipo AND w.SLOT = 4";
-                            $resultado = $datos_base->query($sent);
-                            $row = $resultado->fetch_assoc();
-                            $tmem4 = $row['TIPOMEM'];
+                            $sqli = "SELECT TIPOMEM
+                            FROM tipomem
+                            WHERE ID_TIPOMEM = '$listar[TIPOMEM4]'";
+							$resultado2 = $datos_base->query($sqli);
+							$row2 = $resultado2->fetch_assoc();
+							$tmem4 = $row2['TIPOMEM'];
 
 
                             /* DISCOS */
-                            $sent= "SELECT d.DISCO FROM discows dw 
-                            LEFT JOIN disco d ON d.ID_DISCO = dw.ID_DISCO 
-                            WHERE dw.ID_WS = $equipo AND dw.NUMERO = 1";
-                            $resultado = $datos_base->query($sent);
-                            $row = $resultado->fetch_assoc();
-                            $disc1 = $row['DISCO'];
+                            $sqli = "SELECT DISCO
+                            FROM disco
+                            WHERE ID_DISCO = '$listar[DISCO1]'";
+							$resultado2 = $datos_base->query($sqli);
+							$row2 = $resultado2->fetch_assoc();
+							$disc1 = $row2['DISCO'];
 
-                            $sent= "SELECT d.DISCO FROM discows dw 
-                            LEFT JOIN disco d ON d.ID_DISCO = dw.ID_DISCO 
-                            WHERE dw.ID_WS = $equipo AND dw.NUMERO = 2";
-                            $resultado = $datos_base->query($sent);
-                            $row = $resultado->fetch_assoc();
-                            $disc2 = $row['DISCO'];
+                            $sqli = "SELECT DISCO
+                            FROM disco
+                            WHERE ID_DISCO = '$listar[DISCO2]'";
+							$resultado2 = $datos_base->query($sqli);
+							$row2 = $resultado2->fetch_assoc();
+							$disc2 = $row2['DISCO'];
 
-                            $sent= "SELECT d.DISCO FROM discows dw 
-                            LEFT JOIN disco d ON d.ID_DISCO = dw.ID_DISCO 
-                            WHERE dw.ID_WS = $equipo AND dw.NUMERO = 3";
-                            $resultado = $datos_base->query($sent);
-                            $row = $resultado->fetch_assoc();
-                            $disc3 = $row['DISCO'];
+                            $sqli = "SELECT DISCO
+                            FROM disco
+                            WHERE ID_DISCO = '$listar[DISCO3]'";
+							$resultado2 = $datos_base->query($sqli);
+							$row2 = $resultado2->fetch_assoc();
+							$disc3 = $row2['DISCO'];
 
-                            $sent= "SELECT d.DISCO FROM discows dw 
-                            LEFT JOIN disco d ON d.ID_DISCO = dw.ID_DISCO 
-                            WHERE dw.ID_WS = $equipo AND dw.NUMERO = 4";
-                            $resultado = $datos_base->query($sent);
-                            $row = $resultado->fetch_assoc();
-                            $disc4 = $row['DISCO'];
+                            $sqli = "SELECT DISCO
+                            FROM disco
+                            WHERE ID_DISCO = '$listar[DISCO4]'";
+							$resultado2 = $datos_base->query($sqli);
+							$row2 = $resultado2->fetch_assoc();
+							$disc4 = $row2['DISCO'];
 
 
                             /* TIPO DISCO */
-                            $sent= "SELECT t.TIPOD FROM discows dw 
-                            LEFT JOIN tipodisco t ON t.ID_TIPOD = dw.ID_TIPOD 
-                            WHERE dw.ID_WS = $equipo AND dw.NUMERO = 1";
-                            $resultado = $datos_base->query($sent);
-                            $row = $resultado->fetch_assoc();
-                            $tdisc1 = $row['TIPOD'];
+                            $sqli = "SELECT TIPOD
+                            FROM tipodisco
+                            WHERE ID_TIPOD = '$listar[TIPOD1]'";
+							$resultado2 = $datos_base->query($sqli);
+							$row2 = $resultado2->fetch_assoc();
+							$tdisc1 = $row2['TIPOD'];
 
-                            $sent= "SELECT t.TIPOD FROM discows dw 
-                            LEFT JOIN tipodisco t ON t.ID_TIPOD = dw.ID_TIPOD 
-                            WHERE dw.ID_WS = $equipo AND dw.NUMERO = 2";
-                            $resultado = $datos_base->query($sent);
-                            $row = $resultado->fetch_assoc();
-                            $tdisc2 = $row['TIPOD'];
+                            $sqli = "SELECT TIPOD
+                            FROM tipodisco
+                            WHERE ID_TIPOD = '$listar[TIPOD1]'";
+							$resultado2 = $datos_base->query($sqli);
+							$row2 = $resultado2->fetch_assoc();
+							$tdisc2 = $row2['TIPOD'];
 
-                            $sent= "SELECT t.TIPOD FROM discows dw 
-                            LEFT JOIN tipodisco t ON t.ID_TIPOD = dw.ID_TIPOD 
-                            WHERE dw.ID_WS = $equipo AND dw.NUMERO = 3";
-                            $resultado = $datos_base->query($sent);
-                            $row = $resultado->fetch_assoc();
-                            $tdisc3 = $row['TIPOD'];
+                            $sqli = "SELECT TIPOD
+                            FROM tipodisco
+                            WHERE ID_TIPOD = '$listar[TIPOD3]'";
+							$resultado2 = $datos_base->query($sqli);
+							$row2 = $resultado2->fetch_assoc();
+							$tdisc3 = $row2['TIPOD'];
 
-                            $sent= "SELECT t.TIPOD FROM discows dw 
-                            LEFT JOIN tipodisco t ON t.ID_TIPOD = dw.ID_TIPOD 
-                            WHERE dw.ID_WS = $equipo AND dw.NUMERO = 4";
-                            $resultado = $datos_base->query($sent);
-                            $row = $resultado->fetch_assoc();
-                            $tdisc4 = $row['TIPOD'];
+                            $sqli = "SELECT TIPOD
+                            FROM tipodisco
+                            WHERE ID_TIPOD = '$listar[TIPOD4]'";
+							$resultado2 = $datos_base->query($sqli);
+							$row2 = $resultado2->fetch_assoc();
+							$tdisc4 = $row2['TIPOD'];
 
-                            $fecord = date("d-m-Y", strtotime($listar['FECHA']));
+
+
+
+                            $rojo = "#cb3234";
+                            $color = "#000000";
+
+                            if($pm != $listar['PLACAM']){
+                                $color = "#cb3234";
+                            }else{
+                                $color = "#000000";
+                            }
+
+                            
+                            if($m != $listar['MICRO']){
+                                $color = "#cb3234";
+                            }else{
+                                $color = "#000000";
+                            }
+
+                             if($mee1 != $mem1){
+                                $color = "#258900";
+                            }else{
+                                $color = "#000000";
+                            }
+                            
+
+/*                              function colorear($a , $b){
+                                if($a != $b){
+                                    $color = "#cb3234";
+                                }else{
+                                    $color = "#000000";
+                                }
+                                return $color;
+                            }
+                            $p = colorear($mee1, $mem1); */
+
+
+                            $fecord = date("d-m-Y", strtotime($f));
 						    echo" 
 								<tr>
-                                    <td><h4 style='font-size:12px;'>".$fecord."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".$listar['PLACAM']."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".$listar['MICRO']."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".'asd'."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".$mem1.' - '.$mem2.' - '.$mem3.' - '.$mem4."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".$tmem1.' - '.$tmem2.' - '.$tmem3.' - '.$tmem4."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".$disc1.' - '.$disc2.' - '.$disc3.' - '.$disc4."</h4></td>
-                                    <td><h4 style='font-size:12px;'>".$tdisc1.' - '.$tdisc2.' - '.$tdisc3.' - '.$tdisc4."</h4></td>
+                                    <td><h4 style='font-size:12px; text-align: center;'>".$fecord."</h4></td>
+                                    <td><h4 style='font-size:12px; text-align: center; color:$color;'>".$listar['PLACAM']."</h4></td>
+                                    <td><h4 style='font-size:12px; text-align: center;color:$color;'>".$listar['MICRO']."</h4></td>
+                                    <td><h4 style='font-size:12px; text-align: center;'>".'asd'."</h4></td>
+                                    <td><h4 style='font-size:12px; text-align: center; color:$color;'>".$mem1.' - '.$tmem1.' <br> '.$mem2.' - '.$tmem2.' <br> '.$mem3.' - '.$tmem3.' <br> '.$mem4.' - '.$tmem4."</h4></td>
+                                    <td><h4 style='font-size:12px; text-align: center;'>".$disc1.' - '.$tdisc1.' <br> '.$disc2.' - '.$tdisc2.' <br> '.$disc3.' - '.$tdisc3.' <br> '.$disc4.' - '.$tdisc4."</h4></td>
 								</tr>";
+                                $mee1 = $mem1;
+                                $pm = $listar['PLACAM'];
+                                $m = $listar['MICRO'];
 						}
 					echo "</table>";
 			?>
