@@ -955,7 +955,8 @@ $row = $resultado->fetch_assoc();
                                     include("conexion.php");
                                     $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
                                     FROM modelo m
-                                    INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA";
+                                    INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
+                                    WHERE m.ID_TIPOP = 14";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1030,7 +1031,8 @@ $row = $resultado->fetch_assoc();
                                     include("conexion.php");
                                     $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
                                     FROM modelo m
-                                    INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA";
+                                    INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
+                                    WHERE m.ID_TIPOP = 14";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1105,7 +1107,8 @@ $row = $resultado->fetch_assoc();
                                     include("conexion.php");
                                     $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
                                     FROM modelo m
-                                    INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA";
+                                    INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
+                                    WHERE m.ID_TIPOP = 14";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1180,7 +1183,8 @@ $row = $resultado->fetch_assoc();
                                     include("conexion.php");
                                     $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
                                     FROM modelo m
-                                    INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA";
+                                    INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
+                                    WHERE m.ID_TIPOP = 14";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
