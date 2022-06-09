@@ -67,9 +67,9 @@ function ConsultarIncidente($no_tic)
         </script>
         
         <div class="form-group row justify-content-between" style="margin-top: 0px; margin-left: 10px; margin-right: 10px; padding:10px;">
-	        <a id="vlv"  href="monitores.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+	        <a id="vlv" href="monitores.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
             <div class="btn-group col-3" role="group" >
-                <button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='consulta.php'" ><i style=" margin-bottom:10px;"></i>MOVIMIENTOS</button>
+                <button style="border: none;"><a id="botonleft" class="btn btn-secondary"<?php echo "href=monitoresmov.php?no=".$consulta[0].""?>>MOVIMIENTOS</a></button>
                 <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()" ><i class='bi bi-printer'></i></button>
             </div>
         </div>

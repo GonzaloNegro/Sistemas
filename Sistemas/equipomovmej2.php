@@ -1,5 +1,5 @@
 <?php 
-/* error_reporting(0); */
+error_reporting(0);
 session_start();
 include('conexion.php');
 
@@ -550,6 +550,14 @@ function ConsultarIncidente($no_tic)
         <div id="grillamov">
         <h2>MOVIMIENTOS</h2>
 		<?php
+            function colorear($v1, $v2, $v3){
+                if($v1 != $v2){
+                    $v3 = "#258900";
+                }else{
+                    $v3 = "#000000";
+                }
+                return $v3;
+            }
 				echo "<table width=100%>
 						<thead>
 							<tr>
@@ -694,53 +702,75 @@ function ConsultarIncidente($no_tic)
 
 
 
-                            $rojo = "#cb3234";
-                            $color = "#000000";
-
-                            if($pm != $listar['PLACAM']){
-                                $color = "#cb3234";
-                            }else{
-                                $color = "#000000";
-                            }
-
                             
-                            if($m != $listar['MICRO']){
-                                $color = "#cb3234";
-                            }else{
-                                $color = "#000000";
-                            }
-
-                             if($mee1 != $mem1){
-                                $color = "#258900";
-                            }else{
-                                $color = "#000000";
-                            }
-                            
-
-/*                              function colorear($a , $b){
-                                if($a != $b){
-                                    $color = "#cb3234";
-                                }else{
-                                    $color = "#000000";
-                                }
-                                return $color;
-                            }
-                            $p = colorear($mee1, $mem1); */
+                            $colorp = "#000000";
+                            $colormi = "#000000";
+                            $colorme = "#000000";
+                            $colord = "#000000";
 
 
                             $fecord = date("d-m-Y", strtotime($f));
 						    echo" 
 								<tr>
                                     <td><h4 style='font-size:12px; text-align: center;'>".$fecord."</h4></td>
-                                    <td><h4 style='font-size:12px; text-align: center; color:$color;'>".$listar['PLACAM']."</h4></td>
-                                    <td><h4 style='font-size:12px; text-align: center;color:$color;'>".$listar['MICRO']."</h4></td>
-                                    <td><h4 style='font-size:12px; text-align: center;'>".'asd'."</h4></td>
-                                    <td><h4 style='font-size:12px; text-align: center; color:$color;'>".$mem1.' - '.$tmem1.' <br> '.$mem2.' - '.$tmem2.' <br> '.$mem3.' - '.$tmem3.' <br> '.$mem4.' - '.$tmem4."</h4></td>
-                                    <td><h4 style='font-size:12px; text-align: center;'>".$disc1.' - '.$tdisc1.' <br> '.$disc2.' - '.$tdisc2.' <br> '.$disc3.' - '.$tdisc3.' <br> '.$disc4.' - '.$tdisc4."</h4></td>
+
+                                    <td><h4 style='font-size:12px; text-align: center; color:".colorear($pm, $listar['PLACAM'], $colorp)."'>".$listar['PLACAM']."</h4></td>
+
+                                    <td><h4 style='font-size:12px; text-align: center;color:".colorear($m, $listar['MICRO'], $colormi)."'>".$listar['MICRO']."</h4></td>
+
+                                    <td><h4 style='font-size:12px; text-align: center;'>".'-'."</h4></td>
+
+
+
+
+                                    <td><h4 style='font-size:12px; text-align: center;color:'>
+                                    <font color=".colorear($mee1, $mem1, $colorme).">".$mem1.'</font> - 
+                                    <font color="'.colorear($tmee1, $tmem1, $colorme).'">'.$tmem1.'</font> <br> 
+
+                                    <font color="'.colorear($mee2, $mem2, $colorme).'">'.$mem2.'</font> - 
+                                    <font color="'.colorear($tmee2, $tmem2, $colorme).'">'.$tmem2.'</font> <br> 
+
+                                    <font color="'.colorear($mee3, $mem3, $colorme).'">'.$mem3.'</font> - 
+                                    <font color="'.colorear($tmee3, $tmem3, $colorme).'">'.$tmem3.'</font> <br> 
+
+                                    <font color="'.colorear($mee4, $mem4, $colorme).'">'.$mem4.'</font> - 
+                                    <font color="'.colorear($tmee3, $tmem3, $colorme).'">'.$tmem4."</font></h4></td>
+
+
+
+                                    <td><h4 style='font-size:12px; text-align: center;color:'>
+                                    <font color=".colorear($d1, $disc1, $colord).">".$disc1.'</font> - 
+                                    <font color="'.colorear($td1, $tdisc1, $colord).'">'.$tdisc1.'</font> <br> 
+
+                                    <font color="'.colorear($d2, $disc2, $colord).'">'.$disc2.'</font> - 
+                                    <font color="'.colorear($td2, $tdisc2, $colord).'">'.$tdisc2.'</font> <br> 
+
+                                    <font color="'.colorear($d3, $disc3, $colord).'">'.$disc3.'</font> - 
+                                    <font color="'.colorear($td3, $tdisc3, $colord).'">'.$tdisc3.'</font> <br> 
+
+                                    <font color="'.colorear($d4, $disc4, $colord).'">'.$disc4.'</font> - 
+                                    <font color="'.colorear($td4, $tdisc4, $colord).'">'.$tdisc4."</font></h4></td>
 								</tr>";
-                                $mee1 = $mem1;
+
                                 $pm = $listar['PLACAM'];
                                 $m = $listar['MICRO'];
+                                $mee1 = $mem1;
+                                $mee2 = $mem2;
+                                $mee3 = $mem3;
+                                $mee4 = $mem4;
+                                $tmee1 = $tmem1;
+                                $tmee2 = $tmem2;
+                                $tmee3 = $tmem3;
+                                $tmee4 = $tmem4;
+
+                                $d1 = $disc1;
+                                $d2 = $disc2;
+                                $d3 = $disc3;
+                                $d4 = $disc4;
+                                $td1 = $tdisc1;
+                                $td2 = $tdisc2;
+                                $td3 = $tdisc3;
+                                $td4 = $tdisc4;
 						}
 					echo "</table>";
 			?>

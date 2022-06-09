@@ -1,5 +1,5 @@
 <?php 
-/* error_reporting(0); */
+error_reporting(0);
 session_start();
 include('conexion.php');
 
@@ -62,6 +62,14 @@ function ConsultarIncidente($no_tic)
 	<section id="movimientos">
 		<div id="grilla">
 		<?php
+		    function colorear($v1, $v2, $v3){
+                if($v1 != $v2){
+                    $v3 = "#258900";
+                }else{
+                    $v3 = "#000000";
+                }
+                return $v3;
+            }
 				echo "<table width=100%>
 						<thead>
 							<tr>
@@ -93,20 +101,53 @@ function ConsultarIncidente($no_tic)
 						{
                             $fecord = date("d-m-Y", strtotime($listar['FECHA']));
 							
+							$colornom = "#000000";
+                            $colorare = "#000000";
+                            $colorest = "#000000";
+                            $colormar = "#000000";
+							$colorsis = "#000000";
+                            $colormas = "#000000";
+                            $colormac = "#000000";
+							$colorrip = "#000000";
+                            $colorip = "#000000";
+                            $colorred = "#000000";
+
 						    echo" 
 								<tr>
-                                    <td><h4 style='font-size:14px;'>".$fecord."</h4></td>
-                                    <td><h4 style='font-size:14px;'>".$listar['NOMBRE']."</h4></td>
-                                    <td><h4 style='font-size:14px;'>".$listar['AREA']."</h4></td>
-                                    <td><h4 style='font-size:14px;'>".$listar['ESTADO']."</h4></td>
-                                    <td><h4 style='font-size:14px;'>".$listar['MARCA']."</h4></td>
-                                    <td><h4 style='font-size:14px;'>".$listar['SIST_OP']."</h4></td>
-                                    <td><h4 style='font-size:14px;'>".$listar['MASTERIZADA']."</h4></td>
-                                    <td><h4 style='font-size:14px;'>".$listar['MAC']."</h4></td>
-                                    <td><h4 style='font-size:14px;'>".$listar['RIP']."</h4></td>
-									<td><h4 style='font-size:14px;'>".$listar['IP']."</h4></td>
-									<td><h4 style='font-size:14px;'>".$listar['RED']."</h4></td>
+                                    <td><h4 style='font-size:12px;'>".$fecord."</h4></td>
+
+
+									<td><h4 style='font-size:12px;'><font color=".colorear($nom, $listar['NOMBRE'], $colornom)."'>".$listar['NOMBRE']."</font></h4></td>
+
+									<td><h4 style='font-size:12px;'><font color=".colorear($are, $listar['AREA'], $colorare)."'>".$listar['AREA']."</font></h4></td>
+
+									<td><h4 style='font-size:12px;'><font color=".colorear($est, $listar['ESTADO'], $colorest)."'>".$listar['ESTADO']."</font></h4></td>
+
+									<td><h4 style='font-size:12px;'><font color=".colorear($mar, $listar['MARCA'], $colormar)."'>".$listar['MARCA']."</font></h4></td>
+
+									<td><h4 style='font-size:12px;'><font color=".colorear($sis, $listar['SIST_OP'], $colorsis)."'>".$listar['SIST_OP']."</font></h4></td>
+
+									<td><h4 style='font-size:12px;'><font color=".colorear($mas, $listar['MASTERIZADA'], $colormas)."'>".$listar['MASTERIZADA']."</font></h4></td>
+
+									<td><h4 style='font-size:12px;'><font color=".colorear($mac, $listar['MAC'], $colormac)."'>".$listar['MAC']."</font></h4></td>
+
+									<td><h4 style='font-size:12px;'><font color=".colorear($rip, $listar['RIP'], $colorrip)."'>".$listar['RIP']."</font></h4></td>
+
+									<td><h4 style='font-size:12px;'><font color=".colorear($ip, $listar['IP'], $colorip)."'>".$listar['IP']."</font></h4></td>
+
+									<td><h4 style='font-size:12px;'><font color=".colorear($red, $listar['RED'], $colorred)."'>".$listar['RED']."</font></h4></td>
 								</tr>";
+
+							$nom = $listar['NOMBRE'];
+							$are = $listar['AREA'];
+							$est = $listar['ESTADO'];
+							$mar = $listar['MARCA'];
+							$sis = $listar['SIST_OP'];
+							$mas = $listar['MASTERIZADA'];
+							$mac = $listar['MAC'];
+							$rip = $listar['RIP'];
+							$ip = $listar['IP'];
+							$red = $listar['RED'];
 						}
 					echo "</table>";
 			?>

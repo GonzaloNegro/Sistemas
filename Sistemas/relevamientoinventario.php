@@ -86,8 +86,10 @@ $row = $resultado->fetch_assoc();
                     $totalpcbaja = mysqli_fetch_array($contpcbaja);
                     $contmonact=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='MONITOR' and ID_ESTADOWS=1");
 					$totalmonact = mysqli_fetch_array($contmonact);
-                    $contmonbaja=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='MONITOR' and ID_ESTADOWS!=1");
+                    $contmonbaja=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='MONITOR' and ID_ESTADOWS=2");
 					$totalmonbaja = mysqli_fetch_array($contmonbaja);
+                    $contmonstk=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='MONITOR' and ID_ESTADOWS=3");
+					$totalmonstk = mysqli_fetch_array($contmonstk);
                     $conttotalmon=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='MONITOR'");
 					$totalmon = mysqli_fetch_array($conttotalmon);
                     $contnottot=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario where ID_TIPOWS=2");
@@ -108,6 +110,7 @@ $row = $resultado->fetch_assoc();
                         <th><p>PC BAJA</p></th>
                         <th><p>PC TOTAL</p></th>
                         <th><p>MONITORES EN USO</p></th>
+                        <th><p>MONITORES EN BAJA</p></th>
                         <th><p>MONITORES EN STOCK</p></th>
                         <th><p>MONITORES TOTAL</p></th>
                         <th><p>NOTEBOOK EN USO</p></th>
@@ -124,6 +127,7 @@ $row = $resultado->fetch_assoc();
 						<td><h4 style='text-align: center;	'>".$totalpc['TOTAL']."</h4></td>
                         <td><h4 style='text-align: center;	'>".$totalmonact['TOTAL']."</h4></td>
                         <td><h4 style='text-align: center;	'>".$totalmonbaja['TOTAL']."</h4></td>
+                        <td><h4 style='text-align: center;	'>".$totalmonstk['TOTAL']."</h4></td>
                         <td><h4 style='text-align: center;	'>".$totalmon['TOTAL']."</h4></td>
                         <td><h4 style='text-align: center;	'>".$totalnotact['TOTAL']."</h4></td>
                         <td><h4 style='text-align: center;	'>".$totalnotbaja['TOTAL']."</h4></td>
