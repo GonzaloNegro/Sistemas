@@ -141,22 +141,28 @@ $row = $resultado->fetch_assoc();
 <?php
                     $contimppropact=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='IMPRESORA' and ID_ESTADOWS=1 AND ID_PROCEDENCIA=3");
 					$totalimppropact = mysqli_fetch_array($contimppropact);
-                    $contimpbaja=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='IMPRESORA' and ID_ESTADOWS!=1 AND ID_PROCEDENCIA=3");
+                    $contimpbaja=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='IMPRESORA' and ID_ESTADOWS=2 AND ID_PROCEDENCIA=3");
 					$totalimpbaja = mysqli_fetch_array($contimpbaja);
+                    $contimpstk=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='IMPRESORA' and ID_ESTADOWS=3 AND ID_PROCEDENCIA=3");
+					$totalimpstk = mysqli_fetch_array($contimpstk);
                     $conttotalimpalq=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='IMPRESORA' AND ID_PROCEDENCIA=1");
 					$totalimpalq = mysqli_fetch_array($conttotalimpalq);
                     $conttotalimp=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='IMPRESORA'");
 					$totalimp = mysqli_fetch_array($conttotalimp);
                     $conttotalscact=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='SCANNER' AND ID_ESTADOWS=1");
 					$totalscact = mysqli_fetch_array($conttotalscact);
-                    $conttotalscbaja=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='SCANNER' AND ID_ESTADOWS!=1");
+                    $conttotalscbaja=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='SCANNER' AND ID_ESTADOWS=2");
 					$totalscbaja = mysqli_fetch_array($conttotalscbaja);
+                    $conttotalscstk=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='SCANNER' AND ID_ESTADOWS=2");
+					$totalscstk = mysqli_fetch_array($conttotalscstk);
                     $conttotalsc=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='SCANNER'");
 					$totalsc = mysqli_fetch_array($conttotalsc);
                     $conttotaltkact=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='TICKEADORA' AND ID_ESTADOWS=1");
 					$totaltkact = mysqli_fetch_array($conttotaltkact);
-                    $conttotaltkbaja=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='TICKEADORA' AND ID_ESTADOWS!=1");
+                    $conttotaltkbaja=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='TICKEADORA' AND ID_ESTADOWS=2");
 					$totaltkbaja = mysqli_fetch_array($conttotaltkbaja);
+                    $conttotaltkstk=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='TICKEADORA' AND ID_ESTADOWS=3");
+					$totaltkstk = mysqli_fetch_array($conttotaltkstk);
                     $conttotaltk=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='TICKEADORA'");
 					$totaltk = mysqli_fetch_array($conttotaltk);
                     ?>
@@ -165,13 +171,16 @@ $row = $resultado->fetch_assoc();
 						<thead style="border-bottom: solid 5px #073256 !important;">
 						<tr>
 						<th><p>IMPRESORAS PROPIAS EN USO</p></th>
+                        <th><p>IMPRESORAS PROPIAS EN BAJA</p></th>
                         <th><p>IMPRESORAS PROPIAS EN STOCK</p></th>
                         <th><p>IMPRESORAS ALQUILADAS</p></th>
                         <th><p>IMPRESORAS TOTAL</p></th>
                         <th><p>SCANNERS EN USO</p></th>
+                        <th><p>SCANNERS EN BAJA</p></th>
                         <th><p>SCANNERS EN STOCK</p></th>
                         <th><p>SCANNERS TOTAL</p></th>
                         <th><p>TICKEADORA EN USO</p></th>
+                        <th><p>TICKEADORA EN BAJA</p></th>
                         <th><p>TICKEADORA EN STOCK</p></th>
                         <th><p>TICKEADORA TOTAL</p></th>
 						</tr>
@@ -180,13 +189,16 @@ $row = $resultado->fetch_assoc();
                         <tr style='border-bottom: solid 1px #073256;'>
                         <td><h4 style='text-align: center;	'>".$totalimppropact['TOTAL']."</h4></td>
                         <td><h4 style='text-align: center;	'>".$totalimpbaja['TOTAL']."</h4></td>
+                        <td><h4 style='text-align: center;	'>".$totalimpstk['TOTAL']."</h4></td>
 						<td><h4 style='text-align: center;	'>".$totalimpalq['TOTAL']."</h4></td>
 						<td><h4 style='text-align: center;	'>".$totalimp['TOTAL']."</h4></td>
                         <td><h4 style='text-align: center;	'>".$totalscact['TOTAL']."</h4></td>
 						<td><h4 style='text-align: center;	'>".$totalscbaja['TOTAL']."</h4></td>
+                        <td><h4 style='text-align: center;	'>".$totalscstk['TOTAL']."</h4></td>
 						<td><h4 style='text-align: center;	'>".$totalsc['TOTAL']."</h4></td>
 						<td><h4 style='text-align: center;	'>".$totaltkact['TOTAL']."</h4></td>
 						<td><h4 style='text-align: center;	'>".$totaltkbaja['TOTAL']."</h4></td>
+                        <td><h4 style='text-align: center;	'>".$totaltkstk['TOTAL']."</h4></td>
 						<td><h4 style='text-align: center;	'>".$totaltk['TOTAL']."</h4></td>	
 						</tr></table>";	?>
 

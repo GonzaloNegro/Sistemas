@@ -28,7 +28,7 @@
             <ul class="list-unstyled">
                 <li>
                     <ul>
-                        <li>SIN MODIFICACIONES</li>    
+                        <li>SE AGREGARON LAS OPCIONES DE VER "MOVIMIENTOS" Y "MEJORAS" EN: INVENTARIO -> MAS DETALLES -> "MOVIMIENTOS" O "MEJORAS"</li>    
 <!--                         <li>Se agregó la columna de "USUARIOS ACTIVOS" en su respectivo ABM</li>
                         <li>Se muestran las marcas de los modelos en las listas desplegables de ABM</li>
                         <li>Se agregaron los campos para filtrar incidentes por fechas</li> -->

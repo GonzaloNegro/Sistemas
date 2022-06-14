@@ -560,11 +560,19 @@ $resultado2 = $datos_base->query($sqli);
 $row2 = $resultado2->fetch_assoc();
 $ser = $row2['SERIALN']; */
 
-$sqli = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$usu'";
+/* $sqli = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$usu'";
 $resultado2 = $datos_base->query($sqli);
 $row2 = $resultado2->fetch_assoc();
-$area = $row2['ID_AREA'];
+$area = $row2['ID_AREA']; */
 
+if(isset($_POST['area'])){
+    $area = $_POST['area'];
+}else{
+    $sqli = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$usu'";
+    $resultado2 = $datos_base->query($sqli);
+    $row2 = $resultado2->fetch_assoc();
+    $area = $row2['ID_AREA'];
+}
 
 if($serieg == $serg){ 
     header("Location: abmequipos.php?no");

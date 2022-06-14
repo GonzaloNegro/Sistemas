@@ -1084,7 +1084,7 @@ function ConsultarIncidente($no_tic)
                                         <?php endforeach?>
                                     </select>
                         <label id="lblArea" style="font-size:24px;"class="col-form-label col-xl col-lg">AREA: </label>
-                        <select id="slcarea" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="marca" disabled>
+                        <select id="slcarea" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="area" disabled>
                         <!-- falta verificar bien eñ value-->
                                         <option selected value="1100"><?php echo $area?></option>
                                         <?php
