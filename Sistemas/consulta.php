@@ -734,7 +734,8 @@ $cu = $row['CUIL'];
 							LEFT JOIN prioridad p ON  p.ID_PRIORIDAD = t.ID_PRIORIDAD 
 							LEFT JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO
 							LEFT JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR
-							ORDER BY t.FECHA_INICIO DESC, t.ID_TICKET DESC");
+							ORDER BY t.FECHA_INICIO DESC, t.ID_TICKET DESC
+							LIMIT 80");
 
 								while($listar = mysqli_fetch_array($consulta)) 			
 								{
@@ -792,7 +793,21 @@ $cu = $row['CUIL'];
 						</div>
 				</table>";
 			 ?>
-			
+			<div class="container">
+			 	<div class="row">
+					<nav aria-label="Page navigation example" class="pagination-lg">
+						<ul class="pagination">
+							<li class="page-item"><a class="page-link" href="consulta.php"><<</a></li>
+							<li class="page-item"><a class="page-link" href="consulta.php">1</a></li>
+							<li class="page-item"><a class="page-link" href="consulta2.php">2</a></li>
+							<li class="page-item"><a class="page-link" href="consulta3.php">3</a></li>
+							<li class="page-item"><a class="page-link" href="consulta4.php">4</a></li>
+							<li class="page-item"><a class="page-link" href="consulta5.php">5</a></li>
+							<li class="page-item"><a class="page-link" href="consulta5.php">>></a></li>
+						</ul>
+					</nav>
+			 	</div>
+			</div>
 		</div>
 		
 	</section>

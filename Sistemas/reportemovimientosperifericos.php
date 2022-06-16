@@ -14,14 +14,72 @@ $row = $resultado->fetch_assoc();
 <!DOCTYPE html>
 <html>
 <head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="estiloreporte.css">
+	<script type="text/javascript" src="jquery/1/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="jquery/1/jquery-ui.js"></script>
+	<!--BUSCADOR SELECT-->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<!--FIN BUSCADOR SELECT-->
+	<style>
+			body{
+			background-color: #edf0f5;
+			}
+	</style>
+</head>
 
-<div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-	                    <a id="vlv"  href="tiporeporte.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
-						<div class="btn-group col-2" role="group" >
-                              <button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='consulta.php'" ><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></button>
-                              <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()" ><i class='bi bi-printer'></i></button>
-                        </div>
-		            </div>
+
+    
+
+<body>
+<style>
+    #h2 {
+        text-align: left;
+        font-family: TrasandinaBook;
+        font-size: 16px;
+        color: #edf0f5;
+        margin-left: 10px;
+        margin-top: 5px;
+
+    }
+	</style>
+    <section id="inicio">
+        <div id="mostrar_reporte" style="width: 97%; margin-left: 20px; display:block">   			
+        
+		<div id="cabecerareport" class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
+	           <?php
+					$mov=$_GET['movimiento'];
+					echo"
+					<div id='boxrepart' class='form-group row'>
+                    <a id='vlv' href='tiporeporte.php' class='col-3 btn btn-primary '
+                        style='margin-top: 2px; margin-bottom: 2px; height: 42px;' type='button'
+                        value='VOLVER'>VOLVER</a>
+					
+                    <label id='lblForm' style='font-size:18px; margin-top: 2px; margin-bottom: 2px; width: 100px;'
+                        class='col-form-label col-xl col-lg'>SELECCIONE TIPO DE CAMBIO:</label>
+						
+                        <select id='slcrepart' name='selectorrepart' class='form-control col-xl col-lg' style='width:250px'  onChange='window.location.href=this.value' required>
+                          <option value='0' selected disabled>-TODOS-</option>
+                          <option value='reportemovimientosperifericos.php?movimiento=1'>AREA</option>
+                          <option value='reportemovimientosperifericos.php?movimiento=2'>USUARIO</option>
+                          <option value='reportemovimientosperifericos.php?movimiento=3'>ESTADO</option>
+                          </select>
+					</div>
+                	"?>
+					<div id='botonera' class='form-group row'>
+                    	<div class='btn-group col-2' role='group' style='margin: 5px; margin-right: 5px;'>
+                        <button id='botonleft' type='button' class='btn btn-secondary'
+                            onclick="location.href='consulta.php'"><i style=' margin-bottom:10px;'
+                                class='bi bi-house-door'></i></button>
+                        <button id='botonright' type='button' class='btn btn-success' onClick='imprimir()'><i
+                                class='bi bi-printer'></i></button>
+                    	</div>
+                	</div>
+		</div>
 		            <style type="text/css" media="print">
                               @media print {
                                              #vlv, #accion, .cabe {display:none;}
@@ -39,53 +97,105 @@ $row = $resultado->fetch_assoc();
                                       }
                     </script>
 	<title>MOVIMIENTOS PERIFERICOS</title><meta charset="utf-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="estiloallabm.css">
-	<script type="text/javascript" src="jquery/1/jquery-3.6.0.min.js"></script>
-	<script type="text/javascript" src="jquery/1/jquery-ui.js"></script>
-	<!--BUSCADOR SELECT-->
-	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-	<!--FIN BUSCADOR SELECT-->
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
-</head>
-<body>
-    <section id="inicio">
-        <div id="reporteEst" style="width: 97%; margin-left: 20px;">   			
+		
+
         
-		<style type="text/css">
-		#filtrosprin{
-			margin-top: 100; height: auto; width: 100%; background-color: #dbe5e9; border-top: 1px solid #53AAE0; border-bottom: 1px solid #53AAE0
-
-		}
-        </style>
-
-        <h1>MOVIMIENTOS PERIFERICOS</h1>
 		<div id="filtrosprin">
         </div>
+        
+		<!-- 
+			movimientos de area
+			select * from movimientosperi m 
+		where 
+		m.ID_AREA != ( select mv.ID_AREA from movimientosperi mv
+					where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO>mv.ID_MOVIMIENTO order by mv.ID_MOVIMIENTO desc limit 1 )
 
+		select * from movimientosperi m 
+        where 
+        m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientosperi mv
+              where m.ID_PERI=mv.ID_PERI) ORDER BY M.ID_MOVIMIENTO DESC			
+					
+					 -->
+
+				<!-- 
+					MOVIMIENTO USUARIOS
+					select * from movimientosperi m 
+				where 
+				m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientosperi mv
+							where m.ID_PERI=mv.ID_PERI) ORDER BY M.ID_MOVIMIENTO DESC -->
+
+							<!-- 
+								MOVIMIENTO ESTADOS
+								 select * from movimientosperi m 
+				where 
+				m.ID_ESTADOWS != ( select AVG(mv.ID_ESTADOWS) from movimientosperi mv
+              	where m.ID_PERI=mv.ID_PERI) ORDER BY M.ID_MOVIMIENTO DESC -->
 
         <?php
+		
+		if ($mov==1) {
+			$fecha = date("Y-m-d");
+		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+        // $nroMovimientos=mysqli_query($datos_base, "SELECT COUNT(*) AS TOTAL FROM movimientosperi");
+        // $totalNroMovimientos=mysqli_fetch_array($nroMovimientos);
+        // $movimientos=$totalNroMovimientos['TOTAL'];
+        // echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>Numero de Movimientos: $movimientos</h4>";
+        
+        $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
+		inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
+				INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
+				INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
+				where 
+				m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientosperi mv
+					  where m.ID_PERI=mv.ID_PERI) ORDER BY M.ID_MOVIMIENTO DESC");
+		}
+		if ($mov==2) {
+			$fecha = date("Y-m-d");
+		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+        // $nroMovimientos=mysqli_query($datos_base, "SELECT COUNT(*) AS TOTAL FROM movimientosperi");
+        // $totalNroMovimientos=mysqli_fetch_array($nroMovimientos);
+        // $movimientos=$totalNroMovimientos['TOTAL'];
+        // echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>Numero de Movimientos: $movimientos</h4>";
+        
+        $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
+		inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
+				INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
+				INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
+				where 
+				m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientosperi mv
+					  where m.ID_PERI=mv.ID_PERI) ORDER BY M.ID_MOVIMIENTO DESC");
+		}
+		if ($mov==3) {
+			$fecha = date("Y-m-d");
+		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+        // $nroMovimientos=mysqli_query($datos_base, "SELECT COUNT(*) AS TOTAL FROM movimientosperi");
+        // $totalNroMovimientos=mysqli_fetch_array($nroMovimientos);
+        // $movimientos=$totalNroMovimientos['TOTAL'];
+        // echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>Numero de Movimientos: $movimientos</h4>";
+        
+        $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
+		inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
+				INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
+				INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
+				where 
+				m.ID_ESTADOWS != ( select AVG(mv.ID_ESTADOWS) from movimientosperi mv
+					  where m.ID_PERI=mv.ID_PERI) ORDER BY M.ID_MOVIMIENTO DESC");
+		}
+
+		if($mov==0){
         $fecha = date("Y-m-d");
 		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-        $nroMovimientos=mysqli_query($datos_base, "SELECT COUNT(*) AS TOTAL FROM movimientosperi");
-        $totalNroMovimientos=mysqli_fetch_array($nroMovimientos);
-        $movimientos=$totalNroMovimientos['TOTAL'];
-        echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>Numero de Movimientos: $movimientos</h4>";
+        // $nroMovimientos=mysqli_query($datos_base, "SELECT COUNT(*) AS TOTAL FROM movimientosperi");
+        // $totalNroMovimientos=mysqli_fetch_array($nroMovimientos);
+        // $movimientos=$totalNroMovimientos['TOTAL'];
+        // echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>Numero de Movimientos: $movimientos</h4>";
         
         $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m 
         inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
         INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
-        INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP ORDER BY M.ID_MOVIMIENTO DESC");
+        INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP ORDER BY M.ID_MOVIMIENTO DESC");}?>
 	
-        echo "<table width=100%>
+        <?php echo "<table width=100%>
         <thead>
             <tr>
                 <th><p>MOVIMIENTO</p></th>

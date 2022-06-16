@@ -344,7 +344,9 @@ footer{
 
 .card .back{
   transform: perspective(600px) rotateY(180deg);
-  background-color: #53AAE0;
+  background-color:  #009cde;
+/*   background-image: url(imagenes/flechas.png);
+  background-size: cover; */
   padding: 15px;
   color: white;
   display: flex;

@@ -92,7 +92,7 @@ h4{
 .but2{
 	width: 350px;
 	height: 50px;
-	border-radius: 15px;transition-duration: 0.5s;
+	border-radius: 25px;transition-duration: 0.5s;
 	transition-delay: 0s;
     margin-top: 5px;
 }
@@ -102,7 +102,7 @@ h4{
 	color: #29343e;
 	font-size: 30px;
 	font-family: TrasandinaBook;
-	background-color: #dbe5e9;
+ 	background-color: #dbe5e9;
 	border-color: #f7fbfd;
 }
 
@@ -115,8 +115,25 @@ h4{
 	transition-timing-function: linear;
 	transition-delay: 0s;
 	font-size: 31px;
+
 }
 
+/* input:hover{
+	animation: separacion 6000ms ease;
+}
+
+@keyframes separacion {
+    0% {
+      filter: none; }
+    33% {
+      transform: translatey(0.2vw); }
+    50% {
+      filter: blur(1px); }
+    66% {
+      transform: translatey(-0.2vw); }
+    100% {
+      filter: none;
+      transform: translatex(0); } } */
 
 #foto{
     width: 100px;
@@ -135,9 +152,6 @@ h4{
 .link{
     color: #53AAE0 !important;
     font-size: 20px;
-}
-
-.link{
     text-decoration: none;
     background-image: linear-gradient(currentColor, currentColor);
     background-position: 0% 100%;

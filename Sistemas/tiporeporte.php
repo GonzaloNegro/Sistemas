@@ -180,7 +180,7 @@ $row = $resultado->fetch_assoc();
 
         <div class="card" data-aos="zoom-in">
           <div class="face front">
-          <img src="imagenes/inventario.jpg" alt="">
+          <img src="imagenes/flechas.png" alt="">
             <h3>MOVIMIENTOS</h3>
           </div>
           <div class="face back">
@@ -189,7 +189,7 @@ $row = $resultado->fetch_assoc();
               <a href="reportemovimientosequipos.php">EQUIPOS</a> 
             </div>
             <div class="link">
-            <a href="reportemovimientosperifericos.php">PERIFÉRICOS</a> 
+            <a href="reportemovimientosperifericos.php?movimiento=0">PERIFÉRICOS</a> 
             </div>
             
           </div>

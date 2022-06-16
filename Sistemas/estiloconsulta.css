@@ -410,3 +410,7 @@ color: #176AB5;
 	background-color: #00519C;
 	border-top-right-radius: 5px;
 }
+
+.pagination{
+	justify-content: center;
+}
