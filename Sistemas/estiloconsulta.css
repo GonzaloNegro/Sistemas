@@ -414,3 +414,9 @@ color: #176AB5;
 .pagination{
 	justify-content: center;
 }
+
+
+
+.page-link:hover{
+	background-color: rgb(182, 180, 180);
+}

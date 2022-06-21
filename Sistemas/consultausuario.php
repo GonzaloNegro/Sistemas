@@ -42,8 +42,8 @@ $cu = $row['CUIL'];
 			style="border-left: 5px solid #53AAE0;">NUEVO INCIDENTE</a>
  				<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
 					<li><a class="dropdown-item" href="cargarapidaporusuario.php">CARGA RÁPIDA POR USUARIO</a></li>
-<!-- 				<li><hr class="dropdown-divider"></li>
-                	<li><a class="dropdown-item" href="cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li> -->
+ 				    <li><hr class="dropdown-divider"></li>
+                	<li><a class="dropdown-item" href="cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li>
                 </ul>
 			</li>
             <li><a href="consulta.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">CONSULTA</a>

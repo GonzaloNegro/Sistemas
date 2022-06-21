@@ -137,8 +137,8 @@ $row = $resultado->fetch_assoc();
 			style="border-left: 5px solid #53AAE0;">NUEVO INCIDENTE</a>
  				<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
 					<li><a class="dropdown-item" href="cargarapidaporusuario.php">CARGA RÁPIDA POR USUARIO</a></li>
-<!-- 				<li><hr class="dropdown-divider"></li>
-                	<li><a class="dropdown-item" href="cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li> -->
+ 				<li><hr class="dropdown-divider"></li>
+                	<li><a class="dropdown-item" href="cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li>
                 </ul>
 			</li>
             <li><a href="consulta.php" class="nav-link px-2 link-dark link">CONSULTA</a>
@@ -236,7 +236,7 @@ $row = $resultado->fetch_assoc();
 			<div class="form-group row" style="margin: 10px; padding:10px;">
             	<label class='col-form-label col-xl col-lg'>USUARIO:</label>
                 <!---->
-				<select name="usuario1" id="buscador1" class='form-control col-xl col-lg' style="width:300px;" required >
+				<select name="usuario1" id="buscador1" class='form-control col-xl col-lg' style="width:300px;"  >
 					<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
 					<?php
 					include("conexion.php");
@@ -268,11 +268,11 @@ $row = $resultado->fetch_assoc();
 					})
 					</script>
 			<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label> 
-			<select id='equipo' name='equipo' class='form-control col-xl col-lg' style="width:300px; margin-right: 30px;" required></select>
+			<select id='equipo' name='equipo' class='form-control col-xl col-lg' style="width:300px; margin-right: 30px;" ></select>
 			</div>
 			
 			<div class="form-group row" style="margin: 10px; padding:10px;">
-				<textarea name="descripcion1" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°1" rows="3" required></textarea>
+				<textarea name="descripcion1" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°1" rows="3" ></textarea>
 			</div>
 		</div>
 		
@@ -289,7 +289,7 @@ $row = $resultado->fetch_assoc();
 		<div class="accordion-body">
 			<div class="form-group row" style="margin: 10px; padding:10px;">
             <label class="col-form-label col-xl col-lg">USUARIO:</label>
-								<select name="usuario2" id="buscador2" style="width:300px;" required class="form-control col-xl col-lg extend">
+								<select name="usuario2" id="buscador2" style="width:300px;"  class="form-control col-xl col-lg extend">
 								<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
 								<?php
 								include("conexion.php");
@@ -321,10 +321,10 @@ $row = $resultado->fetch_assoc();
 										})
 									</script>
 			<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label> 
-			<select id='equipo2' name='equipo2' class='form-control col-xl col-lg' style="width:300px; margin-right: 30px;" required></select>
+			<select id='equipo2' name='equipo2' class='form-control col-xl col-lg' style="width:300px; margin-right: 30px;"></select>
 			</div>
 			<div class="form-group row" style="margin: 10px; padding:10px;">
-				<textarea name="descripcion2" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°2" rows="3" required></textarea>
+				<textarea name="descripcion2" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°2" rows="3" ></textarea>
 			</div>
 		</div>
 		
@@ -342,7 +342,7 @@ $row = $resultado->fetch_assoc();
             <div class="accordion-body">
                 <div class="form-group row" style="margin: 10px; padding:10px;">
                     <label class="col-form-label col-xl col-lg">USUARIO:</label>
-                    <select name="usuario3" id="buscador3" style="width:300px;" required class="form-control col-xl col-lg extend">
+                    <select name="usuario3" id="buscador3" style="width:300px;"  class="form-control col-xl col-lg extend">
                     <option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
                     <?php
                     include("conexion.php");
@@ -372,10 +372,10 @@ $row = $resultado->fetch_assoc();
                         })
                     </script>		
                 <label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label> 
-			    <select id='equipo3' name='equipo3' class='form-control col-xl col-lg' style="width:300px; margin-right: 30px;" required></select>  
+			    <select id='equipo3' name='equipo3' class='form-control col-xl col-lg' style="width:300px; margin-right: 30px;" ></select>  
 				</div>
                 <div class="form-group row" style="margin: 10px; padding:10px;">
-                    <textarea name="descripcion3" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°3" rows="3" required></textarea>
+                    <textarea name="descripcion3" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°3" rows="3"></textarea>
                 </div>
             </div>
 		</div>
@@ -387,7 +387,7 @@ $row = $resultado->fetch_assoc();
     <!--//////////////////////////////////////////////////////////////////-->
     <!--//////////////////////////////////////////////////////////////////-->
     <div class="row justify-content-end" style="margin: 10px; padding:10px;">
-        <input id="btnform" type="button" value="GUARDAR" onClick="validar_formulario(this.form)"  name="g1" class="col-2 button">
+        <input id="btnform" type="submit" value="GUARDAR" onClick="validar_formulario(this.form)"  name="g1" class="col-2 button">
     </div>
 							
     </form>
