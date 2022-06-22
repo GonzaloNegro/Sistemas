@@ -164,7 +164,7 @@ $cu = $row['CUIL'];
 							if(isset($_POST['btn3']))
 							{
 								/*$doc = $_POST['buscar'];*/
-								 $contador = 0;
+								/*  $contador = 0; */
 							$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
 							FROM ticket t 
 							LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO
@@ -212,7 +212,7 @@ $cu = $row['CUIL'];
 										  </svg></a></td>
 										</tr>
 									";
-									$contador = $contador + 1;
+								/* 	$contador = $contador + 1; */
 								} 	
 							}
 						/*ACA TERMINA EL BOTON DE PENDIENTES*/
@@ -220,7 +220,7 @@ $cu = $row['CUIL'];
 						elseif(isset($_POST['pm']))
 						{
 						/*$doc = $_POST['buscar'];*/
-						$contador = 0;
+						/* $contador = 0; */
 						$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
 						FROM ticket t 
 						LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO
@@ -268,7 +268,7 @@ $cu = $row['CUIL'];
 									  </svg></a></td>
 									</tr>
 								";
-								$contador = $contador + 1;
+								/* $contador = $contador + 1; */
 							} 	
 						}
 						/* ACA TERMINAR EL BOTON DE MIS PENDIENTES */
@@ -335,7 +335,7 @@ $cu = $row['CUIL'];
                                     if(isset($_POST['buscar']) AND $_POST['fecha1']=="" AND $_POST['fecha2']==""){
 	
 										$doc = $_POST['buscar'];
-																$contador = 0;
+															/* 	$contador = 0; */
 																$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
 																FROM ticket t 
 																LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO
@@ -377,7 +377,7 @@ $cu = $row['CUIL'];
 																				  </svg></a></td>
 																				  </tr>
 																				"; 
-																				$contador = $contador + 1;
+																			/* 	$contador = $contador + 1; */
 																};
 							
 									}
@@ -387,7 +387,7 @@ $cu = $row['CUIL'];
 										$doc = $_POST['buscar'];
 										$fecha1 = date("Y-m-d", strtotime($_POST['fecha1']));
 										$fecha2 = date("Y-m-d", strtotime($_POST['fecha2']));
-										$contador = 0;
+										/* $contador = 0; */
 										$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
 										FROM ticket t 
 										LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO
@@ -430,7 +430,7 @@ $cu = $row['CUIL'];
 														  </svg></a></td>
 														  </tr>
 														"; 
-														$contador = $contador + 1;
+													/* 	$contador = $contador + 1; */
 										} ;}  
 			
 			
@@ -439,7 +439,7 @@ $cu = $row['CUIL'];
 
 										$fecha1 = date("Y-m-d", strtotime($_POST['fecha1']));
 										$fecha2 = date("Y-m-d", strtotime($_POST['fecha2']));
-										$contador = 0;
+									/* 	$contador = 0; */
 										$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
 										FROM ticket t 
 										LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO
@@ -479,7 +479,7 @@ $cu = $row['CUIL'];
 														  </svg></a></td>
 														  </tr>
 														"; 
-														$contador = $contador + 1;
+														/* $contador = $contador + 1; */
 										};
 	
 	
@@ -727,7 +727,7 @@ $cu = $row['CUIL'];
 
 
 								else{
-									$contador = 0;
+									/* $contador = 0; */
 							$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
 							FROM ticket t
 							LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO 
@@ -775,7 +775,7 @@ $cu = $row['CUIL'];
 									  </svg></a></td>
 										</tr>	</a>
 									"; 
-									$contador = $contador + 1;
+								/* 	$contador = $contador + 1; */
 								}
 							}
 
@@ -789,7 +789,7 @@ $cu = $row['CUIL'];
 								}
 							}
 						echo"
-							<p>CANTIDAD DE TICKETS:  $contador</p>
+							
 						</div>
 				</table>";
 			 ?>
