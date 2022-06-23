@@ -555,24 +555,34 @@ $resultado2 = $datos_base->query($sqli);
 $row2 = $resultado2->fetch_assoc();
 $serg = $row2['SERIEG'];
 
-/* $sqli = "SELECT * FROM inventario WHERE (SERIALN = '$serialn' AND ID_WS != '$id')";
-$resultado2 = $datos_base->query($sqli);
-$row2 = $resultado2->fetch_assoc();
-$ser = $row2['SERIALN']; */
-
-/* $sqli = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$usu'";
-$resultado2 = $datos_base->query($sqli);
-$row2 = $resultado2->fetch_assoc();
-$area = $row2['ID_AREA']; */
-
-if(isset($_POST['area'])){
-    $area = $_POST['area'];
+if($usu == 277){
+    if(($_POST['area']) != 1100){
+        $area = $_POST['area'];
+    }else{
+        $sqli = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$usu'";
+        $resultado2 = $datos_base->query($sqli);
+        $row2 = $resultado2->fetch_assoc();
+        $area = $row2['ID_AREA'];
+    }
 }else{
     $sqli = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$usu'";
     $resultado2 = $datos_base->query($sqli);
     $row2 = $resultado2->fetch_assoc();
     $area = $row2['ID_AREA'];
 }
+
+
+
+
+
+/* if(isset($_POST['area'])){
+    $area = $_POST['area'];
+}else{
+    $sqli = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$usu'";
+    $resultado2 = $datos_base->query($sqli);
+    $row2 = $resultado2->fetch_assoc();
+    $area = $row2['ID_AREA'];
+} */
 
 if($serieg == $serg){ 
     header("Location: abmequipos.php?no");

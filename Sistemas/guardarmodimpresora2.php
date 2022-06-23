@@ -90,7 +90,7 @@ $resultado2 = $datos_base->query($sqli);
 $row2 = $resultado2->fetch_assoc();
 $area = $row2['ID_AREA'];
 
-if(/* $serieg == $serg OR */ $serie == $ser){ 
+if($serie == $ser){ 
     header("Location: abmimpresoras.php?no");
 }
 else{

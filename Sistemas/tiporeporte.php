@@ -186,11 +186,19 @@ $row = $resultado->fetch_assoc();
           <div class="face back">
             <h3>MOVIMIENTOS</h3>
             <div class="link">
-              <a href="reportemovimientosequipos.php">EQUIPOS</a> 
+              <a href="reportemovimientosequipos.php?movimiento=0">EQUIPOS</a> 
             </div>
             <div class="link">
             <a href="reportemovimientosperifericos.php?movimiento=0">PERIFÉRICOS</a> 
             </div>
+            <h3>MEJORAS</h3>
+            <div class="link">
+              <a href="reportemejorasequipos.php?movimiento=0">EQUIPOS</a> 
+            </div>
+          </div>
+          
+            
+            
             
           </div>
         </div>
