@@ -98,8 +98,8 @@ $row = $resultado->fetch_assoc();
                     </script>
 	<title>MOVIMIENTOS PERIFERICOS</title><meta charset="utf-8">
 		
-
-        
+	<br>
+	<h1>MOVIMIENTOS PERIFERICOS</h1>
 		<div id="filtrosprin">
         </div>
         
@@ -118,7 +118,7 @@ $row = $resultado->fetch_assoc();
 				INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
 				where 
 				m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientosperi mv
-					  where m.ID_PERI=mv.ID_PERI) ORDER BY M.ID_MOVIMIENTO DESC");
+					  where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
 		}
 		if ($mov==2) {
 			$fecha = date("Y-m-d");
@@ -131,7 +131,7 @@ $row = $resultado->fetch_assoc();
 				INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
 				where 
 				m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientosperi mv
-					  where m.ID_PERI=mv.ID_PERI) ORDER BY M.ID_MOVIMIENTO DESC");
+					  where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
 		}
 		if ($mov==3) {
 			$fecha = date("Y-m-d");
@@ -144,7 +144,7 @@ $row = $resultado->fetch_assoc();
 				INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
 				where 
 				m.ID_ESTADOWS != ( select AVG(mv.ID_ESTADOWS) from movimientosperi mv
-					  where m.ID_PERI=mv.ID_PERI) ORDER BY M.ID_MOVIMIENTO DESC");
+					  where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
 		}
 
 		if($mov==0){
@@ -225,3 +225,20 @@ $row = $resultado->fetch_assoc();
     </section>
 </body>
 </html>
+
+
+
+<!-- moejoras memoria
+select m.ID_MEJORA, m.ID_WS, m.MEMORIA1, me.ORDEN_MEMORIA  from mejoras m inner join memoria me
+on m.MEMORIA1=me.ID_MEMORIA
+where me.ORDEN_MEMORIA>(SELECT max(me2.ORDEN_MEMORIA) from mejoras ms INNER JOIN
+                         memoria me2 on ms.MEMORIA1=me2.ID_MEMORIA where m.ID_WS=ms.ID_WS and m.ID_MEJORA>ms.ID_MEJORA)
+GROUP BY m.ID_MEJORA DESC 
+
+
+select m.ID_MEJORA, m.ID_WS, m.DISCO1, d.DISCO  from mejoras m inner join disco d
+on m.DISCO1=d.ID_DISCO
+where d.ORDEN_DISCO>(SELECT max(di.ORDEN_DISCO) from mejoras me INNER JOIN
+                         disco di on me.DISCO1=di.ID_DISCO where m.ID_WS=me.ID_WS and m.ID_MEJORA>me.ID_MEJORA)
+GROUP BY m.ID_MEJORA DESC
+-->

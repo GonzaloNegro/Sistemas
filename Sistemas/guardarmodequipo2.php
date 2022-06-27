@@ -555,20 +555,40 @@ $resultado2 = $datos_base->query($sqli);
 $row2 = $resultado2->fetch_assoc();
 $serg = $row2['SERIEG'];
 
+$area = $_POST['area'];
+
 if($usu == 277){
-    if(($_POST['area']) != 1100){
+
+     if($area == "1100" || $area == 0){
+        $sql6 = "SELECT ID_AREA FROM inventario WHERE ID_WS = '$id'";
+        $result6 = $datos_base->query($sql6);
+        $row6 = $result6->fetch_assoc();
+        $area = $row6['ID_AREA'];
+     }
+
+
+/*     if(($_POST['area']) != "1100"){
         $area = $_POST['area'];
     }else{
-        $sqli = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$usu'";
+        $sqli = "SELECT ID_AREA FROM inventario WHERE ID_WS = '$id'";
         $resultado2 = $datos_base->query($sqli);
         $row2 = $resultado2->fetch_assoc();
         $area = $row2['ID_AREA'];
-    }
+    } */
 }else{
+/*     if(isset($_POST['area'])){
+        if($_POST['area'] == "1100"){
+            $sql6 = "SELECT ID_AREA FROM inventario WHERE ID_WS = '$id'";
+            $result6 = $datos_base->query($sql6);
+            $row6 = $result6->fetch_assoc();
+            $area = $row6['ID_AREA'];
+        }
+    }else{ */
     $sqli = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$usu'";
     $resultado2 = $datos_base->query($sqli);
     $row2 = $resultado2->fetch_assoc();
     $area = $row2['ID_AREA'];
+    /* } */
 }
 
 

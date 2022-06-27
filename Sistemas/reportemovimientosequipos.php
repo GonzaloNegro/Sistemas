@@ -60,7 +60,7 @@ $row = $resultado->fetch_assoc();
                         value='VOLVER'>VOLVER</a>
 					
                     <label id='lblForm' style='font-size:18px; margin-top: 2px; margin-bottom: 2px; width: 100px;'
-                        class='col-form-label col-xl col-lg'>SELECCIONE TIPO DE CAMBIO:</label>
+                        class='col-form-label col-xl col-lg'>SELECCIONE TIPO DE MOVIMIENTO:</label>
 						
                         <select id='slcrepart' name='selectorrepart' class='form-control col-xl col-lg' style='width:250px'  onChange='window.location.href=this.value' required>
                           <option value='0' selected disabled>-TODOS-</option>
@@ -96,10 +96,10 @@ $row = $resultado->fetch_assoc();
             	             window.print();
                                       }
                     </script>
-	<title>MOVIMIENTOS equipos</title><meta charset="utf-8">
+	<title>MOVIMIENTOS EQUIPOS</title><meta charset="utf-8">
 		
-
-        
+        <br>
+        <h1>MOVIMIENTOS EQUIPOS</h1>
 		<div id="filtrosprin">
         </div>
         
@@ -122,7 +122,7 @@ $row = $resultado->fetch_assoc();
         LEFT JOIN red AS r ON r.ID_RED = m.ID_RED
         where 
 				m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientos mv
-					  where m.ID_WS=mv.ID_WS) ORDER BY M.ID_MOVIMIENTO DESC");
+					  where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
 		}
 		if ($mov==2) {
 			$fecha = date("Y-m-d");
@@ -139,7 +139,7 @@ $row = $resultado->fetch_assoc();
         LEFT JOIN red AS r ON r.ID_RED = m.ID_RED
         where 
 				m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientos mv
-					  where m.ID_WS=mv.ID_WS) ORDER BY M.ID_MOVIMIENTO DESC");
+					  where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
 		}
 		if ($mov==3) {
 			$fecha = date("Y-m-d");
@@ -156,7 +156,7 @@ $row = $resultado->fetch_assoc();
         LEFT JOIN red AS r ON r.ID_RED = m.ID_RED
         where 
 				m.ID_ESTADOWS != ( select AVG(mv.ID_ESTADOWS) from movimientos mv
-					  where m.ID_WS=mv.ID_WS) ORDER BY M.ID_MOVIMIENTO DESC");
+					  where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
 		}
 
 		if($mov==0){

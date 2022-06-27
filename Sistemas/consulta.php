@@ -212,7 +212,7 @@ $cu = $row['CUIL'];
 										  </svg></a></td>
 										</tr>
 									";
-									$contador = $contador + 1;
+									/* $contador = $contador + 1; */
 								} 	
 							}
 						/*ACA TERMINA EL BOTON DE PENDIENTES*/
