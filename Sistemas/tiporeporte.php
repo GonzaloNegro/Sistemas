@@ -193,7 +193,7 @@ $row = $resultado->fetch_assoc();
             </div>
             <h3>MEJORAS</h3>
             <div class="link">
-              <a href="reportemejorasequipos.php?movimiento=0">EQUIPOS</a> 
+              <a href="reportemejorasequipos.php?mejora=0">EQUIPOS</a> 
             </div>
           </div>
           

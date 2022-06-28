@@ -52,7 +52,7 @@ $row = $resultado->fetch_assoc();
         
 		<div id="cabecerareport" class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
 	           <?php
-					$mov=$_GET['movimiento'];
+					$mej=$_GET['mejora'];
 					echo"
 					<div id='boxrepart' class='form-group row'>
                     <a id='vlv' href='tiporeporte.php' class='col-3 btn btn-primary '
@@ -60,13 +60,12 @@ $row = $resultado->fetch_assoc();
                         value='VOLVER'>VOLVER</a>
 					
                     <label id='lblForm' style='font-size:18px; margin-top: 2px; margin-bottom: 2px; width: 100px;'
-                        class='col-form-label col-xl col-lg'>SELECCIONE TIPO DE CAMBIO:</label>
+                        class='col-form-label col-xl col-lg'>SELECCIONE TIPO DE MEJORA:</label>
 						
                         <select id='slcrepart' name='selectorrepart' class='form-control col-xl col-lg' style='width:250px'  onChange='window.location.href=this.value' required>
                           <option value='0' selected disabled>-TODOS-</option>
-                          <option value='reportemovimientosperifericos.php?movimiento=1'>AREA</option>
-                          <option value='reportemovimientosperifericos.php?movimiento=2'>USUARIO</option>
-                          <option value='reportemovimientosperifericos.php?movimiento=3'>ESTADO</option>
+                          <option value='reportemejorasequipos.php?mejora=1'>RAM</option>
+                          <option value='reportemejorasequipos.php?mejora=2'>DISCO</option>
                           </select>
 					</div>
                 	"?>
@@ -96,10 +95,10 @@ $row = $resultado->fetch_assoc();
             	             window.print();
                                       }
                     </script>
-	<title>MOVIMIENTOS PERIFERICOS</title><meta charset="utf-8">
+	<title>MEJORAS EQUIPOS</title><meta charset="utf-8">
 		
-
-        
+        <br>
+        <h1>MEJORAS EQUIPOS</h1>
 		<div id="filtrosprin">
         </div>
         
@@ -107,69 +106,73 @@ $row = $resultado->fetch_assoc();
 
         <?php
 		
-		if ($mov==1) {
+		if ($mej==1) {
 			$fecha = date("Y-m-d");
 		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
         
         
-        $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
-		inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
-				INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
-				INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
-				where 
-				m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientosperi mv
-					  where m.ID_PERI=mv.ID_PERI) ORDER BY M.ID_MOVIMIENTO DESC");
+        $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+        FROM mejoras m
+        inner join wsmem w on m.ID_WS=w.ID_WS
+        inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
+        inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
+        inner join discows ds on m.ID_WS=ds.ID_WS
+        inner join disco d on ds.ID_DISCO=d.ID_DISCO
+        inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
+		inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+		where me.ORDEN_MEMORIA>(SELECT max(me2.ORDEN_MEMORIA) from mejoras ms INNER JOIN
+                         memoria me2 on ms.MEMORIA1=me2.ID_MEMORIA where m.ID_WS=ms.ID_WS and m.ID_MEJORA>ms.ID_MEJORA)
+GROUP BY m.ID_MEJORA DESC");
 		}
-		if ($mov==2) {
+		if ($mej==2) {
 			$fecha = date("Y-m-d");
 		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
         
         
-        $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
-		inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
-				INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
-				INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
-				where 
-				m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientosperi mv
-					  where m.ID_PERI=mv.ID_PERI) ORDER BY M.ID_MOVIMIENTO DESC");
+        $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+        FROM mejoras m
+        inner join wsmem w on m.ID_WS=w.ID_WS
+        inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
+        inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
+        inner join discows ds on m.ID_WS=ds.ID_WS
+        inner join disco d on m.DISCO1=d.ID_DISCO
+        inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
+		inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+		where d.ORDEN_DISCO>(SELECT max(di.ORDEN_DISCO) from mejoras me INNER JOIN
+                         disco di on me.DISCO1=di.ID_DISCO where m.ID_WS=me.ID_WS and m.ID_MEJORA>me.ID_MEJORA)
+GROUP BY m.ID_MEJORA DESC");
 		}
-		if ($mov==3) {
-			$fecha = date("Y-m-d");
-		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-        
-        
-        $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
-		inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
-				INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
-				INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
-				where 
-				m.ID_ESTADOWS != ( select AVG(mv.ID_ESTADOWS) from movimientosperi mv
-					  where m.ID_PERI=mv.ID_PERI) ORDER BY M.ID_MOVIMIENTO DESC");
-		}
+		
 
-		if($mov==0){
+		if($mej==0){
         $fecha = date("Y-m-d");
 		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
         
         
-        $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m 
-        inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
-        INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
-        INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP ORDER BY M.ID_MOVIMIENTO DESC");}?>
+        $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+        FROM mejoras m
+        inner join wsmem w on m.ID_WS=w.ID_WS
+        inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
+        inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
+        inner join discows ds on m.ID_WS=ds.ID_WS
+        inner join disco d on m.DISCO1=d.ID_DISCO
+        inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
+		inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+		GROUP BY m.ID_MEJORA DESC");}?>
 	
         <?php echo "<table width=100%>
         <thead>
-            <tr>
-                <th><p>MOVIMIENTO</p></th>
-                <th><p>FECHA MOVIMIENTO</p></th>
-                <th><p>ID PERIFERICO</p></th>
-                <th><p>TIPO</p></th>
-                <!--<th><p>SUBTIPO</p></th>-->
-                <th><p>ÁREA</p></th>
-                <th><p>USUARIO</p></th>
-                <th><p>ESTADO</p></th>
-                <th><p>DETALLES</p></th>
-            </tr>
+        <tr>
+        <th><p class=g>NRO. WS</p></th>
+		<th><p class=g>FECHA</p></th>
+		<th><p class=g>MEJORA</p></th>
+        <th><p class=g>MEMORIA</p></th>
+		<th><p class=g>TIPO MEMORIA</p></th>
+		<th><p class=g>PLACA</p></th>
+		<th><p class=g>DISCO</p></th>
+		<th><p class=g>TIPO DISCO</p></th>
+        
+    </tr>
         </thead>
         ";
         $contador=0;
@@ -177,22 +180,19 @@ $row = $resultado->fetch_assoc();
         
 				
 	    {
+            $fecord = date("d-m-Y", strtotime($listar['FECHA']));
 		echo
 		" 
-			<tr>
-				<td><h4 style='font-size:16px;'>".$listar['ID_MOVIMIENTO']."</h4></td>
-				<td><h4 style='font-size:16px;'>".$listar['FECHA']."</h4></td>
-				<td><h4 style='font-size:16px;'>".$listar['ID_PERI']."</h4></td>
-				<td><h4 style='font-size:16px;'>".$listar['TIPOP']."</h4></td>
-				<!--<td><h4 style='font-size:16px;'>".$listar['TIPO']."</h4></td>-->
-				<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4></td>
-				<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>
-                <td><h4 style='font-size:16px;'>".$listar['ESTADO']."</h4></td>
-                <td class='text-center text-nowrap cabe'  style='width: 80px;'><a class='btn btn-sm btn-outline-primary' href='detallemovimientoperifericos.php?ID_PERI=".$listar['ID_PERI']."'class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
-				<path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
-				<path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
-				</svg></a></td>												
-			</tr>";
+        <tr>
+        <td><h4 >".$listar['ID_WS']."</font></h4></td>
+        <td><h4 >".$fecord."</h4></td>
+        <td><h4 >".$listar['ID_MEJORA']."</font></h4></td>
+        <td><h4 >".$listar['MEMORIA']."</font></h4></td>
+        <td><h4 >".$listar['TIPOMEM']."</font></h4></td>
+        <td><h4 >".$listar['PLACAM']."</font></h4></td>
+        <td><h4 >".$listar['DISCO']."</font></h4></td>
+        <td><h4 >".$listar['TIPOD']."</font></h4></td>
+        </tr>";
 		$contador += 1;}
 
 		echo "<div id=contador class='form-group row justify-content-between'>";
