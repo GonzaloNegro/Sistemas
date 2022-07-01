@@ -51,6 +51,8 @@ $cu = $row['CUIL'];
                     <li><a class="dropdown-item" href="consulta.php">CONSULTA DE INCIDENTES</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="consultausuario.php">CONSULTA DE USUARIOS</a></li>
+					<li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">CONSULTA PARA ALTAS</a></li>
                 </ul>
             </li>
             <li><a href="inventario.php" class="nav-link px-2 link-dark link">INVENTARIO</a>

@@ -68,7 +68,18 @@ $row = $resultado->fetch_assoc();
                           <option value='reportemovimientosequipos.php?movimiento=2'>USUARIO</option>
                           <option value='reportemovimientosequipos.php?movimiento=3'>ESTADO</option>
                           </select>
-					</div>
+
+                          <label style='font-size: 18px;' id='lblForm'class='col-form-label col-xl col-lg'>SELECCIONE UN PERIODO:</label>
+                  
+                 <label style='font-size: 18px;' id='lblForm'class='col-form-label col-xl col-lg'>DESDE:</label>
+                     <input class='col-xl col-lg form-control' style='margin-top: 10px;' type='date' name='fecha_desde' id='txtfechadesdeA' required>
+                 
+                 <label style='font-size: 18px;' id='lblForm'class='col-form-label col-xl col-lg'>HASTA:</label>
+                     <input class='col-xl col-lg form-control' style='margin-top: 10px;' type='date' name='fecha_hasta' id='txtfechahastaA' required>
+                  
+                    </div>
+                    
+
                 	"?>
 					<div id='botonera' class='form-group row'>
                     	<div class='btn-group col-2' role='group' style='margin: 5px; margin-right: 5px;'>
@@ -122,7 +133,7 @@ $row = $resultado->fetch_assoc();
         LEFT JOIN red AS r ON r.ID_RED = m.ID_RED
         where 
 				m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientos mv
-					  where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
+					  where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY a.ID_AREA desc");
 		}
 		if ($mov==2) {
 			$fecha = date("Y-m-d");
@@ -139,7 +150,7 @@ $row = $resultado->fetch_assoc();
         LEFT JOIN red AS r ON r.ID_RED = m.ID_RED
         where 
 				m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientos mv
-					  where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
+					  where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY u.NOMBRE asc");
 		}
 		if ($mov==3) {
 			$fecha = date("Y-m-d");
