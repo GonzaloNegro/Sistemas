@@ -28,7 +28,7 @@
             <ul class="list-unstyled">
                 <li>
                     <ul>
-                        <li>SE INCORPORÓ LA "CARGA RÁPIDA POR TIPIFICACIÓN"</li>
+                        <li>SE INCORPORÓ LA PANTALLA DE "CONSULTAS PARA ALTAS"</li>
     <!--                    <li>SE AGREGARON LAS OPCIONES DE VER "MOVIMIENTOS" Y "MEJORAS" EN: INVENTARIO -> MAS DETALLES -> "MOVIMIENTOS" O "MEJORAS"</li>                             
                          <li>Se agregó la columna de "USUARIOS ACTIVOS" en su respectivo ABM</li>
                         <li>Se agregaron los campos para filtrar incidentes por fechas</li> -->

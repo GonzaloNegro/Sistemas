@@ -43,11 +43,13 @@ $row = $resultado->fetch_assoc();
                 	<li><a class="dropdown-item" href="cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li>
                 </ul>
 			</li>
-            <li><a href="consulta.php" class="nav-link px-2 link-dark link">CONSULTA</a>
+            <li><a href="consulta.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">CONSULTA</a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
                     <li><a class="dropdown-item" href="consulta.php">CONSULTA DE INCIDENTES</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="consultausuario.php">CONSULTA DE USUARIOS</a></li>
+					<li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="consultaaltas.php">CONSULTA PARA ALTAS</a></li>
                 </ul>
             </li>
             <li><a href="inventario.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">INVENTARIO</a>

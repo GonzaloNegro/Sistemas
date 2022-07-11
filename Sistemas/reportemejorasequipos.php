@@ -30,6 +30,30 @@ $row = $resultado->fetch_assoc();
 			background-color: #edf0f5;
 			}
 	</style>
+
+<div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
+	                    <a id="vlv"  href="tiporeporte.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+						<div class="btn-group col-2" role="group" >
+                              <button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='consulta.php'" ><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></button>
+                              <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()" ><i class='bi bi-printer'></i></button>
+                        </div>
+		            </div>
+		            <style type="text/css" media="print">
+                              @media print {
+                                             #vlv, #accion, .cabe {display:none;}
+                                             #pr, #botonleft, #botonright {display:none;}
+		                                     #pr2 {display:none;}
+											 #titulo{ margin-top: 50px;}
+											 #ind{ margin-bottom: 0px;}
+											 #tablareporte{ margin-top: 20px;}
+											 #campos{display:none;}
+                                            }
+                    </style>
+		            <script>
+                           function imprimir() {
+            	             window.print();
+                                      }
+                    </script>
 </head>
 
 
@@ -47,108 +71,158 @@ $row = $resultado->fetch_assoc();
 
     }
 	</style>
-    <section id="inicio">
-        <div id="mostrar_reporte" style="width: 97%; margin-left: 20px; display:block">   			
+
+<section id="inicio">
+    <div id="reporteEst" style="width: 97%; margin-left: 20px;">   			
         
-		<div id="cabecerareport" class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-	           <?php
-					$mej=$_GET['mejora'];
-					echo"
-					<div id='boxrepart' class='form-group row'>
-                    <a id='vlv' href='tiporeporte.php' class='col-3 btn btn-primary '
-                        style='margin-top: 2px; margin-bottom: 2px; height: 42px;' type='button'
-                        value='VOLVER'>VOLVER</a>
-					
-                    <label id='lblForm' style='font-size:18px; margin-top: 2px; margin-bottom: 2px; width: 100px;'
-                        class='col-form-label col-xl col-lg'>SELECCIONE TIPO DE MEJORA:</label>
+		<style type="text/css">
+		#filtrosprin{
+			margin-top: 100; height: auto; width: 100%; background-color: #dbe5e9; border-top: 1px solid #53AAE0; border-bottom: 1px solid #53AAE0
+
+		}
+        </style>
+
+        <h1>REPORTE MEJORAS EQUIPOS</h1>
+		<div id="filtrosprin">
+
+
+
+
+	
+		<form id="campos" method="POST" action="reportemejorasequipos.php">
+		
+        <div class="form-group row" style="margin-top: 15px; margin-right:10px;">
+
+		<label id='lblForm' style='font-size:18px; margin-top: 2px; margin-bottom: 2px; width: 90px;'
+                        class='col-form-label col-xl col-lg'>TIPO DE MOVIMIENTO:</label>
 						
-                        <select id='slcrepart' name='selectorrepart' class='form-control col-xl col-lg' style='width:250px'  onChange='window.location.href=this.value' required>
+                        <select id='slcTipo' name='slcTipo' class='form-control col-xl col-lg' style='width:250px' required>
                           <option value='0' selected disabled>-TODOS-</option>
-                          <option value='reportemejorasequipos.php?mejora=1'>RAM</option>
-                          <option value='reportemejorasequipos.php?mejora=2'>DISCO</option>
+                          <option value='1'>RAM</option>
+                          <option value='2'>DISCO</option>
                           </select>
-					</div>
-                	"?>
-					<div id='botonera' class='form-group row'>
-                    	<div class='btn-group col-2' role='group' style='margin: 5px; margin-right: 5px;'>
-                        <button id='botonleft' type='button' class='btn btn-secondary'
-                            onclick="location.href='consulta.php'"><i style=' margin-bottom:10px;'
-                                class='bi bi-house-door'></i></button>
-                        <button id='botonright' type='button' class='btn btn-success' onClick='imprimir()'><i
-                                class='bi bi-printer'></i></button>
-                    	</div>
-                	</div>
+		        
+                          <!-- <label style='font-size: 18px;' id='lblForm'class='col-form-label col-xl col-lg'>PERIODO:</label> -->
+                 <label style='font-size: 18px;' id='lblForm'class='col-form-label col-xl col-lg'>DESDE:</label>
+                     <input class='col-xl col-lg form-control' style='margin-top: 10px;' type='date' name='fecha_desde' id='txtfechadesdeA' >
+                 
+                 <label style='font-size: 18px;' id='lblForm'class='col-form-label col-xl col-lg'>HASTA:</label>
+                     <input class='col-xl col-lg form-control' style='margin-top: 10px;' type='date' name='fecha_hasta' id='txtfechahastaA' >
+				</div>
+
+
+                <div class="form-group row justify-content-end" style="margin-right:10px;">
+				
+					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn2" value="BUSCAR"></input>
+
+					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px; margin-right: 10px;" type="submit" name="btn1" value="LIMPIAR"></input>
+				</div>
+		</form>
 		</div>
-		            <style type="text/css" media="print">
-                              @media print {
-                                             #vlv, #accion, .cabe {display:none;}
-                                             #pr, #botonleft, #botonright {display:none;}
-		                                     #pr2 {display:none;}
-											 #titulo{ margin-top: 50px;}
-											 #ind{ margin-bottom: 0px;}
-											 #tablareporte{ margin-top: 20px;}
-											 #campos{display:none;}
-                                            }
-                    </style>
-		            <script>
-                           function imprimir() {
-            	             window.print();
-                                      }
-                    </script>
+		<hr>
+
 	<title>MEJORAS EQUIPOS</title><meta charset="utf-8">
 		
         <br>
-        <h1>MEJORAS EQUIPOS</h1>
-		<div id="filtrosprin">
-        </div>
+        
         
 		
 
         <?php
 		
-		if ($mej==1) {
-			$fecha = date("Y-m-d");
-		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-        
-        
-        $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
-        FROM mejoras m
-        inner join wsmem w on m.ID_WS=w.ID_WS
-        inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
-        inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
-        inner join discows ds on m.ID_WS=ds.ID_WS
-        inner join disco d on ds.ID_DISCO=d.ID_DISCO
-        inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
-		inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
-		where me.ORDEN_MEMORIA>(SELECT max(me2.ORDEN_MEMORIA) from mejoras ms INNER JOIN
-                         memoria me2 on ms.MEMORIA1=me2.ID_MEMORIA where m.ID_WS=ms.ID_WS and m.ID_MEJORA>ms.ID_MEJORA)
-GROUP BY m.ID_MEJORA DESC");
-		}
-		if ($mej==2) {
-			$fecha = date("Y-m-d");
-		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-        
-        
-        $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
-        FROM mejoras m
-        inner join wsmem w on m.ID_WS=w.ID_WS
-        inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
-        inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
-        inner join discows ds on m.ID_WS=ds.ID_WS
-        inner join disco d on m.DISCO1=d.ID_DISCO
-        inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
-		inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
-		where d.ORDEN_DISCO>(SELECT max(di.ORDEN_DISCO) from mejoras mem INNER JOIN
-                         disco di on mem.DISCO1=di.ID_DISCO where m.ID_WS=mem.ID_WS and m.ID_MEJORA>mem.ID_MEJORA)
-        					or td.RANKING_TIPOD>(select td2.RANKING_TIPOD  from mejoras me2
-							inner join discows dw on me2.ID_WS=dw.ID_WS
-							inner join tipodisco td2 on dw.ID_TIPOD=td2.ID_TIPOD
-                            where m.ID_WS=me2.ID_WS limit 1)
-				GROUP BY m.ID_MEJORA DESC");
-		}
-		
+        if(isset($_POST['btn2'])){
+            $mej=$_POST['slcTipo'];
+            $fechadesde=$_POST['fecha_desde'];
+            $fechahasta=$_POST['fecha_hasta'];
+            if ($fechadesde==""||$fechahasta=="") {
+                if ($mej==1) {
+                    $fecha = date("Y-m-d");
+                echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+                
+                
+                $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                FROM mejoras m
+                inner join wsmem w on m.ID_WS=w.ID_WS
+                inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
+                inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
+                inner join discows ds on m.ID_WS=ds.ID_WS
+                inner join disco d on ds.ID_DISCO=d.ID_DISCO
+                inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
+                inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+                where me.ORDEN_MEMORIA>(SELECT max(me2.ORDEN_MEMORIA) from mejoras ms INNER JOIN
+                                memoria me2 on ms.MEMORIA1=me2.ID_MEMORIA where m.ID_WS=ms.ID_WS and m.ID_MEJORA>ms.ID_MEJORA)
+                    GROUP BY m.ID_MEJORA DESC");
+                }
+                if ($mej==2) {
+                    $fecha = date("Y-m-d");
+                echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+                
+                
+                $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                FROM mejoras m
+                inner join wsmem w on m.ID_WS=w.ID_WS
+                inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
+                inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
+                inner join discows ds on m.ID_WS=ds.ID_WS
+                inner join disco d on m.DISCO1=d.ID_DISCO
+                inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
+                inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+                where d.ORDEN_DISCO>(SELECT max(di.ORDEN_DISCO) from mejoras mem INNER JOIN
+                                disco di on mem.DISCO1=di.ID_DISCO where m.ID_WS=mem.ID_WS and m.ID_MEJORA>mem.ID_MEJORA)
+                                    or td.RANKING_TIPOD>(select td2.RANKING_TIPOD  from mejoras me2
+                                    inner join discows dw on me2.ID_WS=dw.ID_WS
+                                    inner join tipodisco td2 on dw.ID_TIPOD=td2.ID_TIPOD
+                                    where m.ID_WS=me2.ID_WS limit 1)
+                        GROUP BY m.ID_MEJORA DESC");
+                }}
 
-		if($mej==0){
+                else {
+                    if ($mej==1) {
+                        $fecha = date("Y-m-d");
+                    echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+                    
+                    
+                    $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                    FROM mejoras m
+                    inner join wsmem w on m.ID_WS=w.ID_WS
+                    inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
+                    inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
+                    inner join discows ds on m.ID_WS=ds.ID_WS
+                    inner join disco d on ds.ID_DISCO=d.ID_DISCO
+                    inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
+                    inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+                    where me.ORDEN_MEMORIA>(SELECT max(me2.ORDEN_MEMORIA) from mejoras ms INNER JOIN
+                                     memoria me2 on ms.MEMORIA1=me2.ID_MEMORIA where m.ID_WS=ms.ID_WS and m.ID_MEJORA>ms.ID_MEJORA)
+                                     and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta'
+                                        GROUP BY m.ID_MEJORA DESC");
+                    }
+                    if ($mej==2) {
+                        $fecha = date("Y-m-d");
+                    echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+                    
+                    
+                    $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                    FROM mejoras m
+                    inner join wsmem w on m.ID_WS=w.ID_WS
+                    inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
+                    inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
+                    inner join discows ds on m.ID_WS=ds.ID_WS
+                    inner join disco d on m.DISCO1=d.ID_DISCO
+                    inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
+                    inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+                    where d.ORDEN_DISCO>(SELECT max(di.ORDEN_DISCO) from mejoras mem INNER JOIN
+                                     disco di on mem.DISCO1=di.ID_DISCO where m.ID_WS=mem.ID_WS and m.ID_MEJORA>mem.ID_MEJORA)
+                                        or td.RANKING_TIPOD>(select td2.RANKING_TIPOD  from mejoras me2
+                                        inner join discows dw on me2.ID_WS=dw.ID_WS
+                                        inner join tipodisco td2 on dw.ID_TIPOD=td2.ID_TIPOD
+                                        where m.ID_WS=me2.ID_WS limit 1)
+                                        and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta'
+                            GROUP BY m.ID_MEJORA DESC");
+                    }}
+                }
+    
+    
+		else{
         $fecha = date("Y-m-d");
 		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
         

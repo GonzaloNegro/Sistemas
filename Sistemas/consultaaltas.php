@@ -21,7 +21,7 @@ $row = $resultado->fetch_assoc();
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>ALTA BAJA MODIFICACIÓN</title>
+	<title>CONSULTA PARA ALTAS</title>
     <link rel="icon" href="imagenes/logoObrasPúblicas.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -73,7 +73,7 @@ $row = $resultado->fetch_assoc();
                     <li><a class="dropdown-item" href="otrosp.php">OTROS PERIFÉRICOS</a></li>
                 </ul>
             </li>
-            <li><a href="abm.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">ABM</a></li>
+            <li><a href="abm.php" class="nav-link px-2 link-dark link">ABM</a></li>
             <li><a href="tiporeporte.php" class="nav-link px-2 link-dark link">REPORTES</a></li>
             <?php if($row['ID_RESOLUTOR'] == 6//GONZALO
 					/*OR $row['ID_RESOLUTOR'] == 2 //CLAUDIA*/
@@ -103,47 +103,14 @@ $row = $resultado->fetch_assoc();
       </div>
     </div>
   </header>
-  <h1 data-aos="zoom-in">ALTA BAJA MODIFICACIÓN</h1>
+  <h1 data-aos="zoom-in">CONSULTA PARA ALTAS</h1>
 	<section id="Inicio">
-        <div id="principal1">
-            <div id=izq>
-            <?php if($row['ID_RESOLUTOR'] == 6//GONZALO
-					OR $row['ID_RESOLUTOR'] == 2 //CLAUDIA
-					OR $row['ID_RESOLUTOR'] == 10 //EUGENIA
-					OR $row['ID_RESOLUTOR'] == 15 //RODRIGO
-					/*OR $row['ID_RESOLUTOR'] == 20 //GUSTAVO*/
-					){
-                        echo'
-
-                    
-                    <a href=abmtipificacion.php><button type="submit" class="boton_fondo_corredizo_izquierda">-TIPIFICACIÓN-</button></a>
-                    <a href=abmresolutor.php><button type="submit" class="boton_fondo_corredizo_izquierda">-RESOLUTOR-</button></a>
-                 ';
-					} ?>
-                    <a href="abmequipos.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-EQUIPOS-</button></a>
-                    <a href=abmarea.php><button type="submit" class="boton_fondo_corredizo_izquierda">-ÁREAS-</button></a>
-                    <a href="abmimpresoras.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-IMPRESORAS-</button></a>
-                    <a href="abmmonitores.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-MONITORES-</button></a>
-            </div> 
-            <div id=der>
-
-                <?php if($row['ID_RESOLUTOR'] == 6//GONZALO
-					OR $row['ID_RESOLUTOR'] == 2 //CLAUDIA
-					OR $row['ID_RESOLUTOR'] == 10 //EUGENIA
-					OR $row['ID_RESOLUTOR'] == 15 //RODRIGO
-					/*OR $row['ID_RESOLUTOR'] == 20 //GUSTAVO*/
-					){
-                        echo'
-                    <a href="abmmarcas.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-MARCAS-</button></a>
-                    <a href="abmmicro.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-MICROS-</button></a>
-                    <a href="abmmodelos.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-MODELOS-</button></a>
-                    <a href="abmplacamadre.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-PLACA MADRE-</button></a>
-                    <a href="abmplacav.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-PLACA DE VIDEO-</button></a>
-                    ';
-					} ?>
-                    <a href="abmusuario.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-USUARIOS-</button></a>
-                    <a href="abmotros.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-OTROS PERIFÉRICOS-</button></a>
-            </div>
+        <div id="principal">
+            <a href="consultamarcas.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-MARCAS-</button></a>
+            <a href="consultamicros.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-MICROS-</button></a>
+            <a href="consultamodelos.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-MODELOS-</button></a>
+            <a href="consultapmadre.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-PLACA MADRE-</button></a>
+            <a href="consultapvideo.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-PLACA DE VIDEO-</button></a>     
         </div>
     </section>
     <footer>

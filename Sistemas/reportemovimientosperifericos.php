@@ -30,6 +30,30 @@ $row = $resultado->fetch_assoc();
 			background-color: #edf0f5;
 			}
 	</style>
+
+<div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
+	                    <a id="vlv"  href="tiporeporte.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+						<div class="btn-group col-2" role="group" >
+                              <button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='consulta.php'" ><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></button>
+                              <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()" ><i class='bi bi-printer'></i></button>
+                        </div>
+		            </div>
+		            <style type="text/css" media="print">
+                              @media print {
+                                             #vlv, #accion, .cabe {display:none;}
+                                             #pr, #botonleft, #botonright {display:none;}
+		                                     #pr2 {display:none;}
+											 #titulo{ margin-top: 50px;}
+											 #ind{ margin-bottom: 0px;}
+											 #tablareporte{ margin-top: 20px;}
+											 #campos{display:none;}
+                                            }
+                    </style>
+		            <script>
+                           function imprimir() {
+            	             window.print();
+                                      }
+                    </script>
 </head>
 
 
@@ -48,106 +72,157 @@ $row = $resultado->fetch_assoc();
     }
 	</style>
     <section id="inicio">
-        <div id="mostrar_reporte" style="width: 97%; margin-left: 20px; display:block">   			
+	<div id="reporteEst" style="width: 97%; margin-left: 20px;">   			
         
-		<div id="cabecerareport" class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-	           <?php
-					$mov=$_GET['movimiento'];
-					echo"
-					<div id='boxrepart' class='form-group row'>
-                    <a id='vlv' href='tiporeporte.php' class='col-3 btn btn-primary '
-                        style='margin-top: 2px; margin-bottom: 2px; height: 42px;' type='button'
-                        value='VOLVER'>VOLVER</a>
-					
-                    <label id='lblForm' style='font-size:18px; margin-top: 2px; margin-bottom: 2px; width: 100px;'
-                        class='col-form-label col-xl col-lg'>SELECCIONE TIPO DE CAMBIO:</label>
+		<style type="text/css">
+		#filtrosprin{
+			margin-top: 100; height: auto; width: 100%; background-color: #dbe5e9; border-top: 1px solid #53AAE0; border-bottom: 1px solid #53AAE0
+
+		}
+        </style>
+
+        <h1>REPORTE MOVIMIENTOS PERIFERICOS</h1>
+		<div id="filtrosprin">
+
+
+
+
+	
+		<form id="campos" method="POST" action="reportemovimientosperifericos.php">
+		
+        <div class="form-group row" style="margin-top: 15px; margin-right:10px;">
+
+		<label id='lblForm' style='font-size:18px; margin-top: 2px; margin-bottom: 2px; width: 90px;'
+                        class='col-form-label col-xl col-lg'>TIPO DE MOVIMIENTO:</label>
 						
-                        <select id='slcrepart' name='selectorrepart' class='form-control col-xl col-lg' style='width:250px'  onChange='window.location.href=this.value' required>
+                        <select id='slcTipo' name='slcTipo' class='form-control col-xl col-lg' style='width:250px' required>
                           <option value='0' selected disabled>-TODOS-</option>
-                          <option value='reportemovimientosperifericos.php?movimiento=1'>AREA</option>
-                          <option value='reportemovimientosperifericos.php?movimiento=2'>USUARIO</option>
-                          <option value='reportemovimientosperifericos.php?movimiento=3'>ESTADO</option>
+                          <option value='1'>AREA</option>
+                          <option value='2'>USUARIO</option>
+                          <option value='3'>ESTADO</option>
                           </select>
-					</div>
-                	"?>
-					<div id='botonera' class='form-group row'>
-                    	<div class='btn-group col-2' role='group' style='margin: 5px; margin-right: 5px;'>
-                        <button id='botonleft' type='button' class='btn btn-secondary'
-                            onclick="location.href='consulta.php'"><i style=' margin-bottom:10px;'
-                                class='bi bi-house-door'></i></button>
-                        <button id='botonright' type='button' class='btn btn-success' onClick='imprimir()'><i
-                                class='bi bi-printer'></i></button>
-                    	</div>
-                	</div>
+		        
+                          <!-- <label style='font-size: 18px;' id='lblForm'class='col-form-label col-xl col-lg'>PERIODO:</label> -->
+                 <label style='font-size: 18px;' id='lblForm'class='col-form-label col-xl col-lg'>DESDE:</label>
+                     <input class='col-xl col-lg form-control' style='margin-top: 10px;' type='date' name='fecha_desde' id='txtfechadesdeA' >
+                 
+                 <label style='font-size: 18px;' id='lblForm'class='col-form-label col-xl col-lg'>HASTA:</label>
+                     <input class='col-xl col-lg form-control' style='margin-top: 10px;' type='date' name='fecha_hasta' id='txtfechahastaA' >
+				</div>
+
+
+                <div class="form-group row justify-content-end" style="margin-right:10px;">
+				
+					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn2" value="BUSCAR"></input>
+
+					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px; margin-right: 10px;" type="submit" name="btn1" value="LIMPIAR"></input>
+				</div>
+		</form>
 		</div>
-		            <style type="text/css" media="print">
-                              @media print {
-                                             #vlv, #accion, .cabe {display:none;}
-                                             #pr, #botonleft, #botonright {display:none;}
-		                                     #pr2 {display:none;}
-											 #titulo{ margin-top: 50px;}
-											 #ind{ margin-bottom: 0px;}
-											 #tablareporte{ margin-top: 20px;}
-											 #campos{display:none;}
-                                            }
-                    </style>
-		            <script>
-                           function imprimir() {
-            	             window.print();
-                                      }
-                    </script>
+		<hr>
 	<title>MOVIMIENTOS PERIFERICOS</title><meta charset="utf-8">
 		
-	<br>
-	<h1>MOVIMIENTOS PERIFERICOS</h1>
-		<div id="filtrosprin">
-        </div>
+		
         
 		
 
         <?php
-		
-		if ($mov==1) {
-			$fecha = date("Y-m-d");
-		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-        
-        
-        $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
-		inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
-				INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
-				INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
-				where 
-				m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientosperi mv
-					  where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
-		}
-		if ($mov==2) {
-			$fecha = date("Y-m-d");
-		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-        
-        
-        $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
-		inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
-				INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
-				INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
-				where 
-				m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientosperi mv
-					  where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
-		}
-		if ($mov==3) {
-			$fecha = date("Y-m-d");
-		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-        
-        
-        $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
-		inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
-				INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
-				INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
-				where 
-				m.ID_ESTADOWS != ( select AVG(mv.ID_ESTADOWS) from movimientosperi mv
-					  where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
+
+		if(isset($_POST['btn2'])){
+			$mov=$_POST['slcTipo'];
+            $fechadesde=$_POST['fecha_desde'];
+            $fechahasta=$_POST['fecha_hasta'];
+            if ($fechadesde==""||$fechahasta=="") {
+				if ($mov==1) {
+					$fecha = date("Y-m-d");
+				echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+				
+				
+				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
+				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
+						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
+						INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
+						where 
+						m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientosperi mv
+							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
+				}
+				if ($mov==2) {
+					$fecha = date("Y-m-d");
+				echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+				
+				
+				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
+				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
+						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
+						INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
+						where 
+						m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientosperi mv
+							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
+				}
+				if ($mov==3) {
+					$fecha = date("Y-m-d");
+				echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+				
+				
+				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
+				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
+						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
+						INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
+						where 
+						m.ID_ESTADOWS != ( select AVG(mv.ID_ESTADOWS) from movimientosperi mv
+							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
+				}
+			}
+			else {
+				if ($mov==1) {
+					$fecha = date("Y-m-d");
+				echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+				
+				
+				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
+				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
+						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
+						INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
+						where 
+						m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientosperi mv
+							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
+							and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta'
+							 ORDER BY M.ID_MOVIMIENTO DESC");
+				}
+				if ($mov==2) {
+					$fecha = date("Y-m-d");
+				echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+				
+				
+				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
+				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
+						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
+						INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
+						where 
+						m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientosperi mv
+							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
+							and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta'
+							 ORDER BY M.ID_MOVIMIENTO DESC");
+				}
+				if ($mov==3) {
+					$fecha = date("Y-m-d");
+				echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+				
+				
+				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
+				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
+						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
+						INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
+						where 
+						m.ID_ESTADOWS != ( select AVG(mv.ID_ESTADOWS) from movimientosperi mv
+							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
+							and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta'
+							 ORDER BY M.ID_MOVIMIENTO DESC");
+				}
+			}
 		}
 
-		if($mov==0){
+		else{
         $fecha = date("Y-m-d");
 		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
         
@@ -155,7 +230,8 @@ $row = $resultado->fetch_assoc();
         $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m 
         inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
         INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
-        INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP ORDER BY M.ID_MOVIMIENTO DESC");}?>
+        INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP 
+		ORDER BY M.ID_MOVIMIENTO DESC");}?>
 	
         <?php echo "<table width=100%>
         <thead>
