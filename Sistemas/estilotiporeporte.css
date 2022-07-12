@@ -387,3 +387,13 @@ footer{
 .card:hover .back{
   transform: perspective(600px) rotateY(360deg);
 }
+
+.notif{
+	margin-bottom: 20px;
+	margin-right: 20px;
+	cursor: pointer;
+}
+
+.bi-bell{
+	color: #176AB5;
+}

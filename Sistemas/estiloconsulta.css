@@ -6,6 +6,7 @@ section, header{
 
 header{
 	height: 60px;
+/* 	background-color: #00519C; */
 }
 
 @font-face{
@@ -415,8 +416,16 @@ color: #176AB5;
 	justify-content: center;
 }
 
-
-
 .page-link:hover{
 	background-color: rgb(182, 180, 180);
+}
+
+.notif{
+	margin-bottom: 20px;
+	margin-right: 20px;
+	cursor: pointer;
+}
+
+.bi-bell{
+	color: #176AB5;
 }

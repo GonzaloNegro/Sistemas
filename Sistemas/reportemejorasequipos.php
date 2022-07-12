@@ -112,6 +112,36 @@ $row = $resultado->fetch_assoc();
 
 
                 <div class="form-group row justify-content-end" style="margin-right:10px;">
+                <label style='font-size: 18px;' id='lblForm'class='col-form-label col-xl col-lg'>AREA:</label>
+                <select name="slcarea" id="slcarea" class="col-xl col-lg" style="height: 20px;">
+									<option value="" selected disabled>-SELECCIONE UNA-</option>
+                                    <?php
+									include("conexion.php");
+									$consulta= "SELECT * FROM area";
+									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+									?>
+									<?php foreach ($ejecutar as $opciones): ?> 
+									<option value="<?php echo $opciones['ID_AREA']?>"><?php echo $opciones['AREA']?></option>
+									<?php endforeach ?>
+								</select>
+								<script>
+										$('#slcarea').select2();
+								</script>
+								<script>
+										$(document).ready(function(){
+											$('#slcarea').change(function(){
+												buscador='b='+$('#buscador').val();
+												$.ajax({
+													type: 'post',
+													url: 'Controladores/session.php',
+													data: buscador,
+													success: function(r){
+														$('#tabla').load('Componentes/Tabla.php');
+													}
+												})
+											})
+										})
+									</script>
 				
 					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn2" value="BUSCAR"></input>
 
@@ -134,6 +164,50 @@ $row = $resultado->fetch_assoc();
             $mej=$_POST['slcTipo'];
             $fechadesde=$_POST['fecha_desde'];
             $fechahasta=$_POST['fecha_hasta'];
+            if ($fechadesde==""||$fechahasta=="" & isset($_POST['slcarea'])) {
+                $area=$_POST['slcarea'];
+                if ($mej==1) {
+                    $fecha = date("Y-m-d");
+                echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+                
+                
+                $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                FROM mejoras m
+                inner join wsmem w on m.ID_WS=w.ID_WS
+                inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
+                inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
+                inner join discows ds on m.ID_WS=ds.ID_WS
+                inner join disco d on ds.ID_DISCO=d.ID_DISCO
+                inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
+                inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+                inner join inventario i on m.ID_WS=i.ID_WS
+                where me.ORDEN_MEMORIA>(SELECT max(me2.ORDEN_MEMORIA) from mejoras ms INNER JOIN
+                                memoria me2 on ms.MEMORIA1=me2.ID_MEMORIA where m.ID_WS=ms.ID_WS and m.ID_MEJORA>ms.ID_MEJORA)
+                                and i.ID_AREA=$area    GROUP BY m.ID_MEJORA DESC");
+                }
+                if ($mej==2) {
+                    $fecha = date("Y-m-d");
+                echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+                
+                
+                $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                FROM mejoras m
+                inner join wsmem w on m.ID_WS=w.ID_WS
+                inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
+                inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
+                inner join discows ds on m.ID_WS=ds.ID_WS
+                inner join disco d on m.DISCO1=d.ID_DISCO
+                inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
+                inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+                inner join inventario i on m.ID_WS=i.ID_WS
+                where d.ORDEN_DISCO>(SELECT max(di.ORDEN_DISCO) from mejoras mem INNER JOIN
+                                disco di on mem.DISCO1=di.ID_DISCO where m.ID_WS=mem.ID_WS and m.ID_MEJORA>mem.ID_MEJORA)
+                                    or td.RANKING_TIPOD>(select td2.RANKING_TIPOD  from mejoras me2
+                                    inner join discows dw on me2.ID_WS=dw.ID_WS
+                                    inner join tipodisco td2 on dw.ID_TIPOD=td2.ID_TIPOD
+                                    where m.ID_WS=me2.ID_WS limit 1) and i.ID_AREA=$area
+                        GROUP BY m.ID_MEJORA DESC");
+                }}
             if ($fechadesde==""||$fechahasta=="") {
                 if ($mej==1) {
                     $fecha = date("Y-m-d");
@@ -175,6 +249,7 @@ $row = $resultado->fetch_assoc();
                                     where m.ID_WS=me2.ID_WS limit 1)
                         GROUP BY m.ID_MEJORA DESC");
                 }}
+
 
                 else {
                     if ($mej==1) {

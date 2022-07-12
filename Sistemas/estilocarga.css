@@ -319,3 +319,13 @@ footer{
 	background-color: #00519C;
 	border-top-right-radius: 5px;
 }
+
+.notif{
+	margin-bottom: 20px;
+	margin-right: 20px;
+	cursor: pointer;
+}
+
+.bi-bell{
+	color: #176AB5;
+}

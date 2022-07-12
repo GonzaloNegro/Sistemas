@@ -256,3 +256,13 @@ footer{
 .boton_fondo_corredizo_izquierda:hover {
 	box-shadow: inset 340px 0 0 0 #009cde;
 }
+
+.notif{
+	margin-bottom: 20px;
+	margin-right: 20px;
+	cursor: pointer;
+}
+
+.bi-bell{
+	color: #176AB5;
+}
