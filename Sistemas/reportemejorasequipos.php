@@ -54,6 +54,23 @@ $row = $resultado->fetch_assoc();
             	             window.print();
                                       }
                     </script>
+                    <!-- <script>
+				function alerta(campo) { 
+				alert("Por favor, completa el campo "+campo) 
+				}
+				function validar_formulario(form){
+						if (form.slcTipo.value == "" &) { 
+							alerta('\"Tipo de movimiento\"'); form.slcTipo.focus(); return true; 
+							}
+						
+							else{
+                                form.submit();
+
+                            }	
+						
+									
+						}
+			</script> -->
 </head>
 
 
@@ -96,8 +113,8 @@ $row = $resultado->fetch_assoc();
 		<label id='lblForm' style='font-size:18px; margin-top: 2px; margin-bottom: 2px; width: 90px;'
                         class='col-form-label col-xl col-lg'>TIPO DE MOVIMIENTO:</label>
 						
-                        <select id='slcTipo' name='slcTipo' class='form-control col-xl col-lg' style='width:250px' required>
-                          <option value='0' selected disabled>-TODOS-</option>
+                        <select id='slcTipo' name='slcTipo'  class='form-control col-xl col-lg' style='width:250px' >
+                          <option value='' selected disabled>-TODOS-</option>
                           <option value='1'>RAM</option>
                           <option value='2'>DISCO</option>
                           </select>
@@ -143,7 +160,7 @@ $row = $resultado->fetch_assoc();
 										})
 									</script>
 				
-					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn2" value="BUSCAR"></input>
+					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn2" value="BUSCAR" onClick="validar_formulario(this.form)"></input>
 
 					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px; margin-right: 10px;" type="submit" name="btn1" value="LIMPIAR"></input>
 				</div>
@@ -159,159 +176,185 @@ $row = $resultado->fetch_assoc();
 		
 
         <?php
-		
-        if(isset($_POST['btn2'])){
-            $mej=$_POST['slcTipo'];
-            $fechadesde=$_POST['fecha_desde'];
-            $fechahasta=$_POST['fecha_hasta'];
-            if ($fechadesde==""||$fechahasta=="" & isset($_POST['slcarea'])) {
-                $area=$_POST['slcarea'];
-                if ($mej==1) {
-                    $fecha = date("Y-m-d");
-                echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-                
-                
-                $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
-                FROM mejoras m
-                inner join wsmem w on m.ID_WS=w.ID_WS
-                inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
-                inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
-                inner join discows ds on m.ID_WS=ds.ID_WS
-                inner join disco d on ds.ID_DISCO=d.ID_DISCO
-                inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
-                inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
-                inner join inventario i on m.ID_WS=i.ID_WS
-                where me.ORDEN_MEMORIA>(SELECT max(me2.ORDEN_MEMORIA) from mejoras ms INNER JOIN
-                                memoria me2 on ms.MEMORIA1=me2.ID_MEMORIA where m.ID_WS=ms.ID_WS and m.ID_MEJORA>ms.ID_MEJORA)
-                                and i.ID_AREA=$area    GROUP BY m.ID_MEJORA DESC");
-                }
-                if ($mej==2) {
-                    $fecha = date("Y-m-d");
-                echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-                
-                
-                $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
-                FROM mejoras m
-                inner join wsmem w on m.ID_WS=w.ID_WS
-                inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
-                inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
-                inner join discows ds on m.ID_WS=ds.ID_WS
-                inner join disco d on m.DISCO1=d.ID_DISCO
-                inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
-                inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
-                inner join inventario i on m.ID_WS=i.ID_WS
-                where d.ORDEN_DISCO>(SELECT max(di.ORDEN_DISCO) from mejoras mem INNER JOIN
-                                disco di on mem.DISCO1=di.ID_DISCO where m.ID_WS=mem.ID_WS and m.ID_MEJORA>mem.ID_MEJORA)
-                                    or td.RANKING_TIPOD>(select td2.RANKING_TIPOD  from mejoras me2
-                                    inner join discows dw on me2.ID_WS=dw.ID_WS
-                                    inner join tipodisco td2 on dw.ID_TIPOD=td2.ID_TIPOD
-                                    where m.ID_WS=me2.ID_WS limit 1) and i.ID_AREA=$area
-                        GROUP BY m.ID_MEJORA DESC");
-                }}
-            if ($fechadesde==""||$fechahasta=="") {
-                if ($mej==1) {
-                    $fecha = date("Y-m-d");
-                echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-                
-                
-                $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
-                FROM mejoras m
-                inner join wsmem w on m.ID_WS=w.ID_WS
-                inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
-                inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
-                inner join discows ds on m.ID_WS=ds.ID_WS
-                inner join disco d on ds.ID_DISCO=d.ID_DISCO
-                inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
-                inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
-                where me.ORDEN_MEMORIA>(SELECT max(me2.ORDEN_MEMORIA) from mejoras ms INNER JOIN
-                                memoria me2 on ms.MEMORIA1=me2.ID_MEMORIA where m.ID_WS=ms.ID_WS and m.ID_MEJORA>ms.ID_MEJORA)
-                    GROUP BY m.ID_MEJORA DESC");
-                }
-                if ($mej==2) {
-                    $fecha = date("Y-m-d");
-                echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-                
-                
-                $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
-                FROM mejoras m
-                inner join wsmem w on m.ID_WS=w.ID_WS
-                inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
-                inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
-                inner join discows ds on m.ID_WS=ds.ID_WS
-                inner join disco d on m.DISCO1=d.ID_DISCO
-                inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
-                inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
-                where d.ORDEN_DISCO>(SELECT max(di.ORDEN_DISCO) from mejoras mem INNER JOIN
-                                disco di on mem.DISCO1=di.ID_DISCO where m.ID_WS=mem.ID_WS and m.ID_MEJORA>mem.ID_MEJORA)
-                                    or td.RANKING_TIPOD>(select td2.RANKING_TIPOD  from mejoras me2
-                                    inner join discows dw on me2.ID_WS=dw.ID_WS
-                                    inner join tipodisco td2 on dw.ID_TIPOD=td2.ID_TIPOD
-                                    where m.ID_WS=me2.ID_WS limit 1)
-                        GROUP BY m.ID_MEJORA DESC");
-                }}
-
-
-                else {
-                    if ($mej==1) {
-                        $fecha = date("Y-m-d");
-                    echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-                    
-                    
-                    $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
-                    FROM mejoras m
-                    inner join wsmem w on m.ID_WS=w.ID_WS
-                    inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
-                    inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
-                    inner join discows ds on m.ID_WS=ds.ID_WS
-                    inner join disco d on ds.ID_DISCO=d.ID_DISCO
-                    inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
-                    inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
-                    where me.ORDEN_MEMORIA>(SELECT max(me2.ORDEN_MEMORIA) from mejoras ms INNER JOIN
-                                     memoria me2 on ms.MEMORIA1=me2.ID_MEMORIA where m.ID_WS=ms.ID_WS and m.ID_MEJORA>ms.ID_MEJORA)
-                                     and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta'
-                                        GROUP BY m.ID_MEJORA DESC");
+        if (empty($_POST['fecha_desde']) & empty($_POST['fecha_hasta']) & empty($_POST['slcarea']) & empty($_POST['slcTipo']) & isset($_POST['btn2'])) {
+            $fecha = date("Y-m-d");
+            echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+            
+            
+            $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+            FROM mejoras m
+            inner join wsmem w on m.ID_WS=w.ID_WS
+            inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
+            inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
+            inner join discows ds on m.ID_WS=ds.ID_WS
+            inner join disco d on m.DISCO1=d.ID_DISCO
+            inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
+            inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+            GROUP BY m.ID_MEJORA DESC");
+        }
+		if (isset($_POST['btn2'])) {
+            if (isset($_POST['slcTipo'])) {
+                $mej=$_POST['slcTipo'];
+                if(isset($_POST['fecha_desde']) & isset($_POST['fecha_hasta'])){
+                    $fechadesde=$_POST['fecha_desde'];
+                    $fechahasta=$_POST['fecha_hasta'];
+                    if (isset($_POST['slcarea'])) {
+                        $area= $_POST['slcarea'];
+                        if ($mej==1) {
+                            $fecha = date("Y-m-d");
+                        echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+                        
+                        
+                        $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                        FROM mejoras m
+                        inner join wsmem w on m.ID_WS=w.ID_WS
+                        inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
+                        inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
+                        inner join discows ds on m.ID_WS=ds.ID_WS
+                        inner join disco d on ds.ID_DISCO=d.ID_DISCO
+                        inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
+                        inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+                        inner join inventario i on m.ID_WS=i.ID_WS
+                        where me.ORDEN_MEMORIA>(SELECT max(me2.ORDEN_MEMORIA) from mejoras ms INNER JOIN
+                                        memoria me2 on ms.MEMORIA1=me2.ID_MEMORIA where m.ID_WS=ms.ID_WS and m.ID_MEJORA>ms.ID_MEJORA)
+                                        and i.ID_AREA=$area and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta' GROUP BY m.ID_MEJORA DESC");
+                        }
+                        if ($mej==2) {
+                            $fecha = date("Y-m-d");
+                        echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+                        
+                        
+                        $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                        FROM mejoras m
+                        inner join wsmem w on m.ID_WS=w.ID_WS
+                        inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
+                        inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
+                        inner join discows ds on m.ID_WS=ds.ID_WS
+                        inner join disco d on m.DISCO1=d.ID_DISCO
+                        inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
+                        inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+                        inner join inventario i on m.ID_WS=i.ID_WS
+                        where d.ORDEN_DISCO>(SELECT max(di.ORDEN_DISCO) from mejoras mem INNER JOIN
+                                        disco di on mem.DISCO1=di.ID_DISCO where m.ID_WS=mem.ID_WS and m.ID_MEJORA>mem.ID_MEJORA)
+                                            or td.RANKING_TIPOD>(select td2.RANKING_TIPOD  from mejoras me2
+                                            inner join discows dw on me2.ID_WS=dw.ID_WS
+                                            inner join tipodisco td2 on dw.ID_TIPOD=td2.ID_TIPOD
+                                            where m.ID_WS=me2.ID_WS limit 1) and i.ID_AREA=$area and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta'
+                                GROUP BY m.ID_MEJORA DESC");
+                        }
                     }
-                    if ($mej==2) {
-                        $fecha = date("Y-m-d");
-                    echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-                    
-                    
-                    $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
-                    FROM mejoras m
-                    inner join wsmem w on m.ID_WS=w.ID_WS
-                    inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
-                    inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
-                    inner join discows ds on m.ID_WS=ds.ID_WS
-                    inner join disco d on m.DISCO1=d.ID_DISCO
-                    inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
-                    inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
-                    where d.ORDEN_DISCO>(SELECT max(di.ORDEN_DISCO) from mejoras mem INNER JOIN
-                                     disco di on mem.DISCO1=di.ID_DISCO where m.ID_WS=mem.ID_WS and m.ID_MEJORA>mem.ID_MEJORA)
-                                        or td.RANKING_TIPOD>(select td2.RANKING_TIPOD  from mejoras me2
-                                        inner join discows dw on me2.ID_WS=dw.ID_WS
-                                        inner join tipodisco td2 on dw.ID_TIPOD=td2.ID_TIPOD
-                                        where m.ID_WS=me2.ID_WS limit 1)
-                                        and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta'
-                            GROUP BY m.ID_MEJORA DESC");
-                    }}
+                    else {
+                        if(isset($_POST['slcarea'])){
+                            $area= $_POST['slcarea'];
+                            if ($mej==1) {
+                                $fecha = date("Y-m-d");
+                            echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+                            
+                            
+                            $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                            FROM mejoras m
+                            inner join wsmem w on m.ID_WS=w.ID_WS
+                            inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
+                            inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
+                            inner join discows ds on m.ID_WS=ds.ID_WS
+                            inner join disco d on ds.ID_DISCO=d.ID_DISCO
+                            inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
+                            inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+                            inner join inventario i on m.ID_WS=i.ID_WS
+                            where me.ORDEN_MEMORIA>(SELECT max(me2.ORDEN_MEMORIA) from mejoras ms INNER JOIN
+                                            memoria me2 on ms.MEMORIA1=me2.ID_MEMORIA where m.ID_WS=ms.ID_WS and m.ID_MEJORA>ms.ID_MEJORA)
+                                            and i.ID_AREA=$area GROUP BY m.ID_MEJORA DESC");
+                            }
+                            if ($mej==2) {
+                                $fecha = date("Y-m-d");
+                            echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+                            
+                            
+                            $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                            FROM mejoras m
+                            inner join wsmem w on m.ID_WS=w.ID_WS
+                            inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
+                            inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
+                            inner join discows ds on m.ID_WS=ds.ID_WS
+                            inner join disco d on m.DISCO1=d.ID_DISCO
+                            inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
+                            inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+                            inner join inventario i on m.ID_WS=i.ID_WS
+                            where d.ORDEN_DISCO>(SELECT max(di.ORDEN_DISCO) from mejoras mem INNER JOIN
+                                            disco di on mem.DISCO1=di.ID_DISCO where m.ID_WS=mem.ID_WS and m.ID_MEJORA>mem.ID_MEJORA)
+                                                or td.RANKING_TIPOD>(select td2.RANKING_TIPOD  from mejoras me2
+                                                inner join discows dw on me2.ID_WS=dw.ID_WS
+                                                inner join tipodisco td2 on dw.ID_TIPOD=td2.ID_TIPOD
+                                                where m.ID_WS=me2.ID_WS limit 1) and i.ID_AREA=$area
+                                    GROUP BY m.ID_MEJORA DESC");
+                            }
+                        }
+                        else {
+                            if ($mej==1) {
+                                $fecha = date("Y-m-d");
+                            echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+                            
+                            
+                            $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                            FROM mejoras m
+                            inner join wsmem w on m.ID_WS=w.ID_WS
+                            inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
+                            inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
+                            inner join discows ds on m.ID_WS=ds.ID_WS
+                            inner join disco d on ds.ID_DISCO=d.ID_DISCO
+                            inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
+                            inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+                            where me.ORDEN_MEMORIA>(SELECT max(me2.ORDEN_MEMORIA) from mejoras ms INNER JOIN
+                                            memoria me2 on ms.MEMORIA1=me2.ID_MEMORIA where m.ID_WS=ms.ID_WS and m.ID_MEJORA>ms.ID_MEJORA)
+                                GROUP BY m.ID_MEJORA DESC");
+                            }
+                            if ($mej==2) {
+                                $fecha = date("Y-m-d");
+                            echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+                            
+                            
+                            $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                            FROM mejoras m
+                            inner join wsmem w on m.ID_WS=w.ID_WS
+                            inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
+                            inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
+                            inner join discows ds on m.ID_WS=ds.ID_WS
+                            inner join disco d on m.DISCO1=d.ID_DISCO
+                            inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
+                            inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+                            where d.ORDEN_DISCO>(SELECT max(di.ORDEN_DISCO) from mejoras mem INNER JOIN
+                                            disco di on mem.DISCO1=di.ID_DISCO where m.ID_WS=mem.ID_WS and m.ID_MEJORA>mem.ID_MEJORA)
+                                                or td.RANKING_TIPOD>(select td2.RANKING_TIPOD  from mejoras me2
+                                                inner join discows dw on me2.ID_WS=dw.ID_WS
+                                                inner join tipodisco td2 on dw.ID_TIPOD=td2.ID_TIPOD
+                                                where m.ID_WS=me2.ID_WS limit 1)
+                                    GROUP BY m.ID_MEJORA DESC");
+                            }
+                        }
+                        
+                    }
+    
                 }
-    
-    
-		else{
-        $fecha = date("Y-m-d");
-		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+            }
+        }
         
-        
-        $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
-        FROM mejoras m
-        inner join wsmem w on m.ID_WS=w.ID_WS
-        inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
-        inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
-        inner join discows ds on m.ID_WS=ds.ID_WS
-        inner join disco d on m.DISCO1=d.ID_DISCO
-        inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
-		inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
-		GROUP BY m.ID_MEJORA DESC");}?>
+        else{
+            
+            $fecha = date("Y-m-d");
+            echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+            
+            
+            $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+            FROM mejoras m
+            inner join wsmem w on m.ID_WS=w.ID_WS
+            inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
+            inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
+            inner join discows ds on m.ID_WS=ds.ID_WS
+            inner join disco d on m.DISCO1=d.ID_DISCO
+            inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
+            inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+            GROUP BY m.ID_MEJORA DESC");}
+        ?>
 	
         <?php echo "<table width=100%>
         <thead>

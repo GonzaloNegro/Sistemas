@@ -58,9 +58,13 @@ $row = $resultado->fetch_assoc();
 			$("#txtaDerivacion").show(1300);
 		    $("#resoderi").show(1300);
 		    $("#slctResoDer").show(1300);
+			$("#txtfechafin").hide(1000);
+			$("#lblfechaFin").hide(1000);
 		}
 		if ($("#slctestado").val() == '1' || $("#slctestado").val() == '2' || $("#slctestado").val() == '5') {
 			$("#txtaDerivacion").show(1300);
+			$("#txtfechafin").show(1300);
+			$("#lblfechaFin").show(1300);
 		}
 
 		
@@ -68,6 +72,8 @@ $row = $resultado->fetch_assoc();
 			$("#txtaDerivacion").hide(1000);
 		    $("#resoderi").hide(1000);
 		    $("#slctResoDer").hide(1000);
+			$("#txtfechafin").hide(1000);
+			$("#lblfechaFin").hide(1000);
 		}
     });
     });
@@ -365,8 +371,8 @@ $row = $resultado->fetch_assoc();
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
 							<div class="form-group row" style="margin: 10px; padding:10px;">
-								<label class="col-form-label col-xl">FECHA SOLUCIÓN: </label>
-								<input type="date" name="fecha_solucion" id="txtfechafin" class="form-control col-xl derecha">
+								<label class="col-form-label col-xl" id="lblfechaFin" style="display:none;">FECHA SOLUCIÓN: </label>
+								<input type="date" name="fecha_solucion" id="txtfechafin" style="display:none;"class="form-control col-xl derecha">
 							<label class="col-form-label col-xl">ESTADO INCIDENTE: </label>
 							<select id="slctestado" name="estado" required class="form-control col-xl derecha" >
 								<option value='0' selected disabled="estado">-SELECCIONE UNA-</option>

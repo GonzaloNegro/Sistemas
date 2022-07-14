@@ -81,7 +81,7 @@ $row = $resultado->fetch_assoc();
 		}
         </style>
 
-        <h1>REPORTE MOVIMIENTOS PERIFERICOS</h1>
+        <h1>REPORTE MOVIMIENTOS IMPRESORAS/PERIFÉRICOS</h1>
 		<div id="filtrosprin">
 
 
@@ -120,7 +120,7 @@ $row = $resultado->fetch_assoc();
 		</form>
 		</div>
 		<hr>
-	<title>MOVIMIENTOS PERIFERICOS</title><meta charset="utf-8">
+	<title>MOVIMIENTOS IMPRESORAS/PERIFÉRICOS</title><meta charset="utf-8">
 		
 		
         
@@ -236,9 +236,9 @@ $row = $resultado->fetch_assoc();
         <?php echo "<table width=100%>
         <thead>
             <tr>
-                <th><p>MOVIMIENTO</p></th>
-                <th><p>FECHA MOVIMIENTO</p></th>
-                <th><p>ID PERIFERICO</p></th>
+                <th><p>N° MOVIMIENTO</p></th>
+                <th><p>FECHA</p></th>
+                <th><p>ID</p></th>
                 <th><p>TIPO</p></th>
                 <!--<th><p>SUBTIPO</p></th>-->
                 <th><p>ÁREA</p></th>
