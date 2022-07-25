@@ -1,9 +1,9 @@
 <?php 
 session_start();
-include('conexion.php');
+include('../particular/conexion.php');
 if(!isset($_SESSION['cuil'])) 
     {       
-        header('Location: Inicio.php'); 
+        header('Location: ../particular/Inicio.php'); 
         exit();
     };
 $iduser = $_SESSION['cuil'];
@@ -16,9 +16,9 @@ $row = $resultado->fetch_assoc();
 <head>
 
 <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-	                    <a id="vlv"  href="tiporeporte.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+	                    <a id="vlv"  href="../reportes/tiporeporte.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
 						<div class="btn-group col-2" role="group" >
-                              <button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='consulta.php'" ><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></button>
+                              <button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='../consulta/consulta.php'" ><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></button>
                               <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()" ><i class='bi bi-printer'></i></button>
                         </div>
 		            </div>
@@ -43,7 +43,7 @@ $row = $resultado->fetch_assoc();
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="estiloallabm.css">
+	<link rel="stylesheet" type="text/css" href="../estilos/estiloallabm.css">
 	<script type="text/javascript" src="jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="jquery/1/jquery-ui.js"></script>
 	<!--BUSCADOR SELECT-->
@@ -82,7 +82,7 @@ $row = $resultado->fetch_assoc();
 		<select id='slcrepart' name='selectorrepart' class='form-control col-xl col-lg'>
 		<option value="" selected disabled>-SELECCIONE UNA-</option>
                                     <?php
-									include("conexion.php");
+									include("../particular/conexion.php");
 									$consulta= "SELECT * FROM reparticion";
 									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 									?>
@@ -95,7 +95,7 @@ $row = $resultado->fetch_assoc();
                 <select name="slcarea" id="slcarea" class="form-control col-xl col-lg">
 									<option value="" selected disabled>-SELECCIONE UNA-</option>
                                     <?php
-									include("conexion.php");
+									include("../particular/conexion.php");
 									$consulta= "SELECT * FROM area";
 									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 									?>
@@ -123,10 +123,10 @@ $row = $resultado->fetch_assoc();
 									</script>
 
 								<label id="lblForm"class="col-form-label col-xl col-lg" style="color: black;">ESTADO:</label>
-                <select name="slcestado" class="form-control col-xl col-lg">
-									<option value="" selected disabled="tipop">-SELECCIONE UNA-</option>
+                				<select name="slcestado" class="form-control col-xl col-lg">
+									<option value="" selected disabled>-SELECCIONE UNA-</option>
                                     <?php
-									include("conexion.php");
+									include("../particular/conexion.php");
 									$consulta= "SELECT * FROM estado_ws";
 									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 									?>
@@ -142,9 +142,9 @@ $row = $resultado->fetch_assoc();
                 <div class="form-group row">
 				<label id="lblForm"class="col-form-label col-xl col-lg" style="color: black;">TIPO IMPRESORA:</label>
                 <select name="tipop" class="form-control col-xl col-lg">
-									<option value="" selected disabled="tipop">-SELECCIONE UNA-</option>
+									<option value="" selected disabled>-SELECCIONE UNA-</option>
 									<?php
-									include("conexion.php");
+									include("../particular/conexion.php");
 									$consulta= "SELECT * FROM tipop";
 									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 									?>
@@ -156,7 +156,7 @@ $row = $resultado->fetch_assoc();
                 <select name="marca" class="form-control col-xl col-lg">
 									<option value="" selected disabled="marca">-SELECCIONE UNA-</option>
 									<?php
-									include("conexion.php");
+									include("../particular/conexion.php");
 									$consulta= "SELECT DISTINCT m.MARCA, m.ID_MARCA FROM marcas m join periferico p on p.ID_MARCA=m.ID_MARCA WHERE p.TIPOP like '%IMPRESORA%'";
 									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 									?>
@@ -223,6 +223,7 @@ if(isset($_POST['btn2']))
 	
 	if(isset($_POST['selectorrepart']))
 	{
+		
 	$reparticion = $_POST['selectorrepart'];
 	$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, r.REPA, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO			
 	FROM periferico p 
@@ -410,7 +411,7 @@ if(isset($_POST['btn2']))
 		   and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['tipop']) AND isset($_POST['marca']) AND isset($_POST['slcestado']))
+	if(isset($_POST['tipop']) & isset($_POST['marca']) & isset($_POST['slcestado']))
 	{
 		$estado = $_POST['slcestado'];
 		$tipop = $_POST['tipop'];
@@ -427,7 +428,7 @@ if(isset($_POST['btn2']))
            and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 		   }
 
-	if(isset($_POST['tipop']) AND isset($_POST['marca']) AND isset($_POST['slcarea']))
+	if(isset($_POST['tipop']) & isset($_POST['marca']) & isset($_POST['slcarea']))
 	{
 		$area = $_POST['slcarea'];
 		$tipop = $_POST['tipop'];
@@ -445,7 +446,7 @@ if(isset($_POST['btn2']))
 		   }
 
 
-	if(isset($_POST['tipop']) AND isset($_POST['marca']) AND isset($_POST['selectorrepart']))
+	if(isset($_POST['tipop']) & isset($_POST['marca']) & isset($_POST['selectorrepart']))
 	{
 		$reparticion = $_POST['selectorrepart'];
 		$tipop = $_POST['tipop'];
@@ -621,35 +622,37 @@ if(isset($_POST['btn2']))
 		   WHERE a.ID_REPA = $reparticion and p.ID_AREA=$area and p.ID_ESTADOWS=$estado and p.ID_TIPOP=$tipo and p.ID_MARCA=$marca
 		   and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
-	else {
-		$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, r.REPA, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO		
-        FROM periferico p 
-        LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
-        LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
-        INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
-        INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
-        inner join reparticion r on a.ID_REPA=r.ID_REPA
-        left join modelo mo on p.ID_MODELO=mo.ID_MODELO
-        WHERE p.TIPOP LIKE '%IMPRESORA%'
-        ORDER BY u.NOMBRE ASC");
-	}
+	// else {
+	// 	echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+	// 	$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, r.REPA, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO		
+    //     FROM periferico p 
+    //     LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
+    //     LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
+    //     INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
+    //     INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
+    //     inner join reparticion r on a.ID_REPA=r.ID_REPA
+    //     left join modelo mo on p.ID_MODELO=mo.ID_MODELO
+    //     WHERE p.TIPOP LIKE '%IMPRESORA%'
+    //     ORDER BY u.NOMBRE ASC");
+	// }
 	
 	
 }
 else
-{
-$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, r.REPA, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO		
-FROM periferico p 
-LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
-LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
-INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
-INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
-inner join reparticion r on a.ID_REPA=r.ID_REPA
-left join modelo mo on p.ID_MODELO=mo.ID_MODELO
-WHERE p.TIPOP LIKE '%IMPRESORA%'
-ORDER BY u.NOMBRE ASC");
-	
-}
+	{
+		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+	$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, r.REPA, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO		
+	FROM periferico p 
+	LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
+	LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
+	INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
+	INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
+	inner join reparticion r on a.ID_REPA=r.ID_REPA
+	left join modelo mo on p.ID_MODELO=mo.ID_MODELO
+	WHERE p.TIPOP LIKE '%IMPRESORA%'
+	ORDER BY u.NOMBRE ASC");
+		
+	}
         
 				echo "<table width=100%>
 						<thead>

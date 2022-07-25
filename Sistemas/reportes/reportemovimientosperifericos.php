@@ -54,6 +54,10 @@ $row = $resultado->fetch_assoc();
             	             window.print();
                                       }
                     </script>
+					<script>
+				function limpiar_formulario(form){
+					form.submit();}
+			</script>
 </head>
 
 
@@ -96,7 +100,7 @@ $row = $resultado->fetch_assoc();
                         class='col-form-label col-xl col-lg'>TIPO DE MOVIMIENTO:</label>
 						
                         <select id='slcTipo' name='slcTipo' class='form-control col-xl col-lg' style='width:250px' required>
-                          <option value='0' selected disabled>-TODOS-</option>
+                          <option value='' selected disabled>-TODOS-</option>
                           <option value='1'>AREA</option>
                           <option value='2'>USUARIO</option>
                           <option value='3'>ESTADO</option>
@@ -113,9 +117,9 @@ $row = $resultado->fetch_assoc();
 
                 <div class="form-group row justify-content-end" style="margin-right:10px;">
 				
-					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn2" value="BUSCAR"></input>
+					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit"  name="btn2" value="BUSCAR"></input>
 
-					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px; margin-right: 10px;" type="submit" name="btn1" value="LIMPIAR"></input>
+					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px; margin-right: 10px;" type="button" onClick="limpiar_formulario(this.form)" name="btn1" value="LIMPIAR"></input>
 				</div>
 		</form>
 		</div>
@@ -132,10 +136,21 @@ $row = $resultado->fetch_assoc();
 			$mov=$_POST['slcTipo'];
             $fechadesde=$_POST['fecha_desde'];
             $fechahasta=$_POST['fecha_hasta'];
+
+			$fecha = date("Y-m-d");
+            echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+            if ($mov==1) {
+                echo"<h4 class='indicadores' style='margin-bottom: 10px;'>TIPO MOVIMIENTO: AREA</h2>";
+            }
+            if ($mov==2) {
+                echo"<h4 class='indicadores' style='margin-bottom: 10px;'>TIPO MOVIMIENTO: USUARIO</h2>";
+            }
+            if ($mov==3) {
+                echo"<h4 class='indicadores' style='margin-bottom: 10px;'>TIPO MOVIMIENTO: ESTADO</h2>";
+            }
+
             if ($fechadesde==""||$fechahasta=="") {
 				if ($mov==1) {
-					$fecha = date("Y-m-d");
-				echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
 				
 				
 				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
@@ -147,9 +162,6 @@ $row = $resultado->fetch_assoc();
 							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
 				}
 				if ($mov==2) {
-					$fecha = date("Y-m-d");
-				echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-				
 				
 				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
 				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
@@ -160,10 +172,6 @@ $row = $resultado->fetch_assoc();
 							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
 				}
 				if ($mov==3) {
-					$fecha = date("Y-m-d");
-				echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-				
-				
 				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
 				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
 						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
@@ -174,11 +182,13 @@ $row = $resultado->fetch_assoc();
 				}
 			}
 			else {
+
+				echo"
+                    <h4 class='indicadores' style='margin-bottom: 10px;'>PERIODO</h2>
+				    <h4 class='indicadores' style='margin-bottom: 10px;'>DESDE: $fechadesde</h2>
+				    <h4 class='indicadores' style='margin-bottom: 10px;'>HASTA: $fechahasta </h2>";
+
 				if ($mov==1) {
-					$fecha = date("Y-m-d");
-				echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-				
-				
 				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
 				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
 						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
@@ -190,10 +200,6 @@ $row = $resultado->fetch_assoc();
 							 ORDER BY M.ID_MOVIMIENTO DESC");
 				}
 				if ($mov==2) {
-					$fecha = date("Y-m-d");
-				echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-				
-				
 				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
 				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
 						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
@@ -205,10 +211,6 @@ $row = $resultado->fetch_assoc();
 							 ORDER BY M.ID_MOVIMIENTO DESC");
 				}
 				if ($mov==3) {
-					$fecha = date("Y-m-d");
-				echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-				
-				
 				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
 				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
 						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
@@ -244,7 +246,6 @@ $row = $resultado->fetch_assoc();
                 <th><p>ÁREA</p></th>
                 <th><p>USUARIO</p></th>
                 <th><p>ESTADO</p></th>
-                <th><p>DETALLES</p></th>
             </tr>
         </thead>
         ";
@@ -264,10 +265,7 @@ $row = $resultado->fetch_assoc();
 				<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4></td>
 				<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>
                 <td><h4 style='font-size:16px;'>".$listar['ESTADO']."</h4></td>
-                <td class='text-center text-nowrap cabe'  style='width: 80px;'><a class='btn btn-sm btn-outline-primary' href='../consulta/detallemovimientoperifericos.php?ID_PERI=".$listar['ID_PERI']."'class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
-				<path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
-				<path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
-				</svg></a></td>												
+                											
 			</tr>";
 		$contador += 1;}
 
@@ -304,17 +302,3 @@ $row = $resultado->fetch_assoc();
 
 
 
-<!-- moejoras memoria
-select m.ID_MEJORA, m.ID_WS, m.MEMORIA1, me.ORDEN_MEMORIA  from mejoras m inner join memoria me
-on m.MEMORIA1=me.ID_MEMORIA
-where me.ORDEN_MEMORIA>(SELECT max(me2.ORDEN_MEMORIA) from mejoras ms INNER JOIN
-                         memoria me2 on ms.MEMORIA1=me2.ID_MEMORIA where m.ID_WS=ms.ID_WS and m.ID_MEJORA>ms.ID_MEJORA)
-GROUP BY m.ID_MEJORA DESC 
-
-
-select m.ID_MEJORA, m.ID_WS, m.DISCO1, d.DISCO  from mejoras m inner join disco d
-on m.DISCO1=d.ID_DISCO
-where d.ORDEN_DISCO>(SELECT max(di.ORDEN_DISCO) from mejoras me INNER JOIN
-                         disco di on me.DISCO1=di.ID_DISCO where m.ID_WS=me.ID_WS and m.ID_MEJORA>me.ID_MEJORA)
-GROUP BY m.ID_MEJORA DESC
--->

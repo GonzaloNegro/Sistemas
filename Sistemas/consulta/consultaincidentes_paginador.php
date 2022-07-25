@@ -1,9 +1,9 @@
 <?php 
 session_start();
-include('conexion.php');
+include('../particular/conexion.php');
 if(!isset($_SESSION['cuil'])) 
     {       
-        header('Location: Inicio.php'); 
+        header('Location: ../particular/Inicio.php'); 
         exit();
     };
 $iduser = $_SESSION['cuil'];
@@ -16,7 +16,7 @@ $pagina = 1;
 <html>
 <head>
 	<title>Consulta de incidentes</title><meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="estiloconsulta.css">
+	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -36,7 +36,7 @@ $pagina = 1;
 				<path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
 				</svg></label></li>
 				</li>
-				<li><a href="cargadeincidentes.php">CARGA</a>
+				<li><a href="../carga/cargadeincidentes.php">CARGA</a>
                     <!--<ul id="sub">
                                         <li><a href="cargarapidaporusuario.php">-Carga rápida por usuario</a></li>
 										<li><a href="#.php">-Carga rápida por tipificación</a></li>
@@ -62,10 +62,10 @@ $pagina = 1;
 					<h2 id="h2"><u>NOMBRE</u>: &nbsp<?php echo utf8_decode($row['RESOLUTOR']);?></h2>
 					<h2 id="h2"><u>CUIL</u>: &nbsp &nbsp &nbsp &nbsp &nbsp<?php if ((isset($_SESSION['cuil'])) && ($_SESSION['cuil'] != "")){echo $_SESSION['cuil'];}?></h2><br>
 					<h2 id="h2"><u>GESTIÓN: </u></h2>
-					<a href="abm.php" class="color"><h2 id="h2">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp-ALTA/BAJA/MODIFICACIÓN</h2></a>
-					<a href="tiporeporte.php" class="color"><h2 id="h2">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp-REPORTES</h2></a>
-					<a href="contraseña.php" class="color"><h2 id="h2">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp-CAMBIAR CONTRASEÑA</h2></a><br><br><br>
-					<a href="salir.php"><h2 id="h2"><u>CERRAR SESIÓN</u></h2></a>
+					<a href="../abm/abm.php" class="color"><h2 id="h2">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp-ALTA/BAJA/MODIFICACIÓN</h2></a>
+					<a href="../reportes/tiporeporte.php" class="color"><h2 id="h2">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp-REPORTES</h2></a>
+					<a href="../particular/contraseña.php" class="color"><h2 id="h2">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp-CAMBIAR CONTRASEÑA</h2></a><br><br><br>
+					<a href="../particular/salir.php"><h2 id="h2"><u>CERRAR SESIÓN</u></h2></a>
 				</nav>
 				<label for="btn-menu">✖️</label>
 			</div>

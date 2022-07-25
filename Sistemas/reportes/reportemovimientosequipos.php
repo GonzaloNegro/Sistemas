@@ -56,6 +56,10 @@ $row = $resultado->fetch_assoc();
             	             window.print();
                                       }
                     </script>
+                    <script>
+                        function limpiar_formulario(form){
+                            form.submit();}
+                    </script>
 </head>
 
 
@@ -98,7 +102,7 @@ $row = $resultado->fetch_assoc();
                         class='col-form-label col-xl col-lg'>TIPO DE MOVIMIENTO:</label>
 						
                         <select id='slcTipo' name='slcTipo' class='form-control col-xl col-lg' style='width:250px' required>
-                          <option value='0' selected disabled>-TODOS-</option>
+                          <option value='' selected disabled>-TODOS-</option>
                           <option value='1'>AREA</option>
                           <option value='2'>USUARIO</option>
                           <option value='3'>ESTADO</option>
@@ -117,7 +121,7 @@ $row = $resultado->fetch_assoc();
 				
 					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn2" value="BUSCAR"></input>
 
-					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px; margin-right: 10px;" type="submit" name="btn1" value="LIMPIAR"></input>
+					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px; margin-right: 10px;" type="button" onClick="limpiar_formulario(this.form)" name="btn1" value="LIMPIAR"></input>
 				</div>
 		</form>
 		</div>
@@ -132,11 +136,21 @@ $row = $resultado->fetch_assoc();
             $mov=$_POST['slcTipo'];
             $fechadesde=$_POST['fecha_desde'];
             $fechahasta=$_POST['fecha_hasta'];
+            $fecha = date("Y-m-d");
+            echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
+            if ($mov==1) {
+                echo"<h4 class='indicadores' style='margin-bottom: 10px;'>TIPO MOVIMIENTO: AREA</h2>";
+            }
+            if ($mov==2) {
+                echo"<h4 class='indicadores' style='margin-bottom: 10px;'>TIPO MOVIMIENTO: USUARIO</h2>";
+            }
+            if ($mov==3) {
+                echo"<h4 class='indicadores' style='margin-bottom: 10px;'>TIPO MOVIMIENTO: ESTADO</h2>";
+            }
+
+
             if ($fechadesde==""||$fechahasta=="") {
                 if ($mov==1) {
-                    $fecha = date("Y-m-d");
-                    echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-        
         
                     $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
@@ -151,8 +165,6 @@ $row = $resultado->fetch_assoc();
                                 where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY a.ID_AREA desc");
                 }
                 if ($mov==2) {
-                    $fecha = date("Y-m-d");
-                    echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
         
         
                     $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
@@ -168,9 +180,6 @@ $row = $resultado->fetch_assoc();
                                 where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY u.NOMBRE asc");
                 }
                 if ($mov==3) {
-                    $fecha = date("Y-m-d");
-                    echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-        
         
                     $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
@@ -188,11 +197,12 @@ $row = $resultado->fetch_assoc();
             }
             // if(isset($_POST['fecha_desde']) & isset($_POST['fecha_hasta']))
             else{
+                echo"
+                    <h4 class='indicadores' style='margin-bottom: 10px;'>PERIODO</h2>
+				    <h4 class='indicadores' style='margin-bottom: 10px;'>DESDE: $fechadesde</h2>
+				    <h4 class='indicadores' style='margin-bottom: 10px;'>HASTA: $fechahasta </h2>";
                 
                 if ($mov==1) {
-                    $fecha = date("Y-m-d");
-                    echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-        
         
                     $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
@@ -209,10 +219,6 @@ $row = $resultado->fetch_assoc();
                     ORDER BY a.ID_AREA desc");
                 }
                 if ($mov==2) {
-                    $fecha = date("Y-m-d");
-                    echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-        
-        
                     $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
                     LEFT JOIN usuarios AS u ON u.ID_USUARIO = m.ID_USUARIO
@@ -228,10 +234,6 @@ $row = $resultado->fetch_assoc();
                                  ORDER BY u.NOMBRE asc");
                 }
                 if ($mov==3) {
-                    $fecha = date("Y-m-d");
-                    echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-        
-        
                     $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
                     LEFT JOIN usuarios AS u ON u.ID_USUARIO = m.ID_USUARIO

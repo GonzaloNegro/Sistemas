@@ -3,10 +3,10 @@
 <!--SE CAMBIO EL TIPO DE REPORTES, SOLO ESTA HECHO PARA RESOLUTOR Y TIPIFICACION-->
 <?php 
 session_start();
-include('conexion.php');
+include('../particular/conexion.php');
 if(!isset($_SESSION['cuil'])) 
     {       
-        header('Location: Inicio.php'); 
+        header('Location: ../particular/Inicio.php'); 
         exit();
     };
 $iduser = $_SESSION['cuil'];
@@ -22,12 +22,12 @@ $row = $resultado->fetch_assoc();
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
 	<title>Reportes de Incidencias</title>
-	<link href="estiloreporte.css" rel="stylesheet" type="text/css" />
+	<link href="../estilos/estiloreporte.css" rel="stylesheet" type="text/css" />
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
    <meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript" src="jquery/1/jquery-3.6.0.min.js"></script>
-	<script type="text/javascript" src="jquery/1/jquery-ui.js"></script>
+	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
    <script>
 	$(document).ready(function(){
@@ -71,7 +71,7 @@ $row = $resultado->fetch_assoc();
 
 <!--Filtros-->
 
-<script src="filtrosinventario.js"></script>
+<script src="../js/filtrosinventario.js"></script>
 
 </section>
 <footer>

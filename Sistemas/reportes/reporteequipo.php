@@ -1,9 +1,9 @@
 <?php 
 session_start();
-include('conexion.php');
+include('../particular/conexion.php');
 if(!isset($_SESSION['cuil'])) 
     {       
-        header('Location: Inicio.php'); 
+        header('Location: ../particular/Inicio.php'); 
         exit();
     };
 $iduser = $_SESSION['cuil'];
@@ -16,9 +16,9 @@ $row = $resultado->fetch_assoc();
 <head>
 
 <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-	                    <a id="vlv"  href="tiporeporte.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+	                    <a id="vlv"  href="../reportes/tiporeporte.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
 						<div class="btn-group col-2" role="group" >
-                              <button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='consulta.php'" ><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></button>
+                              <button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='../consulta/consulta.php'" ><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></button>
                               <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()" ><i class='bi bi-printer'></i></button>
                         </div>
 		            </div>
@@ -43,7 +43,7 @@ $row = $resultado->fetch_assoc();
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="estiloallabm.css">
+	<link rel="stylesheet" type="text/css" href="../estilos/estiloallabm.css">
 	<script type="text/javascript" src="jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="jquery/1/jquery-ui.js"></script>
 	<!--BUSCADOR SELECT-->
@@ -82,7 +82,7 @@ $row = $resultado->fetch_assoc();
 		<select id='slcrepart' name='selectorrepart' class='form-control col-xl col-lg'>
 		<option value="" selected disabled>-SELECCIONE UNA-</option>
                                     <?php
-									include("conexion.php");
+									include("../particular/conexion.php");
 									$consulta= "SELECT * FROM reparticion";
 									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 									?>
@@ -92,10 +92,10 @@ $row = $resultado->fetch_assoc();
                           </select>
 		        
 				<label id="lblForm"class="col-form-label col-xl col-lg" style="color: black;">AREA:</label>
-                <select name="slcarea" id="slcarea" class="col-xl col-lg" style="height: 20px;">
+                <select name="slcarea" id="slcarea" class="form-control col-xl col-lg">
 									<option value="" selected disabled>-SELECCIONE UNA-</option>
                                     <?php
-									include("conexion.php");
+									include("../particular/conexion.php");
 									$consulta= "SELECT * FROM area";
 									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 									?>
@@ -126,7 +126,7 @@ $row = $resultado->fetch_assoc();
                 <select name="slcestado" class="form-control col-xl col-lg">
 									<option value="" selected disabled="tipop">-SELECCIONE UNA-</option>
                                     <?php
-									include("conexion.php");
+									include("../particular/conexion.php");
 									$consulta= "SELECT * FROM estado_ws";
 									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 									?>
@@ -863,23 +863,23 @@ if(isset($_POST['btn2']))
 		   WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and i.ID_ESTADOWS=$estado and i.ID_SO=$so and m.ID_MICRO=$micro and ws.SLOT=1
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
-	else {
-		$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-        FROM inventario i 
-        LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-        LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-        LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-        LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-        LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-        LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-        INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-        LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-        left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-        left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-        inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-        where ws.SLOT=1
-        ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
+	// else {
+	// 	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+    //     FROM inventario i 
+    //     LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
+    //     LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
+    //     LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
+    //     LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
+    //     LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
+    //     LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
+    //     INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
+    //     LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
+    //     left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
+    //     left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
+    //     inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
+    //     where ws.SLOT=1
+    //     ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
+	// }
 	
 	
 }

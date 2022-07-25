@@ -11,12 +11,18 @@ function controlar(){
             Swal.fire({
                 title: `Hay ${valor} incidentes pendientes por cerrar!`,
                 icon: 'info',
+                showConfirmButton: true,
+                confirmButtonText: 'Ir a incidentes',
                 showClass: {
                     popup: 'animate__animated animate__fadeInDown'
                         },
                 hideClass: {
                     popup: 'animate__animated animate__fadeOutUp'
                         }
+            }).then((result)=>{
+                if(result.isConfirmed){
+                    location.href ="../consulta/consulta.php";
+                }
             })
             }else{
             Swal.fire({

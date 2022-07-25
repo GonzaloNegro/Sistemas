@@ -1,9 +1,9 @@
 <?php 
 session_start();
-include('conexion.php');
+include('../particular/conexion.php');
 if(!isset($_SESSION['cuil'])) 
     {       
-        header('Location: Inicio.php'); 
+        header('Location: ../particular/Inicio.php'); 
         exit();
     };
 $iduser = $_SESSION['cuil'];
@@ -17,7 +17,7 @@ $row = $resultado->fetch_assoc();
 <head>
     <title>Inventario</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="estiloreporte.css">
+    <link rel="stylesheet" type="text/css" href="../estilos/estiloreporte.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -71,7 +71,7 @@ $row = $resultado->fetch_assoc();
                 <div id='botonera' class='form-group row'>
                     <div class='btn-group col-2' role='group' style='margin: 5px; margin-right: 5px;'>
                         <button id='botonleft' type='button' class='btn btn-secondary'
-                            onclick="location.href='consulta.php'"><i style=' margin-bottom:10px;'
+                            onclick="location.href='../consulta/consulta.php'"><i style=' margin-bottom:10px;'
                                 class='bi bi-house-door'></i></button>
                         <button id='botonright' type='button' class='btn btn-success' onClick='imprimir()'><i
                                 class='bi bi-printer'></i></button>
@@ -79,7 +79,7 @@ $row = $resultado->fetch_assoc();
                 </div>
                 <?php echo"
 
-                <!-- <button id='pr' class='btn btn-secondary' style='width: 50px; height:45px; border-radius: 10px;' onclick='location.href='consulta.php''><i style=' margin-bottom:10px;'class='bi bi-house-door'></i></button>
+                <!-- <button id='pr' class='btn btn-secondary' style='width: 50px; height:45px; border-radius: 10px;' onclick='location.href='../consulta/consulta.php''><i style=' margin-bottom:10px;'class='bi bi-house-door'></i></button>
 						<button id='pr' class='btn btn-success' style='width: 50px; border-radius: 10px;' onClick='imprimir()'><i class='bi bi-printer'></i></button> -->
             </div>";}
 			else {
@@ -87,7 +87,7 @@ $row = $resultado->fetch_assoc();
 				<div class='form-group row justify-content-between' style='margin: 10px; padding:10px;'>
 	      <a id='vlv'  href='reporteinventario.php' class='col-3 btn btn-primary ' type='button'  value='VOLVER'>VOLVER</a>
           <div class='btn-group col-2' role='group' >
-                              <button id='botonleft' type='button' class='btn btn-secondary' onclick='location.href='consulta.php'' ><i style=' margin-bottom:10px;'class='bi bi-house-door'></i></button>
+                              <button id='botonleft' type='button' class='btn btn-secondary' onclick='location.href='../consulta/consulta.php'' ><i style=' margin-bottom:10px;'class='bi bi-house-door'></i></button>
                               <button id='botonright' type='button' class='btn btn-success' onClick='imprimir()' ><i class='bi bi-printer'></i></button>
                         </div>
 		</div>";

@@ -1,9 +1,9 @@
 <?php 
 session_start();
-include('conexion.php');
+include('../particular/conexion.php');
 if(!isset($_SESSION['cuil'])) 
     {       
-        header('Location: Inicio.php'); 
+        header('Location: ../particular/Inicio.php'); 
         exit();
     };
 $iduser = $_SESSION['cuil'];
@@ -18,7 +18,7 @@ $row = $resultado->fetch_assoc();
 <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
 	                    <a id="vlv"  href="tiporeporte.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
 						<div class="btn-group col-2" role="group" >
-                              <button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='consulta.php'" ><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></button>
+                              <button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='../consulta/consulta.php'" ><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></button>
                               <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()" ><i class='bi bi-printer'></i></button>
                         </div>
 		            </div>
@@ -43,9 +43,9 @@ $row = $resultado->fetch_assoc();
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="estiloallabm.css">
-	<script type="text/javascript" src="jquery/1/jquery-3.6.0.min.js"></script>
-	<script type="text/javascript" src="jquery/1/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="../estilos/estiloallabm.css">
+	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<!--BUSCADOR SELECT-->
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -93,7 +93,7 @@ $row = $resultado->fetch_assoc();
 		<select id='slcrepart' name='selectorrepart' class='form-control col-xl col-lg'>
 		<option value="" selected disabled>-SELECCIONE UNA-</option>
                                     <?php
-									include("conexion.php");
+									include("../particular/conexion.php");
 									$consulta= "SELECT * FROM reparticion";
 									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 									?>
@@ -106,7 +106,7 @@ $row = $resultado->fetch_assoc();
                 <select name="slcarea" id="slcarea" class="col-xl col-lg" style="height: 20px;">
 									<option value="" selected disabled>-SELECCIONE UNA-</option>
                                     <?php
-									include("conexion.php");
+									include("../particular/conexion.php");
 									$consulta= "SELECT * FROM area";
 									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 									?>
@@ -137,7 +137,7 @@ $row = $resultado->fetch_assoc();
                 <select name="slcestado" class="form-control col-xl col-lg">
 									<option value="" selected disabled="tipop">-SELECCIONE UNA-</option>
                                     <?php
-									include("conexion.php");
+									include("../particular/conexion.php");
 									$consulta= "SELECT * FROM estado_ws";
 									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 									?>
@@ -155,7 +155,7 @@ $row = $resultado->fetch_assoc();
                 <select name="so" class="form-control col-xl col-lg">
 									<option value="" selected disabled="tipop">-SELECCIONE UNA-</option>
 									<?php
-									include("conexion.php");
+									include("../particular/conexion.php");
 									$consulta= "SELECT * FROM so";
 									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 									?>
@@ -167,7 +167,7 @@ $row = $resultado->fetch_assoc();
                 <select name="micro" id="micro" class="form-control col-xl col-lg">
 									<option value="" selected disabled="marca">-SELECCIONE UNA-</option>
 									<?php
-									include("conexion.php");
+									include("../particular/conexion.php");
 									$consulta= "SELECT ID_MICRO, MICRO from micro";
 									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 									?>
