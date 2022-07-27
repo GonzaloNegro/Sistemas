@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('conexion.php');
+include('../particular/conexion.php');
 
 /* date_default_timezone_set("America/Argentina"); */
 ini_set('date.timezone', 'America/Argentina/Buenos_Aires');
@@ -10,7 +10,7 @@ $hora = date('H:i', time());
 /*TRAIGO LOS DATOS DE QUIEN INGRESO AL SISTEMA*/
 if(!isset($_SESSION['cuil'])) 
     {       
-        header('Location: Inicio.php'); 
+        header('Location: ../particular/Inicio.php'); 
         exit();
     };
 $iduser = $_SESSION['cuil'];
@@ -22,7 +22,7 @@ $row = $resultado->fetch_assoc();
 $original = $row['ID_RESOLUTOR'];
 $maillogin = $row['CORREO'];
 
-include('conexion.php');
+include('../particular/conexion.php');
 
 /*$area = $_POST['area'];*/
 /*$fecha1 = $_POST['fecha_inicio'];*/
@@ -105,7 +105,7 @@ $date2 = date('Y-m-d'); */
 		mysqli_close($datos_base);	
 		/*ACA YA ETERMINAN LOS DATOS DE QUIEN CARGA*/
 		/*EMPIEZAN LOS DATOS DE A QUIEN SE LE DERIVO */
-		include('conexion.php');
+		include('../particular/conexion.php');
 
 		$tic=mysqli_query($datos_base, "SELECT MAX(ID_TICKET) AS id FROM ticket");
 		if ($row = mysqli_fetch_row($tic)) {

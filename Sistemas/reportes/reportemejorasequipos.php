@@ -413,7 +413,7 @@ $row = $resultado->fetch_assoc();
 						// 			echo "<p>FILTRADO POR: $filtro</p>";
 						// 		}
 						// 	}
-						echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>CANTIDAD DE MOVIMIENTOS : $contador</h4>
+						echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>CANTIDAD DE MEJORAS : $contador</h4>
 						<hr>
 						</div>
 						</table>

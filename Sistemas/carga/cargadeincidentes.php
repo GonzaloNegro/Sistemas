@@ -126,7 +126,7 @@ $row = $resultado->fetch_assoc();
 								return true; }
 								
 								}
-						if (form.estado.value == "1" || form.estado.value == "2" || form.estado.value == "3" || form.estado.value == "5") { 
+						if (form.estado.value == "1" || form.estado.value == "2"  || form.estado.value == "5") { 
 							if (form.fecha_solucion.value ==""){
 								alert("Por favor, ingresa la fecha de solucion"); 
 								form.fecha_solucion.focus(); 
@@ -136,6 +136,12 @@ $row = $resultado->fetch_assoc();
 								 form.motivo.focus(); 
 								 return true; }
 								
+								}
+								else if(form.estado.value == "3"){
+									if (form.motivo.value ==""){
+										alert("Por favor, complete el campo de motivo"); 
+										form.motivo.focus(); 
+										return true; }
 								}
 								
 						

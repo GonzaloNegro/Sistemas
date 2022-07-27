@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('conexion.php');
+include('../particular/conexion.php');
 
 /* date_default_timezone_set("America/Argentina"); */
 ini_set('date.timezone', 'America/Argentina/Buenos_Aires');
@@ -10,7 +10,7 @@ $hora = date('H:i', time());
 /*TRAIGO LOS DATOS DE QUIEN INGRESO AL SISTEMA*/
 if(!isset($_SESSION['cuil'])) 
     {       
-        header('Location: Inicio.php'); 
+        header('Location: ../particular/Inicio.php'); 
         exit();
     };
 $iduser = $_SESSION['cuil'];
@@ -22,7 +22,7 @@ $row = $resultado->fetch_assoc();
 $original = $row['ID_RESOLUTOR'];
 $maillogin = $row['CORREO'];
 
-include('conexion.php');
+include('../particular/conexion.php');
 
 /* VARIABLES DE ESTE FRM */
 if(isset($_POST['fechaini'])){

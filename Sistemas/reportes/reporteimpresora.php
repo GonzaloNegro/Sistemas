@@ -640,7 +640,6 @@ if(isset($_POST['btn2']))
 }
 else
 	{
-		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
 	$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, r.REPA, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO		
 	FROM periferico p 
 	LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
