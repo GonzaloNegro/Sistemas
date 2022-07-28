@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('..particular/conexion.php');
+include('../particular/conexion.php');
 
 $id = $_POST['id'];
 $nombre = $_POST['nom'];

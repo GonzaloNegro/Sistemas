@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('..particular/conexion.php');
+include('../particular/conexion.php');
 
 $id = $_POST['id_inc'];
 $fecini = $_POST['fecha_inicio'];
@@ -70,7 +70,7 @@ if(isset($_POST['btnmod'])){
 			$fec1 = trim($row[0]);
 			}
 	mysqli_query($datos_base, "INSERT INTO fecha_ticket VALUES(DEFAULT, '$tic1','$fec1')");
-  header("Location: ../consulta/cambio.php?mod");
+  header("Location: cambio.php?mod");
   mysqli_close($datos_base);	
 }
 
@@ -95,7 +95,7 @@ if(isset($_POST['btnsol'])){
 	}
 
   mysqli_query($datos_base, "INSERT INTO fecha_ticket VALUES(DEFAULT, '$id', '$fec1')");
-  header("Location: ../consulta/cambio.php?sol");
+  header("Location: cambio.php?sol");
   mysqli_close($datos_base);	
 }
 
@@ -120,7 +120,7 @@ if(isset($_POST['btnan']))
 
   mysqli_query($datos_base, "INSERT INTO fecha_ticket VALUES(DEFAULT, '$id', '$fec1')");
 
-  header("Location: ../consulta/cambio.php?an");
+  header("Location: cambio.php?an");
   mysqli_close($datos_base);	
 }
 ?>

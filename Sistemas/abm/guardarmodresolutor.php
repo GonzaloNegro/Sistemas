@@ -1,6 +1,6 @@
 <!--AGREGAR RESOLUTOR-->
 <?php
-include('..particular/conexion.php');
+include('../particular/conexion.php');
 
 $resolutor = $_POST['nombre_resolutor'];
 $cuil = $_POST['cuil'];

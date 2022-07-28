@@ -1,5 +1,5 @@
 <?php
-include('..particular/conexion.php');
+include('../particular/conexion.php');
 
 $nombre = $_POST['nombre_usuario'];
 $cuil = $_POST['cuil'];

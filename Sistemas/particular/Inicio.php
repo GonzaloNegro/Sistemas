@@ -3,6 +3,7 @@
 <html>
 <head>
 	<title>Inicio</title><meta charset="utf-8">
+	<link rel="icon" href="../imagenes/logoObrasPúblicas.png">
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloinicio.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style>

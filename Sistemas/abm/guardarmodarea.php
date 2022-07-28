@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('..particular/conexion.php');
+include('../particular/conexion.php');
 
 $area = $_POST['area'];
 $repa = $_POST['repa'];

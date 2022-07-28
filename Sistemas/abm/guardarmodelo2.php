@@ -1,5 +1,5 @@
 <?php
-include('..particular/conexion.php');
+include('../particular/conexion.php');
 
 $id = $_POST['id'];
 $modelo = $_POST['modelo'];

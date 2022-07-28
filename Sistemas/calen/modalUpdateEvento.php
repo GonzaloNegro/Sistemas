@@ -32,7 +32,7 @@
       <div class="col-sm-10">
       <select name="resolutor" id="resolutor" class="form-control col-xl" required>
 									<?php
-									include('./../conexion.php');
+									include('./../particular/conexion.php');
                   $consulta= "SELECT * FROM resolutor WHERE ID_RESOLUTOR = 2 OR ID_RESOLUTOR = 3 OR ID_RESOLUTOR = 4 OR ID_RESOLUTOR = 5 OR ID_RESOLUTOR = 6 OR ID_RESOLUTOR = 10 OR ID_RESOLUTOR = 13 OR ID_RESOLUTOR = 15 OR ID_RESOLUTOR = 19 OR ID_RESOLUTOR = 20 OR ID_RESOLUTOR = 21";
 									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 									?>

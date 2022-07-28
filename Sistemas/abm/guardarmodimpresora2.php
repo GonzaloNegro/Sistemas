@@ -1,5 +1,5 @@
 <?php
-include('..particular/conexion.php');
+include('../particular/conexion.php');
 
 $id = $_POST['id'];
 $serieg = $_POST['serieg'];

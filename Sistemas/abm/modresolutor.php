@@ -1,7 +1,7 @@
 <?php 
 error_reporting(0);
 session_start();
-include('..particular/conexion.php');
+include('../particular/conexion.php');
 
 $consulta = ConsultarIncidente($_GET['no']);
 
@@ -50,7 +50,7 @@ function ConsultarIncidente($no_tic)
 			<h1>MODIFICAR RESOLUTOR</h1>
 		</div>
         <?php 
-                        include("..particular/conexion.php");
+                        include("../particular/conexion.php");
                         $sent= "SELECT TIPO_RESOLUTOR FROM tipo_resolutor WHERE ID_TIPO_RESOLUTOR = $consulta[2]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
@@ -79,7 +79,7 @@ function ConsultarIncidente($no_tic)
                         <select name="tipo" class="form-control col-xl col-lg" style="text-transform:uppercase">
                                         <option selected value="100"><?php echo $tr?></option>
                                         <?php
-                                        include("..particular/conexion.php");
+                                        include("../particular/conexion.php");
                                         $consulta= "SELECT * FROM tipo_resolutor";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>

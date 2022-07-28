@@ -1,7 +1,7 @@
 <?php 
 error_reporting(0);
 session_start();
-include('..particular/conexion.php');
+include('../particular/conexion.php');
 
 $consulta = ConsultarIncidente($_GET['no']);
 
@@ -48,7 +48,7 @@ function ConsultarIncidente($no_tic)
 	</div>
 	<div id="principalu" style="width: 97%" class="container-fluid">
                         <?php 
-                        include("..particular/conexion.php");
+                        include("../particular/conexion.php");
                         $sent= "SELECT MARCA FROM marcas WHERE ID_MARCA = $consulta[2]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
@@ -63,7 +63,7 @@ function ConsultarIncidente($no_tic)
                                 <select name="marca" class="form-control col-xl col-lg" style="text-transform:uppercase">
                                         <option selected value="100"><?php echo $ma?></option>
                                         <?php
-                                        include("..particular/conexion.php");
+                                        include("../particular/conexion.php");
                                         $consulta= "SELECT * FROM marcas";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>

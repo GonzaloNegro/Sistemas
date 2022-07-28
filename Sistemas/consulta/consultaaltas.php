@@ -10,7 +10,7 @@ if(!isset($_SESSION['cuil']))
         exit();
     };
 $iduser = $_SESSION['cuil'];
-$sql = "SELECT ID_RESOLUTOR, CUIL, RESOLUTOR FROM resolutor WHERE CUIL='$iduser'";
+$sql = "SELECT ID_RESOLUTOR, CUIL, RESOLUTOR, ID_PERFIL FROM resolutor WHERE CUIL='$iduser'";
 $consulta=mysqli_query($datos_base, "SELECT * FROM ticket ORDER BY FECHA_INICIO DESC, ID_TICKET DESC");
 $resultado = $datos_base->query($sql);
 $row = $resultado->fetch_assoc();
@@ -75,12 +75,7 @@ $row = $resultado->fetch_assoc();
             </li>
             <li><a href="../abm/abm.php" class="nav-link px-2 link-dark link">ABM</a></li>
             <li><a href="../reportes/tiporeporte.php" class="nav-link px-2 link-dark link">REPORTES</a></li>
-            <?php if($row['ID_RESOLUTOR'] == 6//GONZALO
-					/*OR $row['ID_RESOLUTOR'] == 2 //CLAUDIA*/
-					OR $row['ID_RESOLUTOR'] == 10 //EUGENIA
-					OR $row['ID_RESOLUTOR'] == 15 //RODRIGO
-					OR $row['ID_RESOLUTOR'] == 20 //GUSTAVO
-					){
+            <?php if($row['ID_PERFIL'] == 1 OR $row['ID_PERFIL'] == 2){
                         echo'
 						<li><a href="../particular/estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
                     ';

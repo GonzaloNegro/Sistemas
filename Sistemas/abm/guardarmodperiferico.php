@@ -1,5 +1,5 @@
 <?php
-include('..particular/conexion.php');
+include('../particular/conexion.php');
 
 $tipop = $_POST['tipop'];
 $serieg = $_POST['serieg'];

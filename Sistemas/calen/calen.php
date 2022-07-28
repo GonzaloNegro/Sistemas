@@ -1,9 +1,9 @@
 <?php 
 session_start();
-include('./../conexion.php');
+include('./../particular/conexion.php');
 if(!isset($_SESSION['cuil'])) 
     {       
-        header('Location: Inicio.php'); 
+        header('Location: ./../particular/Inicio.php'); 
         exit();
     };
 $iduser = $_SESSION['cuil'];
@@ -51,13 +51,13 @@ $row = $resultado->fetch_assoc();
 </head>
   <div style="width: 40%; margin-left: 20px;">   
             <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-                <a id="vlv"  href="./../consulta.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+                <a id="vlv"  href="./../consulta/consulta.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
             </div>					
          </div>
 <body>
 
 <?php
-include('./../conexion.php');
+include('./../particular/conexion.php');
 
   $SqlEventos   = ("SELECT * FROM eventoscalendar");
   $resulEventos = mysqli_query($datos_base, $SqlEventos);

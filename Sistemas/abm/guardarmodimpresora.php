@@ -1,5 +1,5 @@
 <?php
-include('..particular/conexion.php');
+include('../particular/conexion.php');
 
 $modelo = $_POST['modelo'];
 $tipop = $_POST['tipop'];

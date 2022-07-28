@@ -1,7 +1,7 @@
 <?php 
 error_reporting(0);
 session_start();
-include('..particular/conexion.php');
+include('../particular/conexion.php');
 
 $consulta = ConsultarIncidente($_GET['no']);
 
@@ -57,7 +57,7 @@ function ConsultarIncidente($no_tic)
 		</div>
 		<div id="principalu" style="width: 97%" class="container-fluid">
                 <?php
-                include("..particular/conexion.php");
+                include("../particular/conexion.php");
                 $sent= "SELECT AREA FROM area WHERE ID_AREA = $consulta[3]";
                 $resultado = $datos_base->query($sent);
                 $row = $resultado->fetch_assoc();
@@ -65,7 +65,7 @@ function ConsultarIncidente($no_tic)
                 ?>
                 
                 <?php 
-                include("..particular/conexion.php");
+                include("../particular/conexion.php");
                 $sent= "SELECT TURNO FROM turnos WHERE ID_TURNO = $consulta[9]";
                 $resultado = $datos_base->query($sent);
                 $row = $resultado->fetch_assoc();
@@ -120,7 +120,7 @@ function ConsultarIncidente($no_tic)
                         <select  class="form-control col-xl col-lg" name="are" style="text-transform:uppercase">
                                         <option selected value="200"><?php echo $ar?></option>
                                         <?php
-                                        include("..particular/conexion.php");
+                                        include("../particular/conexion.php");
                                         $consulta= "SELECT * FROM area ORDER BY ID_REPA ASC";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>
@@ -135,7 +135,7 @@ function ConsultarIncidente($no_tic)
                     <select  class="form-control col-xl col-lg" name="tur" style="text-transform:uppercase">
                                     <option selected value="100"><?php echo $turno?></option>
                                     <?php
-                                    include("..particular/conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM turnos";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>

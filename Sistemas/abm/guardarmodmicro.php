@@ -1,5 +1,5 @@
 <?php
-include('..particular/conexion.php');
+include('../particular/conexion.php');
 
 $micro = $_POST['micro'];
 $marca = $_POST['marca'];

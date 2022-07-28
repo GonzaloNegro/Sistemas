@@ -152,7 +152,7 @@ $row = $resultado->fetch_assoc();
             if ($fechadesde==""||$fechahasta=="") {
                 if ($mov==1) {
         
-                    $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
+                    $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
                     LEFT JOIN usuarios AS u ON u.ID_USUARIO = m.ID_USUARIO
                     LEFT JOIN area AS a ON a.ID_AREA = m.ID_AREA
@@ -160,6 +160,7 @@ $row = $resultado->fetch_assoc();
                     LEFT JOIN marcas AS ma ON ma.ID_MARCA = m.ID_MARCA
                     LEFT JOIN so AS s ON s.ID_SO = m.ID_SO
                     LEFT JOIN red AS r ON r.ID_RED = m.ID_RED
+                    INNER JOIN inventario i on i.ID_WS=m.ID_WS
                     where 
                             m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientos mv
                                 where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY a.ID_AREA desc");
@@ -167,7 +168,7 @@ $row = $resultado->fetch_assoc();
                 if ($mov==2) {
         
         
-                    $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
+                    $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
                     LEFT JOIN usuarios AS u ON u.ID_USUARIO = m.ID_USUARIO
                     LEFT JOIN area AS a ON a.ID_AREA = m.ID_AREA
@@ -175,13 +176,14 @@ $row = $resultado->fetch_assoc();
                     LEFT JOIN marcas AS ma ON ma.ID_MARCA = m.ID_MARCA
                     LEFT JOIN so AS s ON s.ID_SO = m.ID_SO
                     LEFT JOIN red AS r ON r.ID_RED = m.ID_RED
+                    INNER JOIN inventario i on i.ID_WS=m.ID_WS
                     where 
                             m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientos mv
                                 where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY u.NOMBRE asc");
                 }
                 if ($mov==3) {
         
-                    $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
+                    $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
                     LEFT JOIN usuarios AS u ON u.ID_USUARIO = m.ID_USUARIO
                     LEFT JOIN area AS a ON a.ID_AREA = m.ID_AREA
@@ -189,6 +191,7 @@ $row = $resultado->fetch_assoc();
                     LEFT JOIN marcas AS ma ON ma.ID_MARCA = m.ID_MARCA
                     LEFT JOIN so AS s ON s.ID_SO = m.ID_SO
                     LEFT JOIN red AS r ON r.ID_RED = m.ID_RED
+                    INNER JOIN inventario i on i.ID_WS=m.ID_WS
                     where 
                             m.ID_ESTADOWS != ( select AVG(mv.ID_ESTADOWS) from movimientos mv
                                 where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
@@ -204,7 +207,7 @@ $row = $resultado->fetch_assoc();
                 
                 if ($mov==1) {
         
-                    $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
+                    $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
                     LEFT JOIN usuarios AS u ON u.ID_USUARIO = m.ID_USUARIO
                     LEFT JOIN area AS a ON a.ID_AREA = m.ID_AREA
@@ -212,6 +215,7 @@ $row = $resultado->fetch_assoc();
                     LEFT JOIN marcas AS ma ON ma.ID_MARCA = m.ID_MARCA
                     LEFT JOIN so AS s ON s.ID_SO = m.ID_SO
                     LEFT JOIN red AS r ON r.ID_RED = m.ID_RED
+                    INNER JOIN inventario i on i.ID_WS=m.ID_WS
                     where 
                             m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientos mv
                                 where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) 
@@ -219,7 +223,7 @@ $row = $resultado->fetch_assoc();
                     ORDER BY a.ID_AREA desc");
                 }
                 if ($mov==2) {
-                    $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
+                    $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
                     LEFT JOIN usuarios AS u ON u.ID_USUARIO = m.ID_USUARIO
                     LEFT JOIN area AS a ON a.ID_AREA = m.ID_AREA
@@ -227,6 +231,7 @@ $row = $resultado->fetch_assoc();
                     LEFT JOIN marcas AS ma ON ma.ID_MARCA = m.ID_MARCA
                     LEFT JOIN so AS s ON s.ID_SO = m.ID_SO
                     LEFT JOIN red AS r ON r.ID_RED = m.ID_RED
+                    INNER JOIN inventario i on i.ID_WS=m.ID_WS
                     where 
                             m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientos mv
                                 where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
@@ -234,7 +239,7 @@ $row = $resultado->fetch_assoc();
                                  ORDER BY u.NOMBRE asc");
                 }
                 if ($mov==3) {
-                    $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
+                    $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
                     LEFT JOIN usuarios AS u ON u.ID_USUARIO = m.ID_USUARIO
                     LEFT JOIN area AS a ON a.ID_AREA = m.ID_AREA
@@ -242,6 +247,7 @@ $row = $resultado->fetch_assoc();
                     LEFT JOIN marcas AS ma ON ma.ID_MARCA = m.ID_MARCA
                     LEFT JOIN so AS s ON s.ID_SO = m.ID_SO
                     LEFT JOIN red AS r ON r.ID_RED = m.ID_RED
+                    INNER JOIN inventario i on i.ID_WS=m.ID_WS
                     where 
                             m.ID_ESTADOWS != ( select AVG(mv.ID_ESTADOWS) from movimientos mv
                                 where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) 
@@ -258,7 +264,7 @@ $row = $resultado->fetch_assoc();
 		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
         
         
-        $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
+        $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
         FROM movimientos m 
         LEFT JOIN usuarios AS u ON u.ID_USUARIO = m.ID_USUARIO
         LEFT JOIN area AS a ON a.ID_AREA = m.ID_AREA
@@ -266,6 +272,7 @@ $row = $resultado->fetch_assoc();
         LEFT JOIN marcas AS ma ON ma.ID_MARCA = m.ID_MARCA
         LEFT JOIN so AS s ON s.ID_SO = m.ID_SO
         LEFT JOIN red AS r ON r.ID_RED = m.ID_RED
+        LEFT JOIN inventario i on m.ID_WS=i.ID_WS
         ORDER BY m.FECHA ASC");}
 	
         echo "<table width=100%>
@@ -295,7 +302,7 @@ $row = $resultado->fetch_assoc();
 		echo
 		" 
         <tr>
-        <td><h4 >".$listar['ID_WS']."</font></h4></td>
+        <td><h4 >".$listar['SERIEG']."</font></h4></td>
         <td><h4 >".$fecord."</h4></td>
         <td><h4 >".$listar['NOMBRE']."</font></h4></td>
         <td><h4 >".$listar['AREA']."</font></h4></td>

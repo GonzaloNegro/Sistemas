@@ -185,7 +185,7 @@ $row = $resultado->fetch_assoc();
                 if ($mej==1) {
                 
                 
-                $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
                 FROM mejoras m
                 inner join wsmem w on m.ID_WS=w.ID_WS
                 inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
@@ -202,7 +202,7 @@ $row = $resultado->fetch_assoc();
                 if ($mej==2) {
                 
                 
-                $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
                 FROM mejoras m
                 inner join wsmem w on m.ID_WS=w.ID_WS
                 inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
@@ -231,7 +231,7 @@ $row = $resultado->fetch_assoc();
 				 <h4 class='indicadores' style='margin-bottom: 10px;'>HASTA: $fechahasta </h2>";
                 if ($mej==1) {
                     
-                $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
                 FROM mejoras m
                 inner join wsmem w on m.ID_WS=w.ID_WS
                 inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
@@ -249,7 +249,7 @@ $row = $resultado->fetch_assoc();
                     
                 
                 
-                $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
                 FROM mejoras m
                 inner join wsmem w on m.ID_WS=w.ID_WS
                 inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
@@ -276,7 +276,7 @@ $row = $resultado->fetch_assoc();
                 if ($mej==1) {
                 
                 
-                $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
                 FROM mejoras m
                 inner join wsmem w on m.ID_WS=w.ID_WS
                 inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
@@ -285,7 +285,7 @@ $row = $resultado->fetch_assoc();
                 inner join disco d on ds.ID_DISCO=d.ID_DISCO
                 inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
                 inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
-                inner join inventario i on m.ID_WS=i.ID_WS
+                INNER JOIN inventario i on i.ID_WS=m.ID_WS
                 where me.ORDEN_MEMORIA>(SELECT max(me2.ORDEN_MEMORIA) from mejoras ms INNER JOIN
                                 memoria me2 on ms.MEMORIA1=me2.ID_MEMORIA where m.ID_WS=ms.ID_WS and m.ID_MEJORA>ms.ID_MEJORA)
                                 and i.ID_AREA=$area and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta' GROUP BY m.ID_MEJORA DESC");
@@ -293,7 +293,7 @@ $row = $resultado->fetch_assoc();
                 if ($mej==2) {
                 
                 
-                $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
                 FROM mejoras m
                 inner join wsmem w on m.ID_WS=w.ID_WS
                 inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
@@ -316,7 +316,7 @@ $row = $resultado->fetch_assoc();
                 if ($mej==1) {
                 
                 
-                $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
                 FROM mejoras m
                 inner join wsmem w on m.ID_WS=w.ID_WS
                 inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
@@ -325,6 +325,7 @@ $row = $resultado->fetch_assoc();
                 inner join disco d on ds.ID_DISCO=d.ID_DISCO
                 inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
                 inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+                INNER JOIN inventario i on i.ID_WS=m.ID_WS
                 where me.ORDEN_MEMORIA>(SELECT max(me2.ORDEN_MEMORIA) from mejoras ms INNER JOIN
                                 memoria me2 on ms.MEMORIA1=me2.ID_MEMORIA where m.ID_WS=ms.ID_WS and m.ID_MEJORA>ms.ID_MEJORA)
                     GROUP BY m.ID_MEJORA DESC");
@@ -332,7 +333,7 @@ $row = $resultado->fetch_assoc();
                 if ($mej==2) {
                 
                 
-                $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
                 FROM mejoras m
                 inner join wsmem w on m.ID_WS=w.ID_WS
                 inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
@@ -341,6 +342,7 @@ $row = $resultado->fetch_assoc();
                 inner join disco d on m.DISCO1=d.ID_DISCO
                 inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
                 inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+                INNER JOIN inventario i on i.ID_WS=m.ID_WS
                 where d.ORDEN_DISCO>(SELECT max(di.ORDEN_DISCO) from mejoras mem INNER JOIN
                                 disco di on mem.DISCO1=di.ID_DISCO where m.ID_WS=mem.ID_WS and m.ID_MEJORA>mem.ID_MEJORA)
                                     or td.RANKING_TIPOD>(select td2.RANKING_TIPOD  from mejoras me2
@@ -358,7 +360,7 @@ $row = $resultado->fetch_assoc();
             echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
             
             
-            $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+            $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG,m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
             FROM mejoras m
             inner join wsmem w on m.ID_WS=w.ID_WS
             inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
@@ -367,6 +369,7 @@ $row = $resultado->fetch_assoc();
             inner join disco d on m.DISCO1=d.ID_DISCO
             inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
             inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+            INNER JOIN inventario i on i.ID_WS=m.ID_WS
             GROUP BY m.ID_MEJORA DESC");}
         ?>
 	
@@ -394,7 +397,7 @@ $row = $resultado->fetch_assoc();
 		echo
 		" 
         <tr>
-        <td><h4 >".$listar['ID_WS']."</font></h4></td>
+        <td><h4 >".$listar['SERIEG']."</font></h4></td>
         <td><h4 >".$fecord."</h4></td>
         <td><h4 >".$listar['ID_MEJORA']."</font></h4></td>
         <td><h4 >".$listar['MEMORIA']."</font></h4></td>

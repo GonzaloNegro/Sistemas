@@ -1,5 +1,5 @@
 <?php
-include('..particular/conexion.php');
+include('../particular/conexion.php');
 
 $usu = $_POST['usu'];
 $marca = $_POST['marca'];

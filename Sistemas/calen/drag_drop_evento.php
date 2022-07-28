@@ -2,7 +2,7 @@
 date_default_timezone_set("America/Argentina/Buenos_Aires");
 setlocale(LC_ALL,"es_ES");
 
-include('./../conexion.php');
+include('./../particular/conexion.php');
                         
 $idEvento         = $_POST['idEvento'];
 $start            = $_REQUEST['start'];

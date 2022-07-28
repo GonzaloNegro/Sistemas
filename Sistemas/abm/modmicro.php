@@ -1,7 +1,7 @@
 <?php 
 error_reporting(0);
 session_start();
-include('..particular/conexion.php');
+include('../particular/conexion.php');
 
 $consulta = ConsultarIncidente($_GET['no']);
 

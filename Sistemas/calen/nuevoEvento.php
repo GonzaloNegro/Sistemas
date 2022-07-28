@@ -3,7 +3,7 @@ date_default_timezone_set("America/Argentina/Buenos_Aires");
 setlocale(LC_ALL,"es_ES");
 //$hora = date("g:i:A");
 
-require('./../conexion.php');
+require('./../particular/conexion.php');
 $evento            = ucwords($_REQUEST['evento']);
 $f_inicio          = $_REQUEST['fecha_inicio'];
 $fecha_inicio      = date('Y-m-d', strtotime($f_inicio)); 

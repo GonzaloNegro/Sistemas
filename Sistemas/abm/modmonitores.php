@@ -1,7 +1,7 @@
 <?php 
 error_reporting(0);
 session_start();
-include('..particular/conexion.php');
+include('../particular/conexion.php');
 
 $consulta = ConsultarIncidente($_GET['no']);
 
@@ -66,25 +66,25 @@ function ConsultarIncidente($no_tic)
 
                         <!--  CONSULTA DE DATOS -->
                          <?php 
-                        include("..particular/conexion.php");
+                        include("../particular/conexion.php");
                         $sent= "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR = $consulta[12]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
                         $prov = $row['PROVEEDOR'];?>
                         <?php 
-                        include("..particular/conexion.php");
+                        include("../particular/conexion.php");
                         $sent= "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = $consulta[15]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
                         $usu = $row['NOMBRE'];?>
                          <?php 
-                        include("..particular/conexion.php");
+                        include("../particular/conexion.php");
                         $sent= "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = $consulta[17]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
                         $est = $row['ESTADO'];?>
                          <?php 
-                        include("..particular/conexion.php");
+                        include("../particular/conexion.php");
                         $sent= "SELECT mo.MODELO, ma.MARCA 
                         FROM modelo mo
                         INNER JOIN marcas ma ON ma.ID_MARCA = mo.ID_MARCA 
@@ -93,13 +93,13 @@ function ConsultarIncidente($no_tic)
                         $row = $resultado->fetch_assoc();
                         $mod = $row['MODELO']." - ".$row['MARCA'];?>
                          <?php 
-                        include("..particular/conexion.php");
+                        include("../particular/conexion.php");
                         $sent= "SELECT TIPO FROM tipop WHERE ID_TIPOP = $consulta[1]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
                         $tip = $row['TIPO'];?>
                         <?php 
-                        include("..particular/conexion.php");
+                        include("../particular/conexion.php");
                         $sent= "SELECT SERIEG FROM inventario WHERE ID_USUARIO = $consulta[15]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
@@ -134,7 +134,7 @@ function ConsultarIncidente($no_tic)
                             <select name="modelo" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                                             <option selected value="200"><?php echo $mod?></option>
                                             <?php
-                                    include("..particular/conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA
                                     FROM modelo m
                                     INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
@@ -153,7 +153,7 @@ function ConsultarIncidente($no_tic)
                         <select name="estado" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                                         <option selected value="300"><?php echo $est?></option>
                                         <?php
-                                        include("..particular/conexion.php");
+                                        include("../particular/conexion.php");
                                         $consulta= "SELECT * FROM estado_ws";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>
@@ -165,7 +165,7 @@ function ConsultarIncidente($no_tic)
                     <select name="prov" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                                     <option selected value="400"><?php echo $prov?></option>
                                     <?php
-                                    include("..particular/conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM proveedor";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -180,7 +180,7 @@ function ConsultarIncidente($no_tic)
                     <select name="tipop" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                                     <option selected value="500"><?php echo $tip?></option>
                                     <?php
-                                    include("..particular/conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM tipop WHERE ID_TIPOP = 7 OR ID_TIPOP = 8";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -192,7 +192,7 @@ function ConsultarIncidente($no_tic)
                         <select name="usu" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                                         <option selected value="600"><?php echo $usu?></option>
                                         <?php
-                                        include("..particular/conexion.php");
+                                        include("../particular/conexion.php");
                                         $consulta= "SELECT * FROM usuarios";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>

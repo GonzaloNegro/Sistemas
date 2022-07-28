@@ -1,5 +1,5 @@
 <?php
-include('..particular/conexion.php');
+include('../particular/conexion.php');
 
 $placam = $_POST['placam'];
 $marca = $_POST['marca'];
