@@ -912,6 +912,8 @@ ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
                             <th><p>MICRO</p></th>
                             <th><p>MEMORIA</p></th>
                             <th><p>TIPO MEMORIA</p></th>
+							<th><p>DISCO</p></th>
+							<th class='cabecera'><p>TIPO DISCO</p></th>
 							<th><p>S.O.</p></th>
                             <th><p>ESTADO</p></th>
 							<th><p>REPARTICION</p></th>
@@ -922,6 +924,80 @@ ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 					$contador=0;
 					while($listar = mysqli_fetch_array($consultar))
 	{
+										$nWS=$listar['ID_WS'];
+										$memoriaram=mysqli_query($datos_base, "SELECT w.ID_WS,w.ID_MEMORIA, m.MEMORIA, w.SLOT from wsmem w inner join memoria m on w.ID_MEMORIA=m.ID_MEMORIA where w.ID_WS=$nWS");
+						                $ram1="";$ram2="";$ram3="";$ram4="";
+										while($memram= mysqli_fetch_array($memoriaram)){
+											if ($memram['SLOT']==1) {
+												$ram1=$memram['MEMORIA'];
+											}
+											if ($memram['SLOT']==2) {
+												$ram2=$memram['MEMORIA'];
+											}
+											if ($memram['SLOT']==3) {
+												$ram3=$memram['MEMORIA'];
+											}
+											if ($memram['SLOT']==4) {
+												$ram4=$memram['MEMORIA'];
+											}
+
+										}
+										$tiporam=mysqli_query($datos_base, "SELECT w.ID_WS, w.SLOT, t.TIPOMEM from wsmem w inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM where w.ID_WS=$nWS");
+						                $tram1="";$tram2="";$tram3="";$tram4="";
+										while($tmemram= mysqli_fetch_array($tiporam)){
+											if ($tmemram['SLOT']==1) {
+												$tram1=$tmemram['TIPOMEM'];
+											}
+											if ($tmemram['SLOT']==2) {
+												$tram2=$tmemram['TIPOMEM'];
+											}
+											if ($tmemram['SLOT']==3) {
+												$tram3=$tmemram['TIPOMEM'];
+											}
+											if ($tmemram['SLOT']==4) {
+												$tram4=$tmemram['TIPOMEM'];
+											}
+
+										}
+
+										$discos=mysqli_query($datos_base, "select d.NUMERO, t.DISCO from discows d inner join disco t on d.ID_DISCO=t.ID_DISCO where d.ID_WS=$nWS");
+						                $disco1="";$disco2="";
+										while($disc= mysqli_fetch_array($discos)){
+											if ($disc['NUMERO']==1) {
+												$disco1=$disc['DISCO'];
+											}
+											if ($disc['NUMERO']==2) {
+												$disco2=$disc['DISCO'];
+											}
+											if ($disc['NUMERO']==3) {
+												$disco3=$disc['DISCO'];
+											}
+											if ($disc['NUMERO']==4) {
+												$disco4=$disc['DISCO'];
+											}
+
+										}
+
+										$tdiscos=mysqli_query($datos_base, "select d.ID_WS, d.ID_DISCO, d.NUMERO, t.TIPOD from discows d inner join tipodisco t on d.ID_TIPOD=t.ID_TIPOD where d.ID_WS=$nWS");
+						                $tdisco1="";$tdisco2="";
+										while($tdisc= mysqli_fetch_array($tdiscos)){
+											if ($tdisc['NUMERO']==1) {
+												$tdisco1=$tdisc['TIPOD'];
+											}
+											if ($tdisc['NUMERO']==2) {
+												$tdisco2=$tdisc['TIPOD'];
+											}
+											if ($tdisc['NUMERO']==3) {
+												$tdisco3=$tdisc['TIPOD'];
+											}
+											if ($tdisc['NUMERO']==4) {
+												$tdisco4=$tdisc['TIPOD'];
+											}
+
+										}
+
+
+
 		echo
 		" 
 			<tr>
@@ -929,8 +1005,10 @@ ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 				<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>
 				<td><h4 style='font-size:16px;'>".$listar['TIPOWS']."</h4></td>
 				<td><h4 style='font-size:16px;'>".$listar['MICRO']."</h4></td>
-				<td><h4 style='font-size:16px;'>".$listar['MEMORIA']."</h4></td>
-                <td><h4 style='font-size:16px;'>".$listar['TIPOMEM']."</h4></td>
+				<td><h4 style='font-size:14px;' class='fila'>$ram1-$ram2-$ram3-$ram4</h4></td>
+                <td><h4 style='font-size:14px;' class='fila'>$tram1-$tram2-$tram3-$tram4</h4></td>
+				<td><h4 style='font-size:14px;' class='fila'>$disco1-$disco2-$disco3-$disco4</h4></td>
+				<td><h4 style='font-size:14px;' class='fila'>$tdisco1-$tdisco2-$tdisco3-$tdisco4</h4></td>
 				<td><h4 style='font-size:16px;'>".$listar['SIST_OP']."</h4></td>
                 <td><h4 style='font-size:16px;'>".$listar['ESTADO']."</h4></td>
                 <td><h4 style='font-size:16px;'>".$listar['REPA']."</h4></td>

@@ -7,7 +7,7 @@ if(!isset($_SESSION['cuil']))
         exit();
     };
 $iduser = $_SESSION['cuil'];
-$sql = "SELECT ID_RESOLUTOR, CUIL, RESOLUTOR FROM resolutor WHERE CUIL='$iduser'";
+$sql = "SELECT ID_RESOLUTOR, CUIL, RESOLUTOR, ID_PERFIL FROM resolutor WHERE CUIL='$iduser'";
 $resultado = $datos_base->query($sql);
 $row = $resultado->fetch_assoc();
 
@@ -17,12 +17,12 @@ $cu = $row['CUIL'];
 <html>
 <head>
 	<title>STOCK</title><meta charset="utf-8">
-	<link rel="icon" href="imagenes/logoObrasPúblicas.png">
+	<link rel="icon" href="../imagenes/logoObrasPúblicas.png">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="estiloconsulta.css">
+	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css">
 	<style>
 			body{
 			background-color: #edf0f5;
@@ -38,46 +38,43 @@ $cu = $row['CUIL'];
         </a>
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-		<li><a href="cargadeincidentes.php" class="nav-link px-2 link-secondary link destacado" 
+		<li><a href="../carga/cargadeincidentes.php" class="nav-link px-2 link-secondary link destacado" 
 			>NUEVO INCIDENTE</a>
  				<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-					<li><a class="dropdown-item" href="cargarapidaporusuario.php">CARGA RÁPIDA POR USUARIO</a></li>
+					<li><a class="dropdown-item" href="../carga/cargarapidaporusuario.php">CARGA RÁPIDA POR USUARIO</a></li>
 <!-- 				<li><hr class="dropdown-divider"></li>
                 	<li><a class="dropdown-item" href="cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li> -->
                 </ul>
 			</li>
-            <li><a href="consulta.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">CONSULTA</a>
-                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="consulta.php">CONSULTA DE INCIDENTES</a></li>
+            <li><a href="../consulta/consulta.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">CONSULTA</a>
+			<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                    <li><a class="dropdown-item" href="../consultaconsulta.php">CONSULTA DE INCIDENTES</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="consultausuario.php">CONSULTA DE USUARIOS</a></li>
+                    <li><a class="dropdown-item" href="../consulta/consultausuario.php">CONSULTA DE USUARIOS</a></li>
+					<li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="../consulta/consultaaltas.php">CONSULTA PARA ALTAS</a></li>
                 </ul>
             </li>
-            <li><a href="inventario.php" class="nav-link px-2 link-dark link">INVENTARIO</a>
+            <li><a href="../consulta/inventario.php" class="nav-link px-2 link-dark link">INVENTARIO</a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="inventario.php">EQUIPOS</a></li>
+                    <li><a class="dropdown-item" href="../consulta/inventario.php">EQUIPOS</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="impresoras.php">IMPRESORAS</a></li>
+                    <li><a class="dropdown-item" href="../consulta/impresoras.php">IMPRESORAS</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="monitores.php">MONITORES</a></li>
+                    <li><a class="dropdown-item" href="../consulta/monitores.php">MONITORES</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="otrosp.php">OTROS PERIFÉRICOS</a></li>
+                    <li><a class="dropdown-item" href="../consulta/otrosp.php">OTROS PERIFÉRICOS</a></li>
                 </ul>
             </li>
-            <li><a href="abm.php" class="nav-link px-2 link-dark link">ABM</a></li>
-            <li><a href="tiporeporte.php" class="nav-link px-2 link-dark link">REPORTES</a></li>
-			<?php if($row['ID_RESOLUTOR'] == 6//GONZALO
-					/*OR $row['ID_RESOLUTOR'] == 2 //CLAUDIA*/
-					OR $row['ID_RESOLUTOR'] == 10 //EUGENIA
-					OR $row['ID_RESOLUTOR'] == 15 //RODRIGO
-					OR $row['ID_RESOLUTOR'] == 20 //GUSTAVO
-					){
+			<li><a href="../abm/abm.php" class="nav-link px-2 link-dark link">ABM</a></li>
+            <li><a href="../reportes/tiporeporte.php" class="nav-link px-2 link-dark link">REPORTES</a></li>
+			<?php if($row['ID_PERFIL'] == 1 OR $row['ID_PERFIL'] == 2){
                         echo'
-						<li><a href="estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
+						<li><a href="../particular/estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
 						<li><a href="stock.php" class="nav-link px-2 link-dark link">STOCK</a></li>
                     ';
 					} ?>
-			<li><a href="calen/calen.php" class="nav-link px-2 link-dark link"><i class="bi bi-calendar3"></i></a>
+			<li><a href="../calen/calen.php" class="nav-link px-2 link-dark link"><i class="bi bi-calendar3"></i></a>
 			<li class="ubicacion link"><a href="bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
         </ul>
         <div class="dropdown text-end">
@@ -110,37 +107,200 @@ $cu = $row['CUIL'];
 		<div id="titulo" data-aos="zoom-in">
 			<h1>STOCK</h1>
 		</div>
-		<div id="filtro" class="container-fluid">
-			<form method="POST" action="STOCK.php">
-				<div>
-
-					<input type="text" style="margin-left: 10px; width: 70%; height: 40px; margin-top: 12px; 	box-sizing: border-box; box-sizing: border-box; border-radius: 10px; text-transform:uppercase;" name="buscar"  placeholder="Buscar" >
-
-					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn2" value="BUSCAR"></input>
-
-					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn1" value="LIMPIAR"></input>
+		<div class="contenedor">
+			<div class="card" style="width: 18rem;">
+				<img src="../imagenes/ram.jpg" class="card-img-top" alt="...">
+				<div class="card-body">
+					<p class="card-text">MEMORIA RAM</p>
 				</div>
-			</form>
+				<div class="card-body">
+					<button class="btns-men">-</button>
+					<p class="btns-nro">0</p>
+					<button class="btns-mas">+</button>
+				</div>
+				<div class="card-conf">
+					<button class="conf">GUARDAR</button>
+				</div>
+			</div>
+
+			<div class="card" style="width: 18rem;">
+				<img src="../imagenes/discoduro.jpg" class="card-img-top" alt="...">
+				<div class="card-body">
+					<p class="card-text">DISCO DURO</p>
+				</div>
+				<div class="card-body">
+					<button class="btns-men">-</button>
+					<p class="btns-nro">0</p>
+					<button class="btns-mas">+</button>
+				</div>
+				<div class="card-conf">
+					<button class="conf">GUARDAR</button>
+				</div>
+			</div>
+
+			<div class="card" style="width: 18rem;">
+				<img src="../imagenes/fuente.jpg" class="card-img-top" alt="...">
+				<div class="card-body">
+					<p class="card-text">FUENTE</p>
+				</div>
+				<div class="card-body">
+					<button class="btns-men">-</button>
+					<p class="btns-nro">0</p>
+					<button class="btns-mas">+</button>
+				</div>
+				<div class="card-conf">
+					<button class="conf">GUARDAR</button>
+				</div>
+			</div>
+
+			<div class="card" style="width: 18rem;">
+				<img src="../imagenes/toner.jpg" class="card-img-top" alt="...">
+				<div class="card-body">
+					<p class="card-text">TONER</p>
+				</div>
+				<div class="card-body">
+					<button class="btns-men">-</button>
+					<p class="btns-nro">0</p>
+					<button class="btns-mas">+</button>
+				</div>
+				<div class="card-conf">
+					<button class="conf">GUARDAR</button>
+				</div>
+			</div>
+
+
+			<!-- /////////////////////////////// -->
+			<div >
+				<div class="tits">
+					<h1>CABLES</h1>
+				</div>
+				<div class="info">
+					<div class="card" style="width: 18rem;">
+						<img src="../imagenes/hdmi.jpg" class="card-img-top" alt="...">
+						<div class="card-body">
+							<p class="card-text">HDMI</p>
+						</div>
+						<div class="card-body">
+							<button class="btns-men">-</button>
+							<p class="btns-nro">0</p>
+							<button class="btns-mas">+</button>
+						</div>
+						<div class="card-conf">
+							<button class="conf">GUARDAR</button>
+						</div>
+					</div>
+
+					<div class="card" style="width: 18rem;">
+						<img src="../imagenes/vga.jpg" class="card-img-top" alt="...">
+						<div class="card-body">
+							<p class="card-text">VGA</p>
+						</div>
+						<div class="card-body">
+							<button class="btns-men">-</button>
+							<p class="btns-nro">0</p>
+							<button class="btns-mas">+</button>
+						</div>
+						<div class="card-conf">
+							<button class="conf">GUARDAR</button>
+						</div>
+					</div>
+
+					<div class="card" style="width: 18rem;">
+						<img src="../imagenes/dvi.jpg" class="card-img-top" alt="...">
+						<div class="card-body">
+							<p class="card-text">DVI</p>
+						</div>
+						<div class="card-body">
+							<button class="btns-men">-</button>
+							<p class="btns-nro">0</p>
+							<button class="btns-mas">+</button>
+						</div>
+						<div class="card-conf">
+							<button class="conf">GUARDAR</button>
+						</div>
+					</div>
+
+					<div class="card" style="width: 18rem;">
+						<img src="../imagenes/usbimp.jpg" class="card-img-top" alt="...">
+						<div class="card-body">
+							<p class="card-text">USB IMPRESORA</p>
+						</div>
+						<div class="card-body">
+							<button class="btns-men">-</button>
+							<p class="btns-nro">0</p>
+							<button class="btns-mas">+</button>
+						</div>
+						<div class="card-conf">
+							<button class="conf">GUARDAR</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- //////////////////////// -->
+			<div >
+				<div class="tits">
+					<h1>ADAPTADORES</h1>
+				</div>
+				<div class="info">
+					<div class="card" style="width: 18rem;">
+						<img src="../imagenes/dvihdmi.jpeg" class="card-img-top" alt="...">
+						<div class="card-body">
+							<p class="card-text">DVI/HDMI</p>
+						</div>
+						<div class="card-body">
+							<button class="btns-men">-</button>
+							<p class="btns-nro">0</p>
+							<button class="btns-mas">+</button>
+						</div>
+						<div class="card-conf">
+							<button class="conf">GUARDAR</button>
+						</div>
+					</div>
+
+					<div class="card" style="width: 18rem;">
+						<img src="../imagenes/dvivga.jpg" class="card-img-top" alt="...">
+						<div class="card-body">
+							<p class="card-text">DVI/VGA</p>
+						</div>
+						<div class="card-body">
+							<button class="btns-men">-</button>
+							<p class="btns-nro">0</p>
+							<button class="btns-mas">+</button>
+						</div>
+						<div class="card-conf">
+							<button class="conf">GUARDAR</button>
+						</div>
+					</div>
+
+					<div class="card" style="width: 18rem;">
+						<img src="../imagenes/hdmivga.jpg" class="card-img-top" alt="...">
+						<div class="card-body">
+							<p class="card-text">HDMI/VGA</p>
+						</div>
+						<div class="card-body">
+							<button class="btns-men">-</button>
+							<p class="btns-nro">0</p>
+							<button class="btns-mas">+</button>
+						</div>
+						<div class="card-conf">
+							<button class="conf">GUARDAR</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div id="mostrar_incidentes">
-			<?php
-				echo "<table width=100%>
-						<thead>
-							<tr>
-								<th><p>N° INCIDENTE</p></th>
-								<th width=125px><p>FECHA INICIO</p></th>
-								<th><p>USUARIO</p></th>
-								<th width=65px><p>ACCIÓN</p></th>
-							</tr>
-						</thead>
-					";	
-						echo"</table>";
-			 ?>
-			
-		</div>
-		
 	</section>
-	<footer></footer>
+	
+	<footer>
+		<div class="footer">
+			<div class="container-fluid">
+				<div class="row">
+					<img src="../imagenes/logoGobierno.png" class="img-fluid">
+				</div>
+			</div>
+		</div>
+	</footer>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script>
   		AOS.init();

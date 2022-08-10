@@ -179,7 +179,7 @@ $row = $resultado->fetch_assoc();
           <!-- <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use> </svg>-->
         </a>
 
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ">
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
             <li><a href="cargadeincidentes.php" class="nav-link px-2 link-secondary link destacado" 
 			style="border-left: 5px solid #53AAE0;">NUEVO INCIDENTE</a>
  				<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
@@ -203,9 +203,9 @@ $row = $resultado->fetch_assoc();
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="../consulta/impresoras.php">IMPRESORAS</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="..consulta/monitores.php">MONITORES</a></li>
+                    <li><a class="dropdown-item" href="../consulta/monitores.php">MONITORES</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="..consulta/otrosp.php">OTROS PERIFÉRICOS</a></li>
+                    <li><a class="dropdown-item" href="../consulta/otrosp.php">OTROS PERIFÉRICOS</a></li>
                 </ul>
             </li>
             <li><a href="../abm/abm.php" class="nav-link px-2 link-dark link">ABM</a></li>

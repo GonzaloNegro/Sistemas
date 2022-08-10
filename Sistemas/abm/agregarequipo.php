@@ -350,11 +350,11 @@ $row = $resultado->fetch_assoc();
 							    <select name="mmic" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT m.ID_MICRO, m.MICRO, ma.MARCA 
                                     FROM micro m
                                     INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
-                                    ORDER BY MICRO ASC";
+                                    ORDER BY MICRO ASC"; 
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -365,7 +365,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="pmic" style="text-transform:uppercase" class="form-control col-xl col-lg">
                   <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM proveedor";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -426,7 +426,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="pvmem" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM memoria";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -438,7 +438,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="pvprov" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM proveedor";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -475,7 +475,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="pvmem1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM memoria";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -487,7 +487,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="pvprov1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM proveedor";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -559,7 +559,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="mem1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM memoria";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -571,7 +571,7 @@ $row = $resultado->fetch_assoc();
                             <select name="tmem1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM tipomem";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -585,7 +585,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="prov1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM proveedor";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -601,7 +601,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="marc1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM marcas";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -619,7 +619,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="pvel1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM velocidad";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -644,7 +644,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="mem2" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM memoria";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -656,7 +656,7 @@ $row = $resultado->fetch_assoc();
                             <select name="tmem2" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM tipomem";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -670,7 +670,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="prov2" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM proveedor";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -686,7 +686,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="marc2" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM marcas";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -704,7 +704,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="pvel2" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM velocidad";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -729,7 +729,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="mem3" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM memoria";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -741,7 +741,7 @@ $row = $resultado->fetch_assoc();
                             <select name="tmem3" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM tipomem";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -755,7 +755,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="prov3" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM proveedor";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -771,7 +771,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="marc3" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM marcas";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -789,7 +789,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="pvel3" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM velocidad";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -814,7 +814,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="mem4" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM memoria";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -826,7 +826,7 @@ $row = $resultado->fetch_assoc();
                             <select name="tmem4" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM tipomem";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -840,7 +840,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="prov4" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM proveedor";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -856,7 +856,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="marc4" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM marcas";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -874,7 +874,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="pvel4" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM velocidad";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -910,7 +910,7 @@ $row = $resultado->fetch_assoc();
                             <select name="disc1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM disco";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -922,7 +922,7 @@ $row = $resultado->fetch_assoc();
                             <select name="tdisc1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM tipodisco";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -936,7 +936,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="dprov1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM proveedor";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -952,7 +952,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="dmod1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
                                     FROM modelo m
                                     INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
@@ -986,7 +986,7 @@ $row = $resultado->fetch_assoc();
                             <select name="disc2" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM disco";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -998,7 +998,7 @@ $row = $resultado->fetch_assoc();
                             <select name="tdisc2" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM tipodisco";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -1012,7 +1012,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="dprov2" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM proveedor";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -1028,7 +1028,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="dmod2" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
                                     FROM modelo m
                                     INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
@@ -1062,7 +1062,7 @@ $row = $resultado->fetch_assoc();
                             <select name="disc3" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM disco";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -1074,7 +1074,7 @@ $row = $resultado->fetch_assoc();
                             <select name="tdisc3" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM tipodisco";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -1088,7 +1088,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="dprov3" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM proveedor";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -1104,7 +1104,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="dmod3" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
                                     FROM modelo m
                                     INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
@@ -1138,7 +1138,7 @@ $row = $resultado->fetch_assoc();
                             <select name="disc4" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM disco";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -1150,7 +1150,7 @@ $row = $resultado->fetch_assoc();
                             <select name="tdisc4" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM tipodisco";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -1164,7 +1164,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="dprov4" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT * FROM proveedor";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
@@ -1180,7 +1180,7 @@ $row = $resultado->fetch_assoc();
 							    <select name="dmod4" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
-                                    include("conexion.php");
+                                    include("../particular/conexion.php");
                                     $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
                                     FROM modelo m
                                     INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA

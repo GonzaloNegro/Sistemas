@@ -233,6 +233,12 @@ $row = $resultado->fetch_assoc();
         inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
         INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
         INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP 
+		where m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientosperi mv
+							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
+		or m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientosperi mv
+							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
+		or m.ID_ESTADOWS != ( select AVG(mv.ID_ESTADOWS) from movimientosperi mv
+							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
 		ORDER BY M.ID_MOVIMIENTO DESC");}?>
 	
         <?php echo "<table width=100%>

@@ -429,3 +429,105 @@ color: #176AB5;
 .bi-bell{
 	color: #176AB5;
 }
+
+.contenedor{
+	display: flex;
+	justify-content: center;
+
+	flex-wrap: wrap;
+}
+
+.info{
+	display: flex;
+	justify-content: center;
+}
+
+.card{
+	padding: 10px;
+	margin-bottom: 20px;
+	margin: 10px;
+
+	border: 1px solid rgba(0, 0, 0, 0.2);
+
+	transition: box-shadow 0.5s linear;
+	border-radius: 32px;
+	background: #e0e0e0;
+	box-shadow:  21px 21px 55px #afafaf,
+				-21px -21px 55px #ffffff;
+}
+
+.card:hover{
+	transition: box-shadow 0.3s linear;
+	box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.4);
+	-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.4);
+	-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.4);
+}
+
+.tits{
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+
+.card-img-top{
+	height: 200px;
+	border-radius: 32 32 0px 0px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.card-body{
+	display: flex;
+	justify-content: center;
+}
+
+.btns-men, .btns-nro, .btns-mas{
+	margin: 10px;
+}
+
+.btns-men, .btns-nro, .btns-mas{
+	color: #00519C;
+	font-weight: bold;
+}
+
+.btns-men, .btns-mas{
+	width: 40PX;
+	background-color: transparent;
+	border-radius: 10px;
+	border: 1px solid #00519C;
+}
+
+.btns-men:hover, .btns-mas:hover{
+	background-color: #00519C;
+	color: white;
+}
+
+.card-conf{
+	display: flex;
+	justify-content: center;
+}
+
+.conf{
+	color: #00519C;
+	font-weight: bold;
+	width: 140px;
+	background-color: transparent;
+	border-radius: 10px;
+	border: 1px solid #00519C;
+}
+
+.conf:hover{
+	background-color: #00519C;
+	color: white;
+}
+
+footer{
+	margin-top: 40px;
+	height: auto;
+	  border-top: 1px solid #53AAE0;
+  }
+  
+  .footer{
+	  margin: 0 auto;
+	  
+	  width: 400px;
+	  height: auto;
+  }

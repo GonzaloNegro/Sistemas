@@ -273,7 +273,13 @@ $row = $resultado->fetch_assoc();
         LEFT JOIN so AS s ON s.ID_SO = m.ID_SO
         LEFT JOIN red AS r ON r.ID_RED = m.ID_RED
         LEFT JOIN inventario i on m.ID_WS=i.ID_WS
-        ORDER BY m.FECHA ASC");}
+        where m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientos mv
+                                where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
+        or m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientos mv
+                                where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
+        or m.ID_ESTADOWS != ( select AVG(mv.ID_ESTADOWS) from movimientos mv
+                                where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
+        ORDER BY m.ID_MOVIMIENTO DESC");}
 	
         echo "<table width=100%>
         <thead>
