@@ -106,8 +106,10 @@ $row = $resultado->fetch_assoc();
 						<th class='cabecera'><p>N°WS</p></th>
 						<th class='cabecera'><p>USUARIO</p></th>
 						<th class='cabecera'><p>MICRO</p></th>
-						<th class='cabecera'><p>MEMORIA RAM</p></th>
-						<th class='cabecera'><p>TIPO DISCO</p></th>
+						<th><p class=g>MEMORIA</p></th>
+						<th><p class=g>TIPO MEMORIA</p></th>
+        				<th><p class=g>DISCO</p></th>
+						<th><p class=g>TIPO DISCO</p></th>
 						<th class='cabecera'><p>SO</p></th>
 						<th class='cabecera'><p>ESTADO</p></th>
 						<!--<th id='cabeceraacc' class='cabecera' width=65px><p>ACCIÓN</p></th>-->
@@ -137,20 +139,56 @@ $row = $resultado->fetch_assoc();
 											}
 
 										}
-										$discos=mysqli_query($datos_base, "select d.ID_WS, d.ID_DISCO, d.NUMERO, t.TIPOD from discows d inner join tipodisco t on d.ID_TIPOD=t.ID_TIPOD where d.ID_WS=$nWS");
+										$tiporam=mysqli_query($datos_base, "SELECT w.ID_WS, w.SLOT, t.TIPOMEM from wsmem w inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM where w.ID_WS=$nWS");
+						                $tram1="";$tram2="";$tram3="";$tram4="";
+										while($tmemram= mysqli_fetch_array($tiporam)){
+											if ($tmemram['SLOT']==1) {
+												$tram1=$tmemram['TIPOMEM'];
+											}
+											if ($tmemram['SLOT']==2) {
+												$tram2=$tmemram['TIPOMEM'];
+											}
+											if ($tmemram['SLOT']==3) {
+												$tram3=$tmemram['TIPOMEM'];
+											}
+											if ($tmemram['SLOT']==4) {
+												$tram4=$tmemram['TIPOMEM'];
+											}
+
+										}
+
+										$discos=mysqli_query($datos_base, "select d.NUMERO, t.DISCO from discows d inner join disco t on d.ID_DISCO=t.ID_DISCO where d.ID_WS=$nWS");
 						                $disco1="";$disco2="";
 										while($disc= mysqli_fetch_array($discos)){
 											if ($disc['NUMERO']==1) {
-												$disco1=$disc['TIPOD'];
+												$disco1=$disc['DISCO'];
 											}
 											if ($disc['NUMERO']==2) {
-												$disco2=$disc['TIPOD'];
+												$disco2=$disc['DISCO'];
 											}
 											if ($disc['NUMERO']==3) {
-												$disco3=$disc['TIPOD'];
+												$disco3=$disc['DISCO'];
 											}
 											if ($disc['NUMERO']==4) {
-												$disco4=$disc['TIPOD'];
+												$disco4=$disc['DISCO'];
+											}
+
+										}
+
+										$tdiscos=mysqli_query($datos_base, "select d.ID_WS, d.ID_DISCO, d.NUMERO, t.TIPOD from discows d inner join tipodisco t on d.ID_TIPOD=t.ID_TIPOD where d.ID_WS=$nWS");
+						                $tdisco1="";$tdisco2="";
+										while($tdisc= mysqli_fetch_array($tdiscos)){
+											if ($tdisc['NUMERO']==1) {
+												$tdisco1=$tdisc['TIPOD'];
+											}
+											if ($tdisc['NUMERO']==2) {
+												$tdisco2=$tdisc['TIPOD'];
+											}
+											if ($tdisc['NUMERO']==3) {
+												$tdisco3=$tdisc['TIPOD'];
+											}
+											if ($tdisc['NUMERO']==4) {
+												$tdisco4=$tdisc['TIPOD'];
 											}
 
 										}
@@ -161,7 +199,9 @@ $row = $resultado->fetch_assoc();
 														<td><h4 style='font-size:16px;' class='fila'>".$listar['NOMBRE']."</h4></td>
 														<td><h4 style='font-size:14px;' class='fila'>".$listar['MICRO']."</h4></td>
 														<td><h4 style='font-size:14px;' class='fila'>$ram1-$ram2-$ram3-$ram4</h4></td>
+        												<td><h4 style='font-size:14px;' class='fila'>$tram1-$tram2-$tram3-$tram4</h4></td>
 														<td><h4 style='font-size:14px;' class='fila'>$disco1-$disco2-$disco3-$disco4</h4></td>
+														<td><h4 style='font-size:14px;' class='fila'>$tdisco1-$tdisco2-$tdisco3-$tdisco4</h4></td>
 														<td><h4 style='font-size:14px;' class='fila'>".$listar['SIST_OP']."</h4></td>
 														<td><h4 style='font-size:16px;' class='fila'>".$listar['ESTADO']."</h4></td>
 														<!--<td class='text-center text-nowrap' id='accion'><a class='btn btn-sm btn-outline-primary' href=../consulta/consultadetalleinv.php?no=".$listar['N°WS']." class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>

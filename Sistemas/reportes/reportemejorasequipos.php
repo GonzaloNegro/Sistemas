@@ -403,7 +403,7 @@ $row = $resultado->fetch_assoc();
             $fecord = date("d-m-Y", strtotime($listar['FECHA']));
 
             $nWS=$listar['ID_WS'];
-										$memoriaram=mysqli_query($datos_base, "SELECT w.ID_WS,w.ID_MEMORIA, m.MEMORIA, w.SLOT from wsmem w inner join memoria m on w.ID_MEMORIA=m.ID_MEMORIA where w.ID_WS=$nWS");
+			                            $memoriaram=mysqli_query($datos_base, "SELECT w.ID_WS,w.ID_MEMORIA, m.MEMORIA, w.SLOT from wsmem w inner join memoria m on w.ID_MEMORIA=m.ID_MEMORIA where w.ID_WS=$nWS");
 						                $ram1="";$ram2="";$ram3="";$ram4="";
 										while($memram= mysqli_fetch_array($memoriaram)){
 											if ($memram['SLOT']==1) {
@@ -472,7 +472,7 @@ $row = $resultado->fetch_assoc();
 												$tdisco4=$tdisc['TIPOD'];
 											}
 
-										}
+										}							
 
 
 		echo

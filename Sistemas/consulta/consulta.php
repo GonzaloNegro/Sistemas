@@ -72,7 +72,7 @@ $cu = $row['CUIL'];
                         echo'
 						<li><a href="../particular/estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
                     ';
-					}
+					} 
 					if($row['ID_PERFIL'] == 1){
                         echo'
 						<li><a href="../particular/stock.php" class="nav-link px-2 link-dark link">STOCK</a></li>
