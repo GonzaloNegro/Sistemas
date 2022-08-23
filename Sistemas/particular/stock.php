@@ -107,64 +107,168 @@ $cu = $row['CUIL'];
 		<div id="titulo" data-aos="zoom-in">
 			<h1>STOCK</h1>
 		</div>
+
+	<!-- //////////////////////////////// -->
+
+
+	<?php                 
+		$totpc=mysqli_query($datos_base, "SELECT COUNT(ID_WS) as TOTAL FROM inventario where ID_ESTADOWS = 3 AND ID_TIPOWS = 1");
+		$totalpc = mysqli_fetch_array($totpc);
+
+		$totnt=mysqli_query($datos_base, "SELECT COUNT(ID_WS) as TOTAL FROM inventario where ID_ESTADOWS = 3 AND ID_TIPOWS = 2");
+		$totalnt = mysqli_fetch_array($totnt);
+
+		$totmon=mysqli_query($datos_base, "SELECT COUNT(ID_PERI) as TOTAL FROM periferico where ID_ESTADOWS = 3 AND (ID_TIPOP = 7 OR ID_TIPOP = 8)");
+		$totalmon = mysqli_fetch_array($totmon);
+
+
+
+		$teclado=mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 1");
+		$totteclado = mysqli_fetch_array($teclado);
+
+		$fuente=mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 2");
+		$totalfuente = mysqli_fetch_array($fuente);
+	?>
+
 		<div class="contenedor">
-			<div class="card" style="width: 18rem;">
-				<img src="../imagenes/ram.jpg" class="card-img-top" alt="...">
-				<div class="card-body">
-					<p class="card-text">MEMORIA RAM</p>
+
+			<div>
+				<div class="tits">
+					<h1>EQUIPOS</h1>
 				</div>
-				<div class="card-body">
-					<button class="btns-men">-</button>
-					<p class="btns-nro">0</p>
-					<button class="btns-mas">+</button>
+				<div class="info">
+					<div class="card" style="width: 15rem;">
+						<img src="../imagenes/gabinete.jpg" class="card-img-top" alt="...">
+						<div class="card-body">
+							<p class="card-text">EQUIPOS</p>
+						</div>
+						<div class="card-body">
+							<p class="btns-nro" id="valequip"><?php echo "".$totalpc['TOTAL'].""; ?></p>
+						</div>
+							<div class="card-conf">
+							<button class="conf">DETALLES</button>
+						</div>
+					</div>
+
+					<div class="card" style="width: 15rem;">
+						<img src="../imagenes/notebook.jpg" class="card-img-top" alt="...">
+						<div class="card-body">
+							<p class="card-text">NOTEBOOKS</p>
+						</div>
+						<div class="card-body">
+						<p class="btns-nro" id="valnot"><?php echo "".$totalnt['TOTAL'].""; ?></p>
+						</div>
+							<div class="card-conf">
+							<button class="conf">DETALLES</button>
+						</div>
+					</div>
+
+					<div class="card" style="width: 15rem;">
+						<img src="../imagenes/monitor.jpg" class="card-img-top" alt="...">
+						<div class="card-body">
+							<p class="card-text">MONITORES</p>
+						</div>
+						<div class="card-body">
+						<p class="btns-nro" id="valmon"><?php echo "".$totalmon['TOTAL'].""; ?></p>
+						</div>
+							<div class="card-conf">
+							<button class="conf">DETALLES</button>
+						</div>
+					</div>
+					<div class="card" style="width: 15rem;">
+						<img src="../imagenes/teclado.jpg" class="card-img-top" alt="...">
+						<div class="card-body">
+							<p class="card-text">TECLADOS</p>
+						</div>						
+						<div class="card-body">
+							<form action="controlStock.php" method="POST" name="form1"> 
+							<input type="number" class="inp" name="valorteclado" value="<?php echo $totteclado['TOTAL']?>">
+								<!--  PASAR UNA VARIABLE DE PHP A JS -->
+									<!-- var temp1 = <?=   json_encode($totteclado['TOTAL']) ?> -->
+								
+
+								<!-- PASAR DE PHP A JAVASCRIPT -->
+									 <!-- $var_PHP = "<script> document.writeln(numerotec); -->
+									<!-- echo $var_PHP; muestra el resultado  -->
+						</div>
+					<div class="card-conf">
+							<button type="submit" class="conf" name="btnteclado">GUARDAR</button> 
+							</form> 
 				</div>
-				<div class="card-conf">
-					<button class="conf">GUARDAR</button>
-				</div>
+					</div>
+			</div>
 			</div>
 
-			<div class="card" style="width: 18rem;">
-				<img src="../imagenes/discoduro.jpg" class="card-img-top" alt="...">
-				<div class="card-body">
-					<p class="card-text">DISCO DURO</p>
-				</div>
-				<div class="card-body">
-					<button class="btns-men">-</button>
-					<p class="btns-nro">0</p>
-					<button class="btns-mas">+</button>
-				</div>
-				<div class="card-conf">
-					<button class="conf">GUARDAR</button>
-				</div>
-			</div>
 
-			<div class="card" style="width: 18rem;">
-				<img src="../imagenes/fuente.jpg" class="card-img-top" alt="...">
-				<div class="card-body">
-					<p class="card-text">FUENTE</p>
-				</div>
-				<div class="card-body">
-					<button class="btns-men">-</button>
-					<p class="btns-nro">0</p>
-					<button class="btns-mas">+</button>
-				</div>
-				<div class="card-conf">
-					<button class="conf">GUARDAR</button>
-				</div>
-			</div>
+		<!-- ------------------------- -->
 
-			<div class="card" style="width: 18rem;">
-				<img src="../imagenes/toner.jpg" class="card-img-top" alt="...">
-				<div class="card-body">
-					<p class="card-text">TONER</p>
+			<div >
+				<div class="tits">
+					<h1>MEMORIA</h1>
 				</div>
-				<div class="card-body">
-					<button class="btns-men">-</button>
-					<p class="btns-nro">0</p>
-					<button class="btns-mas">+</button>
+				<div class="info">
+					<div class="card" style="width: 15rem;">
+					<img src="../imagenes/ram.jpg" class="card-img-top" alt="...">
+					<div class="card-body">
+						<p class="card-text">MEMORIA RAM</p>
+					</div>
+					<div class="card-body">
+						<button class="btns-men" id="resram">-</button>
+						<p class="btns-nro" id="valram">0</p>
+						<button class="btns-mas" id="sumram">+</button>
+					</div>
+					<div class="card-conf">
+						<button class="conf">GUARDAR</button>
+					</div>
 				</div>
-				<div class="card-conf">
-					<button class="conf">GUARDAR</button>
+
+				<div class="card" style="width: 15rem;">
+					<img src="../imagenes/discoduro.jpg" class="card-img-top" alt="...">
+					<div class="card-body">
+						<p class="card-text">DISCO DURO</p>
+					</div>
+					<div class="card-body">
+						<button class="btns-men" id="resdis">-</button>
+						<p class="btns-nro" id="valdis">0</p>
+						<button class="btns-mas" id="sumdis">+</button>
+					</div>
+					<div class="card-conf">
+						<button class="conf">GUARDAR</button>
+					</div>
+				</div>
+
+				<div class="card" style="width: 15rem;">
+					<img src="../imagenes/fuente.jpg" class="card-img-top" alt="...">
+					<div class="card-body">
+						<p class="card-text">FUENTE</p>
+					</div>
+					<div class="card-body">
+					<form action="controlStock.php" method="POST" name="form1"> 
+							<!-- <p class="btns-nro" id="valtec"><?php echo "".$totalfuente['TOTAL']."" ?></p> -->
+							<input type="number" class="inp" name="valorfuente" value="<?php echo $totalfuente['TOTAL']?>" >
+					<!-- <button class="btns-men" id="resfue">-</button>
+						<p class="btns-nro" id="valfue">0</p>
+						<button class="btns-mas" id="sumfue">+</button> -->
+					</div>
+					<div class="card-conf">
+							<button type="submit" class="conf" name="btnfuente">GUARDAR</button> 
+							</form> 
+					</div>
+				</div>
+
+				<div class="card" style="width: 15rem;">
+					<img src="../imagenes/toner.jpg" class="card-img-top" alt="...">
+					<div class="card-body">
+						<p class="card-text">TONER</p>
+					</div>
+					<div class="card-body">
+						<button class="btns-men" id="reston">-</button>
+						<p class="btns-nro" id="valton">0</p>
+						<button class="btns-mas" id="sumton">+</button>
+					</div>
+					<div class="card-conf">
+						<button class="conf">GUARDAR</button>
+					</div>
 				</div>
 			</div>
 
@@ -175,60 +279,60 @@ $cu = $row['CUIL'];
 					<h1>CABLES</h1>
 				</div>
 				<div class="info">
-					<div class="card" style="width: 18rem;">
+					<div class="card" style="width: 15rem;">
 						<img src="../imagenes/hdmi.jpg" class="card-img-top" alt="...">
 						<div class="card-body">
 							<p class="card-text">HDMI</p>
 						</div>
 						<div class="card-body">
-							<button class="btns-men">-</button>
-							<p class="btns-nro">0</p>
-							<button class="btns-mas">+</button>
+							<button class="btns-men" id="reshdmi">-</button>
+							<p class="btns-nro" id="valhdmi">0</p>
+							<button class="btns-mas" id="sumhdmi">+</button>
 						</div>
 						<div class="card-conf">
 							<button class="conf">GUARDAR</button>
 						</div>
 					</div>
 
-					<div class="card" style="width: 18rem;">
+					<div class="card" style="width: 15rem;">
 						<img src="../imagenes/vga.jpg" class="card-img-top" alt="...">
 						<div class="card-body">
 							<p class="card-text">VGA</p>
 						</div>
 						<div class="card-body">
-							<button class="btns-men">-</button>
-							<p class="btns-nro">0</p>
-							<button class="btns-mas">+</button>
+							<button class="btns-men" id="resvga">-</button>
+							<p class="btns-nro" id="valvga">0</p>
+							<button class="btns-mas" id="sumvga">+</button>
 						</div>
 						<div class="card-conf">
 							<button class="conf">GUARDAR</button>
 						</div>
 					</div>
 
-					<div class="card" style="width: 18rem;">
+					<div class="card" style="width: 15rem;">
 						<img src="../imagenes/dvi.jpg" class="card-img-top" alt="...">
 						<div class="card-body">
 							<p class="card-text">DVI</p>
 						</div>
 						<div class="card-body">
-							<button class="btns-men">-</button>
-							<p class="btns-nro">0</p>
-							<button class="btns-mas">+</button>
+							<button class="btns-men" id="resdvi">-</button>
+							<p class="btns-nro" id="valdvi">0</p>
+							<button class="btns-mas" id="sumdvi">+</button>
 						</div>
 						<div class="card-conf">
 							<button class="conf">GUARDAR</button>
 						</div>
 					</div>
 
-					<div class="card" style="width: 18rem;">
+					<div class="card" style="width: 15rem;">
 						<img src="../imagenes/usbimp.jpg" class="card-img-top" alt="...">
 						<div class="card-body">
 							<p class="card-text">USB IMPRESORA</p>
 						</div>
 						<div class="card-body">
-							<button class="btns-men">-</button>
-							<p class="btns-nro">0</p>
-							<button class="btns-mas">+</button>
+							<button class="btns-men" id="resusbi">-</button>
+							<p class="btns-nro" id="valusbi">0</p>
+							<button class="btns-mas" id="sumusbi">+</button>
 						</div>
 						<div class="card-conf">
 							<button class="conf">GUARDAR</button>
@@ -243,45 +347,45 @@ $cu = $row['CUIL'];
 					<h1>ADAPTADORES</h1>
 				</div>
 				<div class="info">
-					<div class="card" style="width: 18rem;">
+					<div class="card" style="width: 15rem;">
 						<img src="../imagenes/dvihdmi.jpeg" class="card-img-top" alt="...">
 						<div class="card-body">
 							<p class="card-text">DVI/HDMI</p>
 						</div>
 						<div class="card-body">
-							<button class="btns-men">-</button>
-							<p class="btns-nro">0</p>
-							<button class="btns-mas">+</button>
+							<button class="btns-men" id="resdh">-</button>
+							<p class="btns-nro" id="valdh">0</p>
+							<button class="btns-mas" id="sumdh">+</button>
 						</div>
 						<div class="card-conf">
 							<button class="conf">GUARDAR</button>
 						</div>
 					</div>
 
-					<div class="card" style="width: 18rem;">
+					<div class="card" style="width: 15rem;">
 						<img src="../imagenes/dvivga.jpg" class="card-img-top" alt="...">
 						<div class="card-body">
 							<p class="card-text">DVI/VGA</p>
 						</div>
 						<div class="card-body">
-							<button class="btns-men">-</button>
-							<p class="btns-nro">0</p>
-							<button class="btns-mas">+</button>
+							<button class="btns-men" id="resdv">-</button>
+							<p class="btns-nro" id="valdv">0</p>
+							<button class="btns-mas" id="sumdv">+</button>
 						</div>
 						<div class="card-conf">
 							<button class="conf">GUARDAR</button>
 						</div>
 					</div>
 
-					<div class="card" style="width: 18rem;">
+					<div class="card" style="width: 15rem;">
 						<img src="../imagenes/hdmivga.jpg" class="card-img-top" alt="...">
 						<div class="card-body">
 							<p class="card-text">HDMI/VGA</p>
 						</div>
 						<div class="card-body">
-							<button class="btns-men">-</button>
-							<p class="btns-nro">0</p>
-							<button class="btns-mas">+</button>
+							<button class="btns-men" id="reshv">-</button>
+							<p class="btns-nro" id="valhv">0</p>
+							<button class="btns-mas" id="sumhv">+</button>
 						</div>
 						<div class="card-conf">
 							<button class="conf">GUARDAR</button>
@@ -301,6 +405,7 @@ $cu = $row['CUIL'];
 			</div>
 		</div>
 	</footer>
+<!-- 	<script src="../js/stock.js"></script> -->
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script>
   		AOS.init();

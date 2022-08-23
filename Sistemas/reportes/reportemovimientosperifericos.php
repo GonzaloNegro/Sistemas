@@ -244,9 +244,9 @@ $row = $resultado->fetch_assoc();
         <?php echo "<table width=100%>
         <thead>
             <tr>
-                <th><p>N° MOVIMIENTO</p></th>
+                <!--<th><p>N° MOVIMIENTO</p></th>-->
                 <th><p>FECHA</p></th>
-                <th><p>ID</p></th>
+                <th><p>ID PERIFERICO</p></th>
                 <th><p>TIPO</p></th>
                 <!--<th><p>SUBTIPO</p></th>-->
                 <th><p>ÁREA</p></th>
@@ -263,7 +263,7 @@ $row = $resultado->fetch_assoc();
 		echo
 		" 
 			<tr>
-				<td><h4 style='font-size:16px;'>".$listar['ID_MOVIMIENTO']."</h4></td>
+				<!--<td><h4 style='font-size:16px;'>".$listar['ID_MOVIMIENTO']."</h4></td>-->
 				<td><h4 style='font-size:16px;'>".$listar['FECHA']."</h4></td>
 				<td><h4 style='font-size:16px;'>".$listar['ID_PERI']."</h4></td>
 				<td><h4 style='font-size:16px;'>".$listar['TIPOP']."</h4></td>

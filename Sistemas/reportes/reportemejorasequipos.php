@@ -386,7 +386,7 @@ $row = $resultado->fetch_assoc();
         <tr>
         <th><p class=g>NRO. WS</p></th>
 		<th><p class=g>FECHA</p></th>
-		<th><p class=g>MEJORA</p></th>
+		<!--<th><p class=g>Nro. MEJORA</p></th>-->
         <th><p class=g>MEMORIA</p></th>
 		<th><p class=g>TIPO MEMORIA</p></th>
         <th><p class=g>DISCO</p></th>
@@ -474,19 +474,84 @@ $row = $resultado->fetch_assoc();
 
 										}							
 
+        if (isset($_POST['btn2'])) {                          
+        if ($mej==1) {
+            $memoriaram=mysqli_query($datos_base, "SELECT w.ID_WS,w.ID_MEMORIA, m.MEMORIA, m.ORDEN_MEMORIA, w.SLOT from wsmem w inner join memoria m on w.ID_MEMORIA=m.ID_MEMORIA where w.ID_WS=$nWS");
+						                $totalram=0;
+										while($memram= mysqli_fetch_array($memoriaram)){
+											if ($memram['SLOT']==1) {
+												$totalram=$memram['ORDEN_MEMORIA']+$totalram;
+											}
+											if ($memram['SLOT']==2) {
+												$totalram=$memram['ORDEN_MEMORIA']+$totalram;
+											}
+											if ($memram['SLOT']==3) {
+												$totalram=$memram['ORDEN_MEMORIA']+$totalram;
+											}
+											if ($memram['SLOT']==4) {
+												$ntotalram=$memram['ORDEN_MEMORIA']+$totalram;
+											}
 
-		echo
+										}
+
+            $nroMejora=$listar['ID_MEJORA'];
+            
+            $idramAnt1=mysqli_query($datos_base, "SELECT m.MEMORIA1, n.ORDEN_MEMORIA FROM mejoras m inner join memoria n on m.memoria1=n.ID_MEMORIA where m.ID_WS=$nWS and m.ID_MEJORA<$nroMejora limit 1");
+            $idramAnt2=mysqli_query($datos_base, "SELECT m.MEMORIA2, n.ORDEN_MEMORIA FROM mejoras m inner join memoria n on m.memoria2=n.ID_MEMORIA where m.ID_WS=$nWS and m.ID_MEJORA<$nroMejora limit 1");
+            $idramAnt3=mysqli_query($datos_base, "SELECT m.MEMORIA3, n.ORDEN_MEMORIA FROM mejoras m inner join memoria n on m.memoria3=n.ID_MEMORIA where m.ID_WS=$nWS and m.ID_MEJORA<$nroMejora limit 1");
+            $idramAnt4=mysqli_query($datos_base, "SELECT m.MEMORIA4, n.ORDEN_MEMORIA FROM mejoras m inner join memoria n on m.memoria4=n.ID_MEMORIA where m.ID_WS=$nWS and m.ID_MEJORA<$nroMejora limit 1");
+            $memramant1= mysqli_fetch_array($idramAnt1);
+            $memramant2= mysqli_fetch_array($idramAnt2);
+            $memramant3= mysqli_fetch_array($idramAnt3);
+            $memramant4= mysqli_fetch_array($idramAnt4);
+            $totalramant=$memramant1['ORDEN_MEMORIA']+$memramant2['ORDEN_MEMORIA']+$memramant3['ORDEN_MEMORIA']+$memramant4['ORDEN_MEMORIA'];
+
+            if ($totalram>$totalramant) {
+                echo
 		" 
         <tr>
         <td><h4 >".$listar['SERIEG']."</font></h4></td>
         <td><h4 >".$fecord."</h4></td>
-        <td><h4 >".$listar['ID_MEJORA']."</font></h4></td>
+        <!--<td><h4 >".$listar['ID_MEJORA']."</font></h4></td>-->
         <td><h4 style='font-size:14px;' class='fila'>$ram1-$ram2-$ram3-$ram4</h4></td>
         <td><h4 style='font-size:14px;' class='fila'>$tram1-$tram2-$tram3-$tram4</h4></td>
 		<td><h4 style='font-size:14px;' class='fila'>$disco1-$disco2-$disco3-$disco4</h4></td>
 		<td><h4 style='font-size:14px;' class='fila'>$tdisco1-$tdisco2-$tdisco3-$tdisco4</h4></td>
         <td><h4 >".$listar['PLACAM']."</font></h4></td>
         </tr>";
+            }
+            else {
+            }
+        }
+        else {
+            echo
+		" 
+        <tr>
+        <td><h4 >".$listar['SERIEG']."</font></h4></td>
+        <td><h4 >".$fecord."</h4></td>
+        <!--<td><h4 >".$listar['ID_MEJORA']."</font></h4></td>-->
+        <td><h4 style='font-size:14px;' class='fila'>$ram1-$ram2-$ram3-$ram4</h4></td>
+        <td><h4 style='font-size:14px;' class='fila'>$tram1-$tram2-$tram3-$tram4</h4></td>
+		<td><h4 style='font-size:14px;' class='fila'>$disco1-$disco2-$disco3-$disco4</h4></td>
+		<td><h4 style='font-size:14px;' class='fila'>$tdisco1-$tdisco2-$tdisco3-$tdisco4</h4></td>
+        <td><h4 >".$listar['PLACAM']."</font></h4></td>
+        </tr>";
+        }}
+        else {
+            echo
+		" 
+        <tr>
+        <td><h4 >".$listar['SERIEG']."</font></h4></td>
+        <td><h4 >".$fecord."</h4></td>
+        <!--<td><h4 >".$listar['ID_MEJORA']."</font></h4></td>-->
+        <td><h4 style='font-size:14px;' class='fila'>$ram1-$ram2-$ram3-$ram4</h4></td>
+        <td><h4 style='font-size:14px;' class='fila'>$tram1-$tram2-$tram3-$tram4</h4></td>
+		<td><h4 style='font-size:14px;' class='fila'>$disco1-$disco2-$disco3-$disco4</h4></td>
+		<td><h4 style='font-size:14px;' class='fila'>$tdisco1-$tdisco2-$tdisco3-$tdisco4</h4></td>
+        <td><h4 >".$listar['PLACAM']."</font></h4></td>
+        </tr>";
+        }
+		
 		$contador += 1;}
 
 		echo "<div id=contador class='form-group row justify-content-between'>";
@@ -520,3 +585,22 @@ $row = $resultado->fetch_assoc();
 </body>
 </html>
 
+<!-- SELECT m.ID_WS, i.SERIEG, m.FECHA, m.ID_MEJORA, me.MEMORIA,me2.memoria,me3.memoria, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
+                FROM mejoras m
+                inner join wsmem w on m.ID_WS=w.ID_WS
+                inner join memoria me on m.MEMORIA1=me.ID_MEMORIA
+                inner join memoria me2 on m.MEMORIA2=me2.ID_MEMORIA
+                inner join memoria me3 on m.MEMORIA3=me3.ID_MEMORIA
+                inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM
+                inner join discows ds on m.ID_WS=ds.ID_WS
+                inner join disco d on ds.ID_DISCO=d.ID_DISCO
+                inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
+                inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
+                INNER JOIN inventario i on i.ID_WS=m.ID_WS
+                where me.ORDEN_MEMORIA>(SELECT max(me2.ORDEN_MEMORIA) from mejoras ms INNER JOIN
+                                memoria me2 on ms.MEMORIA1=me2.ID_MEMORIA where m.ID_WS=ms.ID_WS and m.ID_MEJORA>ms.ID_MEJORA)
+                      or me2.ORDEN_MEMORIA>(SELECT max(me2.ORDEN_MEMORIA) from mejoras ms INNER JOIN
+                                memoria me2 on ms.MEMORIA1=me2.ID_MEMORIA where m.ID_WS=ms.ID_WS and m.ID_MEJORA>ms.ID_MEJORA)
+                      or me3.ORDEN_MEMORIA>(SELECT max(me2.ORDEN_MEMORIA) from mejoras ms INNER JOIN
+                                memoria me2 on ms.MEMORIA1=me2.ID_MEMORIA where m.ID_WS=ms.ID_WS and m.ID_MEJORA>ms.ID_MEJORA)
+                    GROUP BY m.ID_MEJORA DESC -->
