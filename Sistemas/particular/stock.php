@@ -122,12 +122,39 @@ $cu = $row['CUIL'];
 		$totalmon = mysqli_fetch_array($totmon);
 
 
-
+		/* TECLADO */
 		$teclado=mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 1");
 		$totteclado = mysqli_fetch_array($teclado);
-
+		/* FUENTE */
 		$fuente=mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 2");
 		$totalfuente = mysqli_fetch_array($fuente);
+		/* TONER */
+		$toner=mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 3");
+		$totaltoner = mysqli_fetch_array($toner);
+		/* TONER */
+		$toner=mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 3");
+		$totaltoner = mysqli_fetch_array($toner);
+		/* HDMI */
+		$hdmi=mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 4");
+		$totalhdmi = mysqli_fetch_array($hdmi);
+		/* VGA */
+		$vga =mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 5");
+		$totalvga = mysqli_fetch_array($vga);
+		/* DVI */
+		$dvi=mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 6");
+		$totaldvi = mysqli_fetch_array($dvi);
+		/* USB IMPRESORA */
+		$usbi=mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 7");
+		$totalusbi = mysqli_fetch_array($usbi);
+		/* DVI/HDMI */
+		$dh =mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 8");
+		$totaldh = mysqli_fetch_array($dh);
+		/* DVI/VGA */
+		$dv=mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 9");
+		$totaldv = mysqli_fetch_array($dv);
+		/* HDMI/VGA */
+		$hv=mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 10");
+		$totalhv = mysqli_fetch_array($hv);
 	?>
 
 		<div class="contenedor">
@@ -203,11 +230,11 @@ $cu = $row['CUIL'];
 		<!-- ------------------------- -->
 
 			<div >
-				<div class="tits">
+<!-- 				<div class="tits">
 					<h1>MEMORIA</h1>
-				</div>
+				</div> -->
 				<div class="info">
-					<div class="card" style="width: 15rem;">
+<!-- 					<div class="card" style="width: 15rem;">
 					<img src="../imagenes/ram.jpg" class="card-img-top" alt="...">
 					<div class="card-body">
 						<p class="card-text">MEMORIA RAM</p>
@@ -235,7 +262,7 @@ $cu = $row['CUIL'];
 					<div class="card-conf">
 						<button class="conf">GUARDAR</button>
 					</div>
-				</div>
+				</div> -->
 
 				<div class="card" style="width: 15rem;">
 					<img src="../imagenes/fuente.jpg" class="card-img-top" alt="...">
@@ -243,7 +270,7 @@ $cu = $row['CUIL'];
 						<p class="card-text">FUENTE</p>
 					</div>
 					<div class="card-body">
-					<form action="controlStock.php" method="POST" name="form1"> 
+						<form action="controlStock.php" method="POST" name="form1"> 
 							<!-- <p class="btns-nro" id="valtec"><?php echo "".$totalfuente['TOTAL']."" ?></p> -->
 							<input type="number" class="inp" name="valorfuente" value="<?php echo $totalfuente['TOTAL']?>" >
 					<!-- <button class="btns-men" id="resfue">-</button>
@@ -262,12 +289,12 @@ $cu = $row['CUIL'];
 						<p class="card-text">TONER</p>
 					</div>
 					<div class="card-body">
-						<button class="btns-men" id="reston">-</button>
-						<p class="btns-nro" id="valton">0</p>
-						<button class="btns-mas" id="sumton">+</button>
+						<form action="controlStock.php" method="POST" name="form1"> 
+							<input type="number" class="inp" name="valortoner" value="<?php echo $totaltoner['TOTAL']?>" >
 					</div>
 					<div class="card-conf">
-						<button class="conf">GUARDAR</button>
+							<button type="submit" class="conf" name="btntoner">GUARDAR</button> 
+						</form> 
 					</div>
 				</div>
 			</div>
@@ -285,12 +312,12 @@ $cu = $row['CUIL'];
 							<p class="card-text">HDMI</p>
 						</div>
 						<div class="card-body">
-							<button class="btns-men" id="reshdmi">-</button>
-							<p class="btns-nro" id="valhdmi">0</p>
-							<button class="btns-mas" id="sumhdmi">+</button>
+							<form action="controlStock.php" method="POST" name="form1"> 
+								<input type="number" class="inp" name="valorhdmi" value="<?php echo $totalhdmi['TOTAL']?>" >
 						</div>
 						<div class="card-conf">
-							<button class="conf">GUARDAR</button>
+								<button type="submit" class="conf" name="btnhdmi">GUARDAR</button> 
+							</form> 
 						</div>
 					</div>
 
@@ -300,12 +327,12 @@ $cu = $row['CUIL'];
 							<p class="card-text">VGA</p>
 						</div>
 						<div class="card-body">
-							<button class="btns-men" id="resvga">-</button>
-							<p class="btns-nro" id="valvga">0</p>
-							<button class="btns-mas" id="sumvga">+</button>
+							<form action="controlStock.php" method="POST" name="form1"> 
+								<input type="number" class="inp" name="valorvga" value="<?php echo $totalvga['TOTAL']?>" >
 						</div>
 						<div class="card-conf">
-							<button class="conf">GUARDAR</button>
+								<button type="submit" class="conf" name="btnvga">GUARDAR</button> 
+							</form> 
 						</div>
 					</div>
 
@@ -315,12 +342,12 @@ $cu = $row['CUIL'];
 							<p class="card-text">DVI</p>
 						</div>
 						<div class="card-body">
-							<button class="btns-men" id="resdvi">-</button>
-							<p class="btns-nro" id="valdvi">0</p>
-							<button class="btns-mas" id="sumdvi">+</button>
+							<form action="controlStock.php" method="POST" name="form1"> 
+								<input type="number" class="inp" name="valordvi" value="<?php echo $totaldvi['TOTAL']?>" >
 						</div>
 						<div class="card-conf">
-							<button class="conf">GUARDAR</button>
+								<button type="submit" class="conf" name="btndvi">GUARDAR</button> 
+							</form> 
 						</div>
 					</div>
 
@@ -330,12 +357,12 @@ $cu = $row['CUIL'];
 							<p class="card-text">USB IMPRESORA</p>
 						</div>
 						<div class="card-body">
-							<button class="btns-men" id="resusbi">-</button>
-							<p class="btns-nro" id="valusbi">0</p>
-							<button class="btns-mas" id="sumusbi">+</button>
+							<form action="controlStock.php" method="POST" name="form1"> 
+								<input type="number" class="inp" name="valorusbi" value="<?php echo $totalusbi['TOTAL']?>" >
 						</div>
 						<div class="card-conf">
-							<button class="conf">GUARDAR</button>
+								<button type="submit" class="conf" name="btnusbi">GUARDAR</button> 
+							</form> 
 						</div>
 					</div>
 				</div>
@@ -353,12 +380,12 @@ $cu = $row['CUIL'];
 							<p class="card-text">DVI/HDMI</p>
 						</div>
 						<div class="card-body">
-							<button class="btns-men" id="resdh">-</button>
-							<p class="btns-nro" id="valdh">0</p>
-							<button class="btns-mas" id="sumdh">+</button>
+							<form action="controlStock.php" method="POST" name="form1"> 
+								<input type="number" class="inp" name="valordh" value="<?php echo $totaldh['TOTAL']?>" >
 						</div>
 						<div class="card-conf">
-							<button class="conf">GUARDAR</button>
+								<button type="submit" class="conf" name="btndh">GUARDAR</button> 
+							</form> 
 						</div>
 					</div>
 
@@ -368,12 +395,12 @@ $cu = $row['CUIL'];
 							<p class="card-text">DVI/VGA</p>
 						</div>
 						<div class="card-body">
-							<button class="btns-men" id="resdv">-</button>
-							<p class="btns-nro" id="valdv">0</p>
-							<button class="btns-mas" id="sumdv">+</button>
+							<form action="controlStock.php" method="POST" name="form1"> 
+								<input type="number" class="inp" name="valordv" value="<?php echo $totaldv['TOTAL']?>" >
 						</div>
 						<div class="card-conf">
-							<button class="conf">GUARDAR</button>
+								<button type="submit" class="conf" name="btndv">GUARDAR</button> 
+							</form> 
 						</div>
 					</div>
 
@@ -383,12 +410,12 @@ $cu = $row['CUIL'];
 							<p class="card-text">HDMI/VGA</p>
 						</div>
 						<div class="card-body">
-							<button class="btns-men" id="reshv">-</button>
-							<p class="btns-nro" id="valhv">0</p>
-							<button class="btns-mas" id="sumhv">+</button>
+							<form action="controlStock.php" method="POST" name="form1"> 
+								<input type="number" class="inp" name="valorhv" value="<?php echo $totalhv['TOTAL']?>" >
 						</div>
 						<div class="card-conf">
-							<button class="conf">GUARDAR</button>
+								<button type="submit" class="conf" name="btnhv">GUARDAR</button> 
+							</form> 
 						</div>
 					</div>
 				</div>
