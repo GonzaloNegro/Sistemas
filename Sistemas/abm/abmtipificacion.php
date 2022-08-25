@@ -1,15 +1,21 @@
-<?php 
+<?php
 session_start();
 include('../particular/conexion.php');
-if(!isset($_SESSION['cuil'])) 
-    {       
+if(!isset($_SESSION['cuil']))
+    {
         header('Location: ../particular/Inicio.php'); 
         exit();
     };
 $iduser = $_SESSION['cuil'];
-$sql = "SELECT CUIL, RESOLUTOR FROM resolutor WHERE CUIL='$iduser'";
+$sql = "SELECT ID_RESOLUTOR, CUIL, RESOLUTOR, ID_PERFIL FROM resolutor WHERE CUIL='$iduser'";
 $resultado = $datos_base->query($sql);
 $row = $resultado->fetch_assoc();
+
+if($row['ID_PERFIL'] != 1 ){
+    header("location: ../consulta/consulta.php");
+}else{
+   /*  header("location: abmtipificacion.php"); */
+}
 ?>
 <!DOCTYPE html>
 <html>

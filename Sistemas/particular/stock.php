@@ -234,7 +234,7 @@ $cu = $row['CUIL'];
 					<h1>MEMORIA</h1>
 				</div> -->
 				<div class="info">
-<!-- 					<div class="card" style="width: 15rem;">
+					<div class="card" style="width: 15rem;">
 					<img src="../imagenes/ram.jpg" class="card-img-top" alt="...">
 					<div class="card-body">
 						<p class="card-text">MEMORIA RAM</p>
@@ -262,7 +262,7 @@ $cu = $row['CUIL'];
 					<div class="card-conf">
 						<button class="conf">GUARDAR</button>
 					</div>
-				</div> -->
+				</div>
 
 				<div class="card" style="width: 15rem;">
 					<img src="../imagenes/fuente.jpg" class="card-img-top" alt="...">
