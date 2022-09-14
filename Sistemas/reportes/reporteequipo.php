@@ -239,7 +239,7 @@ $row = $resultado->fetch_assoc();
 if(isset($_POST['btn2']))
 {
 	
-	if(isset($_POST['selectorrepart']))
+	if(isset($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['so']) & empty($_POST['micro']))
 	{
 	$reparticion = $_POST['selectorrepart'];
 	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS,e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
@@ -260,7 +260,7 @@ if(isset($_POST['btn2']))
 		
 	}
 
-	if(isset($_POST['slcarea']))
+	if(isset($_POST['slcarea']) & empty($_POST['selectorrepart']) & empty($_POST['slcestado']) & empty($_POST['so']) & empty($_POST['micro']))
 	{
 	$area = $_POST['slcarea'];
 	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS,e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
@@ -281,7 +281,7 @@ if(isset($_POST['btn2']))
 		
 	}
 
-	if(isset($_POST['slcestado']))
+	if(isset($_POST['slcestado']) & empty($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['so']) & empty($_POST['micro']))
 	{
 	$estado = $_POST['slcestado'];
 	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS,e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
@@ -302,7 +302,7 @@ if(isset($_POST['btn2']))
 		
 	}
 
-	if(isset($_POST['so']))
+	if(isset($_POST['so']) & isset($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['micro']))
 	{
 	$so = $_POST['so'];
 	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
@@ -324,7 +324,7 @@ if(isset($_POST['btn2']))
 	}
 
 
-	if(isset($_POST['micro']))
+	if(isset($_POST['micro']) & isset($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['so']))
 	{
 	$micro = $_POST['micro'];
 	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
@@ -343,7 +343,7 @@ if(isset($_POST['btn2']))
 	WHERE m.ID_MICRO = $micro and ws.SLOT=1
 	ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
-	if(isset($_POST['so']) AND isset($_POST['micro']))
+	if(isset($_POST['so']) & isset($_POST['micro']) & empty($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['slcestado']))
 	{
 		$so = $_POST['so'];
 		$micro = $_POST['micro'];
@@ -363,7 +363,7 @@ if(isset($_POST['btn2']))
 		WHERE i.ID_SO = $so AND m.ID_MICRO = $micro and ws.SLOT=1
 		ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 		   }
-	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']))
+	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['so']) & empty($_POST['micro']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
 		   $area = $_POST['slcarea'];
@@ -384,7 +384,7 @@ if(isset($_POST['btn2']))
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['selectorrepart']) & isset($_POST['slcestado']))
+	if(isset($_POST['selectorrepart']) & isset($_POST['slcestado']) & empty($_POST['slcarea']) & empty($_POST['so']) & empty($_POST['micro']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
 		   $estado = $_POST['slcestado'];
@@ -405,7 +405,7 @@ if(isset($_POST['btn2']))
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['selectorrepart']) & isset($_POST['so']))
+	if(isset($_POST['selectorrepart']) & isset($_POST['so']) & empty($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['micro']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
 		   $so = $_POST['so'];
@@ -426,7 +426,7 @@ if(isset($_POST['btn2']))
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['slcarea']) & isset($_POST['so']))
+	if(isset($_POST['slcarea']) & isset($_POST['so']) & empty($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['so']) & empty($_POST['micro']))
 		   {
 		$area = $_POST['slcarea'];
 		   $so = $_POST['so'];
@@ -447,7 +447,7 @@ if(isset($_POST['btn2']))
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['slcestado']) & isset($_POST['so']))
+	if(isset($_POST['slcestado']) & isset($_POST['so']) & empty($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['micro']))
 		   {
 		   $estado = $_POST['slcestado'];
 		   $so = $_POST['so'];
@@ -468,7 +468,7 @@ if(isset($_POST['btn2']))
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['selectorrepart']) & isset($_POST['micro']))
+	if(isset($_POST['selectorrepart']) & isset($_POST['micro']) & empty($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['so']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
 		   $micro = $_POST['micro'];
@@ -489,7 +489,7 @@ if(isset($_POST['btn2']))
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['slcarea']) & isset($_POST['micro']))
+	if(isset($_POST['slcarea']) & isset($_POST['micro']) & empty($_POST['selectorrepart']) & empty($_POST['slcestado']) & empty($_POST['so']))
 		   {
 		   $area = $_POST['slcarea'];
 		   $micro = $_POST['micro'];
@@ -510,7 +510,7 @@ if(isset($_POST['btn2']))
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['slcestado']) & isset($_POST['micro']))
+	if(isset($_POST['slcestado']) & isset($_POST['micro']) & empty($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['so']))
 		   {
 		   $estado = $_POST['slcestado'];
 		   $micro = $_POST['micro'];
@@ -531,7 +531,7 @@ if(isset($_POST['btn2']))
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['slcarea']) & isset($_POST['slcestado']))
+	if(isset($_POST['slcarea']) & isset($_POST['slcestado']) & empty($_POST['selectorrepart']) & empty($_POST['so']) & empty($_POST['micro']))
 		   {
 			$area = $_POST['slcarea'];
 			$estado = $_POST['slcestado'];
@@ -552,7 +552,7 @@ if(isset($_POST['btn2']))
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['so']) & isset($_POST['micro']))
+	if(isset($_POST['so']) & isset($_POST['micro']) & empty($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['slcestado']))
 		   {
 		   
 		   $micro = $_POST['micro'];
@@ -574,7 +574,7 @@ if(isset($_POST['btn2']))
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['selectorrepart']) & isset($_POST['so']) & isset($_POST['micro']))
+	if(isset($_POST['selectorrepart']) & isset($_POST['so']) & isset($_POST['micro']) & empty($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['micro']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
 		   $micro = $_POST['micro'];
@@ -596,7 +596,7 @@ if(isset($_POST['btn2']))
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['slcarea']) & isset($_POST['so']) & isset($_POST['micro']))
+	if(isset($_POST['slcarea']) & isset($_POST['so']) & isset($_POST['micro']) & empty($_POST['selectorrepart']) & empty($_POST['slcestado']))
 		   {
 		   $area = $_POST['slcarea'];
 		   $micro = $_POST['micro'];
@@ -618,7 +618,7 @@ if(isset($_POST['btn2']))
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['slcestado']) & isset($_POST['so']) & isset($_POST['micro']))
+	if(isset($_POST['slcestado']) & isset($_POST['so']) & isset($_POST['micro']) & empty($_POST['selectorrepart']) & empty($_POST['slcarea']))
 		   {
 		   $estado = $_POST['slcestado'];
 		   $micro = $_POST['micro'];
@@ -640,7 +640,7 @@ if(isset($_POST['btn2']))
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['slcestado']))
+	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['slcestado']) & empty($_POST['so']) & empty($_POST['micro']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
 		   $area = $_POST['slcarea'];
@@ -662,7 +662,7 @@ if(isset($_POST['btn2']))
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['so']))
+	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['so']) & empty($_POST['slcestado']) & empty($_POST['micro']))
 	{
 	$reparticion = $_POST['selectorrepart'];
 	$area = $_POST['slcarea'];
@@ -684,7 +684,7 @@ if(isset($_POST['btn2']))
 	ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['micro']))
+	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['micro']) & empty($_POST['slcestado']) & empty($_POST['so']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
 		   $area = $_POST['slcarea'];
@@ -706,7 +706,7 @@ if(isset($_POST['btn2']))
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['selectorrepart']) & isset($_POST['slcestado']) & isset($_POST['so']))
+	if(isset($_POST['selectorrepart']) & isset($_POST['slcestado']) & isset($_POST['so']) & empty($_POST['slcarea']) & empty($_POST['micro']))
 	{
 	$reparticion = $_POST['selectorrepart'];
 	$estado = $_POST['slcestado'];
@@ -728,7 +728,7 @@ if(isset($_POST['btn2']))
 	ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['selectorrepart']) & isset($_POST['slcestado']) & isset($_POST['micro']))
+	if(isset($_POST['selectorrepart']) & isset($_POST['slcestado']) & isset($_POST['micro']) & empty($_POST['slcarea']) & empty($_POST['so']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
 		   $estado = $_POST['slcestado'];
@@ -750,7 +750,7 @@ if(isset($_POST['btn2']))
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['so']))
+	if(isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['so']) & empty($_POST['selectorrepart']) & empty($_POST['micro']))
 	{
 	$area = $_POST['slcarea'];
 	$estado = $_POST['slcestado'];
@@ -772,7 +772,7 @@ if(isset($_POST['btn2']))
 	ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['micro']))
+	if(isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['micro']) & empty($_POST['selectorrepart']) & empty($_POST['so']))
 		   {
 			$area = $_POST['slcarea'];
 		   $estado = $_POST['slcestado'];
@@ -795,7 +795,7 @@ if(isset($_POST['btn2']))
 	}
 
 
-	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['so']))
+	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['so']) & empty($_POST['micro']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
 		   $area = $_POST['slcarea'];
@@ -818,7 +818,7 @@ if(isset($_POST['btn2']))
 		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	}
 
-	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['micro']))
+	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['micro']) & empty($_POST['so']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
 		   $area = $_POST['slcarea'];

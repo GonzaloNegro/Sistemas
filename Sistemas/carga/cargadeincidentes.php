@@ -215,6 +215,7 @@ $row = $resultado->fetch_assoc();
 						<li><a href="../particular/estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
                     ';
 					} ?>
+			<li><a href="../particular/stock.php" class="nav-link px-2 link-dark link">STOCK</a></li>
 			<li><a href="../calen/calen.php" class="nav-link px-2 link-dark link"><i class="bi bi-calendar3"></i></a>
             <li class="ubicacion link"><a href="../particular/bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
         </ul>

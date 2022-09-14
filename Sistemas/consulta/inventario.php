@@ -70,6 +70,7 @@ $row = $resultado->fetch_assoc();
 						<li><a href="../particular/estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
                     ';
 					} ?>
+			<li><a href="../particular/stock.php" class="nav-link px-2 link-dark link">STOCK</a></li>
 			<li><a href="../calen/calen.php" class="nav-link px-2 link-dark link"><i class="bi bi-calendar3"></i></a>
             <li class="ubicacion link"><a href="../particular/bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
         </ul>
@@ -88,7 +89,7 @@ $row = $resultado->fetch_assoc();
 			?></i>
 			<script type="text/javascript">
 				var valor = "<?php echo $cantidad; ?>";
-				console.log(valor);
+				/* console.log(valor); */
 			</script>
 		</div>
         <div class="dropdown text-end">
@@ -153,7 +154,7 @@ $row = $resultado->fetch_assoc();
 					if(isset($_POST['btn2'])){
 						$doc = $_POST['buscar'];
 						$contador = 0;
-						$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, a.AREA, r.REPA, u.NOMBRE, t.TIPOWS, i.SERIEG, s.SIST_OP, m.MICRO
+						$consultar=mysqli_query($datos_base, "SELECT DISTINCT i.ID_WS, a.AREA, r.REPA, u.NOMBRE, t.TIPOWS, i.SERIEG, s.SIST_OP, m.MICRO
 								FROM inventario i 
 								LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 								LEFT JOIN tipows AS t ON t.ID_TIPOWS = i.ID_TIPOWS
@@ -200,7 +201,7 @@ $row = $resultado->fetch_assoc();
 					else
 					{
 					$contador = 0;
-					$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, a.AREA, r.REPA, u.NOMBRE, t.TIPOWS, i.SERIEG, s.SIST_OP, m.MICRO
+					$consultar=mysqli_query($datos_base, "SELECT DISTINCT i.ID_WS, a.AREA, r.REPA, u.NOMBRE, t.TIPOWS, i.SERIEG, s.SIST_OP, m.MICRO
 								FROM inventario i 
 								LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 								LEFT JOIN tipows AS t ON t.ID_TIPOWS = i.ID_TIPOWS

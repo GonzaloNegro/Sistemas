@@ -71,12 +71,30 @@ $cu = $row['CUIL'];
 			<?php if($row['ID_PERFIL'] == 1 OR $row['ID_PERFIL'] == 2){
                         echo'
 						<li><a href="../particular/estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
-						<li><a href="stock.php" class="nav-link px-2 link-dark link">STOCK</a></li>
                     ';
 					} ?>
+			<li><a href="stock.php" class="nav-link px-2 link-dark link">STOCK</a></li>
 			<li><a href="../calen/calen.php" class="nav-link px-2 link-dark link"><i class="bi bi-calendar3"></i></a>
 			<li class="ubicacion link"><a href="bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
         </ul>
+		<div class="notif" id="notif">
+			<i class="bi bi-bell" id="cant">
+			<?php
+			$cant="SELECT count(*) as cantidad FROM ticket WHERE ID_ESTADO = 4;";
+			$result = $datos_base->query($cant);
+			$rowa = $result->fetch_assoc();
+			$cantidad = $rowa['cantidad'];
+
+			/* $fechaActual = date('m'); */
+			if($cantidad > 0){
+				echo $cantidad;
+			}
+			?></i>
+			<script type="text/javascript">
+				var valor = "<?php echo $cantidad; ?>";
+				console.log(valor);
+			</script>
+		</div>
         <div class="dropdown text-end">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"><h5><i class="bi bi-person rounded-circle"></i><?php echo utf8_decode($row['RESOLUTOR']);?></h5></a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
@@ -112,7 +130,7 @@ $cu = $row['CUIL'];
 
 
 	<?php                 
-		$totpc=mysqli_query($datos_base, "SELECT COUNT(ID_WS) as TOTAL FROM inventario where ID_ESTADOWS = 3 AND ID_TIPOWS = 1");
+ 		$totpc=mysqli_query($datos_base, "SELECT COUNT(ID_WS) as TOTAL FROM inventario where ID_ESTADOWS = 3 AND ID_TIPOWS = 1");
 		$totalpc = mysqli_fetch_array($totpc);
 
 		$totnt=mysqli_query($datos_base, "SELECT COUNT(ID_WS) as TOTAL FROM inventario where ID_ESTADOWS = 3 AND ID_TIPOWS = 2");
@@ -438,5 +456,7 @@ $cu = $row['CUIL'];
   		AOS.init();
 	</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="../js/script.js"></script>
 </body>
 </html>

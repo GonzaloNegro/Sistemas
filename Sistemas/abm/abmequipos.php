@@ -91,7 +91,7 @@ $row = $resultado->fetch_assoc();
 					if(isset($_POST['btn2']))
 					{
 						$doc = $_POST['buscar'];
-						$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, a.AREA, u.NOMBRE, i.SERIEG, p.PLACAM, s.SIST_OP, m.MICRO
+						$consultar=mysqli_query($datos_base, "SELECT DISTINCT i.ID_WS, a.AREA, u.NOMBRE, i.SERIEG, p.PLACAM, s.SIST_OP, m.MICRO
                         FROM inventario i 
                         LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 						LEFT JOIN placamws AS pl ON pl.ID_WS = i.ID_WS
@@ -123,7 +123,7 @@ $row = $resultado->fetch_assoc();
 					}
 					else
 					{
-						$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, a.AREA, u.NOMBRE, i.SERIEG, p.PLACAM, s.SIST_OP, m.MICRO
+						$consultar=mysqli_query($datos_base, "SELECT DISTINCT  i.ID_WS, a.AREA, u.NOMBRE, i.SERIEG, p.PLACAM, s.SIST_OP, m.MICRO
                         FROM inventario i 
                         LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 						LEFT JOIN placamws AS pl ON pl.ID_WS = i.ID_WS
