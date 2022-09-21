@@ -96,9 +96,10 @@ $row = $resultado->fetch_assoc();
 						<li><a href="../particular/estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
                     ';
 					} ?>
-			<li><a href="../particular/stock.php" class="nav-link px-2 link-dark link">STOCK</a></li>
-			<li><a href="../calen/calen.php" class="nav-link px-2 link-dark link"><i class="bi bi-calendar3"></i></a>
-            <li class="ubicacion link"><a href="../particular/bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
+          <li><a href="../particular/stock.php" class="nav-link px-2 link-dark link">STOCK</a></li>
+          <li><a href="../calen/calen.php" class="nav-link px-2 link-dark link"><i class="bi bi-calendar3"></i></a></li>
+          <li class="ubicacion link"><a href="../particular/bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
+          <li><a href="../Manual.pdf" class="ubicacion link"><i class="bi bi-journal"></i></a></li>
         </ul>
         <div class="notif" id="notif">
 			<i class="bi bi-bell" id="cant">

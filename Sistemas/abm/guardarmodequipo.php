@@ -279,7 +279,7 @@ else{
 			$idws = trim($row[0]);
 			}
     /* PLACA MADRE */
-    mysqli_query($datos_base, "INSERT INTO placamws VALUES ('$idws', '$ppla', '$prpla', '$glpa', '$fapla', '$fpla', '$nropla')");
+    mysqli_query($datos_base, "INSERT INTO placamws VALUES ('$idws', '$ppla', '$prpla', '$gpla', '$fapla', '$fpla', '$nropla')");
 
     /* MICRO */
     mysqli_query($datos_base, "INSERT INTO microws VALUES ('$idws', '$mmic', '$pmic', '$facmic', '$gmic', '$fmic', '$nromic')");

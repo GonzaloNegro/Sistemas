@@ -302,7 +302,7 @@ if(isset($_POST['btn2']))
 		
 	}
 
-	if(isset($_POST['so']) & isset($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['micro']))
+	if(isset($_POST['so']) & empty($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['micro']))
 	{
 	$so = $_POST['so'];
 	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
@@ -324,7 +324,7 @@ if(isset($_POST['btn2']))
 	}
 
 
-	if(isset($_POST['micro']) & isset($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['so']))
+	if(isset($_POST['micro']) & empty($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['so']))
 	{
 	$micro = $_POST['micro'];
 	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
@@ -576,6 +576,7 @@ if(isset($_POST['btn2']))
 
 	if(isset($_POST['selectorrepart']) & isset($_POST['so']) & isset($_POST['micro']) & empty($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['micro']))
 		   {
+			   echo"eeeee";
 		   $reparticion = $_POST['selectorrepart'];
 		   $micro = $_POST['micro'];
 		   $so = $_POST['so'];
