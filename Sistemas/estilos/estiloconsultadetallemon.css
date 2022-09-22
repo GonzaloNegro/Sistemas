@@ -7,21 +7,21 @@ section, header{
 
 @font-face{
 	font-family: TrasandinaBlack;
-	src: url("fuente/TrasandinaBlack.otf");
+	src: url("../fuente/TrasandinaBlack.otf");
 }
 @font-face{
 	font-family: TrasandinaBold; 
-	src: url("fuente/TrasandinaBold.otf");
+	src: url("../fuente/TrasandinaBold.otf");
 	}
 
 @font-face{
 	font-family: TrasandinaBook; 
-	src: url("fuente/TrasandinaBook.otf");
+	src: url("../fuente/TrasandinaBook.otf");
 	}
 
 @font-face{
 	font-family: TrasandinaMedium; 
-	src: url("fuente/TrasandinaMedium.otf");
+	src: url("../fuente/TrasandinaMedium.otf");
 	}	
 	/*
 	url("TrasandinaBold-Italic.otf"), 
