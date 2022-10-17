@@ -16,7 +16,8 @@ $cu = $row['CUIL'];
 <!DOCTYPE html>
 <html>
 <head>
-	<title>STOCK</title><meta charset="utf-8">
+	<title>STOCK</title>
+	<meta charset="utf-8">
 	<link rel="icon" href="../imagenes/logoObrasPúblicas.png">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -140,6 +141,9 @@ $cu = $row['CUIL'];
 		$totmon=mysqli_query($datos_base, "SELECT COUNT(ID_PERI) as TOTAL FROM periferico where ID_ESTADOWS = 3 AND (ID_TIPOP = 7 OR ID_TIPOP = 8)");
 		$totalmon = mysqli_fetch_array($totmon);
 
+		$totimp=mysqli_query($datos_base, "SELECT COUNT(ID_PERI) as TOTAL FROM periferico where ID_ESTADOWS = 3 AND (ID_TIPOP = 1 OR ID_TIPOP = 2 OR ID_TIPOP = 3 OR ID_TIPOP = 4 OR ID_TIPOP = 10 or 13)");
+		$totalimp = mysqli_fetch_array($totimp);
+
 
 		/* TECLADO */
 		$teclado=mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 1");
@@ -147,9 +151,6 @@ $cu = $row['CUIL'];
 		/* FUENTE */
 		$fuente=mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 2");
 		$totalfuente = mysqli_fetch_array($fuente);
-		/* TONER */
-		$toner=mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 3");
-		$totaltoner = mysqli_fetch_array($toner);
 		/* TONER */
 		$toner=mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 3");
 		$totaltoner = mysqli_fetch_array($toner);
@@ -191,7 +192,7 @@ $cu = $row['CUIL'];
 						<div class="card-body">
 							<p class="btns-nro" id="valequip"><?php echo "".$totalpc['TOTAL'].""; ?></p>
 						</div>
-							<div class="card-conf">
+						<div class="card-conf">
 							<button class="conf">DETALLES</button>
 						</div>
 					</div>
@@ -202,9 +203,9 @@ $cu = $row['CUIL'];
 							<p class="card-text">NOTEBOOKS</p>
 						</div>
 						<div class="card-body">
-						<p class="btns-nro" id="valnot"><?php echo "".$totalnt['TOTAL'].""; ?></p>
+							<p class="btns-nro" id="valnot"><?php echo "".$totalnt['TOTAL'].""; ?></p>
 						</div>
-							<div class="card-conf">
+						<div class="card-conf">
 							<button class="conf">DETALLES</button>
 						</div>
 					</div>
@@ -215,32 +216,23 @@ $cu = $row['CUIL'];
 							<p class="card-text">MONITORES</p>
 						</div>
 						<div class="card-body">
-						<p class="btns-nro" id="valmon"><?php echo "".$totalmon['TOTAL'].""; ?></p>
+							<p class="btns-nro" id="valimp"><?php echo "".$totalmon['TOTAL'].""; ?></p>
 						</div>
-							<div class="card-conf">
+						<div class="card-conf">
 							<button class="conf">DETALLES</button>
 						</div>
 					</div>
 					<div class="card" style="width: 15rem;">
-						<img src="../imagenes/teclado.jpg" class="card-img-top" alt="...">
+						<img src="../imagenes/impresora.jpeg" class="card-img-top" alt="...">
 						<div class="card-body">
-							<p class="card-text">TECLADOS</p>
-						</div>						
-						<div class="card-body">
-							<form action="controlStock.php" method="POST" name="form1"> 
-							<input type="number" class="inp" name="valorteclado" value="<?php echo $totteclado['TOTAL']?>">
-								<!--  PASAR UNA VARIABLE DE PHP A JS -->
-									<!-- var temp1 = <?=   json_encode($totteclado['TOTAL']) ?> -->
-								
-
-								<!-- PASAR DE PHP A JAVASCRIPT -->
-									 <!-- $var_PHP = "<script> document.writeln(numerotec); -->
-									<!-- echo $var_PHP; muestra el resultado  -->
+							<p class="card-text">IMPRESORAS</p>
 						</div>
-					<div class="card-conf">
-							<button type="submit" class="conf" name="btnteclado">GUARDAR</button> 
-							</form> 
-				</div>
+						<div class="card-body">
+							<p class="btns-nro" id="valmon"><?php echo "".$totalimp['TOTAL'].""; ?></p>
+						</div>
+						<div class="card-conf">
+							<button class="conf">DETALLES</button>
+						</div>
 					</div>
 			</div>
 			</div>
@@ -258,13 +250,9 @@ $cu = $row['CUIL'];
 					<div class="card-body">
 						<p class="card-text">MEMORIA RAM</p>
 					</div>
-					<div class="card-body">
-						<button class="btns-men" id="resram">-</button>
-						<p class="btns-nro" id="valram">0</p>
-						<button class="btns-mas" id="sumram">+</button>
-					</div>
+
 					<div class="card-conf">
-						<button class="conf">GUARDAR</button>
+					<a href="stockRam.php"><button class="conf">DETALLES</button></a>
 					</div>
 				</div>
 
@@ -273,13 +261,9 @@ $cu = $row['CUIL'];
 					<div class="card-body">
 						<p class="card-text">DISCO DURO</p>
 					</div>
-					<div class="card-body">
-						<button class="btns-men" id="resdis">-</button>
-						<p class="btns-nro" id="valdis">0</p>
-						<button class="btns-mas" id="sumdis">+</button>
-					</div>
+
 					<div class="card-conf">
-						<button class="conf">GUARDAR</button>
+						<button class="conf">DETALLES</button>
 					</div>
 				</div>
 
@@ -302,21 +286,23 @@ $cu = $row['CUIL'];
 					</div>
 				</div>
 
+
 				<div class="card" style="width: 15rem;">
-					<img src="../imagenes/toner.jpg" class="card-img-top" alt="...">
+					<img src="../imagenes/teclado.jpg" class="card-img-top" alt="...">
 					<div class="card-body">
-						<p class="card-text">TONER</p>
-					</div>
+						<p class="card-text">TECLADOS</p>
+					</div>						
 					<div class="card-body">
 						<form action="controlStock.php" method="POST" name="form1"> 
-							<input type="number" class="inp" name="valortoner" value="<?php echo $totaltoner['TOTAL']?>" >
+						<input type="number" class="inp" name="valorteclado" value="<?php echo $totteclado['TOTAL']?>">
 					</div>
 					<div class="card-conf">
-							<button type="submit" class="conf" name="btntoner">GUARDAR</button> 
+						<button type="submit" class="conf" name="btnteclado">GUARDAR</button> 
 						</form> 
 					</div>
-				</div>
+				</div>	
 			</div>
+			
 
 
 			<!-- /////////////////////////////// -->

@@ -148,7 +148,7 @@ $resultado2 = $datos_base->query($sqli);
 $row2 = $resultado2->fetch_assoc();
 $serg = $row2['SERIEG'];
 
-$sqli = "SELECT * FROM inventario WHERE SERIALN ='$serialn'";
+$sqli = "SELECT * FROM inventario WHERE SERIALN ='$serialn'"; 
 $resultado2 = $datos_base->query($sqli);
 $row2 = $resultado2->fetch_assoc();
 $ser = $row2['SERIALN'];
