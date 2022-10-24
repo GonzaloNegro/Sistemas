@@ -121,14 +121,16 @@ function ConsultarIncidente($no_tic)
                     $row = $resultado->fetch_assoc();
                     $micro = $row['MICRO'];
                     /*/////////////////////PLACA MADRE//////////////////////*/
-                    $sql = "SELECT p.PLACAM 
+                    $sql = "SELECT p.PLACAM, m.MARCA
                     FROM inventario i 
                     LEFT JOIN placamws pws ON pws.ID_WS = i.ID_WS
-                    LEFT JOIN placam p ON p.ID_PLACAM= pws.ID_PLACAM
+                    LEFT JOIN placam p ON p.ID_PLACAM = pws.ID_PLACAM
+                    LEFT JOIN marcas m ON m.ID_MARCA = p.ID_MARCA
                     WHERE i.ID_WS='$consulta[0]'";
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
                     $placam = $row['PLACAM'];
+                    $placammarca = $row['MARCA'];
                     /*/////////////////////RED//////////////////////*/
                     $sql = "SELECT r.RED 
                     FROM inventario i 
@@ -630,7 +632,7 @@ function ConsultarIncidente($no_tic)
                     </div>
 
                     <div class="form-group row" style="padding:5px;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PLACA MADRE:</u>&nbsp &nbsp &nbsp<?php echo $placam?></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PLACA MADRE:</u>&nbsp &nbsp &nbsp<?php echo $placam." - ".$placammarca;?></h4>
                     </div>
 
 
