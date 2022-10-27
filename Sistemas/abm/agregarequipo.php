@@ -293,7 +293,7 @@ $row = $resultado->fetch_assoc();
                   <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -365,7 +365,7 @@ $row = $resultado->fetch_assoc();
                   <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -438,7 +438,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -487,7 +487,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -585,7 +585,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -601,7 +601,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM marcas";
+                                    $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -670,7 +670,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -686,7 +686,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM marcas";
+                                    $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -755,7 +755,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -771,7 +771,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM marcas";
+                                    $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -840,7 +840,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -856,7 +856,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM marcas";
+                                    $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -936,7 +936,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -955,7 +955,8 @@ $row = $resultado->fetch_assoc();
                                     $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
                                     FROM modelo m
                                     INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
-                                    WHERE m.ID_TIPOP = 14";
+                                    WHERE m.ID_TIPOP = 14
+                                    ORDER BY m.MODELO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1012,7 +1013,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1031,7 +1032,8 @@ $row = $resultado->fetch_assoc();
                                     $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
                                     FROM modelo m
                                     INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
-                                    WHERE m.ID_TIPOP = 14";
+                                    WHERE m.ID_TIPOP = 14
+                                    ORDER BY m.MODELO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1088,7 +1090,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1107,7 +1109,8 @@ $row = $resultado->fetch_assoc();
                                     $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
                                     FROM modelo m
                                     INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
-                                    WHERE m.ID_TIPOP = 14";
+                                    WHERE m.ID_TIPOP = 14
+                                    ORDER BY m.MODELO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1164,7 +1167,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1183,7 +1186,8 @@ $row = $resultado->fetch_assoc();
                                     $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
                                     FROM modelo m
                                     INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
-                                    WHERE m.ID_TIPOP = 14";
+                                    WHERE m.ID_TIPOP = 14
+                                    ORDER BY m.MODELO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 

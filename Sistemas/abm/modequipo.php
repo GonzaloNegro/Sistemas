@@ -1147,7 +1147,7 @@ function ConsultarIncidente($no_tic)
                       <option selected value="2001"><?php echo $placamprov?></option>
                       <?php
                       include("../particular/conexion.php");
-                      $consulta= "SELECT * FROM proveedor";
+                      $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                       $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                       ?>
                       <?php foreach ($ejecutar as $opciones): ?> 
@@ -1217,7 +1217,7 @@ function ConsultarIncidente($no_tic)
                     <option selected value="2101"><?php echo $microprov?></option>
                     <?php
                     include("../particular/conexion.php");
-                    $consulta= "SELECT * FROM proveedor";
+                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                     ?>
                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1290,7 +1290,7 @@ function ConsultarIncidente($no_tic)
                   <option selected value="2201"><?php echo $pvprov?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1339,7 +1339,7 @@ function ConsultarIncidente($no_tic)
                   <option selected value="2301"><?php echo $pvprov1?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1408,7 +1408,7 @@ function ConsultarIncidente($no_tic)
                                     <option selected value="1202"><?php echo $prov1?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1424,7 +1424,7 @@ function ConsultarIncidente($no_tic)
                                     <option selected value="1203"><?php echo $marc1?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM marcas";
+                                    $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1493,7 +1493,7 @@ function ConsultarIncidente($no_tic)
                                     <option selected value="1302"><?php echo $prov2?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1509,7 +1509,7 @@ function ConsultarIncidente($no_tic)
                                     <option selected value="1303"><?php echo $marc2?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM marcas";
+                                    $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1578,7 +1578,7 @@ function ConsultarIncidente($no_tic)
                                     <option selected value="1402"><?php echo $prov3?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1594,7 +1594,7 @@ function ConsultarIncidente($no_tic)
                                     <option selected value="1403"><?php echo $marc3?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM marcas";
+                                    $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1663,7 +1663,7 @@ function ConsultarIncidente($no_tic)
                                     <option selected value="1502"><?php echo $prov4?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1679,7 +1679,7 @@ function ConsultarIncidente($no_tic)
                                     <option selected value="1503"><?php echo $marc4?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM marcas";
+                                    $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1762,7 +1762,7 @@ function ConsultarIncidente($no_tic)
                                     <option selected value="1602"><?php echo $dprov1?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1781,7 +1781,8 @@ function ConsultarIncidente($no_tic)
                                     $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
                                     FROM modelo m
                                     INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
-                                    WHERE m.ID_TIPOP = 14";
+                                    WHERE m.ID_TIPOP = 14
+                                    ORDER BY m.MODELO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1838,7 +1839,7 @@ function ConsultarIncidente($no_tic)
                                     <option selected value="1702"><?php echo $dprov2?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1857,7 +1858,8 @@ function ConsultarIncidente($no_tic)
                                     $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
                                     FROM modelo m
                                     INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
-                                    WHERE m.ID_TIPOP = 14";
+                                    WHERE m.ID_TIPOP = 14
+                                    ORDER BY m.MODELO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1914,7 +1916,7 @@ function ConsultarIncidente($no_tic)
                                     <option selected value="1802"><?php echo $dprov3?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1933,7 +1935,8 @@ function ConsultarIncidente($no_tic)
                                     $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
                                     FROM modelo m
                                     INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
-                                    WHERE m.ID_TIPOP = 14";
+                                    WHERE m.ID_TIPOP = 14
+                                    ORDER BY m.MODELO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1990,7 +1993,7 @@ function ConsultarIncidente($no_tic)
                   <option selected value="1902"><?php echo $dprov4?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -2009,7 +2012,8 @@ function ConsultarIncidente($no_tic)
                                     $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
                                     FROM modelo m
                                     INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
-                                    WHERE m.ID_TIPOP = 14";
+                                    WHERE m.ID_TIPOP = 14
+                                    ORDER BY m.MODELO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
