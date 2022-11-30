@@ -192,3 +192,19 @@ tr:hover td{
     margin-right: auto;
 	margin-top: 100px;
 }
+
+#agr{
+	width: 20%; 
+	height: 45px; 
+	background-color: #1c7cd5; 
+	border-color: #f7fbfd; 
+	font-size: 20px; 
+	font-family: TrasandinaBook;
+    border-radius: 20px;
+	
+}
+#agr:hover{
+background-color: #176AB5;
+}
+
+

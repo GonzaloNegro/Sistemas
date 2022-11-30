@@ -30,43 +30,29 @@ $row = $resultado->fetch_assoc();
 <body>
 <script type="text/javascript">
 			function ok(){
-				swal(  {title: "Micro modificado correctamente",
+				swal(  {title: "Placa de video cargada correctamente",
 						icon: "success",
 						showConfirmButton: true,
 						showCancelButton: false,
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='abmmicro.php';
-						}
-						}
-						);
-			}	
-			</script>
-<script type="text/javascript">
-			function repeat(){
-				swal(  {title: "Micro modificado correctamente. Verifique el nombre de la marca, ya que existe este nombre registrado previamente!",
-						icon: "info",
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='abmmicro.php';
-						}
-						}
-						);
+						});
 			}	
 			</script>
 <script type="text/javascript">
 			function no(){
-				swal(  {title: "El micro de la marca ingresada ya está registrado",
+				swal(  {title: "La placa de video ingresada ya está registrada",
 						icon: "error",
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='abmmicro.php';
-						}
-						}
-						);
+                        showConfirmButton: true,
+						showCancelButton: false,
+						});
+			}	
+			</script>
+<script type="text/javascript">
+			function mod(){
+				swal(  {title: "La placa de video se ha modificado correctamente",
+						icon: "success",
+                        showConfirmButton: true,
+						showCancelButton: false,
+						});
 			}	
 			</script>
     <section id="inicio">
@@ -153,16 +139,9 @@ $row = $resultado->fetch_assoc();
 						}
 					}
 					echo "</table>";
-					?>
-				<?php
 				if(isset($_GET['ok'])){
 					?>
 					<script>ok();</script>
-					<?php			
-				}
-				if(isset($_GET['repeat'])){
-					?>
-					<script>repeat();</script>
 					<?php			
 				}
 				if(isset($_GET['no'])){
@@ -170,7 +149,13 @@ $row = $resultado->fetch_assoc();
 					<script>no();</script>
 					<?php			
 				}
+				if(isset($_GET['mod'])){
+					?>
+					<script>mod();</script>
+					<?php			
+				}
 			?>
     </section>
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

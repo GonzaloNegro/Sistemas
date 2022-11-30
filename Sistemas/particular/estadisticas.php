@@ -47,7 +47,7 @@ $row = $resultado->fetch_assoc();
                 	<li><a class="dropdown-item" href="../carga/cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li>
                 </ul>
 			</li>
-            <li><a href="../consulta/consulta.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">CONSULTA</a>
+            <li><a href="../consulta/consulta.php" class="nav-link px-2 link-dark link">CONSULTA</a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
                     <li><a class="dropdown-item" href="../consulta/consulta.php">CONSULTA DE INCIDENTES</a></li>
                     <li><hr class="dropdown-divider"></li>
@@ -74,13 +74,13 @@ $row = $resultado->fetch_assoc();
 						<li><a href="estadisticas.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">ESTADISTICAS</a></li>
                     ';
 					} ?>
-			<li><a href="../particular/stock.php" class="nav-link px-2 link-dark link">STOCK</a></li>
-			<li><a href="../calen/calen.php" class="nav-link px-2 link-dark link"><i class="bi bi-calendar3"></i></a></li>
-			<li class="ubicacion link"><a href="../particular/bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
-			<li><a href="../Manual.pdf" class="ubicacion link"><i class="bi bi-journal"></i></a></li>
+			<li><a href="../stock/stock.php" class="nav-link px-2 link-dark link">STOCK</a></li>
+			<li><a href="../calen/calen.php" class="nav-link px-2 link-dark link" data-bs-toggle="tooltip" title="Calendario" data-bs-placement="bottom"><i class="bi bi-calendar3"></i></a></li>
+			<li class="ubicacion link"><a href="../particular/bienvenida.php" data-bs-toggle="tooltip" title="Novedades" data-bs-placement="bottom"><i class="bi bi-info-circle"></i></a></li>
+			<li><a href="../Manual.pdf" class="ubicacion link" data-bs-toggle="tooltip" title="Manual" data-bs-placement="bottom"><i class="bi bi-journal"></i></a></li>
         </ul>
-        <div class="notif" id="notif">
-			<i class="bi bi-bell" id="cant">
+		<div class="notif" id="notif">
+			<i class="bi bi-bell" id="cant" data-bs-toggle="tooltip" title="Notificaciones" data-bs-placement="bottom">
 			<?php
 			$cant="SELECT count(*) as cantidad FROM ticket WHERE ID_ESTADO = 4;";
 			$result = $datos_base->query($cant);
@@ -112,6 +112,113 @@ $row = $resultado->fetch_assoc();
       </div>
     </div>
   </header>
+  <div id="titulo" style="margin-top:20px; margin-bottom: 20px;" data-aos="zoom-in">
+		<h1>ESTADÍSTICAS</h1>
+    </div>
+  <section class="cards">
+    <div class="cards-sup">
+        <div class="cards-sup-pri">
+            <div class="cards-sup-pri-tit">
+                <p>Cantidad total de incidentes</p>
+            </div>
+            <div class="cards-sup-pri-inf">
+            <?php
+                $sql6 = "SELECT COUNT(ID_TICKET) AS total FROM ticket";
+                $result6 = $datos_base->query($sql6);
+                $row6 = $result6->fetch_assoc();
+                $total = $row6['total'];
+            ?>
+                <p><?php echo $total; ?></p>
+            </div>
+        </div>
+        <div class="cards-sup-sec">
+        <div class="cards-sup-sec-tit">
+                <p>Tipificación mas solicitada</p>
+            </div>
+            <div class="cards-sup-sec-inf">
+                <?php 
+                    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 0, 1";
+                    $result6 = $datos_base->query($sql6);
+                    $row6 = $result6->fetch_assoc();
+                    $tipif = $row6['TIPIFICACION'];
+                ?>
+                <p><?php echo $tipif;?></p>
+            </div>
+        </div>
+        <div class="cards-sup-ter">
+            <div class="cards-sup-ter-tit">
+                <p>Área con mayor demanda</p>
+            </div>
+            <div class="cards-sup-ter-inf">
+                <?php
+                    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas 
+                    FROM ticket t 
+                    LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO 
+                    LEFT JOIN area a ON a.ID_AREA = u.ID_AREA 
+                    WHERE a.ID_AREA != 100 AND a.ID_AREA != 43
+                    GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 0, 1";
+                    $result6 = $datos_base->query($sql6);
+                    $row6 = $result6->fetch_assoc();
+                    $areapri = $row6['AREA'];
+                ?>
+                <p><?php echo $areapri;?></p>
+            </div>
+        </div>
+    </div>
+    <div class="cards-inf">
+        <div class="cards-inf-pri">
+            <div class="cards-inf-pri-tit">
+                <p>Equipos activos</p>
+                <?php
+                    $sql6 = "SELECT COUNT(ID_WS) AS totalws FROM inventario WHERE ID_ESTADOWS = 1";
+                    $result6 = $datos_base->query($sql6);
+                    $row6 = $result6->fetch_assoc();
+                    $totalws = $row6['totalws'];
+                ?>
+            </div>
+            <div class="cards-inf-pri-inf">
+                <p><?php echo $totalws; ?></p>
+            </div>
+        </div>
+        <div class="cards-inf-sec">
+            <div class="cards-inf-sec-tit">
+                <p>Equipos en baja</p>
+                <?php
+                    $sql6 = "SELECT COUNT(ID_WS) AS totalwsb FROM inventario WHERE ID_ESTADOWS = 2";
+                    $result6 = $datos_base->query($sql6);
+                    $row6 = $result6->fetch_assoc();
+                    $totalwsb = $row6['totalwsb'];
+                ?>
+            </div>
+            <div class="cards-inf-sec-inf">
+                <p><?php echo $totalwsb; ?></p>
+            </div>
+        </div>
+<!--         <div class="cards-inf-ter">
+
+        </div> -->
+    </div>
+    <div class="cards-bajo">
+        <div class="cards-bajo-info">
+        <?php
+            $sql6 = "SELECT COUNT(ID_TICKET) AS cant FROM ticket";
+            $result6 = $datos_base->query($sql6);
+            $row6 = $result6->fetch_assoc();
+            $cant = $row6['cant'];
+
+            $sql6 = "SELECT COUNT(ID_TICKET) AS sol FROM ticket WHERE ID_ESTADO = 2";
+            $result6 = $datos_base->query($sql6);
+            $row6 = $result6->fetch_assoc();
+            $sol = $row6['sol'];
+
+            $canttot = ($sol / $cant)*100;
+        ?>
+            <p>Porcentaje de incidentes solucionados: <?php echo round($canttot,2)."%"; ?></p>
+        </div>
+    </div>
+  </section>
+
+
   <section class="contenedor">
     <div class="grafico" style="width: 600px; height: 750px;">
             <h1><u>INCIDENTES POR RESOLUTOR</u></h1>
@@ -134,12 +241,12 @@ $row = $resultado->fetch_assoc();
     </div>
   </section>
 
-  <section class="contenedor2">
+<!--   <section class="contenedor2">
     <div class="informacion" style="width: 600px; height: 750px;">
         <h1><u>INCIDENTES POR ESTADO</u></h1>
         <canvas id="MiGrafica1" ></canvas>
     </div>
-  </section>
+  </section> -->
 
 
   
@@ -772,5 +879,9 @@ $row = $resultado->fetch_assoc();
     })
     </script>
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+	</script>
 	<script src="../js/script.js"></script>
 </html>

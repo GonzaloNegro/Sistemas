@@ -158,12 +158,12 @@ if($so == "500"){
     $so = $row4['ID_SO'];
 }
 
-if($micro == "600"){
+/* if($micro == "600"){
     $sql5 = "SELECT ID_MICRO FROM inventario WHERE ID_WS = '$id'";
     $result5 = $datos_base->query($sql5);
     $row5 = $result5->fetch_assoc();
     $micro = $row5['ID_MICRO'];
-}
+} */
 
 if($est == "700"){
     $sql6 = "SELECT ID_ESTADOWS FROM inventario WHERE ID_WS = '$id'";

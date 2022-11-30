@@ -12,6 +12,7 @@ $valorusbi = $_POST['valorusbi'];
 $valordh = $_POST['valordh'];
 $valordv = $_POST['valordv'];
 $valorhv = $_POST['valorhv'];
+$valormouse = $_POST['valormouse'];
 
 if(isset($_POST['btnteclado'])){
     mysqli_query($datos_base, "UPDATE stock SET CANTIDAD = '$valorteclado' WHERE ID_STOCK = 1"); 
@@ -51,6 +52,10 @@ if(isset($_POST['btndv'])){
 
 if(isset($_POST['btnhv'])){
     mysqli_query($datos_base, "UPDATE stock SET CANTIDAD = '$valorhv' WHERE ID_STOCK = 10"); 
+}
+
+if(isset($_POST['btnmouse'])){
+    mysqli_query($datos_base, "UPDATE stock SET CANTIDAD = '$valormouse' WHERE ID_STOCK = 11"); 
 }
 
 header("Location: stock.php?ok");

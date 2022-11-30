@@ -22,7 +22,7 @@ $row = $resultado->fetch_assoc();
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
 	<title>CONSULTA PARA ALTAS</title>
-    <link rel="icon" href="imagenes/logoObrasPúblicas.png">
+	<link rel="icon" href="../imagenes/logoObrasPúblicas.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -80,13 +80,13 @@ $row = $resultado->fetch_assoc();
 						<li><a href="../particular/estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
                     ';
 					} ?>
-			<li><a href="../particular/stock.php" class="nav-link px-2 link-dark link">STOCK</a></li>
-			<li><a href="../calen/calen.php" class="nav-link px-2 link-dark link"><i class="bi bi-calendar3"></i></a></li>
-			<li class="ubicacion link"><a href="../particular/bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
-			<li><a href="../Manual.pdf" class="ubicacion link"><i class="bi bi-journal"></i></a></li>
+			<li><a href="../stock/stock.php" class="nav-link px-2 link-dark link">STOCK</a></li>
+			<li><a href="../calen/calen.php" class="nav-link px-2 link-dark link" data-bs-toggle="tooltip" title="Calendario" data-bs-placement="bottom"><i class="bi bi-calendar3"></i></a></li>
+			<li class="ubicacion link"><a href="../particular/bienvenida.php" data-bs-toggle="tooltip" title="Novedades" data-bs-placement="bottom"><i class="bi bi-info-circle"></i></a></li>
+			<li><a href="../Manual.pdf" class="ubicacion link" data-bs-toggle="tooltip" title="Manual" data-bs-placement="bottom"><i class="bi bi-journal"></i></a></li>
         </ul>
-        <div class="notif" id="notif">
-			<i class="bi bi-bell" id="cant">
+		<div class="notif" id="notif">
+			<i class="bi bi-bell" id="cant" data-bs-toggle="tooltip" title="Notificaciones" data-bs-placement="bottom">
 			<?php
 			$cant="SELECT count(*) as cantidad FROM ticket WHERE ID_ESTADO = 4;";
 			$result = $datos_base->query($cant);
@@ -144,6 +144,10 @@ $row = $resultado->fetch_assoc();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
     </script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+	</script>
 	<script src="../js/script.js"></script>
 </body>
 </html> 

@@ -1,16 +1,15 @@
 <?php 
 session_start();
-include('conexion.php');
+include('../particular/conexion.php');
 if(!isset($_SESSION['cuil'])) 
     {       
-        header('Location: Inicio.php'); 
+        header('Location: ../particular/Inicio.php'); 
         exit();
     };
 $iduser = $_SESSION['cuil'];
 $sql = "SELECT ID_RESOLUTOR, CUIL, RESOLUTOR, ID_PERFIL FROM resolutor WHERE CUIL='$iduser'";
 $resultado = $datos_base->query($sql);
 $row = $resultado->fetch_assoc();
-
 $cu = $row['CUIL'];
 ?>
 <!DOCTYPE html>
@@ -41,13 +40,13 @@ $cu = $row['CUIL'];
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 		<li><a href="../carga/cargadeincidentes.php" class="nav-link px-2 link-secondary link destacado" 
 			>NUEVO INCIDENTE</a>
- 				<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+			<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
 					<li><a class="dropdown-item" href="../carga/cargarapidaporusuario.php">CARGA RÁPIDA POR USUARIO</a></li>
-<!-- 				<li><hr class="dropdown-divider"></li>
-                	<li><a class="dropdown-item" href="cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li> -->
+  					<li><hr class="dropdown-divider"></li>
+                	<li><a class="dropdown-item" href="../carga/cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li>
                 </ul>
 			</li>
-            <li><a href="../consulta/consulta.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">CONSULTA</a>
+            <li><a href="../consulta/consulta.php" class="nav-link px-2 link-dark link">CONSULTA</a>
 			<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
                     <li><a class="dropdown-item" href="../consultaconsulta.php">CONSULTA DE INCIDENTES</a></li>
                     <li><hr class="dropdown-divider"></li>
@@ -74,13 +73,13 @@ $cu = $row['CUIL'];
 						<li><a href="../particular/estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
                     ';
 					} ?>
-			<li><a href="../particular/stock.php" class="nav-link px-2 link-dark link">STOCK</a></li>
-			<li><a href="../calen/calen.php" class="nav-link px-2 link-dark link"><i class="bi bi-calendar3"></i></a></li>
-			<li class="ubicacion link"><a href="../particular/bienvenida.php"><i class="bi bi-info-circle"></i></a></li>
-			<li><a href="../Manual.pdf" class="ubicacion link"><i class="bi bi-journal"></i></a></li>
+			<li><a href="../particular/stock.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">STOCK</a></li>
+			<li><a href="../calen/calen.php" class="nav-link px-2 link-dark link" data-bs-toggle="tooltip" title="Calendario" data-bs-placement="bottom"><i class="bi bi-calendar3"></i></a></li>
+			<li class="ubicacion link"><a href="../particular/bienvenida.php" data-bs-toggle="tooltip" title="Novedades" data-bs-placement="bottom"><i class="bi bi-info-circle"></i></a></li>
+			<li><a href="../Manual.pdf" class="ubicacion link" data-bs-toggle="tooltip" title="Manual" data-bs-placement="bottom"><i class="bi bi-journal"></i></a></li>
         </ul>
 		<div class="notif" id="notif">
-			<i class="bi bi-bell" id="cant">
+			<i class="bi bi-bell" id="cant" data-bs-toggle="tooltip" title="Notificaciones" data-bs-placement="bottom">
 			<?php
 			$cant="SELECT count(*) as cantidad FROM ticket WHERE ID_ESTADO = 4;";
 			$result = $datos_base->query($cant);
@@ -102,7 +101,7 @@ $cu = $row['CUIL'];
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
 		  <?php if($row['ID_RESOLUTOR'] == 6)
 		  { echo '
-		  	<li><a class="dropdown-item" href="agregados.php">CAMBIOS AGREGADOS</a></li>
+		  	<li><a class="dropdown-item" href="../particular/agregados.php">CAMBIOS AGREGADOS</a></li>
             <li><hr class="dropdown-divider"></li>';}?>
             <li><a class="dropdown-item" href="contraseña.php">CAMBIAR CONTRASEÑA</a></li>
             <li><hr class="dropdown-divider"></li>
@@ -145,6 +144,12 @@ $cu = $row['CUIL'];
 		$totalimp = mysqli_fetch_array($totimp);
 
 
+		/* MEMORIA */
+		$memoria=mysqli_query($datos_base, "SELECT sum(CANTIDAD) as TOTAL FROM stockram");
+		$totmemoria = mysqli_fetch_array($memoria);
+		/* DISCO */
+		$disco=mysqli_query($datos_base, "SELECT sum(CANTIDAD) as TOTAL FROM stockdisco");
+		$totdisco = mysqli_fetch_array($disco);
 		/* TECLADO */
 		$teclado=mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 1");
 		$totteclado = mysqli_fetch_array($teclado);
@@ -175,6 +180,9 @@ $cu = $row['CUIL'];
 		/* HDMI/VGA */
 		$hv=mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 10");
 		$totalhv = mysqli_fetch_array($hv);
+		/* MOUSE */
+		$mouse=mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 11");
+		$totalmous = mysqli_fetch_array($mouse);
 	?>
 
 		<div class="contenedor">
@@ -235,24 +243,23 @@ $cu = $row['CUIL'];
 						</div>
 					</div>
 			</div>
-			</div>
+
 
 
 		<!-- ------------------------- -->
 
-			<div >
-<!-- 				<div class="tits">
-					<h1>MEMORIA</h1>
-				</div> -->
-				<div class="info">
-					<div class="card" style="width: 15rem;">
+		<div>
+			<div class="info">
+				<div class="card" style="width: 15rem;">
 					<img src="../imagenes/ram.jpg" class="card-img-top" alt="...">
 					<div class="card-body">
 						<p class="card-text">MEMORIA RAM</p>
 					</div>
-
+					<div class="card-body">
+						<p class="btns-nro" id="valimp"><?php echo "".$totmemoria['TOTAL'].""; ?></p>
+					</div>
 					<div class="card-conf">
-					<a href="stockRam.php"><button class="conf">DETALLES</button></a>
+					<a href="stockram.php"><button class="conf">DETALLES</button></a>
 					</div>
 				</div>
 
@@ -261,9 +268,11 @@ $cu = $row['CUIL'];
 					<div class="card-body">
 						<p class="card-text">DISCO DURO</p>
 					</div>
-
+					<div class="card-body">
+						<p class="btns-nro" id="valimp"><?php echo "".$totdisco['TOTAL'].""; ?></p>
+					</div>
 					<div class="card-conf">
-						<button class="conf">DETALLES</button>
+						<a href="stockdisco.php"><button class="conf">DETALLES</button></a>
 					</div>
 				</div>
 
@@ -275,7 +284,7 @@ $cu = $row['CUIL'];
 					<div class="card-body">
 						<form action="controlStock.php" method="POST" name="form1"> 
 							<!-- <p class="btns-nro" id="valtec"><?php echo "".$totalfuente['TOTAL']."" ?></p> -->
-							<input type="number" class="inp" name="valorfuente" value="<?php echo $totalfuente['TOTAL']?>" >
+							<input type="number" min="0" class="inp" name="valorfuente" value="<?php echo $totalfuente['TOTAL']?>" >
 					<!-- <button class="btns-men" id="resfue">-</button>
 						<p class="btns-nro" id="valfue">0</p>
 						<button class="btns-mas" id="sumfue">+</button> -->
@@ -294,7 +303,7 @@ $cu = $row['CUIL'];
 					</div>						
 					<div class="card-body">
 						<form action="controlStock.php" method="POST" name="form1"> 
-						<input type="number" class="inp" name="valorteclado" value="<?php echo $totteclado['TOTAL']?>">
+						<input type="number" min="0" class="inp" name="valorteclado" value="<?php echo $totteclado['TOTAL']?>">
 					</div>
 					<div class="card-conf">
 						<button type="submit" class="conf" name="btnteclado">GUARDAR</button> 
@@ -303,6 +312,22 @@ $cu = $row['CUIL'];
 				</div>	
 			</div>
 			
+		<div class="info">
+			<div class="card" style="width: 15rem;">
+				<img src="../imagenes/mouse.jpg" class="card-img-top" alt="...">
+				<div class="card-body">
+					<p class="card-text">MOUSE</p>
+				</div>						
+				<div class="card-body">
+					<form action="controlStock.php" method="POST" name="form1"> 
+					<input type="number" min="0" class="inp" name="valormouse" value="<?php echo $totalmous['TOTAL']?>">
+				</div>
+				<div class="card-conf">
+					<button type="submit" class="conf" name="btnmouse">GUARDAR</button> 
+					</form> 
+				</div>
+			</div>	
+		</div>
 
 
 			<!-- /////////////////////////////// -->
@@ -318,7 +343,7 @@ $cu = $row['CUIL'];
 						</div>
 						<div class="card-body">
 							<form action="controlStock.php" method="POST" name="form1"> 
-								<input type="number" class="inp" name="valorhdmi" value="<?php echo $totalhdmi['TOTAL']?>" >
+								<input type="number" min="0" class="inp" name="valorhdmi" value="<?php echo $totalhdmi['TOTAL']?>" >
 						</div>
 						<div class="card-conf">
 								<button type="submit" class="conf" name="btnhdmi">GUARDAR</button> 
@@ -333,7 +358,7 @@ $cu = $row['CUIL'];
 						</div>
 						<div class="card-body">
 							<form action="controlStock.php" method="POST" name="form1"> 
-								<input type="number" class="inp" name="valorvga" value="<?php echo $totalvga['TOTAL']?>" >
+								<input type="number" min="0" class="inp" name="valorvga" value="<?php echo $totalvga['TOTAL']?>" >
 						</div>
 						<div class="card-conf">
 								<button type="submit" class="conf" name="btnvga">GUARDAR</button> 
@@ -348,7 +373,7 @@ $cu = $row['CUIL'];
 						</div>
 						<div class="card-body">
 							<form action="controlStock.php" method="POST" name="form1"> 
-								<input type="number" class="inp" name="valordvi" value="<?php echo $totaldvi['TOTAL']?>" >
+								<input type="number" min="0" class="inp" name="valordvi" value="<?php echo $totaldvi['TOTAL']?>" >
 						</div>
 						<div class="card-conf">
 								<button type="submit" class="conf" name="btndvi">GUARDAR</button> 
@@ -363,7 +388,7 @@ $cu = $row['CUIL'];
 						</div>
 						<div class="card-body">
 							<form action="controlStock.php" method="POST" name="form1"> 
-								<input type="number" class="inp" name="valorusbi" value="<?php echo $totalusbi['TOTAL']?>" >
+								<input type="number" min="0" class="inp" name="valorusbi" value="<?php echo $totalusbi['TOTAL']?>" >
 						</div>
 						<div class="card-conf">
 								<button type="submit" class="conf" name="btnusbi">GUARDAR</button> 
@@ -386,7 +411,7 @@ $cu = $row['CUIL'];
 						</div>
 						<div class="card-body">
 							<form action="controlStock.php" method="POST" name="form1"> 
-								<input type="number" class="inp" name="valordh" value="<?php echo $totaldh['TOTAL']?>" >
+								<input type="number" min="0" class="inp" name="valordh" value="<?php echo $totaldh['TOTAL']?>" >
 						</div>
 						<div class="card-conf">
 								<button type="submit" class="conf" name="btndh">GUARDAR</button> 
@@ -401,7 +426,7 @@ $cu = $row['CUIL'];
 						</div>
 						<div class="card-body">
 							<form action="controlStock.php" method="POST" name="form1"> 
-								<input type="number" class="inp" name="valordv" value="<?php echo $totaldv['TOTAL']?>" >
+								<input type="number" min="0" class="inp" name="valordv" value="<?php echo $totaldv['TOTAL']?>" >
 						</div>
 						<div class="card-conf">
 								<button type="submit" class="conf" name="btndv">GUARDAR</button> 
@@ -416,7 +441,7 @@ $cu = $row['CUIL'];
 						</div>
 						<div class="card-body">
 							<form action="controlStock.php" method="POST" name="form1"> 
-								<input type="number" class="inp" name="valorhv" value="<?php echo $totalhv['TOTAL']?>" >
+								<input type="number" min="0" class="inp" name="valorhv" value="<?php echo $totalhv['TOTAL']?>" >
 						</div>
 						<div class="card-conf">
 								<button type="submit" class="conf" name="btnhv">GUARDAR</button> 
@@ -444,6 +469,10 @@ $cu = $row['CUIL'];
 	</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+	</script>
 	<script src="../js/script.js"></script>
 </body>
 </html>
