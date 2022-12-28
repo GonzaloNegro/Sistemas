@@ -319,11 +319,18 @@ $cu = $row['CUIL'];
 					<p class="card-text">MOUSE</p>
 				</div>						
 				<div class="card-body">
+<!-- 					<form action="<?php echo htmlspecialchars($_SERVER["controlStock.php"])?>" method="POST"> -->
 					<form action="controlStock.php" method="POST" name="form1"> 
 					<input type="number" min="0" class="inp" name="valormouse" value="<?php echo $totalmous['TOTAL']?>">
 				</div>
 				<div class="card-conf">
 					<button type="submit" class="conf" name="btnmouse">GUARDAR</button> 
+<!-- 					<?php
+							if(isset($_POST['btnmouse'])){
+								$valormouse = $_POST['valormouse'];
+								mysqli_query($datos_base, "UPDATE stock SET CANTIDAD = '$valormouse' WHERE ID_STOCK = 11"); 
+							}	
+						?> -->
 					</form> 
 				</div>
 			</div>	
