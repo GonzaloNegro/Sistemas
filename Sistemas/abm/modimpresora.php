@@ -70,39 +70,33 @@ function ConsultarIncidente($no_tic)
                         $sent= "SELECT TIPO FROM tipop WHERE ID_TIPOP = $consulta[1]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
-                        $tip = $row['TIPO'];?>
-                         <?php 
-                        include("../particular/conexion.php");
+                        $tip = $row['TIPO'];
+
                         $sent= "SELECT PROCEDENCIA FROM procedencia WHERE ID_PROCEDENCIA = $consulta[6]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
-                        $proc = $row['PROCEDENCIA'];?>
-                         <?php 
-                        include("conexion.php");
+                        $proc = $row['PROCEDENCIA'];
+
                         $sent= "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR = $consulta[12]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
-                        $prov = $row['PROVEEDOR'];?>
-                        <?php 
-                        include("../particular/conexion.php");
+                        $prov = $row['PROVEEDOR'];
+
                         $sent= "SELECT AREA FROM area WHERE ID_AREA = $consulta[14]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
-                        $are = $row['AREA'];?>
-                        <?php 
-                        include("../particular/conexion.php");
+                        $are = $row['AREA'];
+
                         $sent= "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = $consulta[15]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
-                        $usu = $row['NOMBRE'];?>
-                         <?php 
-                        include("../particular/conexion.php");
+                        $usu = $row['NOMBRE'];
+
                         $sent= "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = $consulta[17]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
-                        $est = $row['ESTADO'];?>
-                         <?php 
-                        include("../particular/conexion.php");
+                        $est = $row['ESTADO'];
+                        
                         $sent= "SELECT mo.MODELO, ma.MARCA 
                         FROM modelo mo
                         INNER JOIN marcas ma ON ma.ID_MARCA = mo.ID_MARCA
@@ -129,7 +123,7 @@ function ConsultarIncidente($no_tic)
                         <label id="lblForm"class="col-form-label col-xl col-lg">MAC: </label>
                         <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="mac" value="<?php echo $consulta[9]?>">
                         <label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIÓN: </label>
-                        <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" placeholder="OBSERVACIÓN" rows="3" value="<?php echo $consulta[7]?>"></textarea>
+                        <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" rows="3"><?php echo $consulta[7]?></textarea>
                     </div>
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
