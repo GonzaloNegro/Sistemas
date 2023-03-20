@@ -16,6 +16,7 @@ $ip = $_POST['ip'];
 $prov = $_POST['prov'];
 $fac = $_POST['fac'];
 $gar = $_POST['gar'];
+$procedencia = $_POST['procedencia']
 $obs = $_POST['obs'];
 
 $fechaActual = date('Y-m-d');
@@ -272,7 +273,7 @@ if($serieg == $serg){
     header("Location: agregarequipo.php?no");
 }
 else{
-    mysqli_query($datos_base, "INSERT INTO inventario VALUES (DEFAULT, '$area', '$serialn', '$serieg', '$marca', '$so', '$est', '$obs', '$prov', '$fac', '$masterizacion', '$mac', '$reserva', '$ip', '$red', '$tippc', '$usu', '$gar')");
+    mysqli_query($datos_base, "INSERT INTO inventario VALUES (DEFAULT, '$area', '$serialn', '$serieg', '$marca', '$so', '$est', '$obs', '$prov', '$fac', '$masterizacion', '$mac', '$reserva', '$ip', '$red', '$tippc', '$usu', '$gar', '$procedencia')");
 
     $tic=mysqli_query($datos_base, "SELECT MAX(ID_WS) FROM inventario");
 		if ($row = mysqli_fetch_row($tic)) {

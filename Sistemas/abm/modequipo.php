@@ -29,7 +29,8 @@ function ConsultarIncidente($no_tic)
         $filas['ID_RED'],/*14*/
         $filas['ID_TIPOWS'],/*15*/
         $filas['ID_USUARIO'],/*16*/
-        $filas['GARANTIA']/*17*/
+        $filas['GARANTIA'],/*17*/
+        $filas['ID_PROCEDENCIA']/*18*/
 	];
 }
 
@@ -135,6 +136,13 @@ function ConsultarIncidente($no_tic)
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
                     $area = $row['AREA'];
+                ?>
+                <?php 
+                    include("../particular/conexion.php");
+                    $sent= "SELECT PROCEDENCIA FROM procedencia WHERE ID_PROCEDENCIA = $consulta[18]";
+                    $resultado = $datos_base->query($sent);
+                    $row = $resultado->fetch_assoc();
+                    $procedencia = $row['PROCEDENCIA'];
                 ?>
 
                 
@@ -1099,7 +1107,19 @@ function ConsultarIncidente($no_tic)
                     </div>
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">            
-                        
+                        <label id="lblForm"class="col-form-label col-xl col-lg">PROCEDENCIA:</label>
+                            <select name="procedencia" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <option selected value="2400"><?php echo $procedencia?></option>
+                                <?php
+                                include("../particular/conexion.php");
+                                $consulta= "SELECT * FROM procedencia ORDER BY PROCEDENCIA ASC";
+                                $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                ?>
+                                <?php foreach ($ejecutar as $opciones): ?> 
+                                <option value= <?php echo $opciones['ID_PROCEDENCIA'] ?>><?php echo $opciones['PROCEDENCIA']?></option>
+                                <?php endforeach?>
+                            </select>
+
                         <label id="lblForm"class="col-form-label col-xl col-lg">MARCA: </label>
                         <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="marca">
                                         <option selected value="1100"><?php echo $mar?></option>

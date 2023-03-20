@@ -250,7 +250,18 @@ $row = $resultado->fetch_assoc();
 
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
-                            
+                        <label id="lblForm"class="col-form-label col-xl col-lg">PROCEDENCIA:</label>
+                            <select name="procedencia" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                                    <?php
+                                    include("../particular/conexion.php");
+                                    $consulta= "SELECT * FROM procedencia ORDER BY PROCEDENCIA ASC";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_PROCEDENCIA'] ?>><?php echo $opciones['PROCEDENCIA']?></option>
+                                    <?php endforeach?>
+                                </select>
                             <label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓN:</label> 
                               <textarea class="form-control col-xl col-lg" name="obs" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3" ></textarea>
                         </div>

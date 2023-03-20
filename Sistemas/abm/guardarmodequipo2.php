@@ -18,6 +18,7 @@ $prov = $_POST['prov'];
 $fac = $_POST['fac'];
 $gar = $_POST['gar'];
 $obs = $_POST['obs'];
+$procedencia = $_POST['procedencia'];
 
 $fechaActual = date('Y-m-d');
 
@@ -544,6 +545,13 @@ if($pvprov1 == "2301"){
     $pvprov1 = $row6['ID_PROVEEDOR'];
 }
 
+if($procedencia == "2400"){
+    $sql6 = "SELECT ID_PROCEDENCIA FROM inventario WHERE ID_PROCEDENCIA = '$id'";
+    $result6 = $datos_base->query($sql6);
+    $row6 = $result6->fetch_assoc();
+    $procedencia = $row6['ID_PROCEDENCIA'];
+}
+
 /*SI AMBOS CAMPOS ESTAN REPETIDOS*/
 /* $sqli = "SELECT * FROM periferico WHERE SERIEG = '$serieg'";
 $resultado2 = $datos_base->query($sqli);
@@ -710,7 +718,7 @@ else{
 
 
 
-    mysqli_query($datos_base, "UPDATE inventario SET ID_AREA = '$area', SERIALN = '$serialn', SERIEG = '$serieg', ID_MARCA = '$marca', ID_ESTADOWS = '$est', ID_SO = '$so', OBSERVACION = '$obs', ID_PROVEEDOR = '$prov', FACTURA = '$fac', MASTERIZADA = '$masterizacion', MAC = '$mac', RIP = '$reserva', IP = '$ip', ID_RED = '$red', ID_TIPOWS = '$tippc', ID_USUARIO = '$usu' WHERE ID_WS = '$id'");
+    mysqli_query($datos_base, "UPDATE inventario SET ID_AREA = '$area', SERIALN = '$serialn', SERIEG = '$serieg', ID_MARCA = '$marca', ID_ESTADOWS = '$est', ID_SO = '$so', OBSERVACION = '$obs', ID_PROVEEDOR = '$prov', FACTURA = '$fac', MASTERIZADA = '$masterizacion', MAC = '$mac', RIP = '$reserva', IP = '$ip', ID_RED = '$red', ID_TIPOWS = '$tippc', ID_USUARIO = '$usu', ID_PROCEDENCIA = '$procedencia' WHERE ID_WS = '$id'");
 
 
     /* PLACA MADRE */
