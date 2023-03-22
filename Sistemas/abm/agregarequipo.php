@@ -432,16 +432,23 @@ $row = $resultado->fetch_assoc();
     <div id="flush-collapsepl" class="accordion-collapse collapse" aria-labelledby="flush-headingpl" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MEMORIA:</label> 
+          <label id="lblForm" class="col-form-label col-xl col-lg">PLACA:</label> 
 							    <select name="pvmem" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM memoria";
+                                    $consulta= "SELECT m.MODELO, me.MEMORIA, t.TIPOMEM, p.ID_PVIDEO
+                                    FROM pvideo p
+                                    LEFT JOIN modelo m ON m.ID_MODELO = p.ID_MODELO
+                                    LEFT JOIN memoria me ON me.ID_MEMORIA = p.ID_MEMORIA
+                                    LEFT JOIN tipomem t ON t.ID_TIPOMEM = p.ID_TIPOMEM
+                                    LEFT JOIN tipop ti ON ti.ID_TIPOP = m.ID_TIPOP
+                                    WHERE ti.ID_TIPOP = 15
+                                    ORDER BY m.MODELO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_MEMORIA'] ?>><?php echo $opciones['MEMORIA']?></option>
+                                    <option value= <?php echo $opciones['ID_PVIDEO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MEMORIA']." - ".$opciones['TIPOMEM']?></option>
                                     <?php endforeach?>
                                 </select>
           <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
@@ -481,16 +488,23 @@ $row = $resultado->fetch_assoc();
     <div id="flush-collapsepl1" class="accordion-collapse collapse" aria-labelledby="flush-headingpl1" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MEMORIA:</label> 
-							    <select name="pvmem1" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="col-form-label col-xl col-lg">PLACA:</label> 
+            <select name="pvmem1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM memoria";
+                                    $consulta= "SELECT m.MODELO, me.MEMORIA, t.TIPOMEM, p.ID_PVIDEO
+                                    FROM pvideo p
+                                    LEFT JOIN modelo m ON m.ID_MODELO = p.ID_MODELO
+                                    LEFT JOIN memoria me ON me.ID_MEMORIA = p.ID_MEMORIA
+                                    LEFT JOIN tipomem t ON t.ID_TIPOMEM = p.ID_TIPOMEM
+                                    LEFT JOIN tipop ti ON ti.ID_TIPOP = m.ID_TIPOP
+                                    WHERE ti.ID_TIPOP = 15
+                                    ORDER BY m.MODELO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_MEMORIA'] ?>><?php echo $opciones['MEMORIA']?></option>
+                                    <option value= <?php echo $opciones['ID_PVIDEO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MEMORIA']." - ".$opciones['TIPOMEM']?></option>
                                     <?php endforeach?>
                                 </select>
           <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 

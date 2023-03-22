@@ -155,12 +155,12 @@ $row = $resultado->fetch_assoc();
 					if(isset($_POST['btn2'])){
 						$doc = $_POST['buscar'];
 						$contador = 0;
-						$consultar=mysqli_query($datos_base, "SELECT DISTINCT i.ID_WS, a.AREA, r.REPA, u.NOMBRE, t.TIPOWS, i.SERIEG, s.SIST_OP, m.MICRO
+						$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, a.AREA, r.REPA, u.NOMBRE, t.TIPOWS, i.SERIEG, s.SIST_OP, m.MICRO
 								FROM inventario i 
+								LEFT JOIN area AS a ON i.ID_AREA = a.ID_AREA
+								LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA 
 								LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 								LEFT JOIN tipows AS t ON t.ID_TIPOWS = i.ID_TIPOWS
-								LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-								LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA 
 								LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
 								LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
 								INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
@@ -202,15 +202,15 @@ $row = $resultado->fetch_assoc();
 					else
 					{
 					$contador = 0;
-					$consultar=mysqli_query($datos_base, "SELECT DISTINCT i.ID_WS, a.AREA, r.REPA, u.NOMBRE, t.TIPOWS, i.SERIEG, s.SIST_OP, m.MICRO
+					$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, a.AREA, r.REPA, u.NOMBRE, t.TIPOWS, i.SERIEG, s.SIST_OP, m.MICRO
 								FROM inventario i 
+								LEFT JOIN area AS a ON i.ID_AREA = a.ID_AREA
+								LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
 								LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
 								LEFT JOIN tipows AS t ON t.ID_TIPOWS = i.ID_TIPOWS
-								LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-								LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
 								LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
 								LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-								INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
+								LEFT JOIN so AS s ON s.ID_SO = i.ID_SO 
 								ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 									while($listar = mysqli_fetch_array($consultar))
 									{

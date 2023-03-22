@@ -567,7 +567,7 @@ $area = $_POST['area'];
 
 if($usu == 277){
 
-     if($area == "1100" || $area == 0){
+     if($area == "1100" || $area == 0 || null){
         $sql6 = "SELECT ID_AREA FROM inventario WHERE ID_WS = '$id'";
         $result6 = $datos_base->query($sql6);
         $row6 = $result6->fetch_assoc();

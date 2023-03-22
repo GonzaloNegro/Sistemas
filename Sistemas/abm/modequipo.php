@@ -1300,11 +1300,18 @@ function ConsultarIncidente($no_tic)
                   <option selected value="2200"><?php echo $pvmem?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM memoria";
+                                    $consulta= "SELECT m.MODELO, me.MEMORIA, t.TIPOMEM, p.ID_PVIDEO
+                                    FROM pvideo p
+                                    LEFT JOIN modelo m ON m.ID_MODELO = p.ID_MODELO
+                                    LEFT JOIN memoria me ON me.ID_MEMORIA = p.ID_MEMORIA
+                                    LEFT JOIN tipomem t ON t.ID_TIPOMEM = p.ID_TIPOMEM
+                                    LEFT JOIN tipop ti ON ti.ID_TIPOP = m.ID_TIPOP
+                                    WHERE ti.ID_TIPOP = 15
+                                    ORDER BY m.MODELO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_MEMORIA'] ?>><?php echo $opciones['MEMORIA']?></option>
+                                    <option value= <?php echo $opciones['ID_PVIDEO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MEMORIA']." - ".$opciones['TIPOMEM']?></option>
                                     <?php endforeach?>
                                 </select>
           <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
@@ -1349,11 +1356,18 @@ function ConsultarIncidente($no_tic)
                   <option selected value="2300"><?php echo $pvmem1?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM memoria";
+                                    $consulta= "SELECT m.MODELO, me.MEMORIA, t.TIPOMEM, p.ID_PVIDEO
+                                    FROM pvideo p
+                                    LEFT JOIN modelo m ON m.ID_MODELO = p.ID_MODELO
+                                    LEFT JOIN memoria me ON me.ID_MEMORIA = p.ID_MEMORIA
+                                    LEFT JOIN tipomem t ON t.ID_TIPOMEM = p.ID_TIPOMEM
+                                    LEFT JOIN tipop ti ON ti.ID_TIPOP = m.ID_TIPOP
+                                    WHERE ti.ID_TIPOP = 15
+                                    ORDER BY m.MODELO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_MEMORIA'] ?>><?php echo $opciones['MEMORIA']?></option>
+                                    <option value= <?php echo $opciones['ID_PVIDEO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MEMORIA']." - ".$opciones['TIPOMEM']?></option>
                                     <?php endforeach?>
                                 </select>
           <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
