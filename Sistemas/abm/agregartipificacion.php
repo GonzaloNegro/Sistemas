@@ -77,6 +77,7 @@ $row = $resultado->fetch_assoc();
 							</div>	
 					</form>
 					<?php
+					echo $tip;
 						if(isset($_GET['ok'])){
 							?>
 							<script>ok();</script>

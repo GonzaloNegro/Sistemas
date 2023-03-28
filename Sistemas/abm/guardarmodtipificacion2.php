@@ -3,19 +3,26 @@ session_start();
 include('../particular/conexion.php');
 
 $id = $_POST['id'];
-$tip = $_POST['tip'];
+
+$tipi = $_POST['tip'];
+$tip = preg_replace("/[[:space:]]/","",($tipi));
 
 /* SI UNO DE LOS CAMPOS ESTA REPETIDO */
-$sql = "SELECT * FROM tipificacion WHERE TIPIFICACION = '$tip' AND ID_TIPIFICACION != '$id'";
-$resultado = $datos_base->query($sql);
-$row = $resultado->fetch_assoc();
-$ti = $row['TIPIFICACION'];
+$contador = 0;
 
-if($tip == $ti){
+$consulta=mysqli_query($datos_base, "SELECT REPLACE(TIPIFICACION, ' ', '') AS TIPIFICACION FROM tipificacion");
+while($listar = mysqli_fetch_array($consulta)) 
+{
+  if($listar['TIPIFICACION'] == $tip){
+    $contador ++;
+  }
+}
+
+if($contador > 0){
   header("Location: abmtipificacion.php?no");
 }
 else{
-  mysqli_query($datos_base, "UPDATE tipificacion SET TIPIFICACION = '$tip' WHERE ID_TIPIFICACION = '$id'"); 
+  mysqli_query($datos_base, "UPDATE tipificacion SET TIPIFICACION = '$tipi' WHERE ID_TIPIFICACION = '$id'"); 
   header("Location: abmtipificacion.php?ok");
 }
 ?>
