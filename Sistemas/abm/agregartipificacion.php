@@ -77,7 +77,29 @@ $row = $resultado->fetch_assoc();
 							</div>	
 					</form>
 					<?php
-					echo $tip;
+
+					//$tipi = "PRODUCTO NUEVO";
+
+					//CORTAR ESPACIOS EN BLANCO:
+					//$sinEspacios = preg_replace("/[[:space:]]/","",($tipi));
+					//CALCULAR EL TAMAÑO
+					//$tamaño = mb_strlen($sinEspacios);
+
+					//ORDENAR ALFABÉTICAMENTE
+					//$letras = (str_split($sinEspacios));
+					//sort($letras, SORT_REGULAR);
+
+					//var_dump($letras); NO DESCOMENTAR
+
+					//$respuesta = implode($letras);
+					//var_dump($respuesta); NO DESCOMENTAR
+					
+					//str_shuffle($tip); orden aleatorio
+					//echo "Palabra sin espacios : ".$sinEspacios."<br>";
+					//echo "Tamaño: ".$tamaño."<br>";
+					//echo "Ordenado alfabeticamente: ".$respuesta;
+					
+
 						if(isset($_GET['ok'])){
 							?>
 							<script>ok();</script>

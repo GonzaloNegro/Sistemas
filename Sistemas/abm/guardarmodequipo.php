@@ -16,7 +16,7 @@ $ip = $_POST['ip'];
 $prov = $_POST['prov'];
 $fac = $_POST['fac'];
 $gar = $_POST['gar'];
-$procedencia = $_POST['procedencia']
+$procedencia = $_POST['procedencia'];
 $obs = $_POST['obs'];
 
 $fechaActual = date('Y-m-d');
@@ -316,7 +316,7 @@ else{
     mysqli_query($datos_base, "INSERT INTO movimientos VALUES (DEFAULT, '$fechaActual', '$idws', '$usu', '$area', '$est', '$marca', '$so', '$masterizacion', '$mac', '$reserva', '$ip', '$red')");
 
     /* GUARDANDO PARA LAS MEJORAS */
-    mysqli_query($datos_base, "INSERT INTO movimientos VALUES (DEFAULT, '$fechaActual', '$idws', '$ppla', '$mmic', '$pvmem', '$pvmem1', '$mem1', '$tmem1', '$pvel1', '$mem2', '$tmem2', '$pvel2', '$mem3', '$tmem3', '$pvel3', '$mem4', '$tmem4', '$pvel4', '$disc1', '$tdisc1', '$disc2', '$tdisc2', '$disc3', '$tdisc3', '$disc4', '$tdisc4')");
+    mysqli_query($datos_base, "INSERT INTO mejoras VALUES (DEFAULT, '$fechaActual', '$idws', '$ppla', '$mmic', '$pvmem', '$pvmem1', '$mem1', '$tmem1', '$pvel1', '$mem2', '$tmem2', '$pvel2', '$mem3', '$tmem3', '$pvel3', '$mem4', '$tmem4', '$pvel4', '$disc1', '$tdisc1', '$disc2', '$tdisc2', '$disc3', '$tdisc3', '$disc4', '$tdisc4')");
 
     header("Location: agregarequipo.php?ok");
 }
