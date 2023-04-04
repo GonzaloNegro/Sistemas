@@ -154,7 +154,7 @@ function ConsultarIncidente($no_tic)
                                     FROM modelo m
                                     INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
                                     INNER JOIN tipop t ON t.ID_TIPOP = m.ID_TIPOP
-                                    WHERE (m.ID_TIPOP = 1 OR m.ID_TIPOP = 2 OR m.ID_TIPOP = 3 OR m.ID_TIPOP = 4 OR m.ID_TIPOP = 10 OR m.ID_TIPOP = 13)";
+                                    WHERE (m.ID_TIPOP = 1 OR m.ID_TIPOP = 2 OR m.ID_TIPOP = 3 OR m.ID_TIPOP = 4 OR m.ID_TIPOP = 10 OR m.ID_TIPOP = 13) ORDER BY MODELO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -166,7 +166,7 @@ function ConsultarIncidente($no_tic)
                                         <option selected value="300"><?php echo $est?></option>
                                         <?php
                                         include("conexion.php");
-                                        $consulta= "SELECT * FROM estado_ws";
+                                        $consulta= "SELECT * FROM estado_ws ORDER BY ESTADO ASC";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>
                                         <?php foreach ($ejecutar as $opciones): ?> 
@@ -181,7 +181,7 @@ function ConsultarIncidente($no_tic)
                                     <option selected value="400"><?php echo $prov?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -193,7 +193,7 @@ function ConsultarIncidente($no_tic)
                                     <option selected value="500"><?php echo $tip?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM tipop WHERE ID_TIPOP = 1 OR ID_TIPOP = 2 OR ID_TIPOP = 3 OR ID_TIPOP = 4 OR ID_TIPOP = 10 OR ID_TIPOP = 13";
+                                    $consulta= "SELECT * FROM tipop WHERE ID_TIPOP = 1 OR ID_TIPOP = 2 OR ID_TIPOP = 3 OR ID_TIPOP = 4 OR ID_TIPOP = 10 OR ID_TIPOP = 13 ORDER BY TIPO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -208,7 +208,7 @@ function ConsultarIncidente($no_tic)
                                         <option selected value="600"><?php echo $usu?></option>
                                         <?php
                                         include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM usuarios";
+                                        $consulta= "SELECT * FROM usuarios ORDER BY NOMBRE ASC";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>
                                         <?php foreach ($ejecutar as $opciones): ?> 
@@ -220,7 +220,7 @@ function ConsultarIncidente($no_tic)
                                         <option selected value="800"><?php echo $proc?></option>
                                         <?php
                                         include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM procedencia";
+                                        $consulta= "SELECT * FROM procedencia ORDER BY PROCEDENCIA ASC";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>
                                         <?php foreach ($ejecutar as $opciones): ?> 

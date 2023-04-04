@@ -136,7 +136,7 @@ function ConsultarIncidente($no_tic)
                                     <option selected value="100"><?php echo $turno?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM turnos";
+                                    $consulta= "SELECT * FROM turnos ORDER BY TURNO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 

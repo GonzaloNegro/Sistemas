@@ -81,7 +81,7 @@ function ConsultarIncidente($no_tic)
                                         <option selected value="100"><?php echo $repa?></option>
                                         <?php
                                         include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM reparticion";
+                                        $consulta= "SELECT * FROM reparticion ORDER BY REPA ASC";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>
                                         <?php foreach ($ejecutar as $opciones): ?> 

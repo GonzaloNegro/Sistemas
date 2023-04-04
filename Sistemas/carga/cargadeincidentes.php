@@ -321,7 +321,7 @@ $row = $resultado->fetch_assoc();
 										<option value="" selected disabled="prioridad">-SELECCIONE UNA-</option>
 										<?php
 										include("../particular/conexion.php");
-										$consulta= "SELECT * FROM prioridad";
+										$consulta= "SELECT * FROM prioridad ORDER BY PRIORIDAD ASC";
 										$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 										?>
 										<?php foreach ($ejecutar as $opciones): ?> 
@@ -333,7 +333,7 @@ $row = $resultado->fetch_assoc();
 										<option value="" selected disabled="tipificacion">-SELECCIONE UNA-</option>
 										<?php
 										include("../particular/conexion.php");
-										$consulta= "SELECT * FROM tipificacion WHERE ID_TIPIFICACION >= 20";
+										$consulta= "SELECT * FROM tipificacion WHERE ID_TIPIFICACION >= 20 ORDER BY TIPIFICACION ASC";
 										$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 										?>
 										<?php foreach ($ejecutar as $opciones): ?> 
@@ -382,7 +382,7 @@ $row = $resultado->fetch_assoc();
 								<option value='0' selected disabled="estado">-SELECCIONE UNA-</option>
 								<?php
 								include("../particular/conexion.php");
-								$consulta= "SELECT * FROM estado";
+								$consulta= "SELECT * FROM estado ORDER BY ESTADO ASC";
 								$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 								?>
 								<?php foreach ($ejecutar as $opciones): ?> 

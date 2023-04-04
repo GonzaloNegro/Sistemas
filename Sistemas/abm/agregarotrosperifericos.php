@@ -75,7 +75,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM tipop WHERE ID_TIPOP = 5 OR ID_TIPOP = 6 OR ID_TIPOP = 9 OR ID_TIPOP = 11 OR ID_TIPOP = 12";
+                                    $consulta= "SELECT * FROM tipop WHERE ID_TIPOP = 5 OR ID_TIPOP = 6 OR ID_TIPOP = 9 OR ID_TIPOP = 11 OR ID_TIPOP = 12 ORDER BY TIPO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -94,7 +94,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM marcas";
+                                    $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -109,7 +109,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM usuarios";
+                                    $consulta= "SELECT * FROM usuarios ORDER BY NOMBRE ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -121,7 +121,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM modelo";
+                                    $consulta= "SELECT * FROM modelo ORDER BY MODELO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -137,7 +137,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM estado_ws";
+                                    $consulta= "SELECT * FROM estado_ws ORDER BY ESTADO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -158,7 +158,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor";
+                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 

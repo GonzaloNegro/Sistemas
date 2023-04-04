@@ -1011,7 +1011,7 @@ function ConsultarIncidente($no_tic)
                                         <option selected value="300"><?php echo $red?></option>
                                         <?php
                                         include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM red";
+                                        $consulta= "SELECT * FROM red ORDER BY RED ASC";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>
                                         <?php foreach ($ejecutar as $opciones): ?> 
@@ -1028,7 +1028,7 @@ function ConsultarIncidente($no_tic)
                                     <option selected value="500"><?php echo $so?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM so";
+                                    $consulta= "SELECT * FROM so ORDER BY SIST_OP ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1040,7 +1040,7 @@ function ConsultarIncidente($no_tic)
                                         <option selected value="700"><?php echo $est?></option>
                                         <?php
                                         include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM estado_ws";
+                                        $consulta= "SELECT * FROM estado_ws ORDER BY ESTADO ASC";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>
                                         <?php foreach ($ejecutar as $opciones): ?> 
@@ -1056,7 +1056,7 @@ function ConsultarIncidente($no_tic)
                                         <option selected value="800"><?php echo $pro?></option>
                                         <?php
                                         include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM proveedor";
+                                        $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>
                                         <?php foreach ($ejecutar as $opciones): ?> 
@@ -1068,7 +1068,7 @@ function ConsultarIncidente($no_tic)
                                         <option selected value="900"><?php echo $tip?></option>
                                         <?php
                                         include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM tipows";
+                                        $consulta= "SELECT * FROM tipows ORDER BY TIPOWS ASC";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>
                                         <?php foreach ($ejecutar as $opciones): ?> 
@@ -1084,7 +1084,7 @@ function ConsultarIncidente($no_tic)
                                         <option selected value="1000"><?php echo $usu?></option>
                                         <?php
                                         include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM usuarios";
+                                        $consulta= "SELECT * FROM usuarios ORDER BY NOMBRE ASC";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>
                                         <?php foreach ($ejecutar as $opciones): ?> 
@@ -1097,7 +1097,7 @@ function ConsultarIncidente($no_tic)
                                         <option selected value="1100"><?php echo $area?></option>
                                         <?php
                                         include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM area";
+                                        $consulta= "SELECT * FROM area ORDER BY AREA ASC";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>
                                         <?php foreach ($ejecutar as $opciones): ?> 
@@ -1125,7 +1125,7 @@ function ConsultarIncidente($no_tic)
                                         <option selected value="1100"><?php echo $mar?></option>
                                         <?php
                                         include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM marcas";
+                                        $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>
                                         <?php foreach ($ejecutar as $opciones): ?> 
@@ -1418,7 +1418,7 @@ function ConsultarIncidente($no_tic)
             <option selected value="1200"><?php echo $mem1?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM memoria";
+                                    $consulta= "SELECT * FROM memoria ORDER BY MEMORIA ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1430,7 +1430,7 @@ function ConsultarIncidente($no_tic)
               <option selected value="1201"><?php echo $tmem1?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM tipomem";
+                                    $consulta= "SELECT * FROM tipomem ORDER BY TIPOMEM ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1478,7 +1478,7 @@ function ConsultarIncidente($no_tic)
                     <option selected value="1204"><?php echo $pvel1?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM velocidad";
+                                    $consulta= "SELECT * FROM velocidad ORDER BY FRECUENCIA_RAM ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1503,7 +1503,7 @@ function ConsultarIncidente($no_tic)
                                 <option selected value="1300"><?php echo $mem2?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM memoria";
+                                    $consulta= "SELECT * FROM memoria ORDER BY MEMORIA ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1515,7 +1515,7 @@ function ConsultarIncidente($no_tic)
                             <option selected value="1301"><?php echo $tmem2?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM tipomem";
+                                    $consulta= "SELECT * FROM tipomem ORDER BY TIPOMEM ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1563,7 +1563,7 @@ function ConsultarIncidente($no_tic)
                   <option selected value="1304"><?php echo $pvel2?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM velocidad";
+                                    $consulta= "SELECT * FROM velocidad ORDER BY FRECUENCIA_RAM ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1588,7 +1588,7 @@ function ConsultarIncidente($no_tic)
                                 <option selected value="1400"><?php echo $mem3?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM memoria";
+                                    $consulta= "SELECT * FROM memoria ORDER BY MEMORIA ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1600,7 +1600,7 @@ function ConsultarIncidente($no_tic)
                             <option selected value="1401"><?php echo $tmem3?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM tipomem";
+                                    $consulta= "SELECT * FROM tipomem ORDER BY TIPOMEM ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1648,7 +1648,7 @@ function ConsultarIncidente($no_tic)
                   <option selected value="1404"><?php echo $pvel3?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM velocidad";
+                                    $consulta= "SELECT * FROM velocidad ORDER BY FRECUENCIA_RAM ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1673,7 +1673,7 @@ function ConsultarIncidente($no_tic)
                                 <option selected value="1500"><?php echo $mem4?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM memoria";
+                                    $consulta= "SELECT * FROM memoria ORDER BY MEMORIA ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1685,7 +1685,7 @@ function ConsultarIncidente($no_tic)
                             <option selected value="1501"><?php echo $tmem4?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM tipomem";
+                                    $consulta= "SELECT * FROM tipomem ORDER BY TIPOMEM ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1733,7 +1733,7 @@ function ConsultarIncidente($no_tic)
                   <option selected value="1504"><?php echo $pvel4?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM velocidad";
+                                    $consulta= "SELECT * FROM velocidad ORDER BY FRECUENCIA_RAM ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1772,7 +1772,7 @@ function ConsultarIncidente($no_tic)
                             <option selected value="1600"><?php echo $disc1?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM disco";
+                                    $consulta= "SELECT * FROM disco ORDER BY DISCO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1784,7 +1784,7 @@ function ConsultarIncidente($no_tic)
                             <option selected value="1601"><?php echo $tdisc1?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM tipodisco";
+                                    $consulta= "SELECT * FROM tipodisco ORDER BY TIPOD ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1849,7 +1849,7 @@ function ConsultarIncidente($no_tic)
                             <option selected value="1700"><?php echo $disc2?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM disco";
+                                    $consulta= "SELECT * FROM disco ORDER BY DISCO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1861,7 +1861,7 @@ function ConsultarIncidente($no_tic)
                             <option selected value="1701"><?php echo $tdisc2?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM tipodisco";
+                                    $consulta= "SELECT * FROM tipodisco ORDER BY TIPOD ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1926,7 +1926,7 @@ function ConsultarIncidente($no_tic)
                             <option selected value="1800"><?php echo $disc3?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM disco";
+                                    $consulta= "SELECT * FROM disco ORDER BY DISCO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -1938,7 +1938,7 @@ function ConsultarIncidente($no_tic)
                             <option selected value="1801"><?php echo $tdisc4?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM tipodisco";
+                                    $consulta= "SELECT * FROM tipodisco ORDER BY TIPOD ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -2003,7 +2003,7 @@ function ConsultarIncidente($no_tic)
                             <option selected value="1900"><?php echo $disc4?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM disco";
+                                    $consulta= "SELECT * FROM disco ORDER BY DISCO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -2015,7 +2015,7 @@ function ConsultarIncidente($no_tic)
                             <option selected value="1901"><?php echo $tdisc4?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM tipodisco";
+                                    $consulta= "SELECT * FROM tipodisco ORDER BY TIPOD ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 

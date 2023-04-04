@@ -228,7 +228,7 @@ $row = $resultado->fetch_assoc();
 										<option value="" selected disabled="tipificacion">-SELECCIONE UNA-</option>
 										<?php
 										include("../particular/conexion.php");
-										$consulta= "SELECT * FROM tipificacion WHERE ID_TIPIFICACION >= 20";
+										$consulta= "SELECT * FROM tipificacion WHERE ID_TIPIFICACION >= 20 ORDER BY TIPIFICACION ASC";
 										$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 										?>
 										<?php foreach ($ejecutar as $opciones): ?> 

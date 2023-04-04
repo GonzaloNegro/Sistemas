@@ -94,7 +94,7 @@ $row = $resultado->fetch_assoc();
 							<?php
 							include("../particular/conexion.php");
 
-							$consulta= "SELECT * FROM area";
+							$consulta= "SELECT * FROM area ORDER BY AREA ASC";
 							$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 							?>
 							<?php foreach ($ejecutar as $opciones): ?> 
@@ -130,7 +130,7 @@ $row = $resultado->fetch_assoc();
 							<?php
 							include("../particular/conexion.php");
 
-							$consulta= "SELECT * FROM turnos";
+							$consulta= "SELECT * FROM turnos ORDER BY TURNO ASC";
 							$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 							?>
 							<?php foreach ($ejecutar as $opciones): ?> 

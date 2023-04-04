@@ -101,7 +101,7 @@ $row = $resultado->fetch_assoc();
 								<option selected disabled="area">-SELECCIONE UNA-</option>
 								<?php
 								include("../particular/conexion.php");
-								$consulta= "SELECT * FROM tipo_resolutor";
+								$consulta= "SELECT * FROM tipo_resolutor ORDER BY TIPO_RESOLUTOR ASC";
 								$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 								?>
 								<?php foreach ($ejecutar as $opciones): ?> 

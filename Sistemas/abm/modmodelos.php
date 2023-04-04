@@ -77,7 +77,7 @@ function ConsultarIncidente($no_tic)
                                         <option selected value="100"><?php echo $ma?></option>
                                         <?php
                                         include("..particular/conexion.php");
-                                        $consulta= "SELECT * FROM marcas";
+                                        $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>
                                         <?php foreach ($ejecutar as $opciones): ?> 
@@ -89,7 +89,7 @@ function ConsultarIncidente($no_tic)
                                         <option selected value="200"><?php echo $tp?></option>
                                         <?php
                                         include("..particular/conexion.php");
-                                        $consulta= "SELECT * FROM tipop";
+                                        $consulta= "SELECT * FROM tipop ORDER BY TIPO ASC";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>
                                         <?php foreach ($ejecutar as $opciones): ?> 
