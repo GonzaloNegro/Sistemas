@@ -128,13 +128,13 @@ $cu = $row['CUIL'];
 		</div>
 		<div id="filtro" class="container-fluid">
             <form method="POST" action="consultausuario.php">
-                    <div class="form-group row">
-                        <input type="text" style="margin-left: 10px; width: 65%; height: 40px; margin-top: 12px; margin-left: 10px;	box-sizing: border-box; border-radius: 10px; text-transform:uppercase;" name="buscar"  placeholder="Buscar" class="form-control largo col-xl-4 col-lg-4">
-
-                        <input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn2" value="BUSCAR"></input>
-
-                        <input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn1" value="LIMPIAR"></input>
-                    </div>
+                <div>
+                    <input type="text" style="text-transform:uppercase;" name="buscar"  placeholder="Buscar" class="form-control largo">
+                </div>        
+                <div>
+                    <input class="btn btn-success" type="submit" name="btn2" value="BUSCAR"></input>
+                    <input class="btn btn-danger"  type="submit" name="btn1" value="LIMPIAR"></input>
+                </div>
             </form>
         </div>
         <div id="mostrar_incidentes">

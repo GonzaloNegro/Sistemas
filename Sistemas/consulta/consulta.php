@@ -23,6 +23,7 @@ $cu = $row['CUIL'];
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymus"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css">
 	<style>
 			body{
@@ -31,6 +32,15 @@ $cu = $row['CUIL'];
 	</style>
 </head>
 <body>
+<?php
+        if (!isset($_POST['buscar'])){$_POST['buscar'] = '';}
+        if (!isset($_POST['usuario'])){$_POST['usuario'] = '';}
+        if (!isset($_POST['resolutor'])){$_POST['resolutor'] = '';}
+        if (!isset($_POST["estado"])){$_POST["estado"] = '';}
+        if (!isset($_POST['buscafechadesde'])){$_POST['buscafechadesde'] = '';}
+        if (!isset($_POST['buscafechahasta'])){$_POST['buscafechahasta'] = '';}
+        if (!isset($_POST["orden"])){$_POST["orden"] = '';}
+    ?>
 <header class="p-3 mb-3 border-bottom altura">
     <div class="container-fluid">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -124,466 +134,220 @@ $cu = $row['CUIL'];
 				}
         </style>
 	<section id="consulta">
-		<div id="titulo" data-aos="zoom-in">
+		<div id="titulo">
 			<h1>CONSULTA DE INCIDENTES</h1>
 		</div>
-		<!--Responsive pero cuando se achique puede salirse un boton hasta que llega al minimo y quedan todos en pila,
-		se puede arreglar poniendo todos los botones sin espacio entremedio-->
-		<div id="filtro" class="container-fluid">
-			<form method="POST" action="consulta.php">
-				<div class="form-group row">
-					<input id="vlva1" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px; width: 48%;" type="submit" name="btn3" value="PENDIENTES"></input>
+        <form method="POST" action="./consulta.php" class="contFilter--name">
+            <div class="filtros-listado">
+                <div>
+                    <label class="form-label">Descripción</label>
+                    <input type="text" style="text-transform:uppercase;" name="buscar"  placeholder="Buscar" class="form-control largo">
+                </div>
+                <div>
+                    <label class="form-label">Período</label>
+                    <div class="fechas">
+                        <div>
+                            <input type="date" id="buscafechadesde" name="buscafechadesde" class="form-control largo" >
+                        </div>
+                        <div>
+                            <input type="date" id="buscafechahasta" name="buscafechahasta" class="form-control largo" >
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="form-label">orden</label>
+                    <select id="assigned-tutor-filter" id="orden" name="orden" class="form-control largo">
+                        <?php if ($_POST["orden"] != ''){ ?>
+                            <option value="<?php echo $_POST["orden"]; ?>">
+                                <?php 
+                        if ($_POST["orden"] == '1'){echo 'ORDENAR POR INCIDENTE';} 
+                        if ($_POST["orden"] == '2'){echo 'ORDENAR POR USUARIO';} 
+                        if ($_POST["orden"] == '3'){echo 'ORDENAR POR ESTADO';}
+                        if ($_POST["orden"] == '4'){echo 'ORDENAR POR RESOLUTOR';} 
+                        if ($_POST["orden"] == '5'){echo 'ORDENAR POR FECHA DE SOLUCIÓN';} 
+                        ?>
+                        </option>
+                        <?php } ?>
+                        <option value="">SIN ORDEN</option>
+                        <option value="1">ORDENAR POR INCIDENTE</option>
+                        <option value="2">ORDENAR POR USUARIO</option>
+                        <option value="3">ORDENAR POR ESTADO</option>
+                        <option value="4">ORDENAR POR RESOLUTOR</option>
+                        <option value="5">ORDENAR POR FECHA DE SOLUCIÓN</option>
+                    </select>
+                </div>
+            </div>
+                
+            <div class="filtros-listado">
+                <div>
+                    <label class="form-label">Usuario</label>
+                    <select id="subject-filter" id="usuario" name="usuario" class="form-control largo">
+                        <option value="">TODOS</option>
+                        <?php 
+                        $consulta= "SELECT * FROM usuarios ORDER BY NOMBRE ASC";
+                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                        ?>
+                        <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value="<?php echo $opciones['ID_USUARIO']?>"><?php echo $opciones['NOMBRE']?></option>
+                            <?php endforeach ?>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label">Estado</label>
+                    <select id="subject-filter" id="estado" name="estado" class="form-control largo">
+                        <option value="">TODOS</option>
+                        <?php 
+                        $consulta= "SELECT * FROM estado ORDER BY ESTADO ASC";
+                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                        ?>
+                        <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value="<?php echo $opciones['ID_ESTADO']?>"><?php echo $opciones['ESTADO']?></option>
+                            <?php endforeach ?>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label">Resolutor</label>
+                    <select id="subject-filter" id="resolutor" name="resolutor" class="form-control largo">
+                        <option value="">TODOS</option>
+                        <?php 
+                        $consulta= "SELECT * FROM resolutor ORDER BY RESOLUTOR ASC";
+                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                        ?>
+                        <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value="<?php echo $opciones['ID_RESOLUTOR']?>"><?php echo $opciones['RESOLUTOR']?></option>
+                            <?php endforeach ?>
+                    </select>
+                </div>
+                <div class="export">
+                    <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
+                    <input type="submit" class="btn btn-success" value="Buscar">
+                </div>
+            </div>
+        <?php 
 
-					<input id="vlva1" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px; width: 48%;" type="submit" name="pm" value="MIS PENDIENTES"></input>
-				</div>
-				<div>
-					<?php
-					/* if(isset($_POST['btn1']) OR isset($_POST['btn2'])) */
-					if(empty($_POST['btn3']))
-					{ if(empty($_POST['pm'])){?>
-					<input type="text" style="margin-left: 10px; width: 30%; height: 40px; margin-top: 12px; 	box-sizing: border-box; box-sizing: border-box; border-radius: 10px; text-transform:uppercase;" name="buscar"  placeholder="Buscar" >
-					<?php
-					}}
-					?>
-					<label for="fecha1" style="color:#1c7cd5;"><u>DESDE:</u></label>
-					<input type="date" name="fecha1" id="fecha1" style="margin-left: 10px; width: 12%; height: 40px; margin-top: 12px;box-sizing: border-box; border-radius: 10px;	display: inline-block;">
-					<label for="fecha2" style="color:#1c7cd5;"><u>HASTA:</u></label>
-					<input type="date" name="fecha2" id="fecha2" style="margin-left: 10px; width: 12%; height: 40px; margin-top: 12px;box-sizing: border-box; border-radius: 10px;	display: inline-block;">
-					<?php
-					if(empty($_POST['btn3']))
-					{ if(empty($_POST['pm'])){?>
-					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn2" value="BUSCAR"></input>
-					<?php
-					}}
-					?>
-					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn1" value="LIMPIAR"></input>
-				</div>
-			</form>
+        if ($_POST['buscar'] == ''){ $_POST['buscar'] = ' ';}
+        $aKeyword = explode(" ", $_POST['buscar']);
+
+        if ($_POST["buscar"] == '' AND $_POST['id_estado'] == '' AND $_POST['id_tipo'] == '' AND $_POST['id_via'] == '' AND $_POST['buscafechadesde'] == '' AND $_POST['buscafechahasta'] == ''){ 
+                $query ="SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
+                FROM ticket t 
+                LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO
+                LEFT JOIN prioridad p ON  p.ID_PRIORIDAD = t.ID_PRIORIDAD 
+                LEFT JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO
+                LEFT JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR
+                ORDER BY t.FECHA_INICIO DESC, t.ID_TICKET DESC ";
+        }else{
+
+                $query = "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
+                FROM ticket t 
+                LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO
+                LEFT JOIN prioridad p ON  p.ID_PRIORIDAD = t.ID_PRIORIDAD 
+                LEFT JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO
+                LEFT JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR ";
+
+                if ($_POST["buscar"] != '' ){ 
+                        $query .= " WHERE (t.DESCRIPCION LIKE LOWER('%".$aKeyword[0]."%')) ";
+                
+                    for($i = 1; $i < count($aKeyword); $i++) {
+                    if(!empty($aKeyword[$i])) {
+                        $query .= " OR t.DESCRIPCION LIKE '%" . $aKeyword[$i] . "%' ";
+                    }
+                    }
+
+                }
+            
+        if ($_POST["usuario"] != '' ){
+            $query .= " AND t.ID_USUARIO = '".$_POST["usuario"]."' ";
+        }
+        if ($_POST["estado"] != '' ){
+            $query .= " AND t.ID_ESTADO = '".$_POST["estado"]."' ";
+        }
+        if ($_POST["resolutor"] != '' ){
+            $query .= " AND t.ID_RESOLUTOR = '".$_POST["resolutor"]."' ";
+        }
+        if ($_POST["buscafechadesde"] != '' ){
+            $query .= " AND t.FECHA_SOLUCION BETWEEN '".$_POST["buscafechadesde"]."' AND '".$_POST["buscafechahasta"]."' ";
+        }
+
+
+
+         if ($_POST["orden"] == '1' ){
+                    $query .= " ORDER BY t.ID_TICKET DESC ";
+         }
+
+         if ($_POST["orden"] == '2' ){
+                $query .= " ORDER BY u.NOMBRE ASC ";
+         }
+
+         if ($_POST["orden"] == '3' ){
+                $query .= "  ORDER BY e.ESTADO ASC ";
+         }
+
+         if ($_POST["orden"] == '4' ){
+                $query .= "  ORDER BY r.RESOLUTOR ASC ";
+         }
+         if ($_POST["orden"] == '5' ){
+            $query .= "  ORDER BY t.FECHA_SOLUCION DESC ";
+     }
+}
+
+/*         $consulta=mysqli_query($datos_base, $query); */
+         $sql = $datos_base->query($query);
+
+         $numeroSql = mysqli_num_rows($sql);
+
+        ?>
+        <div class="contResult">
+            <p style="font-weight: bold; color:#53AAE0;"><i class="mdi mdi-file-document"></i> <?php echo $numeroSql; ?> Resultados encontrados</p>
+        </div>
+    </form>
+
+
+    <table class="table_id" style="width: 98%; margin: 0 auto;">
+        <thead>
+            <tr>
+                <th id="th">N°INCIDENTE</th>
+                <th id="th" style="text-align:center;">FECHA INICIO</th>
+                <th id="th">USUARIO</th>
+                <th id="th">DESCRIPCIÓN</th>
+                <th id="th" style="text-align:center;">ESTADO</th>
+                <th id="th" style="text-align:center;">FECHA SOLUCIÓN</th>
+                <th id="th" style="text-align:center;">RESOLUTOR</th>
+                <th id="th">ACCIÓN</th>
+            </tr>
+        </thead>
+
+        <?php While($rowSql = $sql->fetch_assoc()) {
+                $fecord = date("d-m-Y", strtotime($rowSql['FECHA_INICIO']));
+
+                $fecha = "0000-00-00";
+                if($rowSql['FECHA_SOLUCION'] == $fecha)
+                {
+                    $fec = date("d-m-Y", strtotime($rowSql['FECHA_SOLUCION']));
+                    $fec = "-";
+                    /*$fec = "-";*/
+                }
+                else{
+                    $fec = date("d-m-Y", strtotime($rowSql['FECHA_SOLUCION']));
+                }
+            echo "
+                <tr>
+                <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>".$rowSql['ID_TICKET']."</h4></td>
+                <td><h4 style='font-size:14px; text-align:center;'>".$fecord."</h4></td>
+                <td><h4 class='wrap2' style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['NOMBRE']."</h4></td>
+                <td><h4 class='wrap2' style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['DESCRIPCION']."</h4></td>
+                <td><h4 class='wrap2' style='font-size:14px; text-align: center;'>".$rowSql['ESTADO']."</h4></td>
+                <td><h4 style='font-size:14px; text-align: center;'>".$fec."</h4></td>
+                <td><h4  style='font-size:14px; text-align: center;'>".$rowSql['RESOLUTOR']."</h4></td>
+                <td class='text-center text-nowrap' style='padding:5px;'><a class='btn btn-info' href=modificacion.php?no=".$rowSql['ID_TICKET']." target=new class=mod style=' color:white;'>Editar</a></td>
+                </tr>
+        ";
+        }                 echo '</table>';
+        ?>
 		</div>
-		<div id="mostrar_incidentes">
-			<?php
-				echo "<table width=100%>
-						<thead>
-							<tr>
-								<th><p>N° INCIDENTE</p></th>
-								<th width=125px><p>FECHA INICIO</p></th>
-								<th><p>USUARIO</p></th>
-								<th width=450px><p>DESCRIPCIÓN</p></th>
-								<th><p>ESTADO</p></th>
-								<th><p>FECHA DE SOLUCIÓN</p></th>
-								<th><p>RESOLUTOR</p></th>
-								<th width=65px><p>ACCIÓN</p></th>
-							</tr>
-						</thead>
-					";
-							/*ACA EMPIEZA EL BOTON DE PENDIENTES*/
-
-							if(isset($_POST['btn3']))
-							{
-								/*$doc = $_POST['buscar'];*/
-								/*  $contador = 0; */
-							$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
-							FROM ticket t 
-							LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO
-							LEFT JOIN prioridad p ON  p.ID_PRIORIDAD = t.ID_PRIORIDAD 
-							LEFT JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO
-							LEFT JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR
-							 WHERE t.ID_ESTADO IN (3, 4) ORDER BY t.FECHA_INICIO DESC, t.ID_TICKET DESC");
-								while($listar = mysqli_fetch_array($consulta)) 
-								{
-									/*$originalDate = "2017-03-08";
-									$newDate = date("d/m/Y", strtotime($originalDate));*/
-
-									$fecord = date("d-m-Y", strtotime($listar['FECHA_INICIO']));
-
-									$fecha = "0000-00-00";
-									if($listar['FECHA_SOLUCION'] == $fecha)
-									{
-										$fec = date("d-m-Y", strtotime($listar['FECHA_SOLUCION']));
-										$fec = "-";
-										/*$fec = "-";*/
-									}
-									else{
-										$fec = date("d-m-Y", strtotime($listar['FECHA_SOLUCION']));
-									}
-
-									/* if($listar['ESTADO'] == 'DERIVADO'){
-										$estado = 'EN PROCESO';
-									}else{
-										$estado = $listar['ESTADO'];
-									} */
-
-									echo
-									" 
-										<tr>
-										<td><h4 style='margin-top:12px;margin-bottom: 12px; font-size:16px;'>".$listar['ID_TICKET']."</h4 ></td>
-										<td><h4 style='margin-top:12px;margin-bottom: 12px; font-size:16px;'>".$fecord."</h4 ></td>
-										<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:16px;'>".$listar['NOMBRE']."</h4 ></td>
-										<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:16px;'>".$listar['DESCRIPCION']."</h4 ></td>
-										<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:16px;'>".$listar['ESTADO']/*$est*/."</h4 ></td>
-										<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:16px;'>".$fec."</h4 ></td>
-										<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:16px;'>".$listar['RESOLUTOR']/*$nom*/."</h4 ></td>
-										<td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=modificacion.php?no=".$listar['ID_TICKET']." target=new class=mod><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil-square' viewBox='0 0 16 16'>
-											<path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>
-											<path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z'/>
-										  </svg></a></td>
-										</tr>
-									";
-									/* $contador = $contador + 1; */
-								} 	
-							}
-						/*ACA TERMINA EL BOTON DE PENDIENTES*/
-						/* COMIENZAN MIS PENDIENTES */
-						elseif(isset($_POST['pm']))
-						{
-						/*$doc = $_POST['buscar'];*/
-						/* $contador = 0; */
-						$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
-						FROM ticket t 
-						LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO
-						LEFT JOIN prioridad p ON  p.ID_PRIORIDAD = t.ID_PRIORIDAD 
-						LEFT JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO
-						LEFT JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR
-							WHERE t.ID_ESTADO IN (3, 4) AND r.CUIL = $cu ORDER BY t.FECHA_INICIO DESC, t.ID_TICKET DESC");
-							while($listar = mysqli_fetch_array($consulta)) 
-							{
-								/*$originalDate = "2017-03-08";
-								$newDate = date("d/m/Y", strtotime($originalDate));*/
-
-								$fecord = date("d-m-Y", strtotime($listar['FECHA_INICIO']));
-
-								$fecha = "0000-00-00";
-								if($listar['FECHA_SOLUCION'] == $fecha)
-								{
-									$fec = date("d-m-Y", strtotime($listar['FECHA_SOLUCION']));
-									$fec = "-";
-									/*$fec = "-";*/
-								}
-								else{
-									$fec = date("d-m-Y", strtotime($listar['FECHA_SOLUCION']));
-								}
-
-								/* if($listar['ESTADO'] == 'DERIVADO'){
-									$estado = 'EN PROCESO';
-								}else{
-									$estado = $listar['ESTADO'];
-								} */
-
-								echo
-								" 
-									<tr>
-									<td><h4 style='margin-top:12px;margin-bottom: 12px; font-size:16px;'>".$listar['ID_TICKET']."</h4 ></td>
-									<td><h4 style='margin-top:12px;margin-bottom: 12px; font-size:16px;'>".$fecord."</h4 ></td>
-									<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:16px;'>".$listar['NOMBRE']."</h4 ></td>
-									<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:16px;'>".$listar['DESCRIPCION']."</h4 ></td>
-									<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:16px;'>".$listar['ESTADO']/*$est*/."</h4 ></td>
-									<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:16px;'>".$fec."</h4 ></td>
-									<td><h4 style='margin-top:12px; margin-bottom: 12px; font-size:16px;'>".$listar['RESOLUTOR']/*$nom*/."</h4 ></td>
-									<td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=modificacion.php?no=".$listar['ID_TICKET']." target=new class=mod><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil-square' viewBox='0 0 16 16'>
-										<path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>
-										<path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z'/>
-									  </svg></a></td>
-									</tr>
-								";
-								/* $contador = $contador + 1; */
-							} 	
-						}
-						/* ACA TERMINAR EL BOTON DE MIS PENDIENTES */
-						/* BUQUEDA DE TEXTO GON */
-						 	// elseif(isset($_POST['btn2']))
-							// {
-							// 	$doc = $_POST['buscar'];
-							// 	$contador = 0;
-							// 	$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
-							// 	FROM ticket t 
-							// 	LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO
-							// 	LEFT JOIN prioridad p ON  p.ID_PRIORIDAD = t.ID_PRIORIDAD 
-							// 	LEFT JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO
-							// 	LEFT JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR
-							// 	WHERE t.ID_TICKET LIKE '$doc' OR t.DESCRIPCION LIKE '%$doc%' OR u.NOMBRE LIKE '%$doc%'
-							// 	OR t.FECHA_INICIO LIKE '%$doc%' OR p.PRIORIDAD LIKE '%$doc%'  OR e.ESTADO LIKE '%$doc%'
-							// 	OR t.NRO_EQUIPO LIKE '%$doc%'  OR t.FECHA_SOLUCION LIKE '%$doc%'  OR r.RESOLUTOR LIKE '%$doc%' 
-							// 	ORDER BY t.FECHA_INICIO DESC, t.ID_TICKET DESC");
-							// 	while($listar = mysqli_fetch_array($consulta))
-							// 	{
-							// 		$fecord = date("d-m-Y", strtotime($listar['FECHA_INICIO']));
-												
-							// 		$fecha = "0000-00-00";
-							// 		if($listar['FECHA_SOLUCION'] == $fecha)		
-							// 		{
-							// 			$fec = date("d-m-Y", strtotime($listar['FECHA_SOLUCION']));
-							// 			$fec = "-";
-
-							// 				}
-							// 					else{
-							// 						$fec = date("d-m-Y", strtotime($listar['FECHA_SOLUCION']));
-							// 					}
-
-							// 					echo
-							// 					"
-							// 						<tr>
-							// 						<td><h4 style='font-size:16px;'>".$listar['ID_TICKET']."</h4 ></td>
-							// 						<td><h4 style='font-size:16px;'>".$fecord."</h4 ></td>
-							// 						<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4 ></td>
-							// 						<td><h4 style='font-size:16px;'>".$listar['DESCRIPCION']."</h4 ></td>
-							// 						<td><h4 style='font-size:16px;'>".$listar['ESTADO']."</h4 ></td>
-							// 						<td><h4 style='font-size:16px;'>".$fec."</h4 ></td>
-							// 						<td><h4 style='font-size:16px;'>".$listar['RESOLUTOR']."</h4 ></td>
-							// 						<td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=consultadetalle.php?no=".$listar['ID_TICKET']." target=new class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
-							// 						<path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
-							// 						<path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
-							// 					  </svg></a></td>
-							// 					  </tr>
-							// 					"; 
-							// 					$contador = $contador + 1;
-							// 	};} 
-
-
-
-
-/* ----------------------------------------------------------------------------- */
-/* ----------------------------------------------------------------------------- */
-/* ----------------------------------------------------------------------------- */
-
-								/* ACA ARRANCAN LAS BUSQUEDAS DE NICO */
-								elseif(isset($_POST['btn2']))
-								{
-
-                                    if(isset($_POST['buscar']) AND $_POST['fecha1']=="" AND $_POST['fecha2']==""){
-	
-										$doc = $_POST['buscar'];
-															/* 	$contador = 0; */
-																$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
-																FROM ticket t 
-																LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO
-																LEFT JOIN prioridad p ON  p.ID_PRIORIDAD = t.ID_PRIORIDAD 
-																LEFT JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO
-																LEFT JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR
-																WHERE (t.ID_TICKET LIKE '$doc' OR t.DESCRIPCION LIKE '%$doc%' OR u.NOMBRE LIKE '%$doc%'
-																OR t.FECHA_INICIO LIKE '%$doc%' OR p.PRIORIDAD LIKE '%$doc%'  OR e.ESTADO LIKE '%$doc%'
-																OR t.NRO_EQUIPO LIKE '%$doc%'  OR t.FECHA_SOLUCION LIKE '%$doc%'  OR r.RESOLUTOR LIKE '%$doc%')
-																ORDER BY t.FECHA_INICIO DESC, t.ID_TICKET DESC");
-																while($listar = mysqli_fetch_array($consulta))
-																{
-																	$fecord = date("d-m-Y", strtotime($listar['FECHA_INICIO']));
-																				
-																	$fecha = "0000-00-00";
-																	if($listar['FECHA_SOLUCION'] == $fecha)		
-																	{
-																		$fec = date("d-m-Y", strtotime($listar['FECHA_SOLUCION']));
-																		$fec = "-";
-							
-																			}
-																				else{
-																					$fec = date("d-m-Y", strtotime($listar['FECHA_SOLUCION']));
-																				}
-							
-																				echo
-																				"
-																					<tr>
-																					<td><h4 style='font-size:16px;'>".$listar['ID_TICKET']."</h4 ></td>
-																					<td><h4 style='font-size:16px;'>".$fecord."</h4 ></td>
-																					<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4 ></td>
-																					<td><h4 style='font-size:16px;'>".$listar['DESCRIPCION']."</h4 ></td>
-																					<td><h4 style='font-size:16px;'>".$listar['ESTADO']."</h4 ></td>
-																					<td><h4 style='font-size:16px;'>".$fec."</h4 ></td>
-																					<td><h4 style='font-size:16px;'>".$listar['RESOLUTOR']."</h4 ></td>
-																					<td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=consultadetalle.php?no=".$listar['ID_TICKET']." target=new class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
-																					<path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
-																					<path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
-																				  </svg></a></td>
-																				  </tr>
-																				"; 
-																			/* 	$contador = $contador + 1; */
-																};
-							
-									}
-
-
-									if($_POST['buscar']!="" AND isset($_POST['fecha1']) AND isset($_POST['fecha2'])){		
-										$doc = $_POST['buscar'];
-										$fecha1 = date("Y-m-d", strtotime($_POST['fecha1']));
-										$fecha2 = date("Y-m-d", strtotime($_POST['fecha2']));
-								
-										$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
-										FROM ticket t 
-										LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO
-										LEFT JOIN prioridad p ON  p.ID_PRIORIDAD = t.ID_PRIORIDAD 
-										LEFT JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO
-										LEFT JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR
-										WHERE (t.ID_TICKET LIKE '$doc' OR t.DESCRIPCION LIKE '%$doc%' OR u.NOMBRE LIKE '%$doc%'
-										OR t.FECHA_INICIO LIKE '%$doc%' OR p.PRIORIDAD LIKE '%$doc%'  OR e.ESTADO LIKE '%$doc%'
-										OR t.NRO_EQUIPO LIKE '%$doc%'  OR t.FECHA_SOLUCION LIKE '%$doc%'  OR r.RESOLUTOR LIKE '%$doc%')
-										and t.FECHA_INICIO BETWEEN '$fecha1' AND '$fecha2'
-										ORDER BY t.FECHA_INICIO DESC, t.ID_TICKET DESC");
-										while($listar = mysqli_fetch_array($consulta))
-										{
-											$fecord = date("d-m-Y", strtotime($listar['FECHA_INICIO']));
-														
-											$fecha = "0000-00-00";
-											if($listar['FECHA_SOLUCION'] == $fecha)		
-											{
-												$fec = date("d-m-Y", strtotime($listar['FECHA_SOLUCION']));
-												$fec = "-";
-	
-													}
-														else{
-															$fec = date("d-m-Y", strtotime($listar['FECHA_SOLUCION']));
-														}
-		
-														echo
-														"
-															<tr>
-															<td><h4 style='font-size:16px;'>".$listar['ID_TICKET']."</h4 ></td>
-															<td><h4 style='font-size:16px;'>".$fecord."</h4 ></td>
-															<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4 ></td>
-															<td><h4 style='font-size:16px;'>".$listar['DESCRIPCION']."</h4 ></td>
-															<td><h4 style='font-size:16px;'>".$listar['ESTADO']."</h4 ></td>
-															<td><h4 style='font-size:16px;'>".$fec."</h4 ></td>
-															<td><h4 style='font-size:16px;'>".$listar['RESOLUTOR']."</h4 ></td>
-															<td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=consultadetalle.php?no=".$listar['ID_TICKET']." target=new class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
-															<path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
-															<path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
-														  </svg></a></td>
-														  </tr>
-														"; 
-														/* $contador = $contador + 1; */
-										} ;}  
-			
-			
-			
-	                                   if(empty($_POST['buscar']) AND $_POST['fecha1']!="" AND $_POST['fecha2']!=""){
-
-										$fecha1 = date("Y-m-d", strtotime($_POST['fecha1']));
-										$fecha2 = date("Y-m-d", strtotime($_POST['fecha2']));
-									/* 	$contador = 0; */
-										$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
-										FROM ticket t 
-										LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO
-										LEFT JOIN prioridad p ON  p.ID_PRIORIDAD = t.ID_PRIORIDAD 
-										LEFT JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO
-										LEFT JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR
-										WHERE t.FECHA_INICIO BETWEEN '$fecha1' AND '$fecha2'
-										ORDER BY t.FECHA_INICIO DESC, t.ID_TICKET DESC");
-										while($listar = mysqli_fetch_array($consulta))
-										{
-											$fecord = date("d-m-Y", strtotime($listar['FECHA_INICIO']));
-														
-											$fecha = "0000-00-00";
-											if($listar['FECHA_SOLUCION'] == $fecha)		
-											{
-												$fec = date("d-m-Y", strtotime($listar['FECHA_SOLUCION']));
-												$fec = "-";
-	
-													}
-														else{
-															$fec = date("d-m-Y", strtotime($listar['FECHA_SOLUCION']));
-														}
-	
-														echo
-														"
-															<tr>
-															<td><h4 style='font-size:16px;'>".$listar['ID_TICKET']."</h4 ></td>
-															<td><h4 style='font-size:16px;'>".$fecord."</h4 ></td>
-															<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4 ></td>
-															<td><h4 style='font-size:16px;'>".$listar['DESCRIPCION']."</h4 ></td>
-															<td><h4 style='font-size:16px;'>".$listar['ESTADO']."</h4 ></td>
-															<td><h4 style='font-size:16px;'>".$fec."</h4 ></td>
-															<td><h4 style='font-size:16px;'>".$listar['RESOLUTOR']."</h4 ></td>
-															<td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=consultadetalle.php?no=".$listar['ID_TICKET']." target=new class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
-															<path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
-															<path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
-														  </svg></a></td>
-														  </tr>
-														"; 
-														
-										};
-	
-	
-			}}
-								else{
-									/* $contador = 0; */
-							$consulta=mysqli_query($datos_base, "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
-							FROM ticket t
-							LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO 
-							LEFT JOIN prioridad p ON  p.ID_PRIORIDAD = t.ID_PRIORIDAD 
-							LEFT JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO
-							LEFT JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR
-							ORDER BY t.FECHA_INICIO DESC, t.ID_TICKET DESC
-							LIMIT 80");
-
-								while($listar = mysqli_fetch_array($consulta)) 			
-								{
-									$fecord = date("d-m-Y", strtotime($listar['FECHA_INICIO']));
-
-									$fecha = "0000-00-00";
-									if($listar['FECHA_SOLUCION'] == $fecha)
-									{
-										$fec = date("d-m-Y", strtotime($listar['FECHA_SOLUCION']));
-										$fec = "-";
-										/*$fec = "-";*/
-									}
-									else{
-										$fec = date("d-m-Y", strtotime($listar['FECHA_SOLUCION']));
-									}
-
-									/* if($listar['ESTADO'] == 'DERIVADO'){
-										$estado = 'EN PROCESO';
-									}else{
-										$estado = $listar['ESTADO'];
-									} */
-
-									echo
-									"										
-										<tr>
-
-										<td><h4 style='font-size:16px;'>".$listar['ID_TICKET']."</h4></td>
-										<td><h4 style='font-size:16px;'>".$fecord."</h4></td>
-										<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>
-										<td><h4 style='font-size:16px;'>".$listar['DESCRIPCION']."</h4></td>
-										<td><h4 style='font-size:16px;'>".$listar['ESTADO']/*$est*/."</h4></td>
-										<td><h4 style='font-size:16px;'>".$fec."</h4 ></td>
-										<td><h4 style='font-size:16px;' >".$listar['RESOLUTOR']/*$nom*/."</h4></td>
-										<td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=consultadetalle.php?no=".$listar['ID_TICKET']." target=new class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
-										<path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
-										<path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
-									  </svg></a></td>
-										</tr>	</a>
-									"; 
-/* 									$contador = $contador + 1; */
-								}
-							}
-
-							
-						echo "<div id=contador>";
-						if(isset($_POST['buscar'])){
-								$filtro = $_POST['buscar'];
-								if($filtro != ""){
-									$filtro = strtoupper($filtro);
-									echo "<p>FILTRADO POR: $filtro</p>";
-								}
-							}
-						echo"
-						</div>
-				</table>";
-			 ?>
-			<div class="container">
-			 	<div class="row">
-					<nav aria-label="Page navigation example" class="pagination-lg">
-						<ul class="pagination">
-							<li class="page-item"><a class="page-link" href="consulta.php"><<</a></li>
-							<li class="page-item"><a class="page-link" href="consulta.php">1</a></li>
-							<li class="page-item"><a class="page-link" href="consulta2.php">2</a></li>
-							<li class="page-item"><a class="page-link" href="consulta3.php">3</a></li>
-							<li class="page-item"><a class="page-link" href="consulta4.php">4</a></li>
-							<li class="page-item"><a class="page-link" href="consulta5.php">5</a></li>
-							<li class="page-item"><a class="page-link" href="consulta5.php">>></a></li>
-						</ul>
-					</nav>
-			 	</div>
-			</div>
-		</div>
-		
+        <form id="formu" action="../exportar/ExcelIncidentes.php" method="POST">
+            <input type="text" id="excel" name="sql" class="valorPeque" readonly="readonly" value="<?php echo $query;?>">
+        </form>
 	</section>
 	<footer></footer>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

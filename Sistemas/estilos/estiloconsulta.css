@@ -90,10 +90,18 @@ p{
 }
 
 #filtro{
+	padding: 10px;
 	height: auto;
-	width: 98%;
-	border-top: 1px solid #53AAE0;
+	width: 75%;
+	margin: 0 auto;
+}
 
+#filtro form{
+	display: flex;
+	justify-content: space-evenly;
+	align-items: flex-start;
+	flex-direction: row;
+	gap: 20px;
 }
 
 #contador{
@@ -128,13 +136,14 @@ input {
 	border-color: white;
 }
 
+
 input:hover{
 	border-color:#29343e;
 	transition-delay: 0.1s;
 }
 
 .largo{
-	width: 550px;
+	width: 380px;
 }
 
 label{
@@ -153,6 +162,15 @@ label .fecha{
 	font-family: TrasandinaBook;
 }
 
+select{
+	margin: 10px;
+}
+.btn-buscar{
+	height: 135px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 ::placeholder { 
 	color: black; 
 }
@@ -586,4 +604,43 @@ footer{
   
 	width: 400px;
   height: auto;
+}
+
+.valorPeque{
+	width: 1px;
+	height: 1px;
+	border: none;
+	background-color: transparent;
+	color: transparent;
+}
+
+.contFilter--name{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	gap: 20px;
+}
+.filtros-listado{
+	background-color: #53aae025;
+	width: 98%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+.filtros-listado label{
+	color: black;
+}
+
+.fechas{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row
+}
+.export{
+	margin-top: 35px;
 }
