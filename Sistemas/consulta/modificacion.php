@@ -147,10 +147,10 @@ function ConsultarIncidente($no_tic)
 				</div>
 				<!--////////////////////////////////////////////////////////////////////////////////-->
 				<!--////////////////////////////////////////////////////////////////////////////////-->
-				<div class="form-group row">
-				<input id="input" type="submit" value="MODIFICAR" name="btnmod" class="col button1">
-				<input id="input" type="submit" value="SOLUCIONAR" name="btnsol" class="col button2">
-				<input id="input" type="submit" value="ANULAR INCIDENTE" name="btnan" class="col button3">
+				<div class="botones-mod">
+					<input id="input" type="submit" style="color:white;" value="MODIFICAR" name="btnmod" class="btn btn-info">
+					<input id="input" type="submit" value="SOLUCIONAR" name="btnsol" class="btn btn-success">
+					<input id="input" type="submit" value="ANULAR INCIDENTE" name="btnan" class="btn btn-danger">
 				</div>
 			</form>
 			<?php

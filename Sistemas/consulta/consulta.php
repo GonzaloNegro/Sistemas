@@ -76,15 +76,23 @@ $cu = $row['CUIL'];
                     <li><a class="dropdown-item" href="otrosp.php">OTROS PERIFÉRICOS</a></li>
                 </ul>
             </li>
-            <li><a href="../abm/abm.php" class="nav-link px-2 link-dark link">ABM</a></li>
-            <li><a href="../reportes/tiporeporte.php" class="nav-link px-2 link-dark link">REPORTES</a></li>
-			<?php if($row['ID_PERFIL'] == 1 OR $row['ID_PERFIL'] == 2){
-                        echo'
-						<li><a href="../particular/estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
-                    ';
-					} 
-					?>
-			<li><a href="../stock/stock.php" class="nav-link px-2 link-dark link">STOCK</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark link">GESTIÓN</a>
+                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                    <li><a href="../abm/abm.php" class="dropdown-item">ABM</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a href="../reportes/tiporeporte.php" class="dropdown-item">REPORTES</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <?php if($row['ID_PERFIL'] == 1 OR $row['ID_PERFIL'] == 2){
+                                echo'
+                                <li><a href="../particular/estadisticas.php" class="dropdown-item">ESTADISTICAS</a></li>
+                            ';
+                            } 
+                            ?>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a href="../stock/stock.php" class="dropdown-item">STOCK</a></li>
+                </ul>
+            </li>
+
 			<li><a href="../calen/calen.php" class="nav-link px-2 link-dark link" data-bs-toggle="tooltip" title="Calendario" data-bs-placement="bottom"><i class="bi bi-calendar3"></i></a></li>
 			<li class="ubicacion link"><a href="../particular/bienvenida.php" data-bs-toggle="tooltip" title="Novedades" data-bs-placement="bottom"><i class="bi bi-info-circle"></i></a></li>
 			<li><a href="../Manual.pdf" class="ubicacion link" data-bs-toggle="tooltip" title="Manual" data-bs-placement="bottom"><i class="bi bi-journal"></i></a></li>
@@ -155,7 +163,7 @@ $cu = $row['CUIL'];
                     </div>
                 </div>
                 <div>
-                    <label class="form-label">orden</label>
+                    <label class="form-label">Orden</label>
                     <select id="assigned-tutor-filter" id="orden" name="orden" class="form-control largo">
                         <?php if ($_POST["orden"] != ''){ ?>
                             <option value="<?php echo $_POST["orden"]; ?>">
@@ -220,7 +228,7 @@ $cu = $row['CUIL'];
                 </div>
                 <div class="export">
                     <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
-                    <input type="submit" class="btn btn-success" value="Buscar">
+                    <input type="submit" class="btn btn-success" name="busqueda" value="Buscar">
                 </div>
             </div>
         <?php 
@@ -236,8 +244,7 @@ $cu = $row['CUIL'];
                 LEFT JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO
                 LEFT JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR
                 ORDER BY t.FECHA_INICIO DESC, t.ID_TICKET DESC ";
-        }else{
-
+        }elseif(isset($_POST['busqueda'])){
                 $query = "SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR
                 FROM ticket t 
                 LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO
@@ -289,6 +296,16 @@ $cu = $row['CUIL'];
          if ($_POST["orden"] == '5' ){
             $query .= "  ORDER BY t.FECHA_SOLUCION DESC ";
      }
+}else{
+    $query ="SELECT t.ID_TICKET, t.FECHA_INICIO, u.NOMBRE, t.DESCRIPCION, p.PRIORIDAD, e.ESTADO, t.NRO_EQUIPO, t.FECHA_SOLUCION, r.RESOLUTOR, t.ID_ESTADO
+    FROM ticket t 
+    LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO
+    LEFT JOIN prioridad p ON  p.ID_PRIORIDAD = t.ID_PRIORIDAD 
+    LEFT JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO
+    LEFT JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR
+    WHERE t.ID_ESTADO = 3 OR t.ID_ESTADO = 4 OR t.ID_ESTADO = 2
+    ORDER BY t.ID_ESTADO DESC, t.FECHA_INICIO DESC, t.ID_TICKET DESC
+    LIMIT 50";
 }
 
 /*         $consulta=mysqli_query($datos_base, $query); */
@@ -308,8 +325,8 @@ $cu = $row['CUIL'];
             <tr>
                 <th id="th">N°INCIDENTE</th>
                 <th id="th" style="text-align:center;">FECHA INICIO</th>
-                <th id="th">USUARIO</th>
-                <th id="th">DESCRIPCIÓN</th>
+                <th id="th" style="padding: 5px;">USUARIO</th>
+                <th id="th" style="padding: 5px;">DESCRIPCIÓN</th>
                 <th id="th" style="text-align:center;">ESTADO</th>
                 <th id="th" style="text-align:center;">FECHA SOLUCIÓN</th>
                 <th id="th" style="text-align:center;">RESOLUTOR</th>
@@ -342,7 +359,45 @@ $cu = $row['CUIL'];
                 <td class='text-center text-nowrap' style='padding:5px;'><a class='btn btn-info' href=modificacion.php?no=".$rowSql['ID_TICKET']." target=new class=mod style=' color:white;'>Editar</a></td>
                 </tr>
         ";
-        }                 echo '</table>';
+        }
+        if($_POST['buscar'] != "" AND $_POST['buscar'] != " " OR $_POST['buscafechadesde'] != "" AND $_POST['buscafechahasta'] != "" OR $_POST['usuario'] != "" OR $_POST['estado'] != "" OR $_POST['resolutor'] != ""){
+            echo "
+            <div class=filtrado>
+            <h2>Filtrado por:</h2>
+                <ul>";
+                    if($_POST['buscar'] != "" AND $_POST['buscar'] != " "){
+                        echo "<li><u>DESCRIPCIÓN</u>: ".$_POST['buscar']."</li>";
+                    }
+                    if($_POST['buscafechadesde'] != "" AND $_POST['buscafechahasta'] != ""){
+                        echo "<li><u>PERÍODO DE CREACIÓN</u>: ".date("d-m-Y", strtotime($_POST['buscafechadesde']))." - ".date("d-m-Y", strtotime($_POST['buscafechahasta']))."</li>";
+                    }
+                    if($_POST['estado'] != ""){
+                        $sql = "SELECT ESTADO FROM estado WHERE ID_ESTADO = $_POST[estado]";
+                        $resultado = $datos_base->query($sql);
+                        $row = $resultado->fetch_assoc();
+                        $estado = $row['ESTADO'];
+                        echo "<li><u>ESTADO</u>: ".$estado."</li>";
+                    }
+                    if($_POST['usuario'] != ""){
+                        $sql = "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = $_POST[usuario]";
+                        $resultado = $datos_base->query($sql);
+                        $row = $resultado->fetch_assoc();
+                        $usuario = $row['NOMBRE'];
+                        echo "<li><u>USUARIO</u>: ".$usuario."</li>";
+                    }
+                    if($_POST['resolutor'] != ""){
+                        $sql = "SELECT RESOLUTOR FROM resolutor WHERE ID_RESOLUTOR = $_POST[resolutor]";
+                        $resultado = $datos_base->query($sql);
+                        $row = $resultado->fetch_assoc();
+                        $resolutor = $row['RESOLUTOR'];
+                        echo "<li><u>RESOLUTOR</u>: ".$resolutor."</li>";
+                    }
+                    echo"
+                </ul>
+            </div>
+            ";
+                }
+        echo '</table>';
         ?>
 		</div>
         <form id="formu" action="../exportar/ExcelIncidentes.php" method="POST">

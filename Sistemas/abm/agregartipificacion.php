@@ -58,24 +58,23 @@ $row = $resultado->fetch_assoc();
 			</script>
 	<div id="reporteEst" style="width: 97%; margin-left: 20px;">   
 				<div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-					<a id="vlv"  href="abmtipificacion.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+                	<a id="vlv"  href="./abmtipificacion.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
 				</div>					
 		</div>
 		
 	<section id="Inicio">
-		<div id="titulo" style="margin:20px;">
+		<div id="titulo">
 			<h1>AGREGAR TIPIFICACIÓN</h1>
 		</div>
-		<div id="principal" style="width: auto" class="container-fluid" data-aos="zoom-in">
-						<form method="POST" action="guardarmodtipificacion.php">
-							<div class="form-group row" style="margin: 10px; padding:10px;">
-								<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DE LA TIPIFICACIÓN:</label>
-								<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="tip" placeholder="NOMBRE" required>
-							</div>	
-							<div class="form-group row justify-content-end" style="margin: 10px; padding:10px;">
-								<input style="width:20%"class="col-3 button" type="submit" value="GUARDAR" class="button">
-							</div>	
-					</form>
+		<div id="principal">
+			<form method="POST" action="guardarmodtipificacion.php">
+				<div class="form--info">
+					<input style="text-transform:uppercase;" class="form-control" type="text" name="tip" placeholder="NOMBRE DE TIPIFICACIÓN" required>
+				</div>	
+				<div class="form--info--btn">
+					<input class="btn btn-success" type="submit" value="GUARDAR">
+				</div>	
+			</form>
 					<?php
 
 					//$tipi = "PRODUCTO NUEVO";
@@ -114,6 +113,7 @@ $row = $resultado->fetch_assoc();
 		</div>
 	</section>
 	<footer></footer>
+	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init();

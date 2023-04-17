@@ -37,26 +37,26 @@ function ConsultarIncidente($no_tic)
 <body>
 <div id="reporteEst" style="width: 97%; margin-left: 20px;">   
 				<div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-					<a id="vlv"  href="abmtipificacion.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+                <a id="vlv"  href="./abmtipificacion.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
 				</div>					
 		</div>
 	<section id="Inicio">
-    <div id="titulo" style="margin: 20px;">
+    <div id="titulo">
 			<h1>MODIFICAR TIPIFICACIÓN</h1>
 		</div>
-		<div id="principalu" style="width: 97%" class="container-fluid">
-                <form method="POST" action="guardarmodtipificacion2.php">
-					<label>ID: </label>
-					<input type="text" class="id" name="id" value="<?php echo $consulta[0]?>">
-					<div class="form-group row" style="margin: 10px; padding:10px;">
-						<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DE LA TIPIFICACIÓN: </label>
-						<input style="margin-top: 5px; text-transform:uppercase;" class="form-control col-form-label col-xl col-lg"  type="text" name="tip" value="<?php echo $consulta[1]?>">
-					</div>	
-                    <div class="row justify-content-end" style="margin: 10px; padding:10px;">
-                        <input style="width: 20%;"class="col-3 button" type="submit" value="MODIFICAR" >
-                    </div>
-                </form>
+		<div id="principal">
+			<form method="POST" action="guardarmodtipificacion2.php">
+				<label>ID: </label>
+				<input type="text" class="id" name="id" value="<?php echo $consulta[0]?>" readonly>
+				<div class="form--info">
+					<input style="text-transform:uppercase;" class="form-control"  type="text" name="tip" value="<?php echo $consulta[1]?>">
+				</div>	
+				<div class="form--info--btn">
+					<input class="btn btn-success" type="submit" value="MODIFICAR" >
+				</div>
+			</form>
 	    </div>
 	</section>
+	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>
 </html>

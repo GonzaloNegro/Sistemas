@@ -90,9 +90,8 @@ p{
 }
 
 #principal{
-	width:75%;
+	width:auto;
 	height: auto;
-	margin-top: 40px;
 	background-color: #5c6f82;
 	border-radius: 15px;transition-duration: 0.5s;
 	transition-delay: 0s;
@@ -420,31 +419,30 @@ nav a img{
 }
 
 #vlv{
-	width: 10%; 
-	height: 45px; 
-	background-color: #1c7cd5; 
-	border-color: #f7fbfd; 
-	font-size: 20px; 
-	font-family: TrasandinaBook;
-    border-radius: 20px;
-	
-}
-#vlv:hover{
-background-color: #176AB5;
+	top: 50px;
+	right: 50px;
+	width: auto; 
+	height: auto; 
+	width: 50px;
+	height: 50px;
+	font-size: 32px;
+	font-weight: bold;
+	border-radius: 30px;
+	padding: 0px;
+	color: white;
 }
 
 #agr{
-	width: 20%; 
-	height: 45px; 
-	background-color: #1c7cd5; 
-	border-color: #f7fbfd; 
-	font-size: 20px; 
-	font-family: TrasandinaBook;
-    border-radius: 20px;
-	
-}
-#agr:hover{
-background-color: #176AB5;
+	top: 50px;
+	right: 50px;
+	width: auto; 
+	height: auto; 
+	width: 50px;
+	height: 50px;
+	font-size: 32px;
+	font-weight: bold;
+	border-radius: 30px;
+	padding: 0px;
 }
 
 h1{
@@ -528,4 +526,38 @@ tr:hover td{
 background-color: #f7fbfd;
 border-color: #176AB5;
 color: #176AB5;
+}
+
+#filtro{
+	padding: 10px;
+	height: auto;
+	width: 75%;
+	margin: 0 auto;
+}
+
+#filtro form{
+	display: flex;
+	justify-content: space-evenly;
+	align-items: flex-start;
+	flex-direction: row;
+	gap: 20px;
+}
+.largo{
+	width: 380px;
+}
+input {
+	width: 320px;
+	margin: 10px;
+	margin-top: 10px;
+	margin-left: 10px;
+	display: inline;
+	box-sizing: border-box;
+	border-radius: 10px;
+	border-color: white;
+}
+
+
+input:hover{
+	border-color:#29343e;
+	transition-delay: 0.1s;
 }

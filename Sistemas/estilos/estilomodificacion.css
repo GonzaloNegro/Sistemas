@@ -314,3 +314,13 @@ tr:hover td{
 #lblForm{
     font-size: 23px;
 }
+.botones-mod{
+	width: 100%;
+	height: auto;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
+	gap: 40px;
+}

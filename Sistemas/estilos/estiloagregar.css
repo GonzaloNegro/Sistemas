@@ -62,15 +62,39 @@ h2{
 }
 
 #principal{
-	width: 670px;
-	height: 170px;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 100;
+	width: auto;
+	height: auto;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#principal form{
+	width: auto;
+	height: auto;
+	padding: 20px;
+
 	background-color: #dbe5e9;
 	border-radius: 15px;transition-duration: 0.5s;
 	border: 1px solid #899dac;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
+	gap: 20px;
+
+	box-shadow: 5px -2px 66px 0px rgba(0,0,0,0.16) inset;
+	-webkit-box-shadow: 5px -2px 66px 0px rgba(0,0,0,0.16) inset;
+	-moz-box-shadow: 5px -2px 66px 0px rgba(0,0,0,0.16) inset;
 }
+.form--info input{
+	width: 300px;
+}
+.form--info--btn input{
+	width: 120px;
+}
+
 
 #principalu{
 	width: 670px;
@@ -364,17 +388,17 @@ nav a img{
 }
 
 #vlv{
-	width: 10%; 
-	height: 45px; 
-	background-color: #1c7cd5; 
-	border-color: #f7fbfd; 
-	font-size: 20px; 
-	font-family: TrasandinaBook;
-    border-radius: 20px;
-	
-}
-#vlv:hover{
-background-color: #176AB5;
+	top: 50px;
+	right: 50px;
+	width: auto; 
+	height: auto; 
+	width: 50px;
+	height: 50px;
+	font-size: 32px;
+	font-weight: bold;
+	border-radius: 30px;
+	padding: 0px;
+	color: white;
 }
 
 .id{

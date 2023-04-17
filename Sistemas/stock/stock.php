@@ -48,7 +48,7 @@ $cu = $row['CUIL'];
 			</li>
             <li><a href="../consulta/consulta.php" class="nav-link px-2 link-dark link">CONSULTA</a>
 			<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="../consultaconsulta.php">CONSULTA DE INCIDENTES</a></li>
+                    <li><a class="dropdown-item" href="../consulta/consulta.php">CONSULTA DE INCIDENTES</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="../consulta/consultausuario.php">CONSULTA DE USUARIOS</a></li>
 					<li><hr class="dropdown-divider"></li>
@@ -66,14 +66,22 @@ $cu = $row['CUIL'];
                     <li><a class="dropdown-item" href="../consulta/otrosp.php">OTROS PERIFÉRICOS</a></li>
                 </ul>
             </li>
-			<li><a href="../abm/abm.php" class="nav-link px-2 link-dark link">ABM</a></li>
-            <li><a href="../reportes/tiporeporte.php" class="nav-link px-2 link-dark link">REPORTES</a></li>
-			<?php if($row['ID_PERFIL'] == 1 OR $row['ID_PERFIL'] == 2){
-                        echo'
-						<li><a href="../particular/estadisticas.php" class="nav-link px-2 link-dark link">ESTADISTICAS</a></li>
-                    ';
-					} ?>
-			<li><a href="../particular/stock.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">STOCK</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark link">GESTIÓN</a>
+                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                    <li><a href="../abm/abm.php" class="dropdown-item">ABM</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a href="../reportes/tiporeporte.php" class="dropdown-item">REPORTES</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <?php if($row['ID_PERFIL'] == 1 OR $row['ID_PERFIL'] == 2){
+                                echo'
+                                <li><a href="../particular/estadisticas.php" class="dropdown-item">ESTADISTICAS</a></li>
+                            ';
+                            } 
+                            ?>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a href="./stock.php" class="dropdown-item">STOCK</a></li>
+                </ul>
+            </li>
 			<li><a href="../calen/calen.php" class="nav-link px-2 link-dark link" data-bs-toggle="tooltip" title="Calendario" data-bs-placement="bottom"><i class="bi bi-calendar3"></i></a></li>
 			<li class="ubicacion link"><a href="../particular/bienvenida.php" data-bs-toggle="tooltip" title="Novedades" data-bs-placement="bottom"><i class="bi bi-info-circle"></i></a></li>
 			<li><a href="../Manual.pdf" class="ubicacion link" data-bs-toggle="tooltip" title="Manual" data-bs-placement="bottom"><i class="bi bi-journal"></i></a></li>

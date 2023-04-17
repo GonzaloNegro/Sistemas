@@ -264,17 +264,22 @@ table{
 
 	border-collapse: collapse;
 	width:100%;
+	box-shadow: 5px -2px 66px 0px rgba(0,0,0,0.24) inset;
+-webkit-box-shadow: 5px -2px 66px 0px rgba(0,0,0,0.24) inset;
+-moz-box-shadow: 5px -2px 66px 0px rgba(0,0,0,0.24) inset;
 }
 
 th, td{
 	border: solid 1px #f7fbfd;
 	border-bottom: solid 1px #073256;
+	
 }
 
 thead{
 	background-color: #dbe5e9;
 	border-bottom: solid 5px #073256;
 	width: 100%;
+	
 }/*ACA ESTABA EL PROBLEMA DEL ACOMODAMIENTO EN "VER PENDIENTES" Y "VER" QUE SE ACHICABA EL TABLE*/
 
 tr:nth-child(even){
@@ -469,8 +474,12 @@ color: #176AB5;
 	border: 1px solid rgba(0, 0, 0, 0.2);
 
 	transition: box-shadow 0.5s linear;
-	border-radius: 32px;
-	background: #e0e0e0;
+	border-radius: 5px;
+
+	background: #FFFFFF;
+	background: -webkit-radial-gradient(center, #FFFFFF, #DBDBDB);
+	background: -moz-radial-gradient(center, #FFFFFF, #DBDBDB);
+	background: radial-gradient(ellipse at center, #FFFFFF, #DBDBDB);
 	box-shadow:  21px 21px 55px #afafaf,
 				-21px -21px 55px #ffffff;
 }
@@ -494,9 +503,8 @@ color: #176AB5;
 
 .card-img-top{
 	height: 200px;
-	border-radius: 32 32 0px 0px;
+	border-radius: 5px 5px 0px 0px;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-	border-radius: 32px 32px 0px 0px;
 }
 
 .card-body{
@@ -534,7 +542,6 @@ color: #176AB5;
 
 .inp{
 	width: 30%;
-	margin-left: 50px;
 
 	display: flex;
 	justify-content:center;
@@ -543,30 +550,13 @@ color: #176AB5;
 	font-family: TrasandinaMedium;
 }
 
-.btns-men, .btns-nro, .btns-mas{
+.btns-nro{
 	margin: 10px;
 }
 
-.btns-men, .btns-nro, .btns-mas{
+.btns-nro{
 	color: #00519C;
 	font-weight: bold;
-}
-
-.btns-men, .btns-mas{
-	width: 40PX;
-	background-color: transparent;
-	border-radius: 10px;
-	border: 1px solid #00519C;
-}
-
-.btns-men:active, .btns-mas:active{
-	transform: scale(0.96);
-	box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
-}
-
-.btns-men:hover, .btns-mas:hover{
-	background-color: #00519C;
-	color: white;
 }
 
 .card-conf{
@@ -581,6 +571,7 @@ color: #176AB5;
 	background-color: transparent;
 	border-radius: 10px;
 	border: 1px solid #00519C;
+	transition: 0.6s;
 }
 
 .conf:active{
@@ -589,6 +580,7 @@ color: #176AB5;
 }
 
 .conf:hover{
+	transition: 0.6s;
 	background-color: #00519C;
 	color: white;
 }
@@ -643,4 +635,18 @@ footer{
 }
 .export{
 	margin-top: 35px;
+}
+
+.filtrado{
+	width: 100%;
+	padding: 20px;
+	border-top: 2px solid blue;
+}
+.filtrado h2{
+	font-size: 24px;
+	text-decoration: underline;
+	color: blue;
+}
+.filtrado ul li{
+	color: blue;
 }
