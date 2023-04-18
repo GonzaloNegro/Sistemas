@@ -614,7 +614,7 @@ footer{
 	flex-direction: column;
 	gap: 20px;
 }
-.filtros-listado{
+.filtros-listado, .filtros-listado-busqueda{
 	background-color: #53aae025;
 	width: 98%;
 	display: flex;
@@ -625,6 +625,9 @@ footer{
 }
 .filtros-listado label{
 	color: black;
+}
+.filtros-listado-busqueda{
+	justify-content: flex-end;
 }
 
 .fechas{

@@ -356,7 +356,7 @@ $cu = $row['CUIL'];
                 <td><h4 class='wrap2' style='font-size:14px; text-align: center;'>".$rowSql['ESTADO']."</h4></td>
                 <td><h4 style='font-size:14px; text-align: center;'>".$fec."</h4></td>
                 <td><h4  style='font-size:14px; text-align: center;'>".$rowSql['RESOLUTOR']."</h4></td>
-                <td class='text-center text-nowrap' style='padding:5px;'><a class='btn btn-info' href=modificacion.php?no=".$rowSql['ID_TICKET']." target=new class=mod style=' color:white;'>Editar</a></td>
+                <td class='text-center text-nowrap' style='padding:5px;'><a class='btn btn-info' href=modificacion.php?no=".$rowSql['ID_TICKET']." target=new class=mod style=' color:white;'>Info</a></td>
                 </tr>
         ";
         }

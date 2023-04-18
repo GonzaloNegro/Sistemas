@@ -20,6 +20,7 @@ $row = $resultado->fetch_assoc();
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymus"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css">
 	<style>
 			body{
@@ -28,6 +29,15 @@ $row = $resultado->fetch_assoc();
 	</style>
 </head>
 <body>
+<?php
+    if (!isset($_POST['buscar'])){$_POST['buscar'] = '';}
+    if (!isset($_POST['area'])){$_POST['area'] = '';}
+    if (!isset($_POST["reparticion"])){$_POST["reparticion"] = '';}
+    if (!isset($_POST["orden"])){$_POST["orden"] = '';}
+    if (!isset($_POST['tipop'])){$_POST['tipop'] = '';}
+    if (!isset($_POST["impresora"])){$_POST["impresora"] = '';}
+    if (!isset($_POST["marca"])){$_POST["marca"] = '';}
+?>
 <header class="p-3 mb-3 border-bottom altura">
     <div class="container-fluid">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -127,127 +137,288 @@ $row = $resultado->fetch_assoc();
                
 				}
         </style>
-        <section id="consulta">
-        <div id="titulo" data-aos="zoom-in">
-			<h1>INVENTARIO IMPRESORAS</h1>
+  <section id="consulta">
+		<div id="titulo">
+			<h1>INVENTARIO DE IMPRESORAS</h1>
 		</div>
-		<div id="filtro" class="container-fluid">
-			<form method="POST" action="impresoras.php">
-			<div class="form-group row">
-				<input type="text" style="margin-left: 10px; width: 70%; height: 40px; margin-top: 12px; 	box-sizing: border-box; border-radius: 10px; text-transform:uppercase;" name="buscar"  placeholder="Buscar"  class="form-control largo col-xl-4 col-lg-4">
+        <form method="POST" action="./impresoras.php" class="contFilter--name">
+            <div class="filtros-listado">
+                <div>
+                    <label class="form-label">Usuario/Serieg</label>
+                    <input type="text" style="text-transform:uppercase;" name="buscar"  placeholder="Buscar" class="form-control largo">
+                </div>
+                <div>
+                    <label class="form-label">Área</label>
+                    <select id="subject-filter" id="area" name="area" class="form-control largo">
+                        <option value="">TODOS</option>
+                        <?php 
+                        $consulta= "SELECT * FROM area ORDER BY AREA ASC";
+                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                        ?>
+                        <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value="<?php echo $opciones['ID_AREA']?>"><?php echo $opciones['AREA']?></option>
+                            <?php endforeach ?>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label">Impresora</label>
+                    <select id="subject-filter" id="impresora" name="impresora" class="form-control largo">
+                        <option value="">TODOS</option>
+                        <?php 
+                        $consulta= "SELECT * 
+                        FROM modelo
+                        WHERE ID_TIPOP = 1 OR ID_TIPOP = 2 OR ID_TIPOP = 3 OR ID_TIPOP = 4 OR ID_TIPOP = 10 OR ID_TIPOP = 13
+                        ORDER BY MODELO ASC";
+                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                        ?>
+                        <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value="<?php echo $opciones['ID_MODELO']?>"><?php echo $opciones['MODELO']?></option>
+                            <?php endforeach ?>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label">Orden</label>
+                    <select id="assigned-tutor-filter" id="orden" name="orden" class="form-control largo">
+                        <?php if ($_POST["orden"] != ''){ ?>
+                            <option value="<?php echo $_POST["orden"]; ?>">
+                                <?php 
+                        if ($_POST["orden"] == '1'){echo 'ORDENAR POR USUARIO';} 
+                        if ($_POST["orden"] == '2'){echo 'ORDENAR POR SERIEG';} 
+                        if ($_POST["orden"] == '3'){echo 'ORDENAR POR AREA';}
+                        if ($_POST["orden"] == '4'){echo 'ORDENAR POR IMPRESORA';} 
+                        if ($_POST["orden"] == '5'){echo 'ORDENAR POR MARCA';}
+                        if ($_POST["orden"] == '6'){echo 'ORDENAR POR TIPO';}
+                        ?>
+                        </option>
+                        <?php } ?>
+                        <option value="">SIN ORDEN</option>
+                        <option value="1">ORDENAR POR USUARIO</option>
+                        <option value="2">ORDENAR POR SERIEG</option>
+                        <option value="3">ORDENAR POR AREA</option>
+                        <option value="4">ORDENAR POR IMPRESORA</option>
+                        <option value="5">ORDENAR POR MARCA</option>
+                        <option value="6">ORDENAR POR TIPO</option>
+                    </select>
+                </div>
+            </div>
+                
+            <div class="filtros-listado">
+                <div>
+                    <label class="form-label">Marca</label>
+                    <select id="subject-filter" id="marca" name="marca" class="form-control largo">
+                        <option value="">TODOS</option>
+                        <?php 
+                        $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
+                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                        ?>
+                        <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value="<?php echo $opciones['ID_MARCA']?>"><?php echo $opciones['MARCA']?></option>
+                            <?php endforeach ?>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label">Tipo</label>
+                    <select id="subject-filter" id="tipop" name="tipop" class="form-control largo">
+                        <option value="">TODOS</option>
+                        <?php 
+                        $consulta= "SELECT * FROM tipop 
+                        WHERE ID_TIPOP = 1 OR ID_TIPOP = 2 OR ID_TIPOP = 3 OR ID_TIPOP = 4 OR ID_TIPOP = 10 OR ID_TIPOP = 13
+                        ORDER BY TIPO ASC";
+                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                        ?>
+                        <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value="<?php echo $opciones['ID_TIPOP']?>"><?php echo $opciones['TIPO']?></option>
+                            <?php endforeach ?>
+                    </select>
+                </div>
+                <div class="export">
+                    <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
+                    <input type="submit" class="btn btn-success" name="busqueda" value="Buscar">
+                </div>
+            </div>
+        <?php 
 
-				<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn2" value="BUSCAR"></input>
-				<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn1" value="LIMPIAR"></input>
-					<!-- <input type="text" style="margin-left: 10px; width: 60%; height: 50px; margin-top: 12px;"  name="buscar"  placeholder="Buscar"  class="form-control largo col-xl-4 col-lg-4">
-					<input type="submit" value="VER" name="btn2" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;">
-					<input type="submit" value="LIMPIAR" name="btn1" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;"> -->
-				</div>
-			</form>
+        if ($_POST['buscar'] == ''){ $_POST['buscar'] = ' ';}
+        $aKeyword = explode(" ", $_POST['buscar']);
+
+        if ($_POST["buscar"] == '' AND $_POST['ID_REPA'] == '' AND $_POST['ID_AREA'] == ''){ 
+                $query ="SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, mo.MODELO, t.TIPO, m.MARCA			
+                FROM periferico p 
+                LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
+                LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
+                LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
+                INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
+                INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
+                WHERE p.TIPOP = 'IMPRESORA'
+                ORDER BY u.NOMBRE ASC ";
+        }elseif(isset($_POST['busqueda'])){
+                $query = "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, mo.MODELO, t.TIPO, m.MARCA			
+                FROM periferico p 
+                LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
+                LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
+                LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
+                INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
+                INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP ";
+
+                if ($_POST["buscar"] != '' ){ 
+                        $query .= " WHERE (u.NOMBRE LIKE LOWER('%".$aKeyword[0]."%') OR p.SERIEG LIKE LOWER('%".$aKeyword[0]."%')) AND p.TIPOP = 'IMPRESORA' ";
+                
+                    for($i = 1; $i < count($aKeyword); $i++) {
+                    if(!empty($aKeyword[$i])) {
+                        $query .= " OR u.NOMBRE LIKE '%" . $aKeyword[$i] . "%' OR p.SERIEG LIKE '%" . $aKeyword[$i] . "%' AND p.TIPOP = 'IMPRESORA' ";
+                    }
+                    }
+
+                }
+            
+        if ($_POST["area"] != '' ){
+            $query .= " AND u.ID_AREA = '".$_POST["area"]."' ";
+        }
+        if ($_POST["impresora"] != '' ){
+            $query .= " AND mo.ID_MODELO = '".$_POST["impresora"]."' ";
+        }
+        if ($_POST["marca"] != '' ){
+            $query .= " AND m.ID_MARCA = '".$_POST["marca"]."' ";
+        }
+        if ($_POST["tipo"] != '' ){
+            $query .= " AND p.ID_TIPOP = '".$_POST["tipo"]."' ";
+        }
+
+
+         if ($_POST["orden"] == '1' ){
+            $query .= " ORDER BY u.NOMBRE ASC ";
+         }
+
+         if ($_POST["orden"] == '2' ){
+            $query .= " ORDER BY p.SERIEG ASC ";
+         }
+
+         if ($_POST["orden"] == '3' ){
+            $query .= " ORDER BY a.AREA ASC ";
+         }
+         if ($_POST["orden"] == '4' ){
+            $query .= " ORDER BY mo.MODELO ASC ";
+        }
+
+        if ($_POST["orden"] == '5' ){
+                $query .= " ORDER BY m.MARCA ASC ";
+        }
+
+        if ($_POST["orden"] == '6' ){
+                $query .= "  ORDER BY t.TIPO ASC ";
+        }
+
+}else{
+    $query ="SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, mo.MODELO, t.TIPO, m.MARCA			
+    FROM periferico p 
+    LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
+    LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
+    LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
+    INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
+    INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
+    WHERE p.TIPOP = 'IMPRESORA'
+    ORDER BY u.NOMBRE ASC
+    LIMIT 50";
+}
+
+/*         $consulta=mysqli_query($datos_base, $query); */
+         $sql = $datos_base->query($query);
+
+         $numeroSql = mysqli_num_rows($sql);
+
+        ?>
+        <div class="contResult">
+            <p style="font-weight: bold; color:#53AAE0;"><i class="mdi mdi-file-document"></i> <?php echo $numeroSql; ?> Resultados encontrados</p>
+        </div>
+    </form>
+
+
+    <table class="table_id" style="width: 98%; margin: 0 auto;">
+        <thead>
+            <tr>
+                <th><p style="text-align:left; margin-left: 5px;">IMPRESORA</p></th>
+                <th><p style="text-align:left; margin-left: 5px;">USUARIO</p></th>
+                <th><p style="text-align:left; margin-left: 5px;">ÁREA</p></th>
+                <th><p style="text-align:center;">SERIEG</p></th>
+                <th><p style="text-align:left; margin-left: 5px;">TIPO</p></th>
+                <th><p style="text-align:left; margin-left: 5px;">MARCA</p></th>
+                <th><p>MAS DETALLES</p></th>
+            </tr>
+        </thead>
+
+        <?php While($rowSql = $sql->fetch_assoc()) {
+            $NUMERO=$rowSql['SERIEG'];
+            echo "
+                <tr>
+                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['MODELO']."</h4></td>
+                    <td><h4 class='wrap2' style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['NOMBRE']."</h4></td>
+                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['AREA']."</h4></td>
+                    <td><h4 class='wrap2' style='font-size:14px; text-align: center;'>".$rowSql['SERIEG']."</h4></td>
+                    <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['TIPO']."</h4></td>
+                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['MARCA']."</h4></td>
+                    <td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=consultadetalleimp.php?no=".$rowSql['ID_PERI']." target=new class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
+                    <path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
+                    <path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
+                  </svg></a></td>
+                </tr>
+            ";
+        }
+        if($_POST['buscar'] != "" AND $_POST['buscar'] != " " OR $_POST['area'] != "" OR $_POST['impresora'] != "" OR $_POST['marca'] != "" OR $_POST['tipop'] != ""){
+            echo "
+            <div class=filtrado>
+            <h2>Filtrado por:</h2>
+                <ul>";
+                    if($_POST['buscar'] != "" AND $_POST['buscar'] != " "){
+                        echo "<li><u>USUARIO</u>: ".$_POST['buscar']."</li>";
+                    }
+                    if($_POST['area'] != ""){
+                        $sql = "SELECT AREA FROM area WHERE ID_AREA = $_POST[area]";
+                        $resultado = $datos_base->query($sql);
+                        $row = $resultado->fetch_assoc();
+                        $area = $row['AREA'];
+                        echo "<li><u>ÁREA</u>: ".$area."</li>";
+                    }
+                    if($_POST['impresora'] != ""){
+                        $sql = "SELECT MODELO FROM modelo WHERE ID_MODELO = $_POST[impresora]";
+                        $resultado = $datos_base->query($sql);
+                        $row = $resultado->fetch_assoc();
+                        $impresora = $row['MODELO'];
+                        echo "<li><u>IMPRESORA</u>: ".$impresora."</li>";
+                    }
+                    if($_POST['marca'] != ""){
+                        $sql = "SELECT MARCA FROM marcas WHERE ID_MARCA = $_POST[marca]";
+                        $resultado = $datos_base->query($sql);
+                        $row = $resultado->fetch_assoc();
+                        $marca = $row['MARCA'];
+                        echo "<li><u>MARCA</u>: ".$marca."</li>";
+                    }
+                    if($_POST['tipop'] != ""){
+                        $sql = "SELECT TIPO FROM tipop WHERE ID_TIPOP = $_POST[tipop]";
+                        $resultado = $datos_base->query($sql);
+                        $row = $resultado->fetch_assoc();
+                        $tipop = $row['TIPO'];
+                        echo "<li><u>TIPO IMPRESORA</u>: ".$tipop."</li>";
+                    }
+                    echo"
+                </ul>
+            </div>
+            ";
+                }
+        echo '</table>';
+        ?>
 		</div>
-        <div id="mostrar_inventario" class="container-fluid">
-			<?php
-				echo "<table width=100%>
-						<thead>
-							<tr>
-								<th><p>IMPRESORA</p></th>
-								<th><p>USUARIO</p></th>
-								<th><p>ÁREA</p></th>
-                                <th><p>SERIEG</p></th>
-								<th><p>TIPO</p></th>
-                                <th><p>MARCA</p></th>
-								<th><p>MAS DETALLES</p></th>
-							</tr>
-						</thead>
-					";
-					if(isset($_POST['btn2'])){
-						$doc = $_POST['buscar'];
-						$contador = 0;
-						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, mo.MODELO, t.TIPO, m.MARCA			
-						FROM periferico p 
-						LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
-										LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
-										LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
-										INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
-										INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
-										WHERE p.TIPOP = 'IMPRESORA'
-										AND (u.NOMBRE LIKE '%$doc%' 
-										OR t.TIPO LIKE '%$doc%' 
-										OR mo.MODELO LIKE '%$doc%' 
-										OR m.MARCA LIKE '%$doc%'  
-										OR p.SERIEG LIKE '%$doc%'
-										OR a.AREA LIKE '%$doc%')
-								ORDER BY u.NOMBRE ASC");
-									while($listar = mysqli_fetch_array($consultar))
-									{
-										echo
-										" 
-											<tr>
-											<td><h4 style='font-size:16px;'>".$listar['MODELO']."</h4></td>
-											<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>
-											<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4></td>
-											<td><h4 style='font-size:16px;'>".$listar['SERIEG']."</h4></td>
-											<td><h4 style='font-size:16px;'>".$listar['TIPO']."</h4></td>
-											<td><h4 style='font-size:16px;'>".$listar['MARCA']."</h4></td>
-											<td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=consultadetalleimp.php?no=".$listar['ID_PERI']." target=new class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
-											<path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
-											<path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
-										  </svg></a></td>
-											</tr>
-										";$contador = $contador + 1;
-									}
-							}
-							else
-							{
-								$contador = 0;
-								$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, mo.MODELO, t.TIPO, m.MARCA			
-										FROM periferico p 
-										LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
-										LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
-										LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
-										INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
-										INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
-										WHERE p.TIPOP = 'IMPRESORA'
-										ORDER BY u.NOMBRE ASC");
-											while($listar = mysqli_fetch_array($consultar))
-											{
-												echo
-												" 
-													<tr>
-													<td><h4 style='font-size:16px;'>".$listar['MODELO']."</h4></td>
-													<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>
-													<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4></td>
-													<td><h4 style='font-size:16px;'>".$listar['SERIEG']."</h4></td>
-													<td><h4 style='font-size:16px;'>".$listar['TIPO']."</h4></td>
-													<td><h4 style='font-size:16px;'>".$listar['MARCA']."</h4></td>
-													<td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=consultadetalleimp.php?no=".$listar['ID_PERI']." target=new class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
-													<path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
-													<path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/></svg></a></td>
-													</tr>
-												";
-												$contador = $contador + 1;
-											}
-									}
-									echo "<div id=contador>";
-									if(isset($_POST['buscar'])){
-										$filtro = $_POST['buscar'];
-										if($filtro != ""){
-											$filtro = strtoupper($filtro);
-											echo "<p>FILTRADO POR: $filtro</p>";
-										}
-									}
-									echo"
-								<p>CANTIDAD DE IMPRESORAS: $contador </p>
-							</div>
-				</table>";
-					?>
-        </section>
-		<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <form id="formu" action="../exportar/ExcelImpresoras.php" method="POST">
+            <input type="text" id="excel" name="sql" class="valorPeque" readonly="readonly" value="<?php echo $query;?>">
+        </form>
+	</section>
+	<footer></footer>
+	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script>
   		AOS.init();
 	</script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-		<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-		<script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 	</script>

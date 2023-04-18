@@ -66,7 +66,7 @@ $cu = $row['CUIL'];
                     <li><a class="dropdown-item" href="../consulta/otrosp.php">OTROS PERIFÉRICOS</a></li>
                 </ul>
             </li>
-            <li><a href="#" class="nav-link px-2 link-dark link">GESTIÓN</a>
+            <li><a href="#" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">GESTIÓN</a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
                     <li><a href="../abm/abm.php" class="dropdown-item">ABM</a></li>
                     <li><hr class="dropdown-divider"></li>

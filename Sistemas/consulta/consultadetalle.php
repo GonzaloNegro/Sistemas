@@ -89,7 +89,7 @@ function ConsultarIncidente($no_tic)
 			</script>
 	<header>
 		<div class="form-group row justify-content-between" style="margin-top: 0px; margin-left: 10px; margin-right: 10px; padding:10px;">
-		<a id="vlv"  href="consulta.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+			<a id="vlv"  href="./consulta.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
 			<button id="pr" class="btn btn-success" style="width: 50px; border-radius: 10px; height: 45px;" onClick="imprimir()"><i class='bi bi-printer'></i></button>
 		</div>
 		
@@ -239,5 +239,6 @@ function ConsultarIncidente($no_tic)
 		</div>
 	</div>
 	</section>
+	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>
 </html>

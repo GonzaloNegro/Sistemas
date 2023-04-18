@@ -41,7 +41,7 @@ function ConsultarIncidente($no_tic)
 <body>
 	<div id="reporteEst" style="width: 97%; margin-left: 20px;">   
 		<div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-			<a id="vlv"  href="impresoras.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+			<a id="vlv"  href="./impresoras.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
 		</div>					
 	</div>
     <div id="titulo" style="margin-top: 0px; margin-bottom: 30px;">
@@ -114,5 +114,6 @@ function ConsultarIncidente($no_tic)
 		</div>
 	</div>
 	</section>
+	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>
 </html>

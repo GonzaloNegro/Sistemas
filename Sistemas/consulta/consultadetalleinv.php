@@ -67,7 +67,7 @@ function ConsultarIncidente($no_tic)
         </script>
         
         <div class="form-group row justify-content-between" style="margin-top: 0px; margin-left: 10px; margin-right: 10px; padding:10px;">
-	        <a id="vlv"  href="inventario.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+            <a id="vlv"  href="./inventario.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
             <div class="btn-group col-3" role="group">
                 <button style="border: none;"><a id="botonleft" class="btn btn-secondary"<?php echo "href=equipomovmej.php?no=".$consulta[0].""?>>MOVIMIENTOS</a></button>
                 <button style="border: none;"><a id="botonleft" class="btn btn-secondary"<?php echo "href=equipomovmej2.php?no=".$consulta[0].""?>>MEJORAS</a></button>
@@ -831,6 +831,7 @@ function ConsultarIncidente($no_tic)
                     </div>
             </div>
 	</section>
+    <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>

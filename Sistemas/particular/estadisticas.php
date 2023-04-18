@@ -67,7 +67,7 @@ $row = $resultado->fetch_assoc();
                     <li><a class="dropdown-item" href="../consulta/otrosp.php">OTROS PERIFÉRICOS</a></li>
                 </ul>
             </li>
-            <li><a href="#" class="nav-link px-2 link-dark link">GESTIÓN</a>
+            <li><a href="#" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">GESTIÓN</a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
                     <li><a href="../abm/abm.php" class="dropdown-item">ABM</a></li>
                     <li><hr class="dropdown-divider"></li>
@@ -76,9 +76,7 @@ $row = $resultado->fetch_assoc();
                     <?php if($row['ID_PERFIL'] == 1 OR $row['ID_PERFIL'] == 2){
                                 echo'
                                 <li><a href="./estadisticas.php" class="dropdown-item">ESTADISTICAS</a></li>
-                            ';
-                            } 
-                            ?>
+                            ';}?>
                     <li><hr class="dropdown-divider"></li>
                     <li><a href="../stock/stock.php" class="dropdown-item">STOCK</a></li>
                 </ul>

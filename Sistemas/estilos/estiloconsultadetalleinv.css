@@ -98,7 +98,7 @@ header{
 	border-radius: 10px;
 }
 
-#detalles, #vlv{
+#detalles{
 	margin-bottom: 10px;
 }
 
@@ -110,16 +110,17 @@ header{
 }
 
 #vlv{
-	width: 125px; 
-	height: 45px; 
-	background-color: #1c7cd5; 
-	border-color: #f7fbfd; 
-	font-size: 20px; 
-	font-family: TrasandinaBook;
-    border-radius: 20px;
-}
-#vlv:hover{
-background-color: #176AB5;
+	top: 50px;
+	right: 50px;
+	width: auto; 
+	height: auto; 
+	width: 50px;
+	height: 50px;
+	font-size: 32px;
+	font-weight: bold;
+	border-radius: 30px;
+	padding: 0px;
+	color: white;
 }
 
 .inp{

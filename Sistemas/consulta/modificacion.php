@@ -25,6 +25,9 @@ function ConsultarIncidente($no_tic)
 	];
 }
 
+if($consulta[4] != 3 AND $consulta[4] != 4){
+	header("location: consultadetalle.php?no=$consulta[0]");
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -46,7 +49,7 @@ function ConsultarIncidente($no_tic)
 <body>
 	<div id="reporteEst" style="width: 97%; margin-left: 20px;">   
 		<div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-			<a id="vlv"  href="consulta.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+			<a id="vlv"  href="./consulta.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
 		</div>					
 	</div>
 	<section id="ingreso">
@@ -225,5 +228,6 @@ function ConsultarIncidente($no_tic)
 			?>
 		</div>
 	</section>
+	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>
 </html>
