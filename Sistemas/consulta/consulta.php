@@ -317,9 +317,18 @@ $cu = $row['CUIL'];
          $numeroSql = mysqli_num_rows($sql);
 
         ?>
-<!--         <div class="contResult">
+        <div class="contResult">
+            <?php 
+            if($numeroSql == 50){
+                $sql6 = "SELECT COUNT(*) AS total FROM ticket";
+                $result6 = $datos_base->query($sql6);
+                $row6 = $result6->fetch_assoc();
+                $total = $row6['total'];
+                $numeroSql = $total;
+            }
+            ?>
             <p style="font-weight: bold; color:#53AAE0;"><i class="mdi mdi-file-document"></i> <?php echo $numeroSql; ?> Resultados encontrados</p>
-        </div> -->
+        </div>
 
         <div class="principal-info">
             <?php 

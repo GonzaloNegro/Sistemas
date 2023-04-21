@@ -121,27 +121,76 @@ $row = $resultado->fetch_assoc();
   <div id="titulo" style="margin-top:20px; margin-bottom: 20px;" data-aos="zoom-in">
 		<h1>ESTADÍSTICAS</h1>
     </div>
-  <section class="cards">
-    <div class="cards-bajo">
-        <div class="cards-bajo-info">
-        <?php
-            $sql6 = "SELECT COUNT(ID_TICKET) AS cant FROM ticket";
-            $result6 = $datos_base->query($sql6);
-            $row6 = $result6->fetch_assoc();
-            $cant = $row6['cant'];
-
-            $sql6 = "SELECT COUNT(ID_TICKET) AS sol FROM ticket WHERE ID_ESTADO = 2";
-            $result6 = $datos_base->query($sql6);
-            $row6 = $result6->fetch_assoc();
-            $sol = $row6['sol'];
-
-            $canttot = ($sol / $cant)*100;
-        ?>
-            <p>Porcentaje de incidentes solucionados: <?php echo round($canttot,2)."%"; ?></p>
+    <section class="cards">
+        <div class="cabecerafiltro">
+            <form action="./estadisticas.php" class="cabecerafiltro" method="POST">
+                <label class="form-label">Período:</label>
+                    <input type="date" id="buscafechadesde" name="buscafechadesde" class="form-control" >
+                    <input type="date" id="buscafechahasta" name="buscafechahasta" class="form-control" >
+                <button name="buscar" id="buscar" style="margin-right: 5px;" class="btn btn-success" type="submit">BUSCAR</button>
+                <button href="./estadisticas.php" id="limpiar" class="btn btn-danger">LIMPIAR</button>
+            </form>
         </div>
+        <?php 
+        $sql = "SELECT FECHA_SOLUCION FROM ticket ORDER BY FECHA_SOLUCION ASC LIMIT 1,1";
+        $resultado = $datos_base->query($sql);
+        $row = $resultado->fetch_assoc();
+        $comienzoFecha = $row['FECHA_SOLUCION'];
+        
+        $sql = "SELECT FECHA_SOLUCION FROM ticket ORDER BY FECHA_SOLUCION DESC LIMIT 1,1";
+        $resultado = $datos_base->query($sql);
+        $row = $resultado->fetch_assoc();
+        $finFecha = $row['FECHA_SOLUCION'];
+
+        date_default_timezone_set('UTC');
+        date_default_timezone_set("America/Buenos_Aires");
+        $fechaActual = date('Y-m-d');
+
+        $comienzoFecha = '2020-01-01';
+        $finFecha = $fechaActual;
+
+        if(isset($_POST['buscafechadesde']) AND isset($_POST['buscafechahasta'])){
+            $comienzoFecha = $_POST['buscafechadesde'];
+            $finFecha = $_POST['buscafechahasta'];
+        }
+        if($_POST['buscafechadesde'] == NULL OR $_POST['buscafechahasta'] == NULL){
+            $comienzoFecha = '2020-01-01';
+            $finFecha = $fechaActual;
+        }
+
+            $fecha1 = date("d-m-Y", strtotime($comienzoFecha));
+            $fecha2 = date("d-m-Y", strtotime($finFecha));
+            ?>
+        <div class="cabecera--periodo">
+            <p class="contador-incidentes--peri">PERÍODO: <?php echo $fecha1." AL ".$fecha2; ?></p>
+        </div>
+        <div class="cards-bajo">
+            <div class="cards-bajo-info">
+            <?php
+                $sql6 = "SELECT COUNT(ID_TICKET) AS cant FROM ticket WHERE FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha'";
+                $result6 = $datos_base->query($sql6);
+                $row6 = $result6->fetch_assoc();
+                $cant = $row6['cant'];
+
+                $sql6 = "SELECT COUNT(ID_TICKET) AS sol FROM ticket WHERE ID_ESTADO = 2 AND FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha'";
+                $result6 = $datos_base->query($sql6);
+                $row6 = $result6->fetch_assoc();
+                $sol = $row6['sol'];
+
+                $canttot = ($sol / $cant)*100;
+            ?>
+                <p>Porcentaje de incidentes solucionados: <?php echo round($canttot,2)."%"; ?></p>
+            </div>
+        </div>
+    </section>
+
+
+  <section class="contenedor">
+    <div class="grafico" style="width: 1200px; height: 720px;">
+        <h1><u>INCIDENTES POR MES</u></h1>
+        <canvas id="MiGrafica5" ></canvas>
     </div>
   </section>
-
 
   <section class="contenedor">
     <div class="grafico" style="width: 1200px; height: 720px;">
@@ -179,67 +228,67 @@ $row = $resultado->fetch_assoc();
     <?php 
     include('../particular/conexion.php');
 
-    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 0, 1";
+    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 0, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $res = $row6['RESOLUTOR'];
     $tot = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 1, 1";
+    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 1, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $res1 = $row6['RESOLUTOR'];
     $tot1 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 2, 1";
+    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 2, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $res2 = $row6['RESOLUTOR'];
     $tot2 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 3, 1";
+    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 3, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $res3 = $row6['RESOLUTOR'];
     $tot3 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 4, 1";
+    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 4, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $res4 = $row6['RESOLUTOR'];
     $tot4 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 5, 1";
+    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 5, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $res5 = $row6['RESOLUTOR'];
     $tot5 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 6, 1";
+    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 6, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $res6 = $row6['RESOLUTOR'];
     $tot6 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 7, 1";
+    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 7, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $res7 = $row6['RESOLUTOR'];
     $tot7 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 8, 1";
+    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 8, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $res8 = $row6['RESOLUTOR'];
     $tot8 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 9, 1";
+    $sql6 = "SELECT r.RESOLUTOR, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN resolutor r ON r.ID_RESOLUTOR = t.ID_RESOLUTOR WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY r.RESOLUTOR HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 9, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $res9 = $row6['RESOLUTOR'];
     $tot9 = $row6['RecuentoFilas'];
     
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket";
+    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha'";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $total = $row6['TOTAL'];
@@ -263,37 +312,37 @@ $row = $resultado->fetch_assoc();
 
 /* ESTADOS */
 
-    $sql6 = "SELECT e.ESTADO, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO GROUP BY e.ESTADO HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 0, 1;";
+    $sql6 = "SELECT e.ESTADO, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY e.ESTADO HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 0, 1;";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $est1 = $row6['ESTADO'];
     $etot1 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT e.ESTADO, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO GROUP BY e.ESTADO HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 1, 1;";
+    $sql6 = "SELECT e.ESTADO, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY e.ESTADO HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 1, 1;";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $est2 = $row6['ESTADO'];
     $etot2 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT e.ESTADO, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO GROUP BY e.ESTADO HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 2, 1;";
+    $sql6 = "SELECT e.ESTADO, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY e.ESTADO HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 2, 1;";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $est3 = $row6['ESTADO'];
     $etot3 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT e.ESTADO, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO GROUP BY e.ESTADO HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 3, 1;";
+    $sql6 = "SELECT e.ESTADO, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY e.ESTADO HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 3, 1;";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $est4 = $row6['ESTADO'];
     $etot4 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT e.ESTADO, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO GROUP BY e.ESTADO HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 4, 1;";
+    $sql6 = "SELECT e.ESTADO, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN estado e ON e.ID_ESTADO = t.ID_ESTADO WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY e.ESTADO HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 4, 1;";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $est5 = $row6['ESTADO'];
     $etot5 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket";
+    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha'";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $etotal = $row6['TOTAL'];
@@ -314,68 +363,68 @@ $row = $resultado->fetch_assoc();
 
 /* TIPIFICACIONES */
 
-    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 0, 1";
+    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 0, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $tip1 = $row6['TIPIFICACION'];
     $ttip1 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 1, 1";
+    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 1, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $tip2 = $row6['TIPIFICACION'];
     $ttip2 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 2, 1";
+    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 2, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $tip3 = $row6['TIPIFICACION'];
     $ttip3 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 3, 1";
+    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 3, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $tip4 = $row6['TIPIFICACION'];
     $ttip4 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 4, 1";
+    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 4, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $tip5 = $row6['TIPIFICACION'];
     $ttip5 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 5, 1";
+    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 5, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $tip6 = $row6['TIPIFICACION'];
     $ttip6 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 6, 1";
+    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 6, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $tip7 = $row6['TIPIFICACION'];
     $ttip7 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 7, 1";
+    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 7, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $tip8 = $row6['TIPIFICACION'];
     $ttip8 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 8, 1";
+    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 8, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $tip9 = $row6['TIPIFICACION'];
     $ttip9 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 9, 1";
+    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 9, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $tip10 = $row6['TIPIFICACION'];
     $ttip10 = $row6['RecuentoFilas'];
 
 
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket";
+    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha'";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $ttotal = $row6['TOTAL'];
@@ -401,68 +450,68 @@ $row = $resultado->fetch_assoc();
 
 /* AREAS*/
 
-    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 0, 1";
+    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 0, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $are1 = $row6['AREA'];
     $tare1 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 1, 1";
+    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 1, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $are2 = $row6['AREA'];
     $tare2 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 2, 1";
+    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 2, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $are3 = $row6['AREA'];
     $tare3 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 3, 1";
+    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 3, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $are4 = $row6['AREA'];
     $tare4 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 4, 1";
+    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 4, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $are5 = $row6['AREA'];
     $tare5 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 5, 1";
+    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 5, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $are6 = $row6['AREA'];
     $tare6 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 6, 1";
+    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 6, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $are7 = $row6['AREA'];
     $tare7 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 7, 1";
+    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 7, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $are8 = $row6['AREA'];
     $tare8 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 8, 1";
+    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 8, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $are9 = $row6['AREA'];
     $tare9 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 9, 1";
+    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas FROM ticket t LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO LEFT JOIN area a ON a.ID_AREA = u.ID_AREA WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 9, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $are10 = $row6['AREA'];
     $tare10 = $row6['RecuentoFilas'];
 
 
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket";
+    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha'";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $atotal = $row6['TOTAL'];
@@ -484,68 +533,68 @@ $row = $resultado->fetch_assoc();
 
 /* USUARIOS */
 
-    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 0, 1";
+    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 0, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $usu1 = $row6['NOMBRE'];
     $tusu1 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 1, 1";
+    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 1, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $usu2 = $row6['NOMBRE'];
     $tusu2 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 2, 1";
+    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 2, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $usu3 = $row6['NOMBRE'];
     $tusu3 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 3, 1";
+    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 3, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $usu4 = $row6['NOMBRE'];
     $tusu4 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 4, 1";
+    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 4, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $usu5 = $row6['NOMBRE'];
     $tusu5 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 5, 1";
+    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 5, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $usu6 = $row6['NOMBRE'];
     $tusu6 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 6, 1";
+    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 6, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $usu7 = $row6['NOMBRE'];
     $tusu7 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 7, 1";
+    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 7, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $usu8 = $row6['NOMBRE'];
     $tusu8 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 8, 1";
+    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 8, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $usu9 = $row6['NOMBRE'];
     $tusu9 = $row6['RecuentoFilas'];
 
-    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 9, 1";
+    $sql6 = "SELECT u.NOMBRE, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO WHERE t.FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha' GROUP BY u.NOMBRE HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 9, 1";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $usu10 = $row6['NOMBRE'];
     $tusu10 = $row6['RecuentoFilas'];
 
 
-    $sql6 = "SELECT count(*) as TOTAL FROM ticket";
+    $sql6 = "SELECT count(*) as TOTAL FROM ticket WHERE FECHA_SOLUCION BETWEEN '$comienzoFecha' AND '$finFecha'";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $utotal = $row6['TOTAL'];
@@ -561,12 +610,212 @@ $row = $resultado->fetch_assoc();
     $uprom9 = round(($tusu9 * 100)/$utotal,2);
     $uprom10 = round(($tusu10 * 100)/$utotal,2);
 
+
+
+/* ------------------------------------------- */
+/* ESTADISTICAS MENSUAL*/
+/* ------------------------------------------- */
+$arraym2 = [];
+$arrayf2 = [];
+
+$sql6 = "SELECT COUNT(*) AS total, FECHA_SOLUCION
+FROM ticket
+WHERE ID_ESTADO = 2
+GROUP BY MONTH(FECHA_SOLUCION), YEAR(FECHA_SOLUCION) 
+ORDER BY FECHA_SOLUCION DESC 
+LIMIT 0,1";
+$result6 = $datos_base->query($sql6);
+$row6 = $result6->fetch_assoc();
+$montol1 = $row6['total'];
+$fechal1 = $row6['FECHA_SOLUCION'];
+$fecl1 = date("m/Y", strtotime($fechal1));
+if(isset($montol1)){
+    array_push($arraym2, $montol1);
+    array_push($arrayf2, $fecl1);
+}
+
+$sql6 = "SELECT COUNT(*) AS total, FECHA_SOLUCION
+FROM ticket
+WHERE ID_ESTADO = 2
+GROUP BY MONTH(FECHA_SOLUCION), YEAR(FECHA_SOLUCION) 
+ORDER BY FECHA_SOLUCION DESC 
+LIMIT 1,1";
+$result6 = $datos_base->query($sql6);
+$row6 = $result6->fetch_assoc();
+$montol2 = $row6['total'];
+$fechal2 = $row6['FECHA_SOLUCION'];
+$fecl2 = date("m/Y", strtotime($fechal2));
+if(isset($montol2)){
+    array_push($arraym2, $montol2);
+    array_push($arrayf2, $fecl2);
+}
+
+$sql6 = "SELECT COUNT(*) AS total, FECHA_SOLUCION
+FROM ticket
+WHERE ID_ESTADO = 2
+GROUP BY MONTH(FECHA_SOLUCION), YEAR(FECHA_SOLUCION) 
+ORDER BY FECHA_SOLUCION DESC 
+LIMIT 2,1";
+$result6 = $datos_base->query($sql6);
+$row6 = $result6->fetch_assoc();
+$montol3 = $row6['total'];
+$fechal3 = $row6['FECHA_SOLUCION'];
+$fecl3 = date("m/Y", strtotime($fechal3));
+if(isset($montol3)){
+    array_push($arraym2, $montol3);
+    array_push($arrayf2, $fecl3);
+}
+
+$sql6 = "SELECT COUNT(*) AS total, FECHA_SOLUCION
+FROM ticket
+WHERE ID_ESTADO = 2
+GROUP BY MONTH(FECHA_SOLUCION), YEAR(FECHA_SOLUCION) 
+ORDER BY FECHA_SOLUCION DESC 
+LIMIT 3,1";
+$result6 = $datos_base->query($sql6);
+$row6 = $result6->fetch_assoc();
+$montol4 = $row6['total'];
+$fechal4 = $row6['FECHA_SOLUCION'];
+$fecl4 = date("m/Y", strtotime($fechal4));
+if(isset($montol4)){
+    array_push($arraym2, $montol4);
+    array_push($arrayf2, $fecl4);
+}
+
+$sql6 = "SELECT COUNT(*) AS total, FECHA_SOLUCION
+FROM ticket
+WHERE ID_ESTADO = 2
+GROUP BY MONTH(FECHA_SOLUCION), YEAR(FECHA_SOLUCION) 
+ORDER BY FECHA_SOLUCION DESC 
+LIMIT 4,1";
+$result6 = $datos_base->query($sql6);
+$row6 = $result6->fetch_assoc();
+$montol5 = $row6['total'];
+$fechal5 = $row6['FECHA_SOLUCION'];
+$fecl5 = date("m/Y", strtotime($fechal5));
+if(isset($montol5)){
+    array_push($arraym2, $montol5);
+    array_push($arrayf2, $fecl5);
+}
+
+$sql6 = "SELECT COUNT(*) AS total, FECHA_SOLUCION
+FROM ticket
+WHERE ID_ESTADO = 2
+GROUP BY MONTH(FECHA_SOLUCION), YEAR(FECHA_SOLUCION) 
+ORDER BY FECHA_SOLUCION DESC 
+LIMIT 5,1";
+$result6 = $datos_base->query($sql6);
+$row6 = $result6->fetch_assoc();
+$montol6 = $row6['total'];
+$fechal6 = $row6['FECHA_SOLUCION'];
+$fecl6 = date("m/Y", strtotime($fechal6));
+if(isset($montol6)){
+    array_push($arraym2, $montol6);
+    array_push($arrayf2, $fecl6);
+}
+
+$sql6 = "SELECT COUNT(*) AS total, FECHA_SOLUCION
+FROM ticket
+WHERE ID_ESTADO = 2
+GROUP BY MONTH(FECHA_SOLUCION), YEAR(FECHA_SOLUCION) 
+ORDER BY FECHA_SOLUCION DESC 
+LIMIT 6,1";
+$result6 = $datos_base->query($sql6);
+$row6 = $result6->fetch_assoc();
+$montol7 = $row6['total'];
+$fechal7 = $row6['FECHA_SOLUCION'];
+$fecl7 = date("m/Y", strtotime($fechal7));
+if(isset($montol7)){
+    array_push($arraym2, $montol7);
+    array_push($arrayf2, $fecl7);
+}
+
+$sql6 = "SELECT COUNT(*) AS total, FECHA_SOLUCION
+FROM ticket
+WHERE ID_ESTADO = 2
+GROUP BY MONTH(FECHA_SOLUCION), YEAR(FECHA_SOLUCION) 
+ORDER BY FECHA_SOLUCION DESC 
+LIMIT 7,1";
+$result6 = $datos_base->query($sql6);
+$row6 = $result6->fetch_assoc();
+$montol8 = $row6['total'];
+$fechal8 = $row6['FECHA_SOLUCION'];
+$fecl8 = date("m/Y", strtotime($fechal8));
+if(isset($montol8)){
+    array_push($arraym2, $montol8);
+    array_push($arrayf2, $fecl8);
+}
+
+$sql6 = "SELECT COUNT(*) AS total, FECHA_SOLUCION
+FROM ticket
+WHERE ID_ESTADO = 2
+GROUP BY MONTH(FECHA_SOLUCION), YEAR(FECHA_SOLUCION) 
+ORDER BY FECHA_SOLUCION DESC 
+LIMIT 8,1";
+$result6 = $datos_base->query($sql6);
+$row6 = $result6->fetch_assoc();
+$montol9 = $row6['total'];
+$fechal9 = $row6['FECHA_SOLUCION'];
+$fecl9 = date("m/Y", strtotime($fechal9));
+if(isset($montol9)){
+    array_push($arraym2, $montol9);
+    array_push($arrayf2, $fecl9);
+}
+
+$sql6 = "SELECT COUNT(*) AS total, FECHA_SOLUCION
+FROM ticket
+WHERE ID_ESTADO = 2
+GROUP BY MONTH(FECHA_SOLUCION), YEAR(FECHA_SOLUCION) 
+ORDER BY FECHA_SOLUCION DESC 
+LIMIT 9,1";
+$result6 = $datos_base->query($sql6);
+$row6 = $result6->fetch_assoc();
+$montol10 = $row6['total'];
+$fechal10 = $row6['FECHA_SOLUCION'];
+$fecl10 = date("m/Y", strtotime($fechal10));
+if(isset($montol10)){
+    array_push($arraym2, $montol10);
+    array_push($arrayf2, $fecl10);
+}
+
+$sql6 = "SELECT COUNT(*) AS total, FECHA_SOLUCION
+FROM ticket
+WHERE ID_ESTADO = 2
+GROUP BY MONTH(FECHA_SOLUCION), YEAR(FECHA_SOLUCION) 
+ORDER BY FECHA_SOLUCION DESC 
+LIMIT 10,1";
+$result6 = $datos_base->query($sql6);
+$row6 = $result6->fetch_assoc();
+$montol11 = $row6['total'];
+$fechal11 = $row6['FECHA_SOLUCION'];
+$fecl11 = date("m/Y", strtotime($fechal11));
+if(isset($montol11)){
+    array_push($arraym2, $montol11);
+    array_push($arrayf2, $fecl11);
+}
+
+$sql6 = "SELECT COUNT(*) AS total, FECHA_SOLUCION
+FROM ticket
+WHERE ID_ESTADO = 2
+GROUP BY MONTH(FECHA_SOLUCION), YEAR(FECHA_SOLUCION) 
+ORDER BY FECHA_SOLUCION DESC 
+LIMIT 11,1";
+$result6 = $datos_base->query($sql6);
+$row6 = $result6->fetch_assoc();
+$montol12 = $row6['total'];
+$fechal12 = $row6['FECHA_SOLUCION'];
+$fecl12 = date("m/Y", strtotime($fechal12));
+if(isset($montol12)){
+    array_push($arraym2, $montol12);
+    array_push($arrayf2, $fecl12);
+}
+
     ?>
     <footer>
 		<div class="footer">
 			<div class="container-fluid">
 				<div class="row">
-					<img src="imagenes/logoGobierno.png" class="img-fluid">
+					<img src="../imagenes/logoGobierno.png" class="img-fluid">
 				</div>
 			</div>
 		</div>
@@ -768,6 +1017,41 @@ $row = $resultado->fetch_assoc();
             }]
         }
     })
+    </script>
+    <script>
+    let miCanvas5=document.getElementById("MiGrafica5").getContext("2d");
+
+var chart = new Chart(miCanvas5,{
+    type: "line",
+    data:{
+        labels:[
+            <?php 
+                $largo = count($arrayf2);
+                $i = $largo -1;
+                while($i >= 0){
+                    echo json_encode($arrayf2[$i]).',';
+                    $i--;
+                }
+                ;?>
+        ],
+        datasets:[{
+            label: "INCIDENTES",
+            backgroundColor: "blue",
+            borderColor: "rgb(0, 197, 255)",
+            data:[
+                <?php 
+                $largo = count($arraym2);
+                $i = $largo - 1;
+                while($i >= 0){
+                    echo json_encode($arraym2[$i]).',';
+                    $i--;
+                }
+                ;?>
+                ]
+        },
+    ]
+    }
+})
     </script>
 
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

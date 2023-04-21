@@ -350,12 +350,12 @@ footer{
 /* DATOS COMIENZO */
 
 .cards{
-  margin-top: 40px;
-  margin-bottom: 40px;
+  padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  gap: 20px;
 }
 .cards p{
   color: black;
@@ -446,4 +446,26 @@ footer{
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.cabecerafiltro{
+	display: flex;
+	justify-items: center;
+	align-items: center;
+	flex-direction: row;
+}
+.cabecerafiltro form label{
+  color: #00519C;
+  font-size: 24px;
+  font-weight: bold;
+}
+.cabecerafiltro form{
+  display: flex;
+  gap: 20px;
+}
+
+.cabecera--periodo p{
+  color: #00519C;
+  font-size: 20px;
+  font-weight: bold;
 }
