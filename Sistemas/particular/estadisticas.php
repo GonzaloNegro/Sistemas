@@ -122,88 +122,6 @@ $row = $resultado->fetch_assoc();
 		<h1>ESTADÍSTICAS</h1>
     </div>
   <section class="cards">
-    <div class="cards-sup">
-        <div class="cards-sup-pri">
-            <div class="cards-sup-pri-tit">
-                <p>Cantidad total de incidentes</p>
-            </div>
-            <div class="cards-sup-pri-inf">
-            <?php
-                $sql6 = "SELECT COUNT(ID_TICKET) AS total FROM ticket";
-                $result6 = $datos_base->query($sql6);
-                $row6 = $result6->fetch_assoc();
-                $total = $row6['total'];
-            ?>
-                <p><?php echo $total; ?></p>
-            </div>
-        </div>
-        <div class="cards-sup-sec">
-        <div class="cards-sup-sec-tit">
-                <p>Tipificación mas solicitada</p>
-            </div>
-            <div class="cards-sup-sec-inf">
-                <?php 
-                    $sql6 = "SELECT ti.TIPIFICACION, COUNT(*) AS RecuentoFilas FROM ticket t INNER JOIN tipificacion ti ON ti.ID_TIPIFICACION = t.ID_TIPIFICACION GROUP BY ti.TIPIFICACION HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 0, 1";
-                    $result6 = $datos_base->query($sql6);
-                    $row6 = $result6->fetch_assoc();
-                    $tipif = $row6['TIPIFICACION'];
-                ?>
-                <p><?php echo $tipif;?></p>
-            </div>
-        </div>
-        <div class="cards-sup-ter">
-            <div class="cards-sup-ter-tit">
-                <p>Área con mayor demanda</p>
-            </div>
-            <div class="cards-sup-ter-inf">
-                <?php
-                    $sql6 = "SELECT a.AREA, COUNT(*) AS RecuentoFilas 
-                    FROM ticket t 
-                    LEFT JOIN usuarios u ON u.ID_USUARIO = t.ID_USUARIO 
-                    LEFT JOIN area a ON a.ID_AREA = u.ID_AREA 
-                    WHERE a.ID_AREA != 100 AND a.ID_AREA != 43
-                    GROUP BY a.AREA HAVING COUNT(*) > 1 ORDER BY RecuentoFilas DESC LIMIT 0, 1";
-                    $result6 = $datos_base->query($sql6);
-                    $row6 = $result6->fetch_assoc();
-                    $areapri = $row6['AREA'];
-                ?>
-                <p><?php echo $areapri;?></p>
-            </div>
-        </div>
-    </div>
-    <div class="cards-inf">
-        <div class="cards-inf-pri">
-            <div class="cards-inf-pri-tit">
-                <p>Equipos activos</p>
-                <?php
-                    $sql6 = "SELECT COUNT(ID_WS) AS totalws FROM inventario WHERE ID_ESTADOWS = 1";
-                    $result6 = $datos_base->query($sql6);
-                    $row6 = $result6->fetch_assoc();
-                    $totalws = $row6['totalws'];
-                ?>
-            </div>
-            <div class="cards-inf-pri-inf">
-                <p><?php echo $totalws; ?></p>
-            </div>
-        </div>
-        <div class="cards-inf-sec">
-            <div class="cards-inf-sec-tit">
-                <p>Equipos en baja</p>
-                <?php
-                    $sql6 = "SELECT COUNT(ID_WS) AS totalwsb FROM inventario WHERE ID_ESTADOWS = 2";
-                    $result6 = $datos_base->query($sql6);
-                    $row6 = $result6->fetch_assoc();
-                    $totalwsb = $row6['totalwsb'];
-                ?>
-            </div>
-            <div class="cards-inf-sec-inf">
-                <p><?php echo $totalwsb; ?></p>
-            </div>
-        </div>
-<!--         <div class="cards-inf-ter">
-
-        </div> -->
-    </div>
     <div class="cards-bajo">
         <div class="cards-bajo-info">
         <?php
@@ -226,22 +144,22 @@ $row = $resultado->fetch_assoc();
 
 
   <section class="contenedor">
-    <div class="grafico" style="width: 600px; height: 750px;">
+    <div class="grafico" style="width: 1200px; height: 720px;">
             <h1><u>INCIDENTES POR RESOLUTOR</u></h1>
             <canvas id="MiGrafica" ></canvas>
     </div>
-    <div class="grafico2" style="width: 600px; height: 750px;">
+    <div class="grafico2" style="width: 1200px; height: 720px;">
             <h1><u>INCIDENTES POR USUARIO</u></h1>
             <canvas id="MiGrafica4" ></canvas>
     </div>
   </section>
 
   <section class="contenedor1">
-    <div class="grafico1" style="width: 600px; height: 750px;">
+    <div class="grafico1" style="width: 1200px; height: 720px;">
             <h1><u>INCIDENTES POR TIPIFICACIÓN</u></h1>
             <canvas id="MiGrafica2" ></canvas>
     </div>
-    <div class="informacion1" style="width: 600px; height: 750px;">
+    <div class="informacion1" style="width: 1200px; height: 720px;">
         <h1><u>INCIDENTES POR ÁREA</u></h1>
         <canvas id="MiGrafica3" ></canvas>
     </div>
@@ -664,19 +582,19 @@ $row = $resultado->fetch_assoc();
     let miCanvas=document.getElementById("MiGrafica").getContext("2d");
 
     var chart = new Chart(miCanvas,{
-        type: "doughnut",
+        type: "bar",
         data:{
             labels:[
-            "<?php echo "1- $res: CANTIDAD: $tot   ||   PORCENTAJE: $prom%";?>", 
-            "<?php echo "2- $res1: CANTIDAD: $tot1   ||   PORCENTAJE: $prom1%";?>", 
-            "<?php echo "3- $res2: CANTIDAD: $tot2   ||   PORCENTAJE: $prom2%";?>", 
-            "<?php echo "4- $res3: CANTIDAD: $tot3   ||   PORCENTAJE: $prom3%";?>",
-            "<?php echo "5- $res4: CANTIDAD: $tot4   ||   PORCENTAJE: $prom4%";?>", 
-            "<?php echo "6- $res5: CANTIDAD: $tot5   ||   PORCENTAJE: $prom5%";?>", 
-            "<?php echo "7- $res6: CANTIDAD: $tot6   ||   PORCENTAJE: $prom6%";?>",
-            "<?php echo "8- $res7: CANTIDAD: $tot7   ||   PORCENTAJE: $prom7%";?>", 
-            "<?php echo "9- $res8: CANTIDAD: $tot8   ||   PORCENTAJE: $prom8%";?>",
-            "<?php echo "10- $res9: CANTIDAD: $tot9   ||   PORCENTAJE: $prom9%";?>",],
+            "<?php echo "1- $res: $tot || $prom%";?>", 
+            "<?php echo "2- $res1: $tot1 || $prom1%";?>", 
+            "<?php echo "3- $res2: $tot2 || $prom2%";?>", 
+            "<?php echo "4- $res3: $tot3 || $prom3%";?>",
+            "<?php echo "5- $res4: $tot4 || $prom4%";?>", 
+            "<?php echo "6- $res5: $tot5 || $prom5%";?>", 
+            "<?php echo "7- $res6: $tot6 || $prom6%";?>",
+            "<?php echo "8- $res7: $tot7 || $prom7%";?>", 
+            "<?php echo "9- $res8: $tot8 || $prom8%";?>",
+            "<?php echo "10- $res9: $tot9 || $prom9%";?>",],
 
             datasets:[{
                 label: "INCIDENTES POR RESOLUTOR",
@@ -712,19 +630,19 @@ $row = $resultado->fetch_assoc();
     let miCanvas4=document.getElementById("MiGrafica4").getContext("2d");
 
     var chart = new Chart(miCanvas4,{
-        type: "doughnut",
+        type: "bar",
         data:{
             labels:[
-            "<?php echo "1- $usu1: CANTIDAD: $tusu1   ||   PORCENTAJE: $uprom1%";?>", 
-            "<?php echo "2- $usu2: CANTIDAD: $tusu2   ||   PORCENTAJE: $uprom2%";?>", 
-            "<?php echo "3- $usu3: CANTIDAD: $tusu3   ||   PORCENTAJE: $uprom3%";?>", 
-            "<?php echo "4- $usu4: CANTIDAD: $tusu4   ||   PORCENTAJE: $uprom4%";?>",
-            "<?php echo "5- $usu5: CANTIDAD: $tusu5   ||   PORCENTAJE: $uprom5%";?>", 
-            "<?php echo "6- $usu6: CANTIDAD: $tusu6   ||   PORCENTAJE: $uprom6%";?>", 
-            "<?php echo "7- $usu7: CANTIDAD: $tusu7   ||   PORCENTAJE: $uprom7%";?>", 
-            "<?php echo "8- $usu8: CANTIDAD: $tusu8   ||   PORCENTAJE: $uprom8%";?>",
-            "<?php echo "9- $usu9: CANTIDAD: $tusu9   ||   PORCENTAJE: $uprom9%";?>",
-            "<?php echo "10- $usu10: CANTIDAD: $tusu10   ||   PORCENTAJE: $uprom10%";?>",],
+            "<?php echo "1- $usu1: $tusu1 || $uprom1%";?>", 
+            "<?php echo "2- $usu2: $tusu2 || $uprom2%";?>", 
+            "<?php echo "3- $usu3: $tusu3 || $uprom3%";?>", 
+            "<?php echo "4- $usu4: $tusu4 || $uprom4%";?>",
+            "<?php echo "5- $usu5: $tusu5 || $uprom5%";?>", 
+            "<?php echo "6- $usu6: $tusu6 || $uprom6%";?>", 
+            "<?php echo "7- $usu7: $tusu7 || $uprom7%";?>", 
+            "<?php echo "8- $usu8: $tusu8 || $uprom8%";?>",
+            "<?php echo "9- $usu9: $tusu9 || $uprom9%";?>",
+            "<?php echo "10- $usu10: $tusu10 || $uprom10%";?>",],
 
             datasets:[{
                 label: "INCIDENTES POR ESTADO",
@@ -760,19 +678,19 @@ $row = $resultado->fetch_assoc();
     let miCanvas2=document.getElementById("MiGrafica2").getContext("2d");
 
     var chart = new Chart(miCanvas2,{
-        type: "doughnut",
+        type: "bar",
         data:{
             labels:[
-            "<?php echo "1- $tip1: CANTIDAD: $ttip1   ||   PORCENTAJE: $tprom1%";?>", 
-            "<?php echo "2- $tip2: CANTIDAD: $ttip2   ||   PORCENTAJE: $tprom2%";?>", 
-            "<?php echo "3- $tip3: CANTIDAD: $ttip3   ||   PORCENTAJE: $tprom3%";?>", 
-            "<?php echo "4- $tip4: CANTIDAD: $ttip4   ||   PORCENTAJE: $tprom4%";?>",
-            "<?php echo "5- $tip5: CANTIDAD: $ttip5   ||   PORCENTAJE: $tprom5%";?>", 
-            "<?php echo "6- $tip6: CANTIDAD: $ttip6   ||   PORCENTAJE: $tprom6%";?>", 
-            "<?php echo "7- $tip7: CANTIDAD: $ttip7   ||   PORCENTAJE: $tprom7%";?>", 
-            "<?php echo "8- $tip8: CANTIDAD: $ttip8   ||   PORCENTAJE: $tprom8%";?>",
-            "<?php echo "9- $tip9: CANTIDAD: $ttip9   ||   PORCENTAJE: $tprom9%";?>",
-            "<?php echo "10- $tip10: CANTIDAD: $ttip10   ||   PORCENTAJE: $tprom10%";?>",],
+            "<?php echo "1- $tip1: $ttip1 || $tprom1%";?>", 
+            "<?php echo "2- $tip2: $ttip2 || $tprom2%";?>", 
+            "<?php echo "3- $tip3: $ttip3 || $tprom3%";?>", 
+            "<?php echo "4- $tip4: $ttip4 || $tprom4%";?>",
+            "<?php echo "5- $tip5: $ttip5 || $tprom5%";?>", 
+            "<?php echo "6- $tip6: $ttip6 || $tprom6%";?>", 
+            "<?php echo "7- $tip7: $ttip7 || $tprom7%";?>", 
+            "<?php echo "8- $tip8: $ttip8 || $tprom8%";?>",
+            "<?php echo "9- $tip9: $ttip9 || $tprom9%";?>",
+            "<?php echo "10- $tip10: $ttip10 || $tprom10%";?>",],
 
             datasets:[{
                 label: "INCIDENTES POR TIPIFICACIÓN",
@@ -808,19 +726,19 @@ $row = $resultado->fetch_assoc();
     let miCanvas3=document.getElementById("MiGrafica3").getContext("2d");
 
     var chart = new Chart(miCanvas3,{
-        type: "doughnut",
+        type: "bar",
         data:{
             labels:[
-            "<?php echo "1- $are1: CANTIDAD: $tare1   ||   PORCENTAJE: $aprom1%";?>", 
-            "<?php echo "2- $are2: CANTIDAD: $tare2   ||   PORCENTAJE: $aprom2%";?>", 
-            "<?php echo "3- $are3: CANTIDAD: $tare3   ||   PORCENTAJE: $aprom3%";?>", 
-            "<?php echo "4- $are4: CANTIDAD: $tare4   ||   PORCENTAJE: $aprom4%";?>",
-            "<?php echo "5- $are5: CANTIDAD: $tare5   ||   PORCENTAJE: $aprom5%";?>", 
-            "<?php echo "6- $are6: CANTIDAD: $tare6   ||   PORCENTAJE: $aprom6%";?>", 
-            "<?php echo "7- $are7: CANTIDAD: $tare7   ||   PORCENTAJE: $aprom7%";?>", 
-            "<?php echo "8- $are8: CANTIDAD: $tare8   ||   PORCENTAJE: $aprom8%";?>",
-            "<?php echo "9- $are9: CANTIDAD: $tare9   ||   PORCENTAJE: $aprom9%";?>",
-            "<?php echo "10- $are10: CANTIDAD: $tare10   ||   PORCENTAJE: $aprom10%";?>",],
+            "<?php echo "1- $are1: $tare1 || $aprom1%";?>", 
+            "<?php echo "2- $are2: $tare2 || $aprom2%";?>", 
+            "<?php echo "3- $are3: $tare3 || $aprom3%";?>", 
+            "<?php echo "4- $are4: $tare4 || $aprom4%";?>",
+            "<?php echo "5- $are5: $tare5 || $aprom5%";?>", 
+            "<?php echo "6- $are6: $tare6 || $aprom6%";?>", 
+            "<?php echo "7- $are7: $tare7 || $aprom7%";?>", 
+            "<?php echo "8- $are8: $tare8 || $aprom8%";?>",
+            "<?php echo "9- $are9: $tare9 || $aprom9%";?>",
+            "<?php echo "10- $are10: $tare10 || $aprom10%";?>",],
 
             datasets:[{
                 label: "INCIDENTES POR ÁREA",
@@ -852,38 +770,6 @@ $row = $resultado->fetch_assoc();
     })
     </script>
 
-<script>
-    let miCanvas1=document.getElementById("MiGrafica1").getContext("2d");
-
-    var chart = new Chart(miCanvas1,{
-        type: "doughnut",
-        data:{
-            labels:[
-            "<?php echo "1- $est1: CANTIDAD: $etot1   ||   PORCENTAJE: $eprom1%";?>", 
-            "<?php echo "2- $est2: CANTIDAD: $etot2   ||   PORCENTAJE: $eprom2%";?>", 
-            "<?php echo "3- $est3: CANTIDAD: $etot3   ||   PORCENTAJE: $eprom3%";?>", 
-            "<?php echo "4- $est4: CANTIDAD: $etot4   ||   PORCENTAJE: $eprom4%";?>",
-            "<?php echo "5- $est5: CANTIDAD: $etot5   ||   PORCENTAJE: $eprom5%";?>",],
-
-            datasets:[{
-                label: "INCIDENTES POR USUARIO",
-                backgroundColor:[
-                    "rgb(0,197,255)", 
-                    "rgb(255, 0, 0)",
-                    "rgb(103, 1, 1)",
-                    "rgb(255, 0, 189)", 
-                    "rgb(96, 2, 121)",],
-                borderColor: "black",
-                data:[
-                    <?php echo $etot1;?>,
-                    <?php echo $etot2 ;?>,
-                    <?php echo $etot3 ;?>,
-                    <?php echo $etot4 ;?>,
-                    <?php echo $etot5 ;?>]
-            }]
-        }
-    })
-    </script>
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')

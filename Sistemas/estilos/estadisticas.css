@@ -284,9 +284,11 @@ footer{
 	border: none;
 }
 
-.contenedor{
+.contenedor, .contenedor1{
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
 }
 
 .grafico{
@@ -301,11 +303,6 @@ footer{
     border: 1px solid #000000;
     margin-left: 20px;
     margin-bottom: 20px;
-}
-
-.contenedor1{
-  display: flex;
-  justify-content: space-evenly;
 }
 
 .grafico1{

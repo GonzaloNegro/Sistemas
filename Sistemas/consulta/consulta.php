@@ -24,6 +24,7 @@ $cu = $row['CUIL'];
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymus"></script>
+    
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css">
 	<style>
 			body{
@@ -146,89 +147,91 @@ $cu = $row['CUIL'];
 			<h1>CONSULTA DE INCIDENTES</h1>
 		</div>
         <form method="POST" action="./consulta.php" class="contFilter--name">
-            <div class="filtros-listado">
-                <div>
-                    <label class="form-label">Descripción</label>
-                    <input type="text" style="text-transform:uppercase;" name="buscar"  placeholder="Buscar" class="form-control largo">
-                </div>
-                <div>
-                    <label class="form-label">Período</label>
-                    <div class="fechas">
-                        <div>
-                            <input type="date" id="buscafechadesde" name="buscafechadesde" class="form-control largo" >
-                        </div>
-                        <div>
-                            <input type="date" id="buscafechahasta" name="buscafechahasta" class="form-control largo" >
+            <div class="filtros">
+                <div class="filtros-listado">
+                    <div>
+                        <label class="form-label">Descripción</label>
+                        <input type="text" style="text-transform:uppercase;" name="buscar"  placeholder="Buscar" class="form-control largo">
+                    </div>
+                    <div>
+                        <label class="form-label">Período</label>
+                        <div class="fechas">
+                            <div>
+                                <input type="date" id="buscafechadesde" name="buscafechadesde" class="form-control largo" >
+                            </div>
+                            <div>
+                                <input type="date" id="buscafechahasta" name="buscafechahasta" class="form-control largo" >
+                            </div>
                         </div>
                     </div>
+                    <div>
+                        <label class="form-label">Orden</label>
+                        <select id="assigned-tutor-filter" id="orden" name="orden" class="form-control largo">
+                            <?php if ($_POST["orden"] != ''){ ?>
+                                <option value="<?php echo $_POST["orden"]; ?>">
+                                    <?php 
+                            if ($_POST["orden"] == '1'){echo 'ORDENAR POR INCIDENTE';} 
+                            if ($_POST["orden"] == '2'){echo 'ORDENAR POR USUARIO';} 
+                            if ($_POST["orden"] == '3'){echo 'ORDENAR POR ESTADO';}
+                            if ($_POST["orden"] == '4'){echo 'ORDENAR POR RESOLUTOR';} 
+                            if ($_POST["orden"] == '5'){echo 'ORDENAR POR FECHA DE SOLUCIÓN';} 
+                            ?>
+                            </option>
+                            <?php } ?>
+                            <option value="">SIN ORDEN</option>
+                            <option value="1">ORDENAR POR INCIDENTE</option>
+                            <option value="2">ORDENAR POR USUARIO</option>
+                            <option value="3">ORDENAR POR ESTADO</option>
+                            <option value="4">ORDENAR POR RESOLUTOR</option>
+                            <option value="5">ORDENAR POR FECHA DE SOLUCIÓN</option>
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <label class="form-label">Orden</label>
-                    <select id="assigned-tutor-filter" id="orden" name="orden" class="form-control largo">
-                        <?php if ($_POST["orden"] != ''){ ?>
-                            <option value="<?php echo $_POST["orden"]; ?>">
-                                <?php 
-                        if ($_POST["orden"] == '1'){echo 'ORDENAR POR INCIDENTE';} 
-                        if ($_POST["orden"] == '2'){echo 'ORDENAR POR USUARIO';} 
-                        if ($_POST["orden"] == '3'){echo 'ORDENAR POR ESTADO';}
-                        if ($_POST["orden"] == '4'){echo 'ORDENAR POR RESOLUTOR';} 
-                        if ($_POST["orden"] == '5'){echo 'ORDENAR POR FECHA DE SOLUCIÓN';} 
-                        ?>
-                        </option>
-                        <?php } ?>
-                        <option value="">SIN ORDEN</option>
-                        <option value="1">ORDENAR POR INCIDENTE</option>
-                        <option value="2">ORDENAR POR USUARIO</option>
-                        <option value="3">ORDENAR POR ESTADO</option>
-                        <option value="4">ORDENAR POR RESOLUTOR</option>
-                        <option value="5">ORDENAR POR FECHA DE SOLUCIÓN</option>
-                    </select>
-                </div>
-            </div>
-                
-            <div class="filtros-listado">
-                <div>
-                    <label class="form-label">Usuario</label>
-                    <select id="subject-filter" id="usuario" name="usuario" class="form-control largo">
-                        <option value="">TODOS</option>
-                        <?php 
-                        $consulta= "SELECT * FROM usuarios ORDER BY NOMBRE ASC";
-                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                        ?>
-                        <?php foreach ($ejecutar as $opciones): ?> 
-                            <option value="<?php echo $opciones['ID_USUARIO']?>"><?php echo $opciones['NOMBRE']?></option>
-                            <?php endforeach ?>
-                    </select>
-                </div>
-                <div>
-                    <label class="form-label">Estado</label>
-                    <select id="subject-filter" id="estado" name="estado" class="form-control largo">
-                        <option value="">TODOS</option>
-                        <?php 
-                        $consulta= "SELECT * FROM estado ORDER BY ESTADO ASC";
-                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                        ?>
-                        <?php foreach ($ejecutar as $opciones): ?> 
-                            <option value="<?php echo $opciones['ID_ESTADO']?>"><?php echo $opciones['ESTADO']?></option>
-                            <?php endforeach ?>
-                    </select>
-                </div>
-                <div>
-                    <label class="form-label">Resolutor</label>
-                    <select id="subject-filter" id="resolutor" name="resolutor" class="form-control largo">
-                        <option value="">TODOS</option>
-                        <?php 
-                        $consulta= "SELECT * FROM resolutor ORDER BY RESOLUTOR ASC";
-                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                        ?>
-                        <?php foreach ($ejecutar as $opciones): ?> 
-                            <option value="<?php echo $opciones['ID_RESOLUTOR']?>"><?php echo $opciones['RESOLUTOR']?></option>
-                            <?php endforeach ?>
-                    </select>
-                </div>
-                <div class="export">
-                    <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
-                    <input type="submit" class="btn btn-success" name="busqueda" value="Buscar">
+                    
+                <div class="filtros-listado">
+                    <div>
+                        <label class="form-label">Usuario</label>
+                        <select id="subject-filter" id="usuario" name="usuario" class="form-control largo">
+                            <option value="">TODOS</option>
+                            <?php 
+                            $consulta= "SELECT * FROM usuarios ORDER BY NOMBRE ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                                <option value="<?php echo $opciones['ID_USUARIO']?>"><?php echo $opciones['NOMBRE']?></option>
+                                <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Estado</label>
+                        <select id="subject-filter" id="estado" name="estado" class="form-control largo">
+                            <option value="">TODOS</option>
+                            <?php 
+                            $consulta= "SELECT * FROM estado ORDER BY ESTADO ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                                <option value="<?php echo $opciones['ID_ESTADO']?>"><?php echo $opciones['ESTADO']?></option>
+                                <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Resolutor</label>
+                        <select id="subject-filter" id="resolutor" name="resolutor" class="form-control largo">
+                            <option value="">TODOS</option>
+                            <?php 
+                            $consulta= "SELECT * FROM resolutor ORDER BY RESOLUTOR ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                                <option value="<?php echo $opciones['ID_RESOLUTOR']?>"><?php echo $opciones['RESOLUTOR']?></option>
+                                <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div class="export">
+                        <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
+                        <input type="submit" class="btn btn-success" name="busqueda" value="Buscar">
+                    </div>
                 </div>
             </div>
         <?php 
@@ -314,9 +317,67 @@ $cu = $row['CUIL'];
          $numeroSql = mysqli_num_rows($sql);
 
         ?>
-        <div class="contResult">
+<!--         <div class="contResult">
             <p style="font-weight: bold; color:#53AAE0;"><i class="mdi mdi-file-document"></i> <?php echo $numeroSql; ?> Resultados encontrados</p>
+        </div> -->
+
+        <div class="principal-info">
+            <?php 
+                $sql6 = "SELECT COUNT(*) AS total FROM ticket";
+                $result6 = $datos_base->query($sql6);
+                $row6 = $result6->fetch_assoc();
+                $total = $row6['total'];
+            ?>
+            <div class="col-md-3">
+                <div class="card-counter primary">
+                    <div class="card-pri">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                        <span class="count-numbers"><?php echo $total;?></span>
+                    </div>
+                    <div class="card-sec">
+                        <span class="count-name">Incidentes Totales</span>
+                    </div>
+                </div>
+            </div>
+
+            <?php 
+                $sql6 = "SELECT COUNT(*) AS total FROM ticket WHERE ID_ESTADO = 2";
+                $result6 = $datos_base->query($sql6);
+                $row6 = $result6->fetch_assoc();
+                $solucionado = $row6['total'];
+            ?>
+            <div class="col-md-3">
+                <div class="card-counter success">
+                    <div class="card-pri">
+                        <i class="fa-regular fa-circle-check"></i>
+                        <span class="count-numbers"><?php echo $solucionado;?></span>
+                    </div>
+                    <div class="card-sec">
+                        <span class="count-name">Incidentes Solucionados</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <?php 
+                $sql6 = "SELECT COUNT(*) AS total FROM ticket WHERE ID_ESTADO = 3 OR ID_ESTADO = 4";
+                $result6 = $datos_base->query($sql6);
+                $row6 = $result6->fetch_assoc();
+                $espera = $row6['total'];
+            ?>
+            <div class="col-md-3">
+                <div class="card-counter danger">
+                    <div class="card-pri">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <span class="count-numbers"><?php echo $espera;?></span>
+                    </div>
+                    <div class="card-sec">
+                        <span class="count-name">Incidentes por solucionar</span>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </form>
 
 

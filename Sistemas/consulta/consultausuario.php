@@ -143,61 +143,63 @@ $cu = $row['CUIL'];
 			<h1>CONSULTA DE USUARIOS</h1>
 		</div>
         <form method="POST" action="./consultausuario.php" class="contFilter--name">
-            <div class="filtros-listado">
-                <div>
-                    <label class="form-label">Descripción</label>
-                    <input type="text" style="text-transform:uppercase;" name="buscar"  placeholder="Buscar" class="form-control largo">
+            <div class="filtros">
+                <div class="filtros-listado">
+                    <div>
+                        <label class="form-label">Descripción</label>
+                        <input type="text" style="text-transform:uppercase;" name="buscar"  placeholder="Buscar" class="form-control largo">
+                    </div>
+                    <div>
+                        <label class="form-label">Área</label>
+                        <select id="subject-filter" id="area" name="area" class="form-control largo">
+                            <option value="">TODOS</option>
+                            <?php 
+                            $consulta= "SELECT * FROM area ORDER BY AREA ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                                <option value="<?php echo $opciones['ID_AREA']?>"><?php echo $opciones['AREA']?></option>
+                                <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Repartición</label>
+                        <select id="subject-filter" id="reparticion" name="reparticion" class="form-control largo">
+                            <option value="">TODOS</option>
+                            <?php 
+                            $consulta= "SELECT * FROM reparticion ORDER BY REPA ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                                <option value="<?php echo $opciones['ID_REPA']?>"><?php echo $opciones['REPA']?></option>
+                                <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Orden</label>
+                        <select id="assigned-tutor-filter" id="orden" name="orden" class="form-control largo">
+                            <?php if ($_POST["orden"] != ''){ ?>
+                                <option value="<?php echo $_POST["orden"]; ?>">
+                                    <?php 
+                            if ($_POST["orden"] == '1'){echo 'ORDENAR POR USUARIO';} 
+                            if ($_POST["orden"] == '2'){echo 'ORDENAR POR AREA';} 
+                            if ($_POST["orden"] == '3'){echo 'ORDENAR POR REPARTICIÓN';}
+                            ?>
+                            </option>
+                            <?php } ?>
+                            <option value="">SIN ORDEN</option>
+                            <option value="1">ORDENAR POR USUARIO</option>
+                            <option value="2">ORDENAR POR AREA</option>
+                            <option value="3">ORDENAR POR REPARTICIÓN</option>
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <label class="form-label">Área</label>
-                    <select id="subject-filter" id="area" name="area" class="form-control largo">
-                        <option value="">TODOS</option>
-                        <?php 
-                        $consulta= "SELECT * FROM area ORDER BY AREA ASC";
-                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                        ?>
-                        <?php foreach ($ejecutar as $opciones): ?> 
-                            <option value="<?php echo $opciones['ID_AREA']?>"><?php echo $opciones['AREA']?></option>
-                            <?php endforeach ?>
-                    </select>
-                </div>
-                <div>
-                    <label class="form-label">Repartición</label>
-                    <select id="subject-filter" id="reparticion" name="reparticion" class="form-control largo">
-                        <option value="">TODOS</option>
-                        <?php 
-                        $consulta= "SELECT * FROM reparticion ORDER BY REPA ASC";
-                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                        ?>
-                        <?php foreach ($ejecutar as $opciones): ?> 
-                            <option value="<?php echo $opciones['ID_REPA']?>"><?php echo $opciones['REPA']?></option>
-                            <?php endforeach ?>
-                    </select>
-                </div>
-                <div>
-                    <label class="form-label">Orden</label>
-                    <select id="assigned-tutor-filter" id="orden" name="orden" class="form-control largo">
-                        <?php if ($_POST["orden"] != ''){ ?>
-                            <option value="<?php echo $_POST["orden"]; ?>">
-                                <?php 
-                        if ($_POST["orden"] == '1'){echo 'ORDENAR POR USUARIO';} 
-                        if ($_POST["orden"] == '2'){echo 'ORDENAR POR AREA';} 
-                        if ($_POST["orden"] == '3'){echo 'ORDENAR POR REPARTICIÓN';}
-                        ?>
-                        </option>
-                        <?php } ?>
-                        <option value="">SIN ORDEN</option>
-                        <option value="1">ORDENAR POR USUARIO</option>
-                        <option value="2">ORDENAR POR AREA</option>
-                        <option value="3">ORDENAR POR REPARTICIÓN</option>
-                    </select>
-                </div>
-            </div>
-                
-            <div class="filtros-listado-busqueda">
-                <div class="export">
-                    <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
-                    <input type="submit" class="btn btn-success" name="busqueda" value="Buscar">
+                    
+                <div class="filtros-listado-busqueda">
+                    <div class="export">
+                        <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
+                        <input type="submit" class="btn btn-success" name="busqueda" value="Buscar">
+                    </div>
                 </div>
             </div>
         <?php 
@@ -263,8 +265,64 @@ $cu = $row['CUIL'];
          $numeroSql = mysqli_num_rows($sql);
 
         ?>
-        <div class="contResult">
+<!--         <div class="contResult">
             <p style="font-weight: bold; color:#53AAE0;"><i class="mdi mdi-file-document"></i> <?php echo $numeroSql; ?> Resultados encontrados</p>
+        </div> -->
+        <div class="principal-info">
+            <?php 
+                $sql6 = "SELECT COUNT(*) AS total FROM usuarios";
+                $result6 = $datos_base->query($sql6);
+                $row6 = $result6->fetch_assoc();
+                $total = $row6['total'];
+            ?>
+            <div class="col-md-3">
+                <div class="card-counter primary">
+                    <div class="card-pri">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                        <span class="count-numbers"><?php echo $total;?></span>
+                    </div>
+                    <div class="card-sec">
+                        <span class="count-name">Usuarios Registrados</span>
+                    </div>
+                </div>
+            </div>
+
+            <?php 
+                $sql6 = "SELECT COUNT(*) AS total FROM usuarios WHERE ACTIVO = 'ACTIVO'";
+                $result6 = $datos_base->query($sql6);
+                $row6 = $result6->fetch_assoc();
+                $activo = $row6['total'];
+            ?>
+            <div class="col-md-3">
+                <div class="card-counter success">
+                    <div class="card-pri">
+                        <i class="fa-sharp fa-solid fa-arrow-up"></i>
+                        <span class="count-numbers"><?php echo $activo;?></span>
+                    </div>
+                    <div class="card-sec">
+                        <span class="count-name">Usuarios Activos</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <?php 
+                $sql6 = "SELECT COUNT(*) AS total FROM usuarios WHERE ACTIVO = 'INACTIVO'";
+                $result6 = $datos_base->query($sql6);
+                $row6 = $result6->fetch_assoc();
+                $inactivos = $row6['total'];
+            ?>
+            <div class="col-md-3">
+                <div class="card-counter danger">
+                    <div class="card-pri">
+                        <i class="fa-sharp fa-solid fa-arrow-down"></i>
+                        <span class="count-numbers"><?php echo $inactivos;?></span>
+                    </div>
+                    <div class="card-sec">
+                        <span class="count-name">Usuarios Inactivos</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
 

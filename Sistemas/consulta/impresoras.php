@@ -142,98 +142,100 @@ $row = $resultado->fetch_assoc();
 			<h1>INVENTARIO DE IMPRESORAS</h1>
 		</div>
         <form method="POST" action="./impresoras.php" class="contFilter--name">
-            <div class="filtros-listado">
-                <div>
-                    <label class="form-label">Usuario/Serieg</label>
-                    <input type="text" style="text-transform:uppercase;" name="buscar"  placeholder="Buscar" class="form-control largo">
+            <div class="filtros">
+                <div class="filtros-listado">
+                    <div>
+                        <label class="form-label">Usuario/Serieg</label>
+                        <input type="text" style="text-transform:uppercase;" name="buscar"  placeholder="Buscar" class="form-control largo">
+                    </div>
+                    <div>
+                        <label class="form-label">Área</label>
+                        <select id="subject-filter" id="area" name="area" class="form-control largo">
+                            <option value="">TODOS</option>
+                            <?php 
+                            $consulta= "SELECT * FROM area ORDER BY AREA ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                                <option value="<?php echo $opciones['ID_AREA']?>"><?php echo $opciones['AREA']?></option>
+                                <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Impresora</label>
+                        <select id="subject-filter" id="impresora" name="impresora" class="form-control largo">
+                            <option value="">TODOS</option>
+                            <?php 
+                            $consulta= "SELECT * 
+                            FROM modelo
+                            WHERE ID_TIPOP = 1 OR ID_TIPOP = 2 OR ID_TIPOP = 3 OR ID_TIPOP = 4 OR ID_TIPOP = 10 OR ID_TIPOP = 13
+                            ORDER BY MODELO ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                                <option value="<?php echo $opciones['ID_MODELO']?>"><?php echo $opciones['MODELO']?></option>
+                                <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Orden</label>
+                        <select id="assigned-tutor-filter" id="orden" name="orden" class="form-control largo">
+                            <?php if ($_POST["orden"] != ''){ ?>
+                                <option value="<?php echo $_POST["orden"]; ?>">
+                                    <?php 
+                            if ($_POST["orden"] == '1'){echo 'ORDENAR POR USUARIO';} 
+                            if ($_POST["orden"] == '2'){echo 'ORDENAR POR SERIEG';} 
+                            if ($_POST["orden"] == '3'){echo 'ORDENAR POR AREA';}
+                            if ($_POST["orden"] == '4'){echo 'ORDENAR POR IMPRESORA';} 
+                            if ($_POST["orden"] == '5'){echo 'ORDENAR POR MARCA';}
+                            if ($_POST["orden"] == '6'){echo 'ORDENAR POR TIPO';}
+                            ?>
+                            </option>
+                            <?php } ?>
+                            <option value="">SIN ORDEN</option>
+                            <option value="1">ORDENAR POR USUARIO</option>
+                            <option value="2">ORDENAR POR SERIEG</option>
+                            <option value="3">ORDENAR POR AREA</option>
+                            <option value="4">ORDENAR POR IMPRESORA</option>
+                            <option value="5">ORDENAR POR MARCA</option>
+                            <option value="6">ORDENAR POR TIPO</option>
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <label class="form-label">Área</label>
-                    <select id="subject-filter" id="area" name="area" class="form-control largo">
-                        <option value="">TODOS</option>
-                        <?php 
-                        $consulta= "SELECT * FROM area ORDER BY AREA ASC";
-                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                        ?>
-                        <?php foreach ($ejecutar as $opciones): ?> 
-                            <option value="<?php echo $opciones['ID_AREA']?>"><?php echo $opciones['AREA']?></option>
-                            <?php endforeach ?>
-                    </select>
-                </div>
-                <div>
-                    <label class="form-label">Impresora</label>
-                    <select id="subject-filter" id="impresora" name="impresora" class="form-control largo">
-                        <option value="">TODOS</option>
-                        <?php 
-                        $consulta= "SELECT * 
-                        FROM modelo
-                        WHERE ID_TIPOP = 1 OR ID_TIPOP = 2 OR ID_TIPOP = 3 OR ID_TIPOP = 4 OR ID_TIPOP = 10 OR ID_TIPOP = 13
-                        ORDER BY MODELO ASC";
-                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                        ?>
-                        <?php foreach ($ejecutar as $opciones): ?> 
-                            <option value="<?php echo $opciones['ID_MODELO']?>"><?php echo $opciones['MODELO']?></option>
-                            <?php endforeach ?>
-                    </select>
-                </div>
-                <div>
-                    <label class="form-label">Orden</label>
-                    <select id="assigned-tutor-filter" id="orden" name="orden" class="form-control largo">
-                        <?php if ($_POST["orden"] != ''){ ?>
-                            <option value="<?php echo $_POST["orden"]; ?>">
-                                <?php 
-                        if ($_POST["orden"] == '1'){echo 'ORDENAR POR USUARIO';} 
-                        if ($_POST["orden"] == '2'){echo 'ORDENAR POR SERIEG';} 
-                        if ($_POST["orden"] == '3'){echo 'ORDENAR POR AREA';}
-                        if ($_POST["orden"] == '4'){echo 'ORDENAR POR IMPRESORA';} 
-                        if ($_POST["orden"] == '5'){echo 'ORDENAR POR MARCA';}
-                        if ($_POST["orden"] == '6'){echo 'ORDENAR POR TIPO';}
-                        ?>
-                        </option>
-                        <?php } ?>
-                        <option value="">SIN ORDEN</option>
-                        <option value="1">ORDENAR POR USUARIO</option>
-                        <option value="2">ORDENAR POR SERIEG</option>
-                        <option value="3">ORDENAR POR AREA</option>
-                        <option value="4">ORDENAR POR IMPRESORA</option>
-                        <option value="5">ORDENAR POR MARCA</option>
-                        <option value="6">ORDENAR POR TIPO</option>
-                    </select>
-                </div>
-            </div>
-                
-            <div class="filtros-listado">
-                <div>
-                    <label class="form-label">Marca</label>
-                    <select id="subject-filter" id="marca" name="marca" class="form-control largo">
-                        <option value="">TODOS</option>
-                        <?php 
-                        $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
-                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                        ?>
-                        <?php foreach ($ejecutar as $opciones): ?> 
-                            <option value="<?php echo $opciones['ID_MARCA']?>"><?php echo $opciones['MARCA']?></option>
-                            <?php endforeach ?>
-                    </select>
-                </div>
-                <div>
-                    <label class="form-label">Tipo</label>
-                    <select id="subject-filter" id="tipop" name="tipop" class="form-control largo">
-                        <option value="">TODOS</option>
-                        <?php 
-                        $consulta= "SELECT * FROM tipop 
-                        WHERE ID_TIPOP = 1 OR ID_TIPOP = 2 OR ID_TIPOP = 3 OR ID_TIPOP = 4 OR ID_TIPOP = 10 OR ID_TIPOP = 13
-                        ORDER BY TIPO ASC";
-                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                        ?>
-                        <?php foreach ($ejecutar as $opciones): ?> 
-                            <option value="<?php echo $opciones['ID_TIPOP']?>"><?php echo $opciones['TIPO']?></option>
-                            <?php endforeach ?>
-                    </select>
-                </div>
-                <div class="export">
-                    <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
-                    <input type="submit" class="btn btn-success" name="busqueda" value="Buscar">
+                    
+                <div class="filtros-listado">
+                    <div>
+                        <label class="form-label">Marca</label>
+                        <select id="subject-filter" id="marca" name="marca" class="form-control largo">
+                            <option value="">TODOS</option>
+                            <?php 
+                            $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                                <option value="<?php echo $opciones['ID_MARCA']?>"><?php echo $opciones['MARCA']?></option>
+                                <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Tipo</label>
+                        <select id="subject-filter" id="tipop" name="tipop" class="form-control largo">
+                            <option value="">TODOS</option>
+                            <?php 
+                            $consulta= "SELECT * FROM tipop 
+                            WHERE ID_TIPOP = 1 OR ID_TIPOP = 2 OR ID_TIPOP = 3 OR ID_TIPOP = 4 OR ID_TIPOP = 10 OR ID_TIPOP = 13
+                            ORDER BY TIPO ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                                <option value="<?php echo $opciones['ID_TIPOP']?>"><?php echo $opciones['TIPO']?></option>
+                                <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div class="export">
+                        <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
+                        <input type="submit" class="btn btn-success" name="busqueda" value="Buscar">
+                    </div>
                 </div>
             </div>
         <?php 
@@ -280,8 +282,8 @@ $row = $resultado->fetch_assoc();
         if ($_POST["marca"] != '' ){
             $query .= " AND m.ID_MARCA = '".$_POST["marca"]."' ";
         }
-        if ($_POST["tipo"] != '' ){
-            $query .= " AND p.ID_TIPOP = '".$_POST["tipo"]."' ";
+        if ($_POST["tipop"] != '' ){
+            $query .= " AND t.ID_TIPOP = '".$_POST["tipop"]."' ";
         }
 
 
@@ -327,8 +329,64 @@ $row = $resultado->fetch_assoc();
          $numeroSql = mysqli_num_rows($sql);
 
         ?>
-        <div class="contResult">
+<!--         <div class="contResult">
             <p style="font-weight: bold; color:#53AAE0;"><i class="mdi mdi-file-document"></i> <?php echo $numeroSql; ?> Resultados encontrados</p>
+        </div> -->
+        <div class="principal-info">
+            <?php 
+                $sql6 = "SELECT COUNT(*) AS total FROM periferico WHERE ID_TIPOP =  1 OR ID_TIPOP =  2 OR ID_TIPOP =  3 OR ID_TIPOP =  4 OR ID_TIPOP =  10 OR ID_TIPOP = 13";
+                $result6 = $datos_base->query($sql6);
+                $row6 = $result6->fetch_assoc();
+                $total = $row6['total'];
+            ?>
+            <div class="col-md-3">
+                <div class="card-counter primary">
+                    <div class="card-pri">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                        <span class="count-numbers"><?php echo $total;?></span>
+                    </div>
+                    <div class="card-sec">
+                        <span class="count-name">Equipos Registrados</span>
+                    </div>
+                </div>
+            </div>
+
+            <?php 
+                $sql6 = "SELECT COUNT(*) AS total FROM periferico WHERE (ID_TIPOP =  1 OR ID_TIPOP =  2 OR ID_TIPOP =  3 OR ID_TIPOP =  4 OR ID_TIPOP =  10 OR ID_TIPOP = 13) AND ID_ESTADOWS = 1";
+                $result6 = $datos_base->query($sql6);
+                $row6 = $result6->fetch_assoc();
+                $activo = $row6['total'];
+            ?>
+            <div class="col-md-3">
+                <div class="card-counter success">
+                    <div class="card-pri">
+                        <i class="fa-sharp fa-solid fa-arrow-up"></i>
+                        <span class="count-numbers"><?php echo $activo;?></span>
+                    </div>
+                    <div class="card-sec">
+                        <span class="count-name">Equipos Activos</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <?php 
+                $sql6 = "SELECT COUNT(*) AS total FROM periferico WHERE (ID_TIPOP =  1 OR ID_TIPOP =  2 OR ID_TIPOP =  3 OR ID_TIPOP =  4 OR ID_TIPOP =  10 OR ID_TIPOP = 13) AND ID_ESTADOWS = 2";
+                $result6 = $datos_base->query($sql6);
+                $row6 = $result6->fetch_assoc();
+                $inactivos = $row6['total'];
+            ?>
+            <div class="col-md-3">
+                <div class="card-counter danger">
+                    <div class="card-pri">
+                        <i class="fa-sharp fa-solid fa-arrow-down"></i>
+                        <span class="count-numbers"><?php echo $inactivos;?></span>
+                    </div>
+                    <div class="card-sec">
+                        <span class="count-name">Equipos Inactivos</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
 
