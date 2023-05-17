@@ -191,6 +191,9 @@ $cu = $row['CUIL'];
 		/* MOUSE */
 		$mouse=mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 11");
 		$totalmous = mysqli_fetch_array($mouse);
+		/* DISPLAY PORT/HDMI */
+		$ph=mysqli_query($datos_base, "SELECT CANTIDAD as TOTAL FROM stock WHERE ID_STOCK = 12");
+		$totalph = mysqli_fetch_array($ph);
 	?>
 
 		<div class="contenedor">
@@ -463,6 +466,22 @@ $cu = $row['CUIL'];
 							</form> 
 						</div>
 					</div>
+
+					<div class="card" style="width: 15rem;">
+						<img src="../imagenes/displayhdmi.jpg" class="card-img-top" alt="...">
+						<div class="card-body">
+							<p class="card-text">DISPLAY PORT/HDMI</p>
+						</div>
+						<div class="card-body">
+							<form action="controlStock.php" method="POST" name="form1"> 
+								<input type="number" min="0" class="inp" name="valorph" value="<?php echo $totalph['TOTAL']?>" >
+						</div>
+						<div class="card-conf">
+								<button type="submit" class="conf" name="btnph">GUARDAR</button> 
+							</form> 
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>
