@@ -105,8 +105,8 @@ if($row['ID_PERFIL'] != 1 ){
 											echo
 											" 
 												<tr>
-												<td><h4 style='font-size:16px; text-align: left; margin-left: 5px;'>".$listar['TIPIFICACION']."</h4 ></td>
-												<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modtipificacion.php?no=".$listar['ID_TIPIFICACION']." class=mod>Editar</a></td>
+													<td><h4 style='font-size:16px; text-align: left; margin-left: 5px;'>".$listar['TIPIFICACION']."</h4 ></td>
+													<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modtipificacion.php?no=".$listar['ID_TIPIFICACION']." class=mod>Editar</a></td>
 												</tr>
 											";
 										}
@@ -123,8 +123,8 @@ if($row['ID_PERFIL'] != 1 ){
 											echo
 											" 
 												<tr>
-												<td><h4 style='font-size:16px; text-align: left; margin-left: 5px;'>".$listar['TIPIFICACION']."</h4 ></td>
-												<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modtipificacion.php?no=".$listar['ID_TIPIFICACION']." class=mod>Editar</a></td>
+													<td><h4 style='font-size:16px; text-align: left; margin-left: 5px;'>".$listar['TIPIFICACION']."</h4 ></td>
+													<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modtipificacion.php?no=".$listar['ID_TIPIFICACION']." class=mod>Editar</a></td>
 												</tr>
 											";
 									}

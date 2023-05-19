@@ -57,11 +57,11 @@ $row = $resultado->fetch_assoc();
 						);
 			}	
 			</script>
-		<div id="reporteEst" style="width: 97%; margin-left: 20px;">
-				<div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-					<a id="vlv"  href="abmotros.php" class="col-3 btn btn-primary "  type="button"  value="VOLVER">VOLVER</a>
-				</div>					
-		</div>
+    <div id="reporteEst">   
+        <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
+            <a id="vlv"  href="abmotros.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
+        </div>					
+    </div>
 	<section id="Inicio">
 		<div id="titulo" style="margin:20px;">
 			<h1>AGREGAR PERIFÉRICO</h1>
@@ -191,7 +191,7 @@ $row = $resultado->fetch_assoc();
 			?>
 		</div>
 	</section>
-	<footer></footer>
+	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init();

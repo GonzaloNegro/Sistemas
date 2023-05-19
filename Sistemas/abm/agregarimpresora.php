@@ -57,12 +57,11 @@ $row = $resultado->fetch_assoc();
 						);
 			}	
 			</script>
-		<div id="reporteEst">
-            
-				<div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-					<a id="vlv"  href="abmimpresoras.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
-				</div>					
-		</div>
+    <div id="reporteEst">   
+        <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
+            <a id="vlv"  href="abmimpresoras.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
+        </div>					
+    </div>
 	<section id="Inicio">
 		<div id="titulo" style="margin:20px;">
 			<h1>AGREGAR IMPRESORA</h1>

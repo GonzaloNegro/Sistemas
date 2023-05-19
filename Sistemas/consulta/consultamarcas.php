@@ -29,23 +29,25 @@ $row = $resultado->fetch_assoc();
 </head>
 <body>
     <section id="inicio">
-        <div id="reporteEst" style="width: 97%; margin-left: 20px;">   
+		<div id="reporteEst">   
             <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-                <a id="vlv"  href="consultaaltas.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
-				<a id="agr"  href="../abm/abmmarcas.php" class="col-3 btn btn-primary " type="button">ABM MARCAS</a>
+                <a id="vlv"  href="consultaaltas.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
+                <a id="agr" href="../abm/abmmarcas.php" class="btn btn-success" type="button">+</a>
             </div>					
-         </div>
+        </div>
 
         <h1>CONSULTA MARCAS</h1>
-		<form method="POST" action="consultamarcas.php">
-				<div class="form-group row">
-					<input type="text" style="margin-left: 10px; width: 75%; height: 40px; margin-top: 12px; 	box-sizing: border-box; border-radius: 10px; text-transform:uppercase;" name="buscar"  placeholder="Buscar"  class="form-control largo col-xl-4 col-lg-4">
-
-					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn2" value="BUSCAR"></input>
-
-					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn1" value="LIMPIAR"></input>
+		<div id="filtro" class="container-fluid">
+			<form method="POST" action="consultamarcas.php">
+				<div>
+					<input type="text" style="text-transform:uppercase;" name="buscar"  placeholder="Buscar" class="form-control largo">
+				</div>        
+				<div>
+					<input class="btn btn-success" type="submit" name="btn2" value="BUSCAR"></input>
+					<input class="btn btn-danger"  type="submit" name="btn1" value="LIMPIAR"></input>
 				</div>
 			</form>
+		</div>
 
         <?php
 				echo "<table width=100%>
@@ -87,5 +89,6 @@ $row = $resultado->fetch_assoc();
 						echo "</table>";
 							?>
     </section>
+	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>
 </html>

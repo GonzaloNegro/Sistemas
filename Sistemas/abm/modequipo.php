@@ -71,11 +71,11 @@ function ConsultarIncidente($no_tic)
 	</style>
 </head>
 <body>
-<div id="reporteEst" style="width: 97%; margin-left: 20px;">   
-				<div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-					<a id="vlv"  href="abmequipos.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
-				</div>					
-		</div>
+    <div id="reporteEst">   
+        <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
+            <a id="vlv"  href="abmequipos.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
+        </div>					
+    </div>
 	<section id="Inicio">
     <div id="titulo" style="margin: 20px;">
 			<h1>MODIFICAR EQUIPO</h1>
@@ -2078,6 +2078,7 @@ function ConsultarIncidente($no_tic)
     <script>
         AOS.init();
     </script>
+        <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
