@@ -251,7 +251,7 @@ $row = $resultado->fetch_assoc();
         if ($_POST['buscar'] == ''){ $_POST['buscar'] = ' ';}
         $aKeyword = explode(" ", $_POST['buscar']);
 
-        if ($_POST["buscar"] == '' AND $_POST['ID_REPA'] == '' AND $_POST['ID_AREA'] == ''){ 
+        if ($_POST["buscar"] == '' AND $_POST['ID_REPA'] == '' AND $_POST['ID_AREA'] == '' AND $_POST['ID_TIPOWS'] == '' AND $_POST['ID_MICRO'] == '' AND $_POST['ID_SO'] == ''){ 
                 $query ="SELECT i.ID_WS, a.AREA, r.REPA, u.NOMBRE, t.TIPOWS, i.SERIEG, s.SIST_OP, m.MICRO, i.OBSERVACION
                 FROM inventario i 
                 LEFT JOIN area AS a ON i.ID_AREA = a.ID_AREA
@@ -347,6 +347,11 @@ $row = $resultado->fetch_assoc();
 <!--         <div class="contResult">
             <p style="font-weight: bold; color:#53AAE0;"><i class="mdi mdi-file-document"></i> <?php echo $numeroSql; ?> Resultados encontrados</p>
         </div> -->
+
+    </form>
+    <?php 
+        if($_POST["buscar"] == ' ' AND $_POST['reparticion'] == '' AND $_POST['area'] == '' AND $_POST['tipows'] == '' AND $_POST['micro'] == '' AND $_POST['so'] == ''){;
+        ?>
         <div class="principal-info">
             <?php 
                 $sql6 = "SELECT COUNT(*) AS total FROM inventario";
@@ -403,8 +408,7 @@ $row = $resultado->fetch_assoc();
                 </div>
             </div>
         </div>
-    </form>
-
+        <?php };?>
 
     <table class="table_id" style="width: 98%; margin: 0 auto;">
         <thead>
@@ -421,7 +425,9 @@ $row = $resultado->fetch_assoc();
             </tr>
         </thead>
 
+        <?php $cantidadTotal = 0;?>
         <?php While($rowSql = $sql->fetch_assoc()) {
+            $cantidadTotal++;
             $NUMERO=$rowSql['SERIEG'];
             echo "
                 <tr>
@@ -487,6 +493,8 @@ $row = $resultado->fetch_assoc();
                     }
                     echo"
                 </ul>
+                <h2>Cantidad de registros: </h2>
+                <ul><li>$cantidadTotal</li></ul>
             </div>
             ";
                 }

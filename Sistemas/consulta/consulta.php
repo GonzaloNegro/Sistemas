@@ -329,8 +329,12 @@ $cu = $row['CUIL'];
             ?>
             <p style="font-weight: bold; color:#53AAE0;"><i class="mdi mdi-file-document"></i> <?php echo $numeroSql; ?> Resultados encontrados</p>
         </div>
+    </form>
 
-        <div class="principal-info">
+    <?php 
+        if($_POST["buscar"] == ' ' AND $_POST['estado'] == '' AND $_POST['usuario'] == '' AND $_POST['resolutor'] == '' AND $_POST['buscafechadesde'] == '' AND $_POST['buscafechahasta'] == ''){;
+        ?>
+    <div class="principal-info">
             <?php 
                 $sql6 = "SELECT COUNT(*) AS total FROM ticket";
                 $result6 = $datos_base->query($sql6);
@@ -386,9 +390,7 @@ $cu = $row['CUIL'];
                 </div>
             </div>
         </div>
-
-    </form>
-
+        <?php };?>
 
     <table class="table_id" style="width: 98%; margin: 0 auto;">
         <thead>

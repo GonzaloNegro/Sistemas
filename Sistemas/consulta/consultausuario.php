@@ -146,7 +146,7 @@ $cu = $row['CUIL'];
             <div class="filtros">
                 <div class="filtros-listado">
                     <div>
-                        <label class="form-label">Descripción</label>
+                        <label class="form-label">Usuario</label>
                         <input type="text" style="text-transform:uppercase;" name="buscar"  placeholder="Buscar" class="form-control largo">
                     </div>
                     <div>
@@ -268,7 +268,12 @@ $cu = $row['CUIL'];
 <!--         <div class="contResult">
             <p style="font-weight: bold; color:#53AAE0;"><i class="mdi mdi-file-document"></i> <?php echo $numeroSql; ?> Resultados encontrados</p>
         </div> -->
-        <div class="principal-info">
+    </form>
+
+    <?php 
+        if($_POST["buscar"] == ' ' AND $_POST['area'] == '' AND $_POST['reparticion'] == ''){;
+        ?>
+    <div class="principal-info">
             <?php 
                 $sql6 = "SELECT COUNT(*) AS total FROM usuarios";
                 $result6 = $datos_base->query($sql6);
@@ -324,8 +329,7 @@ $cu = $row['CUIL'];
                 </div>
             </div>
         </div>
-    </form>
-
+        <?php };?>
 
     <table class="table_id" style="width: 98%; margin: 0 auto;">
         <thead>

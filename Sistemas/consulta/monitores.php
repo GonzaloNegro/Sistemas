@@ -282,7 +282,11 @@ $row = $resultado->fetch_assoc();
 <!--         <div class="contResult">
             <p style="font-weight: bold; color:#53AAE0;"><i class="mdi mdi-file-document"></i> <?php echo $numeroSql; ?> Resultados encontrados</p>
         </div> -->
-        <div class="principal-info">
+    </form>
+    <?php 
+        if($_POST["buscar"] == ' ' AND $_POST['marca'] == '' AND $_POST['area'] == '' AND $_POST['tipo'] == ''){;
+        ?>
+    <div class="principal-info">
             <?php 
                 $sql6 = "SELECT COUNT(*) AS total FROM periferico WHERE ID_TIPOP = 7 OR ID_TIPOP = 8";
                 $result6 = $datos_base->query($sql6);
@@ -338,8 +342,7 @@ $row = $resultado->fetch_assoc();
                 </div>
             </div>
         </div>
-    </form>
-
+        <?php };?>
 
     <table class="table_id" style="width: 98%; margin: 0 auto;">
         <thead>

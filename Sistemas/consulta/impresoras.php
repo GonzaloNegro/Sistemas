@@ -32,7 +32,6 @@ $row = $resultado->fetch_assoc();
 <?php
     if (!isset($_POST['buscar'])){$_POST['buscar'] = '';}
     if (!isset($_POST['area'])){$_POST['area'] = '';}
-    if (!isset($_POST["reparticion"])){$_POST["reparticion"] = '';}
     if (!isset($_POST["orden"])){$_POST["orden"] = '';}
     if (!isset($_POST['tipop'])){$_POST['tipop'] = '';}
     if (!isset($_POST["impresora"])){$_POST["impresora"] = '';}
@@ -243,7 +242,7 @@ $row = $resultado->fetch_assoc();
         if ($_POST['buscar'] == ''){ $_POST['buscar'] = ' ';}
         $aKeyword = explode(" ", $_POST['buscar']);
 
-        if ($_POST["buscar"] == '' AND $_POST['ID_REPA'] == '' AND $_POST['ID_AREA'] == ''){ 
+        if ($_POST["buscar"] == '' AND $_POST['ID_TIPOP'] == '' AND $_POST['ID_AREA'] == '' AND $_POST['ID_MARCA'] == '' AND $_POST['ID_MODELO'] == ''){ 
                 $query ="SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, mo.MODELO, t.TIPO, m.MARCA			
                 FROM periferico p 
                 LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
@@ -332,7 +331,11 @@ $row = $resultado->fetch_assoc();
 <!--         <div class="contResult">
             <p style="font-weight: bold; color:#53AAE0;"><i class="mdi mdi-file-document"></i> <?php echo $numeroSql; ?> Resultados encontrados</p>
         </div> -->
-        <div class="principal-info">
+    </form>
+    <?php 
+        if($_POST["buscar"] == ' ' AND $_POST['impresora'] == '' AND $_POST['area'] == '' AND $_POST['marca'] == '' AND $_POST['tipop'] == ''){;
+        ?>
+    <div class="principal-info">
             <?php 
                 $sql6 = "SELECT COUNT(*) AS total FROM periferico WHERE ID_TIPOP =  1 OR ID_TIPOP =  2 OR ID_TIPOP =  3 OR ID_TIPOP =  4 OR ID_TIPOP =  10 OR ID_TIPOP = 13";
                 $result6 = $datos_base->query($sql6);
@@ -388,7 +391,7 @@ $row = $resultado->fetch_assoc();
                 </div>
             </div>
         </div>
-    </form>
+        <?php };?>
 
 
     <table class="table_id" style="width: 98%; margin: 0 auto;">
@@ -404,7 +407,9 @@ $row = $resultado->fetch_assoc();
             </tr>
         </thead>
 
+        <?php $cantidadTotal = 0;?>
         <?php While($rowSql = $sql->fetch_assoc()) {
+            $cantidadTotal++;
             $NUMERO=$rowSql['SERIEG'];
             echo "
                 <tr>
@@ -459,6 +464,8 @@ $row = $resultado->fetch_assoc();
                     }
                     echo"
                 </ul>
+                <h2>Cantidad de registros: </h2>
+                <ul><li>$cantidadTotal</li></ul>
             </div>
             ";
                 }

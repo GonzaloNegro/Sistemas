@@ -33,7 +33,6 @@ $row = $resultado->fetch_assoc();
     if (!isset($_POST['buscar'])){$_POST['buscar'] = '';}
     if (!isset($_POST['area'])){$_POST['area'] = '';}
     if (!isset($_POST["orden"])){$_POST["orden"] = '';}
-    if (!isset($_POST['tipows'])){$_POST['tipows'] = '';}
     if (!isset($_POST["marca"])){$_POST["marca"] = '';}
     if (!isset($_POST["tipo"])){$_POST["tipo"] = '';}
 ?>
@@ -284,7 +283,11 @@ $row = $resultado->fetch_assoc();
 <!--         <div class="contResult">
             <p style="font-weight: bold; color:#53AAE0;"><i class="mdi mdi-file-document"></i> <?php echo $numeroSql; ?> Resultados encontrados</p>
         </div> -->
-        <div class="principal-info">
+    </form>
+    <?php 
+        if($_POST["buscar"] == ' ' AND $_POST['marca'] == '' AND $_POST['area'] == '' AND $_POST['tipo'] == ''){;
+        ?>
+    <div class="principal-info">
             <?php 
                 $sql6 = "SELECT COUNT(*) AS total FROM periferico WHERE ID_TIPOP = 5 OR ID_TIPOP = 6 OR ID_TIPOP = 9 OR ID_TIPOP = 11 OR ID_TIPOP = 12";
                 $result6 = $datos_base->query($sql6);
@@ -340,7 +343,7 @@ $row = $resultado->fetch_assoc();
                 </div>
             </div>
         </div>
-    </form>
+        <?php };?>
 
 
     <table class="table_id" style="width: 98%; margin: 0 auto;">
