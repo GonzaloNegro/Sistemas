@@ -368,16 +368,16 @@ nav a img {
 /*Fin de Menù lateral*/
 
 #foto {
-  width: 190px;
-  height: 110px;
+  width: 160px;
+  height: 800px;
   margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 50px;
   background-color: #f7fbfd;
-  background-image: url("../imagenes/logoObrasPúblicas.png");
+  background-image: url("../imagenes/logoInfraestructura.png");
   background-repeat: no-repeat;
-  background-size: 140%;
+  background-size: 100%;
   border-radius: 10px;
 }
 .color {
@@ -410,17 +410,18 @@ nav a img {
   display: none;
 }
 
-#vlv {
-  width: 120px;
-  height: 45px;
-  background-color: #1c7cd5;
-  border-color: #f7fbfd;
-  font-size: 20px;
-  font-family: TrasandinaBook;
-  border-radius: 20px;
-}
-#vlv:hover {
-  background-color: #176ab5;
+#vlv{
+	top: 50px;
+	right: 50px;
+	width: auto; 
+	height: auto; 
+	width: 50px;
+	height: 50px;
+	font-size: 32px;
+	font-weight: bold;
+	border-radius: 30px;
+	padding: 0px;
+	color: white;
 }
 
 h1 {
@@ -540,3 +541,32 @@ tr:hover td{
   }
 
   
+  .centrado{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding: 10px;
+    gap: 50px;
+  }
+  .centrado--stats{
+    width: 400px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 5px 5px 5px 5px rgba(165, 164, 164, 0.3);
+  }
+  .labelInput{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+  }
+  .particular{
+    gap: 2px;
+  }

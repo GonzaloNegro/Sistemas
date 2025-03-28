@@ -17,7 +17,7 @@ $cu = $row['CUIL'];
 <head>
 	<title>STOCK</title>
 	<meta charset="utf-8">
-	<link rel="icon" href="../imagenes/logoObrasPúblicas.png">
+	<link rel="icon" href="../imagenes/logoInfraestructura.png">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -64,6 +64,10 @@ $cu = $row['CUIL'];
                     <li><a class="dropdown-item" href="../consulta/monitores.php">MONITORES</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="../consulta/otrosp.php">OTROS PERIFÉRICOS</a></li>
+					<li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="../consulta/celulares.php">CELULARES</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="../consulta/montosLineas.php">MONTOS/LÍNEAS</a></li>
                 </ul>
             </li>
             <li><a href="#" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">GESTIÓN</a>
@@ -491,7 +495,7 @@ $cu = $row['CUIL'];
 		<div class="footer">
 			<div class="container-fluid">
 				<div class="row">
-					<img src="../imagenes/logoGobierno.png" class="img-fluid">
+					<img src="../imagenes/cba-logo.png" class="img-fluid">
 				</div>
 			</div>
 		</div>
@@ -507,6 +511,6 @@ $cu = $row['CUIL'];
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 	</script>
-	<script src="../js/script.js"></script>
+	
 </body>
 </html>

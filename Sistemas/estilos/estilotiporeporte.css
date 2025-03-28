@@ -24,29 +24,35 @@ header {
   src: url("../fuente/TrasandinaMedium.otf");
 }
 
-h1 {
-  text-align: center;
-  color: #53aae0;
-  font-family: TrasandinaBlack;
-  margin-bottom: 40px;
-  margin-top: 25px;
-  font-size: 32px;
-  letter-spacing: 5px;
+h1{
+	text-align: center;	
+	color: #53AAE0;
+	font-family: TrasandinaBlack;
+	font-size: 32px;
+	letter-spacing: 5px;
 }
 
-h2 {
-  text-align: left;
-  font-family: TrasandinaBook;
-  font-size: 16px;
-  color: #edf0f5;
-  margin-left: 10px;
+h2{
+	text-align: left;	
+	font-family: TrasandinaBook;
+	font-size: 16px;
+	color: #edf0f5;
+	margin-left: 10px;
 }
 
-h4 {
-  text-align: center;
-  font-family: TrasandinaBook;
-  font-size: 20px;
-  text-transform: uppercase;
+h3{
+	text-align: center;	
+	color: #f7fbfd;
+	font-family: TrasandinaBlack;
+	font-size: 17px;
+	letter-spacing: 2px;
+}
+
+h4{
+	text-align: center;	
+	font-family: TrasandinaBook;
+	font-size: 14px;
+	text-transform: uppercase;
 }
 
 #inicio {
@@ -189,12 +195,12 @@ h4 {
 }
 
 #foto{
-  width: 100px;
+  width: 160px;
   height: 80px;
 
-  background-image: url("../imagenes/logoObrasPúblicas.png");
+  background-image: url("../imagenes/logoInfraestructura.png");
   background-repeat: no-repeat;
-  background-size: 140%;
+  background-size: 100%;
 cursor: default;
 }
 
@@ -304,7 +310,7 @@ footer{
 .card{
   position: relative;
   width: 300px;
-  height: 350px;
+  height: 410px;
   background-color: #edf0f5;
 }
 

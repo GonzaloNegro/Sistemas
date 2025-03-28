@@ -81,10 +81,23 @@ p{
 
 #titulo{
 	width: auto;
-	height: 80px;
+	height: auto;
 	margin-bottom: 20px;
 }
+.subtitulo{
+	width: auto !important;
+	height: 50px !important;
+	margin-bottom: 5px !important;
+	margin-top: 5px;
 
+}
+.sbtRep{
+	width: auto !important;
+	height: 50px !important;
+	margin-bottom: 5px !important;
+	margin-top: 5px;
+	display:none;
+}
 #titulo h1{
 	margin-top: 40px;
 }
@@ -256,7 +269,18 @@ select{
 	text-align: left;
 	color: #FFFFFF;
 }
-
+#tablaReporte{
+	background-color: transparent!important;
+	width: 50%!important;
+	margin-left: 30px;
+}
+.tdReporte,.trReporte{
+	border: solid 1px #f7fbfd;
+	border-bottom: solid 1px #f7fbfd;
+}
+.trReporte{
+	
+}
 table{
 	text-align: left;
 	margin-left: 5px;
@@ -265,14 +289,13 @@ table{
 	border-collapse: collapse;
 	width:100%;
 	box-shadow: 5px -2px 66px 0px rgba(0,0,0,0.24) inset;
--webkit-box-shadow: 5px -2px 66px 0px rgba(0,0,0,0.24) inset;
--moz-box-shadow: 5px -2px 66px 0px rgba(0,0,0,0.24) inset;
+	-webkit-box-shadow: 5px -2px 66px 0px rgba(0,0,0,0.24) inset;
+	-moz-box-shadow: 5px -2px 66px 0px rgba(0,0,0,0.24) inset;
 }
 
 th, td{
 	border: solid 1px #f7fbfd;
-	border-bottom: solid 1px #073256;
-	
+	border-bottom: solid 1px #073256;	
 }
 
 thead{
@@ -291,12 +314,11 @@ tr:hover td{
 }
 
 #foto{
-    width: 100px;
+    width: 160px;
     height: 80px;
-
-    background-image: url("../imagenes/logoObrasPúblicas.png");
+    background-image: url("../imagenes/logoInfraestructura.png");
     background-repeat: no-repeat;
-    background-size: 140%;
+    background-size: 100%;
 	cursor: default;
 }
 
@@ -357,26 +379,45 @@ h5{
 .mod{
 	color: #00519C;
 }
-
-#paginador{
+/* PAGINADOR */
+/* #paginador{
 	float: left;
 	margin-top: 50px;
 	margin-left: 30px;
+} */
+/* .pagination .page-item.disabled .page-link {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    border: none;
+    pointer-events: none;
 }
+.pagination .page-item.active .page-link {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    color: white;
+}
+.pagination .page-link {
+    border-radius: 4px;
+    transition: 0.3s;
+}
+.pagination .page-link:hover {
+    background-color: #f8f9fa;
+    color: #0d6efd;
+} */
 
+/* */
 #vlv{
-	width: 100%; 
-	height: 45px; 
-	background-color: #176AB5; 
-	border-color: #f7fbfd; 
-	font-size: 20px; 
-	font-family: TrasandinaBook;
-    border-radius: 20px;
-}
-#vlv:hover{
-background-color: #f7fbfd;
-border-color: #176AB5;
-color: #176AB5;
+	top: 50px;
+	right: 50px;
+	width: auto; 
+	height: auto; 
+	width: 50px;
+	height: 50px;
+	font-size: 32px;
+	font-weight: bold;
+	border-radius: 30px;
+	padding: 0px;
+	color: white;
 }
 
 #vlva{
@@ -597,7 +638,14 @@ footer{
 	width: 400px;
   height: auto;
 }
-
+/* .cabecera{
+	margin: 0 auto;
+	display: none;
+	width: 400px;
+  	height: auto;
+	margin-top: 0px;
+	float: left;
+} */
 .valorPeque{
 	width: 1px;
 	height: 1px;
@@ -615,16 +663,45 @@ footer{
 	gap: 20px;
 }
 .filtros{
-width: 100%;
+	width: 100%;
 	background-color: #53aae025;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
 }
 .filtros-listado, .filtros-listado-busqueda{
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: flex-start;
 	gap: 10px;
 	flex-wrap: wrap;
+	flex-direction: column;
+}
+.filtros-listado div{
+	width: 700px;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
+}
+.filtros-listado input, .filtros-listado select{
+	height: 30px;
+	font-size: 14px;
+	margin: 4px
+}
+.filtros-listadoParalelo{
+	width: 100%;
+	height: 250px;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-end;
+	flex-direction: column;
+	margin-right: 50px;
+	gap: 10px;
+}
+.export{
+	margin-top: 0px;
 }
 .filtros-listado label{
 	color: black;
@@ -639,8 +716,9 @@ width: 100%;
 	align-items: center;
 	flex-direction: row
 }
-.export{
-	margin-top: 35px;
+
+.modal-body label{
+	color:#007bff;
 }
 
 .filtrado{
@@ -725,3 +803,179 @@ width: 100%;
 	opacity: 0.5;
 	display: block;
 	font-size: 18px; }
+
+	.ind {
+		font-family: TrasandinaBook;
+		text-align: start;
+		color: #53aae0;
+		font-size: 18px;
+		margin-bottom: 10px !important;
+		margin-right: 70px;
+
+	  }
+	#indicadores, #personal, #claro{
+		margin-left: 30px;
+	}
+	
+	.plan{
+		font-size:22px;
+		text-align:left;
+		text-decoration: underline;
+	}
+	.planRepLineas{
+		font-size:22px;
+		text-align:left;
+		text-decoration: underline;
+	}
+	/* Para dar formato al reporte de planes */
+
+	@media print {
+                                             #vlv {display:none;}
+                                             #form_filtro {display:none; height: 0px !important;}
+                                             p{font-size: 10px !important; margin-top:2px !important}
+											 .plan{
+												font-size:12px;
+											}
+											#subtotal{
+												font-size: 14px!important;
+											}
+											.planRepLineas{
+												font-size:13px !important;
+											}
+											/*//ajustamos el tamaño de columnas de tabla*/
+											.usuario{
+												width: 20%;
+											}
+											.costo{
+												width: 10%;
+											}
+											/* */
+                                             .ind {
+                                                font-size: 12px;
+                                                margin-bottom: 10px !important;
+                                                font-weight: bold;
+                                             }
+                                             #periodo{font-size: 16px !important; font-weight: bold !important;}
+                                             .row{
+                                                margin-top: 1px !important;
+                                                margin-bottom: 1px !important;
+                                                height: 30px !important;
+                                             }
+                                             .col {height: 30px !important;}
+                                             hr{
+                                                margin-top: 10px !important;
+                                             }
+                                             /* .cabecera{display: block;} */
+                                             .print-header {
+                                                position: fixed;
+                                                top: 0;
+                                                left: 0;
+                                                width: 100%;
+                                                height: 100px;
+                                                text-align: center;
+                                                /* background: white;  */
+                                                z-index: 1000;
+                                            }
+                                            .print-header img {
+                                                max-height: 80px; /* Ajustar tamaño de la imagen */
+                                            }
+                                            .prov{font-size: 13px !important;}
+                                            #head{display:block !important; }
+                                            #titulo{
+                                                /* font-size: 19px !important;  */
+                                                margin-top: 5px !important;
+                                                margin-bottom: 20px !important;
+                                                height: 20px;
+                                                display: flex !important;
+                                                justify-content: center !important; /* Centrar horizontalmente */
+                                                align-items: center !important;
+                                                }
+                                            .subtitulo{
+                                                display:none;
+                                            }
+                                            .sbtRep{
+                                                display:block;
+                                                font-size: 19px !important; 
+                                                margin-top: 0px !important;
+                                                margin-bottom: 5px !important;
+                                                height: 20px;
+                                                width: 75%!important;
+                                            }
+											#subtitulo{
+												font-size: 17px!important;
+											}
+                                            .page-break {
+                                                page-break-before: always;
+                                                margin-top: 80px;
+                                            }
+                                            #total{font-size:15px !important;
+                                                margin-bottom: 10px !important;
+                                                font-weight: bold;}
+                                            td,th{
+                                                font-size: 14px !important; 
+                                                background-color: #dbe5e9!important;
+                                            }
+                                            table{
+                                                border: solid 1px #f7fbfd !important;
+                                            }
+                                            #totalPlanes{
+                                                margin-top:10px!important;
+                                            }
+                                            body {
+                                                margin-bottom: 3cm!important;
+                                            }
+
+                                            /* Pie de página fijo */
+                                            
+
+											:root {
+												--total-pages: 0;
+											  }
+											  
+											  body {
+												counter-reset: page-counter 0 total-pages var(--total-pages);
+											  }
+											  /* .prov::before {
+												counter-increment: page-counter 1;
+												content: counter(page-counter) " de " counter(total-pages);
+											  } */
+											/* Pie de página fijo */
+                                            footer {
+                                                /* position: fixed!important; */
+                                                bottom: 0!important;
+                                                left: 0!important;
+                                                right: 0!important;
+                                                text-align: center!important;
+                                                font-size: 12px!important;
+                                                color: gray!important;
+                                            }
+											#footer_pag{
+												position: static!important;
+												margin-bottom: 0px!important;
+												}
+
+											/* .footer{
+												position: relative!important;
+												width: 185mm!important;
+												height: auto!important;
+												bottom:50px;
+												bottom:10px;
+												padding: 0!important;
+												left: 0mm!important;
+												background-color: transparent!important;
+											} 
+											  .footer::before {
+												counter-increment: page-counter 1;
+												content: counter(page-counter) " of " counter(total-pages);
+											} */
+											
+                                                            }
+											@page {
+												margin-top: 5mm;
+												}
+                                                            @media screen {
+                                            .print-footer {
+                                                display: none; /* Ocultar el pie de página en pantalla */
+                                            }
+                                        }
+										

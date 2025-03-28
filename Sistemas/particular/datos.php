@@ -15,7 +15,7 @@ $row = $resultado->fetch_assoc();
 $usuario=$_POST['usuario'];
 
 	$consulta="SELECT * FROM inventario i inner join wsusuario u 
-	on i.ID_WS=u.ID_WS where u.ID_USUARIO=$usuario";
+	on i.ID_WS=u.ID_WS where u.ID_USUARIO=$usuario AND ID_ESTADOWS=1";
 
 	$result=mysqli_query($datos_base,$consulta) or die(mysqli_error($datos_base));
     

@@ -384,16 +384,16 @@ nav a img{
 	/*Fin de Menù lateral*/
 
 	#foto{
-		width: 190px;
+		width: 160px;
 		height: 110px;
 		margin-top: 20px;
 		margin-left: auto;
 		margin-right: auto;
 		margin-bottom: 50px;
 		background-color: #f7fbfd;
-		background-image: url("../imagenes/logoObrasPúblicas.png");
+		background-image: url("../imagenes/logoInfraestructura.png");
 		background-repeat: no-repeat;
-		background-size: 140%;
+		background-size: 100%;
 		border-radius: 10px;
 	}
 .color{

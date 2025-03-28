@@ -46,7 +46,7 @@ $row = $resultado->fetch_assoc();
 </head>
 <body>
 <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-                      <a id="vlv" href="tiporeporte.php" class="btn btn-primary">VOLVER</a>
+  <a id="vlv"  href="../reportes/tiporeporte.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
 	                    <a id="pr" class="btn btn-secondary" style="width: 50px; height:40px; border-radius: 10px;" onclick="location.href='../consulta/consulta.php'"><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></a>
 		            </div>
 	<section id="Inicio">
@@ -97,7 +97,7 @@ $row = $resultado->fetch_assoc();
 </div> 
 <!-- </form>  -->
 </div> 
-
+<!--FUNCIONALIDADES QUE REDIRIGEN LA PAGINA A REPORTESDISPOSITIVOS.PHP CON LOS PARAMETROS SELECCIONADOS-->
 <script>
 $(document).ready(function(){
   // $tipo=$("#slctipo").val();
@@ -147,7 +147,7 @@ $(document).ready(function(){
 <!--Filtros-->
 
 <script src="../js/filtrosinventario.js"></script>
-
+<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </section>
 <footer>
    </footer>

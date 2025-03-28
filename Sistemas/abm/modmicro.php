@@ -23,7 +23,7 @@ function ConsultarIncidente($no_tic)
 <html>
 <head>
     <title>MODIFICAR MICRO</title>
-    <link rel="icon" href="../imagenes/logoObrasPúblicas.png">
+    <link rel="icon" href="../imagenes/logoInfraestructura.png">
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -37,6 +37,34 @@ function ConsultarIncidente($no_tic)
 	</style>
 </head>
 <body>
+<script>
+function enviar_formulario(formulario){
+        	Swal.fire({
+                        title: "Esta seguro de guardar este micro?",
+                        icon: "warning",
+                        showConfirmButton: true,
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonText: "Cancelar",
+                        customClass:{
+                            actions: 'reverse-button'
+                        }
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            formulario.submit()
+
+
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
+			
+		}
+				
+		</script>
     <div id="reporteEst">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
             <a id="vlv"  href="abmmicro.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
@@ -74,7 +102,7 @@ function ConsultarIncidente($no_tic)
                             </div>
 
                     <div class="row justify-content-end" style="margin: 10px; padding:10px;">
-                        <input style="width: 20%;"class="col-3 button" type="submit" value="MODIFICAR" >
+                        <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="col-3 button" type="submit" value="MODIFICAR" >
                     </div>
                 </form>
 	    </div>

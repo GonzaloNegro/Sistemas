@@ -1,9 +1,9 @@
-<?php 
+<?php
 session_start();
 include('../particular/conexion.php');
-if(!isset($_SESSION['cuil'])) 
-    {       
-        header('Location: ../particular/Inicio.php'); 
+if(!isset($_SESSION['cuil']))
+    {
+        header('Location: ../particular/Inicio.php');
         exit();
     };
 $iduser = $_SESSION['cuil'];
@@ -15,7 +15,7 @@ $row = $resultado->fetch_assoc();
 <html>
 <head>
 	<title>CARGA RÁPIDA</title><meta charset="utf-8">
-	<link rel="icon" href="../imagenes/logoObrasPúblicas.png">
+	<link rel="icon" href="../imagenes/logoInfraestructura.png">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link rel="stylesheet" href="../jquery/1/jquery-ui.min.css">
@@ -26,14 +26,15 @@ $row = $resultado->fetch_assoc();
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	<!--FIN BUSCADOR SELECT-->
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 		<!--Estilo bootstrap para select2-->
 	<link rel="stylesheet" href="/path/to/select2.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 	<link rel="stylesheet" type="text/css" href="../estilos/estilocarga.css">
-	
+
 	<style>
 			body{
 				background-color: #edf0f5;
@@ -43,18 +44,40 @@ $row = $resultado->fetch_assoc();
 <body>
 	<script type="text/javascript">
 			function done(){
-				swal(  {title: "Se ha cargado su incidente correctamente",
-						icon: "success",
-						showConfirmButton: true,
-						showCancelButton: false,
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='../consulta/consulta.php';
-						}
-						}
-						);
-			}	
+				// swal(  {title: "Se ha cargado su incidente correctamente",
+				// 		icon: "success",
+				// 		showConfirmButton: true,
+				// 		showCancelButton: false,
+				// 		})
+				// 		.then((confirmar) => {
+				// 		if (confirmar) {
+				// 			window.location.href='../consulta/consulta.php';
+				// 		}
+				// 		}
+				// 		);
+				Swal.fire({
+                        title: "Incidente cargado correctamente.",
+                        icon: "success",
+                        showConfirmButton: true,
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonText: "Cancelar",
+                        customClass:{
+                            actions: 'reverse-button'
+                        }
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href='../consulta/consulta.php';
+
+
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
+			}
 			</script>
 
 <script type="text/javascript">
@@ -123,97 +146,201 @@ $row = $resultado->fetch_assoc();
 		});
 	}
 </script>
+<script>
+        function validar_formulario(){
 
+			var fieldsToValidate = [
+                    {
+                        selector: "#txtfecha",
+                        errorMessage: "No ingresó fecha."
+                    },
+                    {
+                        selector: "#tip",
+                        errorMessage: "No seleccionó tipificación."
+                    }
+                ];
 
-<header class="p-3 mb-3 border-bottom altura">
-    <div class="container-fluid">
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <a class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"><div id="foto"></div>
-          <!-- <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use> </svg>-->
-        </a>
+                var isValid = true;
 
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ">
-			<li><a href="cargadeincidentes.php" class="nav-link px-2 link-secondary link destacado" 
-			style="border-left: 5px solid #53AAE0;">NUEVO INCIDENTE</a>
- 				<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-					<li><a class="dropdown-item" href="cargarapidaporusuario.php">CARGA RÁPIDA POR USUARIO</a></li>
- 				<li><hr class="dropdown-divider"></li>
-                	<li><a class="dropdown-item" href="cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li>
-                </ul>
-			</li>
-            <li><a href="../consulta/consulta.php" class="nav-link px-2 link-dark link">CONSULTA</a>
-                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="../consulta/consulta.php">CONSULTA DE INCIDENTES</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="../consulta/consultausuario.php">CONSULTA DE USUARIOS</a></li>
-					<li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="../consulta/consultaaltas.php">CONSULTA PARA ALTAS</a></li>
-                </ul>
-            </li>
-            <li><a href="../consulta/inventario.php" class="nav-link px-2 link-dark link">INVENTARIO</a>
-                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="../consulta/inventario.php">EQUIPOS</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="../consulta/impresoras.php">IMPRESORAS</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="../consulta/monitores.php">MONITORES</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="../consulta/otrosp.php">OTROS PERIFÉRICOS</a></li>
-                </ul>
-            </li>
-            <li><a href="#" class="nav-link px-2 link-dark link">GESTIÓN</a>
-                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                    <li><a href="../abm/abm.php" class="dropdown-item">ABM</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a href="../reportes/tiporeporte.php" class="dropdown-item">REPORTES</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <?php if($row['ID_PERFIL'] == 1 OR $row['ID_PERFIL'] == 2){
-                                echo'
-                                <li><a href="../particular/estadisticas.php" class="dropdown-item">ESTADISTICAS</a></li>
-                            ';
-                            } 
-                            ?>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a href="../stock/stock.php" class="dropdown-item">STOCK</a></li>
-                </ul>
-            </li>
-			<li><a href="../calen/calen.php" class="nav-link px-2 link-dark link" data-bs-toggle="tooltip" title="Calendario" data-bs-placement="bottom"><i class="bi bi-calendar3"></i></a></li>
-			<li class="ubicacion link"><a href="../particular/bienvenida.php" data-bs-toggle="tooltip" title="Novedades" data-bs-placement="bottom"><i class="bi bi-info-circle"></i></a></li>
-			<li><a href="../Manual.pdf" class="ubicacion link" data-bs-toggle="tooltip" title="Manual" data-bs-placement="bottom"><i class="bi bi-journal"></i></a></li>
-        </ul>
-		<div class="notif" id="notif">
-			<i class="bi bi-bell" id="cant" data-bs-toggle="tooltip" title="Notificaciones" data-bs-placement="bottom">
-			<?php
-			$cant="SELECT count(*) as cantidad FROM ticket WHERE ID_ESTADO = 4;";
-			$result = $datos_base->query($cant);
-			$rowa = $result->fetch_assoc();
-			$cantidad = $rowa['cantidad'];
+				$.each(fieldsToValidate, function(index, field) {
+                    var element = $(field.selector);
+                    if (element.val()== "" || element.val()== null) {
+                      Swal.fire({
+                      title: field.errorMessage,
+                      icon: "warning",
+                      showConfirmButton: true,
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Aceptar',
+                      cancelButtonText: "Cancelar",
+                      customClass:{
+                      actions: 'reverse-button'
+                        }
+                      })
+                        isValid = false;
+                        return false;
+                    }
+                });
 
-			/* $fechaActual = date('m'); */
-			if($cantidad > 0){
-				echo $cantidad;
+				if (isValid ==true) {
+
+								return true;
+							}
+							else{
+								return false;
+							}
+		};
+		function validar_fecha(){
+			var isValid=true;
+			//Obtenemos los valores de fecha de inicio y de solucion
+			var fecha=$('#txtfecha').val();
+			//Se obtiene la fecha actual y el año
+			var hoy = new Date();
+            var fechaActual = hoy.toISOString().split("T")[0];
+            var añoActual = hoy.getFullYear();
+			var añoIngresado = new Date(fecha).getFullYear();
+
+			//Validacion de fecha igual o menor a la actual y que sea en el año actual
+			if (fecha > fechaActual || añoActual<añoIngresado) {
+                    Swal.fire({
+            			title: "La fecha debe ser hoy o una fecha anterior.",
+            			icon: "warning",
+        				showConfirmButton: true,
+        				showCancelButton: false,
+            			confirmButtonColor: '#3085d6',
+            			cancelButtonColor: '#d33',
+            			confirmButtonText: 'Aceptar',
+            			cancelButtonText: "Cancelar",
+            			customClass:{
+                			actions: 'reverse-button'
+            				}
+						})
+					var isValid=false;
+                }
+			if (isValid==true) {
+				return true;
 			}
-			?></i>
-			<script type="text/javascript">
-				var valor = "<?php echo $cantidad; ?>";
-				console.log(valor);
-			</script>
-		</div>
-        <div class="dropdown text-end">
-          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"><h5><i class="bi bi-person rounded-circle"></i><?php echo utf8_decode($row['RESOLUTOR']);?></h5></a>
-          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-		  <?php if($row['ID_RESOLUTOR'] == 6)
-		  { echo '
-		  	<li><a class="dropdown-item" href="../particular/agregados.php">CAMBIOS AGREGADOS</a></li>
-            <li><hr class="dropdown-divider"></li>';}?>
-            <li><a class="dropdown-item" href="../particular/contraseña.php">CAMBIAR CONTRASEÑA</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="../particular/salir.php">CERRAR SESIÓN</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </header>
+			else{
+				return false;
+			}
+		};
+		//Validamos qen el caso que se cargue un incidente este tenga usuario seleccionado y descripcion redactada
+		function validar_incidentes(){
+			var isValid=true;
+			var tieneIncidentes=true;
+			var nombreIncidente=""; 
+
+			//obtenemos el valor de los usuarios
+			var user1=$('#buscador1').val();
+			var user2=$('#buscador2').val();
+			var user3=$('#buscador3').val();
+			//obtenemos el valor de las descripciones
+			var descrip1=$('#descripcion1').val();
+			var descrip2=$('#descripcion2').val();
+			var descrip3=$('#descripcion3').val();
+
+			//En el caso que ambos esten vacios o llenos (user y descripcion) los campos de cada incidente devuelve true y permite el envio del formulario
+			//En el caso en que ambos sean distintos (uno vacio y otro no) envía false y no permite el envío hasta solucionar
+
+			//Para validar el caso que ambos sean distintos, se usa Validacion con compuerta XOR 
+			
+			//Validacion para detectar si algun incidente se cargo
+			if (user1==null && user2==null && user3==null && descrip1=="" && descrip2=="" && descrip3=="") {
+				Swal.fire({
+                      title: "No hay incidentes cargados",
+                      icon: "warning",
+                      showConfirmButton: true,
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Aceptar',
+                      cancelButtonText: "Cancelar",
+                      customClass:{
+                      actions: 'reverse-button'
+                        }
+                      })
+					  isValid=false;
+			}
+			else{
+				//Incidente 1
+			if ((user1==null || descrip1=="") && !(user1==null && descrip1=="")) {
+				isValid=false;
+				nombreIncidente="Incidente 1";
+			}
+			
+			if ((user2==null || descrip2=="") && !(user2==null && descrip2=="")) {
+				isValid=false;
+				nombreIncidente="Incidente 2";
+			 }
+			
+			if ((user3==null || descrip3=="") && !(user3==null && descrip3=="")) {
+				isValid=false;
+				nombreIncidente="Incidente 3";
+			}
+
+			//MEnsaje de alerta
+
+			Swal.fire({
+                      title: "Hay campos vacios en "+nombreIncidente,
+                      icon: "warning",
+                      showConfirmButton: true,
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Aceptar',
+                      cancelButtonText: "Cancelar",
+                      customClass:{
+                      actions: 'reverse-button'
+                        }
+                      })
+			}
+			
+			
+
+			if (isValid==true) {
+				return true;
+			}
+			else{
+				return false;
+			}
+
+
+		}
+		function enviar_formulario(formulario){
+        	if (validar_formulario() && validar_incidentes() && validar_fecha()) {
+				// alert("Todo OK");
+				Swal.fire({
+                        title: "Esta seguro de guardar este incidente?",
+                        icon: "warning",
+                        showConfirmButton: true,
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonText: "Cancelar",
+                        customClass:{
+                            actions: 'reverse-button'
+                        }
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            formulario.submit()
+
+
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
+			}
+			// else{
+			// 	alert("FAlla");
+			// }
+		}
+
+		</script>
+
+<?php include('../layout/incidente.php'); ?>
 	<section id="Inicio" class="container-fluid">
 		<div id="titulo" style="margin-top:20px; margin-bottom:20px;" data-aos="zoom-in">
 			<h1>CARGA RÁPIDA POR TIPIFICACIÓN</h1>
@@ -239,11 +366,11 @@ $row = $resultado->fetch_assoc();
 										$consulta= "SELECT * FROM tipificacion WHERE ID_TIPIFICACION >= 20 ORDER BY TIPIFICACION ASC";
 										$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 										?>
-										<?php foreach ($ejecutar as $opciones): ?> 
+										<?php foreach ($ejecutar as $opciones): ?>
 											<option value="<?php echo $opciones['ID_TIPIFICACION']?>"><?php echo $opciones['TIPIFICACION']?></option>
 										<?php endforeach ?>
 									</select>
-		                    </div>	
+		                    </div>
 
 
 
@@ -268,7 +395,7 @@ $row = $resultado->fetch_assoc();
 					$consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' AND ID_USUARIO <> 277 ORDER BY NOMBRE ASC";
 					$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 					?>
-					<?php foreach ($ejecutar as $opciones): ?> 
+					<?php foreach ($ejecutar as $opciones): ?>
 						<option value="<?php echo $opciones['ID_USUARIO']?>"><?php echo $opciones['NOMBRE']?></option>
 					<?php endforeach ?>
 
@@ -292,15 +419,15 @@ $row = $resultado->fetch_assoc();
 						})
 					})
 					</script>
-			<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label> 
+			<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label>
 			<select id='equipo' name='equipo' class='form-control col-xl col-lg' style="width:300px; margin-right: 30px;" ></select>
 			</div>
-			
+
 			<div class="form-group row" style="margin: 10px; padding:10px;">
-				<textarea name="descripcion1" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°1" rows="3" ></textarea>
+				<textarea id="descripcion1" name="descripcion1" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°1" rows="3" ></textarea>
 			</div>
 		</div>
-		
+
 		</div>
 	</div>
 	<div class="accordion-item">
@@ -321,7 +448,7 @@ $row = $resultado->fetch_assoc();
 								$consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' AND ID_USUARIO <> 277 ORDER BY NOMBRE ASC";
 								$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 								?>
-								<?php foreach ($ejecutar as $opciones): ?> 
+								<?php foreach ($ejecutar as $opciones): ?>
 									<option value="<?php echo $opciones['ID_USUARIO']?>"><?php echo $opciones['NOMBRE']?></option>
 								<?php endforeach ?>
 
@@ -345,14 +472,14 @@ $row = $resultado->fetch_assoc();
 											})
 										})
 									</script>
-			<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label> 
+			<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label>
 			<select id='equipo2' name='equipo2' class='form-control col-xl col-lg' style="width:300px; margin-right: 30px;"></select>
 			</div>
 			<div class="form-group row" style="margin: 10px; padding:10px;">
-				<textarea name="descripcion2" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°2" rows="3" ></textarea>
+				<textarea name="descripcion2" id="descripcion2" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°2" rows="3" ></textarea>
 			</div>
 		</div>
-		
+
 		</div>
 	</div>
 
@@ -373,7 +500,7 @@ $row = $resultado->fetch_assoc();
                     include("../particular/conexion.php");
 					$consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' AND ID_USUARIO <> 277 ORDER BY NOMBRE ASC";
                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));?>
-                    <?php foreach ($ejecutar as $opciones): ?> 
+                    <?php foreach ($ejecutar as $opciones): ?>
                     <option value="<?php echo $opciones['ID_USUARIO']?>"><?php echo $opciones['NOMBRE']?></option>
                     <?php endforeach ?>
                     </select>
@@ -395,32 +522,37 @@ $row = $resultado->fetch_assoc();
                                 })
                             })
                         })
-                    </script>		
-                <label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label> 
-			    <select id='equipo3' name='equipo3' class='form-control col-xl col-lg' style="width:300px; margin-right: 30px;" ></select>  
+                    </script>
+                <label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label>
+			    <select id='equipo3' name='equipo3' class='form-control col-xl col-lg' style="width:300px; margin-right: 30px;" ></select>
 				</div>
                 <div class="form-group row" style="margin: 10px; padding:10px;">
-                    <textarea name="descripcion3" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°3" rows="3"></textarea>
+                    <textarea id="descripcion3" name="descripcion3" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°3" rows="3"></textarea>
                 </div>
             </div>
 		</div>
 	</div>
-	
+
 	</div>
-</div>	
+</div>
 
     <!--//////////////////////////////////////////////////////////////////-->
     <!--//////////////////////////////////////////////////////////////////-->
-    <div class="row justify-content-end" style="margin: 10px; padding:10px;">
-        <input id="btnform" type="submit" value="GUARDAR" onClick="validar_formulario(this.form)"  name="g1" class="col-2 button">
-    </div>
-							
+	<?php
+		if ($row['ID_PERFIL'] != 5) {
+			echo ' <div class="row justify-content-end" style="margin: 10px; padding:10px;">
+					<input id="btnform" type="button" onClick="enviar_formulario(this.form)" value="GUARDAR" onClick="validar_formulario(this.form)"  name="g1" class="col-2 button">
+				</div>';
+					}
+	?>
+
+
     </form>
     <?php
         if(isset($_GET['ok'])){
         /*echo "<h3>Incidente cargado</h3>";*/?>
         <script>done();</script>
-        <?php			
+        <?php
     }
 			?>
 		</div>
@@ -429,7 +561,7 @@ $row = $resultado->fetch_assoc();
 		<div class="footer">
 			<div class="container-fluid">
 				<div class="row">
-					<img src="../imagenes/logoGobierno.png" class="img-fluid">
+					<img src="../imagenes/cba-logo.png" class="img-fluid">
 				</div>
 			</div>
 		</div>
@@ -444,6 +576,6 @@ $row = $resultado->fetch_assoc();
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 	</script>
-	<script src="../js/script.js"></script>
+	
 </body>
 </html>

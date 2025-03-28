@@ -50,11 +50,14 @@ $row = $resultado->fetch_assoc();
           }
         </script>
 	    	<?php
+			#recibe de reporteincidentes.html los campos fechadesde y fecha hasta 
 			$fechadesde=$_POST['fecha_desde'];
 			$fechahasta=$_POST['fecha_hasta'];
+			#Se obtiene el total de incidentes por consultaq SQL
 			$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from ticket
 			where FECHA_INICIO BETWEEN '$fechadesde' and '$fechahasta'");
 			$total = mysqli_fetch_array($conttotal);
+			#Se carga en encabezado en html fecha desde, hasta y el total de incidentes	
 	 			echo "
 				 <h1>REPORTE DE ESTADOS</h1>
 			     <hr style='display: block;'>
@@ -72,20 +75,22 @@ $row = $resultado->fetch_assoc();
                     </tr>
 			 		</thead>
 				 	";
-                     
+                     #realiza la consulta sql donde agrupa los resultados por id de estado (Anulado/Solucionado) para realizar el conteo y se almacena el resultado en la variable $consulta
                     $consulta=mysqli_query($datos_base, "SELECT e.ESTADO, r.ID_ESTADO, COUNT(*) as TOTAL from ticket r LEFT JOIN estado e ON r.ID_ESTADO=e.ID_ESTADO 
                     where r.FECHA_INICIO BETWEEN '$fechadesde' and '$fechahasta'
                     GROUP BY e.ESTADO");
 					            $nombre = "";
+								#Extrae en cada iteracion del while cada fila de la tabla resultado 
 				 				while($listar = mysqli_fetch_array($consulta)) 	
 								 {
+									#si la column estado esta vacia se carga el mensaje "SIN ESTADO"
 									 if ($listar['ESTADO']== null) {
 										 $nombre = 'SIN ESTADO';
 									 }
 									 else {
 										 $nombre = $listar['ESTADO'];
 									 }
-// <form method='POST' action='detalleestadoincidentes.php'>
+									 #SE carga en la tabla html los valores obtenidos de la consulta en cada fila correspondiendo a cada estado
 									echo
 									"   <input type='hidden' name='fechdesde' value='".$fechadesde."' />
 									    <input type='hidden' name='fechhasta' value='".$fechahasta."' />

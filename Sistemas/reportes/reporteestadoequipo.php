@@ -80,19 +80,28 @@ $row = $resultado->fetch_assoc();
                     </script>
 
 			        <?php
+					#Recibe por metodo GET el estado de reportecpu.php
+					#Consultas SQL 
+					#total de equipos en el estado,
 					    $estado = $_GET['Estado'];
 						$reparticion=$_GET['Repa'];
-
+					//Condicional para filtrar equipos por reparticion
 						if ($reparticion==0) {
+							#Total de PC
 						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i where i.ID_ESTADOWS=$estado");
 			            $total = mysqli_fetch_array($conttotal);
+						#Total de PC
 						$contPC=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i where i.ID_ESTADOWS=$estado AND i.ID_TIPOWS=1");
 			            $totalPC = mysqli_fetch_array($contPC);
+						#Total de Notebook	
 						$contNB=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i where i.ID_ESTADOWS=$estado AND i.ID_TIPOWS=2");
 			            $totalNB = mysqli_fetch_array($contNB);
 						$fecha = date("Y-m-d");
+						#se obtienen los nombres de estado de acuerdo a ID
 						$consularea=mysqli_query($datos_base, "select a.ESTADO from estado_ws a where a.ID_ESTADOWS=$estado");
 						$consultit=mysqli_fetch_array($consularea);
+						#Codigo HTML donde se muestran en un encabezado los datos obtenidos sobre conteo 
+						#codigo de cabecera de tabla de reporte de equipos por area
 						echo "
 						<h1 id='titulo'>REPORTE DE EQUIPOS POR ESTADO:".$consultit['ESTADO']."</h1>
                         <hr style='display: block; margin-top:60px;'>
@@ -116,6 +125,7 @@ $row = $resultado->fetch_assoc();
 						<!--<th id='cabeceraacc' class='cabecera' width=65px><p>ACCIÓN</p></th>-->
 						</tr>
 						</thead>";
+						#Consulta SQL para obtener los equipos filtrados por area seleccionada
 						$consultar=mysqli_query($datos_base, "select i.SERIEG as N°WS, i.ID_WS, u.NOMBRE, mi.MICRO, s.SIST_OP, a.AREA, r.REPA 
 						from inventario i left join usuarios u on i.ID_USUARIO=u.ID_USUARIO 
 						left join so s on i.ID_SO=s.ID_SO
@@ -123,12 +133,15 @@ $row = $resultado->fetch_assoc();
 						LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
 	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
 						 where i.ID_ESTADOWS=$estado");
+						 #Ciclo while para extraer del arreglo cada fila de la tabla obtenida de la consulta
 									while($listar = mysqli_fetch_array($consultar))
 									{
 
 										$nWS=$listar['ID_WS'];
+										//SE REALIZA UNA CONSULTA SQL A LA TABLA WSMEM PARA OBTENER EL TAMAÑO DE TODAS LAS MEMORIAS DEL CPU
 										$memoriaram=mysqli_query($datos_base, "SELECT w.ID_WS,w.ID_MEMORIA, m.MEMORIA, w.SLOT from wsmem w inner join memoria m on w.ID_MEMORIA=m.ID_MEMORIA where w.ID_WS=$nWS");
 						                $ram1="";$ram2="";$ram3="";$ram4="";
+										//SE EXTRAEN TODOS LOS VALORES Y GUARDAMOS EN VARIABLES
 										while($memram= mysqli_fetch_array($memoriaram)){
 											if ($memram['SLOT']==1) {
 												$ram1=$memram['MEMORIA'];
@@ -144,8 +157,10 @@ $row = $resultado->fetch_assoc();
 											}
 
 										}
+										//SE REALIZA UNA CONSULTA SQL A LA TABLA WSMEM PARA OBTENER LOS TIPOS DE LAS MEMORIAS DEL CPU
 										$tiporam=mysqli_query($datos_base, "SELECT w.ID_WS, w.SLOT, t.TIPOMEM from wsmem w inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM where w.ID_WS=$nWS");
 						                $tram1="";$tram2="";$tram3="";$tram4="";
+										//SE EXTRAEN TODOS LOS VALORES Y GUARDAMOS EN VARIABLES
 										while($tmemram= mysqli_fetch_array($tiporam)){
 											if ($tmemram['SLOT']==1) {
 												$tram1=$tmemram['TIPOMEM'];
@@ -161,9 +176,10 @@ $row = $resultado->fetch_assoc();
 											}
 
 										}
-
+										//SE REALIZA UNA CONSULTA SQL A LA TABLA DISCOWS PARA OBTENER EL TAMAÑO DE TODOS LOS DISCOS DEL CPU
 										$discos=mysqli_query($datos_base, "select d.NUMERO, t.DISCO from discows d inner join disco t on d.ID_DISCO=t.ID_DISCO where d.ID_WS=$nWS");
 						                $disco1="";$disco2="";
+										//SE EXTRAEN TODOS LOS VALORES Y GUARDAMOS EN VARIABLES
 										while($disc= mysqli_fetch_array($discos)){
 											if ($disc['NUMERO']==1) {
 												$disco1=$disc['DISCO'];
@@ -179,8 +195,10 @@ $row = $resultado->fetch_assoc();
 											}
 
 										}
+										//SE REALIZA UNA CONSULTA SQL A LA TABLA DISCOWS PARA OBTENER LOS TIPOS DE LOS DISCOS DEL CPU
 										$tdiscos=mysqli_query($datos_base, "select d.ID_WS, d.ID_DISCO, d.NUMERO, t.TIPOD from discows d inner join tipodisco t on d.ID_TIPOD=t.ID_TIPOD where d.ID_WS=$nWS");
 						                $tdisco1="";$tdisco2="";
+										//SE EXTRAEN TODOS LOS VALORES Y GUARDAMOS EN VARIABLES
 										while($tdisc= mysqli_fetch_array($tdiscos)){
 											if ($tdisc['NUMERO']==1) {
 												$tdisco1=$tdisc['TIPOD'];
@@ -196,7 +214,7 @@ $row = $resultado->fetch_assoc();
 											}
 
 										}
-
+										//LOS DATOS DE TAMAÑO Y TIPO DE RAM Y DISCO RESPECTIVAMENTE SE MUESTRAN JUNTOS EN UNA COLUMNA PARA MEJOR VISUALIZACION
 										echo
 													"
 														<tr style='border-bottom: solid 1px #073256;'>

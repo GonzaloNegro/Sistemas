@@ -40,6 +40,7 @@ $row = $resultado->fetch_assoc();
         </style>
         <section id="reporte">
         <?php
+        #SE OBTIENE EL TIPO DE REPORTE Y TIPO DE DISPOSITIVO
         $seleccion=$_GET['seleccion'];
 		$tipodisp = $_GET['tipo'];
         ?>
@@ -69,9 +70,11 @@ $row = $resultado->fetch_assoc();
                     </script>
 
 			        <?php
-
+#CONDICIONAL PARA FILTRAR POR SCANNER Y POR TIPOO DE FILTRO
 if ($tipodisp == 'scanner') {
+    #AREA
     if($seleccion =='AREA'){
+        #CONSULTA SQL PARA OBTENER CANTIDAD DE EQUIPOIS POR AREA
             $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p
              where p.TIPOP='SCANNER'");
             $total = mysqli_fetch_array($conttotal);
@@ -89,6 +92,7 @@ if ($tipodisp == 'scanner') {
                     <th class='cabe'><p>ACCION</p></th>
                     </tr>
                 </thead>";
+                #SE OBTIENEN TODAS LAS AREAS CON LA CANTIDAD DE EQUIPOS ASIGNADOS
                         $consultar=mysqli_query($datos_base, "SELECT a.AREA, p.ID_AREA, count(*) as TOTAL from periferico p left join area a on p.ID_AREA=a.ID_AREA
                         where p.TIPOP='SCANNER' group by a.AREA");
                                     while($listar = mysqli_fetch_array($consultar))
@@ -105,7 +109,7 @@ if ($tipodisp == 'scanner') {
                                                         <tr style='border-bottom: solid 1px #073256;'>
                                                         <td><h4 style='text-align: left;	'>".$nombre."</h4></td>
                                                         <td><h4 style='text-align: center;	'>".$listar['TOTAL']."</h4></td>
-                                                        <td class='text-center text-nowrap' id='accion' style='width: 80px;'><a class='btn btn-sm btn-outline-primary' href='detalleareaperif.php?Area=".$listar['ID_AREA']."&Tipo=$tipodisp' class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
+                                                        <td class='text-center text-nowrap' id='accion' style='width: 80px;'><a class='btn btn-sm btn-outline-primary' href='../consulta/detalleareaperif.php?Area=".$listar['ID_AREA']."&Tipo=$tipodisp' class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
                                         <path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
                                         <path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
                                       </svg></a></td>
@@ -114,7 +118,7 @@ if ($tipodisp == 'scanner') {
                                                 
                                     }
     }
-
+#SE FILTRA POR ESTADO E SCANNER
     if ($seleccion=='ESTADO')
     {
                         $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p
@@ -150,7 +154,7 @@ if ($tipodisp == 'scanner') {
                                                                 <tr style='border-bottom: solid 1px #073256;'>
                                                                 <td><h4 style='text-align: left;	'>".$nombre."</h4></td>
                                                                 <td><h4 style='text-align: center;	'>".$listar['TOTAL']."</h4></td>
-                                                                <td class='text-center text-nowrap' id='accion' style='width: 80px;'><a class='btn btn-sm btn-outline-primary' href='detalleestadoperif.php?Estado=".$listar['ID_ESTADOWS']."&Tipo=$tipodisp' class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
+                                                                <td class='text-center text-nowrap' id='accion' style='width: 80px;'><a class='btn btn-sm btn-outline-primary' href='../consulta/detalleestadoperif.php?Estado=".$listar['ID_ESTADOWS']."&Tipo=$tipodisp' class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
                                         <path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
                                         <path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
                                       </svg></a></td>
@@ -159,7 +163,7 @@ if ($tipodisp == 'scanner') {
                                                             
                                             }
     }
-
+#PROVEEDOR E SCANNER
     if ($seleccion=='PROVEEDOR')
         {
             $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p
@@ -195,7 +199,7 @@ if ($tipodisp == 'scanner') {
                                                     <tr style='border-bottom: solid 1px #073256;'>
                                                     <td><h4 style='text-align: left;	'>".$nombre."</h4></td>
                                                     <td><h4 style='text-align: center;	'>".$listar['TOTAL']."</h4></td>
-                                                    <td class='text-center text-nowrap' id='accion' style='width: 80px;'><a class='btn btn-sm btn-outline-primary' href='detalleproveedorperif.php?Proveedor=".$listar['ID_PROVEEDOR']."&Tipo=$tipodisp' class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
+                                                    <td class='text-center text-nowrap' id='accion' style='width: 80px;'><a class='btn btn-sm btn-outline-primary' href='../consulta/detalleproveedorperif.php?Proveedor=".$listar['ID_PROVEEDOR']."&Tipo=$tipodisp' class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
                                         <path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
                                         <path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
                                       </svg></a></td>
@@ -208,7 +212,8 @@ if ($tipodisp == 'scanner') {
 
     else{
 
-        
+        #OTROS DISPOSITIVOS
+        #AREA
         if($seleccion=='AREA'){
     		$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p
      		where p.TIPOP!='SCANNER' and p.TIPOP!='MONITOR' and p.TIPOP!='IMPRESORA'");
@@ -243,7 +248,7 @@ if ($tipodisp == 'scanner') {
     													<tr style='border-bottom: solid 1px #073256;'>
     													<td><h4 style='text-align: left;	'>".$nombre."</h4></td>
     													<td><h4 style='text-align: center;	'>".$listar['TOTAL']."</h4></td>
-    													<td class='text-center text-nowrap' id='accion' style='width: 80px;'><a class='btn btn-sm btn-outline-primary' href='detalleareaperif.php?Area=".$listar['ID_AREA']."&Tipo=$tipodisp' class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
+    													<td class='text-center text-nowrap' id='accion' style='width: 80px;'><a class='btn btn-sm btn-outline-primary' href='../consulta/detalleareaperif.php?Area=".$listar['ID_AREA']."&Tipo=$tipodisp' class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
     									<path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
     									<path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
     								  </svg></a></td>
@@ -252,7 +257,7 @@ if ($tipodisp == 'scanner') {
                                                 
     								}
     	}
-
+#ESTADO
     	if ($seleccion=='ESTADO')
     {
     					$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p
@@ -288,7 +293,7 @@ if ($tipodisp == 'scanner') {
     															<tr style='border-bottom: solid 1px #073256;'>
     															<td><h4 style='text-align: left;	'>".$nombre."</h4></td>
     															<td><h4 style='text-align: center;	'>".$listar['TOTAL']."</h4></td>
-    															<td class='text-center text-nowrap' id='accion' style='width: 80px;'><a class='btn btn-sm btn-outline-primary' href='detalleestadoperif.php?Estado=".$listar['ID_ESTADOWS']."&Tipo=$tipodisp' class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
+    															<td class='text-center text-nowrap' id='accion' style='width: 80px;'><a class='btn btn-sm btn-outline-primary' href='../consulta/detalleestadoperif.php?Estado=".$listar['ID_ESTADOWS']."&Tipo=$tipodisp' class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
     									<path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
     									<path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
     								  </svg></a></td>
@@ -297,7 +302,7 @@ if ($tipodisp == 'scanner') {
                                                             
     										}
     }
-
+#PROVEEDOR
     if ($seleccion=='PROVEEDOR' )
         {
             $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p
@@ -333,7 +338,7 @@ if ($tipodisp == 'scanner') {
                                                     <tr style='border-bottom: solid 1px #073256;'>
                                                     <td><h4 style='text-align: left;	'>".$nombre."</h4></td>
                                                     <td><h4 style='text-align: center;	'>".$listar['TOTAL']."</h4></td>
-                                                    <td class='text-center text-nowrap' id='accion' style='width: 80px;'><a class='btn btn-sm btn-outline-primary' href='detalleproveedorperif.php?Proveedor=".$listar['ID_PROVEEDOR']."&Tipo=$tipodisp' class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
+                                                    <td class='text-center text-nowrap' id='accion' style='width: 80px;'><a class='btn btn-sm btn-outline-primary' href='../consulta/detalleproveedorperif.php?Proveedor=".$listar['ID_PROVEEDOR']."&Tipo=$tipodisp' class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
                                         <path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
                                         <path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
                                       </svg></a></td>

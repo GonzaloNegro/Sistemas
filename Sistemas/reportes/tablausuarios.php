@@ -50,11 +50,14 @@ $row = $resultado->fetch_assoc();
         </script>
 		<div id="tablausuarios">
 	    	<?php
+			#recibe de reporteincidentes.html los campos fechadesde y fecha hasta 
 			$fechadesde=$_POST['fecha_desde'];
 			$fechahasta=$_POST['fecha_hasta'];
+			#Se obtiene el total de incidentes por consultaq SQL
 			$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from ticket
 			where FECHA_INICIO BETWEEN '$fechadesde' and '$fechahasta'");
 			$total = mysqli_fetch_array($conttotal);
+			#Se carga en encabezado en html fecha desde, hasta y el total de incidentes	
 	 			echo "
 				 <h1 style='text-align: center; margin-bottom: 40px;margin-top: 40px;'>REPORTE DE USUARIOS</h1>
 			     <hr style='display: block;'>
@@ -72,21 +75,22 @@ $row = $resultado->fetch_assoc();
 			 		</thead>
 				 	";
 					 
-                     
+                     #realiza la consulta sql donde agrupa los resultados por id de usuario para realizar el conteo y muestra la tabla con las filas resultantes 
 					 $consulta=mysqli_query($datos_base, "SELECT u.NOMBRE, r.ID_USUARIO, COUNT(*) as TOTAL 
 					 from ticket r left join usuarios u on r.ID_USUARIO=u.ID_USUARIO
                     where r.FECHA_INICIO BETWEEN '$fechadesde' and '$fechahasta'
                      GROUP BY r.ID_USUARIO");
 				 				$nombre = "";
+								#Extrae en cada iteracion del while cada fila de la tabla resultado 
 								 while($listar = mysqli_fetch_array($consulta)) 	
-								 {
+								 {#si la column estado esta vacia se carga el mensaje "SIN USUARIO"
 									 if ($listar['NOMBRE']== null) {
 										 $nombre = 'SIN USUARIO';
 									 }
 									 else {
 										 $nombre = $listar['NOMBRE'];
 									 }
-
+									#SE carga en la tabla html los valores obtenidos de la consulta en cada fila correspondiendo a cada usuario
 									echo
 									"
 										<tr style='border-bottom: solid 1px #073256;'>

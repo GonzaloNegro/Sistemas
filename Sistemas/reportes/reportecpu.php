@@ -18,6 +18,7 @@ $row = $resultado->fetch_assoc();
     <title>Inventario</title>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="../estilos/estiloreporte.css">
+    <link rel="icon" href="../imagenes/logoInfraestructura.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -42,15 +43,18 @@ $row = $resultado->fetch_assoc();
 
     }
     </style>
+    <!-- ESTE ARCHIVO TIENE EL CODIGO PARA GENERAR EL REPORTE DE EQUIPOS POR AREA, ESTADO, PROVEEDOR, S.0, MICROPRPOCESADOR)-->
     <section id="reporte">
         <div id="mostrar_reporte" style="width: 97%; margin-left: 20px; display: block;">
             <div id="cabecerareport" class="form-group row justify-content-between"
                 style="margin: 10px; margin-bottom: 30px; padding:10px;">
 
                 <?php 
+                //SE RECIBE EL TIPO DE REPORTE (AREA, ESTADO, PROVEEDOR, S.O, MICROPROCESADOR) DE reporteinventario.php
 						$opc=$_GET['opc']; 
 						$reparticion=$_GET['repa'];
 				if ($opc!='PROVEEDOR') {
+                    //SELECT PARA FILTRAR LOS EQUIPOS POR REPARTICION, se usa la funcion onchange para actualizar la pagina
 					echo"		
                 <div id='boxrepart' class='form-group row'>
                     <a id='vlv' href='reporteinventario.php' class='col-3 btn btn-primary '
@@ -61,9 +65,10 @@ $row = $resultado->fetch_assoc();
 						
                         <select id='slcrepart' name='selectorrepart' class='form-control col-xl col-lg'  onChange='window.location.href=this.value' required>
                           <option value='0' selected disabled>-TODOS-</option>
-                          <option value='reportecpu.php?repa=1&opc=$opc'>MINISTERIO DE OBRAS PUBLICAS</option>
-                          <option value='reportecpu.php?repa=2&opc=$opc'>SECRETARIA DE ARQUITECTURA</option>
-                          <option value='reportecpu.php?repa=3&opc=$opc'>SECRETARIA DE VIVIENDA</option>
+                          <option value='reportecpu.php?repa=1&opc=$opc'>MINISTERIO HUMBERTO PRIMO 725</option>
+                          <option value='reportecpu.php?repa=2&opc=$opc'>ARQUITECTURA</option>
+                          <option value='reportecpu.php?repa=3&opc=$opc'>VIVIENDA</option>
+                          <option value='reportecpu.php?repa=4&opc=$opc'>MINISTERIO HUMBERTO PRIMO 607</option>
                           </select>
                 </div>
 				
@@ -139,7 +144,7 @@ $row = $resultado->fetch_assoc();
             <?php
 
 if($reparticion==0) {
-
+    //SI NO SE SELECCIONA NINGUNA REPARTICION SE REALIZA UNA CONSULTA PARA OBTENER EL TOTAL DE EQUIPOS, TOTAL DE CPU Y DE NOTEBOOKS
     $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i");
 	$total = mysqli_fetch_array($conttotal);
     $contPC=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i where i.ID_TIPOWS=1");
@@ -147,7 +152,7 @@ if($reparticion==0) {
 	$contNB=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i where i.ID_TIPOWS=2");
 	$totalNB = mysqli_fetch_array($contNB);
 	$fecha = date("Y-m-d");
-                    
+    // si la opcion elegida es area Y NO SE ELIGE NINGUNA REPATICION SE GENERA LA CABECERA DE LA TABLA DE EQUIPOS POR AREA  Y SE MUESTRA EL TOTAL DE EQUIPOS Y POR TIPO            
 	if($opc=='AREA'){
 		$fecha = date("Y-m-d");
 		echo "
@@ -174,8 +179,10 @@ if($reparticion==0) {
                     </tr>
                 </thead>
 		";
+        //CONSULTA SQL PARA OBTENER EL TOTAL DE EQUIPOS POR AREA
 		$consultar=mysqli_query($datos_base, "SELECT a.AREA, i.ID_AREA, count(*) as TOTAL from inventario i left join area a on i.ID_AREA=a.ID_AREA
 		group by a.AREA");
+                    //AGREGAMOS LOS VALORES DE LA TABLA SQL A LAS FILAS DE LA TABLA HTML
 					while($listar = mysqli_fetch_array($consultar))
 					{
 			
@@ -203,6 +210,8 @@ if($reparticion==0) {
 
             }
             }
+                // si la opcion elegida es ESTASDO Y NO SE ELIGE NINGUNA REPATYICION SE GENERA LA CABECERA DE LA TABLA DE EQUIPOS POR ESTADO  Y SE MUESTRA EL TOTAL DE EQUIPOS Y POR TIPO            
+
             if ($opc=='ESTADO') {
             $fecha = date("Y-m-d");
             echo "
@@ -228,9 +237,11 @@ if($reparticion==0) {
                         </th>
                     </tr>
                 </thead>";
+                //CONSULTA SQL PARA OBTENER EL TOTAL DE EQUIPOS POR ESTADO
                 $consultar=mysqli_query($datos_base, "SELECT e.ESTADO, I.ID_ESTADOWS, count(*) as TOTAL from inventario
                 i left join estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
                 group by e.ESTADO");
+                //AGREGAMOS LOS VALORES DE LA TABLA SQL A LAS FILAS DE LA TABLA HTML
                 while($listar = mysqli_fetch_array($consultar))
                 {
                 echo
@@ -258,6 +269,7 @@ if($reparticion==0) {
 
                 }
                 }
+    // si la opcion elegida es PROVEEDOR Y NO SE ELIGE NINGUNA REPATICION SE GENERA LA CABECERA DE LA TABLA DE EQUIPOS POR PROVEEDOR  Y SE MUESTRA EL TOTAL DE EQUIPOS Y POR TIPO            
                 if ($opc=='PROVEEDOR')
                 {
                 $fecha = date("Y-m-d");
@@ -283,9 +295,11 @@ if($reparticion==0) {
                             </th>
                         </tr>
                     </thead>";
+        //CONSULTA SQL PARA OBTENER EL TOTAL DE EQUIPOS POR PROVEEEDOR
                     $consultar=mysqli_query($datos_base, "SELECT e.PROVEEDOR, i.ID_PROVEEDOR, count(*) as TOTAL from
                     inventario i left join proveedor e on i.ID_PROVEEDOR=e.ID_PROVEEDOR
                     group by e.proveedor");
+                    //AGREGAMOS LOS VALORES DE LA TABLA SQL A LAS FILAS DE LA TABLA HTML
                     while($listar = mysqli_fetch_array($consultar))
                     {
                     echo
@@ -313,8 +327,7 @@ if($reparticion==0) {
 
                     }
                     }
-
-
+    // si la opcion elegida es SISTEMAS OPERATIVOS Y NO SE ELIGE NINGUNA REPATYICION SE GENERA LA CABECERA DE LA TABLA DE EQUIPOS POR S.O.  Y SE MUESTRA EL TOTAL DE EQUIPOS Y POR TIPO            
                     if ($opc=='SO')
                     {
                     $fecha = date("Y-m-d");
@@ -342,9 +355,11 @@ if($reparticion==0) {
                                 </th>
                             </tr>
                         </thead>";
+                         //CONSULTA SQL PARA OBTENER EL TOTAL DE EQUIPOS POR S.O
                         $consultar=mysqli_query($datos_base, "SELECT s.SIST_OP, i.ID_SO, count(*) as TOTAL from
                         inventario i left join so s on i.ID_SO=s.ID_SO
                         group by s.SIST_OP");
+                        //AGREGAMOS LOS VALORES DE LA TABLA SQL A LAS FILAS DE LA TABLA HTML
                         while($listar = mysqli_fetch_array($consultar))
                         {
                         echo
@@ -371,6 +386,7 @@ if($reparticion==0) {
 
                         }
                         }
+                    // si la opcion elegida es MICRO Y NO SE ELIGE NINGUNA REPATYICION SE GENERA LA CABECERA DE LA TABLA DE EQUIPOS POR MICRO  Y SE MUESTRA EL TOTAL DE EQUIPOS Y POR TIPO            
                         if ($opc=='MICRO')
                         {
                        $fecha = date("Y-m-d");
@@ -399,10 +415,12 @@ if($reparticion==0) {
                                     </th>
                                 </tr>
                             </thead>";
+                            //CONSULTA SQL PARA OBTENER EL TOTAL DE EQUIPOS POR MICRO
                             $consultar=mysqli_query($datos_base, "SELECT mi.ID_MICRO, mi.MICRO, count(*) as TOTAL from inventario i
                             LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
 	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
                             group by mi.MICRO ORDER BY TOTAL DESC");
+                            //AGREGAMOS LOS VALORES DE LA TABLA SQL A LAS FILAS DE LA TABLA HTML
                             while($listar = mysqli_fetch_array($consultar))
                             {
                             echo
@@ -434,7 +452,7 @@ if($reparticion==0) {
                             echo "
                         </table>";
                         }
-
+                        //SE REALIZA UNA CONSULTA PARA OBTENER EL TOTAL DE EQUIPOS, TOTAL DE CPU Y DE NOTEBOOKS POR REPARTICION
                         if ($reparticion>=1){ 
                         $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA from inventario i left
                         join area a on i.ID_AREA=a.ID_AREA left join reparticion r on a.ID_REPA=r.ID_REPA where
@@ -451,7 +469,7 @@ if($reparticion==0) {
                         a.ID_REPA=$reparticion and i.ID_TIPOWS=2");
 	                    $totalNB = mysqli_fetch_array($contNB);
 
-
+                        // si la opcion elegida es area  SE GENERA LA CABECERA DE LA TABLA DE EQUIPOS POR AREA Y REPARTICION  Y SE MUESTRA EL TOTAL DE EQUIPOS Y POR TIPO
                         if($opc=='AREA') {
                         
                         echo "
@@ -479,10 +497,12 @@ if($reparticion==0) {
                                     </th>
                                 </tr>
                             </thead>";
+                            //CONSULTA SQL PARA OBTENER EL TOTAL DE EQUIPOS POR AREA Y FISTRADO POR REPARTICION
                             $consultar=mysqli_query($datos_base, "SELECT a.AREA, i.ID_AREA, a.ID_REPA, r.REPA, count(*)
                             as TOTAL from inventario i left join area a on i.ID_AREA=a.ID_AREA left join reparticion r
                             on a.ID_REPA=r.ID_REPA where a.ID_REPA=$reparticion
                             group by a.AREA");
+                            //AGREGAMOS LOS VALORES DE LA TABLA SQL A LAS FILAS DE LA TABLA HTML
                             while($listar = mysqli_fetch_array($consultar))
                             {
 
@@ -509,7 +529,7 @@ if($reparticion==0) {
                             }
 
                             
-
+                            //SE GENERA LA CABECERA DE LA TABLA DE EQUIPOS POR ESTADO  Y SE MUESTRA EL TOTAL DE EQUIPOS Y POR TIPO   FILTRADO POR REPARTICION  
                             if ($opc=='ESTADO') {
                                     
                                     echo "
@@ -537,11 +557,13 @@ if($reparticion==0) {
                                                 </th>
                                             </tr>
                                         </thead>";
+                                        //CONSULTA SQL PARA OBTENER EL TOTAL DE EQUIPOS POR ESTADO
                                         $consultar=mysqli_query($datos_base, "SELECT e.ESTADO, I.ID_ESTADOWS, count(*)
                                         as TOTAL from inventario i LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
                                         left join area a on i.ID_AREA=a.ID_AREA left join reparticion r on
                                         a.ID_REPA=r.ID_REPA where a.ID_REPA=$reparticion
                                         group by e.ESTADO");
+                                        //AGREGAMOS LOS VALORES DE LA TABLA SQL A LAS FILAS DE LA TABLA HTML
                                         while($listar = mysqli_fetch_array($consultar))
                                         {
 
@@ -567,7 +589,7 @@ if($reparticion==0) {
                                         </tr> ";}
 
                                         }
-
+                        //SE GENERA LA CABECERA DE LA TABLA DE EQUIPOS POR S.O.  Y SE MUESTRA EL TOTAL DE EQUIPOS Y POR TIPO            
 
                         if ($opc=='SO') {
                             
@@ -596,9 +618,11 @@ if($reparticion==0) {
                                                     </th>
                                                 </tr>
                                             </thead>";
+                                            //CONSULTA SQL PARA OBTENER EL TOTAL DE EQUIPOS POR S.O
                             $consultar=mysqli_query($datos_base, "SELECT s.SIST_OP, i.ID_SO, count(*) as TOTAL from
 							inventario i left join so s on i.ID_SO=s.ID_SO left join area a on i.ID_AREA=a.ID_AREA left join reparticion r on a.ID_REPA=r.ID_REPA where a.ID_REPA=$reparticion
                              group by s.SIST_OP");
+                             //AGREGAMOS LOS VALORES DE LA TABLA SQL A LAS FILAS DE LA TABLA HTML
                             while($listar = mysqli_fetch_array($consultar))
                                 {
 
@@ -624,7 +648,7 @@ if($reparticion==0) {
                                             }
 
 		    if ($opc=='MICRO') {
-			
+			//SE GENERA LA CABECERA DE LA TABLA DE EQUIPOS POR MICRO  Y SE MUESTRA EL TOTAL DE EQUIPOS Y POR TIPO 
 			echo "
 				<h1 id='titulo'>REPORTE DE EQUIPOS POR MICROPROCESADOR</h1>
 				<hr style='display: block;'>
@@ -650,6 +674,7 @@ if($reparticion==0) {
 						</th>
 						</tr>
 					</thead>";
+                    //CONSULTA SQL PARA OBTENER EL TOTAL DE EQUIPOS POR MICRO
 			$consultar=mysqli_query($datos_base, "SELECT mi.ID_MICRO, mi.MICRO, count(*) as TOTAL
             from inventario i 
            left join area a on i.ID_AREA=a.ID_AREA left join reparticion r on
@@ -658,6 +683,7 @@ if($reparticion==0) {
    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
             where a.ID_REPA=$reparticion
 			group by mi.MICRO ORDER BY TOTAL DESC");
+            //AGREGAMOS LOS VALORES DE LA TABLA SQL A LAS FILAS DE LA TABLA HTML
 			while($listar = mysqli_fetch_array($consultar))
 				{
 			

@@ -324,15 +324,15 @@ nav a img {
 /*Fin de Menù lateral*/
 
 #foto {
-  width: 190px;
-  height: 110px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 160px;
+  height: 80px;
+  /* margin-left: auto;
+  margin-right: auto; */
   background-color: #f7fbfd;
-  background-image: url("imagenes/logoObrasPúblicas.png");
+  background-image: url("imagenes/logoInfraestructura.png");
   background-repeat: no-repeat;
-  background-size: 140%;
-  border-radius: 10px;
+  background-size: 100%;
+  /* border-radius: 10px; */
 }
 .color {
   border-bottom: groove 1px #f7fbfd;

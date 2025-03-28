@@ -1,4 +1,5 @@
 <?php 
+error_reporting(0);
 session_start();
 include('../particular/conexion.php');
 if(!isset($_SESSION['cuil'])) 
@@ -15,7 +16,7 @@ $row = $resultado->fetch_assoc();
 <html>
 <head>
 	<title>CAMBIOS AGREGADOS</title><meta charset="utf-8">
-	<link rel="icon" href="../imagenes/logoObrasPúblicas.png">
+	<link rel="icon" href="../imagenes/logoInfraestructura.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,9 +30,9 @@ $row = $resultado->fetch_assoc();
 </head>
 <body>
     <section id="inicio">
-        <div id="reporteEst" style="width: 97%; margin-left: 20px;">   
+		 <div id="reporteEst">   
             <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-                <a id="vlv"  href="../consulta/consulta.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+                <a id="vlv"  href="../consulta/consulta.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
             </div>					
          </div>
 
@@ -40,9 +41,11 @@ $row = $resultado->fetch_assoc();
 				echo "<table width=100%>
 						<thead>
 							<tr>
-                                <th><p>ABM</p></th>
-								<th><p>CONTENIDO</p></th>
+                                <th><p style='text-align:left;margin-left:5px;'>ABM AFECTADO</p></th>
+								<th><p style='text-align:left;margin-left:5px;'>CONTENIDO AFECTADO</p></th>
                                 <th><p>FECHA</p></th>
+                                <th><p>HORA</p></th>
+                                <th><p style='text-align:left;margin-left:5px;'>RESOLUTOR</p></th>
 							</tr>
 						</thead>
 					";
@@ -56,12 +59,15 @@ $row = $resultado->fetch_assoc();
 						echo
 						" 
 						<tr>
-                        <td><h4 style='font-size:16px;'>".$listar['LUGAR']."</h4 ></td>
-						<td><h4 style='font-size:16px;'>".$listar['AGREGADO']."</h4 ></td>
+                        <td><h4 style='font-size:16px;text-align:left;margin-left:5px;'>".$listar['LUGAR']."</h4 ></td>
+						<td><h4 style='font-size:16px;text-align:left;margin-left:5px;'>".$listar['AGREGADO']."</h4 ></td>
 						<td><h4 style='font-size:16px;'>".$fecha."</h4 ></td>
+						<td><h4 style='font-size:16px;'>".$listar['HORA']."</h4 ></td>
+						<td><h4 style='font-size:16px;text-align:left;margin-left:5px;'>".$listar['RESOLUTOR']."</h4></td>
 						";
 						}
 			?>
     </section>
+	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>
 </html>

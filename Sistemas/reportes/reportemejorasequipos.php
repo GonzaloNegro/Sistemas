@@ -18,13 +18,13 @@ $row = $resultado->fetch_assoc();
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="../estilos/estiloreporte.css">
 	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<!--BUSCADOR SELECT-->
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	<!--FIN BUSCADOR SELECT-->
+    <link rel="stylesheet" type="text/css" href="../estilos/estiloreporte.css">
 	<style>
 			body{
 			background-color: #edf0f5;
@@ -32,12 +32,12 @@ $row = $resultado->fetch_assoc();
 	</style>
 
 <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-	                    <a id="vlv"  href="tiporeporte.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
-						<div class="btn-group col-2" role="group" >
-                              <button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='../consulta/consulta.php'" ><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></button>
-                              <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()" ><i class='bi bi-printer'></i></button>
-                        </div>
-		            </div>
+    <a id="vlv"  href="../reportes/tiporeporte.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
+    <div class="btn-group col-2" role="group" >
+            <button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='../consulta/consulta.php'" ><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></button>
+            <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()" ><i class='bi bi-printer'></i></button>
+    </div>
+</div>
 		            <style type="text/css" media="print">
                               @media print {
                                              #vlv, #accion, .cabe {display:none;}
@@ -92,7 +92,7 @@ $row = $resultado->fetch_assoc();
 
 
 
-	
+	<!--FORMULARIO DONDE SE UBICAN TODOS LOS FILTROS PARA REALIZAR LA BUSQUEDA-->
 		<form id="campos" method="POST" action="reportemejorasequipos.php">
 		
         <div class="form-group row" style="margin-top: 15px; margin-right:10px;">
@@ -120,12 +120,13 @@ $row = $resultado->fetch_assoc();
                 <select name="slcarea" id="slcarea" class="col-xl col-lg" style="height: 20px;">
 									<option value="" selected disabled>-SELECCIONE UNA-</option>
                                     <?php
+                                    #SE OBTIENEN LAS OPCIONES POR CONSULTA SQL
 									include("../particular/conexion.php");
-									$consulta= "SELECT * FROM area";
+									$consulta= "SELECT a.ID_AREA, a.AREA, r.REPA FROM area a inner join reparticion r on a.ID_REPA=r.ID_REPA ORDER BY AREA ASC";
 									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 									?>
 									<?php foreach ($ejecutar as $opciones): ?> 
-									<option value="<?php echo $opciones['ID_AREA']?>"><?php echo $opciones['AREA']?></option>
+									<option value="<?php echo $opciones['ID_AREA']?>"><?php echo $opciones['AREA']?> - <?php echo $opciones['REPA']?></option>
 									<?php endforeach ?>
 								</select>
 								<script>
@@ -163,8 +164,9 @@ $row = $resultado->fetch_assoc();
 		
 
         <?php
-        
+        #CONDICIONAL QUE DETECTA SI SE RECIBIO UN FORMULARIO O NO
 		if (isset($_POST['btn2'])) {
+            #CABECERA PARA INDICAR FECHA D EMEJORA, TIPO Y NUMERO
             $mej=$_POST['slcTipo'];
             $fecha = date("Y-m-d");
             echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
@@ -175,7 +177,8 @@ $row = $resultado->fetch_assoc();
             if ($mej==2) {
                 echo"<h4 class='indicadores' style='margin-bottom: 10px;'>TIPO MEJORA: DISCO</h2>";
             }
-            
+            #CONDICIONALES PARA FILTRAR D EACUERDO A SELECCION
+            #AREA
             if (isset($_POST['slcarea'])){
                 $area= $_POST['slcarea'];
                 $consulArea=mysqli_query($datos_base, "SELECT AREA from area where ID_AREA=$area");
@@ -184,7 +187,7 @@ $row = $resultado->fetch_assoc();
                 echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>AREA: $ar</h4>";
                 if ($mej==1) {
                 
-                
+                #RAM
                 $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, i.SERIEG, m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
                 FROM mejoras m
                 inner join wsmem w on m.ID_WS=w.ID_WS
@@ -201,7 +204,7 @@ $row = $resultado->fetch_assoc();
                 }
                 if ($mej==2) {
                 
-                
+                #DISCO
                 $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, i.SERIEG, m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
                 FROM mejoras m
                 inner join wsmem w on m.ID_WS=w.ID_WS
@@ -221,7 +224,7 @@ $row = $resultado->fetch_assoc();
                         GROUP BY m.ID_MEJORA DESC");
                 }
             }
-            
+            #PERIODO
             if($_POST['fecha_desde']!='' & $_POST['fecha_hasta']!=''){
                 $fechadesde=$_POST['fecha_desde'];
                 $fechahasta=$_POST['fecha_hasta'];
@@ -230,7 +233,7 @@ $row = $resultado->fetch_assoc();
 				 <h4 class='indicadores' style='margin-bottom: 10px;'>DESDE: $fechadesde</h2>
 				 <h4 class='indicadores' style='margin-bottom: 10px;'>HASTA: $fechahasta </h2>";
                 if ($mej==1) {
-                    
+                    #RAM
                 $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, i.SERIEG, m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
                 FROM mejoras m
                 inner join wsmem w on m.ID_WS=w.ID_WS
@@ -248,7 +251,7 @@ $row = $resultado->fetch_assoc();
                 if ($mej==2) {
                     
                 
-                
+                #DISCO
                 $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, i.SERIEG, m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
                 FROM mejoras m
                 inner join wsmem w on m.ID_WS=w.ID_WS
@@ -268,13 +271,13 @@ $row = $resultado->fetch_assoc();
                         GROUP BY m.ID_MEJORA DESC");
                 }
             }
-            
+            #PERIODO Y AREA
             if($_POST['fecha_desde']!='' & $_POST['fecha_hasta']!='' & isset($_POST['slcarea'])){
                 $fechadesde=$_POST['fecha_desde'];
                 $fechahasta=$_POST['fecha_hasta'];
                 $area= $_POST['slcarea'];
                 if ($mej==1) {
-                
+                #RAM
                 
                 $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, i.SERIEG, m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
                 FROM mejoras m
@@ -292,7 +295,7 @@ $row = $resultado->fetch_assoc();
                 }
                 if ($mej==2) {
                 
-                
+                #DISCO
                 $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, i.SERIEG, m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
                 FROM mejoras m
                 inner join wsmem w on m.ID_WS=w.ID_WS
@@ -312,10 +315,11 @@ $row = $resultado->fetch_assoc();
                         GROUP BY m.ID_MEJORA DESC");
                 }
             }
+            #SIN SELECCION
             if(empty($_POST['fecha_desde']) & empty($_POST['fecha_hasta']) & empty($_POST['slcarea'])) {
                 if ($mej==1) {
                 
-                
+                #RAM
                 $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, i.SERIEG, m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
                 FROM mejoras m
                 inner join wsmem w on m.ID_WS=w.ID_WS
@@ -332,7 +336,7 @@ $row = $resultado->fetch_assoc();
                 }
                 if ($mej==2) {
                 
-                
+                #DISCO
                 $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_WS, i.SERIEG, m.FECHA, m.ID_MEJORA, me.MEMORIA, t.TIPOMEM , p.PLACAM, d.DISCO, td.TIPOD
                 FROM mejoras m
                 inner join wsmem w on m.ID_WS=w.ID_WS
@@ -355,7 +359,7 @@ $row = $resultado->fetch_assoc();
        
         
         else{
-            
+            #NO HAY OCIONES SELECCIONADAS DE NINGUN TIPO
             $fecha = date("Y-m-d");
             echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
             
@@ -380,7 +384,7 @@ $row = $resultado->fetch_assoc();
                                     where m.ID_WS=me2.ID_WS limit 1)
             GROUP BY m.ID_MEJORA DESC");}
         ?>
-	
+    <!--CABECERA TAMBLA HTML-->
         <?php echo "<table width=100%>
         <thead>
         <tr>
@@ -396,6 +400,7 @@ $row = $resultado->fetch_assoc();
         </thead>
         ";
         $contador=0;
+        #SE EXTRAEN TODAS LAS FILAS DE LA CONSULTA SQL FINAL 
         while($listar = mysqli_fetch_array($consultarMovimientos))
         
 				
@@ -476,9 +481,12 @@ $row = $resultado->fetch_assoc();
 
         if (isset($_POST['btn2'])) {                          
         if ($mej==1) {
+            #MEJORAS DE RAM
             $memoriaram=mysqli_query($datos_base, "SELECT w.ID_WS,w.ID_MEMORIA, m.MEMORIA, m.ORDEN_MEMORIA, w.SLOT from wsmem w inner join memoria m on w.ID_MEMORIA=m.ID_MEMORIA where w.ID_WS=$nWS");
 						                $totalram=0;
+                                        #EN LA TABLA SQL DE MEMORIA TIENEN UN ORDEN PARA INDICAR TAMAÑO
 										while($memram= mysqli_fetch_array($memoriaram)){
+                                            #SE OBTIENE EL ORDEN DE CADA SLOT Y SE VAN SUMANDO EN UNA VARIABLE
 											if ($memram['SLOT']==1) {
 												$totalram=$memram['ORDEN_MEMORIA']+$totalram;
 											}
@@ -495,7 +503,7 @@ $row = $resultado->fetch_assoc();
 										}
 
             $nroMejora=$listar['ID_MEJORA'];
-            
+            #SE OBTIENEN LOS DATOS DE MEMORIA DELMOVIMIENTO ANTERIOR DEL EQUIPO Y SE SUMAN EN OTRA VARIABLE
             $idramAnt1=mysqli_query($datos_base, "SELECT m.MEMORIA1, n.ORDEN_MEMORIA FROM mejoras m inner join memoria n on m.memoria1=n.ID_MEMORIA where m.ID_WS=$nWS and m.ID_MEJORA<$nroMejora limit 1");
             $idramAnt2=mysqli_query($datos_base, "SELECT m.MEMORIA2, n.ORDEN_MEMORIA FROM mejoras m inner join memoria n on m.memoria2=n.ID_MEMORIA where m.ID_WS=$nWS and m.ID_MEJORA<$nroMejora limit 1");
             $idramAnt3=mysqli_query($datos_base, "SELECT m.MEMORIA3, n.ORDEN_MEMORIA FROM mejoras m inner join memoria n on m.memoria3=n.ID_MEMORIA where m.ID_WS=$nWS and m.ID_MEJORA<$nroMejora limit 1");
@@ -505,7 +513,7 @@ $row = $resultado->fetch_assoc();
             $memramant3= mysqli_fetch_array($idramAnt3);
             $memramant4= mysqli_fetch_array($idramAnt4);
             $totalramant=$memramant1['ORDEN_MEMORIA']+$memramant2['ORDEN_MEMORIA']+$memramant3['ORDEN_MEMORIA']+$memramant4['ORDEN_MEMORIA'];
-
+            #SI EL TOTAL DE RAM ACTUAL ES MAYOR AL ANTERIOR ESTAMOS ANTE UNA MEJORA Y SE VISUALIZA
             if ($totalram>$totalramant) {
                 echo
 		" 
@@ -582,6 +590,7 @@ $row = $resultado->fetch_assoc();
 				}
 			?>
     </section>
+    <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>
 </html>
 

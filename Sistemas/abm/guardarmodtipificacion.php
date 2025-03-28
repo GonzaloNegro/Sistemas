@@ -1,6 +1,16 @@
 <?php
 session_start();
 include('../particular/conexion.php');
+date_default_timezone_set('America/Argentina/Buenos_Aires'); // Configura la zona horaria de Argentina
+$hora_actual = date("H:i:s"); // Formato de hora: HH:mm:ss
+
+/*BUSCO EL RESOLUTOR PARA agregados*/
+$cuil = $_SESSION['cuil'];
+
+$sqli = "SELECT RESOLUTOR FROM resolutor WHERE CUIL = '$cuil'";
+$resultado2 = $datos_base->query($sqli);
+$row2 = $resultado2->fetch_assoc();
+$resolutorActivo = $row2['RESOLUTOR'];
 
 $tipi = $_POST['tip'];
 
@@ -38,7 +48,7 @@ if($contador > 0){
   header("Location: agregartipificacion.php?no");
 }
 else{
-  mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'TIPIFICACIÓN', '$tipi', '$fecha')");
+  mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'TIPIFICACIÓN', '$tipi', '$fecha', '$hora_actual', '$resolutorActivo')");
 
   mysqli_query($datos_base, "INSERT INTO tipificacion VALUES (DEFAULT, '$tipi')"); 
   header("Location: agregartipificacion.php?ok");

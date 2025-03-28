@@ -50,7 +50,7 @@ $row = $resultado->fetch_assoc();
         </script>
 		  
 	    	<?php
-			
+			#recibe de reporteincidentes.html los campos fechadesde y fecha hasta 
 			$fechadesde=$_POST['fecha_desde'];
 			$fechahasta=$_POST['fecha_hasta'];
 			$fecini = date("d/m/Y", strtotime($fechadesde));
@@ -58,6 +58,7 @@ $row = $resultado->fetch_assoc();
 			$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from ticket
 			where FECHA_INICIO BETWEEN '$fechadesde' and '$fechahasta'");
 			$total = mysqli_fetch_array($conttotal);
+			#Se carga en encabezado en html fecha desde, hasta y el total de incidentes	
 	 			echo "
 				 <h1>REPORTE DE TIPIFICACIONES</h1>
 				 <hr style='display: block;'>
@@ -74,19 +75,21 @@ $row = $resultado->fetch_assoc();
                     </tr>
 			 		</thead>
 				 	";
-
+		  			#realiza la consulta sql donde agrupa los resultados por id de tipificacion para realizar el conteo y muestra la tabla con las filas resultantes 
                      $consulta=mysqli_query($datos_base, "SELECT t.ID_TIPIFICACION, r.TIPIFICACION, count(*) as TOTAL FROM ticket t LEFT JOIN tipificacion r ON t.ID_TIPIFICACION = r.ID_TIPIFICACION where t.FECHA_INICIO BETWEEN '$fechadesde' and '$fechahasta'
 					 group by t.ID_TIPIFICACION");
 					     $nombre = "";
+						 #Extrae en cada iteracion del while cada fila de la tabla resultado 
 						 while($listar = mysqli_fetch_array($consulta)) 	
 						 {
+							#si la column tipificacion esta vacia se carga el mensaje "SIN TIPIFICACION"
 							 if ($listar['TIPIFICACION']=== null) {
 								 $nombre = 'SIN TIPIFICACION';
 							 }
 							 else {
 								 $nombre = $listar['TIPIFICACION'];
 							 }
-
+							 #SE carga en la tabla html los valores obtenidos de la consulta en cada fila correspondiendo a cada tipificacion
 									echo
 									"
 									<tr style='border-bottom: solid 1px #073256;'>

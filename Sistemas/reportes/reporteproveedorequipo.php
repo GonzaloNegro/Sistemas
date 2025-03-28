@@ -74,19 +74,23 @@ $row = $resultado->fetch_assoc();
                     </script>
 
 			        <?php
+					#se obtriene el id del proveedor
 					    $proveedor = $_GET['Proveedor'];
+						#SE OBTIENE EL TOTAL DE EQUIPOS
                         $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i where i.ID_PROVEEDOR=$proveedor");
 			            $total = mysqli_fetch_array($conttotal);
+						#TOTAL DE PC
 						$contPC=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i where i.ID_PROVEEDOR=$proveedor AND i.ID_TIPOWS=1");
 						$totalPC = mysqli_fetch_array($contPC);
+						#TOTAL DE NOTEBOOKS
 						$contNB=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i where i.ID_PROVEEDOR=$proveedor AND i.ID_TIPOWS=2");
 						$totalNB = mysqli_fetch_array($contNB);
 						
-						
+						#SE OBTIENE EL NOMBRE DEL PROVEEDOR
 						$fecha = date("Y-m-d");
 						$consularea=mysqli_query($datos_base, "select a.PROVEEDOR from proveedor a where a.ID_PROVEEDOR=$proveedor");
 						$consultit=mysqli_fetch_array($consularea);
-                        
+                        #SE VISUALIZAN LOS DATOS CONSULTADOS  Y SE GENERA LA CABECERA DE LA TABLA HTML
 						echo "
 						<h1 id='titulo'>REPORTE DE EQUIPOS POR PROVEEDOR:".$consultit['PROVEEDOR']."</h1>
                         <hr style='display: block; margin-top:60px;'>
@@ -111,6 +115,7 @@ $row = $resultado->fetch_assoc();
 						<!--<th id='cabeceraacc' class='cabecera' width=65px><p>ACCIÓN</p></th>-->
 						</tr>
 						</thead>";
+						#SE REALIZA LA CONSULTA SQL PARA OBTENER LOS EQUIPOS FILTRADOS POR PROVEEDOR
 						$consultar=mysqli_query($datos_base, "select i.SERIEG as N°WS, i.ID_WS, u.NOMBRE, mi.MICRO, s.SIST_OP, e.ESTADO, a.AREA, r.REPA 
 						from inventario i left join usuarios u on i.ID_USUARIO=u.ID_USUARIO left join so s on i.ID_SO=s.ID_SO 
 						left join area a on i.ID_AREA=a.ID_AREA 
@@ -119,9 +124,11 @@ $row = $resultado->fetch_assoc();
 						LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
 	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
 						where i.ID_PROVEEDOR=$proveedor");
+						#SE EXTRAEN LOS EWUIPOS DE LA VARIABLE DONDE SE ALMACENO EL RESULTADO DE LA CONSULTA
 									while($listar = mysqli_fetch_array($consultar))
 									{
 										$nWS=$listar['ID_WS'];
+										#SE EXTRAEN DE WSMEM LOS VALORES DE CADA SLOT DE MEMORIA
 										$memoriaram=mysqli_query($datos_base, "SELECT w.ID_WS,w.ID_MEMORIA, m.MEMORIA, w.SLOT from wsmem w inner join memoria m on w.ID_MEMORIA=m.ID_MEMORIA where w.ID_WS=$nWS");
 						                $ram1="";$ram2="";$ram3="";$ram4="";
 										while($memram= mysqli_fetch_array($memoriaram)){
@@ -139,6 +146,7 @@ $row = $resultado->fetch_assoc();
 											}
 
 										}
+										#SE OBTIENE EL TIPO DE MEMORIA DE CADA SLOT 
 										$tiporam=mysqli_query($datos_base, "SELECT w.ID_WS, w.SLOT, t.TIPOMEM from wsmem w inner join tipomem t on w.ID_TIPOMEM=t.ID_TIPOMEM where w.ID_WS=$nWS");
 						                $tram1="";$tram2="";$tram3="";$tram4="";
 										while($tmemram= mysqli_fetch_array($tiporam)){
@@ -156,7 +164,7 @@ $row = $resultado->fetch_assoc();
 											}
 
 										}
-
+										#SE OBTIENE EL VALOR DE TODOS LOS DISCOS QUE TENGAN CADA EQUIPO
 										$discos=mysqli_query($datos_base, "select d.NUMERO, t.DISCO from discows d inner join disco t on d.ID_DISCO=t.ID_DISCO where d.ID_WS=$nWS");
 						                $disco1="";$disco2="";
 										while($disc= mysqli_fetch_array($discos)){
@@ -174,7 +182,7 @@ $row = $resultado->fetch_assoc();
 											}
 
 										}
-
+										#SE OBTIENE EL TIPO DE CADA DISCO
 										$tdiscos=mysqli_query($datos_base, "select d.ID_WS, d.ID_DISCO, d.NUMERO, t.TIPOD from discows d inner join tipodisco t on d.ID_TIPOD=t.ID_TIPOD where d.ID_WS=$nWS");
 						                $tdisco1="";$tdisco2="";
 										while($tdisc= mysqli_fetch_array($tdiscos)){
@@ -192,7 +200,7 @@ $row = $resultado->fetch_assoc();
 											}
 
 										}
-
+										#SE VISUALIZAN LOS DATOS OBTENIDOS
 										echo
 													"
 														<tr style='border-bottom: solid 1px #073256;'>

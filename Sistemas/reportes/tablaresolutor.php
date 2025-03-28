@@ -50,12 +50,15 @@ $row = $resultado->fetch_assoc();
           }
         </script>
 			<?php
+			#recibe de reporteincidentes.html los campos fechadesde y fecha hasta 
                $fechadesde=$_POST['fecha_desde'];
 			   $fechahasta=$_POST['fecha_hasta'];
+			   #Se obtiene el total de incidentes por consultaq SQL
 			   $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from ticket
 			where FECHA_INICIO BETWEEN '$fechadesde' and '$fechahasta'");
 			$total = mysqli_fetch_array($conttotal);
-				echo "
+			#Se carga en encabezado en html fecha desde, hasta y el total de incidentes	
+			echo "
                 <h1 >REPORTE DE RESOLUTORES</h1>
                 <hr style='display: block;'>
 				 <h4 class='indicadores'>PERIODO</h2>
@@ -71,20 +74,22 @@ $row = $resultado->fetch_assoc();
                     </tr>
 						</thead>
 					";
-                    
+                    #realiza la consulta sql donde agrupa los resultados por id de resolutor para realizar el conteo y muestra la tabla con las filas resultantes 
 					 $consulta=mysqli_query($datos_base, "SELECT t.ID_RESOLUTOR, r.RESOLUTOR, COUNT(*) as TOTAL from ticket t LEFT JOIN resolutor r ON t.ID_RESOLUTOR = r.ID_RESOLUTOR 
                      where t.FECHA_INICIO BETWEEN '$fechadesde' and '$fechahasta'
 					GROUP BY r.RESOLUTOR");
 					
 					$nombre = "";
+					#Extrae en cada iteracion del while cada fila de la tabla resultado 
 					while($listar = mysqli_fetch_array($consulta)) 	
 					{
+						#si la column resolutor esta vacia se carga el mensaje "SIN RESOLUTOR"
 						if ($listar['RESOLUTOR']== null) {
 							$nombre = 'SIN RESOLUTOR';
 						}
 						else {
 							$nombre = $listar['RESOLUTOR'];
-						}
+						}#SE carga en la tabla html los valores obtenidos de la consulta en cada fila correspondiendo a cada resolutor
 
 									echo
 									"

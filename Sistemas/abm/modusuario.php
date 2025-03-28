@@ -32,13 +32,15 @@ function ConsultarIncidente($no_tic)
 <html>
 <head>
 <title>MODIFICAR USUARIO</title>
-<link rel="icon" href="../imagenes/logoObrasPúblicas.png">
+<link rel="icon" href="../imagenes/logoInfraestructura.png">
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<style>
 			body{
 			background-color: #edf0f5;
@@ -46,6 +48,32 @@ function ConsultarIncidente($no_tic)
 	</style>
 </head>
 <body>
+    <script>
+        function enviar_formulario(formulario){
+        	Swal.fire({
+                        title: "Esta seguro de modificar este usuario?",
+                        icon: "warning",
+                        showConfirmButton: true,
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonText: "Cancelar",
+                        customClass:{
+                            actions: 'reverse-button'
+                        }
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            formulario.submit()
+
+
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
+			}
+    </script>
     <div id="reporteEst">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
             <a id="vlv"  href="abmusuario.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
@@ -58,10 +86,11 @@ function ConsultarIncidente($no_tic)
 		<div id="principalu" style="width: 97%" class="container-fluid">
                 <?php
                 include("../particular/conexion.php");
-                $sent= "SELECT AREA FROM area WHERE ID_AREA = $consulta[3]";
+                $sent= "SELECT a.AREA, r.REPA FROM area a inner join reparticion r on a.ID_REPA=r.ID_REPA WHERE ID_AREA = $consulta[3]";
                 $resultado = $datos_base->query($sent);
                 $row = $resultado->fetch_assoc();
                 $ar = $row['AREA'];
+                $repa = $row['REPA'];
                 ?>
                 
                 <?php 
@@ -106,6 +135,15 @@ function ConsultarIncidente($no_tic)
 								<option value="PB">PB</option>
 								<option value="P1">P1</option>
 								<option value="P2">P2</option>
+                                <option value="P3">P3</option>
+								<option value="P4">P4</option>
+                                <option value="P5">P5</option>
+								<option value="P6">P6</option>
+                                <option value="P7">P7</option>
+								<option value="P8">P8</option>
+                                <option value="P9">P9</option>
+                                <option value="EP">EP</option>
+								<option value="SUB">SUB</option>
 							</select>
                     </div>
 
@@ -118,14 +156,14 @@ function ConsultarIncidente($no_tic)
                                 </select>
                         <label id="lblForm" class="col-form-label col-xl col-lg">ÁREA:</label>&nbsp &nbsp
                         <select  class="form-control col-xl col-lg" name="are" style="text-transform:uppercase">
-                                        <option selected value="200"><?php echo $ar?></option>
+                                        <option selected value="200"><?php echo $ar?> - <?php echo $repa?></option>
                                         <?php
                                         include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM area ORDER BY ID_REPA ASC";
+                                        $consulta= "SELECT a.ID_AREA, a.AREA, r.REPA FROM area a inner join reparticion r on a.ID_REPA=r.ID_REPA ORDER BY AREA ASC";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>
                                         <?php foreach ($ejecutar as $opciones): ?> 
-                                        <option value= <?php echo $opciones['ID_AREA'] ?>><?php echo $opciones['AREA']?></option>
+                                        <option value= <?php echo $opciones['ID_AREA'] ?>><?php echo $opciones['AREA']?> - <?php echo $opciones['REPA']?></option>
                                         <?php endforeach?>
                         </select>
                     </div>
@@ -147,7 +185,7 @@ function ConsultarIncidente($no_tic)
                     <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
                     <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
                     <div class="row justify-content-end" style="margin: 10px; padding:10px;">
-                            <input style="width: 20%;"class="col-3 button" type="submit" value="MODIFICAR" >
+                            <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="col-3 button" type="button" value="MODIFICAR" >
                     </div>
                 </form>
 	    </div>

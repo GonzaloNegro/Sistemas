@@ -7,7 +7,7 @@ if(!isset($_SESSION['cuil']))
         exit();
     };
 $iduser = $_SESSION['cuil'];
-$sql = "SELECT CUIL, RESOLUTOR FROM resolutor WHERE CUIL='$iduser'";
+$sql = "SELECT CUIL, RESOLUTOR, ID_PERFIL FROM resolutor WHERE CUIL='$iduser'";
 $resultado = $datos_base->query($sql);
 $row = $resultado->fetch_assoc();
 ?>
@@ -15,7 +15,7 @@ $row = $resultado->fetch_assoc();
 <html>
 <head>
 	<title>ABM MONITORES</title><meta charset="utf-8">
-	<link rel="icon" href="../imagenes/logoObrasPúblicas.png">
+	<link rel="icon" href="../imagenes/logoInfraestructura.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -84,26 +84,32 @@ $row = $resultado->fetch_assoc();
 								<th><p>MONITOR</p></th>
 								<th><p>USUARIO</p></th>
 								<th><p>ÁREA</p></th>
+								<th><p>REPARTICIÓN</p></th>
 								<th><p>TIPO</p></th>
                                 <th><p>MARCA</p></th>
 							
-								<th><p>N° SERIE</p></th>
-								<th><p>MODIFICAR</p></th>
+								<th><p>N° SERIE</p></th>";
+								if ($row['ID_PERFIL'] != 5) {
+									echo"
+								<th><p>MODIFICAR</p></th>";
+								}
+								echo"
 							</tr>
 						</thead>
 					";
 					if(isset($_POST['btn2']))
 					{
 						$doc = $_POST['buscar'];
-						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA/*  i.SERIEG */, a.AREA, p.SERIE
+						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA/*  i.SERIEG */, a.AREA, r.REPA, p.SERIE
 						FROM periferico p
 						LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
 						LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO
 /* 						LEFT JOIN inventario AS i ON i.ID_USUARIO = u.ID_USUARIO */
-						LEFT JOIN area AS a ON  u.ID_AREA = a.ID_AREA
+						LEFT JOIN area AS a ON  u.ID_AREA = a.ID_AREA 
+                        LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA  
 						LEFT JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
-						LEFT JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA
-						WHERE p.TIPOP LIKE '%MONITOR%' AND (a.AREA LIKE '%$doc%' OR u.NOMBRE LIKE '%$doc%' OR mo.MODELO LIKE '%$doc%' OR t.TIPO LIKE '%$doc%' OR m.MARCA LIKE '%$doc%' OR p.SERIE LIKE '%$doc%')
+						LEFT JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA
+						WHERE p.TIPOP LIKE '%MONITOR%' AND (a.AREA LIKE '%$doc%' OR u.NOMBRE LIKE '%$doc%' OR r.REPA LIKE '%$doc%' OR mo.MODELO LIKE '%$doc%' OR t.TIPO LIKE '%$doc%' OR m.MARCA LIKE '%$doc%' OR p.SERIE LIKE '%$doc%')
 						ORDER BY u.NOMBRE ASC");
 							while($listar = mysqli_fetch_array($consultar))
 							{
@@ -113,22 +119,29 @@ $row = $resultado->fetch_assoc();
 										<td><h4 style='font-size:16px;'>".$listar['MODELO']."</h4></td>
 										<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>
 										<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4></td>
+										<td><h4 style='font-size:16px;'>".$listar['REPA']."</h4></td>
 										<td><h4 style='font-size:16px;'>".$listar['TIPO']."</h4></td>
 										<td><h4 style='font-size:16px;'>".$listar['MARCA']."</h4></td>
-										<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modmonitores.php?no=".$listar['ID_PERI']." class=mod>Editar</a></td>
+										<td><h4 style='font-size:16px;'>".$listar['SERIE']."</h4></td>";
+										if ($row['ID_PERFIL'] != 5) {
+											echo"
+										<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modmonitores.php?no=".$listar['ID_PERI']." class=mod>Editar</a></td>";
+										}
+										echo"
 									</tr>";
 						}
 					}
 					else
 					{
-						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, a.AREA, p.SERIE/* , i.SERIEG */
+						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, a.AREA, r.REPA, p.SERIE/* , i.SERIEG */
 						FROM periferico p
 						LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
 						INNER JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO
 						/* INNER JOIN inventario AS i ON i.ID_USUARIO = u.ID_USUARIO */
 						INNER JOIN area AS a ON  a.ID_AREA = p.ID_AREA
+                        LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA
 						LEFT JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
-						LEFT JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA
+						LEFT JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA
 						WHERE p.TIPOP LIKE '%MONITOR%'
 						ORDER BY u.NOMBRE ASC");
 							while($listar = mysqli_fetch_array($consultar))
@@ -139,11 +152,16 @@ $row = $resultado->fetch_assoc();
 										<td><h4 style='font-size:16px;'>".$listar['MODELO']."</h4></td>
 										<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>
 										<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4></td>
+										<td><h4 style='font-size:16px;'>".$listar['REPA']."</h4></td>
 										<td><h4 style='font-size:16px;'>".$listar['TIPO']."</h4></td>
 										<td><h4 style='font-size:16px;'>".$listar['MARCA']."</h4></td>
 										
-										<td><h4 style='font-size:16px;'>".$listar['SERIE']."</h4></td>
-										<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modmonitores.php?no=".$listar['ID_PERI']." class=mod>Editar</a></td>
+										<td><h4 style='font-size:16px;'>".$listar['SERIE']."</h4></td>";
+										if ($row['ID_PERFIL'] != 5) {
+											echo"
+										<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modmonitores.php?no=".$listar['ID_PERI']." class=mod>Editar</a></td>";
+										}
+										echo"
 									</tr>";
 							}
 					}

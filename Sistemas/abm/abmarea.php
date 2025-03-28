@@ -7,7 +7,7 @@ if(!isset($_SESSION['cuil']))
         exit();
     };
 $iduser = $_SESSION['cuil'];
-$sql = "SELECT CUIL, RESOLUTOR FROM resolutor WHERE CUIL='$iduser'";
+$sql = "SELECT CUIL, RESOLUTOR, ID_PERFIL FROM resolutor WHERE CUIL='$iduser'";
 $resultado = $datos_base->query($sql);
 $row = $resultado->fetch_assoc();
 ?>
@@ -15,7 +15,7 @@ $row = $resultado->fetch_assoc();
 <html>
 <head>
 	<title>ABM ÁREA</title><meta charset="utf-8">
-	<link rel="icon" href="../imagenes/logoObrasPúblicas.png">
+	<link rel="icon" href="../imagenes/logoInfraestructura.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -83,10 +83,13 @@ $row = $resultado->fetch_assoc();
 							<tr>
 								<th><p>ÁREA</p></th>
 								<th><p>REPARTICIÓN</p></th>
-								<th><p>ESTADO</p></th>
-                                <th><p>MODIFICAR</p></th>
-							</tr>
-						</thead>
+								<th><p>ESTADO</p></th>";
+								if ($row['ID_PERFIL'] != 5) {
+									echo"<th><p>MODIFICAR</p></th>
+									</tr>";
+								}
+                                
+						echo"</thead>
 					";
 					if(isset($_POST['btn2']))
 							{
@@ -104,10 +107,11 @@ $row = $resultado->fetch_assoc();
 										<tr>
 										<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4 ></td>
 										<td><h4 style='font-size:16px;'>".$listar['REPA']."</h4 ></td>
-										<td><h4 style='font-size:16px;'>".$listar['ACTIVO']."</h4 ></td>
-										<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modarea.php?no=".$listar['ID_AREA']." class=mod>Editar</a></td>
+										<td><h4 style='font-size:16px;'>".$listar['ACTIVO']."</h4 ></td>";
+										if ($row['ID_PERFIL'] != 5) {
+											echo"<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modarea.php?no=".$listar['ID_AREA']." class=mod>Editar</a></td>
 										</tr>
-									";
+									";}
 								} 
 							}
 							else{
@@ -123,10 +127,13 @@ $row = $resultado->fetch_assoc();
 										<tr>
 										<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4 ></td>
 										<td><h4 style='font-size:16px;'>".$listar['REPA']."</h4 ></td>
-										<td><h4 style='font-size:16px;'>".$listar['ACTIVO']."</h4 ></td>
-										<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modarea.php?no=".$listar['ID_AREA']." class=mod>Editar</a></td>
-										</tr>
-									";
+										<td><h4 style='font-size:16px;'>".$listar['ACTIVO']."</h4 ></td>";
+										if ($row['ID_PERFIL'] != 5) {
+											echo"<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modarea.php?no=".$listar['ID_AREA']." class=mod>Editar</a></td>
+											</tr>
+										";
+										}
+										
 								}
 							}
 							echo "</table>";

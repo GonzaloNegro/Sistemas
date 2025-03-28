@@ -39,7 +39,7 @@ function ConsultarIncidente($no_tic)
 <html>
 <head>
     <title>MODIFICAR MONITOR</title>
-    <link rel="icon" href="../imagenes/logoObrasPúblicas.png">
+    <link rel="icon" href="../imagenes/logoInfraestructura.png">
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -53,10 +53,38 @@ function ConsultarIncidente($no_tic)
 	</style>
 </head>
 <body>
-    <div id="reporteEst">   
+<script>
+function enviar_formulario(formulario){
+        	Swal.fire({
+                        title: "Esta seguro de modificar este monitor?",
+                        icon: "warning",
+                        showConfirmButton: true,
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonText: "Cancelar",
+                        customClass:{
+                            actions: 'reverse-button'
+                        }
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            formulario.submit()
+
+
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
+			
+		}
+				
+		</script>
+    <div id="reporteEst">   		
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
             <a id="vlv"  href="abmmonitores.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
-        </div>					
+        </div>			
     </div>
 	<section id="Inicio">
     <div id="titulo" style="margin: 20px;">
@@ -142,18 +170,18 @@ function ConsultarIncidente($no_tic)
                         <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="garantia" value="<?php echo $consulta[16]?>">
                         <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
                             <select name="modelo" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
-                                            <option selected value="200"><?php echo $mod?></option>
+                                    <option selected value="200"><?php echo $mod?></option>
                                             <?php
                                     include("../particular/conexion.php");
                                     $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA
                                     FROM modelo m
                                     INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
                                     INNER JOIN tipop t ON t.ID_TIPOP = m.ID_TIPOP
-                                    WHERE (m.ID_TIPOP = 7 OR m.ID_TIPOP = 8) ORDER BY MDOELO ASC";
+                                    WHERE (m.ID_TIPOP = 7 OR m.ID_TIPOP = 8) ORDER BY m.MODELO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA']?></option>
+                                    <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA'];?></option>
                                     <?php endforeach?>
                                         </select>
                     </div>
@@ -203,7 +231,7 @@ function ConsultarIncidente($no_tic)
                                         <option selected value="600"><?php echo $usu?></option>
                                         <?php
                                         include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM usuarios ORDER BY NOMBRE ASC";
+                                        $consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' ORDER BY NOMBRE ASC";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>
                                         <?php foreach ($ejecutar as $opciones): ?> 
@@ -214,7 +242,7 @@ function ConsultarIncidente($no_tic)
                     <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
                     <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
                     <div class="form-group row justify-content-end" style="margin: 10px; padding:10px;">
-					    <input style="width:20%"class="col-3 button" type="submit" value="MODIFICAR" class="button">
+					    <input onClick="enviar_formulario(this.form)" style="width:20%"class="col-3 button" type="button" value="MODIFICAR" class="button">
 				    </div>
                 </form>
 	    </div>

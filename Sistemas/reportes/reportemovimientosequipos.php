@@ -18,12 +18,12 @@ $row = $resultado->fetch_assoc();
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="../estilos/estiloreporte.css">
 	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<!--BUSCADOR SELECT-->
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../estilos/estiloreporte.css">
 	<!--FIN BUSCADOR SELECT-->
 	<style>
 			body{
@@ -34,12 +34,12 @@ $row = $resultado->fetch_assoc();
 
 
 <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-	                    <a id="vlv"  href="tiporeporte.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
-						<div class="btn-group col-2" role="group" >
-                              <button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='../consulta/consulta.php'" ><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></button>
-                              <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()" ><i class='bi bi-printer'></i></button>
-                        </div>
-		            </div>
+    <a id="vlv"  href="../reportes/tiporeporte.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
+    <div class="btn-group col-2" role="group" >
+            <button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='../consulta/consulta.php'" ><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></button>
+            <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()" ><i class='bi bi-printer'></i></button>
+    </div>
+</div>
 		            <style type="text/css" media="print">
                               @media print {
                                              #vlv, #accion, .cabe {display:none;}
@@ -133,6 +133,7 @@ $row = $resultado->fetch_assoc();
 
 
         if(isset($_POST['btn2'])){
+            #SE DETECTA EL FORMULARIO Y EL TIPO DE MOVIMIENTO SELECCIONADO
             $mov=$_POST['slcTipo'];
             $fechadesde=$_POST['fecha_desde'];
             $fechahasta=$_POST['fecha_hasta'];
@@ -147,11 +148,12 @@ $row = $resultado->fetch_assoc();
             if ($mov==3) {
                 echo"<h4 class='indicadores' style='margin-bottom: 10px;'>TIPO MOVIMIENTO: ESTADO</h2>";
             }
-
-
+            #FILTRO POR MOVIMIENTOS
+            #NO SE SELECCIONO PERIODO DE TIEMPO
             if ($fechadesde==""||$fechahasta=="") {
+                #AREA
                 if ($mov==1) {
-        
+                    
                     $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
                     LEFT JOIN usuarios AS u ON u.ID_USUARIO = m.ID_USUARIO
@@ -165,6 +167,7 @@ $row = $resultado->fetch_assoc();
                             m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientos mv
                                 where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY a.ID_AREA desc");
                 }
+                #USUARIO
                 if ($mov==2) {
         
         
@@ -181,6 +184,7 @@ $row = $resultado->fetch_assoc();
                             m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientos mv
                                 where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY u.NOMBRE asc");
                 }
+                #ESTAADO
                 if ($mov==3) {
         
                     $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
@@ -199,6 +203,7 @@ $row = $resultado->fetch_assoc();
             }
             }
             // if(isset($_POST['fecha_desde']) & isset($_POST['fecha_hasta']))
+           #SE SELECCIONO PERIODO DE TIEMPO
             else{
                 echo"
                     <h4 class='indicadores' style='margin-bottom: 10px;'>PERIODO</h2>
@@ -206,7 +211,7 @@ $row = $resultado->fetch_assoc();
 				    <h4 class='indicadores' style='margin-bottom: 10px;'>HASTA: $fechahasta </h2>";
                 
                 if ($mov==1) {
-        
+                    #AREA
                     $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
                     LEFT JOIN usuarios AS u ON u.ID_USUARIO = m.ID_USUARIO
@@ -222,6 +227,7 @@ $row = $resultado->fetch_assoc();
                             and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta'
                     ORDER BY a.ID_AREA desc");
                 }
+                #USUARIO
                 if ($mov==2) {
                     $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
@@ -238,6 +244,7 @@ $row = $resultado->fetch_assoc();
                                 and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta'    
                                  ORDER BY u.NOMBRE asc");
                 }
+                #ESTADO
                 if ($mov==3) {
                     $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
@@ -258,7 +265,7 @@ $row = $resultado->fetch_assoc();
             }
     
 }
-
+#NO HAY NINGUNA SELECCION
 	else{
         $fecha = date("Y-m-d");
 		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
@@ -300,10 +307,9 @@ $row = $resultado->fetch_assoc();
         </thead>
         ";
         $contador=0;
+        #SE EXTRAEN LAS FILAS DE LA CONSULTA
         while($listar = mysqli_fetch_array($consultarMovimientos))
-        
-				
-	    {
+        {
             $fecord = date("d-m-Y", strtotime($listar['FECHA']));
 		echo
 		" 
@@ -351,5 +357,6 @@ $row = $resultado->fetch_assoc();
 				}
 			?>
     </section>
+    <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>
 </html>

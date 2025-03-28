@@ -7,7 +7,7 @@ if(!isset($_SESSION['cuil']))
         exit();
     };
 $iduser = $_SESSION['cuil'];
-$sql = "SELECT CUIL, RESOLUTOR FROM resolutor WHERE CUIL='$iduser'";
+$sql = "SELECT CUIL, RESOLUTOR, ID_PERFIL FROM resolutor WHERE CUIL='$iduser'";
 $resultado = $datos_base->query($sql);
 $row = $resultado->fetch_assoc();
 ?>
@@ -15,10 +15,10 @@ $row = $resultado->fetch_assoc();
 <html>
 <head>
 	<title>AGREGAR EQUIPO</title><meta charset="utf-8">
-	<link rel="icon" href="../imagenes/logoObrasPúblicas.png">
+	<link rel="icon" href="../imagenes/logoInfraestructura.png">
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -49,30 +49,74 @@ $row = $resultado->fetch_assoc();
 <body>
 <script type="text/javascript">
 			function ok(){
-				swal(  {title: "Equipo cargado correctamente",
-						icon: "success",
-						showConfirmButton: true,
-						showCancelButton: false,
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='abmequipos.php';
-						}
-						}
-						);
+				// swal(  {title: "Equipo cargado correctamente",
+				// 		icon: "success",
+				// 		showConfirmButton: true,
+				// 		showCancelButton: false,
+				// 		})
+				// 		.then((confirmar) => {
+				// 		if (confirmar) {
+				// 			window.location.href='abmequipos.php';
+				// 		}
+				// 		}
+				// 		);
+        Swal.fire({
+                        title: "Equipo cargado correctamente.",
+                        icon: "success",
+                        showConfirmButton: true,
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonText: "Cancelar",
+                        customClass:{
+                            actions: 'reverse-button'
+                        }
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                          window.location.href='abmequipos.php';
+
+
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
 			}	
 			</script>
 <script type="text/javascript">
 			function no(){
-				swal(  {title: "El equipo ya está registrado",
-						icon: "error",
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='agregarequipo.php';
-						}
-						}
-						);
+				// swal(  {title: "El equipo ya está registrado",
+				// 		icon: "error",
+				// 		})
+				// 		.then((confirmar) => {
+				// 		if (confirmar) {
+				// 			window.location.href='agregarequipo.php';
+				// 		}
+				// 		}
+				// 		);
+        Swal.fire({
+                        title: "El equipo ya está registrado",
+                        icon: "error",
+                        showConfirmButton: true,
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonText: "Cancelar",
+                        customClass:{
+                            actions: 'reverse-button'
+                        }
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                          window.location.href='agregarequipo.php';
+
+
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
 			}	
 			</script>
 
@@ -87,7 +131,7 @@ $row = $resultado->fetch_assoc();
 			<h1>AGREGAR EQUIPO</h1>
 		</div>
 		<div id="principale" style="width: auto" class="container-fluid" data-aos="zoom-in">
-						<form method="POST" action="guardarmodequipo.php">
+						<form method="POST" id="form_carga" action="guardarmodequipo.php">
                         
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
@@ -95,7 +139,7 @@ $row = $resultado->fetch_assoc();
                                     <option  value="0" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM usuarios  ORDER BY NOMBRE ASC";
+                                    $consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' ORDER BY NOMBRE ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -119,7 +163,7 @@ $row = $resultado->fetch_assoc();
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
-                                <select name="est" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                                <select name="est" id="slcest" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -132,16 +176,16 @@ $row = $resultado->fetch_assoc();
                                 </select>
 
                                 <label id="lblForm" class="col-form-label col-xl col-lg">N° WS:</label> 
-							              <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="serieg" placeholder="WSXXXXX" required>
+							              <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="serieg" id="nrows" placeholder="WSXXXXX" required>
                         </div>
 
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             
                             <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE:</label>
-                            <input class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="serialn" required>
+                            <input class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="serialn" id="serial" required>
                             <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
-                            <select name="marca" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <select name="marca" id="slcmarca" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -158,7 +202,7 @@ $row = $resultado->fetch_assoc();
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                         
                                 <label id="lblForm"class="col-form-label col-xl col-lg">S.O:</label>
-                                <select name="so" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                                <select name="so" id="slcso" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -170,7 +214,7 @@ $row = $resultado->fetch_assoc();
                                     <?php endforeach?>
                                 </select>
                                 <label id="lblForm" class="col-form-label col-xl col-lg">TIPO PC:</label> 
-							              <select name="tippc" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+							              <select name="tippc" id="slctipopc" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -188,7 +232,7 @@ $row = $resultado->fetch_assoc();
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             <label id="lblForm"class="col-form-label col-xl col-lg">MASTERIZACIÓN:</label>
-                            <select name="masterizacion" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <select name="masterizacion" id="slcmast" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                 <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                 <option value="SI">SI</option>
                                 <option value="NO">NO</option>
@@ -201,7 +245,7 @@ $row = $resultado->fetch_assoc();
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             
                             <label id="lblForm"class="col-form-label col-xl col-lg">RIP:</label>
-                            <select name="reserva" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <select name="reserva" id="slcrip" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                 <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                 <option value="SI">SI</option>
                                 <option value="NO">NO</option>
@@ -214,7 +258,7 @@ $row = $resultado->fetch_assoc();
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                             
                             <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:</label>
-                            <select name="prov" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <select name="prov" id="slcprov" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -235,7 +279,7 @@ $row = $resultado->fetch_assoc();
                             <label id="lblForm" class="col-form-label col-xl col-lg">GARANTIA:</label> 
 							              <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar" placeholder="TIEMPO DE GARANTIA">
                             <label id="lblForm"class="col-form-label col-xl col-lg">RED:</label>
-                            <select name="red" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <select name="red" id="slcred" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -251,7 +295,7 @@ $row = $resultado->fetch_assoc();
 
                         <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">PROCEDENCIA:</label>
-                            <select name="procedencia" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <select name="procedencia" id="slcprocedencia" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1230,10 +1274,14 @@ $row = $resultado->fetch_assoc();
     </div>
   </div>
 </div>
-
-                        <div class="form-group row justify-content-end" style="margin: 10px; padding:10px;">
-							<input style="width: 20%;"class="col-3 button" type="submit" value="GUARDAR EQUIPO" class="button">
-                        </div>    
+<?php 
+    if ($row['ID_PERFIL'] != 5) {
+      echo '<div class="form-group row justify-content-end" style="margin: 10px; padding:10px;">
+                  <input onClick="validar()" style="width: 20%;"class="col-3 button" id="btnform" type="button" value="GUARDAR EQUIPO" class="button">
+            </div>';
+    }
+?>
+                            
 					</form>
                     <?php
 						if(isset($_GET['ok'])){
@@ -1250,6 +1298,151 @@ $row = $resultado->fetch_assoc();
 		</div>
 	</section>
 	<footer></footer>
+  
+  <script>
+        function validar(){
+        // var formulario = document.getElementById('form_carga');
+        var valorUsuario = $('#slcusu').val();
+        var valorArea = $('#slcarea').val()
+        var fieldsToValidate = [
+                    {
+                        selector: "#slcest",
+                        errorMessage: "No seleccionó estado."
+                    },
+                    {
+                        selector: "#nrows",
+                        errorMessage: "El campo Número de WS está vacío."
+                    },
+                    {
+                        selector: "#slcmarca",
+                        errorMessage: "No seleccionó marca."
+                    },
+                    {
+                        selector: "#slcso",
+                        errorMessage: "No seleccionó Sistema Operativo."
+                    },
+                    {
+                        selector: "#slctipopc",
+                        errorMessage: "No seleccionó el tipo de pc."
+                    },
+                    {
+                        selector: "#slcmast",
+                        errorMessage: "No selecciono Masterización."
+                    },
+                    {
+                        selector: "#slcrip",
+                        errorMessage: "No seleccionó RIP."
+                    },
+                    {
+                        selector: "#slcprov",
+                        errorMessage: "No seleccionó proveedor."
+                    },
+                    {
+                        selector: "#slcred",
+                        errorMessage: "No seleccionó la red."
+                    },
+                    {
+                        selector: "#slcprocedencia",
+                        errorMessage: "No seleccionó procedencia."
+                    }
+                ];
+
+                var isValid = true;
+        if (valorUsuario!=null) {
+          if (valorUsuario==277 && valorArea==null) {
+            Swal.fire({
+            title: "Por favor seleccione el Area donde se utilizará el equipo",
+            icon: "warning",
+            showConfirmButton: true,
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: "Cancelar",
+            customClass:{
+                actions: 'reverse-button'
+            }
+        })
+          }
+          else{
+
+                $.each(fieldsToValidate, function(index, field) {
+                    var element = $(field.selector);
+                    if (element.val()== "" || element.val()== null) {
+                      Swal.fire({
+                      title: field.errorMessage,
+                      icon: "warning",
+                      showConfirmButton: true,
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Aceptar',
+                      cancelButtonText: "Cancelar",
+                      customClass:{
+                      actions: 'reverse-button'
+                        }
+                      })
+                        isValid = false;
+                        return false;
+                    }
+                    // alert(element.val());
+                });
+
+                if (isValid) {
+                  // alert("Esta validado");
+                  enviarFormulario();
+                }
+          }
+          
+        } else {
+          Swal.fire({
+            title: "Por favor seleccione el usuario o en su defecto el campo 'Sin Asignar'",
+            icon: "warning",
+            showConfirmButton: true,
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: "Cancelar",
+            customClass:{
+                actions: 'reverse-button'
+            }
+        })
+        }
+        
+
+
+};
+    </script>
+    </script>
+    <script>
+      function enviarFormulario(){
+        var formulario = document.getElementById('form_carga');
+        Swal.fire({
+                        title: "Esta seguro de guardar este equipo?",
+                        icon: "warning",
+                        showConfirmButton: true,
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonText: "Cancelar",
+                        customClass:{
+                            actions: 'reverse-button'
+                        }
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            formulario.submit();
+                            
+
+
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
+      }
+    </script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
     <script>
@@ -1258,3 +1451,149 @@ $row = $resultado->fetch_assoc();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
+
+
+<!--<script>
+        $(document).ready(function() {
+            $('#btnform').click(function() {
+                var formulario = document.getElementById('form_carga');
+                var valorUsuario = $('#slcusu').val();
+                var valorArea = $('#slcarea').val();
+                
+                // Validar manualmente los campos requeridos
+                if (formulario.checkValidity()) {
+                    if (valorUsuario == 277 && (valorArea == null || valorArea === "")) {
+                        Swal.fire({
+                            title: "Por favor seleccione el Área donde se utilizará el equipo",
+                            icon: "warning",
+                            showConfirmButton: true,
+                            confirmButtonText: 'Aceptar',
+                            customClass: {
+                                actions: 'reverse-button'
+                            }
+                        });
+                    } else {
+                        // Confirmación con SweetAlert2
+                        Swal.fire({
+                            title: "¿Está seguro de guardar este equipo?",
+                            icon: "warning",
+                            showConfirmButton: true,
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Aceptar',
+                            cancelButtonText: "Cancelar",
+                            customClass: {
+                                actions: 'reverse-button'
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Enviar el formulario
+                                formulario.submit();
+                            }
+                        });
+                    }
+                } else {
+                    // Mostrar los mensajes de error de validación
+                    formulario.reportValidity();
+                }
+            });
+        });
+    </script>  -->
+
+    <!-- <script>
+      function enviarFormulario(){
+        var formulario = document.getElementById('form_carga');
+        if (formulario.checkValidity()) {
+          Swal.fire({
+                        title: "Esta seguro de guardar este equipo?",
+                        icon: "warning",
+                        showConfirmButton: true,
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonText: "Cancelar",
+                        customClass:{
+                            actions: 'reverse-button'
+                        }
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                          $('#form_carga').off('submit').submit();
+
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
+                } else {
+                    // Mostrar los mensajes de error de validación
+                    formulario.reportValidity();
+                }
+      }
+      function validarFormulario(){
+        var estado= $('#slcest').val();
+        var nrows= $('#nrows').val();
+        var serial= $('#serial').val();
+        var marca= $('#slcmarca').val();
+        var so= $('#slcso').val();
+        var tipopc= $('#slctipopc').val();
+        var mast= $('#slcmast').val();
+        var rip= $('#slcrip').val();
+        var proveedor= $('#slcprov').val();
+        var red= $('#slcred').val();
+        var procedencia= $('#slcprocedencia').val();
+        var campo ="";
+        if (estado==null) {
+          campo="Estado";
+        }
+
+      }
+      $('#btnform').click(function() {
+        
+        var valorUsuario = $('#slcusu').val();
+        var valorArea = $('#slcarea').val()
+        var valor="hola"
+        if (valorUsuario!=null) {
+          if (valorUsuario==277 && valorArea==null) {
+            Swal.fire({
+            title: "Por favor seleccione el Area donde se utilizará el equipo",
+            icon: "warning",
+            showConfirmButton: true,
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: "Cancelar",
+            customClass:{
+                actions: 'reverse-button'
+            }
+        })
+          }
+          else{
+            // alert("LLega");
+            if(validarFormulario()){
+              enviarFormulario();
+            }
+          }
+          
+        } else {
+          Swal.fire({
+            title: "Por favor seleccione el usuario o en su defecto el campo 'Sin Asignar'",
+            icon: "warning",
+            showConfirmButton: true,
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: "Cancelar",
+            customClass:{
+                actions: 'reverse-button'
+            }
+        })
+        }
+        
+
+
+});
+    </script> -->

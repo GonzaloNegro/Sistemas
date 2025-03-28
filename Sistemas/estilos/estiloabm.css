@@ -56,6 +56,7 @@ h4{
 #Inicio{
     width: auto;
 	height: auto;
+	padding: 10px;
 }
 
 #titulo{
@@ -72,7 +73,7 @@ h4{
 
 #principal1{
     width: 900px;
-    height: 500px;
+    height: 550px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -130,12 +131,12 @@ h4{
 }
 
 #foto{
-    width: 100px;
+    width: 160px;
     height: 80px;
 
-    background-image: url("../imagenes/logoObrasPúblicas.png");
+    background-image: url("../imagenes/logoInfraestructura.png");
     background-repeat: no-repeat;
-    background-size: 140%;
+    background-size: 100%;
 	cursor: default;
 }
 
@@ -208,7 +209,8 @@ h5{
 
 footer{
 	height: auto;
-	  border-top: 1px solid #53AAE0;
+	margin-top: 40px;
+	border-top: 1px solid #53AAE0;
   }
   
   .footer{

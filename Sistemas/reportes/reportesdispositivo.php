@@ -41,11 +41,13 @@ $row = $resultado->fetch_assoc();
         </style>
         <section id="reporte">
         <?php
+		#SE OBTIENE EL TIPO DE REPORTE Y TIPO DE DISPOSITIVO
         $seleccion=$_GET['tiporeporte'];
 		$tipodisp = $_GET['tipodisp'];
         ?>
 
         <?php 
+		#SI EL TIPO NO ES IMPRESORA O MONITOR SE REDIRECCIONA A LA PAGINA REPORTESDISPOSITIVOSEXT.PHP
 		if ($tipodisp=='scanner') {
 			header("Location:reportesdispositivoext.php?seleccion=$seleccion&tipo=$tipodisp");
 		}
@@ -82,9 +84,11 @@ $row = $resultado->fetch_assoc();
                     </script>
 
 			        <?php
-
+					#CONDICIONAL PARA FILTRAR POR IMPRESORA Y POR TIPOO DE FILTRO
 					if ($tipodisp == 'impresora') {
+						#AREA
 					if($seleccion=='AREA'){
+						#CONSULTA SQL PARA OBTENER CANTIDAD DE EQUIPOIS POR AREA
                         $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p
 			            where p.TIPOP='IMPRESORA'");
 			            $total = mysqli_fetch_array($conttotal);
@@ -102,6 +106,7 @@ $row = $resultado->fetch_assoc();
 						<th ><p class='cabe' style='width: 80px;' >ACCION</p></th>
 						</tr>
 						</thead>";
+						#SE OBTIENEN TODAS LAS AREAS CON LA CANTIDAD DE EQUIPOS ASIGNADOS
 						$consultar=mysqli_query($datos_base, "SELECT a.AREA, p.ID_AREA, count(*) as TOTAL from periferico p left join area a on p.ID_AREA=a.ID_AREA
 						where p.TIPOP='IMPRESORA' group by a.AREA");
 									while($listar = mysqli_fetch_array($consultar))
@@ -127,6 +132,7 @@ $row = $resultado->fetch_assoc();
 												
 									}
 					}
+					#SE FILTRA POR ESTADO E IMPRESORA
                     if ($seleccion=='ESTADO' && $tipodisp == 'impresora') {
                         $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p
 			            where p.TIPOP='IMPRESORA'");
@@ -170,6 +176,7 @@ $row = $resultado->fetch_assoc();
 												
 									}
                     }
+					#PROVEEDOR E IMPRESORA
 					if ($seleccion=='PROVEEDOR' && $tipodisp == 'impresora')
 					{
 						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p
@@ -214,9 +221,9 @@ $row = $resultado->fetch_assoc();
 												
 									}
 								}}
-
+					#MONITORES
                     if ($tipodisp == 'monitor') {
-						
+					#AREA Y MONITOR
 				    if($seleccion=='AREA'){
 						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p
 		     			where p.TIPOP='MONITOR'");
@@ -260,6 +267,7 @@ $row = $resultado->fetch_assoc();
 															
 												}
 								}
+								#MONITOR Y ESTADO
 								if ($seleccion=='ESTADO')
 								{
 									$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p
@@ -305,7 +313,7 @@ $row = $resultado->fetch_assoc();
 														}
 													}
 
-
+					#MONITOR Y PROVEEDOR
 					if ($seleccion=='PROVEEDOR')
 					{
 						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p

@@ -74,9 +74,10 @@ $row = $resultado->fetch_assoc();
                     </script>
 
 			        <?php
-					    
+					    #SE RECIBE POR GET EL ID DE TIPO DE PERIFERICO Y EL ID DE AREA
 					    $tipo = $_GET['Tipo'];
                         $area=$_GET['Area'];
+						#CONDICIONALES UTILIZADOS PARA GUARDAR EN VARIABLE EL NOMBRE DEL PERIFERICO Y SU URL PARA VER EL DETALLE, ESTE ACTUALMENTE NO SE USA Y ESTA COMENTADO
                         if ($tipo=='monitor') {
                             $perif='MONITORES';
 							$url='consultadetallemon.php';
@@ -90,6 +91,7 @@ $row = $resultado->fetch_assoc();
                             $perif='IMPRESORAS';
 							$url='consultadetalleimp.php';
                         }
+						#SE OBTIENE EL NOMBRE DEL AREA
                         if ($area==0) {
                             $tit='S/A';
                         }
@@ -98,14 +100,17 @@ $row = $resultado->fetch_assoc();
 						    $consultit=mysqli_fetch_array($consularea);
                             $tit=$consultit['AREA'];
                         }
+						#CONDICIONAL PARA DETERMINAR TIPO DE PERIFERICOS
                         if ($tipo=='otros') {
+						#CONSULTA SQL PARA OBTENER EL NUMERO DE PERFIFERICOS EXCLUYENDO A MONITORES, IMPRESORAWS Y SCANNERS
 						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p WHERE p.TIPOP!='MONITOR' and p.TIPOP!='IMPRESORA' AND p.TIPOP!='SCANNER' and p.ID_AREA=$area");
 			            $total = mysqli_fetch_array($conttotal);
 						$fecha = date("Y-m-d");
+						#SE OBTIENE EL UNMERO DE REPARTICION
 						$consultrepa=mysqli_query($datos_base, "select r.REPA from area a inner join reparticion r on a.ID_REPA=r.ID_REPA where a.ID_AREA=$area");
 						$reparticion= mysqli_fetch_array($consultrepa);
 						
-						
+						#CODIGO HTML PARA VISUALIZAR DATOS Y AGREGAR LA CABECERA DE LA TABLA  
 						echo "
 						<h1 id='titulo'>REPORTE DE PERIFERICOS POR AREA: $tit</h1>
                         <hr style='display: block;'>
@@ -158,14 +163,17 @@ $row = $resultado->fetch_assoc();
                     echo "
 					</table>";
 						}
+						#CODIGO PARA EL RESTO DE PERIFERICOS
 					else {
+						#CONSULTA SQL PARA OBTENER EL NRO DE PERIFERICOS DEL TIPO SELECCIONADO
 						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='$tipo' and p.ID_AREA=$area");
 			            $total = mysqli_fetch_array($conttotal);
 						$fecha = date("Y-m-d");
+						#OBTIENE NOMBRE DFE REPARTICION
 						$consultrepa=mysqli_query($datos_base, "select r.REPA from area a inner join reparticion r on a.ID_REPA=r.ID_REPA where a.ID_AREA=$area");
 						$reparticion= mysqli_fetch_array($consultrepa);
 						
-						
+						#SE VISUALIZA EN HTML Y SE AGREGA LA CAVBECERA DE LA TABLA
 						echo "
 						<h1 id='titulo'>REPORTE DE $perif POR AREA: $tit</h1>
                         <hr style='display: block;'>
@@ -184,6 +192,7 @@ $row = $resultado->fetch_assoc();
 								<!--<th class='cabecera' id='cabeceraacc'><p>ACCIÓN</p></th>-->
 							</tr>
 						</thead>";
+						#COINSULTA SQL POARA OBTENER TODOS LOS PERIFERICOS DE EL AREA SELECCIONADA Y POR TIPO 
 						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO		
                         FROM periferico p 
                         LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
@@ -193,6 +202,7 @@ $row = $resultado->fetch_assoc();
 						left join modelo mo on p.ID_MODELO=mo.ID_MODELO
                         WHERE p.TIPOP='$tipo' and p.ID_AREA=$area
                         ORDER BY u.NOMBRE ASC");
+						#SE EXTRAEN TODOS LOS PERIFERICOS
 									while($listar = mysqli_fetch_array($consultar))
 									{
 										echo

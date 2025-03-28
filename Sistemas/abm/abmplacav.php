@@ -15,7 +15,7 @@ $row = $resultado->fetch_assoc();
 <html>
 <head>
 	<title>ABM PLACA DE VIDEO</title><meta charset="utf-8">
-	<link rel="icon" href="../imagenes/logoObrasPúblicas.png">
+	<link rel="icon" href="../imagenes/logoInfraestructura.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -65,7 +65,7 @@ $row = $resultado->fetch_assoc();
 
         <h1>ABM PLACA DE VIDEO</h1>
 		<div id="filtro" class="container-fluid">
-			<form method="POST" action="abmmicro.php">
+			<form method="POST" action="abmplacav.php">
 				<div>
 					<input type="text" style="text-transform:uppercase;" name="buscar"  placeholder="Buscar" class="form-control largo">
 				</div>        

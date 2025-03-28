@@ -15,17 +15,25 @@ $row = $resultado->fetch_assoc();
 <html>
 <head>
 	<title>INVENTARIO MONITORES</title><meta charset="utf-8">
-	<link rel="icon" href="../imagenes/logoObrasPúblicas.png">
+	<link rel="icon" href="../imagenes/logoInfraestructura.png">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymus"></script>
-	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css">
+	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css"><script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
+    <!--BUSCADOR SELECT-->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<!--FIN BUSCADOR SELECT-->
+	<!--Estilo bootstrap para select2-->
+	<link rel="stylesheet" href="/path/to/select2.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 	<style>
-			body{
-			background-color: #edf0f5;
-			}
+        body{
+        background-color: #edf0f5;
+        }
 	</style>
 </head>
 <body>
@@ -35,95 +43,10 @@ $row = $resultado->fetch_assoc();
     if (!isset($_POST["tipo"])){$_POST["tipo"] = '';}
     if (!isset($_POST["orden"])){$_POST["orden"] = '';}
     if (!isset($_POST['marca'])){$_POST['marca'] = '';}
+    if (!isset($_POST["estado"])){$_POST["estado"] = '';}
+    if (!isset($_POST["reparticion"])){$_POST["reparticion"] = '';}
 ?>
-<header class="p-3 mb-3 border-bottom altura">
-    <div class="container-fluid">
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <a href="" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"><div id="foto"></div>
-          <!-- <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use> </svg>-->
-        </a>
-
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 espacio">
-		<li><a href="../carga/cargadeincidentes.php" class="nav-link px-2 link-secondary link destacado">NUEVO INCIDENTE</a>
- 				<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-					<li><a class="dropdown-item" href="../carga/cargarapidaporusuario.php">CARGA RÁPIDA POR USUARIO</a></li>
-	 				<li><hr class="dropdown-divider"></li>
-                	<li><a class="dropdown-item" href="../carga/cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li>
-                </ul>
-			</li>
-			<li><a href="consulta.php" class="nav-link px-2 link-dark link">CONSULTA</a>
-                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="consulta.php">CONSULTA DE INCIDENTES</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="consultausuario.php">CONSULTA DE USUARIOS</a></li>
-					<li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="consultaaltas.php">CONSULTA PARA ALTAS</a></li>
-                </ul>
-            </li>
-            <li><a href="inventario.php" class="nav-link px-2 link-dark link" style="border-left: 5px solid #53AAE0;">INVENTARIO</a>
-                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="inventario.php">EQUIPOS</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="impresoras.php">IMPRESORAS</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="monitores.php">MONITORES</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="otrosp.php">OTROS PERIFÉRICOS</a></li>
-                </ul>
-            </li>
-            <li><a href="#" class="nav-link px-2 link-dark link">GESTIÓN</a>
-                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                    <li><a href="../abm/abm.php" class="dropdown-item">ABM</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a href="../reportes/tiporeporte.php" class="dropdown-item">REPORTES</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <?php if($row['ID_PERFIL'] == 1 OR $row['ID_PERFIL'] == 2){
-                                echo'
-                                <li><a href="../particular/estadisticas.php" class="dropdown-item">ESTADISTICAS</a></li>
-                            ';
-                            } 
-                            ?>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a href="../stock/stock.php" class="dropdown-item">STOCK</a></li>
-                </ul>
-            </li>
-			<li><a href="../calen/calen.php" class="nav-link px-2 link-dark link" data-bs-toggle="tooltip" title="Calendario" data-bs-placement="bottom"><i class="bi bi-calendar3"></i></a></li>
-			<li class="ubicacion link"><a href="../particular/bienvenida.php" data-bs-toggle="tooltip" title="Novedades" data-bs-placement="bottom"><i class="bi bi-info-circle"></i></a></li>
-			<li><a href="../Manual.pdf" class="ubicacion link" data-bs-toggle="tooltip" title="Manual" data-bs-placement="bottom"><i class="bi bi-journal"></i></a></li>
-        </ul>
-		<div class="notif" id="notif">
-			<i class="bi bi-bell" id="cant" data-bs-toggle="tooltip" title="Notificaciones" data-bs-placement="bottom">
-			<?php
-			$cant="SELECT count(*) as cantidad FROM ticket WHERE ID_ESTADO = 4;";
-			$result = $datos_base->query($cant);
-			$rowa = $result->fetch_assoc();
-			$cantidad = $rowa['cantidad'];
-
-			/* $fechaActual = date('m'); */
-			if($cantidad > 0){
-				echo $cantidad;
-			}
-			?></i>
-			<script type="text/javascript">
-				var valor = "<?php echo $cantidad; ?>";
-				console.log(valor);
-			</script>
-		</div>
-        <div class="dropdown text-end">
-          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"><h5><i class="bi bi-person rounded-circle"></i><?php echo utf8_decode($row['RESOLUTOR']);?></h5></a>
-          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-			<?php if($row['ID_RESOLUTOR'] == 6)
-			{ echo '
-		  	<li><a class="dropdown-item" href="../particular/agregados.php">CAMBIOS AGREGADOS</a></li>
-            <li><hr class="dropdown-divider"></li>';}?>
-            <li><a class="dropdown-item" href="../particular/contraseña.php">CAMBIAR CONTRASEÑA</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="../particular/salir.php">CERRAR SESIÓN</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </header>
+<?php include('../layout/inventario.php'); ?>
 <section id="consulta">
 		<div id="titulo">
             <h1>INVENTARIO MONITORES</h1>
@@ -136,17 +59,51 @@ $row = $resultado->fetch_assoc();
                         <input type="text" style="text-transform:uppercase;" name="buscar"  placeholder="Buscar" class="form-control largo">
                     </div>
                     <div>
-                        <label class="form-label">Área</label>
-                        <select id="subject-filter" id="area" name="area" class="form-control largo">
+                        <label class="form-label">Repartición</label>
+                        <select id="subject-filter" id="reparticion" name="reparticion" class="form-control largo">
                             <option value="">TODOS</option>
                             <?php 
-                            $consulta= "SELECT * FROM area ORDER BY AREA ASC";
+                            $consulta= "SELECT * FROM reparticion ORDER BY REPA ASC";
                             $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                             ?>
                             <?php foreach ($ejecutar as $opciones): ?> 
-                                <option value="<?php echo $opciones['ID_AREA']?>"><?php echo $opciones['AREA']?></option>
+                                <option value="<?php echo $opciones['ID_REPA']?>"><?php echo $opciones['REPA']?></option>
                                 <?php endforeach ?>
                         </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Área</label>
+                        <select id="buscador_area" name="area" class="form-control largo">
+                            <option value="">TODOS</option>
+                            <?php 
+                            $consulta= "SELECT a.ID_AREA, a.AREA, r.REPA FROM area a inner join reparticion r on a.ID_REPA=r.ID_REPA ORDER BY AREA ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                                <option value="<?php echo $opciones['ID_AREA']?>"><?php echo $opciones['AREA']?> - <?php echo $opciones['REPA']?></option>
+                                <?php endforeach ?>
+                        </select>
+                        <!--BUSCADOR-->
+						<!--Agregar {theme: 'bootstrap4',} dentro de select-->
+						<script>
+							$('#buscador_area').select2({theme: 'bootstrap4',});
+						</script>
+                        <!--BUSCADOR-->
+                        <script>
+							$(document).ready(function(){
+								$('#buscador_area').change(function(){
+									buscador='b='+$('#buscador_area').val();
+									$.ajax({
+										type: 'post',
+										url: 'Controladores/session.php',
+										data: buscador,
+										success: function(r){
+											$('#tabla').load('Componentes/Tabla.php');
+										}
+									})
+								})
+							})
+						</script>
                     </div>
                     <div>
                         <label class="form-label">Orden</label>
@@ -158,6 +115,7 @@ $row = $resultado->fetch_assoc();
                             if ($_POST["orden"] == '2'){echo 'ORDENAR POR AREA';} 
                             if ($_POST["orden"] == '3'){echo 'ORDENAR POR TIPO';}
                             if ($_POST["orden"] == '4'){echo 'ORDENAR POR MARCA';}
+                            if ($_POST["orden"] == '5'){echo 'ORDENAR POR ESTADO';}
                             ?>
                             </option>
                             <?php } ?>
@@ -166,11 +124,9 @@ $row = $resultado->fetch_assoc();
                             <option value="2">ORDENAR POR AREA</option>
                             <option value="3">ORDENAR POR TIPO</option>
                             <option value="4">ORDENAR POR MARCA</option>
+                            <option value="5">ORDENAR POR ESTADO</option>
                         </select>
                     </div>
-                </div>
-                    
-                <div class="filtros-listado">
                     <div>
                         <label class="form-label">Tipo</label>
                         <select id="subject-filter" id="tipo" name="tipo" class="form-control largo">
@@ -197,10 +153,26 @@ $row = $resultado->fetch_assoc();
                                 <?php endforeach ?>
                         </select>
                     </div>
-                    <div class="export">
-                        <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
+                    <div>
+                        <label class="form-label">Estado</label>
+                        <select id="subject-filter" id="estado" name="estado" class="form-control largo">
+                            <option value="">TODOS</option>
+                            <?php 
+                            $consulta= "SELECT * FROM estado_ws ORDER BY ESTADO ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                                <option value="<?php echo $opciones['ID_ESTADOWS']?>"><?php echo $opciones['ESTADO']?></option>
+                                <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div class="export" style="display:flex;justify-content: flex-end;">
                         <input type="submit" class="btn btn-success" name="busqueda" value="Buscar">
                     </div>
+                </div>
+                    
+                <div class="filtros-listadoParalelo" style="margin-right:20px; margin-top:-60px;">
+                        <div style="display:flex;justify-content: flex-end;">Exportar a:<button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button></div>
                 </div>
             </div>
         <?php 
@@ -208,22 +180,26 @@ $row = $resultado->fetch_assoc();
         if ($_POST['buscar'] == ''){ $_POST['buscar'] = ' ';}
         $aKeyword = explode(" ", $_POST['buscar']);
 
-        if ($_POST["buscar"] == '' AND $_POST['ID_TIPOP'] == '' AND $_POST['ID_AREA'] == '' AND $_POST['ID_MARCA'] == ''){ 
-                $query ="SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, a.AREA
+        if ($_POST["buscar"] == '' AND $_POST['ID_TIPOP'] == '' AND $_POST['ID_REPA'] == '' AND $_POST['ID_AREA'] == '' AND $_POST['ID_MARCA'] == '' AND $_POST['ID_ESTADOWS'] == ''){ 
+                $query ="SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, a.AREA, e.ESTADO, r.REPA			
                 FROM periferico p
                 LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
                 LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO
                 LEFT JOIN area AS a ON  a.ID_AREA = p.ID_AREA
                 INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
-                INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA ";
+                LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS
+                INNER JOIN reparticion r on a.ID_REPA=r.ID_REPA  
+                INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA ";
         }elseif(isset($_POST['busqueda'])){
-                $query = "SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, a.AREA
+                $query = "SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, a.AREA, e.ESTADO, r.REPA			
                 FROM periferico p
                 LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
                 LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO
                 LEFT JOIN area AS a ON  a.ID_AREA = p.ID_AREA
                 INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
-                INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA ";
+                LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS
+                INNER JOIN reparticion r on a.ID_REPA=r.ID_REPA  
+                INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA ";
 
                 if ($_POST["buscar"] != '' ){ 
                         $query .= " WHERE p.TIPOP = 'MONITOR' AND (u.NOMBRE LIKE LOWER('%".$aKeyword[0]."%') OR mo.MODELO LIKE LOWER('%".$aKeyword[0]."%')) ";
@@ -235,7 +211,10 @@ $row = $resultado->fetch_assoc();
                     }
 
                 }
-            
+        
+        if ($_POST["reparticion"] != '' ){
+            $query .= " AND r.ID_REPA = '".$_POST["reparticion"]."' ";
+        }    
         if ($_POST["marca"] != '' ){
             $query .= " AND p.ID_MARCA = '".$_POST["marca"]."' ";
         }
@@ -244,6 +223,9 @@ $row = $resultado->fetch_assoc();
         }
         if ($_POST["tipo"] != '' ){
             $query .= " AND t.ID_TIPOP = '".$_POST["tipo"]."' ";
+        }
+        if ($_POST["estado"] != '' ){
+            $query .= " AND e.ID_ESTADOWS = '".$_POST["estado"]."' ";
         }
 
 
@@ -261,15 +243,20 @@ $row = $resultado->fetch_assoc();
          if ($_POST["orden"] == '4' ){
                 $query .= " ORDER BY m.MARCA ASC ";
         }
+        if ($_POST["orden"] == '5' ){
+            $query .= "  ORDER BY e.ESTADO ASC ";
+        }
 
 }else{
-    $query ="SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, a.AREA
+    $query ="SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, a.AREA, e.ESTADO, r.REPA		
     FROM periferico p
     LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
     LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO
     LEFT JOIN area AS a ON  a.ID_AREA = p.ID_AREA
     INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
-    INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA
+    LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS
+    INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA
+    INNER JOIN reparticion r on a.ID_REPA=r.ID_REPA
     WHERE p.TIPOP = 'MONITOR'";
 }
 
@@ -284,7 +271,7 @@ $row = $resultado->fetch_assoc();
         </div> -->
     </form>
     <?php 
-        if($_POST["buscar"] == ' ' AND $_POST['marca'] == '' AND $_POST['area'] == '' AND $_POST['tipo'] == ''){;
+        if($_POST["buscar"] == ' ' AND $_POST['marca'] == '' AND $_POST['reparticion'] == '' AND $_POST['area'] == '' AND $_POST['tipo'] == '' AND $_POST['estado'] == ''){;
         ?>
     <div class="principal-info">
             <?php 
@@ -350,8 +337,10 @@ $row = $resultado->fetch_assoc();
                 <th><p style="text-align:left; margin-left: 5px;">MONITOR</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">USUARIO</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">ÁREA</p></th>
+                <th><p style="text-align:left; margin-left: 5px;">REPARTICIÓN</p></th>
                 <th><p>TIPO</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">MARCA</p></th>
+                <th><p style="text-align:left;margin-left:5px;">ESTADO</p></th>
                 <th><p>MAS DETALLES</p></th>
             </tr>
         </thead>
@@ -359,21 +348,44 @@ $row = $resultado->fetch_assoc();
         <?php $cantidadTotal = 0;?>
         <?php While($rowSql = $sql->fetch_assoc()) {
             $cantidadTotal++;
+
+            $estado = $rowSql['ESTADO']; // Este valor lo obtienes de tu lógica o de una variable
+            $color = '';
+
+            if ($estado === "EN USO") {
+                $color = "green";  // Si el estado es "solucionado", el color será verde
+            } elseif ($estado === "BAJA") {
+                $color = "red";  // Si el estado es "anulado" o "suspendido", el color será rojo
+            } elseif ($estado === "S/A - STOCK") {
+                $color = "blue";  // Si el estado es "derivado" o "en proceso", el color será azul
+            }
             echo "
                 <tr>
                     <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['MODELO']."</h4></td>
                     <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['NOMBRE']."</h4></td>
                     <td><h4 class='wrap2' style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['AREA']."</h4></td>
+                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['REPA']."</h4></td>
                     <td><h4 class='wrap2' style='font-size:14px; text-align: center;'>".$rowSql['TIPO']."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;;'>".$rowSql['MARCA']."</h4></td>
-                    <td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=consultadetallemon.php?no=".$rowSql['ID_PERI']." target=new class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
-                    <path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
-                    <path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
-                    </svg></a>
+                    <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['MARCA']."</h4></td>
+                    <td><h4 class='wrap2' style='font-size:14px; text-align: left;margin-left: 5px;color: ".$color."'>".$rowSql['ESTADO']."</h4></td>
+
+
+                    <td class='text-center text-nowrap'>
+                        <a class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#modalInfo' 
+                            onclick='cargar_informacion(" . $rowSql['ID_PERI'] . ", \"Info\")' 
+                            target='_blank' class='mod'>
+                            Info
+                        </a>
+                        <a class='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalMovi' 
+                            onclick='cargar_informacion(" . $rowSql['ID_PERI'] . ", \"Movimientos\")' 
+                            target='_blank' class='mod'>
+                            Mov. Info
+                        </a>
+                    </td>
                 </tr>
             ";
         }
-        if($_POST['buscar'] != "" AND $_POST['buscar'] != " " OR $_POST['area'] != "" OR $_POST['tipo'] != "" OR $_POST['marca'] != ""){
+        if($_POST['buscar'] != "" AND $_POST['buscar'] != " " OR $_POST['area'] != "" OR $_POST['reparticion'] != "" OR $_POST['tipo'] != "" OR $_POST['marca'] != "" OR $_POST['estado'] != ""){
             echo "
             <div class=filtrado>
             <h2>Filtrado por:</h2>
@@ -388,6 +400,13 @@ $row = $resultado->fetch_assoc();
                         $area = $row['AREA'];
                         echo "<li><u>ÁREA</u>: ".$area."</li>";
                     }
+                    if($_POST['reparticion'] != ""){
+                        $sql = "SELECT REPA FROM reparticion WHERE ID_REPA = $_POST[reparticion]";
+                        $resultado = $datos_base->query($sql);
+                        $row = $resultado->fetch_assoc();
+                        $repa = $row['REPA'];
+                        echo "<li><u>REPARTICIÓN</u>: ".$repa."</li>";
+                    }
                     if($_POST['tipo'] != ""){
                         $sql = "SELECT TIPO FROM tipop WHERE ID_TIPOP = $_POST[tipo]";
                         $resultado = $datos_base->query($sql);
@@ -401,6 +420,13 @@ $row = $resultado->fetch_assoc();
                         $row = $resultado->fetch_assoc();
                         $marca = $row['MARCA'];
                         echo "<li><u>MARCA</u>: ".$marca."</li>";
+                    }
+                    if($_POST['estado'] != ""){
+                        $sql = "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = $_POST[estado]";
+                        $resultado = $datos_base->query($sql);
+                        $row = $resultado->fetch_assoc();
+                        $estadows = $row['ESTADO'];
+                        echo "<li><u>ESTADO</u>: ".$estadows."</li>";
                     }
                     echo"
                 </ul>
@@ -417,6 +443,191 @@ $row = $resultado->fetch_assoc();
         </form>
 	</section>
 	<footer></footer>
+
+    <!-- MODALES -->
+    <div class="modal fade modal--usu" id="modalInfo" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">INFORMACIÓN</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="contenidoInfo" style="display:flex;flex-direction:column;gap:10px;">
+                    </div>
+                </div>
+                <div id="resultado" class="resultado">
+                </div>
+                <div class="modal-footer" id="no-imprimir">
+                    <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()"><i class='bi bi-printer' style="color:white;"></i></button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade modal--usu" id="modalMovi" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">MOVIMIENTOS</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="contenidoMovimiento" style="display:flex;flex-direction:column;gap:10px;">
+                    </div>
+                </div>
+                <div id="resultado" class="resultado">
+                </div>
+                <div class="modal-footer" id="no-imprimir">
+                    <button id="botonright" type="button" class="btn btn-success" onClick="imprimir2()" ><i class='bi bi-printer' style="color:white;"></i></button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function cargar_informacion(id_peri, tipoConsulta) {
+            var parametros = {
+                "idPeri": id_peri,
+                "tipoConsulta": tipoConsulta // Nuevo parámetro para diferenciar la consulta
+            };
+
+            $.ajax({
+                data: parametros,
+                url: "./consultarDatosMonitor.php",
+                type: "POST",
+                beforeSend: function () {
+                    if (tipoConsulta === 'Info') {
+                        $("#contenidoInfo").html("Cargando información...");
+                    } if (tipoConsulta === 'Movimientos') {
+                        $("#contenidoMovimiento").html("Cargando información...");
+                    }
+                },
+                success: function (mensaje) {
+                    if (tipoConsulta === 'Info') {
+                        $("#contenidoInfo").html(mensaje);
+                    } if (tipoConsulta === 'Movimientos') {
+                        $("#contenidoMovimiento").html(mensaje);
+                    }
+                }
+            });
+        }
+
+    function imprimir() {
+    // Guardar el estado original de los elementos
+    var contenidoOriginal = document.body.innerHTML;
+    
+    // Obtener solo el contenido del primer modal
+    var contenidoModal = document.getElementById('modalInfo').innerHTML;
+
+    // Obtener los estilos de la página original
+    var estilos = '';
+    var head = document.head;
+    for (var i = 0; i < head.children.length; i++) {
+        var child = head.children[i];
+        if (child.tagName.toLowerCase() === 'style' || child.tagName.toLowerCase() === 'link') {
+            estilos += child.outerHTML;
+        }
+    }
+
+    // Ocultar todo el contenido de la página
+    document.body.style.visibility = 'hidden';
+
+    // Crear una nueva ventana para la impresión
+    var ventanaImpresion = window.open('', '', 'height=800,width=600');
+
+    // Escribir el contenido del modal y los estilos en la ventana de impresión
+    ventanaImpresion.document.write('<html><head><title>Imprimir Modal</title>' + estilos + '</head><body>');
+    ventanaImpresion.document.write('<style>@media print { #no-imprimir { display: none !important; } }</style>');  // Aseguramos que se oculte el #no-imprimir
+    ventanaImpresion.document.write('<div style="width:100%;">' + contenidoModal + '</div>');
+    ventanaImpresion.document.write('</body></html>');
+
+    // Esperar a que la ventana cargue antes de imprimir
+    ventanaImpresion.document.close();
+    ventanaImpresion.print();
+
+    // Restaurar la visibilidad de la página original
+    document.body.style.visibility = 'visible';
+}
+
+function imprimir2() {
+    // Guardar el estado original de los elementos
+    var contenidoOriginal = document.body.innerHTML;
+    
+    // Obtener solo el contenido del segundo modal o la parte que deseas imprimir
+    var contenidoModal2 = document.getElementById('modalMovi').innerHTML;
+
+    // Obtener los estilos de la página original
+    var estilos = '';
+    var head = document.head;
+    for (var i = 0; i < head.children.length; i++) {
+        var child = head.children[i];
+        if (child.tagName.toLowerCase() === 'style' || child.tagName.toLowerCase() === 'link') {
+            estilos += child.outerHTML;
+        }
+    }
+
+    // Ocultar todo el contenido de la página
+    document.body.style.visibility = 'hidden';
+
+    // Crear una nueva ventana para la impresión
+    var ventanaImpresion2 = window.open('', '', 'height=800,width=600');
+
+    // Escribir el contenido del segundo modal y los estilos en la ventana de impresión
+    ventanaImpresion2.document.write('<html><head><title>Imprimir Otro Modal</title>' + estilos + '</head><body>');
+    ventanaImpresion2.document.write('<style>@media print { #no-imprimir { display: none !important; } }</style>');  // Aseguramos que se oculte el #no-imprimir
+    ventanaImpresion2.document.write('<div style="width:100%;">' + contenidoModal2 + '</div>');
+    ventanaImpresion2.document.write('</body></html>');
+
+    // Esperar a que la ventana cargue antes de imprimir
+    ventanaImpresion2.document.close();
+    ventanaImpresion2.print();
+
+    // Restaurar la visibilidad de la página original
+    document.body.style.visibility = 'visible';
+}
+
+
+
+    </script>
+
+    <style>
+@media print {
+    body * {
+        visibility: hidden; /* Oculta todo el contenido de la página */
+    }
+
+    #no-imprimir {
+        display: none;
+    }
+
+    .modal, .modal * {
+        visibility: visible !important; /* Muestra solo los modales */
+        color: black !important; /* Asegura que el texto sea negro */
+        text-shadow: none !important; /* Elimina las sombras de texto */
+        background: none !important; /* Elimina los fondos degradados */
+        box-shadow: none !important; /* Elimina cualquier sombra */
+    }
+
+    .modal-backdrop {
+        display: none !important; /* Oculta el fondo del modal */
+    }
+
+    .modal-body, .modal-header, .modal-footer {
+        color: black !important; /* Texto negro */
+        background: none !important; /* Fondo sin degradado */
+        text-shadow: none !important; /* Elimina sombras de texto */
+    }
+}
+
+
+
+    </style>
+
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script>
   		AOS.init();
@@ -427,6 +638,6 @@ $row = $resultado->fetch_assoc();
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 	</script>
-	<script src="../js/script.js"></script>
+	
 </body>
 </html>

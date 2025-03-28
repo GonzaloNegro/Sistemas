@@ -141,6 +141,16 @@ footer{
 }
 
 #logogob 	img{
-  width: auto;
-  height: 100%;
+  width: 300px;
+  height: 80px;
+}
+
+.enlaces{
+	color: #f7fbfd;
+}
+
+#resetpwd{
+	margin-top: 10px;
+	margin-left: 28%;
+	margin-right: auto;
 }

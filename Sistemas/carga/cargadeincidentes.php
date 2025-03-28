@@ -16,7 +16,7 @@ $row = $resultado->fetch_assoc();
 <head>
 	<title>CARGA DE INCIDENTES</title>
 	<meta charset="utf-8">
-	<link rel="icon" href="../imagenes/logoObrasPúblicas.png">
+	<link rel="icon" href="../imagenes/logoInfraestructura.png">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link rel="stylesheet" href="../jquery/1/jquery-ui.min.css">
@@ -53,16 +53,23 @@ $row = $resultado->fetch_assoc();
 	$(document).ready(function(){
     $("#slctestado").change(function(){
         
-		
+		function limpiar(){
+			$("#txtaDerivacion").val('');
+			$("#txtfechafin").val('');
+			$("#slctResoDer").val('');
+		};
 
 		if ($("#slctestado").val() == '3') {
+			limpiar();
 			$("#txtaDerivacion").show(1300);
 		    $("#resoderi").show(1300);
 		    $("#slctResoDer").show(1300);
 			$("#txtfechafin").hide(1000);
 			$("#lblfechaFin").hide(1000);
+			
 		}
 		if ($("#slctestado").val() == '1' || $("#slctestado").val() == '2' || $("#slctestado").val() == '5') {
+			limpiar();
 			$("#txtaDerivacion").show(1300);
 			$("#txtfechafin").show(1300);
 			$("#lblfechaFin").show(1300);
@@ -70,6 +77,7 @@ $row = $resultado->fetch_assoc();
 
 		
 		if($("#slctestado").val() == '4'){
+			limpiar();
 			$("#txtaDerivacion").hide(1000);
 		    $("#resoderi").hide(1000);
 		    $("#slctResoDer").hide(1000);
@@ -102,7 +110,7 @@ $row = $resultado->fetch_assoc();
 						);
 			}	
 			</script>
-			<script>
+			<!-- <script>
 				function alerta(campo) { 
 				alert("Por favor, completa el campo "+campo) 
 				}
@@ -148,8 +156,248 @@ $row = $resultado->fetch_assoc();
 						
 									form.submit()
 						}
-			</script>
-<!--Select dinamico-->
+			</script> -->
+			<script>
+        function validar_formulario(){
+			var resolutor = $('#slctResoDer').val();
+			var estado = $('#slctestado').val();
+        	var fechasolucion = $('#txtfechafin').val();
+			var motivo = $('#txtaDerivacion').val();
+			
+
+        	var fieldsToValidate = [
+                    {
+                        selector: "#txtfechainicio",
+                        errorMessage: "No ingresó fecha de inicio."
+                    },
+                    {
+                        selector: "#buscador",
+                        errorMessage: "No seleccionó usuario."
+                    },
+                    {
+                        selector: "#prioridad",
+                        errorMessage: "No seleccionó prioridad."
+                    },
+                    {
+                        selector: "#tip",
+                        errorMessage: "No seleccionó tipificación."
+                    },
+                    {
+                        selector: "#descripcion",
+                        errorMessage: "No ingresó Descripción."
+                    },
+                    {
+                        selector: "#slctestado",
+                        errorMessage: "No seleccionó estado."
+                    }
+                ];
+
+                var isValid = true;
+				// Se recorre todos los campos cuyos nombres estan en el array de arriba
+				$.each(fieldsToValidate, function(index, field) {
+                    var element = $(field.selector);
+                    if (element.val()== "" || element.val()== null) {
+                      Swal.fire({
+                      title: field.errorMessage,
+                      icon: "warning",
+                      showConfirmButton: true,
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Aceptar',
+                      cancelButtonText: "Cancelar",
+                      customClass:{
+                      actions: 'reverse-button'
+                        }
+                      })
+                        isValid = false;
+                        return false;
+                    }
+                });
+				isValidEstado=true;
+				//Validaciones de los campos que aparecen si se cambia de estado. 
+				if(estado == "1" || estado == "2"  || estado == "5"){
+					if (fechasolucion ==""){
+								Swal.fire({
+            						title: "Por favor seleccione la fecha de solución.",
+            						icon: "warning",
+            						showConfirmButton: true,
+            						showCancelButton: false,
+            						confirmButtonColor: '#3085d6',
+            						cancelButtonColor: '#d33',
+            						confirmButtonText: 'Aceptar',
+            						cancelButtonText: "Cancelar",
+            						customClass:{
+                					actions: 'reverse-button'
+            						}
+									})
+									isValidEstado=false; }
+					if (motivo ==""){
+								Swal.fire({
+            						title: "Por favor seleccione el motivo.",
+            						icon: "warning",
+            						showConfirmButton: true,
+            						showCancelButton: false,
+            						confirmButtonColor: '#3085d6',
+            						cancelButtonColor: '#d33',
+            						confirmButtonText: 'Aceptar',
+            						cancelButtonText: "Cancelar",
+            						customClass:{
+                					actions: 'reverse-button'
+            						}
+									}) 
+									isValidEstado=false;}
+				}
+				if(estado == "3"){
+									if(resolutor =="" ||resolutor ==null ){
+										Swal.fire({
+            							title: "Por favor seleccione el Resolutor Derivado",
+            							icon: "warning",
+            							showConfirmButton: true,
+            							showCancelButton: false,
+            							confirmButtonColor: '#3085d6',
+            							cancelButtonColor: '#d33',
+            							confirmButtonText: 'Aceptar',
+            							cancelButtonText: "Cancelar",
+            							customClass:{
+                						actions: 'reverse-button'
+            							}
+										})
+										
+										isValidEstado=false;}
+									if (motivo ==""){
+										Swal.fire({
+            							title: "Por favor seleccione el motivo.",
+            							icon: "warning",
+            							showConfirmButton: true,
+            							showCancelButton: false,
+            							confirmButtonColor: '#3085d6',
+            							cancelButtonColor: '#d33',
+            							confirmButtonText: 'Aceptar',
+            							cancelButtonText: "Cancelar",
+            							customClass:{
+                						actions: 'reverse-button'
+            							}
+									})
+									isValidEstado=false;}
+									
+									 }
+							if (isValid ==true && isValidEstado==true) {
+								
+								return true;
+							}
+							else{
+								return false;
+							}
+		};
+		function validar_fechas(){
+			//Obtenemos los valores de fecha de inicio y de solucion
+			var fecha_ini=$('#txtfechainicio').val();
+			var fecha_solucion=$('#txtfechafin').val();
+			//Obtenemos el estado
+			var estado=$('#slctestado').val();
+			var isValid=true;
+			
+			//Se obtiene la fecha actual y el año
+			var hoy = new Date();
+            var fechaActual = hoy.toISOString().split("T")[0];
+            var añoActual = hoy.getFullYear();
+			var añoIngresado = new Date(fecha_ini).getFullYear();
+
+			//Validacion de fecha igual o menor a la actual y que sea en el año actual
+			if (fecha_ini > fechaActual || añoActual < añoIngresado) {
+                    Swal.fire({
+            			title: "La fecha de inicio debe ser hoy o una fecha anterior.",
+            			icon: "warning",
+        				showConfirmButton: true,
+        				showCancelButton: false,
+            			confirmButtonColor: '#3085d6',
+            			cancelButtonColor: '#d33',
+            			confirmButtonText: 'Aceptar',
+            			cancelButtonText: "Cancelar",
+            			customClass:{
+                			actions: 'reverse-button'
+            				}
+						})
+					var isValid=false;
+                }
+			//Validar que el estado no sea En Proceso o Derivado para asi controlar la fecha de solucion. Si no es ninguno de estos ndos estados, se procede con los controles
+			if (estado != 3 && estado != 4) {
+				//Valida que la fecha sea mayor o igual a la fecha de inicio
+				if (fecha_solucion<fecha_ini) {
+					Swal.fire({
+            			title: "La fecha de solucion debe ser mayor o igual a la fecha de inicio.",
+            			icon: "warning",
+        				showConfirmButton: true,
+        				showCancelButton: false,
+            			confirmButtonColor: '#3085d6',
+            			cancelButtonColor: '#d33',
+            			confirmButtonText: 'Aceptar',
+            			cancelButtonText: "Cancelar",
+            			customClass:{
+                			actions: 'reverse-button'
+            				}
+						})
+					var isValid=false;
+				}
+				//Valida qe la fecha de solucion sea igual o menor a la fecha de hoy
+				if (fecha_solucion>fechaActual) {
+					Swal.fire({
+            			title: "La fecha de solucion no debe superar a la fecha actual.",
+            			icon: "warning",
+        				showConfirmButton: true,
+        				showCancelButton: false,
+            			confirmButtonColor: '#3085d6',
+            			cancelButtonColor: '#d33',
+            			confirmButtonText: 'Aceptar',
+            			cancelButtonText: "Cancelar",
+            			customClass:{
+                			actions: 'reverse-button'
+            				}
+						})
+					var isValid=false;
+				}
+			}
+			
+			if (isValid==true) {
+				return true;
+			}
+			else{
+				return false;
+			}
+		};
+		function enviar_formulario(formulario){
+			// var formulario = document.getElementById('formulario_carga');
+        	if (validar_formulario() && validar_fechas()
+			) {
+				// alert("Todo OK");
+				Swal.fire({
+                        title: "Esta seguro de guardar este incidente?",
+                        icon: "warning",
+                        showConfirmButton: true,
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonText: "Cancelar",
+                        customClass:{
+                            actions: 'reverse-button'
+                        }
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            formulario.submit()
+
+
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
+			}
+		}
+				
+		</script>
+<!--Select dinamico para actualizar el select de equipo a partir del usuario seleccionado-->
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#buscador').val(1);
@@ -172,96 +420,7 @@ $row = $resultado->fetch_assoc();
 		});
 	}
 </script>
-
-<header class="p-3 mb-3 border-bottom altura">
-    <div class="container-fluid">
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <a class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"><div id="foto"></div>
-          <!-- <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use> </svg>-->
-        </a>
-
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="cargadeincidentes.php" class="nav-link px-2 link-secondary link destacado" 
-			style="border-left: 5px solid #53AAE0;">NUEVO INCIDENTE</a>
- 				<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-					<li><a class="dropdown-item" href="cargarapidaporusuario.php">CARGA RÁPIDA POR USUARIO</a></li>
-  					<li><hr class="dropdown-divider"></li>
-                	<li><a class="dropdown-item" href="cargarapidaportipificacion.php">CARGA RÁPIDA POR TIPIFICACIÓN</a></li>
-                </ul>
-			</li>
-            <li><a href="../consulta/consulta.php" class="nav-link px-2 link-dark link">CONSULTA</a>
-                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="../consulta/consulta.php">CONSULTA DE INCIDENTES</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="../consulta/consultausuario.php">CONSULTA DE USUARIOS</a></li>
-					<li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="../consulta/consultaaltas.php">CONSULTA PARA ALTAS</a></li>
-                </ul>
-            </li>
-            <li><a href="../consulta/inventario.php" class="nav-link px-2 link-dark link">INVENTARIO</a>
-                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="../consulta/inventario.php">EQUIPOS</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="../consulta/impresoras.php">IMPRESORAS</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="../consulta/monitores.php">MONITORES</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="../consulta/otrosp.php">OTROS PERIFÉRICOS</a></li>
-                </ul>
-            </li>
-            <li><a href="#" class="nav-link px-2 link-dark link">GESTIÓN</a>
-                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                    <li><a href="../abm/abm.php" class="dropdown-item">ABM</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a href="../reportes/tiporeporte.php" class="dropdown-item">REPORTES</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <?php if($row['ID_PERFIL'] == 1 OR $row['ID_PERFIL'] == 2){
-                                echo'
-                                <li><a href="../particular/estadisticas.php" class="dropdown-item">ESTADISTICAS</a></li>
-                            ';
-                            } 
-                            ?>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a href="../stock/stock.php" class="dropdown-item">STOCK</a></li>
-                </ul>
-            </li>
-			<li><a href="../calen/calen.php" class="nav-link px-2 link-dark link" data-bs-toggle="tooltip" title="Calendario" data-bs-placement="bottom"><i class="bi bi-calendar3"></i></a></li>
-			<li class="ubicacion link"><a href="../particular/bienvenida.php" data-bs-toggle="tooltip" title="Novedades" data-bs-placement="bottom"><i class="bi bi-info-circle"></i></a></li>
-			<li><a href="../Manual.pdf" class="ubicacion link" data-bs-toggle="tooltip" title="Manual" data-bs-placement="bottom"><i class="bi bi-journal"></i></a></li>
-        </ul>
-		<div class="notif" id="notif">
-			<i class="bi bi-bell" id="cant" data-bs-toggle="tooltip" title="Notificaciones" data-bs-placement="bottom">
-			<?php
-			$cant="SELECT count(*) as cantidad FROM ticket WHERE ID_ESTADO = 4;";
-			$result = $datos_base->query($cant);
-			$rowa = $result->fetch_assoc();
-			$cantidad = $rowa['cantidad'];
-
-			/* $fechaActual = date('m'); */
-			if($cantidad > 0){
-				echo $cantidad;
-			}
-			?></i>
-			<script type="text/javascript">
-				var valor = "<?php echo $cantidad; ?>";
-				console.log(valor);
-			</script>
-		</div>
-        <div class="dropdown text-end">
-          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"><h5><i class="bi bi-person rounded-circle"></i><?php echo utf8_decode($row['RESOLUTOR']);?></h5></a>
-          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-		  <?php if($row['ID_RESOLUTOR'] == 6)
-		  { echo '
-		  	<li><a class="dropdown-item" href="../particular/agregados.php">CAMBIOS AGREGADOS</a></li>
-            <li><hr class="dropdown-divider"></li>';}?>
-            <li><a class="dropdown-item" href="../particular/contraseña.php">CAMBIAR CONTRASEÑA</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="../particular/salir.php">CERRAR SESIÓN</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </header>
+<?php include('../layout/incidente.php'); ?>
 	<section id="Inicio" class="container-fluid">
 		<div id="titulo" style="margin-top:20px; margin-bottom:20px;" data-aos="zoom-in">
 			<h1>CARGA DE INCIDENTES</h1>
@@ -325,7 +484,7 @@ $row = $resultado->fetch_assoc();
                                 <!--////-->
 								<div class="form-group row" style="margin: 10px; padding:10px;">
 								<label class="col-form-label col-xl col-lg">PRIORIDAD: </label>
-									<select name="prioridad" class="form-control col-xl col-lg" required>
+									<select name="prioridad" id="prioridad" class="form-control col-xl col-lg" required>
 										<option value="" selected disabled="prioridad">-SELECCIONE UNA-</option>
 										<?php
 										include("../particular/conexion.php");
@@ -378,7 +537,7 @@ $row = $resultado->fetch_assoc();
 														<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
 							<div class="form-group row" style="margin: 10px; padding:10px;">
-								<textarea name="descripcion" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE" rows="3" required></textarea>
+								<textarea name="descripcion" id="descripcion" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE" rows="3" required></textarea>
 							</div>
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
@@ -387,7 +546,7 @@ $row = $resultado->fetch_assoc();
 								<input type="date" name="fecha_solucion" id="txtfechafin" style="display:none;"class="form-control col-xl derecha">
 							<label class="col-form-label col-xl">ESTADO INCIDENTE: </label>
 							<select id="slctestado" name="estado" required class="form-control col-xl derecha" >
-								<option value='0' selected disabled="estado">-SELECCIONE UNA-</option>
+								<option value='' selected disabled="estado">-SELECCIONE UNA-</option>
 								<?php
 								include("../particular/conexion.php");
 								$consulta= "SELECT * FROM estado ORDER BY ESTADO ASC";
@@ -405,7 +564,7 @@ $row = $resultado->fetch_assoc();
 							<!--//////////////////////////////////////////////////////////////////-->
 							<label class="col-form-label col-xl" id="resoderi" style="display: none;">RESOLUTOR DERIVADO: </label>
 							<select name="derivado" id="slctResoDer" style="display: none;" class="form-control col-xl derecha">
-								<option value="0" selected disabled="derivado">-SELECCIONE UNA-</option>
+								<option value="" selected disabled="derivado">-SELECCIONE UNA-</option>
 								<?php
 								include("../particular/conexion.php");
 								$consulta= "SELECT * FROM resolutor ORDER BY RESOLUTOR ASC";
@@ -426,7 +585,13 @@ $row = $resultado->fetch_assoc();
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
 							<div class="row justify-content-end" style="margin: 10px; padding:10px;">
-							<input id="btnform" type="button" value="GUARDAR" onClick="validar_formulario(this.form)"  name="g1" class="col-2 button">
+							<!-- <input id="btnform" type="button" value="GUARDAR" onClick="validar_formulario(this.form)"  name="g1" class="col-2 button"> -->
+							<?php 
+								if ($row['ID_PERFIL'] != 5) {
+								echo '<input id="btnform" type="button" value="GUARDAR" onClick="enviar_formulario(this.form)"  name="g1" class="col-2 button">';
+								}
+							?>
+							
 							</div>
 							
 					</form>
@@ -444,7 +609,7 @@ $row = $resultado->fetch_assoc();
 		<div class="footer">
 			<div class="container-fluid">
 				<div class="row">
-					<img src="../imagenes/logoGobierno.png" class="img-fluid">
+					<img src="../imagenes/cba-logo.png" class="img-fluid">
 				</div>
 			</div>
 		</div>
@@ -459,6 +624,6 @@ $row = $resultado->fetch_assoc();
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 	</script>
-	<script src="../js/script.js"></script>
+	
 </body>
 </html>

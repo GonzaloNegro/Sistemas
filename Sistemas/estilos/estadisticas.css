@@ -189,12 +189,12 @@ h4 {
 }
 
 #foto{
-  width: 100px;
+  width: 160px;
   height: 80px;
 
-  background-image: url("../imagenes/logoObrasPúblicas.png");
+  background-image: url("../imagenes/logoInfraestructura.png");
   background-repeat: no-repeat;
-  background-size: 140%;
+  background-size: 100%;
 cursor: default;
 }
 

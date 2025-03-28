@@ -15,12 +15,15 @@ $row = $resultado->fetch_assoc();
 <html>
 <head>
 	<title>AGREGAR TIPIFICACIÓN</title><meta charset="utf-8">
-	<link rel="icon" href="../imagenes/logoObrasPúblicas.png">
+	<link rel="icon" href="../imagenes/logoInfraestructura.png">
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
+	<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<style>
 			body{
 			background-color: #edf0f5;
@@ -30,31 +33,133 @@ $row = $resultado->fetch_assoc();
 <body>
 <script type="text/javascript">
 			function ok(){
-				swal(  {title: "Tipificacion cargada correctamente",
-						icon: "success",
-						showConfirmButton: true,
-						showCancelButton: false,
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='abmtipificacion.php';
-						}
-						}
-						);
+				// swal(  {title: "Tipificacion cargada correctamente",
+				// 		icon: "success",
+				// 		showConfirmButton: true,
+				// 		showCancelButton: false,
+				// 		})
+				// 		.then((confirmar) => {
+				// 		if (confirmar) {
+				// 			window.location.href='abmtipificacion.php';
+				// 		}
+				// 		}
+				// 		);
+
+						Swal.fire({
+                        title: "Tipificacion cargada correctamente",
+                        icon: "success",
+                        showConfirmButton: true,
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonText: "Cancelar",
+                        customClass:{
+                            actions: 'reverse-button'
+                        }
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href='abmtipificacion.php';
+
+
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
 			}	
 			</script>
 <script type="text/javascript">
 			function no(){
-				swal(  {title: "La tipificación ya está registrada",
-						icon: "error",
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='agregartipificacion.php';
-						}
-						}
-						);
+				// swal(  {title: "La tipificación ya está registrada",
+				// 		icon: "error",
+				// 		})
+				// 		.then((confirmar) => {
+				// 		if (confirmar) {
+				// 			window.location.href='agregartipificacion.php';
+				// 		}
+				// 		}
+				// 		);
+				
+				Swal.fire({
+                        title: "La tipificación ya está registrada",
+                        icon: "error",
+                        showConfirmButton: true,
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonText: "Cancelar",
+                        customClass:{
+                            actions: 'reverse-button'
+                        }
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href='agregartipificacion.php';
+
+
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
+				
 			}	
+			</script>
+			<script>
+				function validar(){
+					var tipificacion = $('#tipificacion').val();
+					if (tipificacion == ""|| tipificacion == null) {
+						Swal.fire({
+            						title: "Por favor ingrese la tipificación.",
+            						icon: "warning",
+            						showConfirmButton: true,
+            						showCancelButton: false,
+            						confirmButtonColor: '#3085d6',
+            						cancelButtonColor: '#d33',
+            						confirmButtonText: 'Aceptar',
+            						cancelButtonText: "Cancelar",
+            						customClass:{
+                					actions: 'reverse-button'
+            						}
+									})
+							return false;
+					}
+					else{
+						return true;
+					}
+				}
+			</script>
+			<script>
+				
+				function enviar_formulario(form){
+					 if (validar()) {
+						Swal.fire({
+                        title: "Esta seguro de guardar esta tipificación?",
+                        icon: "warning",
+                        showConfirmButton: true,
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonText: "Cancelar",
+                        customClass:{
+                            actions: 'reverse-button'
+                        }
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit()
+
+
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
+					}
+
+					
+				}
 			</script>
 	<div id="reporteEst">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
@@ -68,10 +173,10 @@ $row = $resultado->fetch_assoc();
 		<div id="principal">
 			<form method="POST" action="guardarmodtipificacion.php">
 				<div class="form--info">
-					<input style="text-transform:uppercase;" class="form-control" type="text" name="tip" placeholder="NOMBRE DE TIPIFICACIÓN" required>
+					<input id="tipificacion" style="text-transform:uppercase;" class="form-control" type="text" name="tip" placeholder="NOMBRE DE TIPIFICACIÓN" required>
 				</div>	
 				<div class="form--info--btn">
-					<input class="btn btn-success" type="submit" value="GUARDAR">
+					<input class="btn btn-success" type="button" onClick="enviar_formulario(this.form)" value="GUARDAR">
 				</div>	
 			</form>
 					<?php

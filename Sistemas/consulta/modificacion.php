@@ -34,7 +34,7 @@ if($consulta[4] != 3 AND $consulta[4] != 4){
 <head>
 	<meta charset="utf-8">
 	<title>MODIFICAR INCIDENTE</title><meta charset="utf-8">
-	<link rel="icon" href="../imagenes/logoObrasPúblicas.png">
+	<link rel="icon" href="../imagenes/logoInfraestructura.png">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -100,7 +100,7 @@ if($consulta[4] != 3 AND $consulta[4] != 4){
 									<option selected value="150"><?php echo $usu?></option>
 									<?php
 									include("../particular/conexion.php");
-									$consulta= "SELECT * FROM usuarios ORDER BY NOMBRE ASC";
+									$consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' ORDER BY NOMBRE ASC";
 									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 									?>
 									<?php foreach ($ejecutar as $opciones): ?> 
@@ -185,10 +185,11 @@ if($consulta[4] != 3 AND $consulta[4] != 4){
 				echo "<table width=100%>
 						<thead>
 							<tr>
-								<th><p>FECHA</p></th>
-								<th><p>RESOLUTOR</p></th>
-								<th><p>ESTADO</p></th>
-								<th><p>MOTIVO</p></th>
+								<th><p style='font-size:16px;text-align: center;'>FECHA</p></th>
+								<th><p style='font-size:16px;text-align: center;'>HORA</p></th>
+								<th><p style='font-size:16px;text-align: left;margin-left:5px;'>RESOLUTOR</p></th>
+								<th><p style='font-size:16px;text-align: left;margin-left:5px;'>ESTADO</p></th>
+								<th><p style='font-size:16px;text-align: left;margin-left:5px;'>MOTIVO</p></th>
 							</tr>
 						</thead>";
 
@@ -201,27 +202,26 @@ if($consulta[4] != 3 AND $consulta[4] != 4){
 						while($listar = mysqli_fetch_array($consulta))
 						{
 							$opcion = $listar['ID_ESTADO'];
-								include("../particular/conexion.php");
 								$sent= "SELECT ESTADO FROM estado WHERE ID_ESTADO = $opcion";
 								$resultado = $datos_base->query($sent);
 								$row = $resultado->fetch_assoc();
 								$est = $row['ESTADO'];
-								?>
-								<?php 
+								
 								$opcion = $listar['ID_RESOLUTOR'];
-								include("../particular/conexion.php");
 								$sent= "SELECT RESOLUTOR FROM resolutor WHERE ID_RESOLUTOR = $opcion";
 								$resultado = $datos_base->query($sent);
 								$row = $resultado->fetch_assoc();
 								$nom = $row['RESOLUTOR'];
 
 								$fecord = date("d-m-Y", strtotime($listar['FECHA_HORA']));
+
 							echo "
 								<tr>
-									<td><h5>".$fecord."</h5></td>
-									<td><h5>".$nom."</h5></td>
-									<td><h5>".$est."</h5></td>
-									<td><h5>".$listar['MOTIVO']."</h5></td>
+									<td><h5 style='font-size:16px;text-align: center;'>".$fecord."</h5></td>
+									<td><h5 style='font-size:16px;text-align: center;'>".$listar['HORA']."</h5></td>
+									<td><h5 style='font-size:16px;text-align: left;margin-left:5px;'>".$nom."</h5></td>
+									<td><h5 style='font-size:16px;text-align: left;margin-left:5px;'>".$est."</h5></td>
+									<td><h5 style='font-size:16px;text-align: left;margin-left:5px;text-transform:uppercase;'>".$listar['MOTIVO']."</h5></td>
 								</tr>";
 						}}
 					echo "</table>";

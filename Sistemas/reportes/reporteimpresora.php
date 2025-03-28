@@ -16,12 +16,12 @@ $row = $resultado->fetch_assoc();
 <head>
 
 <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-	                    <a id="vlv"  href="../reportes/tiporeporte.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
-						<div class="btn-group col-2" role="group" >
-                              <button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='../consulta/consulta.php'" ><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></button>
-                              <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()" ><i class='bi bi-printer'></i></button>
-                        </div>
-		            </div>
+	<a id="vlv"  href="../reportes/tiporeporte.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
+	<div class="btn-group col-2" role="group" >
+			<button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='../consulta/consulta.php'" ><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></button>
+			<button id="botonright" type="button" class="btn btn-success" onClick="imprimir()" ><i class='bi bi-printer'></i></button>
+	</div>
+</div>
 		            <style type="text/css" media="print">
                               @media print {
                                              #vlv, #accion, .cabe {display:none;}
@@ -43,12 +43,12 @@ $row = $resultado->fetch_assoc();
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="../estilos/estiloallabm.css">
 	<script type="text/javascript" src="jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="jquery/1/jquery-ui.js"></script>
 	<!--BUSCADOR SELECT-->
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../estilos/estiloallabm.css">
 	<!--FIN BUSCADOR SELECT-->
 	<style>
 			body{
@@ -73,13 +73,14 @@ $row = $resultado->fetch_assoc();
 
 
 
-	
+		<!--DIV DE SECCION DE FILTROS, UNA VEZ SE SELECCIONAN SE PRESIONA EL BOTON BTN2 Y SE ENVIA EL FORMULARIO A SI MISMO Y SE PROCEDE A LA BUSQUEDA-->
 		<form id="campos" method="POST" action="reporteimpresora.php">
 		
         <div class="form-group row" style="margin-top: 15px;">
 
 		<label id="lblForm"class="col-form-label col-xl col-lg" style="color: black;">REPARTICION:</label>
 		<select id='slcrepart' name='selectorrepart' class='form-control col-xl col-lg'>
+		<!--PARA ESTE SELECT Y EL RESTO LAS OPCIONES SON EXTRAIDAS DIRECTAMENTE D ELA BASE DE DATOS-->
 		<option value="" selected disabled>-SELECCIONE UNA-</option>
                                     <?php
 									include("../particular/conexion.php");
@@ -169,11 +170,13 @@ $row = $resultado->fetch_assoc();
 					<input id="vlva" class="button col-xl-2 col-lg-2" style="margin-left: 10px; margin-top: 10px;" type="submit" name="btn1" value="LIMPIAR"></input>
 				</div>
 		</form>
+		<!--FIN FORMULARIO-->
 		</div>
 		<hr>
 
         <?php
         $fecha = date("Y-m-d");
+		#CONDICIONALES QUE AGREGAN CODIGO HTML PARA MOSTRAR LAS OPCIONES SELECCIONADAS
 		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
 		if (isset($_POST['selectorrepart'])) {
 			$rep=$_POST['selectorrepart'];
@@ -217,10 +220,12 @@ $row = $resultado->fetch_assoc();
 		}
 
 		
-
+//CONDICIONAL PARA DETECTAR SI SE RECIBIO UN FORMULARIO
 if(isset($_POST['btn2']))
 {
-	
+	#CADA CONSULTA SQL FILTRA DE ACUERDO A LAS OPCIONES SELECCIONADAS
+
+	#REPARTICION
 	if(isset($_POST['selectorrepart']))
 	{
 		
@@ -237,7 +242,7 @@ if(isset($_POST['btn2']))
 	and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 		
 	}
-
+	#AREA
 	if(isset($_POST['slcarea']))
 	{
 	$area = $_POST['slcarea'];
@@ -253,7 +258,7 @@ if(isset($_POST['btn2']))
 	and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 		
 	}
-
+	#ESTADO
 	if(isset($_POST['slcestado']))
 	{
 	$estado = $_POST['slcestado'];
@@ -267,7 +272,7 @@ if(isset($_POST['btn2']))
 	and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 		
 	}
-
+	#TIPO PERIFERICO
 	if(isset($_POST['tipop']))
 	{
 	$tipop = $_POST['tipop'];
@@ -284,7 +289,7 @@ if(isset($_POST['btn2']))
 		
 	}
 
-
+	#MARCA
 	if(isset($_POST['marca']))
 	{
 	$marca = $_POST['marca'];
@@ -299,6 +304,7 @@ if(isset($_POST['btn2']))
 	WHERE p.ID_MARCA = $marca
 	and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
+	#TIPO PERIFERICO Y MARCA
 	if(isset($_POST['tipop']) AND isset($_POST['marca']))
 	{
 		$tipop = $_POST['tipop'];
@@ -314,6 +320,7 @@ if(isset($_POST['btn2']))
            WHERE p.ID_TIPOP = $tipop AND p.ID_MARCA = $marca
            and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 		   }
+	#REPARTICION Y AREA
 	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
@@ -329,7 +336,7 @@ if(isset($_POST['btn2']))
 		   WHERE a.ID_REPA = $reparticion and p.ID_AREA=$area
 		   and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
-
+	#REPARTICION Y ESTADO
 	if(isset($_POST['selectorrepart']) & isset($_POST['slcestado']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
@@ -345,7 +352,7 @@ if(isset($_POST['btn2']))
 		   WHERE a.ID_REPA = $reparticion and p.ID_ESTADOWS=$estado
 		   and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
-
+	#AREA Y ESTADO
 	if(isset($_POST['slcarea']) & isset($_POST['slcestado']))
 		   {
 		$area = $_POST['slcarea'];
@@ -361,7 +368,7 @@ if(isset($_POST['btn2']))
 		   WHERE a.ID_AREA = $area and p.ID_ESTADOWS=$estado
 		   and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
-
+	#REPARTICION Y TIPO PERIFERICO
 	if(isset($_POST['selectorrepart']) & isset($_POST['tipop']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
@@ -377,7 +384,7 @@ if(isset($_POST['btn2']))
 		   WHERE a.ID_REPA = $reparticion and p.ID_TIPOP=$tipo
 		   and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
-
+	#REPARTICION Y MARCA 
 	if(isset($_POST['selectorrepart']) & isset($_POST['marca']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
@@ -393,7 +400,7 @@ if(isset($_POST['btn2']))
 		   WHERE a.ID_REPA = $reparticion and p.ID_MARCA=$marca
 		   and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
-
+	#REPARTICION, AREA Y ESTADO
 	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['slcestado']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
@@ -410,7 +417,7 @@ if(isset($_POST['btn2']))
 		   WHERE a.ID_REPA = $reparticion and p.ID_AREA=$area and p.ID_ESTADOWS=$estado
 		   and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
-
+	#TIPO PERIFERICO, MARCA Y ESTADO
 	if(isset($_POST['tipop']) & isset($_POST['marca']) & isset($_POST['slcestado']))
 	{
 		$estado = $_POST['slcestado'];
@@ -427,7 +434,7 @@ if(isset($_POST['btn2']))
            WHERE p.ID_TIPOP = $tipop AND p.ID_MARCA = $marca and p.ID_ESTADOWS=$estado
            and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 		   }
-
+		   #TIPO PERIF., AREA Y MARCA
 	if(isset($_POST['tipop']) & isset($_POST['marca']) & isset($_POST['slcarea']))
 	{
 		$area = $_POST['slcarea'];
@@ -445,7 +452,7 @@ if(isset($_POST['btn2']))
            and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 		   }
 
-
+		   #TIPO PERIFERICO,MARCA Y REPARTICION
 	if(isset($_POST['tipop']) & isset($_POST['marca']) & isset($_POST['selectorrepart']))
 	{
 		$reparticion = $_POST['selectorrepart'];
@@ -464,7 +471,7 @@ if(isset($_POST['btn2']))
 		   }
 
 	
-
+		   #REPARTICION, AREA Y TIPO PERIFERICO
 	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['tipop']))
 	{
 	$reparticion = $_POST['selectorrepart'];
@@ -481,7 +488,7 @@ if(isset($_POST['btn2']))
 	WHERE a.ID_REPA = $reparticion and p.ID_AREA=$area and p.ID_TIPOP=$tipo
 	and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
-
+	#REPARTICION, ESTADO Y TIPO PERIFERICO
 	if(isset($_POST['selectorrepart']) & isset($_POST['slcestado']) & isset($_POST['tipop']))
 	{
 	$reparticion = $_POST['selectorrepart'];
@@ -498,7 +505,7 @@ if(isset($_POST['btn2']))
 	WHERE a.ID_REPA = $reparticion and p.ID_ESTADOWS=$estado and p.ID_TIPOP=$tipo
 	and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
-
+	#REPARTICION, AREA Y MARCA 
 	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['marca']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
@@ -515,7 +522,7 @@ if(isset($_POST['btn2']))
 		   WHERE a.ID_REPA = $reparticion and p.ID_AREA=$area and p.ID_MARCA=$marca
 		   and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
-
+	#REPARTICION, ESTADO Y MARCA 
 	if(isset($_POST['selectorrepart']) & isset($_POST['slcestado']) & isset($_POST['marca']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
@@ -532,7 +539,7 @@ if(isset($_POST['btn2']))
 		   WHERE a.ID_REPA = $reparticion and p.ID_ESTADOWS=$estado and p.ID_MARCA=$marca
 		   and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
-
+	#AREA, ESTADO Y TIPO PERIFERICO
 	if(isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['tipop']))
 	{
 		$area = $_POST['slcarea'];
@@ -549,7 +556,7 @@ if(isset($_POST['btn2']))
 	WHERE a.ID_AREA = $area and p.ID_ESTADOWS=$estado and p.ID_TIPOP=$tipo
 	and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
-
+	#AREA, ESTADO Y MARCA
 
 	if(isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['marca']))
 	{
@@ -568,7 +575,7 @@ if(isset($_POST['btn2']))
 	and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
 
-
+	#REPARTICION, AREA, ESTADO Y TIPO PERIFERICO
 	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['tipop']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
@@ -586,7 +593,7 @@ if(isset($_POST['btn2']))
 		   WHERE a.ID_REPA = $reparticion and p.ID_AREA=$area and p.ID_ESTADOWS=$estado and p.ID_TIPOP=$tipo
 		   and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
-
+	#reparticion, area, estado y marca
 	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['marca']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
@@ -604,6 +611,7 @@ if(isset($_POST['btn2']))
 		   WHERE a.ID_REPA = $reparticion and p.ID_AREA=$area and p.ID_ESTADOWS=$estado and p.ID_MARCA=$marca
 		   and p.TIPOP LIKE '%IMPRESORA%' ORDER BY u.NOMBRE ASC");
 	}
+	#REPARTICION, AREA, ESTADO, TIPO PERIFERICO Y MARCA
 	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['tipop']) & isset($_POST['marca']))
 		   {
 		   $reparticion = $_POST['selectorrepart'];
@@ -639,6 +647,7 @@ if(isset($_POST['btn2']))
 	
 }
 else
+#SI NO SE RECIBIO UN FORMULARIO LA CONSULTA SQL OBTIENE TODAS LAS IMPRESORAS
 	{
 	$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, r.REPA, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO		
 	FROM periferico p 
@@ -667,7 +676,8 @@ else
 						</thead>
 					";
 					$contador=0;
-					while($listar = mysqli_fetch_array($consultar))
+	#CICLO WHILE PARA EXTRAER TODAS LAS FILAS RESULTADOS DEL ARRAY
+	while($listar = mysqli_fetch_array($consultar))
 	{
 		echo
 		" 
@@ -710,5 +720,6 @@ else
 				}
 			?>
     </section>
+	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>
 </html>

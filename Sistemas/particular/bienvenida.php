@@ -3,7 +3,7 @@
 <html>
 <head>
 	<title>NOVEDADES</title><meta charset="utf-8">
-    <link rel="icon" href="../imagenes/logoObrasPúblicas.png">
+    <link rel="icon" href="../imagenes/logoInfraestructura.png">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -28,10 +28,8 @@
             <ul class="list-unstyled">
                 <li>
                     <ul>
-                        <li>SE HA HABILITADO EL ABM DE MEMORIA Y DISCO EN STOCK</li>
-                        <li>SE HAN SEÑALIZADO EL CALENDARIO, NOVEDADES Y MANUAL CON ETIQUETAS</li>
-                        <li>SE HAN AGREGADO MÁS CAMPOS EN LA PESTAÑA ESTADISTICAS</li>
-                        <li>SE HA HABILITADO EL ABM DE PLACA DE VIDEOS</li>
+                        <li>SE HAN AGREGADO MÁS VALIDACIONES EN ABM</li>
+                        <li>SE HA ACTUALIZADO LOGO DE GOBIERNO Y MINISTERIO</li>
     <!--                       <li>SE INCORPORÓ LA PANTALLA DE "CONSULTAS PARA ALTAS"</li>
                      <li>SE AGREGARON LAS OPCIONES DE VER "MOVIMIENTOS" Y "MEJORAS" EN: INVENTARIO -> MAS DETALLES -> "MOVIMIENTOS" O "MEJORAS"</li>                             
                          <li>Se agregó la columna de "USUARIOS ACTIVOS" en su respectivo ABM</li>
@@ -50,7 +48,7 @@
 		<div class="footer">
 			<div class="container-fluid">
 				<div class="row">
-					<img src="../imagenes/logoGobierno.png" class="img-fluid">
+					<img src="../imagenes/cba-logo.png" class="img-fluid">
 				</div>
 			</div>
 		</div>

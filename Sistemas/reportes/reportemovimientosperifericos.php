@@ -18,13 +18,13 @@ $row = $resultado->fetch_assoc();
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="../estilos/estiloreporte.css">
 	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<!--BUSCADOR SELECT-->
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	<!--FIN BUSCADOR SELECT-->
+	<link rel="stylesheet" type="text/css" href="../estilos/estiloreporte.css">
 	<style>
 			body{
 			background-color: #edf0f5;
@@ -32,12 +32,12 @@ $row = $resultado->fetch_assoc();
 	</style>
 
 <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-	                    <a id="vlv"  href="tiporeporte.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
-						<div class="btn-group col-2" role="group" >
-                              <button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='../consulta/consulta.php'" ><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></button>
-                              <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()" ><i class='bi bi-printer'></i></button>
-                        </div>
-		            </div>
+	<a id="vlv"  href="../reportes/tiporeporte.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
+	<div class="btn-group col-2" role="group" >
+			<button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='../consulta/consulta.php'" ><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></button>
+			<button id="botonright" type="button" class="btn btn-success" onClick="imprimir()" ><i class='bi bi-printer'></i></button>
+	</div>
+</div>
 		            <style type="text/css" media="print">
                               @media print {
                                              #vlv, #accion, .cabe {display:none;}
@@ -91,7 +91,7 @@ $row = $resultado->fetch_assoc();
 
 
 
-	
+	<!--FORMULARIO DONDE SE UBICAN LOS FILTROS-->
 		<form id="campos" method="POST" action="reportemovimientosperifericos.php">
 		
         <div class="form-group row" style="margin-top: 15px; margin-right:10px;">
@@ -131,13 +131,15 @@ $row = $resultado->fetch_assoc();
 		
 
         <?php
-
+	#SE DETECTA SI SE ENVIO UN FORMULARIO
 		if(isset($_POST['btn2'])){
+			#SE TOMA TIPO Y PERIODO DE FECHAS POR METODO POST
 			$mov=$_POST['slcTipo'];
             $fechadesde=$_POST['fecha_desde'];
             $fechahasta=$_POST['fecha_hasta'];
 
 			$fecha = date("Y-m-d");
+			#CONDICIONALES PARA ARMAR CABECERA
             echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
             if ($mov==1) {
                 echo"<h4 class='indicadores' style='margin-bottom: 10px;'>TIPO MOVIMIENTO: AREA</h2>";
@@ -148,11 +150,12 @@ $row = $resultado->fetch_assoc();
             if ($mov==3) {
                 echo"<h4 class='indicadores' style='margin-bottom: 10px;'>TIPO MOVIMIENTO: ESTADO</h2>";
             }
-
+			#CONDICIONALES PARA REALIZAR CONSULTAS SQL CON FILTROS SELECCIONADOS
+			#PERIODO DE TIEMPO
             if ($fechadesde==""||$fechahasta=="") {
 				if ($mov==1) {
 				
-				
+				#AREA
 				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
 				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
 						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
@@ -162,7 +165,7 @@ $row = $resultado->fetch_assoc();
 							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
 				}
 				if ($mov==2) {
-				
+				#USUARIO
 				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
 				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
 						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
@@ -172,6 +175,7 @@ $row = $resultado->fetch_assoc();
 							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
 				}
 				if ($mov==3) {
+					#ESTADO
 				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
 				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
 						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
@@ -182,6 +186,7 @@ $row = $resultado->fetch_assoc();
 				}
 			}
 			else {
+				#NO SE SELECCIONO PERIODO
 
 				echo"
                     <h4 class='indicadores' style='margin-bottom: 10px;'>PERIODO</h2>
@@ -189,6 +194,7 @@ $row = $resultado->fetch_assoc();
 				    <h4 class='indicadores' style='margin-bottom: 10px;'>HASTA: $fechahasta </h2>";
 
 				if ($mov==1) {
+					#AREA
 				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
 				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
 						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
@@ -200,6 +206,7 @@ $row = $resultado->fetch_assoc();
 							 ORDER BY M.ID_MOVIMIENTO DESC");
 				}
 				if ($mov==2) {
+					#USUARIO
 				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
 				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
 						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
@@ -211,6 +218,7 @@ $row = $resultado->fetch_assoc();
 							 ORDER BY M.ID_MOVIMIENTO DESC");
 				}
 				if ($mov==3) {
+					#ESTADO
 				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
 				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
 						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
@@ -223,7 +231,7 @@ $row = $resultado->fetch_assoc();
 				}
 			}
 		}
-
+		#NO HAY FILTROS SELECCIONADOS
 		else{
         $fecha = date("Y-m-d");
 		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
@@ -240,7 +248,7 @@ $row = $resultado->fetch_assoc();
 		or m.ID_ESTADOWS != ( select AVG(mv.ID_ESTADOWS) from movimientosperi mv
 							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
 		ORDER BY M.ID_MOVIMIENTO DESC");}?>
-	
+	<!--SE ARMA CABECERA DE TABLA-->
         <?php echo "<table width=100%>
         <thead>
             <tr>
@@ -257,7 +265,7 @@ $row = $resultado->fetch_assoc();
         ";
         $contador=0;
         while($listar = mysqli_fetch_array($consultarMovimientos))
-        
+        #SE EXTRAEN TOODOS LOS RESULTADOS DE LA VARIABLE DE LA CONSULTA
 				
 	    {
 		echo
@@ -303,6 +311,7 @@ $row = $resultado->fetch_assoc();
 				}
 			?>
     </section>
+	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>
 </html>
 

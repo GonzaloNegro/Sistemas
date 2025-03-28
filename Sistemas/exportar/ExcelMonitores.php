@@ -29,6 +29,7 @@ include('../particular/conexion.php');
 		$html .= '<td><b>ÁREA</b></td>';
 		$html .= '<td><b>TIPO</b></td>';
         $html .= '<td><b>MARCA</b></td>';
+        $html .= '<td><b>ESTADO</b></td>';
 		$html .= '</tr>';
 
 		//Seleccionar todos los elementos de la tabla
@@ -43,6 +44,7 @@ include('../particular/conexion.php');
             $html .= '<td>' . $row_msg_contatos["AREA"] . '</td>';
 			$html .= '<td>' . $row_msg_contatos["TIPO"] . '</td>';
             $html .= '<td>' . $row_msg_contatos["MARCA"]. '</td>';
+            $html .= '<td>' . $row_msg_contatos["ESTADO"]. '</td>';
 			$html .= '</tr>';
 		}
 		// Configuración en la cabecera

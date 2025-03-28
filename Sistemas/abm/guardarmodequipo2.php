@@ -546,7 +546,7 @@ if($pvprov1 == "2301"){
 }
 
 if($procedencia == "2400"){
-    $sql6 = "SELECT ID_PROCEDENCIA FROM inventario WHERE ID_PROCEDENCIA = '$id'";
+    $sql6 = "SELECT ID_PROCEDENCIA FROM inventario WHERE ID_WS = '$id'";
     $result6 = $datos_base->query($sql6);
     $row6 = $result6->fetch_assoc();
     $procedencia = $row6['ID_PROCEDENCIA'];

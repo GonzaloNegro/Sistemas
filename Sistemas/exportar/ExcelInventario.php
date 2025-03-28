@@ -31,6 +31,7 @@ include('../particular/conexion.php');
         $html .= '<td><b>S.O.</b></td>';
 		$html .= '<td><b>MICRO</b></td>';
 		$html .= '<td><b>TIPO</b></td>';
+		$html .= '<td><b>ESTADO</b></td>';
 		$html .= '</tr>';
 
 		//Seleccionar todos los elementos de la tabla
@@ -47,6 +48,7 @@ include('../particular/conexion.php');
             $html .= '<td>' . $row_msg_contatos["SIST_OP"]. '</td>';
 			$html .= '<td>' . $row_msg_contatos["MICRO"] . '</td>';
 			$html .= '<td>' . $row_msg_contatos["TIPOWS"] . '</td>';
+			$html .= '<td>' . $row_msg_contatos["ESTADO"] . '</td>';
 			$html .= '</tr>';
 		}
 		// Configuración en la cabecera

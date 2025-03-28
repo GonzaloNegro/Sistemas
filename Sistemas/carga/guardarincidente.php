@@ -63,7 +63,7 @@ $date2 = date('Y-m-d'); */
 		$idusu = $r['NOMBRE'];
 
 		$motivo = $_POST['motivo'];
-		$derivado = $_POST['derivado'];
+		$derivado = $_POST['derivado'];/* RESOLUTOR A QUIEN SE DERIVA */
 
 		$sql = "SELECT ID_TIPO_RESOLUTOR from resolutor WHERE ID_RESOLUTOR = '$derivado'";
 		$resultado = $datos_base->query($sql);
@@ -89,7 +89,7 @@ $date2 = date('Y-m-d'); */
 
 		mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion', '$idusu', '$usuario', DEFAULT, '$tipificacion', '$prioridad', '$estado', DEFAULT, DEFAULT, '$original','$renv', '$ws', '$hora')");
 
-		mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, '$estado', '$motivo', '$date', '$original', DEFAULT)");
+		mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, '$estado', '$motivo', '$date', '$original', '$hora')");
 
 		$tic=mysqli_query($datos_base, "SELECT MAX(ID_TICKET) AS id FROM ticket");
 		if ($row = mysqli_fetch_row($tic)) {
@@ -114,7 +114,7 @@ $date2 = date('Y-m-d'); */
 
 		mysqli_query($datos_base, "UPDATE ticket SET ID_ESTADO = 4, ID_RESOLUTOR = '$derivado' WHERE ID_TICKET = '$tic1'");
 
-		mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, 4, '$motivo', '$date', '$derivado', DEFAULT)");
+		mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, 4, '-', '$date', '$derivado', '$hora')");
 
 		$tic=mysqli_query($datos_base, "SELECT MAX(ID_TICKET) AS id FROM ticket");
 		if ($row = mysqli_fetch_row($tic)) {
@@ -158,7 +158,7 @@ $date2 = date('Y-m-d'); */
 		if($estado == "2" OR $estado == "5"){
 			mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion', '$idusu', '$usuario', DEFAULT,'$tipificacion', '$prioridad', '$estado', DEFAULT, '$date2', '$original','$renu', '$ws', '$hora')"); 
 
-			mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, '$estado', '$motivo', '$date', '$original', DEFAULT)");
+			mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, '$estado', '$motivo', '$date', '$original', '$hora')");
 			/*MAIL GENERADO PARA EL USUARIO LOGUEADO*/
 	
 			$tic=mysqli_query($datos_base, "SELECT MAX(ID_TICKET) AS id FROM ticket");
