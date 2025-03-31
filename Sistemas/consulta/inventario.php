@@ -131,17 +131,17 @@ $row = $resultado->fetch_assoc();
                             let estado = fila.ESTADO;  // Este valor lo obtienes de tu lógica o de una variable
                             let color;
 
-                            if (estado === "SOLUCIONADO") {
-                            color = "green";  // Si el estado es "solucionado", el color será verde
-                            } else if(estado === "ANULADO" || estado === "SUSPENDIDO") {
-                            color = "red";  // Si el estado no es "solucionado", el color será rojo
-                            } else if(estado === "DERIVADO" || estado === "EN PROCESO") {
+                            if (estado === "EN USO") {
+                            color = "green";  // Si el estado es "en uso", el color será verde
+                            } else if(estado === "BAJA") {
+                            color = "red";  // Si el estado no es "baja", el color será rojo
+                            } else if(estado === "S/A - STOCK") {
                             color = "blue";  // Si el estado no es "solucionado", el color será rojo
                             }
                             
                             tabla.append(`<tr>
-                                <td><h4 style='font-size:14px; text-align:center;margin-right: 5px;'>${fila.REPA}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:center;'>${fila.AREA}</h4></td>
+                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.REPA}</h4></td>
+                                <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.AREA}</h4></td>
                                 <td><h4 style='font-size:14px; text-align:left;margin-right: 5px;'>${fila.NOMBRE}</h4></td>
                                 <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-right: 5px;'>${fila.SERIEG}</h4></td>
                                 <td><h4 style='font-size:14px; text-align:left;margin-right: 5px;'>${fila.SIST_OP}</h4></td>

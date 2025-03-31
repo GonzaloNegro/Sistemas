@@ -190,10 +190,9 @@ $cu = $row['CUIL'];
                             // Verificar si la fecha de solución es "0000-00-00", en cuyo caso mostrar "-"
                             let fechaSolucion = (fila.FECHA_SOLUCION === "00-00-0000") ? "-" : fila.FECHA_SOLUCION;
 
-
                             let boton = fila.ESTADO == "SOLUCIONADO"
-                            ? `<td><a class='btn btn-success mod' href='#' data-bs-toggle='modal' data-bs-target='#modalInfo' onclick='cargar_informacion(${fila.ID_TICKET})' style='color:white;'>Info</a></td>` 
-                            : `<td><a class='btn btn-info' href='modificacion.php?no=${fila.ID_TICKET}' target='new' class='mod' style='color:white;'>Info</a></td>`;
+                            ? `<td><a class='btn btn-success mod' href='#' data-bs-toggle='modal' data-bs-target='#modalInfo' onclick='cargar_informacion(${fila.ID_TICKET})' style='color:white;margin-left:10px;'>Info</a></td>` 
+                            : `<td style='padding:5px;'><a class='btn btn-info' href='modificacion.php?no=${fila.ID_TICKET}' target='new' class='mod' style='color:white;'>Editar</a></td>`;
 
                             tabla.append(`<tr>
                                 <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>${fila.ID_TICKET}</h4></td>

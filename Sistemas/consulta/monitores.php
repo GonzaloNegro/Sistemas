@@ -37,30 +37,217 @@ $row = $resultado->fetch_assoc();
 	</style>
 </head>
 <body>
-<?php
-    if (!isset($_POST['buscar'])){$_POST['buscar'] = '';}
-    if (!isset($_POST['area'])){$_POST['area'] = '';}
-    if (!isset($_POST["tipo"])){$_POST["tipo"] = '';}
-    if (!isset($_POST["orden"])){$_POST["orden"] = '';}
-    if (!isset($_POST['marca'])){$_POST['marca'] = '';}
-    if (!isset($_POST["estado"])){$_POST["estado"] = '';}
-    if (!isset($_POST["reparticion"])){$_POST["reparticion"] = '';}
-?>
 <?php include('../layout/inventario.php'); ?>
+
+<script>
+                //Funcion que va mostrando que filtros se van utilizando
+                function mostrarFiltros(){
+                    const busqueda = $("#buscar");
+                    const area = $("#area");
+                    const tipop = $("#tipo");
+                    const orden = $("#orden"); 
+                    const marca = $("#marca");
+                    const estado = $("#estado");
+                    const reparticion = $("#reparticion");
+                    
+                    const filtros = $("#filtrosUsados");
+                    // Vaciar el div antes de agregar nuevos filtros
+                    filtros.empty();
+
+                    
+                    filtros.append();
+                    
+                    if (busqueda.val() != '') {
+                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>BÚSQUEDA</u>: ${busqueda.val()}</li>`);
+                    }
+                    
+                    if (area.val() != '') {
+                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>AREA</u>: ${$("#area option:selected").text()}</li>`);
+                    }
+                    if (reparticion.val() != '') {
+                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>REPARTICION</u>: ${$("#reparticion option:selected").text()}</li>`);
+                    }
+                    if (tipop.val() != '') {
+                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>TIPO P</u>: ${$("#tipop option:selected").text()}</li>`);
+                    }
+                    if (marca.val() != '') {
+                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>MARCA</u>: ${$("#marca option:selected").text()}</li>`);
+                    }if (estado.val() != '') {
+                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>ESTADO</u>: ${$("#estado option:selected").text()}</li>`);
+                    }
+                    if (orden.val() != '') {
+                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>ORDEN</u>: ${$("#orden option:selected").text()}</li>`);
+                    }
+
+                    filtros.show();
+                }
+            </script>
+            <script>
+                //Cargar datos en la tabla
+        $(document).ready(function () {
+            function cargarDatos(pagina = 1) {
+                // Obtener valor del formulario
+                const busqueda = $("#buscar").val();
+                const area = $("#area").val();
+                const tipop = $("#tipo").val();
+                const orden = $("#orden").val(); 
+                const marca = $("#marca").val();
+                const estado = $("#estado").val();
+                const reparticion = $("#reparticion").val(); 
+                //Obtener los datos de la tabla de usuarios
+                $.ajax({
+                    url: "paginador_monitores.php", // Archivo PHP
+                    type: "GET",
+                    data: { 
+                            pagina: pagina,
+                            busqueda: busqueda,
+                            area: area,
+                            reparticion: reparticion,
+                            orden: orden,
+                            tipop: tipop,
+                            marca: marca,
+                            estado: estado,
+                             },
+                    dataType: "json",
+                    //Respuesta obtenida de paginador.php
+                    success: function (respuesta) {
+                        //Cargamos el nro de incidentes obtenidos en label
+                        
+                        const lblUsuarios = $("#nroMonitores").text("Resultados Encontrados: "+respuesta.totalMonitores); 
+
+                        //Cargamos la consulta sql utilizada en el value del input del formulario para generar el excel
+                        
+
+                         const inputExcel = $("#excel");
+                         inputExcel.val(respuesta.query);
+
+                        // Poblar la tabla
+                        const tabla = $("#tabla-datos");
+                        tabla.empty();
+                        respuesta.datos.forEach(fila => {
+                            let estado = fila.ESTADO;  // Este valor lo obtienes de tu lógica o de una variable
+                            let color;
+
+                            if (estado === "EN USO") {
+                            color = "green";  // Si el estado es "en uso", el color será verde
+                            } else if(estado === "BAJA") {
+                            color = "red";  // Si el estado no es "baja", el color será rojo
+                            } else if(estado === "S/A - STOCK") {
+                            color = "blue";  // Si el estado no es "solucionado", el color será rojo
+                            }
+                            
+                            tabla.append(`<tr>
+                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.MODELO}</h4></td>
+                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.NOMBRE}</h4></td>
+                                <td><h4 style='font-size:14px; text-align:left;margin-right: 5px;'>${fila.AREA}</h4></td>
+                                <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-right: 5px;'>${fila.REPA}</h4></td>
+                                <td><h4 style='font-size:14px;text-align:left;margin-right: 5px;'>${fila.TIPO}</h4></td>
+                                <td><h4 style='font-size:14px;text-align:left;margin-right: 5px;'>${fila.MARCA}</h4></td>
+                                <td><h4 style='color:${color};font-size:14px;text-align:left;margin-right: 5px;'>${fila.ESTADO}</h4></td>
+                                
+
+
+                                <td class='text-center text-nowrap'>
+                                    <a class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#modalInfo' 
+                                        onclick='cargar_informacion(${fila.ID_PERI}, \"Info\")' 
+                                        target='_blank' class='mod'>
+                                        Info
+                                    </a>
+                                    <a class='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalMovi' 
+                                        onclick='cargar_informacion(${fila.ID_PERI}, \"Movimientos\")' 
+                                        target='_blank' class='mod'>
+                                        Mov. Info
+                                    </a>
+                                </td>
+                                        </tr>`);
+                        });
+
+                        // Crear los botones de paginación
+                        const paginador = $("#paginador");
+                        paginador.empty();
+                        
+                        
+                        const totalPaginas = respuesta.totalPaginas;
+                    const paginaActual = respuesta.pagina;
+
+                    // Función para agregar un botón
+                    function agregarBoton(pagina, texto, activo = false, desactivado = false) {
+                        paginador.append(`
+                            <li class="page-item ${activo ? 'active' : ''} ${desactivado ? 'disabled' : ''}">
+                                <button class="page-link btn-pagina" data-pagina="${pagina}" ${desactivado ? 'disabled' : ''}>
+                                    ${texto}
+                                </button>
+                            </li>
+                        `);
+                    }
+
+                    // Botón "Anterior"
+                    agregarBoton(paginaActual - 1, '&laquo; Anterior', false, paginaActual === 1);
+
+                    // Primera página
+                    agregarBoton(1, '1', paginaActual === 1);
+
+                    // Puntos suspensivos si la página actual está lejos de la primera
+                    if (paginaActual > 4) {
+                        paginador.append('<li class="page-item disabled"><span class="page-link">...</span></li>');
+                    }
+
+                    // Páginas cercanas a la actual
+                    for (let i = Math.max(2, paginaActual - 2); i <= Math.min(totalPaginas - 1, paginaActual + 2); i++) {
+                        agregarBoton(i, i, paginaActual === i);
+                    }
+
+                    // Puntos suspensivos si la página actual está lejos de la última
+                    if (paginaActual < totalPaginas - 3) {
+                        paginador.append('<li class="page-item disabled"><span class="page-link">...</span></li>');
+                    }
+
+                    // Última página
+                    agregarBoton(totalPaginas, totalPaginas, paginaActual === totalPaginas);
+
+                    // Botón "Siguiente"
+                    agregarBoton(paginaActual + 1, 'Siguiente &raquo;', false, paginaActual === totalPaginas);
+                    ////
+                    }
+                });
+            }
+
+            // Manejar el evento del formulario de filtro
+            $("#btnForm").on("click", function (e) {
+                //e.preventDefault(); // Evitar recarga de la página
+                cargarDatos(1); // Cargar datos desde la primera página con el filtro aplicado
+                mostrarFiltros();
+            });
+
+            // Cargar la página inicial
+            cargarDatos();
+
+            // Evento para cambiar de página
+            $(document).on("click", ".btn-pagina", function () {
+                const pagina = $(this).data("pagina");
+                cargarDatos(pagina);
+            });
+        });
+    </script>
+    <script>
+        //Limpiar campos de formulario
+        function Limpiar(){
+            window.location.href='../consulta/monitores.php';
+        }
+    </script>
 <section id="consulta">
 		<div id="titulo">
             <h1>INVENTARIO MONITORES</h1>
 		</div>
-        <form method="POST" action="./monitores.php" class="contFilter--name">
-            <div class="filtros">
+        <div class="filtros">
                 <div class="filtros-listado">
                     <div>
                         <label class="form-label">Usuario/Monitor</label>
-                        <input type="text" style="text-transform:uppercase;" name="buscar"  placeholder="Buscar" class="form-control largo">
+                        <input type="text" style="text-transform:uppercase;" id="buscar" name="buscar"  placeholder="Buscar" class="form-control largo">
                     </div>
                     <div>
                         <label class="form-label">Repartición</label>
-                        <select id="subject-filter" id="reparticion" name="reparticion" class="form-control largo">
+                        <select id="reparticion" name="reparticion" class="form-control largo">
                             <option value="">TODOS</option>
                             <?php 
                             $consulta= "SELECT * FROM reparticion ORDER BY REPA ASC";
@@ -73,7 +260,7 @@ $row = $resultado->fetch_assoc();
                     </div>
                     <div>
                         <label class="form-label">Área</label>
-                        <select id="buscador_area" name="area" class="form-control largo">
+                        <select id="area" name="area" class="form-control largo">
                             <option value="">TODOS</option>
                             <?php 
                             $consulta= "SELECT a.ID_AREA, a.AREA, r.REPA FROM area a inner join reparticion r on a.ID_REPA=r.ID_REPA ORDER BY AREA ASC";
@@ -86,13 +273,13 @@ $row = $resultado->fetch_assoc();
                         <!--BUSCADOR-->
 						<!--Agregar {theme: 'bootstrap4',} dentro de select-->
 						<script>
-							$('#buscador_area').select2({theme: 'bootstrap4',});
+							$('#area').select2({theme: 'bootstrap4',});
 						</script>
                         <!--BUSCADOR-->
                         <script>
 							$(document).ready(function(){
-								$('#buscador_area').change(function(){
-									buscador='b='+$('#buscador_area').val();
+								$('#area').change(function(){
+									buscador='b='+$('#area').val();
 									$.ajax({
 										type: 'post',
 										url: 'Controladores/session.php',
@@ -107,7 +294,7 @@ $row = $resultado->fetch_assoc();
                     </div>
                     <div>
                         <label class="form-label">Orden</label>
-                        <select id="assigned-tutor-filter" id="orden" name="orden" class="form-control largo">
+                        <select id="orden" name="orden" class="form-control largo">
                             <?php if ($_POST["orden"] != ''){ ?>
                                 <option value="<?php echo $_POST["orden"]; ?>">
                                     <?php 
@@ -129,7 +316,7 @@ $row = $resultado->fetch_assoc();
                     </div>
                     <div>
                         <label class="form-label">Tipo</label>
-                        <select id="subject-filter" id="tipo" name="tipo" class="form-control largo">
+                        <select id="tipo" name="tipo" class="form-control largo">
                             <option value="">TODOS</option>
                             <?php 
                             $consulta= "SELECT * FROM tipop WHERE ID_TIPOP = 7 OR ID_TIPOP = 8 ORDER BY TIPO ASC";
@@ -142,7 +329,7 @@ $row = $resultado->fetch_assoc();
                     </div>
                     <div>
                         <label class="form-label">Marca</label>
-                        <select id="subject-filter" id="marca" name="marca" class="form-control largo">
+                        <select id="marca" name="marca" class="form-control largo">
                             <option value="">TODOS</option>
                             <?php 
                             $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
@@ -155,7 +342,7 @@ $row = $resultado->fetch_assoc();
                     </div>
                     <div>
                         <label class="form-label">Estado</label>
-                        <select id="subject-filter" id="estado" name="estado" class="form-control largo">
+                        <select id="estado" name="estado" class="form-control largo">
                             <option value="">TODOS</option>
                             <?php 
                             $consulta= "SELECT * FROM estado_ws ORDER BY ESTADO ASC";
@@ -167,112 +354,16 @@ $row = $resultado->fetch_assoc();
                         </select>
                     </div>
                     <div class="export" style="display:flex;justify-content: flex-end;">
-                        <input type="submit" class="btn btn-success" name="busqueda" value="Buscar">
+                        <input class="btn btn-danger" id="btnLimpiar" name="Limpiar" onclick="Limpiar()" value="Limpiar">
+                        <input type="submit" class="btn btn-success" id="btnForm" name="busqueda" value="Buscar">
                     </div>
                 </div>
                     
                 <div class="filtros-listadoParalelo" style="margin-right:20px; margin-top:-60px;">
-                        <div style="display:flex;justify-content: flex-end;">Exportar a:<button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button></div>
+                    <div style="display:flex;justify-content: flex-end;">Exportar a:<button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button></div>
                 </div>
             </div>
-        <?php 
 
-        if ($_POST['buscar'] == ''){ $_POST['buscar'] = ' ';}
-        $aKeyword = explode(" ", $_POST['buscar']);
-
-        if ($_POST["buscar"] == '' AND $_POST['ID_TIPOP'] == '' AND $_POST['ID_REPA'] == '' AND $_POST['ID_AREA'] == '' AND $_POST['ID_MARCA'] == '' AND $_POST['ID_ESTADOWS'] == ''){ 
-                $query ="SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, a.AREA, e.ESTADO, r.REPA			
-                FROM periferico p
-                LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
-                LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO
-                LEFT JOIN area AS a ON  a.ID_AREA = p.ID_AREA
-                INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
-                LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS
-                INNER JOIN reparticion r on a.ID_REPA=r.ID_REPA  
-                INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA ";
-        }elseif(isset($_POST['busqueda'])){
-                $query = "SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, a.AREA, e.ESTADO, r.REPA			
-                FROM periferico p
-                LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
-                LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO
-                LEFT JOIN area AS a ON  a.ID_AREA = p.ID_AREA
-                INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
-                LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS
-                INNER JOIN reparticion r on a.ID_REPA=r.ID_REPA  
-                INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA ";
-
-                if ($_POST["buscar"] != '' ){ 
-                        $query .= " WHERE p.TIPOP = 'MONITOR' AND (u.NOMBRE LIKE LOWER('%".$aKeyword[0]."%') OR mo.MODELO LIKE LOWER('%".$aKeyword[0]."%')) ";
-                
-                    for($i = 1; $i < count($aKeyword); $i++) {
-                    if(!empty($aKeyword[$i])) {
-                        $query .= " OR u.NOMBRE LIKE '%" . $aKeyword[$i] . "%' OR mo.MODELO LIKE '%" . $aKeyword[$i] . "%' ";
-                    }
-                    }
-
-                }
-        
-        if ($_POST["reparticion"] != '' ){
-            $query .= " AND r.ID_REPA = '".$_POST["reparticion"]."' ";
-        }    
-        if ($_POST["marca"] != '' ){
-            $query .= " AND p.ID_MARCA = '".$_POST["marca"]."' ";
-        }
-        if ($_POST["area"] != '' ){
-            $query .= " AND a.ID_AREA = '".$_POST["area"]."' ";
-        }
-        if ($_POST["tipo"] != '' ){
-            $query .= " AND t.ID_TIPOP = '".$_POST["tipo"]."' ";
-        }
-        if ($_POST["estado"] != '' ){
-            $query .= " AND e.ID_ESTADOWS = '".$_POST["estado"]."' ";
-        }
-
-
-         if ($_POST["orden"] == '1' ){
-                $query .= " ORDER BY u.NOMBRE ASC ";
-         }
-
-         if ($_POST["orden"] == '2' ){
-                $query .= " ORDER BY a.AREA ASC ";
-         }
-
-         if ($_POST["orden"] == '3' ){
-                $query .= "  ORDER BY t.TIPO ASC ";
-         }
-         if ($_POST["orden"] == '4' ){
-                $query .= " ORDER BY m.MARCA ASC ";
-        }
-        if ($_POST["orden"] == '5' ){
-            $query .= "  ORDER BY e.ESTADO ASC ";
-        }
-
-}else{
-    $query ="SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, a.AREA, e.ESTADO, r.REPA		
-    FROM periferico p
-    LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
-    LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO
-    LEFT JOIN area AS a ON  a.ID_AREA = p.ID_AREA
-    INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
-    LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS
-    INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA
-    INNER JOIN reparticion r on a.ID_REPA=r.ID_REPA
-    WHERE p.TIPOP = 'MONITOR'";
-}
-
-/*         $consulta=mysqli_query($datos_base, $query); */
-         $sql = $datos_base->query($query);
-
-         $numeroSql = mysqli_num_rows($sql);
-
-        ?>
-<!--         <div class="contResult">
-            <p style="font-weight: bold; color:#53AAE0;"><i class="mdi mdi-file-document"></i> <?php echo $numeroSql; ?> Resultados encontrados</p>
-        </div> -->
-    </form>
-    <?php 
-        if($_POST["buscar"] == ' ' AND $_POST['marca'] == '' AND $_POST['reparticion'] == '' AND $_POST['area'] == '' AND $_POST['tipo'] == '' AND $_POST['estado'] == ''){;
-        ?>
     <div class="principal-info">
             <?php 
                 $sql6 = "SELECT COUNT(*) AS total FROM periferico WHERE ID_TIPOP = 7 OR ID_TIPOP = 8";
@@ -329,8 +420,17 @@ $row = $resultado->fetch_assoc();
                 </div>
             </div>
         </div>
-        <?php };?>
 
+        <?php
+        echo"<div class=filtrado>
+        <label style='color:blue; margin-left: 15px; margin-bottom:20px;' id='nroMonitores'>Resultados Encontrados:</label>
+        ";    ?>
+
+        <div id="filtrosUsados" style="display:none;">
+            <h2>Filtrado por:</h2>
+                <ul></ul>
+            </div>
+    </div>  
     <table class="table_id" style="width: 98%; margin: 0 auto;">
         <thead>
             <tr>
@@ -344,108 +444,16 @@ $row = $resultado->fetch_assoc();
                 <th><p>MAS DETALLES</p></th>
             </tr>
         </thead>
-
-        <?php $cantidadTotal = 0;?>
-        <?php While($rowSql = $sql->fetch_assoc()) {
-            $cantidadTotal++;
-
-            $estado = $rowSql['ESTADO']; // Este valor lo obtienes de tu lógica o de una variable
-            $color = '';
-
-            if ($estado === "EN USO") {
-                $color = "green";  // Si el estado es "solucionado", el color será verde
-            } elseif ($estado === "BAJA") {
-                $color = "red";  // Si el estado es "anulado" o "suspendido", el color será rojo
-            } elseif ($estado === "S/A - STOCK") {
-                $color = "blue";  // Si el estado es "derivado" o "en proceso", el color será azul
-            }
-            echo "
-                <tr>
-                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['MODELO']."</h4></td>
-                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['NOMBRE']."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['AREA']."</h4></td>
-                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['REPA']."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:14px; text-align: center;'>".$rowSql['TIPO']."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['MARCA']."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:14px; text-align: left;margin-left: 5px;color: ".$color."'>".$rowSql['ESTADO']."</h4></td>
-
-
-                    <td class='text-center text-nowrap'>
-                        <a class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#modalInfo' 
-                            onclick='cargar_informacion(" . $rowSql['ID_PERI'] . ", \"Info\")' 
-                            target='_blank' class='mod'>
-                            Info
-                        </a>
-                        <a class='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalMovi' 
-                            onclick='cargar_informacion(" . $rowSql['ID_PERI'] . ", \"Movimientos\")' 
-                            target='_blank' class='mod'>
-                            Mov. Info
-                        </a>
-                    </td>
-                </tr>
-            ";
-        }
-        if($_POST['buscar'] != "" AND $_POST['buscar'] != " " OR $_POST['area'] != "" OR $_POST['reparticion'] != "" OR $_POST['tipo'] != "" OR $_POST['marca'] != "" OR $_POST['estado'] != ""){
-            echo "
-            <div class=filtrado>
-            <h2>Filtrado por:</h2>
-                <ul>";
-                    if($_POST['buscar'] != "" AND $_POST['buscar'] != " "){
-                        echo "<li><u>USUARIO/MONITOR</u>: ".$_POST['buscar']."</li>";
-                    }
-                    if($_POST['area'] != ""){
-                        $sql = "SELECT AREA FROM area WHERE ID_AREA = $_POST[area]";
-                        $resultado = $datos_base->query($sql);
-                        $row = $resultado->fetch_assoc();
-                        $area = $row['AREA'];
-                        echo "<li><u>ÁREA</u>: ".$area."</li>";
-                    }
-                    if($_POST['reparticion'] != ""){
-                        $sql = "SELECT REPA FROM reparticion WHERE ID_REPA = $_POST[reparticion]";
-                        $resultado = $datos_base->query($sql);
-                        $row = $resultado->fetch_assoc();
-                        $repa = $row['REPA'];
-                        echo "<li><u>REPARTICIÓN</u>: ".$repa."</li>";
-                    }
-                    if($_POST['tipo'] != ""){
-                        $sql = "SELECT TIPO FROM tipop WHERE ID_TIPOP = $_POST[tipo]";
-                        $resultado = $datos_base->query($sql);
-                        $row = $resultado->fetch_assoc();
-                        $tipo = $row['TIPO'];
-                        echo "<li><u>TIPO PERIFÉRICO</u>: ".$tipo."</li>";
-                    }
-                    if($_POST['marca'] != ""){
-                        $sql = "SELECT MARCA FROM marcas WHERE ID_MARCA = $_POST[marca]";
-                        $resultado = $datos_base->query($sql);
-                        $row = $resultado->fetch_assoc();
-                        $marca = $row['MARCA'];
-                        echo "<li><u>MARCA</u>: ".$marca."</li>";
-                    }
-                    if($_POST['estado'] != ""){
-                        $sql = "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = $_POST[estado]";
-                        $resultado = $datos_base->query($sql);
-                        $row = $resultado->fetch_assoc();
-                        $estadows = $row['ESTADO'];
-                        echo "<li><u>ESTADO</u>: ".$estadows."</li>";
-                    }
-                    echo"
-                </ul>
-                    <h2>Cantidad de registros: </h2>
-                    <ul><li>$cantidadTotal</li></ul>
-            </div>
-            ";
-                }
-        echo '</table>';
-        ?>
+        <tbody id="tabla-datos"></tbody>
+        </table>      
 		</div>
         <form id="formu" action="../exportar/ExcelMonitores.php" method="POST">
             <input type="text" id="excel" name="sql" class="valorPeque" readonly="readonly" value="<?php echo $query;?>">
         </form>
 	</section>
-	<footer></footer>
-
-    <!-- MODALES -->
-    <div class="modal fade modal--usu" id="modalInfo" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <footer id="footer_pag"><div class="pagination justify-content-center mt-3" id="paginador"></div></footer>
+     <!-- MODALES -->
+     <div class="modal fade modal--usu" id="modalInfo" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -595,7 +603,7 @@ function imprimir2() {
 
     </script>
 
-    <style>
+<style>
 @media print {
     body * {
         visibility: hidden; /* Oculta todo el contenido de la página */
@@ -628,6 +636,7 @@ function imprimir2() {
 
     </style>
 
+
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script>
   		AOS.init();
@@ -638,6 +647,6 @@ function imprimir2() {
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 	</script>
-	
+	<script src="../js/script.js"></script>
 </body>
 </html>

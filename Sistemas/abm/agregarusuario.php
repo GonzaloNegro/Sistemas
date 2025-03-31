@@ -197,7 +197,7 @@ $row = $resultado->fetch_assoc();
 		</script>
 	<div id="reporteEst">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-            <a id="vlv"  href="abmusuario.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
+            <a id="vlv"  href="../consulta/consultausuario.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
         </div>					
     </div>	
         <section id="Inicio">

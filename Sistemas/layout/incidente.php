@@ -59,7 +59,7 @@
         </ul>
         <?php include('notificacion.php'); ?>
         <div class="dropdown text-end">
-          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"><h5><i class="bi bi-person rounded-circle"></i><?php echo utf8_decode($row['RESOLUTOR']);?></h5></a>
+          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"><h5 style="color: #007BFF;"><i class="bi bi-person rounded-circle" style="color: #007BFF;"></i> <?php echo utf8_decode($row['RESOLUTOR']);?></h5></a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
 		  	<?php if($row['ID_RESOLUTOR'] == 6)
             { echo '

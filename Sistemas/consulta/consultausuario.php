@@ -103,7 +103,6 @@ $cu = $row['CUIL'];
                     if (usuario.val() != '') {
                         filtros.append(`<li style="color:blue; margin-left: 15px;"><u>USUARIO</u>: ${usuario.val()}</li>`);
                     }
-                    
                     if (area.val() != '') {
                         filtros.append(`<li style="color:blue; margin-left: 15px;"><u>AREA</u>: ${$("#area option:selected").text()}</li>`);
                     }
@@ -156,14 +155,29 @@ $cu = $row['CUIL'];
                         const tabla = $("#tabla-datos");
                         tabla.empty();
                         respuesta.datos.forEach(fila => {
-                            
+
+                            let activo = fila.ACTIVO;  // Este valor lo obtienes de tu lógica o de una variable
+                            let color;
+
+                            if (activo === "ACTIVO") {
+                            color = "green";  // Si el estado es "solucionado", el color será verde
+                            } else if(activo === "INACTIVO") {
+                            color = "red";
+                            }
+
+                            if(fila.INTERNO === ""){
+                                interno = "-";
+                            } else{
+                                interno = fila.INTERNO;
+                            }
+
                             tabla.append(`<tr>
-                                <td><h4 style='font-size:14px; text-align:center;margin-right: 5px;'>${fila.NOMBRE}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:center;'>${fila.CUIL}</h4></td>
+                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.NOMBRE}</h4></td>
+                                <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>${fila.CUIL}</h4></td>
                                 <td><h4 style='font-size:14px; text-align:left;margin-right: 5px;'>${fila.AREA}</h4></td>
                                 <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-right: 5px;'>${fila.REPA}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:left;margin-right: 5px;'>${fila.INTERNO}</h4></td>
-                                <td><h4 style='font-size:14px;text-align:left;margin-right: 5px;'>${fila.ACTIVO}</h4></td>
+                                <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>${interno}</h4></td>
+                                <td><h4 style='font-size:14px;text-align:left;margin-right: 5px;color:${color};'>${activo}</h4></td>
                             </tr>`);
                         });
 
@@ -352,6 +366,9 @@ $cu = $row['CUIL'];
                     </div>
                     </div>
                 <div class="filtros-listadoParalelo" style="margin-right:20px; margin-top:20px;">
+                    <div>
+                        <button class="btn btn-success" style="font-size: 20px;"><a href="../abm/agregarusuario.php" style="text-decoration:none !important;color:white;" target="_blank">Agregar nuevo usuario</a></button>
+                    </div>
                     <div class="export">
                         Exportar a: <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
                     </div>
@@ -434,8 +451,8 @@ $cu = $row['CUIL'];
                 <th><p style="text-align:right; padding: 5px;">CUIL</p></th>
                 <th><p style="text-align:left; padding: 5px;">ÁREA</p></th>
                 <th><p style="text-align:left; padding: 5px;">REPARTICIÓN</p></th>
-                <th><p>INTERNO</p></th>
-                <th><p>ESTADO</p></th>
+                <th><p style="text-align:right; padding: 5px;">INTERNO</p></th>
+                <th><p style="text-align:left; padding: 5px;">ESTADO</p></th>
             </tr>
         </thead>
         <tbody id="tabla-datos"></tbody>
