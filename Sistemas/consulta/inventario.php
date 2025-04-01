@@ -142,13 +142,13 @@ $row = $resultado->fetch_assoc();
                             tabla.append(`<tr>
                                 <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.REPA}</h4></td>
                                 <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.AREA}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:left;margin-right: 5px;'>${fila.NOMBRE}</h4></td>
-                                <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-right: 5px;'>${fila.SERIEG}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:left;margin-right: 5px;'>${fila.SIST_OP}</h4></td>
-                                <td><h4 style='font-size:14px;text-align:left;margin-right: 5px;'>${fila.MICRO}</h4></td>
-                                <td><h4 style='font-size:14px;text-align:left;margin-right: 5px;'>${fila.TIPOWS}</h4></td>
-                                <td><h4 style='font-size:14px;text-align:left;margin-right: 5px;'>${fila.OBSERVACION}</h4></td>
-                                <td><h4 style='color:${color};font-size:14px;text-align:left;margin-right: 5px;'>${fila.ESTADO}</h4></td>
+                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.NOMBRE}</h4></td>
+                                <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${fila.SERIEG}</h4></td>
+                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.SIST_OP}</h4></td>
+                                <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.MICRO}</h4></td>
+                                <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.TIPOWS}</h4></td>
+                                <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.OBSERVACION}</h4></td>
+                                <td><h4 style='color:${color};font-size:14px;text-align:left;margin-left: 5px;'>${fila.ESTADO}</h4></td>
                                 <td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary'  target='_blank' href=consultadetalleinv.php?no="${fila.ID_WS}" target=new class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
                                 <path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
                                 <path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
@@ -385,7 +385,7 @@ $row = $resultado->fetch_assoc();
                         <input type="submit" class="btn btn-success" id="btnForm" name="busqueda" value="Buscar">
                     </div>
                 </div>
-                <div class="filtros-listadoParalelo" style="margin-right:20px; margin-top:-140px;">
+                <div class="filtros-listadoParalelo">
                     <div>
                         <button class="btn btn-success" style="font-size: 20px;"><a href="agregarequipo.php" style="text-decoration:none !important;color:white;" target="_blank">Agregar nuevo equipo</a></button>
                     </div>
@@ -467,13 +467,13 @@ $row = $resultado->fetch_assoc();
     <table class="table_id" style="width: 98%; margin: 0 auto;">
         <thead>
             <tr>
-                <th><p>REPARTICIÓN</p></th>
+                <th><p style="text-align:left; margin-left: 5px;">REPARTICIÓN</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">ÁREA</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">USUARIO</p></th>
-                <th><p style="text-align:center;">N° WS</p></th>
-                <th><p>S.O.</p></th>
+                <th><p style="text-align:left; margin-left: 5px;">N° WS</p></th>
+                <th><p style="text-align:left; margin-left: 5px;">S.O.</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">MICRO</p></th>
-                <th><p>TIPO</p></th>
+                <th><p style="text-align:center;">TIPO</p></th>
                 <th><p style="text-align:left; margin-left: 5px;width:220px;">OBSERVACION</p></th>
                 <th><p style="text-align:center;">ESTADO</p></th>
                 <th><p>MAS DETALLES</p></th>

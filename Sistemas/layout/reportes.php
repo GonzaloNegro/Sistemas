@@ -50,7 +50,7 @@
                             } 
                             ?>
                     <li><hr class="dropdown-divider"></li>
-                    <!-- <li><a href="../stock/stock.php" class="dropdown-item">STOCK</a></li> -->
+                    <li><a href="../stock/stock.php" class="dropdown-item">STOCK</a></li>
                 </ul>
             </li>
 			<li><a href="../calen/calen.php" class="nav-link px-2 link-dark link" data-bs-toggle="tooltip" title="Calendario" data-bs-placement="bottom"><i class="bi bi-calendar3"></i></a></li>

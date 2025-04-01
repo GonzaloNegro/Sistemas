@@ -359,8 +359,11 @@ $row = $resultado->fetch_assoc();
                     </div>
                 </div>
                     
-                <div class="filtros-listadoParalelo" style="margin-right:20px; margin-top:-60px;">
-                    <div style="display:flex;justify-content: flex-end;">Exportar a:<button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button></div>
+                <div class="filtros-listadoParalelo">
+                    <div>
+                        <button class="btn btn-success" style="font-size: 20px;"><a href="../abm/agregarmonitor.php" style="text-decoration:none !important;color:white;" target="_blank">Agregar nuevo monitor</a></button>
+                    </div>
+                    <div>Exportar a:<button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button></div>
                 </div>
             </div>
 

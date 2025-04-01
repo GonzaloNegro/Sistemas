@@ -368,7 +368,19 @@ $row = $resultado->fetch_assoc();
         <?php $cantidadTotal = 0;?>
         <?php While($rowSql = $sql->fetch_assoc()) {
             $cantidadTotal++;
-            $NUMERO=$rowSql['IMEI'];
+            $NUMERO=$rowSql['IMEI']; 
+
+            $estado = $rowSql['ESTADO']; // Este valor lo obtienes de tu lógica o de una variable
+            $color = "";
+
+            if ($estado === "EN USO") {
+                $color = "green";  // Si el estado es "en uso", el color será verde
+            } elseif ($estado === "BAJA") {
+                $color = "red";  // Si el estado es "baja", el color será rojo
+            } elseif ($estado === "S/A - STOCK") {
+                $color = "blue";  // Si el estado es "S/A - STOCK", el color será azul
+            }
+
             echo "
                 <tr>
                     <td><h4 style='font-size:16px; text-align:right;margin-right: 5px;'>".$rowSql['IMEI']."</h4></td>
@@ -377,7 +389,7 @@ $row = $resultado->fetch_assoc();
                     <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>".$rowSql['PROCEDENCIA']."</h4></td>
                     <td><h4 class='wrap2' style='font-size:16px; text-align:left;margin-left: 5px;'>".$rowSql['PROVEEDOR']."</h4></td>
                     <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>".$rowSql['MARCA']." - ".$rowSql['MODELO']."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:16px; text-align:left;margin-left: 5px;'>".$rowSql['ESTADO']."</h4></td>
+                    <td><h4 class='wrap2' style='font-size:16px; text-align:left;margin-left: 5px;color:".$color."'>".$rowSql['ESTADO']."</h4></td>
 
                     <td class='text-center text-nowrap'>
                         <a class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#exampleModal'

@@ -141,9 +141,12 @@ $row = $resultado->fetch_assoc();
                         <input type="submit" class="btn btn-success" name="busqueda" value="Buscar">
                     </div>
                 </div>
-                <div class="filtros-listadoParalelo" style="margin-right:20px; margin-top:-40px;">
+                <div class="filtros-listadoParalelo">
+                    <div>
+                        <button class="btn btn-success" style="font-size: 20px;"><a href="../abm/agregarotrosperifericos.php" style="text-decoration:none !important;color:white;" target="_blank">Agregar nuevo periférico</a></button>
+                    </div>
                     <div class="export">
-                        <div style="display:flex;justify-content: flex-end;">Exportar a: <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button></div>
+                        <div>Exportar a: <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button></div>
                     </div>
                 </div>
             </div>
@@ -312,7 +315,7 @@ $row = $resultado->fetch_assoc();
                 <th><p style="text-align:left; margin-left: 5px;">SERIEG</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">TIPO</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">MARCA</p></th>
-                <th><p style="text-align:center;">ESTADO</p></th>
+                <th><p style="text-align:left; margin-left: 5px;">ESTADO</p></th>
                 <th><p>MAS DETALLES</p></th>
             </tr>
         </thead>
@@ -320,6 +323,23 @@ $row = $resultado->fetch_assoc();
         <?php $cantidadTotal = 0;?>
         <?php While($rowSql = $sql->fetch_assoc()) {
             $cantidadTotal++;
+            
+            $estado = $rowSql['ESTADO']; // Este valor lo obtienes de tu lógica o de una variable
+            $color = "";
+
+            if ($estado === "EN USO") {
+                $color = "green";  // Si el estado es "en uso", el color será verde
+            } elseif ($estado === "BAJA") {
+                $color = "red";  // Si el estado es "baja", el color será rojo
+            } elseif ($estado === "S/A - STOCK") {
+                $color = "blue";  // Si el estado es "S/A - STOCK", el color será azul
+            }
+
+            if($rowSql['SERIEG'] === "" || $rowSql['SERIEG'] === "0"){
+                $rowSql['SERIEG'] = "-";
+            }
+
+
             echo "
                 <tr>
                     <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['MODELO']."</h4></td>
@@ -329,7 +349,7 @@ $row = $resultado->fetch_assoc();
                     <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['SERIEG']."</h4></td>
                     <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['TIPO']."</h4></td>
                     <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['MARCA']."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:14px; text-align: center;'>".$rowSql['ESTADO']."</h4></td>
+                    <td><h4 class='wrap2' style='font-size:14px; text-align: left;margin-left:5px;color:".$color."'>".$rowSql['ESTADO']."</h4></td>
                     <td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=consultadetalleotros.php?no=".$rowSql['ID_PERI']." target=new class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
                     <path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
                     <path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/></svg></a></td>

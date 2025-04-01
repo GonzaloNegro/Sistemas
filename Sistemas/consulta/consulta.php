@@ -197,10 +197,10 @@ $cu = $row['CUIL'];
                             tabla.append(`<tr>
                                 <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>${fila.ID_TICKET}</h4></td>
                                 <td><h4 style='font-size:14px; text-align:center;'>${fila.FECHA_INICIO}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:left;margin-right: 5px;'>${fila.NOMBRE}</h4></td>
-                                <td><h4 style='max-width: 180px;font-size:14px; text-align:left;margin-right: 5px;'>${fila.AREA} -<br/>${fila.REPA}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:left;margin-right: 5px;text-transform:uppercase;'>${fila.DESCRIPCION}</h4></td>
-                                <td><h4 style='font-size:14px; color:${color};text-align:left;margin-right: 5px;'>${fila.ESTADO}</h4></td>
+                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.NOMBRE}</h4></td>
+                                <td><h4 style='max-width: 180px;font-size:14px; text-align:left;margin-left: 5px;'>${fila.AREA} -<br/>${fila.REPA}</h4></td>
+                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;text-transform:uppercase;'>${fila.DESCRIPCION}</h4></td>
+                                <td><h4 style='font-size:14px; color:${color};text-align:left;margin-left: 5px;'>${fila.ESTADO}</h4></td>
                                 <td><h4 style='font-size:14px; text-align:center;'>${fechaSolucion}</h4></td>
                                 <td><h4 style='font-size:14px; text-align:left;margin-right: 5px;'>${fila.RESOLUTOR}</h4></td>
                                 ${boton}
@@ -486,11 +486,11 @@ $cu = $row['CUIL'];
                 <th id="th" style="padding: 5px;">USUARIO</th>
                 <th id="th" style="text-align:center;">ÁREA/REPARTICIÓN</th>
                 <th id="th" style="padding: 5px;">DESCRIPCIÓN</th>
-                <th id="th" style="text-align:center;">ESTADO</th>
+                <th id="th" style="text-align:left;padding: 5px;">ESTADO</th>
                 <th id="th" style="text-align:center;">FECHA SOLUCIÓN</th>
-                <th id="th" style="text-align:center;">RESOLUTOR</th>
+                <th id="th" style="text-align:left;padding: 5px;">RESOLUTOR</th>
                 <?php if ($row['ID_PERFIL'] != 5) {
-                echo'<th id="th">ACCIÓN</th>';
+                echo'<th id="th" style="text-align:center;">ACCIÓN</th>';
                 }?>
             </tr>
         </thead>

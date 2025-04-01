@@ -19,7 +19,7 @@ include('../particular/conexion.php');
 		$html = '';
 		$html .= '<table border="1">';
 		$html .= '<tr>';
-		$html .= '<td colspan="4">Listado Monitores</tr>';
+		$html .= '<td colspan="6">Listado Monitores</tr>';
 		$html .= '</tr>';
 
 

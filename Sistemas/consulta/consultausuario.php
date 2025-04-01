@@ -174,10 +174,10 @@ $cu = $row['CUIL'];
                             tabla.append(`<tr>
                                 <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.NOMBRE}</h4></td>
                                 <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>${fila.CUIL}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:left;margin-right: 5px;'>${fila.AREA}</h4></td>
-                                <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-right: 5px;'>${fila.REPA}</h4></td>
+                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.AREA}</h4></td>
+                                <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${fila.REPA}</h4></td>
                                 <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>${interno}</h4></td>
-                                <td><h4 style='font-size:14px;text-align:left;margin-right: 5px;color:${color};'>${activo}</h4></td>
+                                <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;color:${color};'>${activo}</h4></td>
                             </tr>`);
                         });
 
