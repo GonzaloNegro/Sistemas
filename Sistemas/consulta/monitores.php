@@ -135,10 +135,13 @@ $row = $resultado->fetch_assoc();
                             } else if(estado === "S/A - STOCK") {
                             color = "blue";  // Si el estado no es "solucionado", el color será rojo
                             }
-                            
+                            let usuario = fila.NOMBRE;
+                            if(!usuario){
+                                usuario = "NO ASIGNADO";
+                            }
                             tabla.append(`<tr>
                                 <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.MODELO}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.NOMBRE}</h4></td>
+                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${usuario}</h4></td>
                                 <td><h4 style='font-size:14px; text-align:left;margin-right: 5px;'>${fila.AREA}</h4></td>
                                 <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-right: 5px;'>${fila.REPA}</h4></td>
                                 <td><h4 style='font-size:14px;text-align:left;margin-right: 5px;'>${fila.TIPO}</h4></td>
