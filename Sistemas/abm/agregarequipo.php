@@ -49,17 +49,6 @@ $row = $resultado->fetch_assoc();
 <body>
 <script type="text/javascript">
 			function ok(){
-				// swal(  {title: "Equipo cargado correctamente",
-				// 		icon: "success",
-				// 		showConfirmButton: true,
-				// 		showCancelButton: false,
-				// 		})
-				// 		.then((confirmar) => {
-				// 		if (confirmar) {
-				// 			window.location.href='abmequipos.php';
-				// 		}
-				// 		}
-				// 		);
         Swal.fire({
                         title: "Equipo cargado correctamente.",
                         icon: "success",
@@ -86,15 +75,6 @@ $row = $resultado->fetch_assoc();
 			</script>
 <script type="text/javascript">
 			function no(){
-				// swal(  {title: "El equipo ya está registrado",
-				// 		icon: "error",
-				// 		})
-				// 		.then((confirmar) => {
-				// 		if (confirmar) {
-				// 			window.location.href='agregarequipo.php';
-				// 		}
-				// 		}
-				// 		);
         Swal.fire({
                         title: "El equipo ya está registrado",
                         icon: "error",

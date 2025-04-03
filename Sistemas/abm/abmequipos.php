@@ -29,7 +29,7 @@ $row = $resultado->fetch_assoc();
 </head>
 <body>
 <script type="text/javascript">
-			function ok(){
+			function okMod(){
 				swal(  {title: "Equipo modificado correctamente",
 						icon: "success",
 						showConfirmButton: true,
@@ -44,7 +44,7 @@ $row = $resultado->fetch_assoc();
 			}	
 			</script>
 <script type="text/javascript">
-			function no(){
+			function noMod(){
 				swal(  {title: "El equipo ingresado ya está registrado",
 						icon: "error",
 						})
@@ -86,7 +86,8 @@ $row = $resultado->fetch_assoc();
 								<th><p>REPARTICIÓN</p></th>
 								<th><p>MOTHERBOARD</p></th>
                                 <th><p>S.O.</p></th>
-                                <th><p>MICRO</p></th>";
+                                <th><p>MICRO</p></th>
+                                <th><p>ESTADO</p></th>";
 								if ($row['ID_PERFIL'] != 5) {
 								echo"<th><p>MODIFICAR</p></th>
 							</tr>";
@@ -97,9 +98,11 @@ $row = $resultado->fetch_assoc();
 					if(isset($_POST['btn2']))
 					{
 						$doc = $_POST['buscar'];
-						$consultar=mysqli_query($datos_base, "SELECT DISTINCT i.ID_WS, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, p.PLACAM, s.SIST_OP, m.MICRO
+						$consultar=mysqli_query($datos_base, "SELECT DISTINCT i.ID_WS, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, p.PLACAM, s.SIST_OP, m.MICRO, e.ESTADO
                         FROM inventario i 
-                        LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
+                        LEFT JOIN wsusuario AS w ON w.ID_WS = i.ID_WS
+                        LEFT JOIN usuarios AS u ON u.ID_USUARIO = w.ID_USUARIO
+						LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = i.ID_ESTADOWS
 						LEFT JOIN placamws AS pl ON pl.ID_WS = i.ID_WS
 						LEFT JOIN placam AS p ON p.ID_PLACAM = pl.ID_PLACAM
 						LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
@@ -131,9 +134,11 @@ $row = $resultado->fetch_assoc();
 					}
 					else
 					{
-						$consultar=mysqli_query($datos_base, "SELECT DISTINCT  i.ID_WS, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, p.PLACAM, s.SIST_OP, m.MICRO
+						$consultar=mysqli_query($datos_base, "SELECT DISTINCT  i.ID_WS, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, p.PLACAM, s.SIST_OP, m.MICRO, e.ESTADO
                         FROM inventario i 
-                        LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
+                        LEFT JOIN wsusuario AS w ON w.ID_WS = i.ID_WS
+                        LEFT JOIN usuarios AS u ON u.ID_USUARIO = w.ID_USUARIO
+                        LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = i.ID_ESTADOWS
 						LEFT JOIN placamws AS pl ON pl.ID_WS = i.ID_WS
 						LEFT JOIN placam AS p ON p.ID_PLACAM = pl.ID_PLACAM
 						LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
@@ -153,7 +158,8 @@ $row = $resultado->fetch_assoc();
 												<td><h4 style='font-size:16px;'>".$listar['REPA']."</h4></td>
 												<td><h4 style='font-size:16px;'>".$listar['PLACAM']."</h4></td>
 												<td><h4 style='font-size:16px;'>".$listar['SIST_OP']."</h4></td>
-												<td><h4 style='font-size:16px;'>".$listar['MICRO']."</h4></td>";
+												<td><h4 style='font-size:16px;'>".$listar['MICRO']."</h4></td>
+												<td><h4 style='font-size:16px;'>".$listar['ESTADO']."</h4></td>";
 												if ($row['ID_PERFIL'] != 5) {
 												echo"
 												<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modequipo.php?no=".$listar['ID_WS']." class=mod>Editar</a></td>
@@ -166,12 +172,12 @@ $row = $resultado->fetch_assoc();
 		    	<?php
 				if(isset($_GET['ok'])){
 					?>
-					<script>ok();</script>
+					<script>okMod();</script>
 					<?php			
 				}
 				if(isset($_GET['no'])){
 					?>
-					<script>no();</script>
+					<script>noMod();</script>
 					<?php			
 				}
 			?>

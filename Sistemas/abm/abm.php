@@ -49,7 +49,7 @@ $row = $resultado->fetch_assoc();
                     <a href=abmresolutor.php><button type="submit" class="boton_fondo_corredizo_izquierda">-RESOLUTOR-</button></a>
                  ';
 					} ?>
-                    <a href="abmequipos.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-EQUIPOS-</button></a>
+                    <!-- <a href="abmequipos.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-EQUIPOS-</button></a> -->
                     
 <!--                     <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" title="Mensaje en cartel" data-bs-placement="top">Tooltip on right</button> -->
 

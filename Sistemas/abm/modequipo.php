@@ -74,7 +74,7 @@ function ConsultarIncidente($no_tic)
 <body>
     <div id="reporteEst">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-            <a id="vlv"  href="abmequipos.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
+            <a id="vlv"  href="../consulta/inventario.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
         </div>					
     </div>
 	<section id="Inicio">

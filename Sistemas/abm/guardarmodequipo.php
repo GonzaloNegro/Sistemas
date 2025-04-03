@@ -270,7 +270,7 @@ if(isset($_POST['pvgar1'])){$pvgar1 = $_POST['pvgar1'];}else{$pvgar1 = "-";}
 
 /* ////////////////////////// */
 if($serieg == $serg){ 
-    header("Location: agregarequipo.php?no");
+    header("Location: ../consulta/inventario.php?no");
 }
 else{
     mysqli_query($datos_base, "INSERT INTO inventario VALUES (DEFAULT, '$area', '$serialn', '$serieg', '$marca', '$so', '$est', '$obs', '$prov', '$fac', '$masterizacion', '$mac', '$reserva', '$ip', '$red', '$tippc', '$usu', '$gar', '$procedencia')");
@@ -318,7 +318,7 @@ else{
     /* GUARDANDO PARA LAS MEJORAS */
     mysqli_query($datos_base, "INSERT INTO mejoras VALUES (DEFAULT, '$fechaActual', '$idws', '$ppla', '$mmic', '$pvmem', '$pvmem1', '$mem1', '$tmem1', '$pvel1', '$mem2', '$tmem2', '$pvel2', '$mem3', '$tmem3', '$pvel3', '$mem4', '$tmem4', '$pvel4', '$disc1', '$tdisc1', '$disc2', '$tdisc2', '$disc3', '$tdisc3', '$disc4', '$tdisc4')");
 
-    header("Location: agregarequipo.php?ok");
+    header("Location: ../consulta/inventario.php?ok");
 }
 mysqli_close($datos_base);
 ?>

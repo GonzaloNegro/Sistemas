@@ -69,6 +69,7 @@ function ConsultarIncidente($no_tic)
         <div class="form-group row justify-content-between" style="margin-top: 0px; margin-left: 10px; margin-right: 10px; padding:10px;">
             <a id="vlv"  href="./inventario.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
             <div class="btn-group col-3" role="group">
+                <button style="border: none;"><a id="botonleft" class="btn btn-secondary"<?php echo "href=modequipo.php?no=".$consulta[0].""?>>EDITAR</a></button>
                 <button style="border: none;"><a id="botonleft" class="btn btn-secondary"<?php echo "href=equipomovmej.php?no=".$consulta[0].""?>>MOVIMIENTOS</a></button>
                 <button style="border: none;"><a id="botonleft" class="btn btn-secondary"<?php echo "href=equipomovmej2.php?no=".$consulta[0].""?>>MEJORAS</a></button>
                 <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()" ><i class='bi bi-printer'></i></button>

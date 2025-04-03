@@ -613,7 +613,7 @@ if($usu == 277){
 } */
 
 if($serieg == $serg){ 
-    header("Location: abmequipos.php?no");
+    header("Location: ../consulta/inventario.php?noMod");
 }
 else{    
     /* MOVIMIENTOS DEL EQUIPO */
@@ -757,7 +757,7 @@ else{
     mysqli_query($datos_base, "UPDATE wsusuario SET ID_USUARIO = '$usu' WHERE ID_WS = '$id'");
 
 
-    header("Location: abmequipos.php?ok");
+    header("Location: ../consulta/inventario.php?okMod");
 }
 mysqli_close($datos_base);
 ?>
