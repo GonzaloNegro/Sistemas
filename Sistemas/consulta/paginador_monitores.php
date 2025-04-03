@@ -62,7 +62,8 @@ if (!empty($_GET['marca'])) {
 }
 if (!empty($_GET['area'])) {
     $area = intval($_GET['area']);
-    $where[] = "a.ID_AREA = $area";
+    // $where[] = "u.ID_AREA = $area";
+    $where[] = "p.ID_AREA = $area";
 }
 if (!empty($_GET['tipo'])) {
     $tipop = intval($_GET['tipo']);
@@ -100,7 +101,10 @@ $whereClause = !empty($where) ? 'WHERE ' . implode(' AND ', $where) : '';
 // Consultar el total de registros
 $sqlTotal = "SELECT COUNT(*) as total FROM periferico p
 LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
-LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO
+LEFT JOIN equipo_periferico ep ON p.ID_PERI=ep.ID_PERI
+LEFT JOIN inventario i ON ep.ID_WS=i.ID_WS
+LEFT JOIN wsusuario ws ON i.ID_WS=ws.ID_WS
+LEFT JOIN usuarios u ON ws.ID_USUARIO=u.ID_USUARIO
 LEFT JOIN area AS a ON  a.ID_AREA = p.ID_AREA
 INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
 LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS
@@ -118,7 +122,10 @@ $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
        $query ="SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, a.AREA, e.ESTADO, r.REPA			
        FROM periferico p
        LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
-       LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO
+        LEFT JOIN equipo_periferico ep ON p.ID_PERI=ep.ID_PERI
+        LEFT JOIN inventario i ON ep.ID_WS=i.ID_WS
+        LEFT JOIN wsusuario ws ON i.ID_WS=ws.ID_WS
+        LEFT JOIN usuarios u ON ws.ID_USUARIO=u.ID_USUARIO
        LEFT JOIN area AS a ON  a.ID_AREA = p.ID_AREA
        INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
        LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS
@@ -129,8 +136,11 @@ $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 //query que se enviara a excelimpresoras
         $query_excel ="SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, a.AREA, e.ESTADO, r.REPA			
         FROM periferico p
-        LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
-        LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO
+        LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO  
+        LEFT JOIN equipo_periferico ep ON p.ID_PERI=ep.ID_PERI
+        LEFT JOIN inventario i ON ep.ID_WS=i.ID_WS
+        LEFT JOIN wsusuario ws ON i.ID_WS=ws.ID_WS
+        LEFT JOIN usuarios u ON ws.ID_USUARIO=u.ID_USUARIO
         LEFT JOIN area AS a ON  a.ID_AREA = p.ID_AREA
         INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
         LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS

@@ -1,5 +1,5 @@
 <?php 
-error_reporting(0);
+//error_reporting(0);
 session_start();
 include('../particular/conexion.php');
 
@@ -27,7 +27,7 @@ function ConsultarIncidente($no_tic)
         $filas['ID_PROVEEDOR'],/*12*/
 		$filas['FACTURA'],/*13*/
         $filas['ID_AREA'],/*14*/
-        $filas['ID_USUARIO'],/*15*/
+        //$filas['ID_USUARIO'],/*15*/
 		$filas['GARANTIA'],/*16*/
         $filas['ID_ESTADOWS'],/*17*/
 	];
@@ -81,17 +81,18 @@ function ConsultarIncidente($no_tic)
             <div id="detalles">
             <?php
                 /*/////////////////////NOMBRE//////////////////////*/
-                $sql = "SELECT u.NOMBRE FROM periferico p LEFT JOIN usuarios u ON u.ID_USUARIO = p.ID_USUARIO WHERE p.ID_USUARIO='$consulta[15]'";
-                $resultado = $datos_base->query($sql);
-                $row = $resultado->fetch_assoc();
-                $nom = $row['NOMBRE'];
+                // $sql = "SELECT u.NOMBRE FROM periferico p LEFT JOIN usuarios u ON u.ID_USUARIO = p.ID_USUARIO WHERE p.ID_USUARIO='$consulta[15]'";
+                // $resultado = $datos_base->query($sql);
+                // $row = $resultado->fetch_assoc();
+                // $nom = $row['NOMBRE'];
                 /*/////////////////////AREA//////////////////////*/
                 $sql = "SELECT a.AREA FROM periferico p LEFT JOIN area a ON a.ID_AREA = p.ID_AREA WHERE p.ID_AREA='$consulta[14]'";
                 $resultado = $datos_base->query($sql);
                 $row = $resultado->fetch_assoc();
                 $are = $row['AREA'];
                 /*/////////////////////ESTADO//////////////////////*/
-                $sql = "SELECT e.ESTADO FROM periferico p INNER JOIN estado_ws e ON e.ID_ESTADOWS = p.ID_ESTADOWS WHERE p.ID_ESTADOWS='$consulta[17]'";
+                // $sql = "SELECT e.ESTADO FROM periferico p INNER JOIN estado_ws e ON e.ID_ESTADOWS = p.ID_ESTADOWS WHERE p.ID_ESTADOWS='$consulta[17]'";
+                $sql = "SELECT e.ESTADO FROM periferico p INNER JOIN estado_ws e ON e.ID_ESTADOWS = p.ID_ESTADOWS WHERE p.ID_ESTADOWS='$consulta[16]'";
                 $resultado = $datos_base->query($sql);
                 $row = $resultado->fetch_assoc();
                 $est = $row['ESTADO'];
@@ -116,7 +117,8 @@ function ConsultarIncidente($no_tic)
                  $row = $resultado->fetch_assoc();
                  $prove = $row['PROVEEDOR'];
              ?>
-            <h4><u>USUARIO RESPONSABLE:</u>&nbsp &nbsp &nbsp<?php echo $nom ?></h4>
+            <h4><u>USUARIO RESPONSABLE:</u>&nbsp &nbsp &nbsp</h4>
+            <!-- <h4><u>USUARIO RESPONSABLE:</u>&nbsp &nbsp &nbsp<?php echo $nom ?></h4> -->
             <h4><u>ÁREA DE UBICACIÓN:</u>&nbsp &nbsp &nbsp<?php echo $are?></h4>
             <hr style='display: block; height: 3px;'>
             <h4><u>TIPO:</u>&nbsp &nbsp &nbsp<?php echo $tip?></h4>
@@ -132,7 +134,8 @@ function ConsultarIncidente($no_tic)
             <hr style='display: block; height: 3px;'>
             <h4><u>PROVEEDOR:</u>&nbsp &nbsp &nbsp<?php echo $prove?></h4>
             <h4><u>N° FACTURA:</u>&nbsp &nbsp &nbsp<?php echo $consulta[13]?></h4>
-            <h4><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $consulta[16]?></h4>
+            <!-- <h4><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php #echo $consulta[16]?></h4> -->
+            <h4><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $consulta[15]?></h4>
             <hr style='display: block; height: 3px;'>
             <h4><u>OBSERVACIÓN:</u>&nbsp &nbsp &nbsp<?php echo $consulta[7]?></h4><br>
             </div>

@@ -160,7 +160,10 @@ $row = $resultado->fetch_assoc();
                 FROM periferico p 
                 LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
                 LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
-                LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
+                LEFT JOIN equipo_periferico ep ON p.ID_PERI=ep.ID_PERI
+                LEFT JOIN inventario i ON ep.ID_WS=i.ID_WS
+                LEFT JOIN wsusuario ws ON i.ID_WS=ws.ID_WS
+                LEFT JOIN usuarios u ON ws.ID_USUARIO=u.ID_USUARIO
                 LEFT JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
                 LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS 
                 LEFT JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
@@ -169,8 +172,11 @@ $row = $resultado->fetch_assoc();
                 $query = "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, mo.MODELO, t.TIPO, m.MARCA, p.TIPOP, e.ESTADO, r.REPA		
                 FROM periferico p 
                 LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
-                LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
-                LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
+                LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA  
+                LEFT JOIN equipo_periferico ep ON p.ID_PERI=ep.ID_PERI
+                LEFT JOIN inventario i ON ep.ID_WS=i.ID_WS
+                LEFT JOIN wsusuario ws ON i.ID_WS=ws.ID_WS
+                LEFT JOIN usuarios u ON ws.ID_USUARIO=u.ID_USUARIO
                 LEFT JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
                 LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS 
                 LEFT JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
@@ -193,7 +199,8 @@ $row = $resultado->fetch_assoc();
             $query .= " AND m.ID_MARCA = '".$_POST["marca"]."' ";
         }
         if ($_POST["area"] != '' ){
-            $query .= " AND a.ID_AREA = '".$_POST["area"]."' ";
+            $query .= " AND p.ID_AREA = '".$_POST["area"]."' ";
+            // $query .= " AND u.ID_AREA = '".$_POST["area"]."' ";
         }
         if ($_POST["tipo"] != '' ){
             $query .= " AND t.ID_TIPOP = '".$_POST["tipo"]."' ";
@@ -225,7 +232,10 @@ $row = $resultado->fetch_assoc();
     FROM periferico p 
     LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
     LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
-    LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
+    LEFT JOIN equipo_periferico ep ON p.ID_PERI=ep.ID_PERI
+    LEFT JOIN inventario i ON ep.ID_WS=i.ID_WS
+    LEFT JOIN wsusuario ws ON i.ID_WS=ws.ID_WS
+    LEFT JOIN usuarios u ON ws.ID_USUARIO=u.ID_USUARIO
     LEFT JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
     LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS
     LEFT JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
@@ -338,12 +348,15 @@ $row = $resultado->fetch_assoc();
             if($rowSql['SERIEG'] === "" || $rowSql['SERIEG'] === "0"){
                 $rowSql['SERIEG'] = "-";
             }
-
+            $usuario = $rowSql['NOMBRE'];
+            if($usuario==NULL){
+                $usuario = "NO ASIGNADO";
+            }                
 
             echo "
                 <tr>
                     <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['MODELO']."</h4></td>
-                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['NOMBRE']."</h4></td>
+                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$usuario."</h4></td>
                     <td><h4 class='wrap2' style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['AREA']."</h4></td>
                     <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['REPA']."</h4></td>
                     <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['SERIEG']."</h4></td>
