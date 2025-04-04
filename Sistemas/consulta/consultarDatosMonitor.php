@@ -1,6 +1,6 @@
 <?php
 	session_start();
-    error_reporting(0);
+    //error_reporting(0);
     include('../particular/conexion.php');
     if(!isset($_SESSION['cuil'])) 
         {       
@@ -12,13 +12,18 @@
     $idPeri = $_POST['idPeri'];
     $tipoConsulta = $_POST['tipoConsulta'];
 
-    if ($tipoConsulta == 'Info') {
+      if ($tipoConsulta == 'Info') {
 
-        $resultados=mysqli_query($datos_base, "SELECT * FROM periferico WHERE ID_PERI = '$idPeri'");
+        $resultados=mysqli_query($datos_base, "SELECT p.ID_PERI, p.ID_TIPOP, p.NOMBREP, p.SERIEG, p.ID_MARCA, p.SERIE, p.ID_PROCEDENCIA, p.OBSERVACION, p.TIPOP, p.MAC, p.RIP, p.IP, 
+        p.ID_PROVEEDOR, p.FACTURA, u.ID_AREA, u.ID_USUARIO, p.GARANTIA, p.ID_ESTADOWS, p.ID_MODELO FROM periferico p LEFT JOIN equipo_periferico ep ON p.ID_PERI=ep.ID_PERI
+        LEFT JOIN inventario i ON ep.ID_WS=i.ID_WS
+        LEFT JOIN wsusuario ws ON i.ID_WS=ws.ID_WS
+        LEFT JOIN usuarios u ON ws.ID_USUARIO=u.ID_USUARIO
+        LEFT JOIN area AS a ON a.ID_AREA = u.ID_AREA WHERE p.ID_PERI='".$idPeri."'");
         $num_rows= mysqli_num_rows($resultados);
-        if ($num_rows>0) {
-            while($consulta = mysqli_fetch_array($resultados))
-            {
+          if ($num_rows>0) {
+              while($consulta = mysqli_fetch_array($resultados))
+              {
                 //CARGO EN  LISTA EL CONTENIDO DE LA LISTA DE DETALLES A PARTIR DEL RESULTADO DE LA BUSQUEDA
                 //CALCULO DE INTERVALO ENTRE FECHAS DE INICIO Y DE SOLUCION, SI ALGUNA DE ESTAS ESTA EN NULL NO MUESTRA 
                 //UTILIZA LA API CARBON
@@ -37,17 +42,21 @@
                 $factura=$consulta['FACTURA'];
                 $idArea=$consulta['ID_AREA'];
                 $idUsuario=$consulta['ID_USUARIO'];
-                $garantia=$consulta['GRANTIA'];
+                $garantia=$consulta['GARANTIA'];
                 $idEstadoWs=$consulta['ID_ESTADOWS'];
                 $idModelo=$consulta['ID_MODELO'];
 
-            /*/////////////////////NOMBRE//////////////////////*/
-            $sql = "SELECT u.NOMBRE FROM periferico p LEFT JOIN usuarios u ON u.ID_USUARIO = p.ID_USUARIO WHERE p.ID_USUARIO='$idUsuario'";
+            // /*/////////////////////NOMBRE//////////////////////*/
+            $sql = "SELECT u.NOMBRE FROM usuarios u WHERE u.ID_USUARIO='$idUsuario'";
             $resultado = $datos_base->query($sql);
             $row = $resultado->fetch_assoc();
             $usuario = $row['NOMBRE'];
             /*/////////////////////AREA//////////////////////*/
-            $sql = "SELECT a.AREA FROM periferico p LEFT JOIN area a ON a.ID_AREA = p.ID_AREA WHERE p.ID_AREA='$idArea'";
+            $sql = "SELECT a.AREA FROM periferico p LEFT JOIN equipo_periferico ep ON p.ID_PERI=ep.ID_PERI
+            LEFT JOIN inventario i ON ep.ID_WS=i.ID_WS
+            LEFT JOIN wsusuario ws ON i.ID_WS=ws.ID_WS
+            LEFT JOIN usuarios u ON ws.ID_USUARIO=u.ID_USUARIO
+            LEFT JOIN area AS a ON a.ID_AREA = u.ID_AREA WHERE u.ID_AREA='$idArea'";
             $resultado = $datos_base->query($sql);
             $row = $resultado->fetch_assoc();
             $area = $row['AREA'];
@@ -83,10 +92,15 @@
             $row = $resultado->fetch_assoc();
             $procedencia = $row['PROCEDENCIA'];
             /*/////////////////////PROVEEDOR//////////////////////*/
-            $sql = "SELECT pr.PROVEEDOR FROM periferico p LEFT JOIN proveedor pr ON pr.ID_PROVEEDOR = p.ID_PROVEEDOR WHERE p.ID_PROVEEDOR='$proveedor'";
+            $sql = "SELECT pr.PROVEEDOR FROM periferico p LEFT JOIN proveedor pr ON pr.ID_PROVEEDOR = p.ID_PROVEEDOR WHERE p.ID_PROVEEDOR='$idProveedor'";
             $resultado = $datos_base->query($sql);
             $row = $resultado->fetch_assoc();
             $prove = $row['PROVEEDOR'];
+
+           echo' <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+                <label>Monitor:</label>
+                <label>HOLA</label>
+            </div>';
                 
         echo'
             <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
@@ -135,7 +149,7 @@
 
             <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
                 <label>Poveedor:</label>
-                <label>'.$proveedor.'</label>
+                <label>'.$prove.'</label>
             </div>
             <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
                 <label>N° Factura:</label>
@@ -149,12 +163,12 @@
                 <label>Observación:</label>
                 <label>'.$observacion.'</label>
             </div>';
-            }	
-        }
-        else {
-            echo "";
-        }
-    }
+              }	
+         }
+         else {
+             echo "";
+         }
+     }
 
 
     elseif ($tipoConsulta == 'Movimientos') {
@@ -218,6 +232,10 @@
                             $colorare = "#000000";
                             $colorest = "#000000";
 
+							$nom = $listar['NOMBRE'];
+							$are = $listar['AREA'];
+							$est = $listar['ESTADO'];
+
 						    echo" 
 								<tr>
                                     <td style='min-width:100px;'><h4 style='font-size:16px;text-align: center;'>".$fecord."</h4></td>
@@ -229,15 +247,13 @@
 									<td><h4 style='font-size:16px;text-align: center;'><font color=".colorear($est, $listar['ESTADO'], $colorest)."'>".$listar['ESTADO']."</font></h4></td>
 
 								</tr>";
-
-							$nom = $listar['NOMBRE'];
-							$are = $listar['AREA'];
-							$est = $listar['ESTADO'];
 						}
 					echo "</table>";
-			?>
-		</div>
-        <?php ;}	
+                 echo"</div>";
+                    }
+ 			?>
+		
+         <?php 	
         }
         else {
             echo "";
