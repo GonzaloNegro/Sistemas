@@ -62,8 +62,8 @@ if (!empty($_GET['marca'])) {
 }
 if (!empty($_GET['area'])) {
     $area = intval($_GET['area']);
-    // $where[] = "u.ID_AREA = $area";
-    $where[] = "p.ID_AREA = $area";
+     $where[] = "u.ID_AREA = $area";
+    //$where[] = "p.ID_AREA = $area";
 }
 if (!empty($_GET['tipo'])) {
     $tipop = intval($_GET['tipo']);
@@ -105,7 +105,7 @@ LEFT JOIN equipo_periferico ep ON p.ID_PERI=ep.ID_PERI
 LEFT JOIN inventario i ON ep.ID_WS=i.ID_WS
 LEFT JOIN wsusuario ws ON i.ID_WS=ws.ID_WS
 LEFT JOIN usuarios u ON ws.ID_USUARIO=u.ID_USUARIO
-LEFT JOIN area AS a ON  a.ID_AREA = p.ID_AREA
+LEFT JOIN area AS a ON a.ID_AREA = u.ID_AREA
 INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
 LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS
 LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA  
@@ -126,7 +126,7 @@ $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
         LEFT JOIN inventario i ON ep.ID_WS=i.ID_WS
         LEFT JOIN wsusuario ws ON i.ID_WS=ws.ID_WS
         LEFT JOIN usuarios u ON ws.ID_USUARIO=u.ID_USUARIO
-       LEFT JOIN area AS a ON  a.ID_AREA = p.ID_AREA
+        LEFT JOIN area AS a ON a.ID_AREA = u.ID_AREA
        INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
        LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS
        LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA  
@@ -141,7 +141,7 @@ $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
         LEFT JOIN inventario i ON ep.ID_WS=i.ID_WS
         LEFT JOIN wsusuario ws ON i.ID_WS=ws.ID_WS
         LEFT JOIN usuarios u ON ws.ID_USUARIO=u.ID_USUARIO
-        LEFT JOIN area AS a ON  a.ID_AREA = p.ID_AREA
+        LEFT JOIN area AS a ON a.ID_AREA = u.ID_AREA
         INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
         LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS
         LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA  
