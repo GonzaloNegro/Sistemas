@@ -28,34 +28,6 @@ $row = $resultado->fetch_assoc();
 	</style>
 </head>
 <body>
-<script type="text/javascript">
-			function okMod(){
-				swal(  {title: "Equipo modificado correctamente",
-						icon: "success",
-						showConfirmButton: true,
-						showCancelButton: false,
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='abmequipos.php';
-						}
-						}
-						);
-			}	
-			</script>
-<script type="text/javascript">
-			function noMod(){
-				swal(  {title: "El equipo ingresado ya está registrado",
-						icon: "error",
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='abmequipos.php';
-						}
-						}
-						);
-			}	
-			</script>
     <section id="inicio">
 		 <div id="reporteEst">   
             <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
@@ -169,18 +141,6 @@ $row = $resultado->fetch_assoc();
 					}
 					echo "</table>";
 					?>
-		    	<?php
-				if(isset($_GET['ok'])){
-					?>
-					<script>okMod();</script>
-					<?php			
-				}
-				if(isset($_GET['no'])){
-					?>
-					<script>noMod();</script>
-					<?php			
-				}
-			?>
     </section>
 	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>

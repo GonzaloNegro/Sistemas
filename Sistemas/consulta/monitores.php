@@ -502,7 +502,6 @@ $row = $resultado->fetch_assoc();
         </div>
     </div>
 
-
     <script>
         function cargar_informacion(id_peri, tipoConsulta) {
             var parametros = {
@@ -607,7 +606,7 @@ function imprimir2() {
 
 
 
-    </script>
+</script>
 
 <style>
 @media print {

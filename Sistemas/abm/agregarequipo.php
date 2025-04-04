@@ -47,59 +47,6 @@ $row = $resultado->fetch_assoc();
 	</style>
 </head>
 <body>
-<script type="text/javascript">
-			function ok(){
-        Swal.fire({
-                        title: "Equipo cargado correctamente.",
-                        icon: "success",
-                        showConfirmButton: true,
-                        showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                          window.location.href='abmequipos.php';
-
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
-			}	
-			</script>
-<script type="text/javascript">
-			function no(){
-        Swal.fire({
-                        title: "El equipo ya está registrado",
-                        icon: "error",
-                        showConfirmButton: true,
-                        showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                          window.location.href='agregarequipo.php';
-
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
-			}	
-			</script>
-
     <div id="reporteEst">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
             <a id="vlv"  href="abmequipos.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
@@ -1263,18 +1210,6 @@ $row = $resultado->fetch_assoc();
 ?>
                             
 					</form>
-                    <?php
-						if(isset($_GET['ok'])){
-							?>
-							<script>ok();</script>
-							<?php			
-						}
-						if(isset($_GET['no'])){
-							?>
-							<script>no();</script>
-							<?php			
-						}
-					?>
 		</div>
 	</section>
 	<footer></footer>

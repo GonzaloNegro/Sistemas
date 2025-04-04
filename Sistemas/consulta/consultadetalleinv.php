@@ -1,5 +1,5 @@
 <?php 
-error_reporting(0);
+/* error_reporting(0); */
 session_start();
 include('../particular/conexion.php');
 
@@ -28,8 +28,8 @@ function ConsultarIncidente($no_tic)
         $filas['IP'],/*13*/
         $filas['ID_RED'],/*14*/
 		$filas['ID_TIPOWS'],/*15*/
-        $filas['ID_USUARIO'],/*16*/
-		$filas['GARANTIA']/*17*/
+		$filas['GARANTIA'],/*16*/
+        $filas['ID_PROCEDENCIA']/*17*/
 	];
 }
 
@@ -69,7 +69,7 @@ function ConsultarIncidente($no_tic)
         <div class="form-group row justify-content-between" style="margin-top: 0px; margin-left: 10px; margin-right: 10px; padding:10px;">
             <a id="vlv"  href="./inventario.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
             <div class="btn-group col-3" role="group">
-                <button style="border: none;"><a id="botonleft" class="btn btn-secondary"<?php echo "href=modequipo.php?no=".$consulta[0].""?>>EDITAR</a></button>
+                <button style="border: none;"><a id="botonleft" class="btn btn-secondary"<?php echo "href=../abm/modequipo.php?no=".$consulta[0].""?>>EDITAR</a></button>
                 <button style="border: none;"><a id="botonleft" class="btn btn-secondary"<?php echo "href=equipomovmej.php?no=".$consulta[0].""?>>MOVIMIENTOS</a></button>
                 <button style="border: none;"><a id="botonleft" class="btn btn-secondary"<?php echo "href=equipomovmej2.php?no=".$consulta[0].""?>>MEJORAS</a></button>
                 <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()" ><i class='bi bi-printer'></i></button>
@@ -83,7 +83,11 @@ function ConsultarIncidente($no_tic)
             <div id="detalles" class="container-fluid">
                 <?php
                     /*/////////////////////NOMBRE//////////////////////*/
-                    $sql = "SELECT u.NOMBRE FROM inventario i LEFT JOIN usuarios u ON i.ID_USUARIO = u.ID_USUARIO WHERE i.ID_USUARIO='$consulta[16]'";
+                    $sql = "SELECT u.NOMBRE FROM wsusuario w 
+                    LEFT JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO 
+                    WHERE w.ID_WS='$consulta[0]' 
+                    ORDER BY w.ID_WSUSU DESC
+                    LIMIT 1;";
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
                     $nom = $row['NOMBRE'];

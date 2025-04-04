@@ -38,51 +38,127 @@ $row = $resultado->fetch_assoc();
 	</style>
 </head>
 <body>
-<script>
-                //Funcion que va mostrando que filtros se van utilizando
-                function mostrarFiltros(){
-                    const busqueda = $("#buscar");
-                    const area = $("#area");
-                    const reparticion = $("#reparticion");
-                    const orden = $("#orden"); 
-                    const tipows = $("#tipows"); 
-                    const so = $("#so"); 
-                    const micro = $("#micro"); 
-                    const estado = $("#estado");
-                    
-                    const filtros = $("#filtrosUsados");
-                    // Vaciar el div antes de agregar nuevos filtros
-                    filtros.empty();
+    <script>
+	function ok(){
+        Swal.fire({
+                    title: "Equipo cargado correctamente.",
+                    icon: "success",
+                    showConfirmButton: true,
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonText: "Cancelar",
+                    customClass:{
+                        actions: 'reverse-button'
+                    }
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href='abmequipos.php';
 
-                    
-                    filtros.append();
-                    
-                    if (busqueda.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>BÚSQUEDA</u>: ${busqueda.val()}</li>`);
-                    }
-                    
-                    if (area.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>AREA</u>: ${$("#area option:selected").text()}</li>`);
-                    }
-                    if (reparticion.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>REPARTICION</u>: ${$("#reparticion option:selected").text()}</li>`);
-                    }
-                    if (tipows.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>TIPO WS</u>: ${$("#tipows option:selected").text()}</li>`);
-                    }if (so.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>S.O.</u>: ${$("#so option:selected").text()}</li>`);
-                    }if (micro.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>MICRO</u>: ${$("#micro option:selected").text()}</li>`);
-                    }if (estado.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>ESTADO</u>: ${$("#estado option:selected").text()}</li>`);
-                    }
-                    if (orden.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>ORDEN</u>: ${$("#orden option:selected").text()}</li>`);
-                    }
 
-                    filtros.show();
+                    } else if (result.isDenied) {
+                        Swal.fire('Changes are not saved', '', 'info')
+                    }
+                })
+        }	
+
+	function no(){
+        Swal.fire({
+                    title: "El equipo ya está registrado",
+                    icon: "error",
+                    showConfirmButton: true,
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonText: "Cancelar",
+                    customClass:{
+                        actions: 'reverse-button'
+                    }
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href='agregarequipo.php';
+
+
+                    } else if (result.isDenied) {
+                        Swal.fire('Changes are not saved', '', 'info')
+                    }
+                })
+        }
+
+    function okMod(){
+        Swal,fire(  {title: "Equipo modificado correctamente",
+                icon: "success",
+                showConfirmButton: true,
+                showCancelButton: false,
+                })
+                .then((confirmar) => {
+                if (confirmar) {
+                    window.location.href='abmequipos.php';
                 }
-            </script>
+                }
+                );
+        }
+    function noMod(){
+        Swal.fire(  {title: "El equipo ingresado ya está registrado",
+                icon: "error",
+                })
+                .then((confirmar) => {
+                if (confirmar) {
+                    window.location.href='abmequipos.php';
+                }
+                }
+                );
+        }	
+
+
+    //Funcion que va mostrando que filtros se van utilizando
+    function mostrarFiltros(){
+        const busqueda = $("#buscar");
+        const area = $("#area");
+        const reparticion = $("#reparticion");
+        const orden = $("#orden"); 
+        const tipows = $("#tipows"); 
+        const so = $("#so"); 
+        const micro = $("#micro"); 
+        const estado = $("#estado");
+        
+        const filtros = $("#filtrosUsados");
+        // Vaciar el div antes de agregar nuevos filtros
+        filtros.empty();
+
+        
+        filtros.append();
+        
+        if (busqueda.val() != '') {
+            filtros.append(`<li style="color:blue; margin-left: 15px;"><u>BÚSQUEDA</u>: ${busqueda.val()}</li>`);
+        }
+        
+        if (area.val() != '') {
+            filtros.append(`<li style="color:blue; margin-left: 15px;"><u>AREA</u>: ${$("#area option:selected").text()}</li>`);
+        }
+        if (reparticion.val() != '') {
+            filtros.append(`<li style="color:blue; margin-left: 15px;"><u>REPARTICION</u>: ${$("#reparticion option:selected").text()}</li>`);
+        }
+        if (tipows.val() != '') {
+            filtros.append(`<li style="color:blue; margin-left: 15px;"><u>TIPO WS</u>: ${$("#tipows option:selected").text()}</li>`);
+        }if (so.val() != '') {
+            filtros.append(`<li style="color:blue; margin-left: 15px;"><u>S.O.</u>: ${$("#so option:selected").text()}</li>`);
+        }if (micro.val() != '') {
+            filtros.append(`<li style="color:blue; margin-left: 15px;"><u>MICRO</u>: ${$("#micro option:selected").text()}</li>`);
+        }if (estado.val() != '') {
+            filtros.append(`<li style="color:blue; margin-left: 15px;"><u>ESTADO</u>: ${$("#estado option:selected").text()}</li>`);
+        }
+        if (orden.val() != '') {
+            filtros.append(`<li style="color:blue; margin-left: 15px;"><u>ORDEN</u>: ${$("#orden option:selected").text()}</li>`);
+        }
+
+        filtros.show();
+    }
+    </script>
              <script>
                 //Cargar datos en la tabla
         $(document).ready(function () {
@@ -149,7 +225,7 @@ $row = $resultado->fetch_assoc();
                                 <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.TIPOWS}</h4></td>
                                 <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.OBSERVACION}</h4></td>
                                 <td><h4 style='color:${color};font-size:14px;text-align:left;margin-left: 5px;'>${fila.ESTADO}</h4></td>
-                                <td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary'  target='_blank' href=consultadetalleinv.php?no="${fila.ID_WS}" target=new class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
+                                <td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary'  target='_blank' href=consultadetalleinv.php?no=${fila.ID_WS} target=new class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
                                 <path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
                                 <path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
                                 </svg></a>
@@ -487,6 +563,31 @@ $row = $resultado->fetch_assoc();
         <form id="formu" action="../exportar/ExcelInventario.php" method="POST">
             <input type="text" id="excel" name="sql" class="valorPeque" readonly="readonly" value="">
         </form>
+        <?php
+            if(isset($_GET['okMod'])){
+                ?>
+                <script>okMod();</script>
+                <?php			
+            }
+
+            if(isset($_GET['noMod'])){
+                ?>
+                <script>noMod();</script>
+                <?php			
+            }
+
+            if(isset($_GET['ok'])){
+                ?>
+                <script>ok();</script>
+                <?php			
+            }
+
+            if(isset($_GET['no'])){
+                ?>
+                <script>no();</script>
+                <?php			
+            }
+        ?>
 	</section>
 	<footer id="footer_pag"><div class="pagination justify-content-center mt-3" id="paginador"></div></footer>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

@@ -178,6 +178,16 @@ $cu = $row['CUIL'];
                                 <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${fila.REPA}</h4></td>
                                 <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>${interno}</h4></td>
                                 <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;color:${color};'>${activo}</h4></td>
+                                <td class='text-center text-nowrap'>
+                                    <a class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#modalInfo' 
+                                        onclick='cargar_informacion(${fila.ID_USUARIO})' 
+                                        target='_blank' class='mod'>
+                                        Info
+                                    </a>
+                                    <a class='btn btn-info' style='color: white;' href='../abm/modusuario.php?no=${fila.ID_USUARIO}' target='_blank' class='mod'>
+                                        Editar
+                                    </a>
+                                </td>
                             </tr>`);
                         });
 
@@ -453,6 +463,7 @@ $cu = $row['CUIL'];
                 <th><p style="text-align:left; padding: 5px;">REPARTICIÓN</p></th>
                 <th><p style="text-align:right; padding: 5px;">INTERNO</p></th>
                 <th><p style="text-align:left; padding: 5px;">ESTADO</p></th>
+                <th><p>MAS DETALLES</p></th>
             </tr>
         </thead>
         <tbody id="tabla-datos"></tbody>
@@ -466,6 +477,87 @@ $cu = $row['CUIL'];
         </form>
 	</section>
 	<footer id="footer_pag"><div class="pagination justify-content-center mt-3" id="paginador"></div></footer>
+         <!-- MODALES -->
+    <div class="modal fade modal--usu" id="modalInfo" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">INFORMACIÓN</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="contenidoInfo" style="display:flex;flex-direction:column;gap:10px;">
+                    </div>
+                </div>
+                <div id="resultado" class="resultado">
+                </div>
+                <div class="modal-footer" id="no-imprimir">
+                    <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()"><i class='bi bi-printer' style="color:white;"></i></button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+     function cargar_informacion(id_usuario) {
+        //buscar ES EL ID DEL CASO//
+        var parametros = {
+            "idUsuario": id_usuario
+        };
+        //LA VARIABLE BUSCAR UTILIZA EL ID CASO Y LA ENVIA AL SERVIDOR DE NOVEDADES///
+        $.ajax({
+            data: parametros,
+            url: "./consultarDatosUsuario.php",
+            type: "POST",
+            //TRAE DE FORMA ASINCRONA, CONSUME EL SERVIDOR DE NOVEDADES Y MUESTRA EN EL DIV MOSTRAR_MENSAJE TODAS LAS NOVEDADES RELACIONADAS////
+            beforesend: function() {
+                $("#contenidoInfo").html("Mensaje antes de Enviar");
+            },
+
+            success: function(mensaje) {
+                $("#contenidoInfo").html(mensaje);
+            }
+        });
+    };
+
+        function imprimir() {
+        // Guardar el estado original de los elementos
+        var contenidoOriginal = document.body.innerHTML;
+        
+        // Obtener solo el contenido del primer modal
+        var contenidoModal = document.getElementById('modalInfo').innerHTML;
+
+        // Obtener los estilos de la página original
+        var estilos = '';
+        var head = document.head;
+        for (var i = 0; i < head.children.length; i++) {
+            var child = head.children[i];
+            if (child.tagName.toLowerCase() === 'style' || child.tagName.toLowerCase() === 'link') {
+                estilos += child.outerHTML;
+            }
+        }
+
+        // Ocultar todo el contenido de la página
+        document.body.style.visibility = 'hidden';
+
+        // Crear una nueva ventana para la impresión
+        var ventanaImpresion = window.open('', '', 'height=800,width=600');
+
+        // Escribir el contenido del modal y los estilos en la ventana de impresión
+        ventanaImpresion.document.write('<html><head><title>Imprimir Modal</title>' + estilos + '</head><body>');
+        ventanaImpresion.document.write('<style>@media print { #no-imprimir { display: none !important; } }</style>');  // Aseguramos que se oculte el #no-imprimir
+        ventanaImpresion.document.write('<div style="width:100%;">' + contenidoModal + '</div>');
+        ventanaImpresion.document.write('</body></html>');
+
+        // Esperar a que la ventana cargue antes de imprimir
+        ventanaImpresion.document.close();
+        ventanaImpresion.print();
+
+        // Restaurar la visibilidad de la página original
+        document.body.style.visibility = 'visible';
+    }
+    </script>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script>
   		AOS.init();
