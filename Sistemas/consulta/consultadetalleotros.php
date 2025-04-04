@@ -8,7 +8,12 @@ $consulta = ConsultarIncidente($_GET['no']);
 function ConsultarIncidente($no_tic)
 {	
 	$datos_base=mysqli_connect('localhost', 'root', '', 'incidentes') or exit('No se puede conectar con la base de datos');
-	$sentencia =  "SELECT * FROM periferico WHERE ID_PERI='".$no_tic."'";
+	$sentencia =  "SELECT p.ID_PERI, p.ID_TIPOP, p.NOMBREP, p.SERIEG, p.ID_MARCA, p.SERIE, p.ID_PROCEDENCIA, p.OBSERVACION, p.TIPOP, p.MAC, p.RIP, p.IP, 
+    p.ID_PROVEEDOR, p.FACTURA, u.ID_AREA, u.ID_USUARIO, p.GARANTIA, p.ID_ESTADOWS FROM periferico p LEFT JOIN equipo_periferico ep ON p.ID_PERI=ep.ID_PERI
+    LEFT JOIN inventario i ON ep.ID_WS=i.ID_WS
+    LEFT JOIN wsusuario ws ON i.ID_WS=ws.ID_WS
+    LEFT JOIN usuarios u ON ws.ID_USUARIO=u.ID_USUARIO
+    LEFT JOIN area AS a ON a.ID_AREA = u.ID_AREA WHERE p.ID_PERI='".$no_tic."'";
 	$resultado = mysqli_query($datos_base, $sentencia);
 	$filas = mysqli_fetch_assoc($resultado);
 	return [
@@ -81,12 +86,16 @@ function ConsultarIncidente($no_tic)
             <div id="detalles">
             <?php
                 /*/////////////////////NOMBRE//////////////////////*/
-                $sql = "SELECT u.NOMBRE FROM periferico p LEFT JOIN usuarios u ON u.ID_USUARIO = p.ID_USUARIO WHERE p.ID_USUARIO='$consulta[15]'";
+                $sql = "SELECT u.NOMBRE FROM usuarios u WHERE u.ID_USUARIO='$consulta[15]'";
                 $resultado = $datos_base->query($sql);
                 $row = $resultado->fetch_assoc();
                 $nom = $row['NOMBRE'];
                 /*/////////////////////AREA//////////////////////*/
-                $sql = "SELECT a.AREA FROM periferico p LEFT JOIN area a ON a.ID_AREA = p.ID_AREA WHERE p.ID_AREA='$consulta[14]'";
+                $sql = "SELECT a.AREA FROM periferico p LEFT JOIN equipo_periferico ep ON p.ID_PERI=ep.ID_PERI
+                LEFT JOIN inventario i ON ep.ID_WS=i.ID_WS
+                LEFT JOIN wsusuario ws ON i.ID_WS=ws.ID_WS
+                LEFT JOIN usuarios u ON ws.ID_USUARIO=u.ID_USUARIO
+                LEFT JOIN area AS a ON a.ID_AREA = u.ID_AREA WHERE u.ID_AREA='$consulta[14]'";
                 $resultado = $datos_base->query($sql);
                 $row = $resultado->fetch_assoc();
                 $are = $row['AREA'];
