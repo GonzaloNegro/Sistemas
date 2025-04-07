@@ -1,29 +1,24 @@
 <?php 
-error_reporting(0);
+/* error_reporting(0); */
 session_start();
 include('../particular/conexion.php');
 
 $consulta = ConsultarIncidente($_GET['no']);
 
+
 function ConsultarIncidente($no_tic)
 {	
-	$datos_base=mysqli_connect('localhost', 'root', '', 'incidentes') or exit('No se puede conectar con la base de datos');
-	$sentencia =  "SELECT r.ID_RESOLUTOR,r.RESOLUTOR,r.ID_TIPO_RESOLUTOR,r.CUIL,r.CORREO,r.TELEFONO,r.ID_PERFIL,p.PERFILES 
-    FROM resolutor r inner join perfiles p on r.ID_PERFIL=p.ID_PERFIL WHERE ID_RESOLUTOR='".$no_tic."'";
-	$resultado = mysqli_query($datos_base, $sentencia);
-	$filas = mysqli_fetch_assoc($resultado);
-	return [
-		$filas['ID_RESOLUTOR'],/*0*/
-		$filas['RESOLUTOR'],/*1*/
-		$filas['ID_TIPO_RESOLUTOR'],/*2*/
-        $filas['CUIL'],/*3*/
-        $filas['CORREO'],/*4*/
-        $filas['TELEFONO'],/*5*/
-        $filas['ID_PERFIL'],/*6*/
-        $filas['PERFILES']/*7*/
-	];
-}
+    $datos_base = mysqli_connect('localhost', 'root', '', 'incidentes') 
+        or exit('No se puede conectar con la base de datos');
 
+	/* sanitizar el valor recibido en $no_tic antes de meterlo en la consulta SQL. Esto es una medida de seguridad contra inyección SQL */
+	$no_tic = mysqli_real_escape_string($datos_base, $no_tic);
+
+    $sentencia = "SELECT * FROM resolutor WHERE ID_RESOLUTOR='".$no_tic."'";
+    $resultado = mysqli_query($datos_base, $sentencia);
+
+    return mysqli_fetch_assoc($resultado);
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -148,14 +143,14 @@ function ConsultarIncidente($no_tic)
         <?php 
                         //TIPO RESOLUTOR
                         include("../particular/conexion.php");
-                        $sent= "SELECT TIPO_RESOLUTOR FROM tipo_resolutor WHERE ID_TIPO_RESOLUTOR = $consulta[2]";
+                        $sent = "SELECT TIPO_RESOLUTOR FROM tipo_resolutor WHERE ID_TIPO_RESOLUTOR = '" . $consulta['ID_TIPO_RESOLUTOR'] . "'";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
                         $tr = $row['TIPO_RESOLUTOR'];?>
                         <?php
                         //PERFIL
                         include("../particular/conexion.php");
-                        $sent= "SELECT * FROM perfiles WHERE id_perfil=$consulta[6]";
+                        $sent= "SELECT * FROM perfiles WHERE id_perfil= '".$consulta['ID_PERFIL']."'";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
                         $tp = $row['PERFILES'];
@@ -164,20 +159,20 @@ function ConsultarIncidente($no_tic)
 		<div id="principalu" style="width: 97%" class="container-fluid">
                 <form method="POST" action="guardarmodresolutor2.php">
                     <label>ID: </label>&nbsp &nbsp 
-                    <input type="text" class="id" name="id" value="<?php echo $consulta[0]?>">
+                    <input type="text" class="id" name="id" value="<?php echo $consulta['ID_RESOLUTOR']?>">
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm" class="col-form-label col-xl col-lg">NOMBRE: </label>
-                        <input id="nombre_resolutor" class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="nom" value="<?php echo $consulta[1]?>">
+                        <input id="nombre_resolutor" class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="nom" value="<?php echo $consulta['RESOLUTOR']?>">
                         <label id="lblForm" class="col-form-label col-xl col-lg">CUIL: </label>
-                        <input id="cuil" class="form-control col-xl col-lg" type="text" name="cuil" value="<?php echo $consulta[3]?>">
+                        <input id="cuil" class="form-control col-xl col-lg" type="text" name="cuil" value="<?php echo $consulta['CUIL']?>">
                    </div>
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm" class="col-form-label col-xl col-lg">CORREO: </label>
-                        <input id="correo" class="form-control col-xl col-lg" type="text" name="cor" value="<?php echo $consulta[4]?>">
+                        <input id="correo" class="form-control col-xl col-lg" type="text" name="cor" value="<?php echo $consulta['CORREO']?>">
                         <label id="lblForm" class="col-form-label col-xl col-lg">TELEFONO: </label>
-                        <input id="telefono" class="form-control col-xl col-lg" type="text" name="tel" value="<?php echo $consulta[5]?>">
+                        <input id="telefono" class="form-control col-xl col-lg" type="text" name="tel" value="<?php echo $consulta['TELEFONO']?>">
                     </div>
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">

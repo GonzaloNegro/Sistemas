@@ -74,7 +74,7 @@ $row = $resultado->fetch_assoc();
                     <a href="abmplacav.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-PLACA DE VIDEO-</button></a>
                     ';
 					} ?>
-                    <a href="abmusuario.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-USUARIOS-</button></a>
+                    <!-- <a href="abmusuario.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-USUARIOS-</button></a> -->
                     <a href="abmotros.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-OTROS PERIFÉRICOS-</button></a>
             </div>
         </div>

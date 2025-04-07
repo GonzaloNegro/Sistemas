@@ -7,14 +7,16 @@ $consulta = ConsultarIncidente($_GET['no']);
 
 function ConsultarIncidente($no_tic)
 {	
-	$datos_base=mysqli_connect('localhost', 'root', '', 'incidentes') or exit('No se puede conectar con la base de datos');
-	$sentencia =  "SELECT * FROM tipificacion WHERE ID_TIPIFICACION='".$no_tic."'";
-	$resultado = mysqli_query($datos_base, $sentencia);
-	$filas = mysqli_fetch_assoc($resultado);
-	return [
-		$filas['ID_TIPIFICACION'],/*0*/
-		$filas['TIPIFICACION'],/*1*/
-	];
+    $datos_base = mysqli_connect('localhost', 'root', '', 'incidentes') 
+        or exit('No se puede conectar con la base de datos');
+
+	/* sanitizar el valor recibido en $no_tic antes de meterlo en la consulta SQL. Esto es una medida de seguridad contra inyección SQL */
+	$no_tic = mysqli_real_escape_string($datos_base, $no_tic);
+
+    $sentencia = "SELECT * FROM tipificacion WHERE ID_TIPIFICACION='" . $no_tic . "'";
+    $resultado = mysqli_query($datos_base, $sentencia);
+
+    return mysqli_fetch_assoc($resultado);
 }
 
 ?>
@@ -102,10 +104,10 @@ function ConsultarIncidente($no_tic)
 			<form method="POST" action="guardarmodtipificacion2.php">
 				<div class="form--info">
 					<label>TIPIFICACIÓN ID: </label>
-					<input type="text" class="id" name="id" value="<?php echo $consulta[0]?>" readonly>
+					<input type="text" class="id" name="id" value="<?php echo $consulta['ID_TIPIFICACION']?>" readonly>
 				</div>
 				<div class="form--info">
-					<input id="tipificacion" style="text-transform:uppercase;" class="form-control"  type="text" name="tip" value="<?php echo $consulta[1]?>">
+					<input id="tipificacion" style="text-transform:uppercase;" class="form-control"  type="text" name="tip" value="<?php echo $consulta['TIPIFICACION']?>">
 				</div>	
 				<div class="form--info--btn">
 					<input class="btn btn-success" type="button" onClick="enviar_formulario(this.form)" value="MODIFICAR" >

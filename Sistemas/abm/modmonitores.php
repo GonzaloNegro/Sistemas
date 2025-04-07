@@ -34,6 +34,21 @@ function ConsultarIncidente($no_tic)
 	];
 }
 
+/* 
+function ConsultarIncidente($no_tic)
+{	
+    $datos_base = mysqli_connect('localhost', 'root', '', 'incidentes') 
+        or exit('No se puede conectar con la base de datos');
+
+    $no_tic = mysqli_real_escape_string($datos_base, $no_tic);
+
+    $sentencia = "SELECT * FROM periferico WHERE ID_PERI='" . $no_tic . "'";
+    $resultado = mysqli_query($datos_base, $sentencia);
+
+    return mysqli_fetch_assoc($resultado);
+}
+*/
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -53,200 +68,195 @@ function ConsultarIncidente($no_tic)
 	</style>
 </head>
 <body>
-<script>
-function enviar_formulario(formulario){
-        	Swal.fire({
-                        title: "Esta seguro de modificar este monitor?",
-                        icon: "warning",
-                        showConfirmButton: true,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            formulario.submit()
-
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
-			
-		}
-				
-		</script>
+    <script>
+    function enviar_formulario(formulario){
+        Swal.fire({
+            title: "Esta seguro de modificar este monitor?",
+            icon: "warning",
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: "Cancelar",
+            customClass:{
+                actions: 'reverse-button'
+            }
+        })
+        .then((result) => {
+            if (result.isConfirmed) {
+                formulario.submit()
+            } else if (result.isDenied) {
+                Swal.fire('Changes are not saved', '', 'info')
+            }
+        })
+    }
+    </script>
     <div id="reporteEst">   		
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-            <a id="vlv"  href="abmmonitores.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
+            <a id="vlv"  href="../consulta/monitores.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
         </div>			
     </div>
-	<section id="Inicio">
-    <div id="titulo" style="margin: 20px;">
-			<h1>MODIFICAR MONITOR</h1>
-		</div>
+    <section id="Inicio">
+        <div id="titulo" style="margin: 20px;">
+            <h1>MODIFICAR MONITOR</h1>
+        </div>
         <div id="principalu" style="width: 97%" class="container-fluid">
+            <!--  CONSULTA DE DATOS -->
+                <?php 
+            include("../particular/conexion.php");
+            $sent= "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR = $consulta[12]";
+            $resultado = $datos_base->query($sent);
+            $row = $resultado->fetch_assoc();
+            $prov = $row['PROVEEDOR'];?>
+            <?php 
+            include("../particular/conexion.php");
+            $sent= "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = $consulta[15]";
+            $resultado = $datos_base->query($sent);
+            $row = $resultado->fetch_assoc();
+            $usu = $row['NOMBRE'];?>
+                <?php 
+            include("../particular/conexion.php");
+            $sent= "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = $consulta[17]";
+            $resultado = $datos_base->query($sent);
+            $row = $resultado->fetch_assoc();
+            $est = $row['ESTADO'];?>
+                <?php 
+            include("../particular/conexion.php");
+            $sent= "SELECT mo.MODELO, ma.MARCA 
+            FROM modelo mo
+            INNER JOIN marcas ma ON ma.ID_MARCA = mo.ID_MARCA 
+            WHERE mo.ID_MODELO = $consulta[18]";
+            $resultado = $datos_base->query($sent);
+            $row = $resultado->fetch_assoc();
+            $mod = $row['MODELO']." - ".$row['MARCA'];?>
+                <?php 
+            include("../particular/conexion.php");
+            $sent= "SELECT TIPO FROM tipop WHERE ID_TIPOP = $consulta[1]";
+            $resultado = $datos_base->query($sent);
+            $row = $resultado->fetch_assoc();
+            $tip = $row['TIPO'];?>
+            <?php 
+            include("../particular/conexion.php");
+            if($consulta[15] != 277){
+                $sent= "SELECT SERIEG FROM inventario WHERE ID_USUARIO = $consulta[15]";
+                $resultado = $datos_base->query($sent);
+                $row = $resultado->fetch_assoc();
+                $equipo = $row['SERIEG'];
+            }?>
+            <!--  CONSULTA DE DATOS -->
 
-                        <!--  CONSULTA DE DATOS -->
-                         <?php 
-                        include("../particular/conexion.php");
-                        $sent= "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR = $consulta[12]";
-                        $resultado = $datos_base->query($sent);
-                        $row = $resultado->fetch_assoc();
-                        $prov = $row['PROVEEDOR'];?>
-                        <?php 
-                        include("../particular/conexion.php");
-                        $sent= "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = $consulta[15]";
-                        $resultado = $datos_base->query($sent);
-                        $row = $resultado->fetch_assoc();
-                        $usu = $row['NOMBRE'];?>
-                         <?php 
-                        include("../particular/conexion.php");
-                        $sent= "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = $consulta[17]";
-                        $resultado = $datos_base->query($sent);
-                        $row = $resultado->fetch_assoc();
-                        $est = $row['ESTADO'];?>
-                         <?php 
-                        include("../particular/conexion.php");
-                        $sent= "SELECT mo.MODELO, ma.MARCA 
-                        FROM modelo mo
-                        INNER JOIN marcas ma ON ma.ID_MARCA = mo.ID_MARCA 
-                        WHERE mo.ID_MODELO = $consulta[18]";
-                        $resultado = $datos_base->query($sent);
-                        $row = $resultado->fetch_assoc();
-                        $mod = $row['MODELO']." - ".$row['MARCA'];?>
-                         <?php 
-                        include("../particular/conexion.php");
-                        $sent= "SELECT TIPO FROM tipop WHERE ID_TIPOP = $consulta[1]";
-                        $resultado = $datos_base->query($sent);
-                        $row = $resultado->fetch_assoc();
-                        $tip = $row['TIPO'];?>
-                        <?php 
-                        include("../particular/conexion.php");
-                        if($consulta[15] != 277){
-                            $sent= "SELECT SERIEG FROM inventario WHERE ID_USUARIO = $consulta[15]";
-                            $resultado = $datos_base->query($sent);
-                            $row = $resultado->fetch_assoc();
-                            $equipo = $row['SERIEG'];
-                        }?>
-                        <!--  CONSULTA DE DATOS -->
 
-
-                <form method="POST" action="guardarmodmonitor2.php">
-                
-                    <label >ID: </label>&nbsp &nbsp
-                    <input type="text" class="id" name="id" value="<?php echo $consulta[0]?>">
-                    <?php
-                        if(isset($equipo)){
+            <form method="POST" action="guardarmodmonitor2.php">
+            
+                <label >ID: </label>&nbsp &nbsp
+                <input type="text" class="id" name="id" value="<?php echo $consulta[0]?>">
+                <?php
+                    if(isset($equipo)){
+                    echo"
+                    <label><u>MONITOR ASIGNADO AL EQUIPO:</u> ".$equipo."</label>";
+                    }else{
                         echo"
-                        <label><u>MONITOR ASIGNADO AL EQUIPO:</u> ".$equipo."</label>";
-                        }else{
-                            echo"
-                            <label><u>EL MONITOR NO ESTA ASIGNADO A UN EQUIPO</u></label>;";
-                        }
-                    ?>
+                        <label><u>EL MONITOR NO ESTA ASIGNADO A UN EQUIPO</u></label>;";
+                    }
+                ?>
 
-                    <div class="form-group row" style="margin: 10px; padding:10px;">
-                        <label id="lblForm" class="col-form-label col-xl col-lg">N° GOBIERNO: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" type="text" name="serieg" value="<?php echo $consulta[3]?>">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serie" value="<?php echo $consulta[5]?>">
-                    </div>
+                <div class="form-group row" style="margin: 10px; padding:10px;">
+                    <label id="lblForm" class="col-form-label col-xl col-lg">N° GOBIERNO: </label>
+                    <input style="margin-top: 5px; text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" type="text" name="serieg" value="<?php echo $consulta[3]?>">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE: </label>
+                    <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serie" value="<?php echo $consulta[5]?>">
+                </div>
 
-                    <div class="form-group row" style="margin: 10px; padding:10px;">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">FACTURA: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="fac" value="<?php echo $consulta[13]?>">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIÓN: </label>
-                        <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" rows="3"><?php echo $consulta[7]?></textarea>
-                    </div>
+                <div class="form-group row" style="margin: 10px; padding:10px;">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">FACTURA: </label>
+                    <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="fac" value="<?php echo $consulta[13]?>">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIÓN: </label>
+                    <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" rows="3"><?php echo $consulta[7]?></textarea>
+                </div>
 
-                    <div class="form-group row" style="margin: 10px; padding:10px;">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="garantia" value="<?php echo $consulta[16]?>">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
-                            <select name="modelo" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
-                                    <option selected value="200"><?php echo $mod?></option>
-                                            <?php
-                                    include("../particular/conexion.php");
-                                    $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA
-                                    FROM modelo m
-                                    INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
-                                    INNER JOIN tipop t ON t.ID_TIPOP = m.ID_TIPOP
-                                    WHERE (m.ID_TIPOP = 7 OR m.ID_TIPOP = 8) ORDER BY m.MODELO ASC";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA'];?></option>
-                                    <?php endforeach?>
-                                        </select>
-                    </div>
-
-                    <div class="form-group row" style="margin: 10px; padding:10px;"> 
-                        <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO: </label>
-                        <select name="estado" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
-                                        <option selected value="300"><?php echo $est?></option>
+                <div class="form-group row" style="margin: 10px; padding:10px;">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA: </label>
+                    <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="garantia" value="<?php echo $consulta[16]?>">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
+                        <select name="modelo" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                                <option selected value="200"><?php echo $mod?></option>
                                         <?php
-                                        include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM estado_ws ORDER BY ESTADO ASC";
-                                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                        ?>
-                                        <?php foreach ($ejecutar as $opciones): ?> 
-                                        <option value= <?php echo $opciones['ID_ESTADOWS'] ?>><?php echo $opciones['ESTADO']?></option>
-                                        <?php endforeach?>
+                                include("../particular/conexion.php");
+                                $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA
+                                FROM modelo m
+                                INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
+                                INNER JOIN tipop t ON t.ID_TIPOP = m.ID_TIPOP
+                                WHERE (m.ID_TIPOP = 7 OR m.ID_TIPOP = 8) ORDER BY m.MODELO ASC";
+                                $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                ?>
+                                <?php foreach ($ejecutar as $opciones): ?> 
+                                <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA'];?></option>
+                                <?php endforeach?>
                                     </select>
-                    <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR: </label>
-                    <select name="prov" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
-                                    <option selected value="400"><?php echo $prov?></option>
+                </div>
+
+                <div class="form-group row" style="margin: 10px; padding:10px;"> 
+                    <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO: </label>
+                    <select name="estado" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                                    <option selected value="300"><?php echo $est?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
+                                    $consulta= "SELECT * FROM estado_ws ORDER BY ESTADO ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                    <option value= <?php echo $opciones['ID_ESTADOWS'] ?>><?php echo $opciones['ESTADO']?></option>
                                     <?php endforeach?>
                                 </select>
-                    </div>
-                                    
-                    <div class="form-group row" style="margin: 10px; padding:10px;">
-                    <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DE MONITOR: </label>
-                    <select name="tipop" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
-                                    <option selected value="500"><?php echo $tip?></option>
+                <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR: </label>
+                <select name="prov" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                                <option selected value="400"><?php echo $prov?></option>
+                                <?php
+                                include("../particular/conexion.php");
+                                $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
+                                $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                ?>
+                                <?php foreach ($ejecutar as $opciones): ?> 
+                                <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                                <?php endforeach?>
+                            </select>
+                </div>
+                                
+                <div class="form-group row" style="margin: 10px; padding:10px;">
+                <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DE MONITOR: </label>
+                <select name="tipop" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                                <option selected value="500"><?php echo $tip?></option>
+                                <?php
+                                include("../particular/conexion.php");
+                                $consulta= "SELECT * FROM tipop WHERE ID_TIPOP = 7 OR ID_TIPOP = 8 ORDER BY TIPO ASC";
+                                $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                ?>
+                                <?php foreach ($ejecutar as $opciones): ?> 
+                                <option value= <?php echo $opciones['ID_TIPOP'] ?>><?php echo $opciones['TIPO']?></option>
+                                <?php endforeach?>
+                            </select>
+                            <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO: </label>
+                    <select name="usu" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                                    <option selected value="600"><?php echo $usu?></option>
                                     <?php
                                     include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM tipop WHERE ID_TIPOP = 7 OR ID_TIPOP = 8 ORDER BY TIPO ASC";
+                                    $consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' ORDER BY NOMBRE ASC";
                                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                     ?>
                                     <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_TIPOP'] ?>><?php echo $opciones['TIPO']?></option>
+                                    <option value= <?php echo $opciones['ID_USUARIO'] ?>><?php echo $opciones['NOMBRE']?></option>
                                     <?php endforeach?>
                                 </select>
-                                <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO: </label>
-                        <select name="usu" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
-                                        <option selected value="600"><?php echo $usu?></option>
-                                        <?php
-                                        include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' ORDER BY NOMBRE ASC";
-                                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                        ?>
-                                        <?php foreach ($ejecutar as $opciones): ?> 
-                                        <option value= <?php echo $opciones['ID_USUARIO'] ?>><?php echo $opciones['NOMBRE']?></option>
-                                        <?php endforeach?>
-                                    </select>
-                    </div>
-                    <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
-                    <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
-                    <div class="form-group row justify-content-end" style="margin: 10px; padding:10px;">
-					    <input onClick="enviar_formulario(this.form)" style="width:20%"class="col-3 button" type="button" value="MODIFICAR" class="button">
-				    </div>
-                </form>
-	    </div>
-	</section>
-    <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
+                </div>
+                <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
+                <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
+                <div class="form-group row justify-content-end" style="margin: 10px; padding:10px;">
+                    <input onClick="enviar_formulario(this.form)" style="width:20%"class="col-3 button" type="button" value="MODIFICAR" class="button">
+                </div>
+            </form>
+        </div>
+    </section>
+<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -161,6 +161,9 @@ $row = $resultado->fetch_assoc();
                                         target='_blank' class='mod'>
                                         Mov. Info
                                     </a>
+                                    <a class='btn btn-info' style='color: white;' href='../abm/modmonitores.php?no=${fila.ID_PERI}' target='_blank' class='mod'>
+                                        Editar
+                                    </a>
                                 </td>
                                         </tr>`);
                         });
