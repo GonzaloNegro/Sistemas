@@ -193,6 +193,14 @@ $row = $resultado->fetch_assoc();
                         //Cargamos el nro de incidentes obtenidos en label
                         
                         const lblUsuarios = $("#nroInventario").text("Resultados Encontrados: "+respuesta.totalInventario); 
+                         //Mostramos el label con el numero de resultados encontramos
+                         if(busqueda=='' && area=='' && reparticion=='' && orden=='' && tipows=='' && so=='' && micro=='' && estado==''){
+                            $("#nroInventario").hide();
+                        }
+                        else{
+                            $("#nroInventario").show();
+                        }
+                        
 
                         //Cargamos la consulta sql utilizada en el value del input del formulario para generar el excel
                         
