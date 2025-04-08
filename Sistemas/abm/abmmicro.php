@@ -93,8 +93,8 @@ $row = $resultado->fetch_assoc();
 				echo "<table width=100%>
 						<thead>
 							<tr>
-								<th><p>MICRO</p></th>
-								<th><p>MARCA</p></th>
+								<th><p style='text-align:left;padding:5px;'>MICRO</p></th>
+								<th><p style='text-align:left;padding:5px;'>MARCA</p></th>
 								<th><p>MODIFICAR</p></th>
 							</tr>
 						</thead>
@@ -113,8 +113,8 @@ $row = $resultado->fetch_assoc();
 										echo
 										" 
 											<tr>
-												<td><h4 style='font-size:16px;'>".$listar['MICRO']."</h4></td>
-												<td><h4 style='font-size:16px;'>".$listar['MARCA']."</h4></td>
+												<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['MICRO']."</h4></td>
+												<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['MARCA']."</h4></td>
 												<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modmicro.php?no=".$listar['ID_MICRO']." class=mod>Editar</a></td>
 										</tr>";
 						}
@@ -132,8 +132,8 @@ $row = $resultado->fetch_assoc();
 										echo
 										" 
 											<tr>
-												<td><h4 style='font-size:16px;'>".$listar['MICRO']."</h4></td>
-												<td><h4 style='font-size:16px;'>".$listar['MARCA']."</h4></td>
+												<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['MICRO']."</h4></td>
+												<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['MARCA']."</h4></td>
 												<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modmicro.php?no=".$listar['ID_MICRO']." class=mod>Editar</a></td>
 										</tr>";
 						}

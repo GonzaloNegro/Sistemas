@@ -7,19 +7,17 @@ $consulta = ConsultarIncidente($_GET['no']);
 
 function ConsultarIncidente($no_tic)
 {	
-	$datos_base=mysqli_connect('localhost', 'root', '', 'incidentes') or exit('No se puede conectar con la base de datos');
-	$sentencia =  "SELECT * FROM area WHERE ID_AREA='".$no_tic."'";
-	$resultado = mysqli_query($datos_base, $sentencia);
-	$filas = mysqli_fetch_assoc($resultado);
-	return [
-		$filas['ID_AREA'],/*0*/
-		$filas['AREA'],/*1*/
-		$filas['ID_REPA'],/*2*/
-        $filas['ACTIVO'],/*3*/
-		$filas['OBSERVACION']/*4*/
-	];
-}
+    $datos_base = mysqli_connect('localhost', 'root', '', 'incidentes') 
+        or exit('No se puede conectar con la base de datos');
 
+	/* sanitizar el valor recibido en $no_tic antes de meterlo en la consulta SQL. Esto es una medida de seguridad contra inyección SQL */
+	$no_tic = mysqli_real_escape_string($datos_base, $no_tic);
+
+    $sentencia = "SELECT * FROM area WHERE ID_AREA='" . $no_tic . "'";
+    $resultado = mysqli_query($datos_base, $sentencia);
+
+    return mysqli_fetch_assoc($resultado);
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -131,46 +129,46 @@ function ConsultarIncidente($no_tic)
 		<div id="principalu" style="width: 97%" class="container-fluid">
                 <?php 
                 include("../particular/conexion.php");
-                $sent= "SELECT REPA FROM reparticion WHERE ID_REPA = $consulta[2]";
+                $sent= "SELECT REPA FROM reparticion WHERE ID_REPA = $consulta[ID_REPA]";
                 $resultado = $datos_base->query($sent);
                 $row = $resultado->fetch_assoc();
                 $repa = $row['REPA'];
                 ?>
                 <form method="POST" action="guardarmodarea2.php">
                     <label>ID: </label>
-                    <input type="text" class="id" name="id" value="<?php echo $consulta[0]?>">
+                    <input type="text" class="id" name="id" value="<?php echo $consulta['ID_AREA']?>" readonly>
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DEL ÁREA: </label>&nbsp &nbsp
-                        <input id="area" style="margin-top: 5px;text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" type="text" name="area" value="<?php echo $consulta[1]?>">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DEL ÁREA: </label>
+                        <input id="area" style="margin-top: 5px;text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" type="text" name="area" value="<?php echo $consulta['AREA']?>">
                         
 						<label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIONES:</label>
-						<textarea class="form-control col-xl col-lg" name="obs" style="text-transform:uppercase" rows="3"><?php echo $consulta[4]?></textarea>
+						<textarea class="form-control col-xl col-lg" name="obs" style="text-transform:uppercase" rows="3"><?php echo $consulta['OBSERVACION']?></textarea>
                     </div>
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
-                    <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
-							<select id="estado" name="estado" class="form-control col-xl col-lg" required>
-                                    <option selected value="200"><?php echo $consulta[3]?></option>
-                                    <option value="ACTIVO">ACTIVO</option>
-                                    <option value="INACTIVO">INACTIVO</option>
-                                </select>
-                    <label id="lblForm"class="col-form-label col-xl col-lg">REPARTICIÓN:</label>&nbsp &nbsp
-                        <select id="repa" name="repa" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
-                                        <option selected value="100"><?php echo $repa?></option>
-                                        <?php
-                                        include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM reparticion ORDER BY REPA ASC";
-                                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                        ?>
-                                        <?php foreach ($ejecutar as $opciones): ?> 
-                                        <option value= <?php echo $opciones['ID_REPA'] ?>><?php echo $opciones['REPA']?></option>
-                                        <?php endforeach?>
-                                    </select>
-				        </div>	
+                        <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
+                        <select id="estado" name="estado" class="form-control col-form-label col-xl col-lg" required>
+                            <option selected value="200"><?php echo $consulta['ACTIVO']?></option>
+                            <option value="ACTIVO">ACTIVO</option>
+                            <option value="INACTIVO">INACTIVO</option>
+                        </select>
+                        <label id="lblForm"class="col-form-label col-xl col-lg">REPARTICIÓN:</label>
+                        <select id="repa" name="repa" style="text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                            <option selected value="100"><?php echo $repa?></option>
+                            <?php
+                            include("../particular/conexion.php");
+                            $consulta= "SELECT * FROM reparticion ORDER BY REPA ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value= <?php echo $opciones['ID_REPA'] ?>><?php echo $opciones['REPA']?></option>
+                            <?php endforeach?>
+                        </select>
+                    </div>
                     <div class="form-group row justify-content-end" style="margin: 10px; padding:10px;">
-					<input onClick="enviar_formulario(this.form)" style="width:20%"class="col-3 button" type="button" value="MODIFICAR" class="button">
-				</div>	
+                        <input onClick="enviar_formulario(this.form)" style="width:20%"class="col-3 button" type="button" value="MODIFICAR" class="button">
+                    </div>	
                 </form>
 	    </div>
 	</section>

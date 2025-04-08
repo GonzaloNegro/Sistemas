@@ -82,10 +82,10 @@ $row = $resultado->fetch_assoc();
 				echo "<table width=100%>
 						<thead>
 							<tr>
-								<th><p>RESOLUTOR</p></th>
-                                <th><p>CUIL</p></th>
-                                <th><p>TIPO</p></th>
-                                <th><p>CORREO</p></th>
+								<th><p style='text-align:left;padding:5px;'>RESOLUTOR</p></th>
+                                <th><p style='text-align:right;padding:5px;'>CUIL</p></th>
+                                <th><p style='text-align:left;padding:5px;'>TIPO</p></th>
+                                <th><p style='text-align:left;padding:5px;'>CORREO</p></th>
                                 <th><p>MODIFICAR</p></th>
 							</tr>
 						</thead>
@@ -103,10 +103,10 @@ $row = $resultado->fetch_assoc();
 							echo
 								" 
 								<tr>
-								<td><h4 style='font-size:16px;'>".$listar['RESOLUTOR']."</h4 ></td>
-                                <td><h4 style='font-size:16px;'>".$listar['CUIL']."</h4 ></td>
-                            	<td><h4 style='font-size:16px;'>".$listar['TIPO_RESOLUTOR']."</h4 ></td>
-                                <td><h4 style='font-size:16px;'>".$listar['CORREO']."</h4 ></td>
+								<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['RESOLUTOR']."</h4 ></td>
+                                <td><h4 style='font-size:16px;text-align:right;padding:5px;'>".$listar['CUIL']."</h4 ></td>
+                            	<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['TIPO_RESOLUTOR']."</h4 ></td>
+                                <td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['CORREO']."</h4 ></td>
 								<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modresolutor.php?no=".$listar['ID_RESOLUTOR']." class=mod>Editar</a></td>
 								</tr>";
 						}
@@ -122,10 +122,10 @@ $row = $resultado->fetch_assoc();
 							echo
 								" 
 								<tr>
-								<td><h4 style='font-size:16px;'>".$listar['RESOLUTOR']."</h4 ></td>
-                                <td><h4 style='font-size:16px;'>".$listar['CUIL']."</h4 ></td>
-                                <td><h4 style='font-size:16px;'>".$listar['TIPO_RESOLUTOR']."</h4 ></td>
-                                <td><h4 style='font-size:16px;'>".$listar['CORREO']."</h4 ></td>
+								<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['RESOLUTOR']."</h4 ></td>
+                                <td><h4 style='font-size:16px;text-align:right;padding:5px;'>".$listar['CUIL']."</h4 ></td>
+                                <td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['TIPO_RESOLUTOR']."</h4 ></td>
+                                <td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['CORREO']."</h4 ></td>
 								<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modresolutor.php?no=".$listar['ID_RESOLUTOR']." class=mod>Editar</a></td>
 								</tr>";
 						}

@@ -5,19 +5,30 @@ include('../particular/conexion.php');
 
 $consulta = ConsultarIncidente($_GET['no']);
 
-
 function ConsultarIncidente($no_tic)
-{	
-    $datos_base = mysqli_connect('localhost', 'root', '', 'incidentes') 
-        or exit('No se puede conectar con la base de datos');
+{
+    try {
+        $datos_base = mysqli_connect('localhost', 'root', '', 'incidentes');
 
-	/* sanitizar el valor recibido en $no_tic antes de meterlo en la consulta SQL. Esto es una medida de seguridad contra inyección SQL */
-	$no_tic = mysqli_real_escape_string($datos_base, $no_tic);
+        if (!$datos_base) {
+            throw new Exception("Error al conectar con la base de datos: " . mysqli_connect_error());
+        }
 
-    $sentencia = "SELECT * FROM resolutor WHERE ID_RESOLUTOR='".$no_tic."'";
-    $resultado = mysqli_query($datos_base, $sentencia);
+        $no_tic = mysqli_real_escape_string($datos_base, $no_tic);
 
-    return mysqli_fetch_assoc($resultado);
+        $sentencia = "SELECT * FROM resolutor WHERE ID_RESOLUTOR='" . $no_tic . "'";
+        $resultado = mysqli_query($datos_base, $sentencia);
+
+        if (!$resultado) {
+            throw new Exception("Error al ejecutar la consulta: " . mysqli_error($datos_base));
+        }
+
+        return mysqli_fetch_assoc($resultado);
+    } catch (Exception $e) {
+        // Podés loguear el error, redirigir, o mostrar algo más amigable
+        echo "Hubo un problema al consultar el incidente: " . $e->getMessage();
+        return null;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -141,20 +152,35 @@ function ConsultarIncidente($no_tic)
 			<h1>MODIFICAR RESOLUTOR</h1>
 		</div>
         <?php 
-                        //TIPO RESOLUTOR
-                        include("../particular/conexion.php");
-                        $sent = "SELECT TIPO_RESOLUTOR FROM tipo_resolutor WHERE ID_TIPO_RESOLUTOR = '" . $consulta['ID_TIPO_RESOLUTOR'] . "'";
-                        $resultado = $datos_base->query($sent);
-                        $row = $resultado->fetch_assoc();
-                        $tr = $row['TIPO_RESOLUTOR'];?>
-                        <?php
-                        //PERFIL
-                        include("../particular/conexion.php");
-                        $sent= "SELECT * FROM perfiles WHERE id_perfil= '".$consulta['ID_PERFIL']."'";
-                        $resultado = $datos_base->query($sent);
-                        $row = $resultado->fetch_assoc();
-                        $tp = $row['PERFILES'];
-                        ?>
+            try {
+                $sent = "SELECT TIPO_RESOLUTOR FROM tipo_resolutor WHERE ID_TIPO_RESOLUTOR = '" . $consulta['ID_TIPO_RESOLUTOR'] . "'";
+                $resultado = $datos_base->query($sent);
+            
+                if (!$resultado) {
+                    throw new Exception("Error al obtener el tipo de resolutor: " . $datos_base->error);
+                }
+            
+                $row = $resultado->fetch_assoc();
+                $tr = $row['TIPO_RESOLUTOR'];
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+
+            try {
+                $sent= "SELECT * FROM perfiles WHERE id_perfil= '".$consulta['ID_PERFIL']."'";
+                $resultado = $datos_base->query($sent);
+            
+                if (!$resultado) {
+                    throw new Exception("Error al obtener el tipo de resolutor: " . $datos_base->error);
+                }
+            
+                $row = $resultado->fetch_assoc();
+                $tp = $row['PERFILES'];
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+
+        ?>
                         
 		<div id="principalu" style="width: 97%" class="container-fluid">
                 <form method="POST" action="guardarmodresolutor2.php">

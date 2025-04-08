@@ -80,9 +80,9 @@ $row = $resultado->fetch_assoc();
 				echo "<table width=100%>
 						<thead>
 							<tr>
-								<th><p>PLACA</p></th>
-								<th><p>MEMORIA</p></th>
-                                <th><p>TIPO DE MEMORIA</p></th>
+								<th><p style='text-align:left;padding:5px;'>PLACA</p></th>
+								<th><p style='text-align:right;padding:5px;'>MEMORIA</p></th>
+                                <th><p style='text-align:left;padding:5px;'>TIPO DE MEMORIA</p></th>
 								<th><p>MODIFICAR</p></th>
 							</tr>
 						</thead>
@@ -103,9 +103,9 @@ $row = $resultado->fetch_assoc();
 									echo
 									" 
 										<tr>
-											<td><h4 style='font-size:16px;'>".$listar['MODELO']."</h4></td>
-											<td><h4 style='font-size:16px;'>".$listar['MEMORIA']."</h4></td>
-											<td><h4 style='font-size:16px;'>".$listar['TIPOMEM']."</h4></td>
+											<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['MODELO']."</h4></td>
+											<td><h4 style='font-size:16px;text-align:right;padding:5px;'>".$listar['MEMORIA']."</h4></td>
+											<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['TIPOMEM']."</h4></td>
 											<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modplacav.php?no=".$listar['ID_PVIDEO']." class=mod>Editar</a></td>
 									</tr>";
 						}
@@ -125,9 +125,9 @@ $row = $resultado->fetch_assoc();
 										echo
 										" 
 											<tr>
-                                            <td><h4 style='font-size:16px;'>".$listar['MODELO']."</h4></td>
-                                            <td><h4 style='font-size:16px;'>".$listar['MEMORIA']."</h4></td>
-                                            <td><h4 style='font-size:16px;'>".$listar['TIPOMEM']."</h4></td>
+                                            <td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['MODELO']."</h4></td>
+                                            <td><h4 style='font-size:16px;text-align:right;padding:5px;'>".$listar['MEMORIA']."</h4></td>
+                                            <td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['TIPOMEM']."</h4></td>
 											<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modplacav.php?no=".$listar['ID_PVIDEO']." class=mod>Editar</a></td>
 										</tr>";
 						}

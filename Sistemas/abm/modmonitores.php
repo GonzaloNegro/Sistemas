@@ -7,36 +7,6 @@ $consulta = ConsultarIncidente($_GET['no']);
 
 function ConsultarIncidente($no_tic)
 {	
-	$datos_base=mysqli_connect('localhost', 'root', '', 'incidentes') or exit('No se puede conectar con la base de datos');
-	$sentencia =  "SELECT * FROM periferico WHERE ID_PERI='".$no_tic."'";
-	$resultado = mysqli_query($datos_base, $sentencia);
-	$filas = mysqli_fetch_assoc($resultado);
-	return [
-		$filas['ID_PERI'],/*0*/
-		$filas['ID_TIPOP'],/*1*/
-		$filas['NOMBREP'],/*2*/
-        $filas['SERIEG'],/*3*/
-        $filas['ID_MARCA'],/*4*/
-        $filas['SERIE'],/*5*/
-        $filas['ID_PROCEDENCIA'],/*6*/
-        $filas['OBSERVACION'],/*7*/
-        $filas['TIPOP'],/*8*/
-        $filas['MAC'],/*9*/
-        $filas['RIP'],/*10*/
-        $filas['IP'],/*11*/
-        $filas['ID_PROVEEDOR'],/*12*/
-        $filas['FACTURA'],/*13*/
-        $filas['ID_AREA'],/*14*/
-        $filas['ID_USUARIO'],/*15*/
-        $filas['GARANTIA'],/*16*/
-        $filas['ID_ESTADOWS'],/*17*/
-        $filas['ID_MODELO'],/*18*/
-	];
-}
-
-/* 
-function ConsultarIncidente($no_tic)
-{	
     $datos_base = mysqli_connect('localhost', 'root', '', 'incidentes') 
         or exit('No se puede conectar con la base de datos');
 
@@ -47,7 +17,7 @@ function ConsultarIncidente($no_tic)
 
     return mysqli_fetch_assoc($resultado);
 }
-*/
+
 
 ?>
 <!DOCTYPE html>
@@ -103,54 +73,36 @@ function ConsultarIncidente($no_tic)
         </div>
         <div id="principalu" style="width: 97%" class="container-fluid">
             <!--  CONSULTA DE DATOS -->
-                <?php 
-            include("../particular/conexion.php");
-            $sent= "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR = $consulta[12]";
-            $resultado = $datos_base->query($sent);
-            $row = $resultado->fetch_assoc();
-            $prov = $row['PROVEEDOR'];?>
             <?php 
-            include("../particular/conexion.php");
-            $sent= "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = $consulta[15]";
+            $sent= "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR = '" . $consulta['ID_PROVEEDOR'] . "'";
             $resultado = $datos_base->query($sent);
             $row = $resultado->fetch_assoc();
-            $usu = $row['NOMBRE'];?>
-                <?php 
-            include("../particular/conexion.php");
-            $sent= "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = $consulta[17]";
+            $prov = $row['PROVEEDOR'];
+
+            $sent= "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = '".$consulta['ID_ESTADOWS']."'";
             $resultado = $datos_base->query($sent);
             $row = $resultado->fetch_assoc();
-            $est = $row['ESTADO'];?>
-                <?php 
-            include("../particular/conexion.php");
+            $est = $row['ESTADO'];
+
             $sent= "SELECT mo.MODELO, ma.MARCA 
             FROM modelo mo
             INNER JOIN marcas ma ON ma.ID_MARCA = mo.ID_MARCA 
-            WHERE mo.ID_MODELO = $consulta[18]";
+            WHERE mo.ID_MODELO = '".$consulta['ID_MODELO']."'";
             $resultado = $datos_base->query($sent);
             $row = $resultado->fetch_assoc();
-            $mod = $row['MODELO']." - ".$row['MARCA'];?>
-                <?php 
-            include("../particular/conexion.php");
-            $sent= "SELECT TIPO FROM tipop WHERE ID_TIPOP = $consulta[1]";
-            $resultado = $datos_base->query($sent);
-            $row = $resultado->fetch_assoc();
-            $tip = $row['TIPO'];?>
-            <?php 
-            include("../particular/conexion.php");
-            if($consulta[15] != 277){
-                $sent= "SELECT SERIEG FROM inventario WHERE ID_USUARIO = $consulta[15]";
-                $resultado = $datos_base->query($sent);
-                $row = $resultado->fetch_assoc();
-                $equipo = $row['SERIEG'];
-            }?>
-            <!--  CONSULTA DE DATOS -->
+            $mod = $row['MODELO']." - ".$row['MARCA'];
 
+            $sent= "SELECT TIPO FROM tipop WHERE ID_TIPOP = '".$consulta['ID_TIPOP']."'";
+            $resultado = $datos_base->query($sent);
+            $row = $resultado->fetch_assoc();
+            $tip = $row['TIPO'];
+            ?>
+            <!--  CONSULTA DE DATOS -->
 
             <form method="POST" action="guardarmodmonitor2.php">
             
                 <label >ID: </label>&nbsp &nbsp
-                <input type="text" class="id" name="id" value="<?php echo $consulta[0]?>">
+                <input type="text" class="id" name="id" value="<?php echo $consulta['ID_PERI']?>" readonly>
                 <?php
                     if(isset($equipo)){
                     echo"
@@ -163,21 +115,21 @@ function ConsultarIncidente($no_tic)
 
                 <div class="form-group row" style="margin: 10px; padding:10px;">
                     <label id="lblForm" class="col-form-label col-xl col-lg">N° GOBIERNO: </label>
-                    <input style="margin-top: 5px; text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" type="text" name="serieg" value="<?php echo $consulta[3]?>">
+                    <input style="margin-top: 5px; text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" type="text" name="serieg" value="<?php echo $consulta['SERIEG']?>">
                     <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE: </label>
-                    <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serie" value="<?php echo $consulta[5]?>">
+                    <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serie" value="<?php echo $consulta['SERIE']?>">
                 </div>
 
                 <div class="form-group row" style="margin: 10px; padding:10px;">
                     <label id="lblForm"class="col-form-label col-xl col-lg">FACTURA: </label>
-                    <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="fac" value="<?php echo $consulta[13]?>">
+                    <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="fac" value="<?php echo $consulta['FACTURA']?>">
                     <label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIÓN: </label>
-                    <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" rows="3"><?php echo $consulta[7]?></textarea>
+                    <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" rows="3"><?php echo $consulta['OBSERVACION']?></textarea>
                 </div>
 
                 <div class="form-group row" style="margin: 10px; padding:10px;">
                     <label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA: </label>
-                    <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="garantia" value="<?php echo $consulta[16]?>">
+                    <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="garantia" value="<?php echo $consulta['GARANTIA']?>">
                     <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
                         <select name="modelo" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                                 <option selected value="200"><?php echo $mod?></option>

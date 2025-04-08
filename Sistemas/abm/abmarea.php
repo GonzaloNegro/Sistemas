@@ -81,9 +81,9 @@ $row = $resultado->fetch_assoc();
 				echo "<table width=100%>
 						<thead>
 							<tr>
-								<th><p>ÁREA</p></th>
-								<th><p>REPARTICIÓN</p></th>
-								<th><p>ESTADO</p></th>";
+								<th><p style='text-align:left;padding:5px;'>ÁREA</p></th>
+								<th><p style='text-align:left;padding:5px;'>REPARTICIÓN</p></th>
+								<th><p style='text-align:left;padding:5px;'>ESTADO</p></th>";
 								if ($row['ID_PERFIL'] != 5) {
 									echo"<th><p>MODIFICAR</p></th>
 									</tr>";
@@ -105,9 +105,9 @@ $row = $resultado->fetch_assoc();
 									echo
 									" 
 										<tr>
-										<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4 ></td>
-										<td><h4 style='font-size:16px;'>".$listar['REPA']."</h4 ></td>
-										<td><h4 style='font-size:16px;'>".$listar['ACTIVO']."</h4 ></td>";
+										<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['AREA']."</h4 ></td>
+										<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['REPA']."</h4 ></td>
+										<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['ACTIVO']."</h4 ></td>";
 										if ($row['ID_PERFIL'] != 5) {
 											echo"<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modarea.php?no=".$listar['ID_AREA']." class=mod>Editar</a></td>
 										</tr>
@@ -125,9 +125,9 @@ $row = $resultado->fetch_assoc();
 									echo
 									" 
 										<tr>
-										<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4 ></td>
-										<td><h4 style='font-size:16px;'>".$listar['REPA']."</h4 ></td>
-										<td><h4 style='font-size:16px;'>".$listar['ACTIVO']."</h4 ></td>";
+										<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['AREA']."</h4 ></td>
+										<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['REPA']."</h4 ></td>
+										<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['ACTIVO']."</h4 ></td>";
 										if ($row['ID_PERFIL'] != 5) {
 											echo"<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modarea.php?no=".$listar['ID_AREA']." class=mod>Editar</a></td>
 											</tr>

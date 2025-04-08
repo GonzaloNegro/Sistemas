@@ -5,12 +5,35 @@ if(!isset($_SESSION['cuil']))
     {       
         header('Location: ../particular/Inicio.php'); 
         exit();
-    };
-$iduser = $_SESSION['cuil'];
-$sql = "SELECT ID_RESOLUTOR, CUIL, RESOLUTOR, ID_PERFIL FROM resolutor WHERE CUIL='$iduser'";
-$resultado = $datos_base->query($sql);
-$row = $resultado->fetch_assoc();
-$cu = $row['CUIL'];
+ };
+ try {
+    $iduser = $_SESSION['cuil'];
+
+    // Verificás que la conexión exista
+    if (!$datos_base) {
+        throw new Exception("Error de conexión a la base de datos.");
+    }
+
+    $sql = "SELECT ID_RESOLUTOR, CUIL, RESOLUTOR, ID_PERFIL FROM resolutor WHERE CUIL='$iduser'";
+    $resultado = $datos_base->query($sql);
+
+    if (!$resultado) {
+        throw new Exception("Error al ejecutar la consulta: " . $datos_base->error);
+    }
+
+    $row = $resultado->fetch_assoc();
+
+    if (!$row) {
+        throw new Exception("No se encontró ningún resolutor con ese CUIL.");
+    }
+
+    $cu = $row['CUIL'];
+
+} catch (Exception $e) {
+    // Mostrar mensaje controlado, redirigir, o loguear
+    echo "Ocurrió un error: " . $e->getMessage();
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html>
