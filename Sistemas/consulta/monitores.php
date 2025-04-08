@@ -115,6 +115,14 @@ $row = $resultado->fetch_assoc();
                         
                         const lblUsuarios = $("#nroMonitores").text("Resultados Encontrados: "+respuesta.totalMonitores); 
 
+                        //Mostramos el label con el numero de resultados encontramos
+                        if(busqueda=='' && area=='' && reparticion=='' && orden=='' && tipop=='' && marca=='' && estado==''){
+                            $("#nroMonitores").hide();
+                        }
+                        else{
+                            $("#nroMonitores").show();
+                        }
+
                         //Cargamos la consulta sql utilizada en el value del input del formulario para generar el excel
                         
 
