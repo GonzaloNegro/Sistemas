@@ -129,6 +129,13 @@ $row = $resultado->fetch_assoc();
                         //Cargamos el nro de incidentes obtenidos en label
                         
                         const lblUsuarios = $("#nroImpresoras").text("Resultados Encontrados: "+respuesta.totalImpresoras); 
+                        //Mostramos el label con el numero de resultados encontramos
+                        if(busqueda=='' && area=='' && reparticion=='' && orden=='' && tipop=='' && impresora=='' && marca=='' && estado==''){
+                            $("#nroImpresoras").hide();
+                        }
+                        else{
+                            $("#nroImpresoras").show();
+                        }
 
                         //Cargamos la consulta sql utilizada en el value del input del formulario para generar el excel
                         
