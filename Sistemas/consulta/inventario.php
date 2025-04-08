@@ -81,6 +81,9 @@ $row = $resultado->fetch_assoc();
                     }
 
                     filtros.show();
+                    
+                    
+                    
                 }
             </script>
              <script>
@@ -117,6 +120,14 @@ $row = $resultado->fetch_assoc();
                         //Cargamos el nro de incidentes obtenidos en label
                         
                         const lblUsuarios = $("#nroInventario").text("Resultados Encontrados: "+respuesta.totalInventario); 
+                        //Mostramos el label con el numero de resultados encontramos
+                        if(busqueda=='' && area=='' && reparticion=='' && orden=='' && tipows=='' && so=='' && micro=='' && estado==''){
+                            $("#nroInventario").hide();
+                        }
+                        else{
+                            $("#nroInventario").show();
+                        }
+                        
 
                         //Cargamos la consulta sql utilizada en el value del input del formulario para generar el excel
                         
@@ -456,7 +467,7 @@ $row = $resultado->fetch_assoc();
         </div>
         <?php
         echo"<div class=filtrado>
-        <label style='color:blue; margin-left: 15px; margin-bottom:20px;' id='nroInventario'>Resultados Encontrados:</label>
+        <label style='color:blue; margin-left: 15px; margin-bottom:20px; display:none;' id='nroInventario'>Resultados Encontrados:</label>
         ";    ?>
 
         <div id="filtrosUsados" style="display:none;">
