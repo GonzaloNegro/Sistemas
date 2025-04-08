@@ -94,6 +94,7 @@ $row = $resultado->fetch_assoc();
 
                     filtros.show();
                 }
+                
             </script>
             <script>
                 //Cargar datos en la tabla
