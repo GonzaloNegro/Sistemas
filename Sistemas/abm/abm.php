@@ -55,7 +55,7 @@ $row = $resultado->fetch_assoc();
 
                     <a href=abmarea.php><button type="submit" class="boton_fondo_corredizo_izquierda">-ÁREAS-</button></a>
                     <a href="abmimpresoras.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-IMPRESORAS-</button></a>
-                    <a href="abmmonitores.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-MONITORES-</button></a>
+                    <!-- <a href="abmmonitores.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-MONITORES-</button></a> -->
                     <?php if($row['ID_PERFIL'] == 1 OR $row['ID_PERFIL'] == 2){
                         echo'
                         <a href="abmPlanesCelulares.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-PLANES CELULARES-</button></a>
@@ -75,7 +75,7 @@ $row = $resultado->fetch_assoc();
                     ';
 					} ?>
                     <!-- <a href="abmusuario.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-USUARIOS-</button></a> -->
-                    <a href="abmotros.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-OTROS PERIFÉRICOS-</button></a>
+                   <!--  <a href="abmotros.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-OTROS PERIFÉRICOS-</button></a> -->
             </div>
         </div>
     </section>
