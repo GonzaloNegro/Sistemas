@@ -14,8 +14,10 @@ $row = $resultado->fetch_assoc();
 <!DOCTYPE html>
 <html>
 <head>
-	<title>INVENTARIO EQUIPOS</title><meta charset="utf-8">
+	<title>INVENTARIO OTROS PERIFÉRICOS</title><meta charset="utf-8">
 	<link rel="icon" href="../imagenes/logoInfraestructura.png">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -151,97 +153,106 @@ $row = $resultado->fetch_assoc();
                 </div>
             </div>
         <?php 
+            if ($_POST['buscar'] == '') { $_POST['buscar'] = ' '; }
+            $aKeyword = explode(" ", $_POST['buscar']);
 
-        if ($_POST['buscar'] == ''){ $_POST['buscar'] = ' ';}
-        $aKeyword = explode(" ", $_POST['buscar']);
-
-        if ($_POST["buscar"] == '' AND $_POST['ID_MARCA'] == '' AND $_POST['ID_AREA'] == '' AND $_POST['ID_REPA'] == '' AND $_POST['ID_TIPOP'] == '' AND $_POST['ID_ESTADOWS'] == ''){ 
-                $query ="SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, mo.MODELO, t.TIPO, m.MARCA, p.TIPOP, e.ESTADO, r.REPA			
+            if ($_POST["buscar"] == '' && $_POST['ID_MARCA'] == '' && $_POST['ID_AREA'] == '' && $_POST['ID_REPA'] == '' && $_POST['ID_TIPOP'] == '' && $_POST['ID_ESTADOWS'] == '') {
+                // Consulta por defecto al cargar la pantalla
+                $query = "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, mo.MODELO, t.TIPO, m.MARCA, p.TIPOP, e.ESTADO, r.REPA
+                        FROM periferico p 
+                        LEFT JOIN modelo mo ON mo.ID_MODELO = p.ID_MODELO
+                        LEFT JOIN equipo_periferico ep ON p.ID_PERI = ep.ID_PERI
+                        LEFT JOIN inventario i ON ep.ID_WS = i.ID_WS
+                        LEFT JOIN wsusuario ws ON i.ID_WS = ws.ID_WS
+                        LEFT JOIN usuarios u ON ws.ID_USUARIO = u.ID_USUARIO
+                        LEFT JOIN area a ON a.ID_AREA = u.ID_AREA
+                        LEFT JOIN marcas m ON m.ID_MARCA = p.ID_MARCA
+                        LEFT JOIN estado_ws e ON e.ID_ESTADOWS = p.ID_ESTADOWS
+                        LEFT JOIN tipop t ON t.ID_TIPOP = p.ID_TIPOP
+                        LEFT JOIN reparticion r ON a.ID_REPA = r.ID_REPA
+                        WHERE p.ID_TIPOP IN (5, 6, 9, 11, 12)";
+            } elseif (isset($_POST['busqueda'])) {
+                // Búsqueda avanzada
+                $query = "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, mo.MODELO, t.TIPO, m.MARCA, p.TIPOP, e.ESTADO, r.REPA
                 FROM periferico p 
-                LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO  
-                LEFT JOIN equipo_periferico ep ON p.ID_PERI=ep.ID_PERI
-                LEFT JOIN inventario i ON ep.ID_WS=i.ID_WS
-                LEFT JOIN wsusuario ws ON i.ID_WS=ws.ID_WS
-                LEFT JOIN usuarios u ON ws.ID_USUARIO=u.ID_USUARIO
-                LEFT JOIN area AS a ON a.ID_AREA = u.ID_AREA
-                LEFT JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
-                LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS 
-                LEFT JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
-                INNER JOIN reparticion r on a.ID_REPA=r.ID_REPA   ";
-        }elseif(isset($_POST['busqueda'])){
-                $query = "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, mo.MODELO, t.TIPO, m.MARCA, p.TIPOP, e.ESTADO, r.REPA		
-                FROM periferico p 
-                LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
-                LEFT JOIN equipo_periferico ep ON p.ID_PERI=ep.ID_PERI
-                LEFT JOIN inventario i ON ep.ID_WS=i.ID_WS
-                LEFT JOIN wsusuario ws ON i.ID_WS=ws.ID_WS
-                LEFT JOIN usuarios u ON ws.ID_USUARIO=u.ID_USUARIO
-                LEFT JOIN area AS a ON a.ID_AREA = u.ID_AREA
-                LEFT JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
-                LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS 
-                LEFT JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
-                INNER JOIN reparticion r on a.ID_REPA=r.ID_REPA    ";
+                LEFT JOIN modelo mo ON mo.ID_MODELO = p.ID_MODELO
+                LEFT JOIN equipo_periferico ep ON p.ID_PERI = ep.ID_PERI
+                LEFT JOIN inventario i ON ep.ID_WS = i.ID_WS
+                LEFT JOIN wsusuario ws ON i.ID_WS = ws.ID_WS
+                LEFT JOIN usuarios u ON ws.ID_USUARIO = u.ID_USUARIO
+                LEFT JOIN area a ON a.ID_AREA = u.ID_AREA
+                LEFT JOIN marcas m ON m.ID_MARCA = p.ID_MARCA
+                LEFT JOIN estado_ws e ON e.ID_ESTADOWS = p.ID_ESTADOWS
+                LEFT JOIN tipop t ON t.ID_TIPOP = p.ID_TIPOP
+                LEFT JOIN reparticion r ON a.ID_REPA = r.ID_REPA";
 
-                if ($_POST["buscar"] != '' ){ 
-                        $query .= " WHERE (t.ID_TIPOP = 5 OR t.ID_TIPOP = 6 OR t.ID_TIPOP = 9 OR t.ID_TIPOP = 11 OR t.ID_TIPOP = 12) AND (u.NOMBRE LIKE LOWER('%".$aKeyword[0]."%') OR p.SERIEG LIKE LOWER('%".$aKeyword[0]."%') OR mo.MODELO LIKE LOWER('%".$aKeyword[0]."%')) ";
-                
-                    for($i = 1; $i < count($aKeyword); $i++) {
-                    if(!empty($aKeyword[$i])) {
-                        $query .= " OR u.NOMBRE LIKE '%" . $aKeyword[$i] . "%' OR p.SERIEG LIKE '%" . $aKeyword[$i] . "%' ";
-                    }
-                    }
+            $where = ["p.ID_TIPOP IN (5, 6, 9, 11, 12)"];
 
+            // Filtro de búsqueda por texto
+            if (!empty(trim($_POST['buscar']))) {
+                $aKeyword = explode(" ", $_POST['buscar']);
+                $searchParts = [];
+
+                foreach ($aKeyword as $kw) {
+                    $kw = $datos_base->real_escape_string(trim($kw));
+                    if ($kw != '') {
+                        $searchParts[] = "(u.NOMBRE LIKE LOWER('%$kw%') OR p.SERIEG LIKE LOWER('%$kw%') OR mo.MODELO LIKE LOWER('%$kw%'))";
+                    }
                 }
-        if ($_POST["reparticion"] != '' ){
-            $query .= " AND r.ID_REPA = '".$_POST["reparticion"]."' ";
-        }    
-        if ($_POST["marca"] != '' ){
-            $query .= " AND m.ID_MARCA = '".$_POST["marca"]."' ";
-        }
-        if ($_POST["area"] != '' ){
-            //$query .= " AND p.ID_AREA = '".$_POST["area"]."' ";
-            $query .= " AND u.ID_AREA = '".$_POST["area"]."' ";
-        }
-        if ($_POST["tipo"] != '' ){
-            $query .= " AND t.ID_TIPOP = '".$_POST["tipo"]."' ";
-        }
-        if ($_POST["estado"] != '' ){
-            $query .= " AND e.ID_ESTADOWS = '".$_POST["estado"]."' ";
-        }
 
-
-         if ($_POST["orden"] == '1' ){
-                    $query .= " ORDER BY u.NOMBRE ASC ";
-         }
-         if ($_POST["orden"] == '2' ){
-                $query .= " ORDER BY a.AREA ASC ";
-         }
-         if ($_POST["orden"] == '3' ){
-                $query .= "  ORDER BY m.MARCA ASC ";
-         }
-            if ($_POST["orden"] == '4' ){
-                    $query .= "  ORDER BY t.TIPO ASC ";
-            }
-            if ($_POST["orden"] == '5' ){
-                $query .= "  ORDER BY e.ESTADO ASC ";
+                if (!empty($searchParts)) {
+                    $where[] = '(' . implode(' OR ', $searchParts) . ')';
+                }
             }
 
+            // Filtros por campo
+            if (!empty($_POST["reparticion"])) {
+                $where[] = "r.ID_REPA = '".intval($_POST["reparticion"])."'";
+            }
+            if (!empty($_POST["marca"])) {
+                $where[] = "m.ID_MARCA = '".intval($_POST["marca"])."'";
+            }
+            if (!empty($_POST["area"])) {
+                $where[] = "u.ID_AREA = '".intval($_POST["area"])."'";
+            }
+            if (!empty($_POST["tipo"])) {
+                $where[] = "t.ID_TIPOP = '".intval($_POST["tipo"])."'";
+            }
+            if (!empty($_POST["estado"])) {
+                $where[] = "e.ID_ESTADOWS = '".intval($_POST["estado"])."'";
+            }
 
-}else{
-    $query ="SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, mo.MODELO, t.TIPO, m.MARCA, p.TIPOP, e.ESTADO, r.REPA			
-    FROM periferico p 
-    LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
-    LEFT JOIN equipo_periferico ep ON p.ID_PERI=ep.ID_PERI
-    LEFT JOIN inventario i ON ep.ID_WS=i.ID_WS
-    LEFT JOIN wsusuario ws ON i.ID_WS=ws.ID_WS
-    LEFT JOIN usuarios u ON ws.ID_USUARIO=u.ID_USUARIO
-    LEFT JOIN area AS a ON a.ID_AREA = u.ID_AREA
-    LEFT JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
-    LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS
-    LEFT JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
-    INNER JOIN reparticion r on a.ID_REPA=r.ID_REPA 
-    WHERE (t.ID_TIPOP = 5 OR t.ID_TIPOP = 6 OR t.ID_TIPOP = 9 OR t.ID_TIPOP = 11 OR t.ID_TIPOP = 12) ORDER BY p.NOMBREP ASC";
-}
+            // Concatenar todo
+            if (!empty($where)) {
+                $query .= ' WHERE ' . implode(' AND ', $where);
+            }
+
+            // Ordenamiento
+            switch ($_POST["orden"] ?? '') {
+                case '1': $query .= " ORDER BY u.NOMBRE ASC"; break;
+                case '2': $query .= " ORDER BY a.AREA ASC"; break;
+                case '3': $query .= " ORDER BY m.MARCA ASC"; break;
+                case '4': $query .= " ORDER BY t.TIPO ASC"; break;
+                case '5': $query .= " ORDER BY e.ESTADO ASC"; break;
+            }
+            } else {
+                    // Fallback
+                    $query = "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, mo.MODELO, t.TIPO, m.MARCA, p.TIPOP, e.ESTADO, r.REPA
+                            FROM periferico p 
+                            LEFT JOIN modelo mo ON mo.ID_MODELO = p.ID_MODELO
+                            LEFT JOIN equipo_periferico ep ON p.ID_PERI = ep.ID_PERI
+                            LEFT JOIN inventario i ON ep.ID_WS = i.ID_WS
+                            LEFT JOIN wsusuario ws ON i.ID_WS = ws.ID_WS
+                            LEFT JOIN usuarios u ON ws.ID_USUARIO = u.ID_USUARIO
+                            LEFT JOIN area a ON a.ID_AREA = u.ID_AREA
+                            LEFT JOIN marcas m ON m.ID_MARCA = p.ID_MARCA
+                            LEFT JOIN estado_ws e ON e.ID_ESTADOWS = p.ID_ESTADOWS
+                            LEFT JOIN tipop t ON t.ID_TIPOP = p.ID_TIPOP
+                            LEFT JOIN reparticion r ON a.ID_REPA = r.ID_REPA
+                            WHERE p.ID_TIPOP IN (5, 6, 9, 11, 12)
+                            ORDER BY p.NOMBREP ASC";
+                }
+
 
 /*         $consulta=mysqli_query($datos_base, $query); */
          $sql = $datos_base->query($query);
@@ -258,10 +269,12 @@ $row = $resultado->fetch_assoc();
         ?>
     <div class="principal-info">
             <?php 
-                $sql6 = "SELECT COUNT(*) AS total FROM periferico WHERE ID_TIPOP = 5 OR ID_TIPOP = 6 OR ID_TIPOP = 9 OR ID_TIPOP = 11 OR ID_TIPOP = 12";
+                $sql6 = "SELECT COUNT(*) AS total 
+                FROM periferico 
+                WHERE ID_TIPOP IN (5, 6, 9, 11, 12)";
+
                 $result6 = $datos_base->query($sql6);
-                $row6 = $result6->fetch_assoc();
-                $total = $row6['total'];
+                $total = $result6->fetch_assoc()['total'];
             ?>
             <div class="col-md-3">
                 <div class="card-counter primary">
@@ -276,10 +289,12 @@ $row = $resultado->fetch_assoc();
             </div>
 
             <?php 
-                $sql6 = "SELECT COUNT(*) AS total FROM periferico WHERE ID_ESTADOWS = 1 AND (ID_TIPOP = 5 OR ID_TIPOP = 6 OR ID_TIPOP = 9 OR ID_TIPOP = 11 OR ID_TIPOP = 12)";
+                $sql6 = "SELECT COUNT(*) AS total 
+                FROM periferico 
+                WHERE ID_ESTADOWS = 1 
+                AND ID_TIPOP IN (5, 6, 9, 11, 12)";
                 $result6 = $datos_base->query($sql6);
-                $row6 = $result6->fetch_assoc();
-                $activo = $row6['total'];
+                $activo = $result6->fetch_assoc()['total'];
             ?>
             <div class="col-md-3">
                 <div class="card-counter success">
@@ -299,15 +314,20 @@ $row = $resultado->fetch_assoc();
                 $result6 = $datos_base->query($sql6);
                 $row6 = $result6->fetch_assoc();
                 $inactivos = $row6['total'];
+
+                $sql6 = "SELECT COUNT(*) AS total FROM periferico WHERE ID_ESTADOWS = 3 AND (ID_TIPOP = 5 OR ID_TIPOP = 6 OR ID_TIPOP = 9 OR ID_TIPOP = 11 OR ID_TIPOP = 12)";
+                $result6 = $datos_base->query($sql6);
+                $row6 = $result6->fetch_assoc();
+                $stock = $row6['total'];
             ?>
             <div class="col-md-3">
                 <div class="card-counter danger">
                     <div class="card-pri">
                         <i class="fa-sharp fa-solid fa-arrow-down"></i>
-                        <span class="count-numbers"><?php echo $inactivos;?></span>
+                        <span class="count-numbers"><?php echo $inactivos." - ".$stock;?></span>
                     </div>
                     <div class="card-sec">
-                        <span class="count-name">Periféricos Inactivos</span>
+                        <span class="count-name">Periféricos Inactivos - S/A Stock</span>
                     </div>
                 </div>
             </div>
@@ -363,9 +383,18 @@ $row = $resultado->fetch_assoc();
                     <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['TIPO']."</h4></td>
                     <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['MARCA']."</h4></td>
                     <td><h4 class='wrap2' style='font-size:14px; text-align: left;margin-left:5px;color:".$color."'>".$rowSql['ESTADO']."</h4></td>
-                    <td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary' href=consultadetalleotros.php?no=".$rowSql['ID_PERI']." target=new class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
-                    <path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
-                    <path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/></svg></a></td>
+                    
+                    <td class='text-center text-nowrap'>
+                        <a class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#modalInfo' 
+                            onclick='cargar_informacion(" . $rowSql['ID_PERI'] . ")' 
+                            target='_blank' class='mod'>
+                            Info
+                        </a>
+                        <a class='btn btn-info' style='color: white;' href='../abm/modotros.php?no=" . $rowSql['ID_PERI'] . "' target='_blank' class='mod'>
+                            Editar
+                        </a>
+                    </td>
+                
                 </tr>
             ";
         }
@@ -427,6 +456,90 @@ $row = $resultado->fetch_assoc();
         </form>
 	</section>
 	<footer></footer>
+    <!-- MODALES -->
+    <div class="modal fade modal--usu" id="modalInfo" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">INFORMACIÓN</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="contenidoInfo" style="display:flex;flex-direction:column;gap:10px;">
+                    </div>
+                </div>
+                <div id="resultado" class="resultado">
+                </div>
+                <div class="modal-footer" id="no-imprimir">
+                    <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()"><i class='bi bi-printer' style="color:white;"></i></button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function cargar_informacion(id_Peri) {
+            //buscar ES EL ID DEL CASO//
+            var parametros = {
+                "idPeri": id_Peri
+            };
+            //LA VARIABLE BUSCAR UTILIZA EL ID CASO Y LA ENVIA AL SERVIDOR DE NOVEDADES///
+            $.ajax({
+                data: parametros,
+                url: "./consultarDatosOtros.php",
+                type: "POST",
+                beforeSend: function() {
+                    $("#contenidoInfo").html("Mensaje antes de Enviar");
+                },
+                success: function(mensaje) {
+                    $("#contenidoInfo").html(mensaje);
+                },
+                error: function(xhr, status, error) {
+                    console.error("ERROR: ", status, error);
+                    $("#contenidoInfo").html("Hubo un error al cargar la info");
+                }
+            });
+        };
+        function imprimir() {
+            // Guardar el estado original de los elementos
+            var contenidoOriginal = document.body.innerHTML;
+            
+            // Obtener solo el contenido del primer modal
+            var contenidoModal = document.getElementById('modalInfo').innerHTML;
+
+            // Obtener los estilos de la página original
+            var estilos = '';
+            var head = document.head;
+            for (var i = 0; i < head.children.length; i++) {
+                var child = head.children[i];
+                if (child.tagName.toLowerCase() === 'style' || child.tagName.toLowerCase() === 'link') {
+                    estilos += child.outerHTML;
+                }
+            }
+
+            // Ocultar todo el contenido de la página
+            document.body.style.visibility = 'hidden';
+
+            // Crear una nueva ventana para la impresión
+            var ventanaImpresion = window.open('', '', 'height=800,width=600');
+
+            // Escribir el contenido del modal y los estilos en la ventana de impresión
+            ventanaImpresion.document.write('<html><head><title>Imprimir Modal</title>' + estilos + '</head><body>');
+            ventanaImpresion.document.write('<style>@media print { #no-imprimir { display: none !important; } }</style>');  // Aseguramos que se oculte el #no-imprimir
+            ventanaImpresion.document.write('<div style="width:100%;">' + contenidoModal + '</div>');
+            ventanaImpresion.document.write('</body></html>');
+
+            // Esperar a que la ventana cargue antes de imprimir
+            ventanaImpresion.document.close();
+            ventanaImpresion.print();
+
+            // Restaurar la visibilidad de la página original
+            document.body.style.visibility = 'visible';
+        }
+    </script>
+
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script>
   		AOS.init();
