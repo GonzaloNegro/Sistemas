@@ -160,14 +160,9 @@ $row = $resultado->fetch_assoc();
 
                                 <td class='text-center text-nowrap'>
                                     <a class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#modalInfo' 
-                                        onclick='cargar_informacion(${fila.ID_PERI}, \"Info\")' 
+                                        onclick='cargar_informacion(${fila.ID_PERI})' 
                                         target='_blank' class='mod'>
                                         Info
-                                    </a>
-                                    <a class='btn btn-success' data-bs-toggle='modal' data-bs-target='#modalMovi' 
-                                        onclick='cargar_informacion(${fila.ID_PERI}, \"Movimientos\")' 
-                                        target='_blank' class='mod'>
-                                        Mov. Info
                                     </a>
                                     <a class='btn btn-info' style='color: white;' href='../abm/modmonitores.php?no=${fila.ID_PERI}' target='_blank' class='mod'>
                                         Editar
@@ -472,7 +467,7 @@ $row = $resultado->fetch_assoc();
      <!-- MODALES -->
      <div class="modal fade modal--usu" id="modalInfo" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">INFORMACIÓN</h1>
@@ -491,56 +486,30 @@ $row = $resultado->fetch_assoc();
             </div>
         </div>
     </div>
-    <div class="modal fade modal--usu" id="modalMovi" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">MOVIMIENTOS</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="contenidoMovimiento" style="display:flex;flex-direction:column;gap:10px;">
-                    </div>
-                </div>
-                <div id="resultado" class="resultado">
-                </div>
-                <div class="modal-footer" id="no-imprimir">
-                    <button id="botonright" type="button" class="btn btn-success" onClick="imprimir2()" ><i class='bi bi-printer' style="color:white;"></i></button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script>
-        function cargar_informacion(id_peri, tipoConsulta) {
+        function cargar_informacion(id_Peri) {
+            //buscar ES EL ID DEL CASO//
             var parametros = {
-                "idPeri": id_peri,
-                "tipoConsulta": tipoConsulta // Nuevo parámetro para diferenciar la consulta
+                "idPeri": id_Peri
             };
-
+            //LA VARIABLE BUSCAR UTILIZA EL ID CASO Y LA ENVIA AL SERVIDOR DE NOVEDADES///
             $.ajax({
                 data: parametros,
                 url: "./consultarDatosMonitor.php",
                 type: "POST",
-                beforeSend: function () {
-                    if (tipoConsulta === 'Info') {
-                        $("#contenidoInfo").html("Cargando información...");
-                    } if (tipoConsulta === 'Movimientos') {
-                        $("#contenidoMovimiento").html("Cargando información...");
-                    }
+                beforeSend: function() {
+                    $("#contenidoInfo").html("Mensaje antes de Enviar");
                 },
-                success: function (mensaje) {
-                    if (tipoConsulta === 'Info') {
-                        $("#contenidoInfo").html(mensaje);
-                    } if (tipoConsulta === 'Movimientos') {
-                        $("#contenidoMovimiento").html(mensaje);
-                    }
+                success: function(mensaje) {
+                    $("#contenidoInfo").html(mensaje);
+                },
+                error: function(xhr, status, error) {
+                    console.error("ERROR: ", status, error);
+                    $("#contenidoInfo").html("Hubo un error al cargar la info");
                 }
             });
-        }
-
+        };
     function imprimir() {
     // Guardar el estado original de los elementos
     var contenidoOriginal = document.body.innerHTML;
@@ -577,46 +546,6 @@ $row = $resultado->fetch_assoc();
     // Restaurar la visibilidad de la página original
     document.body.style.visibility = 'visible';
 }
-
-function imprimir2() {
-    // Guardar el estado original de los elementos
-    var contenidoOriginal = document.body.innerHTML;
-    
-    // Obtener solo el contenido del segundo modal o la parte que deseas imprimir
-    var contenidoModal2 = document.getElementById('modalMovi').innerHTML;
-
-    // Obtener los estilos de la página original
-    var estilos = '';
-    var head = document.head;
-    for (var i = 0; i < head.children.length; i++) {
-        var child = head.children[i];
-        if (child.tagName.toLowerCase() === 'style' || child.tagName.toLowerCase() === 'link') {
-            estilos += child.outerHTML;
-        }
-    }
-
-    // Ocultar todo el contenido de la página
-    document.body.style.visibility = 'hidden';
-
-    // Crear una nueva ventana para la impresión
-    var ventanaImpresion2 = window.open('', '', 'height=800,width=600');
-
-    // Escribir el contenido del segundo modal y los estilos en la ventana de impresión
-    ventanaImpresion2.document.write('<html><head><title>Imprimir Otro Modal</title>' + estilos + '</head><body>');
-    ventanaImpresion2.document.write('<style>@media print { #no-imprimir { display: none !important; } }</style>');  // Aseguramos que se oculte el #no-imprimir
-    ventanaImpresion2.document.write('<div style="width:100%;">' + contenidoModal2 + '</div>');
-    ventanaImpresion2.document.write('</body></html>');
-
-    // Esperar a que la ventana cargue antes de imprimir
-    ventanaImpresion2.document.close();
-    ventanaImpresion2.print();
-
-    // Restaurar la visibilidad de la página original
-    document.body.style.visibility = 'visible';
-}
-
-
-
 </script>
 
 <style>

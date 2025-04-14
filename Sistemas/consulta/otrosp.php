@@ -539,7 +539,36 @@ $row = $resultado->fetch_assoc();
             document.body.style.visibility = 'visible';
         }
     </script>
+    <style>
+    @media print {
+        body * {
+            visibility: hidden; /* Oculta todo el contenido de la página */
+        }
 
+        #no-imprimir {
+            display: none;
+        }
+
+        .modal, .modal * {
+            visibility: visible !important; /* Muestra solo los modales */
+            color: black !important; /* Asegura que el texto sea negro */
+            text-shadow: none !important; /* Elimina las sombras de texto */
+            background: none !important; /* Elimina los fondos degradados */
+            box-shadow: none !important; /* Elimina cualquier sombra */
+        }
+
+        .modal-backdrop {
+            display: none !important; /* Oculta el fondo del modal */
+        }
+
+        .modal-body, .modal-header, .modal-footer {
+            color: black !important; /* Texto negro */
+            background: none !important; /* Fondo sin degradado */
+            text-shadow: none !important; /* Elimina sombras de texto */
+        }
+    }
+
+    </style>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script>
   		AOS.init();

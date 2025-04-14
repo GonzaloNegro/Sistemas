@@ -175,10 +175,15 @@ $row = $resultado->fetch_assoc();
                                 <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.TIPO}</h4></td>
                                 <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.MARCA}</h4></td>
                                 <td><h4 style='color:${color};font-size:14px;text-align:left;margin-left: 5px;'>${fila.ESTADO}</h4></td>
-                                <td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary'  target='_blank' href=consultadetalleimp.php?no=${fila.ID_PERI} target=new class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
-                                <path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
-                                <path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
-                                </svg></a>
+                                <td class='text-center text-nowrap'>
+                                    <a class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#modalInfo' 
+                                        onclick='cargar_informacion(${fila.ID_PERI})'
+                                        target='_blank' class='mod'>
+                                        Info
+                                    </a>
+                                    <a class='btn btn-info' style='color: white;' href='../abm/modimpresora.php?no=${fila.ID_PERI}' target='_blank' class='mod'>
+                                        Editar
+                                    </a>
                                 </td>
                             </tr>`);
                         });
@@ -504,6 +509,120 @@ $row = $resultado->fetch_assoc();
         </form>
 	</section>
 	<footer id="footer_pag"><div class="pagination justify-content-center mt-3" id="paginador"></div></footer>
+
+        <!-- MODALES -->
+        <div class="modal fade modal--usu" id="modalInfo" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">INFORMACIÓN</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="contenidoInfo" style="display:flex;flex-direction:column;gap:10px;">
+                    </div>
+                </div>
+                <div id="resultado" class="resultado">
+                </div>
+                <div class="modal-footer" id="no-imprimir">
+                    <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()"><i class='bi bi-printer' style="color:white;"></i></button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function cargar_informacion(id_Peri) {
+            //buscar ES EL ID DEL CASO//
+            var parametros = {
+                "idPeri": id_Peri
+            };
+            //LA VARIABLE BUSCAR UTILIZA EL ID CASO Y LA ENVIA AL SERVIDOR DE NOVEDADES///
+            $.ajax({
+                data: parametros,
+                url: "./consultarDatosImpresoras.php",
+                type: "POST",
+                beforeSend: function() {
+                    $("#contenidoInfo").html("Mensaje antes de Enviar");
+                },
+                success: function(mensaje) {
+                    $("#contenidoInfo").html(mensaje);
+                },
+                error: function(xhr, status, error) {
+                    console.error("ERROR: ", status, error);
+                    $("#contenidoInfo").html("Hubo un error al cargar la info");
+                }
+            });
+        };
+        function imprimir() {
+            // Guardar el estado original de los elementos
+            var contenidoOriginal = document.body.innerHTML;
+            
+            // Obtener solo el contenido del primer modal
+            var contenidoModal = document.getElementById('modalInfo').innerHTML;
+
+            // Obtener los estilos de la página original
+            var estilos = '';
+            var head = document.head;
+            for (var i = 0; i < head.children.length; i++) {
+                var child = head.children[i];
+                if (child.tagName.toLowerCase() === 'style' || child.tagName.toLowerCase() === 'link') {
+                    estilos += child.outerHTML;
+                }
+            }
+
+            // Ocultar todo el contenido de la página
+            document.body.style.visibility = 'hidden';
+
+            // Crear una nueva ventana para la impresión
+            var ventanaImpresion = window.open('', '', 'height=800,width=600');
+
+            // Escribir el contenido del modal y los estilos en la ventana de impresión
+            ventanaImpresion.document.write('<html><head><title>Imprimir Modal</title>' + estilos + '</head><body>');
+            ventanaImpresion.document.write('<style>@media print { #no-imprimir { display: none !important; } }</style>');  // Aseguramos que se oculte el #no-imprimir
+            ventanaImpresion.document.write('<div style="width:100%;">' + contenidoModal + '</div>');
+            ventanaImpresion.document.write('</body></html>');
+
+            // Esperar a que la ventana cargue antes de imprimir
+            ventanaImpresion.document.close();
+            ventanaImpresion.print();
+
+            // Restaurar la visibilidad de la página original
+            document.body.style.visibility = 'visible';
+        }
+    </script>
+    <style>
+    @media print {
+        body * {
+            visibility: hidden; /* Oculta todo el contenido de la página */
+        }
+
+        #no-imprimir {
+            display: none;
+        }
+
+        .modal, .modal * {
+            visibility: visible !important; /* Muestra solo los modales */
+            color: black !important; /* Asegura que el texto sea negro */
+            text-shadow: none !important; /* Elimina las sombras de texto */
+            background: none !important; /* Elimina los fondos degradados */
+            box-shadow: none !important; /* Elimina cualquier sombra */
+        }
+
+        .modal-backdrop {
+            display: none !important; /* Oculta el fondo del modal */
+        }
+
+        .modal-body, .modal-header, .modal-footer {
+            color: black !important; /* Texto negro */
+            background: none !important; /* Fondo sin degradado */
+            text-shadow: none !important; /* Elimina sombras de texto */
+        }
+    }
+
+    </style>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script>
   		AOS.init();

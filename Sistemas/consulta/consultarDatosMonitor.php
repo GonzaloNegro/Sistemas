@@ -1,5 +1,6 @@
 <?php
 session_start();
+error_reporting(0);
 include('../particular/conexion.php');
 
 if (!isset($_SESSION['cuil'])) {
@@ -8,7 +9,6 @@ if (!isset($_SESSION['cuil'])) {
 }
 
 $idPeri = $_POST['idPeri'];
-$tipoConsulta = $_POST['tipoConsulta'];
 
 function valorPorDefecto($valor) {
     return !empty($valor) ? $valor : '-';
@@ -36,7 +36,6 @@ function obtenerMarcaModelo($conexion, $idModelo, $idMarca) {
     return mysqli_fetch_assoc(mysqli_query($conexion, $query));
 }
 
-if ($tipoConsulta == 'Info') {
     $result = mysqli_query($datos_base, "
         SELECT p.*, u.ID_AREA, u.ID_USUARIO 
         FROM periferico p 
@@ -86,7 +85,6 @@ if ($tipoConsulta == 'Info') {
         }
     }
 
-} elseif ($tipoConsulta == 'Movimientos') {
     $result = mysqli_query($datos_base, "
         SELECT m.FECHA, u.NOMBRE, a.AREA, e.ESTADO 
         FROM movimientosperi m 
@@ -123,5 +121,4 @@ if ($tipoConsulta == 'Info') {
 
         echo "</table></div>";
     }
-}
 ?>
