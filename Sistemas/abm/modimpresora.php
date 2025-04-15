@@ -26,8 +26,8 @@ function ConsultarIncidente($no_tic)
         $filas['IP'],/*11*/
         $filas['ID_PROVEEDOR'],/*12*/
         $filas['FACTURA'],/*13*/
-        $filas['ID_AREA'],/*14*/
-        $filas['ID_USUARIO'],/*15*/
+        // $filas['ID_AREA'],/*14*/
+        // $filas['ID_USUARIO'],/*15*/
         $filas['GARANTIA'],/*16*/
         $filas['ID_ESTADOWS'],/*17*/
         $filas['ID_MODELO'],/*18*/
@@ -113,17 +113,17 @@ function enviar_formulario(formulario){
                         $row = $resultado->fetch_assoc();
                         $prov = $row['PROVEEDOR'];
 
-                        $sent= "SELECT AREA FROM area WHERE ID_AREA = $consulta[14]";
-                        $resultado = $datos_base->query($sent);
-                        $row = $resultado->fetch_assoc();
-                        $are = $row['AREA'];
+                        // $sent= "SELECT AREA FROM area WHERE ID_AREA = $consulta[14]";
+                        // $resultado = $datos_base->query($sent);
+                        // $row = $resultado->fetch_assoc();
+                        // $are = $row['AREA'];
 
-                        $sent= "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = $consulta[15]";
-                        $resultado = $datos_base->query($sent);
-                        $row = $resultado->fetch_assoc();
-                        $usu = $row['NOMBRE'];
+                        // $sent= "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = $consulta[15]";
+                        // $resultado = $datos_base->query($sent);
+                        // $row = $resultado->fetch_assoc();
+                        // $usu = $row['NOMBRE'];
 
-                        $sent= "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = $consulta[17]";
+                        $sent= "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = $consulta[15]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
                         $est = $row['ESTADO'];
@@ -131,7 +131,7 @@ function enviar_formulario(formulario){
                         $sent= "SELECT mo.MODELO, ma.MARCA 
                         FROM modelo mo
                         INNER JOIN marcas ma ON ma.ID_MARCA = mo.ID_MARCA
-                        WHERE mo.ID_MODELO = $consulta[18]";
+                        WHERE mo.ID_MODELO = $consulta[16]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
                         $mod = $row['MODELO']." - ".$row['MARCA'];?>
