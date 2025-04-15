@@ -7,24 +7,15 @@ $consulta = ConsultarIncidente($_GET['no']);
 
 function ConsultarIncidente($no_tic)
 {	
-	$datos_base=mysqli_connect('localhost', 'root', '', 'incidentes') or exit('No se puede conectar con la base de datos');
-	$sentencia =  "SELECT * FROM usuarios WHERE ID_USUARIO='".$no_tic."'";
-	$resultado = mysqli_query($datos_base, $sentencia);
-	$filas = mysqli_fetch_assoc($resultado);
-	return [
-		$filas['ID_USUARIO'],/*0*/
-		$filas['NOMBRE'],/*1*/
-		$filas['CUIL'],/*2*/
-        $filas['ID_AREA'],/*3*/
-        $filas['PISO'],/*4*/
-        $filas['INTERNO'],/*5*/
-        $filas['CORREO'],/*6*/
-        $filas['CORREO_PERSONAL'],/*7*/
-        $filas['TELEFONO_PERSONAL'],/*8*/
-        $filas['ID_TURNO'],/*9*/
-        $filas['ACTIVO'],/*10*/
-        $filas['OBSERVACION']/*11*/
-	];
+    $datos_base = mysqli_connect('localhost', 'root', '', 'incidentes') 
+        or exit('No se puede conectar con la base de datos');
+
+    $no_tic = mysqli_real_escape_string($datos_base, $no_tic);
+
+    $sentencia = "SELECT * FROM usuarios WHERE ID_USUARIO='" . $no_tic . "'";
+    $resultado = mysqli_query($datos_base, $sentencia);
+
+    return mysqli_fetch_assoc($resultado);
 }
 
 ?>
@@ -86,52 +77,54 @@ function ConsultarIncidente($no_tic)
 		<div id="principalu" style="width: 97%" class="container-fluid">
                 <?php
                 include("../particular/conexion.php");
-                $sent= "SELECT a.AREA, r.REPA FROM area a inner join reparticion r on a.ID_REPA=r.ID_REPA WHERE ID_AREA = $consulta[3]";
+                $sent= "SELECT a.AREA, r.REPA FROM area a inner join reparticion r on a.ID_REPA=r.ID_REPA WHERE ID_AREA = $consulta[ID_AREA]";
                 $resultado = $datos_base->query($sent);
                 $row = $resultado->fetch_assoc();
                 $ar = $row['AREA'];
                 $repa = $row['REPA'];
-                ?>
-                
-                <?php 
-                include("../particular/conexion.php");
-                $sent= "SELECT TURNO FROM turnos WHERE ID_TURNO = $consulta[9]";
+
+                $sent= "SELECT TURNO FROM turnos WHERE ID_TURNO = $consulta[ID_TURNO]";
                 $resultado = $datos_base->query($sent);
                 $row = $resultado->fetch_assoc();
                 $turno = $row['TURNO'];
+
+                $sent= "SELECT ESTADO FROM estado_usuario WHERE ID_ESTADOUSUARIO = $consulta[ID_ESTADOUSUARIO]";
+                $resultado = $datos_base->query($sent);
+                $row = $resultado->fetch_assoc();
+                $estado = $row['ESTADO'];
                 ?>
 
                 <form method="POST" action="guardarmodusuario2.php">
                     <label>ID: </label>
-                    <input type="text" class="id" name="id" value="<?php echo $consulta[0]?>">
+                    <input type="text" class="id" name="id" value="<?php echo $consulta['ID_USUARIO']?>" readonly>
                     
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm" class="col-form-label col-xl col-lg">NOMBRE: </label>&nbsp &nbsp
-                        <input class="form-control col-xl col-lg" type="text" name="nom" value="<?php echo $consulta[1]?>">
+                        <input class="form-control col-xl col-lg" type="text" name="nom" value="<?php echo $consulta['NOMBRE']?>">
                         <label id="lblForm" class="col-form-label col-xl col-lg">CUIL: </label>&nbsp &nbsp
-                        <input class="form-control col-xl col-lg" type="text" name="cuil" value="<?php echo $consulta[2]?>">
+                        <input class="form-control col-xl col-lg" type="text" name="cuil" value="<?php echo $consulta['CUIL']?>">
                     </div>
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm" class="col-form-label col-xl col-lg">INTERNO:</label>
-                        <input class="form-control col-xl col-lg" type="text" name="int" value="<?php echo $consulta[5]?>">
+                        <input class="form-control col-xl col-lg" type="text" name="int" value="<?php echo $consulta['INTERNO']?>">
                         <label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓN:</label> &nbsp &nbsp
-                        <textarea class="form-control col-xl col-lg" name="obs" style="text-transform:uppercase" rows="3"><?php echo $consulta[11]?></textarea>
+                        <textarea class="form-control col-xl col-lg" name="obs" style="text-transform:uppercase" rows="3"><?php echo $consulta['OBSERVACION']?></textarea>
                     </div>
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm" class="col-form-label col-xl col-lg">CORREO: </label>&nbsp &nbsp
-                        <input class="form-control col-xl col-lg" type="text" name="cor" value="<?php echo $consulta[6]?>">
+                        <input class="form-control col-xl col-lg" type="text" name="cor" value="<?php echo $consulta['CORREO']?>">
                         <label id="lblForm" class="col-form-label col-xl col-lg">CORREO PERSONAL: </label>&nbsp &nbsp
-                        <input class="form-control col-xl col-lg" type="text" name="corp" value="<?php echo $consulta[7]?>">
+                        <input class="form-control col-xl col-lg" type="text" name="corp" value="<?php echo $consulta['CORREO_PERSONAL']?>">
                     </div>
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm" class="col-form-label col-xl col-lg">TELEFONO: </label>
-                        <input class="form-control col-xl col-lg" type="text" name="tel" value="<?php echo $consulta[8]?>">
+                        <input class="form-control col-xl col-lg" type="text" name="tel" value="<?php echo $consulta['TELEFONO_PERSONAL']?>">
                         <label id="lblForm" class="col-form-label col-xl col-lg">PISO:</label>
                             <select name="piso" class="form-control col-xl col-lg">
-                                <option selected value="300"><?php echo $consulta[4]?></option>
+                                <option selected value="300"><?php echo $consulta['PISO']?></option>
 								<option value="PB">PB</option>
 								<option value="P1">P1</option>
 								<option value="P2">P2</option>
@@ -150,9 +143,15 @@ function ConsultarIncidente($no_tic)
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm" class="col-form-label col-xl col-lg">ESTADO:</label>
                         <select class="form-control col-xl col-lg" name="act">
-                                    <option selected value="400"><?php echo $consulta[10]?></option>
-                                    <option value="ACTIVO">ACTIVO</option>
-                                    <option value="INACTIVO">INACTIVO</option>
+                            <option selected value="400"><?php echo $estado?></option>
+                                        <?php
+                                        include("../particular/conexion.php");
+                                        $consulta= "SELECT ESTADO FROM estado_usuario ";
+                                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                        ?>
+                                        <?php foreach ($ejecutar as $opciones): ?> 
+                                        <option value= <?php echo $opciones['ID_ESTADOUSUARIO'] ?>><?php echo $opciones['ESTADO']?></option>
+                                        <?php endforeach?>
                                 </select>
                         <label id="lblForm" class="col-form-label col-xl col-lg">ÁREA:</label>&nbsp &nbsp
                         <select  class="form-control col-xl col-lg" name="are" style="text-transform:uppercase">

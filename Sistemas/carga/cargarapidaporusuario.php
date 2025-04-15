@@ -311,7 +311,7 @@ $row = $resultado->fetch_assoc();
 						<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
 						<?php
 						include("../particular/conexion.php");
-						$consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' AND ID_USUARIO <> 277 ORDER BY NOMBRE ASC";
+						$consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 AND ID_USUARIO <> 277 ORDER BY NOMBRE ASC";
 						$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 						?>
 						<?php foreach ($ejecutar as $opciones): ?> 

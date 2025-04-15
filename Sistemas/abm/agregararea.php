@@ -212,9 +212,17 @@ $row = $resultado->fetch_assoc();
 				        </div>	
 						<div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
-							<select id="estado" name="estado" class="form-control col-xl col-lg" required>
-								<option value="ACTIVO" selected>ACTIVO</option>
-								<option value="INACTIVO" >INACTIVO</option>
+							<select id="estado" name="estado" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+								<option selected disabled>-SELECCIONE UNA-</option>
+								<?php
+								include("../particular/conexion.php");
+
+								$consulta= "SELECT * FROM estado_usuario";
+								$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+								?>
+								<?php foreach ($ejecutar as $opciones): ?> 
+									<option value="<?php echo $opciones['ID_ESTADOUSUARIO']?>"><?php echo $opciones['ESTADO']?></option>						
+								<?php endforeach ?>
 							</select>
 
 							<label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIONES:</label>

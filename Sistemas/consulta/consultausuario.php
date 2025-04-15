@@ -179,12 +179,12 @@ if(!isset($_SESSION['cuil']))
                         tabla.empty();
                         respuesta.datos.forEach(fila => {
 
-                            let activo = fila.ACTIVO;  // Este valor lo obtienes de tu lógica o de una variable
+                            let estado = fila.ESTADO;  // Este valor lo obtienes de tu lógica o de una variable
                             let color;
 
-                            if (activo === "ACTIVO") {
+                            if (estado === "ACTIVO") {
                             color = "green";  // Si el estado es "solucionado", el color será verde
-                            } else if(activo === "INACTIVO") {
+                            } else if(estado === "INACTIVO") {
                             color = "red";
                             }
 
@@ -200,7 +200,7 @@ if(!isset($_SESSION['cuil']))
                                 <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.AREA}</h4></td>
                                 <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${fila.REPA}</h4></td>
                                 <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>${interno}</h4></td>
-                                <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;color:${color};'>${activo}</h4></td>
+                                <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;color:${color};'>${estado}</h4></td>
                                 <td class='text-center text-nowrap'>
                                     <a class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#modalInfo' 
                                         onclick='cargar_informacion(${fila.ID_USUARIO})' 
@@ -430,7 +430,7 @@ if(!isset($_SESSION['cuil']))
             </div>
 
             <?php 
-                $sql6 = "SELECT COUNT(*) AS total FROM usuarios WHERE ACTIVO = 'ACTIVO'";
+                $sql6 = "SELECT COUNT(*) AS total FROM usuarios WHERE ID_ESTADOUSUARIO = 1";
                 $result6 = $datos_base->query($sql6);
                 $row6 = $result6->fetch_assoc();
                 $activo = $row6['total'];
@@ -449,7 +449,7 @@ if(!isset($_SESSION['cuil']))
 
 
             <?php 
-                $sql6 = "SELECT COUNT(*) AS total FROM usuarios WHERE ACTIVO = 'INACTIVO'";
+                $sql6 = "SELECT COUNT(*) AS total FROM usuarios WHERE ID_ESTADOUSUARIO = 2";
                 $result6 = $datos_base->query($sql6);
                 $row6 = $result6->fetch_assoc();
                 $inactivos = $row6['total'];

@@ -9,11 +9,12 @@
 
         //SERVIDOR QUE MUESTRA UNA TABLA CON LAS NOVEDADES DE UN CASO DETERMINADO
     $id_usuario = $_POST['idUsuario'];
-    $resultados=mysqli_query($datos_base, "SELECT u.ID_USUARIO, u.NOMBRE, u.CUIL, a.AREA, u.INTERNO, u.ACTIVO, r.REPA, u.PISO, u.CORREO, u.CORREO_PERSONAL, u.TELEFONO_PERSONAL, u.OBSERVACION, t.TURNO
+    $resultados=mysqli_query($datos_base, "SELECT u.ID_USUARIO, u.NOMBRE, u.CUIL, a.AREA, u.INTERNO, e.ESTADO, r.REPA, u.PISO, u.CORREO, u.CORREO_PERSONAL, u.TELEFONO_PERSONAL, u.OBSERVACION, t.TURNO
     FROM usuarios u
     LEFT JOIN area a ON  u.ID_AREA = a.ID_AREA
     LEFT JOIN reparticion r ON r.ID_REPA = a.ID_REPA
     LEFT JOIN turnos t ON t.ID_TURNO = u.ID_TURNO
+    LEFT JOIN estado_usuario e ON e.ID_ESTADOUSUARIO = u.ID_ESTADOUSUARIO 
     WHERE u.ID_USUARIO = '$id_usuario'
     LIMIT 1");
     $num_rows= mysqli_num_rows($resultados);
@@ -37,7 +38,7 @@
             $correoPersonal = !empty($consulta['CORREO_PERSONAL']) ? $consulta['CORREO_PERSONAL'] : "-";
             $telefonoPersonal = !empty($consulta['TELEFONO_PERSONAL']) ? $consulta['TELEFONO_PERSONAL'] : "-";
             $turno=$consulta['TURNO'];
-            $activo=$consulta['ACTIVO'];
+            $activo=$consulta['ESTADO'];
             $observacion = !empty($consulta['OBSERVACION']) ? $consulta['OBSERVACION'] : "-";
             
             echo'

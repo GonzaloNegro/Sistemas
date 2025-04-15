@@ -239,7 +239,7 @@ function enviar_formulario(formulario){
                                         <option selected value="600"><?php echo $usu?></option>
                                         <?php
                                         include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' ORDER BY NOMBRE ASC";
+                                        $consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 ORDER BY NOMBRE ASC";
                                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                                         ?>
                                         <?php foreach ($ejecutar as $opciones): ?> 

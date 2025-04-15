@@ -271,15 +271,7 @@ $row = $resultado->fetch_assoc();
 								<option value="<?php echo $opciones['ID_TURNO']?>"><?php echo $opciones['TURNO']?></option>						
 							<?php endforeach ?>
 							</select>
-							<label id="lblForm"class="col-form-label col-xl col-lg">ACTIVO:</label>
-							<select id="activo" name="activo" class="form-control col-xl col-lg" required>
-<!-- 								<option selected disabled>-SELECCIONE UNA-</option> -->
-								<option value="ACTIVO" selected>ACTIVO</option>
-								<option value="INACTIVO">INACTIVO</option>
-							</select>
-							</div>
-							<div class="form-group row" style="margin: 10px; padding:10px;">
-							<label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIÓN:</label>
+                            <label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIÓN:</label>
 							<textarea class="form-control col-xl col-lg" name="obs" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3"></textarea>
 							</div>
                             <?php 

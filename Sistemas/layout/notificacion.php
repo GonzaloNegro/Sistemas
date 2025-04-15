@@ -8,7 +8,7 @@
         $rowa = $result->fetch_assoc();
         $cantidad = $rowa['cantidad'];
 
-        $cantU="SELECT count(*) as cantidadUsu FROM usuarios WHERE ID_AREA IN (100, 101) AND ACTIVO = 'ACTIVO';";
+        $cantU="SELECT count(*) as cantidadUsu FROM usuarios WHERE ID_AREA IN (100, 101) AND ID_ESTADOUSUARIO = 1;";
         $result = $datos_base->query($cantU);
         $rowa = $result->fetch_assoc();
         $cantidadUsu = $rowa['cantidadUsu'];

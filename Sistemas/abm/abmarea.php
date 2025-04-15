@@ -94,10 +94,11 @@ $row = $resultado->fetch_assoc();
 					if(isset($_POST['btn2']))
 							{
 								$doc = $_POST['buscar'];
-								$consulta=mysqli_query($datos_base, "SELECT a.ID_AREA, a.AREA, r.REPA, a.ACTIVO
+								$consulta=mysqli_query($datos_base, "SELECT a.ID_AREA, a.AREA, r.REPA, e.ESTADO
 								FROM area a
 								LEFT JOIN reparticion AS r ON r.ID_REPA= a.ID_REPA
-								WHERE a.AREA LIKE '%$doc%' OR r.REPA LIKE '%$doc%' OR a.ACTIVO LIKE '$doc'
+								LEFT JOIN estado_usuario AS e ON e.ID_ESTADOUSUARIO = a.ID_ESTADOUSUARIO
+								WHERE a.AREA LIKE '%$doc%' OR r.REPA LIKE '%$doc%' OR e.ESTADO LIKE '$doc'
 								ORDER BY r.REPA ASC, a.AREA ASC");
 								while($listar = mysqli_fetch_array($consulta))
 								{
@@ -107,7 +108,7 @@ $row = $resultado->fetch_assoc();
 										<tr>
 										<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['AREA']."</h4 ></td>
 										<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['REPA']."</h4 ></td>
-										<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['ACTIVO']."</h4 ></td>";
+										<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['ESTADO']."</h4 ></td>";
 										if ($row['ID_PERFIL'] != 5) {
 											echo"<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modarea.php?no=".$listar['ID_AREA']." class=mod>Editar</a></td>
 										</tr>
@@ -115,9 +116,10 @@ $row = $resultado->fetch_assoc();
 								} 
 							}
 							else{
-							$consulta=mysqli_query($datos_base, "SELECT a.ID_AREA, a.AREA, r.REPA, a.ACTIVO
+							$consulta=mysqli_query($datos_base, "SELECT a.ID_AREA, a.AREA, r.REPA, e.ESTADO
 							FROM area a
 							LEFT JOIN reparticion AS r ON r.ID_REPA= a.ID_REPA
+							LEFT JOIN estado_usuario AS e ON e.ID_ESTADOUSUARIO = a.ID_ESTADOUSUARIO
                             ORDER BY r.REPA ASC, a.AREA ASC
 							");
 								while($listar = mysqli_fetch_array($consulta)) 
@@ -127,7 +129,7 @@ $row = $resultado->fetch_assoc();
 										<tr>
 										<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['AREA']."</h4 ></td>
 										<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['REPA']."</h4 ></td>
-										<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['ACTIVO']."</h4 ></td>";
+										<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['ESTADO']."</h4 ></td>";
 										if ($row['ID_PERFIL'] != 5) {
 											echo"<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modarea.php?no=".$listar['ID_AREA']." class=mod>Editar</a></td>
 											</tr>

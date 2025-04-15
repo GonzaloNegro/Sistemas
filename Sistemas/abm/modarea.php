@@ -133,6 +133,12 @@ function ConsultarIncidente($no_tic)
                 $resultado = $datos_base->query($sent);
                 $row = $resultado->fetch_assoc();
                 $repa = $row['REPA'];
+
+                $sent= "SELECT ESTADO FROM estado_usuario WHERE ID_ESTADOUSUARIO = $consulta[ID_ESTADOUSUARIO]";
+                $resultado = $datos_base->query($sent);
+                $row = $resultado->fetch_assoc();
+                $estado = $row['ESTADO'];
+
                 ?>
                 <form method="POST" action="guardarmodarea2.php">
                     <label>ID: </label>
@@ -148,10 +154,16 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
-                        <select id="estado" name="estado" class="form-control col-form-label col-xl col-lg" required>
-                            <option selected value="200"><?php echo $consulta['ACTIVO']?></option>
-                            <option value="ACTIVO">ACTIVO</option>
-                            <option value="INACTIVO">INACTIVO</option>
+                        <select id="estado" name="estado" style="text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                            <option selected value="200"><?php echo $estado?></option>
+                            <?php
+                            include("../particular/conexion.php");
+                            $consulta= "SELECT * FROM estado_usuario";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value= <?php echo $opciones['ID_ESTADOUSUARIO'] ?>><?php echo $opciones['ESTADO']?></option>
+                            <?php endforeach?>
                         </select>
                         <label id="lblForm"class="col-form-label col-xl col-lg">REPARTICIÓN:</label>
                         <select id="repa" name="repa" style="text-transform:uppercase" class="form-control col-form-label col-xl col-lg">

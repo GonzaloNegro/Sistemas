@@ -113,7 +113,7 @@ $nrocelular = $consulta[8];
 								<option selected value="100"><?php echo $usuario;?></option>
 								<?php
 								include("../particular/conexion.php");
-								$consulta= "SELECT * FROM usuarios WHERE ACTIVO LIKE 'ACTIVO' ORDER BY NOMBRE ASC";
+								$consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 ORDER BY NOMBRE ASC";
 								$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 								?>
 								<?php foreach ($ejecutar as $opciones): ?>

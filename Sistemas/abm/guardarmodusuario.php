@@ -10,7 +10,7 @@ $tel = $_POST['telefono_personal'];
 $correo = $_POST['correo'];
 $correop = $_POST['correo_personal'];
 $turno = $_POST['turno'];
-$act = $_POST['activo'];
+$estadoUsuario = 1; /* SETEO EL ESTADO A ACTIVO PARA SU REGISTRO */
 $obs = $_POST['obs'];
 
 /* SI UNO DE LOS CAMPOS ESTA REPETIDO */
@@ -19,6 +19,17 @@ $resultado = $datos_base->query($sql);
 $row = $resultado->fetch_assoc();
 $nom = $row['NOMBRE'];
 $cui = $row['CUIL'];
+
+
+/* 
+SI EL ESTADO ES ACTIVO{
+    -INSERT EN TABLA usuarios
+    -INSERT EN TABLA wsusuarios EN MODO VINCULACION (SE VINCULA AL SISTEMA) SIN EQUIPO
+}
+
+
+********NO PERMITIR QUE SE PUEDA CARGAR EL USUARIO COMO INACTIVO, QUE LO REGISTREN Y LUEGO LO MODIFIQUEN AL ESTADO SI QUIEREN REGISTRARLO INACTIVO********
+*/
 
 if($cuil == $cui)
 {

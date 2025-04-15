@@ -51,10 +51,10 @@ if (!empty($_GET['usuario'])) {
 if (!empty($_GET['estado'])) {
     $estado = intval($_GET['estado']);
     if ($estado == '1' ){
-        $where[] = "u.ACTIVO = 'ACTIVO' ";
+        $where[] = "e.ESTADO = 'ACTIVO' ";
     }
     if ($estado == '2' ){
-        $where[] = "u.ACTIVO = 'INACTIVO' ";
+        $where[] = "e.ESTADO = 'INACTIVO' ";
     }
 }
 
@@ -90,7 +90,9 @@ $whereClause = !empty($where) ? 'WHERE ' . implode(' AND ', $where) : '';
 // Consultar el total de registros
 $sqlTotal = "SELECT COUNT(*) as total FROM usuarios u
 LEFT JOIN area a ON  u.ID_AREA = a.ID_AREA
-LEFT JOIN reparticion r ON r.ID_REPA = a.ID_REPA  $whereClause";
+LEFT JOIN reparticion r ON r.ID_REPA = a.ID_REPA  
+LEFT JOIN estado_usuario e ON e.ID_ESTADOUSUARIO = u.ID_ESTADOUSUARIO 
+$whereClause";
 $resultTotal = $datos_base->query($sqlTotal);
 $totalRegistros = $resultTotal->fetch_assoc()['total'];
 $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
@@ -100,17 +102,19 @@ $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 
 <?php 
 //query para obtener los incidentes
-       $query ="SELECT u.ID_USUARIO, u.NOMBRE, u.CUIL, a.AREA, u.INTERNO, u.ACTIVO, r.REPA
+       $query ="SELECT u.ID_USUARIO, u.NOMBRE, u.CUIL, a.AREA, u.INTERNO, e.ESTADO, r.REPA
                 FROM usuarios u
                 LEFT JOIN area a ON  u.ID_AREA = a.ID_AREA
                 LEFT JOIN reparticion r ON r.ID_REPA = a.ID_REPA 
+                LEFT JOIN estado_usuario e ON e.ID_ESTADOUSUARIO = u.ID_ESTADOUSUARIO 
                 $whereClause $order 
                 LIMIT $inicio, $registrosPorPagina";
 
-        $query_excel ="SELECT u.ID_USUARIO, u.NOMBRE, u.CUIL, a.AREA, u.INTERNO, u.ACTIVO, r.REPA
+        $query_excel ="SELECT u.ID_USUARIO, u.NOMBRE, u.CUIL, a.AREA, u.INTERNO, e.ESTADO, r.REPA
                 FROM usuarios u
                 LEFT JOIN area a ON  u.ID_AREA = a.ID_AREA
                 LEFT JOIN reparticion r ON r.ID_REPA = a.ID_REPA
+                LEFT JOIN estado_usuario e ON e.ID_ESTADOUSUARIO = u.ID_ESTADOUSUARIO 
                 $whereClause $order ";
 
 
