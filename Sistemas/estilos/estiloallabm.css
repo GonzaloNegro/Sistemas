@@ -561,3 +561,58 @@ input:hover{
 	border-color:#29343e;
 	transition-delay: 0.1s;
 }
+
+#filtros {
+	width: 100%;
+	background-color: #53aae025;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-direction: column;
+	padding: 20px;
+	margin-bottom: 50px;
+}
+
+#filtros-listado {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.fila {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 10px;
+}
+
+.form-label {
+	min-width: 180px;
+	color: black;
+	font-weight: bold;
+}
+
+.largo {
+	width: 380px;
+}
+
+.btn {
+	margin-right: 10px;
+}
+
+/* labels indicadores de filtrado */
+
+.filtrado{
+	width: 100%;
+	padding: 20px;
+	border-top: 2px solid blue;
+}
+.filtrado h2{
+	font-size: 24px;
+	text-decoration: underline;
+	color: blue;
+}
+.filtrado ul li{
+	color: blue;
+}

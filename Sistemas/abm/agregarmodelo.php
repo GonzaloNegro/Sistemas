@@ -30,6 +30,7 @@ $row = $resultado->fetch_assoc();
 			}
 	</style>
 </head>
+
 <body>
 <script type="text/javascript">
 			function ok(){
