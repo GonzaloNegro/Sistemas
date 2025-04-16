@@ -33,6 +33,16 @@ $row = $resultado->fetch_assoc();
 	</style>
 </head>
 <body>
+    <!-- Script para inicializar el Popover -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Inicializa todos los popovers
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                return new bootstrap.Popover(popoverTriggerEl);
+            });
+        });
+    </script>
 <?php
     if (!isset($_POST['buscar'])){$_POST['buscar'] = '';}
     if (!isset($_POST["proveedor"])){$_POST["proveedor"] = '';}
@@ -392,18 +402,34 @@ $row = $resultado->fetch_assoc();
                     <td><h4 class='wrap2' style='font-size:16px; text-align:left;margin-left: 5px;color:".$color."'>".$rowSql['ESTADO']."</h4></td>
 
                     <td class='text-center text-nowrap'>
-                        <a class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#exampleModal'
-                        data-bs-whatever='@mdo' onclick='cargar_informacion(".$rowSql['ID_CELULAR'].")' target=new class=mod>Info</a>
-
-                        <a class='btn btn-success' data-bs-toggle='modal' data-bs-target='#exampleModal2'
-                        data-bs-whatever='@mdo' style=' color:white;' onclick='cargar_informacion2(".$rowSql['ID_CELULAR'].")' class=mod>Mov. Info</a>
+                        <span style='display: inline-flex; padding: 3px;'>
+                            <a style='padding: 3px; cursor: pointer;'
+                            data-bs-toggle='modal'
+                            data-bs-target='#exampleModal'
+                            onclick='cargar_informacion(" . $rowSql['ID_CELULAR'] . ")'
+                            class='mod'>
+                                <i class='fa-solid fa-circle-info fa-2xl'
+                                style='color: #0d6efd'
+                                data-bs-toggle='popover'
+                                data-bs-trigger='hover focus'
+                                data-bs-placement='top'></i>
+                            </a>
+                        </span>";
                         
-                        <a class='btn btn-success' data-bs-toggle='modal' data-bs-target='#exampleModal3'
-                        data-bs-whatever='@mdo' class='btn btn-warning' style='background-color:#FF7800;' onclick='cargar_informacion3(".$rowSql['ID_CELULAR'].")' class=mod>Mov. Cel</a>
-                        ";
                         if ($row['ID_PERFIL'] == 1 || $row['ID_PERFIL'] == 2 || $row['ID_PERFIL'] == 6) {
                             echo"
-                        <a class='btn btn-info' style=' color:white;' href=./modificarCelular.php?num=".$rowSql['ID_CELULAR']." target=_blank class=mod>Editar</a>";
+                                <span style='display: inline-flex;padding:3px;'>
+                                    <a style='padding:3px;' 
+                                    href='./modificarCelular.php?no=" . $rowSql['ID_CELULAR'] . "' 
+                                    target='_blank' 
+                                    class='mod' 
+                                    data-bs-toggle='popover' 
+                                    data-bs-trigger='hover' 
+                                    data-bs-placement='top' 
+                                    data-bs-content='Editar'>
+                                    <i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i>
+                                    </a>
+                                </span>";
                         }
                         echo"
                     </td>
@@ -464,7 +490,7 @@ $row = $resultado->fetch_assoc();
 
     <div class="modal fade modal--usu" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">INFORMACIÓN</h1>
@@ -473,46 +499,6 @@ $row = $resultado->fetch_assoc();
                 <div class="modal-body">
                     <div id="mostrar_mensaje" style="display:flex;flex-direction:column;gap:10px;">
                     </div>
-                </div>
-                <div id="resultado" class="resultado">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade modal--usu" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" style="display:flex;justify-content:center;width:100%;">
-            <div class="modal-content"  style="width:auto;">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">HISTORIAL MOVIMIENTOS DE INFORMACIÓN</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <table id="mostrar_mensaje2"></table>
-                </div>
-                <div id="resultado" class="resultado">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade modal--usu" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" style="display:flex;justify-content:center;width:100%;">
-            <div class="modal-content"  style="width:auto;">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">HISTORIAL MOVIMIENTOS CELULAR</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <table id="mostrar_mensaje3"></table>
                 </div>
                 <div id="resultado" class="resultado">
                 </div>
@@ -544,46 +530,7 @@ $row = $resultado->fetch_assoc();
             }
         });
     };
-    function cargar_informacion2(id_celular) {
-        //buscar ES EL ID DEL CASO//
-        var parametros = {
-            "idCelular": id_celular
-        };
-        //LA VARIABLE BUSCAR UTILIZA EL ID CASO Y LA ENVIA AL SERVIDOR DE NOVEDADES///
-        $.ajax({
-            data: parametros,
-            url: "./consultarDatosCelular2.php",
-            type: "POST",
-            //TRAE DE FORMA ASINCRONA, CONSUME EL SERVIDOR DE NOVEDADES Y MUESTRA EN EL DIV MOSTRAR_MENSAJE TODAS LAS NOVEDADES RELACIONADAS////
-            beforesend: function() {
-                $("#mostrar_mensaje2").html("Mensaje antes de Enviar");
-            },
 
-            success: function(mensaje) {
-                $("#mostrar_mensaje2").html(mensaje);
-            }
-        });
-    };
-    function cargar_informacion3(id_celular) {
-        //buscar ES EL ID DEL CASO//
-        var parametros = {
-            "idCelular": id_celular
-        };
-        //LA VARIABLE BUSCAR UTILIZA EL ID CASO Y LA ENVIA AL SERVIDOR DE NOVEDADES///
-        $.ajax({
-            data: parametros,
-            url: "./consultarDatosCelular3.php",
-            type: "POST",
-            //TRAE DE FORMA ASINCRONA, CONSUME EL SERVIDOR DE NOVEDADES Y MUESTRA EN EL DIV MOSTRAR_MENSAJE TODAS LAS NOVEDADES RELACIONADAS////
-            beforesend: function() {
-                $("#mostrar_mensaje3").html("Mensaje antes de Enviar");
-            },
-
-            success: function(mensaje) {
-                $("#mostrar_mensaje3").html(mensaje);
-            }
-        });
-    };
     </script>
     <script>
         function filtrar(){

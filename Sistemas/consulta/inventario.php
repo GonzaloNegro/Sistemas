@@ -38,6 +38,16 @@ $row = $resultado->fetch_assoc();
 	</style>
 </head>
 <body>
+    <!-- Script para inicializar el Popover -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Inicializa todos los popovers
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                return new bootstrap.Popover(popoverTriggerEl);
+            });
+        });
+    </script>
     <script>
 	function ok(){
         Swal.fire({
@@ -222,7 +232,8 @@ $row = $resultado->fetch_assoc();
                             } else if(estado === "S/A - STOCK") {
                             color = "blue";  // Si el estado no es "solucionado", el color será rojo
                             }
-                            
+                            console.log(fila);
+
                             tabla.append(`<tr>
                                 <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.REPA}</h4></td>
                                 <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.AREA}</h4></td>
@@ -233,13 +244,71 @@ $row = $resultado->fetch_assoc();
                                 <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.TIPOWS}</h4></td>
                                 <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.OBSERVACION}</h4></td>
                                 <td><h4 style='color:${color};font-size:14px;text-align:left;margin-left: 5px;'>${fila.ESTADO}</h4></td>
-                                <td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary'  target='_blank' href=consultadetalleinv.php?no=${fila.ID_WS} target=new class=mod><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
-                                <path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/>
-                                <path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/>
-                                </svg></a>
-                                <a class='btn btn-sm btn-outline-danger' target='_blank' href=../equipos/${fila.SERIEG}.pdf target=new><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentColor' class='bi bi-filetype-pdf' viewBox='0 0 16 16'><path fill-rule='evenodd' d='M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z'/></svg></a>
+
+                                <td class='text-center text-nowrap'>
+                                    <span style="display: inline-flex;padding:5px;">
+                                        <a target='_blank' 
+                                        href=consultadetalleinv.php?no=${fila.ID_WS} 
+                                        target=new class=mod 
+                                        data-bs-toggle="popover" 
+                                        data-bs-trigger="hover" 
+                                        data-bs-placement="top" 
+                                        data-bs-content="Información">
+                                            <i style="color: #0d6efd" 
+                                            class="fa-solid fa-circle-info fa-2xl"></i>
+                                        </a>
+                                    </span>
+
+                                    <span style="display: inline-flex;padding:3px;">
+                                        <a style="padding:3px;" 
+                                        href='../abm/modequipo.php?no=${fila.ID_WS}' 
+                                        target='_blank' 
+                                        class='mod' 
+                                        data-bs-toggle='popover' 
+                                        data-bs-trigger='hover' 
+                                        data-bs-placement='top' 
+                                        data-bs-content='Editar'>
+                                            <i style="color: #198754" 
+                                            class="fa-solid fa-pen-to-square fa-2xl"></i>
+                                        </a>
+                                    </span>
+
+                                    <span style="display: inline-flex;padding:3px;">
+                                        <a style="padding:3px;" href="#" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#modalInfo" 
+                                            onclick="cargar_informacion('${fila.ID_WS}'); return false;" 
+                                            target="_blank" 
+                                            class="mod"
+                                            title="Movimientos/Mejoras">
+                                            <i style="color: #fd7e14" 
+                                            class="fa-solid fa-arrow-down-wide-short fa-2xl"></i>
+                                        </a>
+                                    </span>
+
+                                    <span style="display: inline-flex; padding: 3px;">
+                                        <a href="../equipos/${fila.SERIEG}.pdf" 
+                                        target="_blank" 
+                                        data-bs-toggle="popover" 
+                                        data-bs-trigger="hover" 
+                                        data-bs-placement="top" 
+                                        data-bs-content="Abrir PDF">
+                                            <i style="color: #dc3545" 
+                                            class="fa-solid fa-file-pdf fa-2xl"></i>
+                                        </a>
+                                    </span>
+
                                 </td>
                             </tr>`);
+                        });
+
+                        $(function () {
+                            // Asegúrate de que los popovers se inicialicen solo una vez después de agregar los elementos
+                            $('[data-bs-toggle="popover"]').each(function() {
+                                if (!$(this).data('bs.popover')) {
+                                    $(this).popover(); // Inicializa el popover solo si no está inicializado
+                                }
+                            });
                         });
 
                         // Crear los botones de paginación

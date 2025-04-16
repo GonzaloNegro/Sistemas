@@ -39,6 +39,16 @@ $row = $resultado->fetch_assoc();
 </head>
 <body>
 <?php include('../layout/inventario.php'); ?>
+    <!-- Script para inicializar el Popover -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Inicializa todos los popovers
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                return new bootstrap.Popover(popoverTriggerEl);
+            });
+        });
+    </script>
 		<style>
 			#h2{
 	              text-align: left;	
@@ -176,16 +186,41 @@ $row = $resultado->fetch_assoc();
                                 <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.MARCA}</h4></td>
                                 <td><h4 style='color:${color};font-size:14px;text-align:left;margin-left: 5px;'>${fila.ESTADO}</h4></td>
                                 <td class='text-center text-nowrap'>
-                                    <a class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#modalInfo' 
-                                        onclick='cargar_informacion(${fila.ID_PERI})'
-                                        target='_blank' class='mod'>
-                                        Info
-                                    </a>
-                                    <a class='btn btn-info' style='color: white;' href='../abm/modimpresora.php?no=${fila.ID_PERI}' target='_blank' class='mod'>
-                                        Editar
-                                    </a>
+
+                                        <span style="display: inline-flex;padding:3px;">
+                                            <a style="padding:3px;" href="#" 
+                                            data-bs-toggle='modal' 
+                                            data-bs-target='#modalInfo'
+                                            onclick='cargar_informacion(${fila.ID_PERI})'
+                                            class='mod'>
+                                                <i style="color: #0d6efd" 
+                                                class="fa-solid fa-circle-info fa-2xl"></i>
+                                            </a>
+                                        </span>
+
+                                        <span style="display: inline-flex;padding:3px;">
+                                            <a style="padding:3px;" 
+                                            href='../abm/modimpresora.php?no=${fila.ID_PERI}' 
+                                            target='_blank' 
+                                            class='mod' 
+                                            data-bs-toggle='popover' 
+                                            data-bs-trigger='hover' 
+                                            data-bs-placement='top' 
+                                            data-bs-content='Editar'>
+                                                <i style="color: #198754" class="fa-solid fa-pen-to-square fa-2xl"></i>
+                                            </a>
+                                    </span>
                                 </td>
                             </tr>`);
+                        });
+
+                        $(function () {
+                            // Asegúrate de que los popovers se inicialicen solo una vez después de agregar los elementos
+                            $('[data-bs-toggle="popover"]').each(function() {
+                                if (!$(this).data('bs.popover')) {
+                                    $(this).popover(); // Inicializa el popover solo si no está inicializado
+                                }
+                            });
                         });
 
                         // Crear los botones de paginación

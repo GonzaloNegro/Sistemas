@@ -16,13 +16,15 @@ $row = $resultado->fetch_assoc();
 <head>
 	<title>INVENTARIO MONITORES</title><meta charset="utf-8">
 	<link rel="icon" href="../imagenes/logoInfraestructura.png">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymus"></script>
-	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css"><script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
-	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css">
     <!--BUSCADOR SELECT-->
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -38,7 +40,16 @@ $row = $resultado->fetch_assoc();
 </head>
 <body>
 <?php include('../layout/inventario.php'); ?>
-
+    <!-- Script para inicializar el Popover -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Inicializa todos los popovers
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                return new bootstrap.Popover(popoverTriggerEl);
+            });
+        });
+    </script>
 <script>
                 //Funcion que va mostrando que filtros se van utilizando
                 function mostrarFiltros(){
@@ -148,27 +159,53 @@ $row = $resultado->fetch_assoc();
                                 usuario = "NO ASIGNADO";
                             }
                             tabla.append(`<tr>
-                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.MODELO}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${usuario}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:left;margin-right: 5px;'>${fila.AREA}</h4></td>
-                                <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-right: 5px;'>${fila.REPA}</h4></td>
-                                <td><h4 style='font-size:14px;text-align:left;margin-right: 5px;'>${fila.TIPO}</h4></td>
-                                <td><h4 style='font-size:14px;text-align:left;margin-right: 5px;'>${fila.MARCA}</h4></td>
-                                <td><h4 style='color:${color};font-size:14px;text-align:left;margin-right: 5px;'>${fila.ESTADO}</h4></td>
-                                
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.MODELO}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${usuario}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-right: 5px;'>${fila.AREA}</h4></td>
+                            <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-right: 5px;'>${fila.REPA}</h4></td>
+                            <td><h4 style='font-size:14px;text-align:left;margin-right: 5px;'>${fila.TIPO}</h4></td>
+                            <td><h4 style='font-size:14px;text-align:left;margin-right: 5px;'>${fila.MARCA}</h4></td>
+                            <td><h4 style='color:${color};font-size:14px;text-align:left;margin-right: 5px;'>${fila.ESTADO}</h4></td>
 
+                            <td class='text-center text-nowrap'>
+                                <span style="display: inline-flex;padding:3px;">
+                                    <a style="padding:3px;" href="#" 
+                                    data-bs-toggle='modal' 
+                                    data-bs-target='#modalInfo'
+                                    onclick='cargar_informacion(${fila.ID_PERI})'
+                                    class='mod'>
+                                        <i style="color: #0d6efd" 
+                                        class="fa-solid fa-circle-info fa-2xl" 
+                                        data-bs-toggle="popover" 
+                                        data-bs-trigger="hover" 
+                                        data-bs-placement="top" 
+                                        ></i>
+                                    </a>
+                                </span>
 
-                                <td class='text-center text-nowrap'>
-                                    <a class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#modalInfo' 
-                                        onclick='cargar_informacion(${fila.ID_PERI})' 
-                                        target='_blank' class='mod'>
-                                        Info
+                                <span style="display: inline-flex;padding:3px;">
+                                    <a style="padding:3px;" 
+                                    href='../abm/modmonitores.php?no=${fila.ID_PERI}' 
+                                    target='_blank' 
+                                    class='mod' 
+                                    data-bs-toggle='popover' 
+                                    data-bs-trigger='hover' 
+                                    data-bs-placement='top' 
+                                    data-bs-content='Editar'>
+                                        <i style="color: #198754" class="fa-solid fa-pen-to-square fa-2xl"></i>
                                     </a>
-                                    <a class='btn btn-info' style='color: white;' href='../abm/modmonitores.php?no=${fila.ID_PERI}' target='_blank' class='mod'>
-                                        Editar
-                                    </a>
-                                </td>
-                                        </tr>`);
+                                </span>
+                            </td>
+                        </tr>`);
+                        });
+
+                        $(function () {
+                            // Asegúrate de que los popovers se inicialicen solo una vez después de agregar los elementos
+                            $('[data-bs-toggle="popover"]').each(function() {
+                                if (!$(this).data('bs.popover')) {
+                                    $(this).popover(); // Inicializa el popover solo si no está inicializado
+                                }
+                            });
                         });
 
                         // Crear los botones de paginación

@@ -31,6 +31,16 @@ $row = $resultado->fetch_assoc();
 	</style>
 </head>
 <body>
+    <!-- Script para inicializar el Popover -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Inicializa todos los popovers
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                return new bootstrap.Popover(popoverTriggerEl);
+            });
+        });
+    </script>
 <?php
     if (!isset($_POST['buscar'])){$_POST['buscar'] = '';}
     if (!isset($_POST['area'])){$_POST['area'] = '';}
@@ -385,14 +395,32 @@ $row = $resultado->fetch_assoc();
                     <td><h4 class='wrap2' style='font-size:14px; text-align: left;margin-left:5px;color:".$color."'>".$rowSql['ESTADO']."</h4></td>
                     
                     <td class='text-center text-nowrap'>
-                        <a class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#modalInfo' 
-                            onclick='cargar_informacion(" . $rowSql['ID_PERI'] . ")' 
-                            target='_blank' class='mod'>
-                            Info
-                        </a>
-                        <a class='btn btn-info' style='color: white;' href='../abm/modotros.php?no=" . $rowSql['ID_PERI'] . "' target='_blank' class='mod'>
-                            Editar
-                        </a>
+                        <span style='display: inline-flex; padding: 3px;'>
+                            <a style='padding: 3px; cursor: pointer;'
+                            data-bs-toggle='modal'
+                            data-bs-target='#modalInfo'
+                            onclick='cargar_informacion(" . $rowSql['ID_PERI'] . ")'
+                            class='mod'>
+                                <i class='fa-solid fa-circle-info fa-2xl'
+                                style='color: #0d6efd'
+                                data-bs-toggle='popover'
+                                data-bs-trigger='hover focus'
+                                data-bs-placement='top'></i>
+                            </a>
+                        </span>
+
+                        <span style='display: inline-flex;padding:3px;'>
+                            <a style='padding:3px;' 
+                            href='../abm/modotros.php?no=" . $rowSql['ID_PERI'] . "' 
+                            target='_blank' 
+                            class='mod' 
+                            data-bs-toggle='popover' 
+                            data-bs-trigger='hover' 
+                            data-bs-placement='top' 
+                            data-bs-content='Editar'>
+                            <i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i>
+                            </a>
+                        </span>
                     </td>
                 
                 </tr>

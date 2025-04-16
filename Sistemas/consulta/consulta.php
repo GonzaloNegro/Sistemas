@@ -480,19 +480,21 @@ $cu = $row['CUIL'];
             </div>
         <table class="table_id" style="width: 98%; margin: 0 auto;">
         <thead>
-            <tr>
-            <th id="th">N°INCIDENTE</th>
-                <th id="th" style="text-align:center;">FECHA INICIO</th>
-                <th id="th" style="padding: 5px;">USUARIO</th>
-                <th id="th" style="text-align:center;">ÁREA/REPARTICIÓN</th>
-                <th id="th" style="padding: 5px;">DESCRIPCIÓN</th>
-                <th id="th" style="text-align:left;padding: 5px;">ESTADO</th>
-                <th id="th" style="text-align:center;">FECHA SOLUCIÓN</th>
-                <th id="th" style="text-align:left;padding: 5px;">RESOLUTOR</th>
-                <?php if ($row['ID_PERFIL'] != 5) {
-                echo'<th id="th" style="text-align:center;">ACCIÓN</th>';
-                }?>
-            </tr>
+        <tr>
+    <th><p style="text-align:right;">N°INCIDENTE</p></th>
+    <th><p style="text-align:center;">FECHA INICIO</p></th>
+    <th><p style="text-align:left;padding: 5px;">USUARIO</p></th>
+    <th><p style="text-align:left;padding: 5px;">ÁREA/REPARTICIÓN</p></th>
+    <th><p style="text-align:left;padding: 5px;">DESCRIPCIÓN</p></th>
+    <th><p style="text-align:left; padding: 5px;">ESTADO</p></th>
+    <th><p style="text-align:center;">FECHA SOLUCIÓN</p></th>
+    <th><p style="text-align:left; padding: 5px;">RESOLUTOR</p></th>
+    <?php if ($row['ID_PERFIL'] != 5) {
+        echo '<th><p style="text-align:center;">ACCIÓN</p></th>';
+    } ?>
+</tr>
+
+
         </thead>
 
         <tbody id="tabla-datos"></tbody>

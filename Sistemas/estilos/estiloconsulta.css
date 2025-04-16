@@ -278,9 +278,7 @@ select{
 	border: solid 1px #f7fbfd;
 	border-bottom: solid 1px #f7fbfd;
 }
-.trReporte{
-	
-}
+
 table{
 	text-align: left;
 	margin-left: 5px;
@@ -293,17 +291,24 @@ table{
 	-moz-box-shadow: 5px -2px 66px 0px rgba(0,0,0,0.24) inset;
 }
 
-th, td{
+/* th, td{
 	border: solid 1px #f7fbfd;
 	border-bottom: solid 1px #073256;	
-}
+} */
 
 thead{
 	background-color: #dbe5e9;
-	border-bottom: solid 5px #073256;
+	/* border-bottom: solid 5px #073256; */
 	width: 100%;
 	
 }/*ACA ESTABA EL PROBLEMA DEL ACOMODAMIENTO EN "VER PENDIENTES" Y "VER" QUE SE ACHICABA EL TABLE*/
+
+.table_id thead th{
+	position: sticky;
+	top: 0;
+	background-color: #dbe5e9;
+	z-index: 1;
+}
 
 tr:nth-child(even){
 	background-color: #edf0f5;
@@ -312,6 +317,7 @@ tr:nth-child(even){
 tr:hover td{
 	background-color: #D6D6D6;
 }
+
 
 #foto{
     width: 160px;
