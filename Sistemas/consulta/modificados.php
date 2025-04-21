@@ -254,6 +254,8 @@ if(isset($_POST['modificarLinea'])){
 /* ------------------------------------------------------------------- */
 /* ------------------------------------------------------------------- */
 /* ------------------------------------------------------------------- */
+
+//BOTON ACTUALIZAR MONTOS MENSUALES
 if(isset($_POST['btnActualizarMontoMensual'])){
     //SELECCIONAR MES Y AÑO DE movilinea EN UNA VARIABLE
     $sqla = "SELECT YEAR(FECHA) AS AÑO, MONTH(FECHA) AS MES FROM `movilinea` ORDER BY FECHA DESC LIMIT 1;";
@@ -297,6 +299,11 @@ if(isset($_POST['btnActualizarMontoMensual'])){
         // $impuesto = ($monto_total * $iva) / 100;
         // $extras = $impuesto + $impInternos;
         // $monto_total = $monto_total + $extras;
+
+            //Reseteamos los extras
+        if ($extras!=36.30 && $extras!=0) {
+            $extras=0;
+        }
 
         $descuentoParaCuenta= 1-($descuento * 0.01);
         $monto_iva=$montoNuevo*$impInternos;     
