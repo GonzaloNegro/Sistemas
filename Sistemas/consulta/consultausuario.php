@@ -61,7 +61,16 @@ if(!isset($_SESSION['cuil']))
 			}
 	</style>
 </head>
-
+    <!-- Script para inicializar el Popover -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Inicializa todos los popovers
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                return new bootstrap.Popover(popoverTriggerEl);
+            });
+        });
+    </script>
 <script type="text/javascript">
 			function done(){
 				// swal(  {title: "Se han cargado sus incidentes correctamente",
@@ -202,16 +211,38 @@ if(!isset($_SESSION['cuil']))
                                 <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>${interno}</h4></td>
                                 <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;color:${color};'>${estado}</h4></td>
                                 <td class='text-center text-nowrap'>
-                                    <a class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#modalInfo' 
+                                    <span style='display: inline-flex; padding: 3px;'>
+                                        <a style='padding: 3px; cursor: pointer;'
+                                        data-bs-toggle='modal'
+                                        data-bs-target='#modalInfo'
                                         onclick='cargar_informacion(${fila.ID_USUARIO})' 
-                                        target='_blank' class='mod'>
-                                        Info
-                                    </a>
-                                    <a class='btn btn-info' style='color: white;' href='../abm/modusuario.php?no=${fila.ID_USUARIO}' target='_blank' class='mod'>
-                                        Editar
-                                    </a>
+                                        class='mod'>
+                                            <i class='fa-solid fa-circle-info fa-2xl'
+                                            style='color: #0d6efd'
+                                            data-bs-toggle='popover'
+                                            data-bs-trigger='hover focus'
+                                            data-bs-placement='top'></i>
+                                        </a>
+                                    </span>
+                                    <span style='display: inline-flex;padding:3px;'>
+                                        <a style='padding:3px;' 
+                                        href='../abm/modusuario.php?no=${fila.ID_USUARIO}'
+                                        target='_blank' 
+                                        class='mod' 
+                                        data-bs-toggle='popover' 
+                                        data-bs-trigger='hover' 
+                                        data-bs-placement='top' 
+                                        data-bs-content='Editar'>
+                                        <i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i>
+                                        </a>
+                                    </span>
+
                                 </td>
                             </tr>`);
+                        });
+
+                        document.querySelectorAll('[data-bs-toggle="popover"]').forEach(el => {
+                            new bootstrap.Popover(el);
                         });
 
                         // Crear los botones de paginación

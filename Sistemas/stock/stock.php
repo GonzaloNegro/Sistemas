@@ -130,8 +130,7 @@ $cu = $row['CUIL'];
 	              font-size: 16px;
 	              color: #edf0f5;
 	              margin-left: 10px;
-	              margin-top: 5px;;
-               
+	              margin-top: 5px;
 				}
         </style>
 	<section id="consulta">
@@ -140,8 +139,6 @@ $cu = $row['CUIL'];
 		</div>
 
 	<!-- //////////////////////////////// -->
-
-
 	<?php                 
  		$totpc=mysqli_query($datos_base, "SELECT COUNT(ID_WS) as TOTAL FROM inventario where ID_ESTADOWS = 3 AND ID_TIPOWS = 1");
 		$totalpc = mysqli_fetch_array($totpc);
@@ -152,7 +149,10 @@ $cu = $row['CUIL'];
 		$totmon=mysqli_query($datos_base, "SELECT COUNT(ID_PERI) as TOTAL FROM periferico where ID_ESTADOWS = 3 AND (ID_TIPOP = 7 OR ID_TIPOP = 8)");
 		$totalmon = mysqli_fetch_array($totmon);
 
-		$totimp=mysqli_query($datos_base, "SELECT COUNT(ID_PERI) as TOTAL FROM periferico where ID_ESTADOWS = 3 AND (ID_TIPOP = 1 OR ID_TIPOP = 2 OR ID_TIPOP = 3 OR ID_TIPOP = 4 OR ID_TIPOP = 10 or 13) AND ID_USUARIO = 277");
+		$totimp=mysqli_query($datos_base, "SELECT COUNT(p.ID_PERI) as TOTAL 
+		FROM periferico p
+		INNER JOIN equipo_periferico e ON p.ID_PERI = e.ID_PERI 
+		WHERE p.ID_ESTADOWS = 3 AND e.ID_WS = 0 AND (p.ID_TIPOP = 1 OR p.ID_TIPOP = 2 OR p.ID_TIPOP = 3 OR p.ID_TIPOP = 4 OR p.ID_TIPOP = 10 or 13)");
 		$totalimp = mysqli_fetch_array($totimp);
 
 

@@ -276,7 +276,7 @@ $row = $resultado->fetch_assoc();
                                     <span style="display: inline-flex;padding:3px;">
                                         <a style="padding:3px;" href="#" 
                                             data-bs-toggle="modal" 
-                                            data-bs-target="#modalInfo" 
+                                            data-bs-target="#exampleModal" 
                                             onclick="cargar_informacion('${fila.ID_WS}'); return false;" 
                                             target="_blank" 
                                             class="mod"
@@ -667,6 +667,116 @@ $row = $resultado->fetch_assoc();
         ?>
 	</section>
 	<footer id="footer_pag"><div class="pagination justify-content-center mt-3" id="paginador"></div></footer>
+    
+    <div class="modal fade modal--usu" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">MOVIMIENTOS Y MEJORAS</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="mostrar_mensaje" style="display:flex;flex-direction:column;gap:10px;">
+                    </div>
+                </div>
+                <div id="resultado" class="resultado">
+                </div>
+                <div class="modal-footer">
+                    <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()"><i class='bi bi-printer' style="color:white;"></i></button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function cargar_informacion(id_ws) {
+            //buscar ES EL ID DEL CASO//
+            var parametros = {
+                "idWs": id_ws
+            };
+            //LA VARIABLE BUSCAR UTILIZA EL ID CASO Y LA ENVIA AL SERVIDOR DE NOVEDADES///
+            $.ajax({
+                data: parametros,
+                url: "./consultarDatosInventario.php",
+                type: "POST",
+                //TRAE DE FORMA ASINCRONA, CONSUME EL SERVIDOR DE NOVEDADES Y MUESTRA EN EL DIV MOSTRAR_MENSAJE TODAS LAS NOVEDADES RELACIONADAS////
+                beforesend: function() {
+                    $("#mostrar_mensaje").html("Mensaje antes de Enviar");
+                },
+
+                success: function(mensaje) {
+                    $("#mostrar_mensaje").html(mensaje);
+                }
+            });
+        };
+        function imprimir() {
+            // Guardar el estado original de los elementos
+            var contenidoOriginal = document.body.innerHTML;
+            
+            // Obtener solo el contenido del primer modal
+            var contenidoModal = document.getElementById('exampleModal').innerHTML;
+
+            // Obtener los estilos de la página original
+            var estilos = '';
+            var head = document.head;
+            for (var i = 0; i < head.children.length; i++) {
+                var child = head.children[i];
+                if (child.tagName.toLowerCase() === 'style' || child.tagName.toLowerCase() === 'link') {
+                    estilos += child.outerHTML;
+                }
+            }
+
+            // Ocultar todo el contenido de la página
+            document.body.style.visibility = 'hidden';
+
+            // Crear una nueva ventana para la impresión
+            var ventanaImpresion = window.open('', '', 'height=800,width=600');
+
+            // Escribir el contenido del modal y los estilos en la ventana de impresión
+            ventanaImpresion.document.write('<html><head><title>Imprimir Modal</title>' + estilos + '</head><body>');
+            ventanaImpresion.document.write('<style>@media print { #no-imprimir { display: none !important; } }</style>');  // Aseguramos que se oculte el #no-imprimir
+            ventanaImpresion.document.write('<div style="width:100%;">' + contenidoModal + '</div>');
+            ventanaImpresion.document.write('</body></html>');
+
+            // Esperar a que la ventana cargue antes de imprimir
+            ventanaImpresion.document.close();
+            ventanaImpresion.print();
+
+            // Restaurar la visibilidad de la página original
+            document.body.style.visibility = 'visible';
+        }
+    </script>
+    <style>
+    @media print {
+        body * {
+            visibility: hidden; /* Oculta todo el contenido de la página */
+        }
+
+        #no-imprimir {
+            display: none;
+        }
+
+        .modal, .modal * {
+            visibility: visible !important; /* Muestra solo los modales */
+            color: black !important; /* Asegura que el texto sea negro */
+            text-shadow: none !important; /* Elimina las sombras de texto */
+            background: none !important; /* Elimina los fondos degradados */
+            box-shadow: none !important; /* Elimina cualquier sombra */
+        }
+
+        .modal-backdrop {
+            display: none !important; /* Oculta el fondo del modal */
+        }
+
+        .modal-body, .modal-header, .modal-footer {
+            color: black !important; /* Texto negro */
+            background: none !important; /* Fondo sin degradado */
+            text-shadow: none !important; /* Elimina sombras de texto */
+        }
+    }
+
+    </style>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script>
   		AOS.init();

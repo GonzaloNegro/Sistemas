@@ -22,6 +22,7 @@ $cu = $row['CUIL'];
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link rel="stylesheet" href="../jquery/1/jquery-ui.min.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymus"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<!--BUSCADOR SELECT-->
@@ -32,7 +33,6 @@ $cu = $row['CUIL'];
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymus"></script>
 	<!--Estilo bootstrap para select2-->
 	<link rel="stylesheet" href="/path/to/select2.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
@@ -45,6 +45,16 @@ $cu = $row['CUIL'];
 	</style>
 </head>
 <body>
+    <!-- Script para inicializar el Popover -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Inicializa todos los popovers
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                return new bootstrap.Popover(popoverTriggerEl);
+            });
+        });
+    </script>
 <script type="text/javascript">
 			function done(){
 				// swal(  {title: "Se han cargado sus incidentes correctamente",
@@ -191,8 +201,35 @@ $cu = $row['CUIL'];
                             let fechaSolucion = (fila.FECHA_SOLUCION === "00-00-0000") ? "-" : fila.FECHA_SOLUCION;
 
                             let boton = fila.ESTADO == "SOLUCIONADO"
-                            ? `<td><a class='btn btn-success mod' href='#' data-bs-toggle='modal' data-bs-target='#modalInfo' onclick='cargar_informacion(${fila.ID_TICKET})' style='color:white;margin-left:10px;'>Info</a></td>` 
-                            : `<td style='padding:5px;'><a class='btn btn-info' href='modificacion.php?no=${fila.ID_TICKET}' target='new' class='mod' style='color:white;'>Editar</a></td>`;
+                            ? `
+                            <td><span style='display: inline-flex; padding: 3px;margin-left:10px;'>
+                                    <a style='padding: 3px; cursor: pointer;'
+                                    data-bs-toggle='modal'
+                                    data-bs-target='#modalInfo'
+                                    onclick='cargar_informacion(${fila.ID_TICKET})'
+                                    class='mod'>
+                                        <i class='fa-solid fa-circle-info fa-2xl'
+                                        style='color: #0d6efd'
+                                        data-bs-toggle='popover'
+                                        data-bs-trigger='hover focus'
+                                        data-bs-placement='top'></i>
+                                    </a>
+                                </span>
+                            </td>` 
+                            : `
+                            <td><span style='display: inline-flex;padding:3px;margin-left:10px;'>
+                                    <a style='padding: 3px;cursor:pointer;'
+                                    href='./modificacion.php?no=${fila.ID_TICKET}' 
+                                    target='_blank' 
+                                    class='mod' 
+                                    data-bs-toggle='popover' 
+                                    data-bs-trigger='hover' 
+                                    data-bs-placement='top' 
+                                    data-bs-content='Editar'>
+                                    <i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i>
+                                    </a>
+                                </span>
+                            </td>`;
 
                             tabla.append(`<tr>
                                 <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>${fila.ID_TICKET}</h4></td>
@@ -206,7 +243,9 @@ $cu = $row['CUIL'];
                                 ${boton}
                             </tr>`);
                         });
-
+                        document.querySelectorAll('[data-bs-toggle="popover"]').forEach(el => {
+                            new bootstrap.Popover(el);
+                        });
                         // Crear los botones de paginación
                         const paginador = $("#paginador");
                         paginador.empty();
@@ -490,7 +529,7 @@ $cu = $row['CUIL'];
     <th><p style="text-align:center;">FECHA SOLUCIÓN</p></th>
     <th><p style="text-align:left; padding: 5px;">RESOLUTOR</p></th>
     <?php if ($row['ID_PERFIL'] != 5) {
-        echo '<th><p style="text-align:center;">ACCIÓN</p></th>';
+        echo '<th><p style="text-align:center;min-width: 65px;">ACCIÓN</p></th>';
     } ?>
 </tr>
 
@@ -560,52 +599,80 @@ $cu = $row['CUIL'];
         });
     };
     function imprimir() {
-    // Guardar el estado original de los elementos
-    var contenidoOriginal = document.body.innerHTML;
-    
-    // Obtener solo el contenido del primer modal
-    var contenidoModal = document.getElementById('modalInfo').innerHTML;
+            // Guardar el estado original de los elementos
+            var contenidoOriginal = document.body.innerHTML;
+            
+            // Obtener solo el contenido del primer modal
+            var contenidoModal = document.getElementById('modalInfo').innerHTML;
 
-    // Obtener los estilos de la página original
-    var estilos = '';
-    var head = document.head;
-    for (var i = 0; i < head.children.length; i++) {
-        var child = head.children[i];
-        if (child.tagName.toLowerCase() === 'style' || child.tagName.toLowerCase() === 'link') {
-            estilos += child.outerHTML;
+            // Obtener los estilos de la página original
+            var estilos = '';
+            var head = document.head;
+            for (var i = 0; i < head.children.length; i++) {
+                var child = head.children[i];
+                if (child.tagName.toLowerCase() === 'style' || child.tagName.toLowerCase() === 'link') {
+                    estilos += child.outerHTML;
+                }
+            }
+
+            // Ocultar todo el contenido de la página
+            document.body.style.visibility = 'hidden';
+
+            // Crear una nueva ventana para la impresión
+            var ventanaImpresion = window.open('', '', 'height=800,width=600');
+
+            // Escribir el contenido del modal y los estilos en la ventana de impresión
+            ventanaImpresion.document.write('<html><head><title>Imprimir Modal</title>' + estilos + '</head><body>');
+            ventanaImpresion.document.write('<style>@media print { #no-imprimir { display: none !important; } }</style>');  // Aseguramos que se oculte el #no-imprimir
+            ventanaImpresion.document.write('<div style="width:100%;">' + contenidoModal + '</div>');
+            ventanaImpresion.document.write('</body></html>');
+
+            // Esperar a que la ventana cargue antes de imprimir
+            ventanaImpresion.document.close();
+            ventanaImpresion.print();
+
+            // Restaurar la visibilidad de la página original
+            document.body.style.visibility = 'visible';
+        }
+    </script>
+    <style>
+    @media print {
+        body * {
+            visibility: hidden; /* Oculta todo el contenido de la página */
+        }
+
+        #no-imprimir {
+            display: none;
+        }
+
+        .modal, .modal * {
+            visibility: visible !important; /* Muestra solo los modales */
+            color: black !important; /* Asegura que el texto sea negro */
+            text-shadow: none !important; /* Elimina las sombras de texto */
+            background: none !important; /* Elimina los fondos degradados */
+            box-shadow: none !important; /* Elimina cualquier sombra */
+        }
+
+        .modal-backdrop {
+            display: none !important; /* Oculta el fondo del modal */
+        }
+
+        .modal-body, .modal-header, .modal-footer {
+            color: black !important; /* Texto negro */
+            background: none !important; /* Fondo sin degradado */
+            text-shadow: none !important; /* Elimina sombras de texto */
         }
     }
 
-    // Ocultar todo el contenido de la página
-    document.body.style.visibility = 'hidden';
-
-    // Crear una nueva ventana para la impresión
-    var ventanaImpresion = window.open('', '', 'height=800,width=600');
-
-    // Escribir el contenido del modal y los estilos en la ventana de impresión
-    ventanaImpresion.document.write('<html><head><title>Imprimir Modal</title>' + estilos + '</head><body>');
-    ventanaImpresion.document.write('<style>@media print { #no-imprimir { display: none !important; } }</style>');  // Aseguramos que se oculte el #no-imprimir
-    ventanaImpresion.document.write('<div style="width:100%;">' + contenidoModal + '</div>');
-    ventanaImpresion.document.write('</body></html>');
-
-    // Esperar a que la ventana cargue antes de imprimir
-    ventanaImpresion.document.close();
-    ventanaImpresion.print();
-
-    // Restaurar la visibilidad de la página original
-    document.body.style.visibility = 'visible';
-}
-    </script>
+    </style>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script>
   		AOS.init();
 	</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-	
 	<script>
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 	</script>
-	
 </body>
 </html>

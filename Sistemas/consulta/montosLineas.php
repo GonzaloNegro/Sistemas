@@ -34,6 +34,16 @@ $row = $resultado->fetch_assoc();
 	</style>
 </head>
 <body>
+    <!-- Script para inicializar el Popover -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Inicializa todos los popovers
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                return new bootstrap.Popover(popoverTriggerEl);
+            });
+        });
+    </script>
 <?php
     if (!isset($_POST['buscar'])){$_POST['buscar'] = '';}
     if (!isset($_POST['nombreplan'])){$_POST['nombreplan'] = '';}
@@ -419,15 +429,15 @@ $row = $resultado->fetch_assoc();
     <table class="table_id" id="tabla_lineas" style="width: 98%; margin: 0 auto;">
         <thead>
             <tr>
-                <th><p style='text-align:right; margin-right: 10px;'>NÚMERO</p></th>
-                <th><p style='text-align:left; margin-left: 10px;'>USUARIO</p></th>
+                <th><p style='text-align:right; margin-right: 5px;'>NÚMERO</p></th>
+                <th><p style='text-align:left; margin-left: 5px;'>USUARIO</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">REPARTICIÓN</p></th>
-                <th><p style='text-align:left; margin-left: 10px;'>PLAN</p></th>
-                <th><p style='text-align:left; margin-left: 10px;'>PROVEEDOR</p></th>
-                <th><p style='text-align:left; margin-left: 10px;'>ROAMING</p></th>
-                <th><p style='text-align:right; margin-right: 10px;'>MONTO</p></th>
-                <th><p style='text-align:right; margin-right: 10px;'>EXTRAS</p></th>
-                <th><p style='text-align:right; margin-right: 10px;'>DESCUENTO</p></th>
+                <th><p style='text-align:left; margin-left: 5px;'>PLAN</p></th>
+                <th><p style='text-align:left; margin-left: 5px;'>PROVEEDOR</p></th>
+                <th><p style='text-align:left; margin-left: 5px;'>ROAMING</p></th>
+                <th><p style='text-align:right; margin-right: 5px;'>MONTO</p></th>
+                <th><p style='text-align:right; margin-right: 5px;'>EXTRAS</p></th>
+                <th><p style='text-align:right; margin-right: 5px;'>DESCUENTO</p></th>
                 <!-- <th><p style='text-align:center;'>FECHA DESCUENTO</p></th> -->
                 <th><p style='text-align:right; margin-right: 10px;'>MONTO TOTAL</p></th>
                 <th><p style='text-align:left; margin-left: 10px;'>ESTADO</p></th>
@@ -443,7 +453,7 @@ $row = $resultado->fetch_assoc();
                 <tr>
                 <td><h4 style='font-size:16px; text-align: right; margin-right: 5px;'>".$rowSql['NRO']."</h4 ></td>
                 <td><h4 style='font-size:16px; text-align: left; margin-left: 5px;'>".$rowSql['NOMBRE']."</h4 ></td>
-                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['REPA']."</h4></td>
+                <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>".$rowSql['REPA']."</h4></td>
                 <td><h4 style='font-size:16px; text-align: left; margin-left: 5px;'>".$rowSql['NOMBREPLAN']." - ".$rowSql['PLAN']."</h4 ></td>
                 <td><h4 style='font-size:16px; text-align: left; margin-left: 5px;'>".$rowSql['PROVEEDOR']."</h4 ></td>
                 <td><h4 style='font-size:16px; text-align: left; margin-left: 5px;'>".$rowSql['ROAMING']."</h4 ></td>
@@ -453,17 +463,46 @@ $row = $resultado->fetch_assoc();
                 <td><h4 style='font-size:18px; text-align: right; margin-right: 5px;color:green;font-weight:bold;'>"."$".$rowSql['MONTOTOTAL']."</h4 ></td>
                 <td><h4 style='font-size:16px; text-align: left; margin-left: 5px;'>".$rowSql['ESTADO']."</h4 ></td>
                 <td class='text-center text-nowrap'>
-                    <a class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#exampleModal' data-bs-whatever='@mdo' onclick='cargar_informacion(".$rowSql['ID_LINEA'].")' target=new class=mod>Info</a>
+                    <span style='display: inline-flex; padding: 3px;'>
+                        <a style='padding: 3px; cursor: pointer;'
+                        data-bs-toggle='modal'
+                        data-bs-target='#exampleModal'
+                        onclick='cargar_informacion(" . $rowSql['ID_LINEA'] . ")'
+                        class='mod'>
+                            <i class='fa-solid fa-circle-info fa-2xl'
+                            style='color: #0d6efd'
+                            data-bs-toggle='popover'
+                            data-bs-trigger='hover focus'
+                            data-bs-placement='top'></i>
+                        </a>
+                    </span>
 
-                    <a class='btn btn-success' data-bs-toggle='modal' data-bs-target='#exampleModal2'
-                    data-bs-whatever='@mdo' style=' color:white;' onclick='cargar_informacion2(".$rowSql['ID_LINEA'].")' class=mod>Mov. Info</a>
+                    <span style='display: inline-flex;padding:3px;'>
+                        <a style='padding:3px;' href='#' 
+                            data-bs-toggle='modal' 
+                            data-bs-target='#exampleModal2' 
+                            onclick='cargar_informacion2(" . $rowSql['ID_LINEA'] . ")'
+                            class='mod'
+                            title='Movimientos Montos'>
+                            <i style='color: #fd7e14' 
+                            class='fa-solid fa-arrow-down-wide-short fa-2xl'></i>
+                        </a>
+                    </span>";
 
-                    <a class='btn btn-success' data-bs-toggle='modal' data-bs-target='#exampleModal3'
-                    data-bs-whatever='@mdo' class='btn btn-warning' style='background-color:#FF7800;' onclick='cargar_informacion3(".$rowSql['ID_LINEA'].")' class=mod>Mov. Linea</a>
-                    ";
                     if($row['ID_PERFIL'] == 1 || $row['ID_PERFIL'] == 2 || $row['ID_PERFIL'] == 6) 
                     { echo"
-                    <a class='btn btn-info' style=' color:white;' href=modificarLinea.php?num=".$rowSql['ID_LINEA']." target=_blank class=mod>Editar</a>";
+                    <span style='display: inline-flex;padding:3px;'>
+                        <a style='padding:3px;' 
+                        href='./modificarLinea.php?num=" . $rowSql['ID_LINEA'] . "' 
+                        target='_blank' 
+                        class='mod' 
+                        data-bs-toggle='popover' 
+                        data-bs-trigger='hover' 
+                        data-bs-placement='top' 
+                        data-bs-content='Editar'>
+                        <i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i>
+                        </a>
+                    </span>";
                     }
                     ;
                     echo"
@@ -518,7 +557,7 @@ $row = $resultado->fetch_assoc();
 
     <div class="modal fade modal--usu" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">INFORMACIÓN</h1>
@@ -531,6 +570,7 @@ $row = $resultado->fetch_assoc();
                 <div id="resultado" class="resultado">
                 </div>
                 <div class="modal-footer">
+                    <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()"><i class='bi bi-printer' style="color:white;"></i></button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
@@ -551,26 +591,7 @@ $row = $resultado->fetch_assoc();
                 <div id="resultado" class="resultado">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade modal--usu" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" style="display:flex;justify-content:center;width:100%;">
-            <div class="modal-content"  style="width:auto;">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">HISTORIAL MOVIMIENTOS LÍNEA</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <table id="mostrar_mensaje3"></table>
-                </div>
-                <div id="resultado" class="resultado">
-                </div>
-                <div class="modal-footer">
+                    <button id="botonright" type="button" class="btn btn-success" onClick="imprimir2()"><i class='bi bi-printer' style="color:white;"></i></button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
@@ -619,26 +640,6 @@ $row = $resultado->fetch_assoc();
             }
         });
     };
-    function cargar_informacion3(id_linea) {
-        //buscar ES EL ID DEL CASO//
-        var parametros = {
-            "idLinea": id_linea
-        };
-        //LA VARIABLE BUSCAR UTILIZA EL ID CASO Y LA ENVIA AL SERVIDOR DE NOVEDADES///
-        $.ajax({
-            data: parametros,
-            url: "./consultarDatosLinea3.php",
-            type: "POST",
-            //TRAE DE FORMA ASINCRONA, CONSUME EL SERVIDOR DE NOVEDADES Y MUESTRA EN EL DIV MOSTRAR_MENSAJE TODAS LAS NOVEDADES RELACIONADAS////
-            beforesend: function() {
-                $("#mostrar_mensaje3").html("Mensaje antes de Enviar");
-            },
-
-            success: function(mensaje) {
-                $("#mostrar_mensaje3").html(mensaje);
-            }
-        });
-    };
     </script>  
     <script>
         function filtrar(){
@@ -665,7 +666,144 @@ $row = $resultado->fetch_assoc();
                 $("#form_filtro").submit();
             }
         }
-    </script>        
+    </script>
+    <script>
+            function imprimir() {
+            // Guardar el estado original de los elementos
+            var contenidoOriginal = document.body.innerHTML;
+            
+            // Obtener solo el contenido del primer modal
+            var contenidoModal = document.getElementById('exampleModal').innerHTML;
+
+            // Obtener los estilos de la página original
+            var estilos = '';
+            var head = document.head;
+            for (var i = 0; i < head.children.length; i++) {
+                var child = head.children[i];
+                if (child.tagName.toLowerCase() === 'style' || child.tagName.toLowerCase() === 'link') {
+                    estilos += child.outerHTML;
+                }
+            }
+
+            // Ocultar todo el contenido de la página
+            document.body.style.visibility = 'hidden';
+
+            // Crear una nueva ventana para la impresión
+            var ventanaImpresion = window.open('', '', 'height=800,width=600');
+
+            // Escribir el contenido del modal y los estilos en la ventana de impresión
+            ventanaImpresion.document.write('<html><head><title>Imprimir Modal</title>' + estilos + '</head><body>');
+            ventanaImpresion.document.write(`
+        <style>
+            @media print {
+                #no-imprimir {
+                    display: none !important;
+                }
+                #grilla {
+                    width: 100% !important;
+                    overflow-x: hidden !important;
+                }
+                #grilla table {
+                    width: 100% !important;
+                    table-layout: auto !important;
+                    word-wrap: break-word;
+                }
+                #grilla th, #grilla td {
+                    word-wrap: break-word;
+                    white-space: normal;
+                    font-size: 12px !important;
+                }
+                #grilla h4 {
+                    font-size: 12px !important;
+                    margin: 0 !important;
+                }
+                body {
+                    margin: 0;
+                    padding: 10px;
+                    zoom: 90%;
+                }
+            }
+        </style>
+    `);
+
+            ventanaImpresion.document.write('<style>@media print { #no-imprimir { display: none !important; } }</style>');  // Aseguramos que se oculte el #no-imprimir
+            ventanaImpresion.document.write('<div style="width:100%;">' + contenidoModal + '</div>');
+            ventanaImpresion.document.write('</body></html>');
+
+            // Esperar a que la ventana cargue antes de imprimir
+            ventanaImpresion.document.close();
+            ventanaImpresion.print();
+
+            // Restaurar la visibilidad de la página original
+            document.body.style.visibility = 'visible';
+        }
+        function imprimir2() {
+            // Guardar el estado original de los elementos
+            var contenidoOriginal = document.body.innerHTML;
+            
+            // Obtener solo el contenido del primer modal
+            var contenidoModal = document.getElementById('exampleModal2').innerHTML;
+
+            // Obtener los estilos de la página original
+            var estilos = '';
+            var head = document.head;
+            for (var i = 0; i < head.children.length; i++) {
+                var child = head.children[i];
+                if (child.tagName.toLowerCase() === 'style' || child.tagName.toLowerCase() === 'link') {
+                    estilos += child.outerHTML;
+                }
+            }
+
+            // Ocultar todo el contenido de la página
+            document.body.style.visibility = 'hidden';
+
+            // Crear una nueva ventana para la impresión
+            var ventanaImpresion = window.open('', '', 'height=800,width=600');
+
+            // Escribir el contenido del modal y los estilos en la ventana de impresión
+            ventanaImpresion.document.write('<html><head><title>Imprimir Modal</title>' + estilos + '</head><body>');
+            ventanaImpresion.document.write('<style>@media print { #no-imprimir { display: none !important; } }</style>');  // Aseguramos que se oculte el #no-imprimir
+            ventanaImpresion.document.write('<div style="width:100%;">' + contenidoModal + '</div>');
+            ventanaImpresion.document.write('</body></html>');
+
+            // Esperar a que la ventana cargue antes de imprimir
+            ventanaImpresion.document.close();
+            ventanaImpresion.print();
+
+            // Restaurar la visibilidad de la página original
+            document.body.style.visibility = 'visible';
+        }
+    </script>
+    <style>
+    @media print {
+        body * {
+            visibility: hidden; /* Oculta todo el contenido de la página */
+        }
+
+        #no-imprimir {
+            display: none;
+        }
+
+        .modal, .modal * {
+            visibility: visible !important; /* Muestra solo los modales */
+            color: black !important; /* Asegura que el texto sea negro */
+            text-shadow: none !important; /* Elimina las sombras de texto */
+            background: none !important; /* Elimina los fondos degradados */
+            box-shadow: none !important; /* Elimina cualquier sombra */
+        }
+
+        .modal-backdrop {
+            display: none !important; /* Oculta el fondo del modal */
+        }
+
+        .modal-body, .modal-header, .modal-footer {
+            color: black !important; /* Texto negro */
+            background: none !important; /* Fondo sin degradado */
+            text-shadow: none !important; /* Elimina sombras de texto */
+        }
+    }
+
+    </style>     
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script>
   		AOS.init();

@@ -52,17 +52,16 @@ $row = $resultado->fetch_assoc();
     if (!isset($_POST["reparticion"])){$_POST["reparticion"] = '';}
 ?>
 <?php include('../layout/inventario.php'); ?>
-		<style>
-			#h2{
-	              text-align: left;	
-	              font-family: TrasandinaBook;
-	              font-size: 16px;
-	              color: #edf0f5;
-	              margin-left: 10px;
-	              margin-top: 5px;;
-               
-				}
-        </style>
+    <style>
+        #h2{
+                text-align: left;	
+                font-family: TrasandinaBook;
+                font-size: 16px;
+                color: #edf0f5;
+                margin-left: 10px;
+                margin-top: 5px;  
+            }
+    </style>
   <section id="consulta">
 		<div id="titulo">
 			<h1>CELULARES</h1>
@@ -420,7 +419,7 @@ $row = $resultado->fetch_assoc();
                             echo"
                                 <span style='display: inline-flex;padding:3px;'>
                                     <a style='padding:3px;' 
-                                    href='./modificarCelular.php?no=" . $rowSql['ID_CELULAR'] . "' 
+                                    href='./modificarCelular.php?num=" . $rowSql['ID_CELULAR'] . "' 
                                     target='_blank' 
                                     class='mod' 
                                     data-bs-toggle='popover' 
@@ -503,6 +502,7 @@ $row = $resultado->fetch_assoc();
                 <div id="resultado" class="resultado">
                 </div>
                 <div class="modal-footer">
+                    <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()"><i class='bi bi-printer' style="color:white;"></i></button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
@@ -559,6 +559,74 @@ $row = $resultado->fetch_assoc();
             }
         }
     </script>
+    <script>
+            function imprimir() {
+            // Guardar el estado original de los elementos
+            var contenidoOriginal = document.body.innerHTML;
+            
+            // Obtener solo el contenido del primer modal
+            var contenidoModal = document.getElementById('exampleModal').innerHTML;
+
+            // Obtener los estilos de la página original
+            var estilos = '';
+            var head = document.head;
+            for (var i = 0; i < head.children.length; i++) {
+                var child = head.children[i];
+                if (child.tagName.toLowerCase() === 'style' || child.tagName.toLowerCase() === 'link') {
+                    estilos += child.outerHTML;
+                }
+            }
+
+            // Ocultar todo el contenido de la página
+            document.body.style.visibility = 'hidden';
+
+            // Crear una nueva ventana para la impresión
+            var ventanaImpresion = window.open('', '', 'height=800,width=600');
+
+            // Escribir el contenido del modal y los estilos en la ventana de impresión
+            ventanaImpresion.document.write('<html><head><title>Imprimir Modal</title>' + estilos + '</head><body>');
+            ventanaImpresion.document.write('<style>@media print { #no-imprimir { display: none !important; } }</style>');  // Aseguramos que se oculte el #no-imprimir
+            ventanaImpresion.document.write('<div style="width:100%;">' + contenidoModal + '</div>');
+            ventanaImpresion.document.write('</body></html>');
+
+            // Esperar a que la ventana cargue antes de imprimir
+            ventanaImpresion.document.close();
+            ventanaImpresion.print();
+
+            // Restaurar la visibilidad de la página original
+            document.body.style.visibility = 'visible';
+        }
+    </script>
+    <style>
+    @media print {
+        body * {
+            visibility: hidden; /* Oculta todo el contenido de la página */
+        }
+
+        #no-imprimir {
+            display: none;
+        }
+
+        .modal, .modal * {
+            visibility: visible !important; /* Muestra solo los modales */
+            color: black !important; /* Asegura que el texto sea negro */
+            text-shadow: none !important; /* Elimina las sombras de texto */
+            background: none !important; /* Elimina los fondos degradados */
+            box-shadow: none !important; /* Elimina cualquier sombra */
+        }
+
+        .modal-backdrop {
+            display: none !important; /* Oculta el fondo del modal */
+        }
+
+        .modal-body, .modal-header, .modal-footer {
+            color: black !important; /* Texto negro */
+            background: none !important; /* Fondo sin degradado */
+            text-shadow: none !important; /* Elimina sombras de texto */
+        }
+    }
+
+    </style>
     
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script>
