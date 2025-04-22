@@ -7,7 +7,11 @@
             header('Location: ../index.php'); 
             exit();
         };
-
+        if (isset($_POST['idWs'])) {
+            $id_ws = $_POST['idWs'];
+            // Asegúrate de que estás utilizando $id_ws correctamente en la consulta y devuelve datos.
+            echo "ID WS recibido: " . $id_ws;
+        }
         $equipo = $_POST['idWs'];
         
         $sql = "SELECT SERIEG FROM inventario WHERE ID_WS='$equipo'";
