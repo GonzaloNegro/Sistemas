@@ -1,5 +1,5 @@
 <?php 
-/* error_reporting(0); */
+error_reporting(0);
 session_start();
 include('../particular/conexion.php');
 
@@ -7,31 +7,16 @@ $consulta = ConsultarIncidente($_GET['no']);
 
 function ConsultarIncidente($no_tic)
 {	
-	$datos_base=mysqli_connect('localhost', 'root', '', 'incidentes') or exit('No se puede conectar con la base de datos');
-	$sentencia =  "SELECT * FROM inventario WHERE ID_WS='".$no_tic."'";
-	$resultado = mysqli_query($datos_base, $sentencia);
-	$filas = mysqli_fetch_assoc($resultado);
-	return [
-        $filas['ID_WS'],/*0*/
-        $filas['ID_AREA'],/*1*/
-        $filas['SERIALN'],/*2*/
-        $filas['SERIEG'],/*3*/
-        $filas['ID_MARCA'],/*4*/
-        $filas['ID_SO'],/*5*/
-        $filas['ID_ESTADOWS'],/*6*/
-        $filas['OBSERVACION'],/*7*/
-        $filas['ID_PROVEEDOR'],/*8*/
-        $filas['FACTURA'],/*9*/
-        $filas['MASTERIZADA'],/*10*/
-        $filas['MAC'],/*11*/
-        $filas['RIP'],/*12*/
-        $filas['IP'],/*13*/
-        $filas['ID_RED'],/*14*/
-        $filas['ID_TIPOWS'],/*15*/
-        $filas['ID_USUARIO'],/*16*/
-        $filas['GARANTIA'],/*17*/
-        $filas['ID_PROCEDENCIA']/*18*/
-	];
+    $datos_base = mysqli_connect('localhost', 'root', '', 'incidentes') 
+        or exit('No se puede conectar con la base de datos');
+
+	/* sanitizar el valor recibido en $no_tic antes de meterlo en la consulta SQL. Esto es una medida de seguridad contra inyección SQL */
+	$no_tic = mysqli_real_escape_string($datos_base, $no_tic);
+
+    $sentencia = "SELECT * FROM inventario WHERE ID_WS='" . $no_tic . "'";
+    $resultado = mysqli_query($datos_base, $sentencia);
+
+    return mysqli_fetch_assoc($resultado);
 }
 
 ?>
@@ -83,917 +68,402 @@ function ConsultarIncidente($no_tic)
 		</div>
         <div id="principalu" style="width: 97%" class="container-fluid">
                 <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT RED FROM red WHERE ID_RED = $consulta[14]";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $red = $row['RED'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT SIST_OP FROM so WHERE ID_SO = $consulta[5]";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $so = $row['SIST_OP'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = $consulta[6]";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $est = $row['ESTADO'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR = $consulta[8]";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $pro = $row['PROVEEDOR'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT TIPOWS FROM tipows WHERE ID_TIPOWS = $consulta[15]";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $tip = $row['TIPOWS'];
-                ?>  
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = $consulta[16]";
+                    $sent= "SELECT u.NOMBRE
+                    FROM wsusuario w
+                    JOIN usuarios u ON w.ID_USUARIO = u.ID_USUARIO
+                    WHERE w.ID_WSUSU = (
+                        SELECT MAX(wsub.ID_WSUSU)
+                        FROM wsusuario wsub
+                        WHERE wsub.ID_WS = {$consulta['ID_WS']}
+                    )";
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
                     $usu = $row['NOMBRE'];
+
+                  function obtenerValor($conexion, $tabla, $columna, $id, $esString = false) {
+                      // Sanitizar el valor
+                      $id = mysqli_real_escape_string($conexion, $id);
+                  
+                      // Si el valor es un string, se agregan las comillas en la consulta
+                      if ($esString) {
+                          $id = "'$id'";
+                      }
+                  
+                      // Ejecutar la consulta
+                      $sentencia = "SELECT $columna FROM $tabla WHERE $columna = $id";
+                      $resultado = $conexion->query($sentencia);
+                  
+                      if ($resultado && $row = $resultado->fetch_assoc()) {
+                          return $row[$columna];
+                      } else {
+                          return null;  // o valor por defecto si no existe
+                      }
+                  }
+
+                  $red = obtenerValor($datos_base, 'red', 'RED', $consulta['ID_RED']);
+                  $so = obtenerValor($datos_base, 'so', 'SIST_OP', $consulta['ID_SO']);
+                  $est = obtenerValor($datos_base, 'estado_ws', 'ESTADO', $consulta['ID_ESTADOWS']);
+                  $pro = obtenerValor($datos_base, 'proveedor', 'PROVEEDOR', $consulta['ID_PROVEEDOR']);
+                  $tip = obtenerValor($datos_base, 'tipows', 'TIPOWS', $consulta['ID_TIPOWS']);
+                  $mar = obtenerValor($datos_base, 'marcas', 'MARCA', $consulta['ID_MARCA']);
+                  $area = obtenerValor($datos_base, 'area', 'AREA', $consulta['ID_AREA']);
+                  $procedencia = obtenerValor($datos_base, 'procedencia', 'PROCEDENCIA', $consulta['ID_PROCEDENCIA']);  // si es un string pongo una coma y true
+
                 ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT MARCA FROM marcas WHERE ID_MARCA = $consulta[4]";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $mar = $row['MARCA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT AREA FROM area WHERE ID_AREA = $consulta[1]";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $area = $row['AREA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT PROCEDENCIA FROM procedencia WHERE ID_PROCEDENCIA = $consulta[18]";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $procedencia = $row['PROCEDENCIA'];
-                ?>
-
-                
-
-
-
-
 
 
                         <!-- MEMORIAS -->
                 <!-- ///////////////////////////////// -->
                 <!-- ///////////////////////////////// -->
                 <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT m.MEMORIA FROM wsmem w LEFT JOIN memoria m ON m.ID_MEMORIA = w.ID_MEMORIA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 1";
+                  function obtenerValorWsMem($datos_base, $tabla, $columna, $idWs, $slot, $conJoin = true, $columnaJoin = null) {
+                    // Si necesitamos un JOIN, construimos la consulta con LEFT JOIN
+                    if ($conJoin && $columnaJoin !== null) {
+                        $sent = "SELECT $columna FROM wsmem w LEFT JOIN $tabla t ON t.$columnaJoin = w.$columnaJoin WHERE w.ID_WS = $idWs AND w.SLOT = $slot";
+                    } else {
+                        // Si no necesitamos JOIN, solo seleccionamos de la tabla wsmem
+                        $sent = "SELECT $columna FROM wsmem WHERE ID_WS = $idWs AND SLOT = $slot";
+                    }
+                    
                     $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $mem1 = $row['MEMORIA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT t.TIPOMEM FROM wsmem w LEFT JOIN tipomem t ON t.ID_TIPOMEM = w.ID_TIPOMEM WHERE w.ID_WS = $consulta[0] AND w.SLOT = 1";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $tmem1 = $row['TIPOMEM'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT p.PROVEEDOR FROM wsmem w LEFT JOIN proveedor p ON p.ID_PROVEEDOR = w.ID_PROVEEDOR WHERE w.ID_WS = $consulta[0] AND w.SLOT = 1";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $prov1 = $row['PROVEEDOR'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT m.MARCA FROM wsmem w LEFT JOIN marcas m ON m.ID_MARCA = w.ID_MARCA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 1";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $marc1 = $row['MARCA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT FACTURA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 1";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $fact1 = $row['FACTURA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT FECHA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 1";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $fec1 = $row['FECHA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT GARANTIA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 1";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $gar1 = $row['GARANTIA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT v.FRECUENCIA_RAM 
-                    FROM wsmem w
-                    LEFT JOIN velocidad v ON v.ID_FRECUENCIA = w.ID_FRECUENCIA
-                    WHERE w.ID_WS = $consulta[0] AND SLOT = 1";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $pvel1 = $row['FRECUENCIA_RAM'];
-                ?>
 
+                    // Verificamos si la consulta devuelve un resultado
+                    if ($resultado && $row = $resultado->fetch_assoc()) {
+                        return $row[$columna];  // Retorna el valor de la columna
+                    } else {
+                        return null;  // Retorna null si no hay resultado
+                    }
+                  }
 
+                  /* SLOT 1 */
+                  $mem1 = obtenerValorWsMem($datos_base, 'memoria', 'MEMORIA', $consulta['ID_WS'], 1, true, 'ID_MEMORIA');
+                  $tmem1 = obtenerValorWsMem($datos_base, 'tipomem', 'TIPOMEM', $consulta['ID_WS'], 1, true, 'ID_TIPOMEM');
+                  $prov1 = obtenerValorWsMem($datos_base, 'proveedor', 'PROVEEDOR', $consulta['ID_WS'], 1, true, 'ID_PROVEEDOR');
+                  $marc1 = obtenerValorWsMem($datos_base, 'marcas', 'MARCA', $consulta['ID_WS'], 1, true, 'ID_MARCA');
+                  $pvel1 = obtenerValorWsMem($datos_base, 'velocidad', 'FRECUENCIA_RAM', $consulta['ID_WS'], 1, true, 'ID_FRECUENCIA');
+                  $fact1 = obtenerValorWsMem($datos_base, 'wsmem', 'FACTURA', $consulta['ID_WS'], 1, false);
+                  $fec1 = obtenerValorWsMem($datos_base, 'wsmem', 'FECHA', $consulta['ID_WS'], 1, false);
+                  $gar1 = obtenerValorWsMem($datos_base, 'wsmem', 'GARANTIA', $consulta['ID_WS'], 1, false);                       
 
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT m.MEMORIA FROM wsmem w LEFT JOIN memoria m ON m.ID_MEMORIA = w.ID_MEMORIA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 2";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $mem2 = $row['MEMORIA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT t.TIPOMEM FROM wsmem w LEFT JOIN tipomem t ON t.ID_TIPOMEM = w.ID_TIPOMEM WHERE w.ID_WS = $consulta[0] AND w.SLOT = 2";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $tmem2 = $row['TIPOMEM'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT p.PROVEEDOR FROM wsmem w LEFT JOIN proveedor p ON p.ID_PROVEEDOR = w.ID_PROVEEDOR WHERE w.ID_WS = $consulta[0] AND w.SLOT = 2";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $prov2 = $row['PROVEEDOR'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT m.MARCA FROM wsmem w LEFT JOIN marcas m ON m.ID_MARCA = w.ID_MARCA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 2";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $marc2 = $row['MARCA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT FACTURA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 2";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $fact2 = $row['FACTURA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT FECHA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 2";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $fec2 = $row['FECHA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT GARANTIA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 2";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $gar2 = $row['GARANTIA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT v.FRECUENCIA_RAM 
-                    FROM wsmem w
-                    LEFT JOIN velocidad v ON v.ID_FRECUENCIA = w.ID_FRECUENCIA
-                    WHERE w.ID_WS = $consulta[0] AND SLOT = 2";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $pvel2 = $row['FRECUENCIA_RAM'];
-                ?>
+                  /* SLOT 2 */
+                  $mem2  = obtenerValorWsMem($datos_base, 'memoria', 'MEMORIA', $consulta['ID_WS'], 2, true,  'ID_MEMORIA');
+                  $tmem2 = obtenerValorWsMem($datos_base, 'tipomem', 'TIPOMEM', $consulta['ID_WS'], 2, true,  'ID_TIPOMEM');
+                  $prov2 = obtenerValorWsMem($datos_base, 'proveedor', 'PROVEEDOR', $consulta['ID_WS'], 2, true,  'ID_PROVEEDOR');
+                  $marc2 = obtenerValorWsMem($datos_base, 'marcas', 'MARCA', $consulta['ID_WS'], 2, true,  'ID_MARCA');
+                  $pvel2 = obtenerValorWsMem($datos_base, 'velocidad', 'FRECUENCIA_RAM', $consulta['ID_WS'], 2, true,  'ID_FRECUENCIA');
+                  $fact2 = obtenerValorWsMem($datos_base, 'wsmem', 'FACTURA', $consulta['ID_WS'], 2, false);
+                  $fec2  = obtenerValorWsMem($datos_base, 'wsmem', 'FECHA', $consulta['ID_WS'], 2, false);
+                  $gar2  = obtenerValorWsMem($datos_base, 'wsmem', 'GARANTIA', $consulta['ID_WS'], 2, false);
 
+                  /* SLOT 3 */
+                  $mem3  = obtenerValorWsMem($datos_base, 'memoria', 'MEMORIA', $consulta['ID_WS'], 3, true,  'ID_MEMORIA');
+                  $tmem3 = obtenerValorWsMem($datos_base, 'tipomem', 'TIPOMEM', $consulta['ID_WS'], 3, true,  'ID_TIPOMEM');
+                  $prov3 = obtenerValorWsMem($datos_base, 'proveedor', 'PROVEEDOR', $consulta['ID_WS'], 3, true,  'ID_PROVEEDOR');
+                  $marc3 = obtenerValorWsMem($datos_base, 'marcas', 'MARCA', $consulta['ID_WS'], 3, true,  'ID_MARCA');
+                  $pvel3 = obtenerValorWsMem($datos_base, 'velocidad', 'FRECUENCIA_RAM', $consulta['ID_WS'], 3, true,  'ID_FRECUENCIA');
+                  $fact3 = obtenerValorWsMem($datos_base, 'wsmem', 'FACTURA', $consulta['ID_WS'], 3, false);
+                  $fec3  = obtenerValorWsMem($datos_base, 'wsmem', 'FECHA', $consulta['ID_WS'], 3, false);
+                  $gar3  = obtenerValorWsMem($datos_base, 'wsmem', 'GARANTIA', $consulta['ID_WS'], 3, false);
 
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT m.MEMORIA FROM wsmem w LEFT JOIN memoria m ON m.ID_MEMORIA = w.ID_MEMORIA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 3";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $mem3 = $row['MEMORIA'];
+                  /* SLOT 4 */
+                  $mem4  = obtenerValorWsMem($datos_base, 'memoria', 'MEMORIA', $consulta['ID_WS'], 4, true,  'ID_MEMORIA');
+                  $tmem4 = obtenerValorWsMem($datos_base, 'tipomem', 'TIPOMEM', $consulta['ID_WS'], 4, true,  'ID_TIPOMEM');
+                  $prov4 = obtenerValorWsMem($datos_base, 'proveedor', 'PROVEEDOR', $consulta['ID_WS'], 4, true,  'ID_PROVEEDOR');
+                  $marc4 = obtenerValorWsMem($datos_base, 'marcas', 'MARCA', $consulta['ID_WS'], 4, true,  'ID_MARCA');
+                  $pvel4 = obtenerValorWsMem($datos_base, 'velocidad', 'FRECUENCIA_RAM', $consulta['ID_WS'], 4, true,  'ID_FRECUENCIA');
+                  $fact4 = obtenerValorWsMem($datos_base, 'wsmem', 'FACTURA', $consulta['ID_WS'], 4, false);
+                  $fec4  = obtenerValorWsMem($datos_base, 'wsmem', 'FECHA', $consulta['ID_WS'], 4, false);
+                  $gar4  = obtenerValorWsMem($datos_base, 'wsmem', 'GARANTIA', $consulta['ID_WS'], 4, false);
                 ?>
-                 <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT t.TIPOMEM FROM wsmem w LEFT JOIN tipomem t ON t.ID_TIPOMEM = w.ID_TIPOMEM WHERE w.ID_WS = $consulta[0] AND w.SLOT = 3";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $tmem3 = $row['TIPOMEM'];
-                ?>
-                                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT p.PROVEEDOR FROM wsmem w LEFT JOIN proveedor p ON p.ID_PROVEEDOR = w.ID_PROVEEDOR WHERE w.ID_WS = $consulta[0] AND w.SLOT = 3";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $prov3 = $row['PROVEEDOR'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT m.MARCA FROM wsmem w LEFT JOIN marcas m ON m.ID_MARCA = w.ID_MARCA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 3";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $marc3 = $row['MARCA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT FACTURA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 3";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $fact3 = $row['FACTURA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT FECHA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 3";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $fec3 = $row['FECHA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT GARANTIA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 3";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $gar3 = $row['GARANTIA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT v.FRECUENCIA_RAM 
-                    FROM wsmem w
-                    LEFT JOIN velocidad v ON v.ID_FRECUENCIA = w.ID_FRECUENCIA
-                    WHERE w.ID_WS = $consulta[0] AND SLOT = 3";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $pvel3 = $row['FRECUENCIA_RAM'];
-                ?>
-
-
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT m.MEMORIA FROM wsmem w LEFT JOIN memoria m ON m.ID_MEMORIA = w.ID_MEMORIA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 4";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $mem4 = $row['MEMORIA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT t.TIPOMEM FROM wsmem w LEFT JOIN tipomem t ON t.ID_TIPOMEM = w.ID_TIPOMEM WHERE w.ID_WS = $consulta[0] AND w.SLOT = 4";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $tmem4 = $row['TIPOMEM'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT p.PROVEEDOR FROM wsmem w LEFT JOIN proveedor p ON p.ID_PROVEEDOR = w.ID_PROVEEDOR WHERE w.ID_WS = $consulta[0] AND w.SLOT = 4";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $prov4 = $row['PROVEEDOR'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT m.MARCA FROM wsmem w LEFT JOIN marcas m ON m.ID_MARCA = w.ID_MARCA WHERE w.ID_WS = $consulta[0] AND w.SLOT = 4";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $marc4 = $row['MARCA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT FACTURA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 4";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $fact4 = $row['FACTURA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT FECHA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 4";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $fec4 = $row['FECHA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT GARANTIA FROM wsmem WHERE ID_WS = $consulta[0] AND SLOT = 4";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $gar4 = $row['GARANTIA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT v.FRECUENCIA_RAM 
-                    FROM wsmem w
-                    LEFT JOIN velocidad v ON v.ID_FRECUENCIA = w.ID_FRECUENCIA
-                    WHERE w.ID_WS = $consulta[0] AND SLOT = 4";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $pvel4 = $row['FRECUENCIA_RAM'];
-                ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                          <!-- DISCOS -->
                 <!-- ///////////////////////////////// -->
                 <!-- ///////////////////////////////// -->
 
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT d.DISCO FROM discows dw LEFT JOIN disco d ON d.ID_DISCO = dw.ID_DISCO WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 1";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $disc1 = $row['DISCO'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT t.TIPOD FROM discows dw LEFT JOIN tipodisco t ON t.ID_TIPOD = dw.ID_TIPOD WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 1";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $tdisc1 = $row['TIPOD'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT p.PROVEEDOR FROM discows dw LEFT JOIN proveedor p ON p.ID_PROVEEDOR = dw.ID_PROVEEDOR WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 1";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $dprov1 = $row['PROVEEDOR'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT m.MODELO, ma.MARCA
-                    FROM discows dw 
-                    LEFT JOIN modelo m ON m.ID_MODELO = dw.ID_MODELO
-                    LEFT JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
-                    WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 1";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $dmod1 = $row['MODELO']." - ".$row['MARCA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT ma.MARCA FROM marcas ma 
-                    LEFT JOIN modelo m ON m.ID_MARCA = ma.ID_MARCA 
-                    LEFT JOIN discows dw ON dw.ID_MODELO = m.ID_MODELO
-                    WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 1";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $dmarc1 = $row['MARCA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT FACTURA FROM discows WHERE ID_WS = $consulta[0] AND NUMERO = 1";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $dfact1 = $row['FACTURA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT FECHA FROM discows WHERE ID_WS = $consulta[0] AND NUMERO = 1";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $dfec1 = $row['FECHA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT GARANTIA FROM discows WHERE ID_WS = $consulta[0] AND NUMERO = 1";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $dgar1 = $row['GARANTIA'];
-                ?>
-
-
-                 <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT d.DISCO FROM discows dw LEFT JOIN disco d ON d.ID_DISCO = dw.ID_DISCO WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 2";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $disc2 = $row['DISCO'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT t.TIPOD FROM discows dw LEFT JOIN tipodisco t ON t.ID_TIPOD = dw.ID_TIPOD WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 2";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $tdisc2 = $row['TIPOD'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT p.PROVEEDOR FROM discows dw LEFT JOIN proveedor p ON p.ID_PROVEEDOR = dw.ID_PROVEEDOR WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 2";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $dprov2 = $row['PROVEEDOR'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT m.MODELO, ma.MARCA
-                    FROM discows dw 
-                    LEFT JOIN modelo m ON m.ID_MODELO = dw.ID_MODELO
-                    LEFT JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
-                    WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 2";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $dmod2 = $row['MODELO']." - ".$row['MARCA'];
-                ?>
-                 <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT ma.MARCA FROM marcas ma 
-                    LEFT JOIN modelo m ON m.ID_MARCA = ma.ID_MARCA 
-                    LEFT JOIN discows dw ON dw.ID_MODELO = m.ID_MODELO
-                    WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 2";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $dmarc2 = $row['MARCA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT FACTURA FROM discows WHERE ID_WS = $consulta[0] AND NUMERO = 2";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $dfact2 = $row['FACTURA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT FECHA FROM discows WHERE ID_WS = $consulta[0] AND NUMERO = 2";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $dfec2 = $row['FECHA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT GARANTIA FROM discows WHERE ID_WS = $consulta[0] AND NUMERO = 2";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $dgar2 = $row['GARANTIA'];
-                ?>
-
-
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT d.DISCO FROM discows dw LEFT JOIN disco d ON d.ID_DISCO = dw.ID_DISCO WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 3";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $disc3 = $row['DISCO'];
-                ?>
                 <?php
-                    include("../particular/conexion.php");
-                    $sent= "SELECT t.TIPOD FROM discows dw LEFT JOIN tipodisco t ON t.ID_TIPOD = dw.ID_TIPOD WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 3";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $tdisc3 = $row['TIPOD'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT p.PROVEEDOR FROM discows dw LEFT JOIN proveedor p ON p.ID_PROVEEDOR = dw.ID_PROVEEDOR WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 3";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $dprov3 = $row['PROVEEDOR'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT m.MODELO, ma.MARCA
-                    FROM discows dw 
-                    LEFT JOIN modelo m ON m.ID_MODELO = dw.ID_MODELO
-                    LEFT JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
-                    WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 3";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $dmod3 = $row['MODELO']." - ".$row['MARCA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT ma.MARCA FROM marcas ma 
-                    LEFT JOIN modelo m ON m.ID_MARCA = ma.ID_MARCA 
-                    LEFT JOIN discows dw ON dw.ID_MODELO = m.ID_MODELO
-                    WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 3";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $dmarc3 = $row['MARCA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT FACTURA FROM discows WHERE ID_WS = $consulta[0] AND NUMERO = 3";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $dfact3 = $row['FACTURA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT FECHA FROM discows WHERE ID_WS = $consulta[0] AND NUMERO = 3";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $dfec3 = $row['FECHA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT GARANTIA FROM discows WHERE ID_WS = $consulta[0] AND NUMERO = 3";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $dgar3 = $row['GARANTIA'];
-                ?>
+                  function obtenerValorWsDisco($datos_base, $tabla, $columna, $idWs, $numero, $conJoin = true, $columnaJoin = null) {
+                    if ($conJoin && $columnaJoin !== null) {
+                        $sent = "SELECT $columna 
+                                FROM discows dw 
+                                LEFT JOIN $tabla t ON t.$columnaJoin = dw.$columnaJoin 
+                                WHERE dw.ID_WS = $idWs AND dw.NUMERO = $numero";
+                    } else {
+                        $sent = "SELECT $columna 
+                                FROM discows 
+                                WHERE ID_WS = $idWs AND NUMERO = $numero";
+                    }
 
+                    $resultado = $datos_base->query($sent);
 
+                    if ($resultado && $row = $resultado->fetch_assoc()) {
+                        return $row[$columna];
+                    } else {
+                        return null;
+                    }
+                  }
+                  /* DISCO 1 */
+                  $disc1  = obtenerValorWsDisco($datos_base, 'disco', 'DISCO', $consulta['ID_WS'], 1, true, 'ID_DISCO');
+                  $tdisc1 = obtenerValorWsDisco($datos_base, 'tipodisco', 'TIPOD', $consulta['ID_WS'], 1, true, 'ID_TIPOD');
+                  $dprov1 = obtenerValorWsDisco($datos_base, 'proveedor', 'PROVEEDOR', $consulta['ID_WS'], 1, true, 'ID_PROVEEDOR');
+                  $dfact1 = obtenerValorWsDisco($datos_base, 'discows', 'FACTURA', $consulta['ID_WS'], 1, false);
+                  $dfec1  = obtenerValorWsDisco($datos_base, 'discows', 'FECHA', $consulta['ID_WS'], 1, false);
+                  $dgar1  = obtenerValorWsDisco($datos_base, 'discows', 'GARANTIA', $consulta['ID_WS'], 1, false);
 
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT d.DISCO FROM discows dw LEFT JOIN disco d ON d.ID_DISCO = dw.ID_DISCO WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 4";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $disc4 = $row['DISCO'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT t.TIPOD FROM discows dw LEFT JOIN tipodisco t ON t.ID_TIPOD = dw.ID_TIPOD WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 4";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $tdisc4 = $row['TIPOD'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT p.PROVEEDOR FROM discows dw LEFT JOIN proveedor p ON p.ID_PROVEEDOR = dw.ID_PROVEEDOR WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 4";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $dprov4 = $row['PROVEEDOR'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT m.MODELO, ma.MARCA
-                    FROM discows dw 
-                    LEFT JOIN modelo m ON m.ID_MODELO = dw.ID_MODELO
-                    LEFT JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
-                    WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 4";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $dmod4 = $row['MODELO']." - ".$row['MARCA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sent= "SELECT ma.MARCA FROM marcas ma 
-                    LEFT JOIN modelo m ON m.ID_MARCA = ma.ID_MARCA 
-                    LEFT JOIN discows dw ON dw.ID_MODELO = m.ID_MODELO
-                    WHERE dw.ID_WS = $consulta[0] AND dw.NUMERO = 4";
-                    $resultado = $datos_base->query($sent);
-                    $row = $resultado->fetch_assoc();
-                    $dmarc4 = $row['MARCA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT FACTURA FROM discows WHERE ID_WS = $consulta[0] AND NUMERO = 4";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $dfact4 = $row['FACTURA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT FECHA FROM discows WHERE ID_WS = $consulta[0] AND NUMERO = 4";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $dfec4 = $row['FECHA'];
-                ?>
-                <?php 
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT GARANTIA FROM discows WHERE ID_WS = $consulta[0] AND NUMERO = 4";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $dgar4 = $row['GARANTIA'];
-                ?>
+                  $sent= "SELECT m.MODELO, ma.MARCA
+                  FROM discows dw 
+                  LEFT JOIN modelo m ON m.ID_MODELO = dw.ID_MODELO
+                  LEFT JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
+                  WHERE dw.ID_WS = ".$consulta['ID_WS']." AND dw.NUMERO = 1";
+                  $resultado = $datos_base->query($sent);
+                  $row = $resultado->fetch_assoc();
+                  $dmod1 = $row['MODELO']." - ".$row['MARCA'];
 
+                  /* DISCO 2 */
+                  $disc2  = obtenerValorWsDisco($datos_base, 'disco', 'DISCO', $consulta['ID_WS'], 2, true, 'ID_DISCO');
+                  $tdisc2 = obtenerValorWsDisco($datos_base, 'tipodisco', 'TIPOD', $consulta['ID_WS'], 2, true, 'ID_TIPOD');
+                  $dprov2 = obtenerValorWsDisco($datos_base, 'proveedor', 'PROVEEDOR', $consulta['ID_WS'], 2, true, 'ID_PROVEEDOR');
+                  $dfact2 = obtenerValorWsDisco($datos_base, 'discows', 'FACTURA', $consulta['ID_WS'], 2, false);
+                  $dfec2  = obtenerValorWsDisco($datos_base, 'discows', 'FECHA', $consulta['ID_WS'], 2, false);
+                  $dgar2  = obtenerValorWsDisco($datos_base, 'discows', 'GARANTIA', $consulta['ID_WS'], 2, false);
+
+                  $sent= "SELECT m.MODELO, ma.MARCA
+                  FROM discows dw 
+                  LEFT JOIN modelo m ON m.ID_MODELO = dw.ID_MODELO
+                  LEFT JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
+                  WHERE dw.ID_WS = ".$consulta['ID_WS']." AND dw.NUMERO = 2";
+                  $resultado = $datos_base->query($sent);
+                  $row = $resultado->fetch_assoc();
+                  $dmod2 = $row['MODELO']." - ".$row['MARCA'];
+
+                  /* DISCO 3 */
+                  $disc3  = obtenerValorWsDisco($datos_base, 'disco', 'DISCO', $consulta['ID_WS'], 3, true, 'ID_DISCO');
+                  $tdisc3 = obtenerValorWsDisco($datos_base, 'tipodisco', 'TIPOD', $consulta['ID_WS'], 3, true, 'ID_TIPOD');
+                  $dprov3 = obtenerValorWsDisco($datos_base, 'proveedor', 'PROVEEDOR', $consulta['ID_WS'], 3, true, 'ID_PROVEEDOR');
+                  $dfact3 = obtenerValorWsDisco($datos_base, 'discows', 'FACTURA', $consulta['ID_WS'], 3, false);
+                  $dfec3  = obtenerValorWsDisco($datos_base, 'discows', 'FECHA', $consulta['ID_WS'], 3, false);
+                  $dgar3  = obtenerValorWsDisco($datos_base, 'discows', 'GARANTIA', $consulta['ID_WS'], 3, false);
+
+                  $sent= "SELECT m.MODELO, ma.MARCA
+                  FROM discows dw 
+                  LEFT JOIN modelo m ON m.ID_MODELO = dw.ID_MODELO
+                  LEFT JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
+                  WHERE dw.ID_WS = ".$consulta['ID_WS']." AND dw.NUMERO = 3";
+                  $resultado = $datos_base->query($sent);
+                  $row = $resultado->fetch_assoc();
+                  $dmod3 = $row['MODELO']." - ".$row['MARCA'];
+
+                  /* DISCO 4 */
+                  $disc4  = obtenerValorWsDisco($datos_base, 'disco', 'DISCO', $consulta['ID_WS'], 4, true, 'ID_DISCO');
+                  $tdisc4 = obtenerValorWsDisco($datos_base, 'tipodisco', 'TIPOD', $consulta['ID_WS'], 4, true, 'ID_TIPOD');
+                  $dprov4 = obtenerValorWsDisco($datos_base, 'proveedor', 'PROVEEDOR', $consulta['ID_WS'], 4, true, 'ID_PROVEEDOR');
+                  $dfact4 = obtenerValorWsDisco($datos_base, 'discows', 'FACTURA', $consulta['ID_WS'], 4, false);
+                  $dfec4  = obtenerValorWsDisco($datos_base, 'discows', 'FECHA', $consulta['ID_WS'], 4, false);
+                  $dgar4  = obtenerValorWsDisco($datos_base, 'discows', 'GARANTIA', $consulta['ID_WS'], 4, false);
+
+                  $sent= "SELECT m.MODELO, ma.MARCA
+                  FROM discows dw 
+                  LEFT JOIN modelo m ON m.ID_MODELO = dw.ID_MODELO
+                  LEFT JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
+                  WHERE dw.ID_WS = ".$consulta['ID_WS']." AND dw.NUMERO = 4";
+                  $resultado = $datos_base->query($sent);
+                  $row = $resultado->fetch_assoc();
+                  $dmod4 = $row['MODELO']." - ".$row['MARCA'];
+                ?>
 
 
                         <!-- PLACA MADRE -->
                 <!-- ///////////////////////////////// -->
                 <!-- ///////////////////////////////// -->
                 <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT p.PLACAM, m.MARCA
-                    FROM inventario i 
-                    LEFT JOIN placamws pw ON pw.ID_WS = i.ID_WS
-                    LEFT JOIN placam p ON p.ID_PLACAM = pw.ID_PLACAM
-                    LEFT JOIN marcas m ON m.ID_MARCA = p.ID_MARCA
-                    WHERE i.ID_WS = '$consulta[0]'";
+                  function obtenerDatosPlacaMadre($datos_base, $idWs) {
+                    $sentencia = "
+                        SELECT 
+                            p.PLACAM, 
+                            m.MARCA, 
+                            pr.PROVEEDOR, 
+                            pw.FACTURA, 
+                            pw.FECHA, 
+                            pw.GARANTIA, 
+                            pw.NSERIE
+                        FROM inventario i
+                        LEFT JOIN placamws pw ON pw.ID_WS = i.ID_WS
+                        LEFT JOIN placam p ON p.ID_PLACAM = pw.ID_PLACAM
+                        LEFT JOIN marcas m ON m.ID_MARCA = p.ID_MARCA
+                        LEFT JOIN proveedor pr ON pr.ID_PROVEEDOR = pw.ID_PROVEEDOR
+                        WHERE i.ID_WS = '$idWs'
+                    ";
+
                     $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $placam = $row['PLACAM'].' - '.$row['MARCA'];
-                    ?>
-                    <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT pr.PROVEEDOR 
-                    FROM inventario i 
-                    LEFT JOIN placamws pw ON pw.ID_WS = i.ID_WS
-                    LEFT JOIN proveedor pr ON pr.ID_PROVEEDOR = pw.ID_PROVEEDOR 
-                    WHERE i.ID_WS = '$consulta[0]'";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $placamprov = $row['PROVEEDOR'];
-                    ?>
-                    <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT pw.FACTURA 
-                    FROM inventario i 
-                    LEFT JOIN placamws pw ON pw.ID_WS = i.ID_WS
-                    WHERE i.ID_WS = '$consulta[0]'";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $placamfact = $row['FACTURA'];
-                    ?>
-                    <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT pw.FECHA 
-                    FROM inventario i 
-                    LEFT JOIN placamws pw ON pw.ID_WS = i.ID_WS
-                    WHERE i.ID_WS = '$consulta[0]'";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $placamfecha = $row['FECHA'];
-                    ?>
-                    <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT pw.GARANTIA 
-                    FROM inventario i 
-                    LEFT JOIN placamws pw ON pw.ID_WS = i.ID_WS
-                    WHERE i.ID_WS = '$consulta[0]'";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $placamgar = $row['GARANTIA'];
+
+                    if ($resultado && $row = $resultado->fetch_assoc()) {
+                        return [
+                            'placam'     => $row['PLACAM'] . ' - ' . $row['MARCA'],
+                            'proveedor'  => $row['PROVEEDOR'],
+                            'factura'    => $row['FACTURA'],
+                            'fecha'      => $row['FECHA'],
+                            'garantia'   => $row['GARANTIA'],
+                            'nro_serie'  => $row['NSERIE']
+                        ];
+                    } else {
+                        return null;
+                    }
+                  }
+
+                  $datosPlacaMadre = obtenerDatosPlacaMadre($datos_base, $consulta['ID_WS']);
+
+                  if ($datosPlacaMadre) {
+                      $placam     = $datosPlacaMadre['placam'];
+                      $placamprov = $datosPlacaMadre['proveedor'];
+                      $placamfact = $datosPlacaMadre['factura'];
+                      $placamfecha = $datosPlacaMadre['fecha'];
+                      $placamgar  = $datosPlacaMadre['garantia'];
+                      $planro     = $datosPlacaMadre['nro_serie'];
+                  }
+
                   ?>
-                    <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT pw.NSERIE 
-                    FROM inventario i 
-                    LEFT JOIN placamws pw ON pw.ID_WS = i.ID_WS
-                    WHERE i.ID_WS = '$consulta[0]'";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $planro = $row['NSERIE'];
-                  ?>
-
-
-
-
-
 
                         <!-- MICRO -->
                 <!-- ///////////////////////////////// -->
                 <!-- ///////////////////////////////// -->
                   <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT m.MICRO, ma.MARCA
-                    FROM inventario i 
-                    LEFT JOIN microws mws ON mws.ID_WS = i.ID_WS
-                    LEFT JOIN micro m ON m.ID_MICRO= mws.ID_MICRO
-                    LEFT JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
-                    WHERE i.ID_WS='$consulta[0]'";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $micro = $row['MICRO'].' - '.$row['MARCA'];
-                  ?>
-                  <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT p.PROVEEDOR 
-                    FROM inventario i 
-                    LEFT JOIN microws mws ON mws.ID_WS = i.ID_WS
-                    LEFT JOIN proveedor p ON p.ID_PROVEEDOR= mws.ID_PROVEEDOR
-                    WHERE i.ID_WS='$consulta[0]'";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $microprov = $row['PROVEEDOR'];
-                  ?>
-                  <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT mws.FACTURA 
-                    FROM inventario i 
-                    LEFT JOIN microws mws ON mws.ID_WS = i.ID_WS
-                    WHERE i.ID_WS='$consulta[0]'";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $microfac = $row['FACTURA'];
-                  ?>
-                  <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT mws.FECHA 
-                    FROM inventario i 
-                    LEFT JOIN microws mws ON mws.ID_WS = i.ID_WS
-                    WHERE i.ID_WS='$consulta[0]'";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $microfec = $row['FECHA'];
-                  ?>
-                  <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT mws.GARANTIA 
-                    FROM inventario i 
-                    LEFT JOIN microws mws ON mws.ID_WS = i.ID_WS
-                    WHERE i.ID_WS='$consulta[0]'";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $microgar = $row['GARANTIA'];
-                  ?>
-                  <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT mws.NSERIE 
-                    FROM inventario i 
-                    LEFT JOIN microws mws ON mws.ID_WS = i.ID_WS
-                    WHERE i.ID_WS='$consulta[0]'";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $micnro = $row['NSERIE'];
-                  ?>
+                  function obtenerDatosMicro($datos_base, $idWs) {
+                    $sentencia = "
+                        SELECT 
+                            m.MICRO,
+                            ma.MARCA,
+                            p.PROVEEDOR,
+                            mws.FACTURA,
+                            mws.FECHA,
+                            mws.GARANTIA,
+                            mws.NSERIE
+                        FROM inventario i
+                        LEFT JOIN microws mws ON mws.ID_WS = i.ID_WS
+                        LEFT JOIN micro m ON m.ID_MICRO = mws.ID_MICRO
+                        LEFT JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
+                        LEFT JOIN proveedor p ON p.ID_PROVEEDOR = mws.ID_PROVEEDOR
+                        WHERE i.ID_WS = '$idWs'
+                    ";
 
+                    $resultado = $datos_base->query($sentencia);
 
+                    if ($resultado && $row = $resultado->fetch_assoc()) {
+                        return [
+                            'micro'      => $row['MICRO'] . ' - ' . $row['MARCA'],
+                            'proveedor'  => $row['PROVEEDOR'],
+                            'factura'    => $row['FACTURA'],
+                            'fecha'      => $row['FECHA'],
+                            'garantia'   => $row['GARANTIA'],
+                            'nro_serie'  => $row['NSERIE']
+                        ];
+                    } else {
+                        return null;
+                    }
+                  }
 
+                  $datosMicro = obtenerDatosMicro($datos_base, $consulta['ID_WS']);
 
-
+                  if ($datosMicro) {
+                      $micro      = $datosMicro['micro'];
+                      $microprov  = $datosMicro['proveedor'];
+                      $microfac   = $datosMicro['factura'];
+                      $microfec   = $datosMicro['fecha'];
+                      $microgar   = $datosMicro['garantia'];
+                      $micnro     = $datosMicro['nro_serie'];
+                  }
+                  ?>
                         <!-- PLACA VIDEO -->
                 <!-- ///////////////////////////////// -->
                 <!-- ///////////////////////////////// -->
                   <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT m.MODELO 
-                    FROM inventario i 
-                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
-                    LEFT JOIN pvideo p ON p.ID_PVIDEO= pws.ID_PVIDEO
-                    LEFT JOIN modelo m ON m.ID_MODELO = p.ID_MODELO
-                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 1";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $pvmem = $row['MODELO'];
-                  ?>
-                  <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT pws.NSERIE 
-                    FROM inventario i 
-                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
-                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 1";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $pvnserie = $row['NSERIE'];
-                  ?>
-                  <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT p.PROVEEDOR 
-                    FROM inventario i 
-                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
-                    LEFT JOIN proveedor p ON p.ID_PROVEEDOR = pws.ID_PROVEEDOR
-                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 1";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $pvprov = $row['PROVEEDOR'];
-                  ?>
-                  <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT pws.FACTURA 
-                    FROM inventario i 
-                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
-                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 1";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $pvfact = $row['FACTURA'];
-                  ?>
-                  <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT pws.FECHA 
-                    FROM inventario i 
-                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
-                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 1";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $pvfec = $row['FECHA'];
-                  ?>
-                  <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT pws.GARANTIA 
-                    FROM inventario i 
-                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
-                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 1";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $pvgar = $row['GARANTIA'];
-                  ?>
+                  function obtenerDatosPlacaVideo($datos_base, $idWs, $slot) {
+                    $sentencia = "
+                        SELECT 
+                            m.MODELO,
+                            pws.NSERIE,
+                            p.PROVEEDOR,
+                            pws.FACTURA,
+                            pws.FECHA,
+                            pws.GARANTIA
+                        FROM inventario i
+                        LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
+                        LEFT JOIN pvideo v ON v.ID_PVIDEO = pws.ID_PVIDEO
+                        LEFT JOIN modelo m ON m.ID_MODELO = v.ID_MODELO
+                        LEFT JOIN proveedor p ON p.ID_PROVEEDOR = pws.ID_PROVEEDOR
+                        WHERE i.ID_WS = '$idWs' AND pws.SLOT = '$slot'
+                    ";
 
-
-
-                  <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT m.MODELO 
-                    FROM inventario i 
-                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
-                    LEFT JOIN pvideo p ON p.ID_PVIDEO= pws.ID_PVIDEO
-                    LEFT JOIN modelo m ON m.ID_MODELO = p.ID_MODELO
-                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 2";
                     $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $pvmem1 = $row['MODELO'];
-                  ?>
-                  <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT pws.NSERIE 
-                    FROM inventario i 
-                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
-                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 2";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $pvnserie1 = $row['NSERIE'];
-                  ?>
-                  <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT p.PROVEEDOR 
-                    FROM inventario i 
-                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
-                    LEFT JOIN proveedor p ON p.ID_PROVEEDOR = pws.ID_PROVEEDOR
-                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 2";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $pvprov1 = $row['PROVEEDOR'];
-                  ?>
-                  <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT pws.FACTURA 
-                    FROM inventario i 
-                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
-                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 2";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $pvfact1 = $row['FACTURA'];
-                  ?>
-                  <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT pws.FECHA 
-                    FROM inventario i 
-                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
-                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 2";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $pvfec1 = $row['FECHA'];
-                  ?>
-                  <?php
-                    include("../particular/conexion.php");
-                    $sentencia = "SELECT pws.GARANTIA 
-                    FROM inventario i 
-                    LEFT JOIN pvideows pws ON pws.ID_WS = i.ID_WS
-                    WHERE i.ID_WS='$consulta[0]' AND pws.SLOT = 2";
-                    $resultado = $datos_base->query($sentencia);
-                    $row = $resultado->fetch_assoc();
-                    $pvgar1 = $row['GARANTIA'];
-                  ?>
-                  
 
+                    if ($resultado && $row = $resultado->fetch_assoc()) {
+                        return [
+                            'modelo'     => $row['MODELO'],
+                            'nro_serie'  => $row['NSERIE'],
+                            'proveedor'  => $row['PROVEEDOR'],
+                            'factura'    => $row['FACTURA'],
+                            'fecha'      => $row['FECHA'],
+                            'garantia'   => $row['GARANTIA']
+                        ];
+                    } else {
+                        return null;
+                    }
+                  }
 
+                  // Slot 1
+                  $datosPlaca1 = obtenerDatosPlacaVideo($datos_base, $consulta['ID_WS'], 1);
+                  if ($datosPlaca1) {
+                      $pvmem     = $datosPlaca1['modelo'];
+                      $pvnserie  = $datosPlaca1['nro_serie'];
+                      $pvprov    = $datosPlaca1['proveedor'];
+                      $pvfact    = $datosPlaca1['factura'];
+                      $pvfec     = $datosPlaca1['fecha'];
+                      $pvgar     = $datosPlaca1['garantia'];
+                  }
 
-
-
+                  // Slot 2
+                  $datosPlaca2 = obtenerDatosPlacaVideo($datos_base, $consulta['ID_WS'], 2);
+                  if ($datosPlaca2) {
+                      $pvmem1    = $datosPlaca2['modelo'];
+                      $pvnserie1 = $datosPlaca2['nro_serie'];
+                      $pvprov1   = $datosPlaca2['proveedor'];
+                      $pvfact1   = $datosPlaca2['factura'];
+                      $pvfec1    = $datosPlaca2['fecha'];
+                      $pvgar1    = $datosPlaca2['garantia'];
+                  }
+                  ?>
+                
 
                 <form method="POST" action="../abm/guardarmodequipo2.php">
                      <label>ID: </label>
-                    <input type="text" class="id" name="id" value="<?php echo $consulta[0]?>">
+                    <input type="text" class="id" name="id" value="<?php echo $consulta['ID_WS']?>">
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">N° GOBIERNO: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serieg" value="<?php echo $consulta[3]?>">
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serieg" value="<?php echo $consulta['SERIEG']?>">
                         <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serialn" value="<?php echo $consulta[2]?>">
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serialn" value="<?php echo $consulta['SERIALN']?>">
                     </div>
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">MAC: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="mac" value="<?php echo $consulta[11]?>">
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="mac" value="<?php echo $consulta['MAC']?>">
                         <label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIÓN: </label>
-                        <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" rows="3"><?php echo $consulta[7]?></textarea>
+                        <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" rows="3"><?php echo $consulta['OBSERVACION']?></textarea>
                     </div>
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">IP: </label>
-                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="ip" value="<?php echo $consulta[13]?>">
+                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="ip" value="<?php echo $consulta['IP']?>">
                         <label id="lblForm"class="col-form-label col-xl col-lg">FACTURA: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="fac" value="<?php echo $consulta[9]?>">
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="fac" value="<?php echo $consulta['FACTURA']?>">
                     </div>
 
 
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="gar" value="<?php echo $consulta[17]?>">
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="gar" value="<?php echo $consulta['GARANTIA']?>">
                         <label id="lblForm"class="col-form-label col-xl col-lg">MASTERIZACIÓN: </label>
                         <select style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" name="masterizacion">
-                        <option selected value="100"><?php echo $consulta[10]?></option>
+                        <option selected value="100"><?php echo $consulta['MASTERIZADA']?></option>
                         <option value="SI">SI</option>
                             <option value ="NO">NO</option>
                         </select>
@@ -1003,7 +473,7 @@ function ConsultarIncidente($no_tic)
                     <div class="form-group row" style="margin: 10px; padding:10px;">
                         <label id="lblForm"class="col-form-label col-xl col-lg">RIP: </label>
                         <select style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" name="reserva">
-                        <option selected value="200"><?php echo $consulta[12]?></option>
+                        <option selected value="200"><?php echo $consulta['RIP']?></option>
                             <option value ="NO">NO</option>
                             <option value="SI">SI</option>
                         </select>

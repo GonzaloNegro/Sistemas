@@ -247,13 +247,13 @@ $row = $resultado->fetch_assoc();
 
                                 <td class='text-center text-nowrap'>
                                     <span style="display: inline-flex;padding:5px;">
-                                        <a target='_blank' 
-                                        href=consultadetalleinv.php?no=${fila.ID_WS} 
-                                        target=new class=mod 
-                                        data-bs-toggle="popover" 
-                                        data-bs-trigger="hover" 
-                                        data-bs-placement="top" 
-                                        data-bs-content="Información">
+                                    <a style="padding:3px;" href="#" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#ModalInfo" 
+                                            onclick="cargar_informacionGeneral('${fila.ID_WS}'); return false;"
+                                            target="_blank" 
+                                            class="mod"
+                                            title="Información">
                                             <i style="color: #0d6efd" 
                                             class="fa-solid fa-circle-info fa-2xl"></i>
                                         </a>
@@ -273,18 +273,18 @@ $row = $resultado->fetch_assoc();
                                         </a>
                                     </span>
 
-                                    <span style="display: inline-flex;padding:3px;">
-                                        <a style="padding:3px;" href="#" 
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#exampleModal" 
-                                            onclick="cargar_informacion('${fila.ID_WS}'); return false;" 
-                                            target="_blank" 
-                                            class="mod"
-                                            title="Movimientos/Mejoras">
-                                            <i style="color: #fd7e14" 
-                                            class="fa-solid fa-arrow-down-wide-short fa-2xl"></i>
+                                    <span style="display: inline-flex; padding: 3px;">
+                                        <a href="#"
+                                        class="mod"
+                                        style="padding: 3px;"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal"
+                                        onclick="cargar_informacion('${fila.ID_WS}'); return false;"
+                                        title="Movimientos/Mejoras">
+                                            <i class="fa-solid fa-arrow-down-wide-short fa-2xl" style="color: #fd7e14;"></i>
                                         </a>
                                     </span>
+
 
                                     <span style="display: inline-flex; padding: 3px;">
                                         <a href="../equipos/${fila.SERIEG}.pdf" 
@@ -668,29 +668,51 @@ $row = $resultado->fetch_assoc();
 	</section>
 	<footer id="footer_pag"><div class="pagination justify-content-center mt-3" id="paginador"></div></footer>
     
-    <div class="modal fade modal--usu" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">MOVIMIENTOS Y MEJORAS</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="mostrar_mensaje" style="display:flex;flex-direction:column;gap:10px;">
+        <!-- Modal Información -->
+        <div class="modal fade modal--usu" id="ModalInfo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">INFORMACIÓN</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                </div>
-                <div id="resultado" class="resultado">
-                </div>
-                <div class="modal-footer">
-                    <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()"><i class='bi bi-printer' style="color:white;"></i></button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    <div class="modal-body">
+                        <div id="mostrar_mensaje" style="display:flex;flex-direction:column;gap:10px;">
+                        </div>
+                    </div>
+                    <div id="resultado" class="resultado"></div>
+                    <div class="modal-footer">
+                        <button id="botonright" type="button" class="btn btn-success" onClick="imprimirInfo()"><i class='bi bi-printer' style="color:white;"></i></button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <!-- Modal Movimientos y Mejoras -->
+        <div class="modal fade modal--usu" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">MOVIMIENTOS Y MEJORAS</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="mostrar_mensaje2" style="display:flex;flex-direction:column;gap:10px;">
+                        </div>
+                    </div>
+                    <div id="resultado" class="resultado"></div>
+                    <div class="modal-footer">
+                        <!-- <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()"><i class='bi bi-printer' style="color:white;"></i></button> -->
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <script>
-        function cargar_informacion(id_ws) {
+
+        function cargar_informacionGeneral(id_ws) {
             //buscar ES EL ID DEL CASO//
             var parametros = {
                 "idWs": id_ws
@@ -698,7 +720,7 @@ $row = $resultado->fetch_assoc();
             //LA VARIABLE BUSCAR UTILIZA EL ID CASO Y LA ENVIA AL SERVIDOR DE NOVEDADES///
             $.ajax({
                 data: parametros,
-                url: "./consultarDatosInventario.php",
+                url: "./consultarDatosEquipo.php",
                 type: "POST",
                 //TRAE DE FORMA ASINCRONA, CONSUME EL SERVIDOR DE NOVEDADES Y MUESTRA EN EL DIV MOSTRAR_MENSAJE TODAS LAS NOVEDADES RELACIONADAS////
                 beforesend: function() {
@@ -710,6 +732,65 @@ $row = $resultado->fetch_assoc();
                 }
             });
         };
+        function cargar_informacion(id_ws) { 
+            var parametros = { "idWs": id_ws };
+
+            $.ajax({
+                data: parametros,
+                url: "./consultarDatosInventario.php", 
+                type: "POST",
+                beforeSend: function() {
+                    $("#mostrar_mensaje2").html("Cargando información...");
+                },
+
+                success: function(mensaje) {
+                    // Aquí el mensaje es HTML que será insertado en el contenedor
+                    $("#mostrar_mensaje2").html(mensaje);
+                },
+
+                error: function() {
+                    $("#mostrar_mensaje2").html("Error al cargar la información.");
+                }
+            });
+        };
+
+
+        function imprimirInfo() {
+            // Guardar el estado original de los elementos
+            var contenidoOriginal = document.body.innerHTML;
+            
+            // Obtener solo el contenido del primer modal
+            var contenidoModal = document.getElementById('ModalInfo').innerHTML;
+
+            // Obtener los estilos de la página original
+            var estilos = '';
+            var head = document.head;
+            for (var i = 0; i < head.children.length; i++) {
+                var child = head.children[i];
+                if (child.tagName.toLowerCase() === 'style' || child.tagName.toLowerCase() === 'link') {
+                    estilos += child.outerHTML;
+                }
+            }
+
+            // Ocultar todo el contenido de la página
+            document.body.style.visibility = 'hidden';
+
+            // Crear una nueva ventana para la impresión
+            var ventanaImpresion = window.open('', '', 'height=800,width=600');
+
+            // Escribir el contenido del modal y los estilos en la ventana de impresión
+            ventanaImpresion.document.write('<html><head><title>Imprimir Modal</title>' + estilos + '</head><body>');
+            ventanaImpresion.document.write('<style>@media print { #no-imprimir { display: none !important; } }</style>');  // Aseguramos que se oculte el #no-imprimir
+            ventanaImpresion.document.write('<div style="width:100%;">' + contenidoModal + '</div>');
+            ventanaImpresion.document.write('</body></html>');
+
+            // Esperar a que la ventana cargue antes de imprimir
+            ventanaImpresion.document.close();
+            ventanaImpresion.print();
+
+            // Restaurar la visibilidad de la página original
+            document.body.style.visibility = 'visible';
+        }
         function imprimir() {
             // Guardar el estado original de los elementos
             var contenidoOriginal = document.body.innerHTML;
