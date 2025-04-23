@@ -618,7 +618,19 @@ function ConsultarIncidente($no_tic)
                     <div class="form-group row" style="padding:5px;">
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>TIPO DE EQUIPO:</u>&nbsp &nbsp &nbsp<?php echo $tip?></h4>
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MARCA:</u>&nbsp &nbsp &nbsp<?php echo $mar?></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>ESTADO DEL EQUIPO:</u>&nbsp &nbsp &nbsp<?php echo $est?></h4>
+                        <?php 
+                        if($est == 'EN USO'){
+                            $color = 'green';
+                        }else if($est == 'BAJA'){
+                            $color = 'red';
+                        }else{
+                            $color = 'blue';
+                        }
+                        ?>
+                        <h4 id="lblForm" class="col-form-label col-xl col-lg">
+                            <u>ESTADO DEL EQUIPO:</u>&nbsp;&nbsp;&nbsp;
+                            <span style="color: <?php echo $color; ?>"><?php echo $est; ?></span>
+                        </h4>
                     </div>
 
                     <hr style='display: block; height: 3px;'>

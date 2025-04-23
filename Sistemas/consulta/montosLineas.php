@@ -449,6 +449,17 @@ $row = $resultado->fetch_assoc();
         <?php While($rowSql = $sql->fetch_assoc()) {
             $cantidadTotal++;
             $NUMERO=$rowSql['NRO'];
+
+            $color = 'blue';
+            $flecha = "<i class='fa-solid fa-box-open' style='color:blue'></i>";
+            if ($rowSql['ESTADO'] === 'EN USO') {
+                $color = 'green';
+                $flecha = "<i class='fa-solid fa-arrow-up' style='color:green'></i>";
+            } elseif ($rowSql['ESTADO'] === 'BAJA') {
+                $color = 'red';
+                $flecha = "<i class='fa-solid fa-arrow-down' style='color:red'></i>";
+            }
+
             echo "
                 <tr>
                 <td><h4 style='font-size:16px; text-align: right; margin-right: 5px;'>".$rowSql['NRO']."</h4 ></td>
@@ -461,7 +472,7 @@ $row = $resultado->fetch_assoc();
                 <td><h4 style='font-size:16px; text-align: right; margin-right: 5px;color:red;font-weight:bold;'>"."$".$rowSql['EXTRAS']."</h4 ></td>
                 <td><h4 style='font-size:16px; text-align: right; margin-right: 5px;'>".$rowSql['DESCUENTO']."%"."</h4 ></td>
                 <td><h4 style='font-size:18px; text-align: right; margin-right: 5px;color:green;font-weight:bold;'>"."$".$rowSql['MONTOTOTAL']."</h4 ></td>
-                <td><h4 style='font-size:16px; text-align: left; margin-left: 5px;'>".$rowSql['ESTADO']."</h4 ></td>
+                <td><h4 style='font-size:16px; text-align: left; margin-left: 5px;color:".$color.";'>$flecha ".$rowSql['ESTADO']."</h4 ></td>
                 <td class='text-center text-nowrap'>
                     <span style='display: inline-flex; padding: 3px;'>
                         <a style='padding: 3px; cursor: pointer;'

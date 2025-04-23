@@ -41,6 +41,13 @@
             $activo=$consulta['ESTADO'];
             $observacion = !empty($consulta['OBSERVACION']) ? $consulta['OBSERVACION'] : "-";
             
+            if($activo == 'ACTIVO'){
+                $color = 'green';
+            }else{
+                $color = 'red';
+            }
+
+
             echo'
             
         <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
@@ -85,7 +92,7 @@
         </div>
         <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
             <label style="color:black;">Activo:</label>
-            <label style="color:black;">'.$activo.'</label>
+            <label style="color:'.$color.';">'.$activo.'</label>
         </div>
         <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
             <label style="color:black;">Observación:</label>

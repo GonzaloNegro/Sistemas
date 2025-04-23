@@ -58,6 +58,15 @@ function obtenerMarcaModelo($conexion, $idModelo, $idMarca) {
         $proveedor    = obtenerValor($datos_base, "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR='{$data['ID_PROVEEDOR']}'", 'PROVEEDOR');
         $marcaModelo  = obtenerMarcaModelo($datos_base, $data['ID_MODELO'], $data['ID_MARCA']);
 
+        $color = 'blue';
+        if ($estadoWs === 'EN USO') {
+            $color = 'green';
+        } elseif ($estadoWs === 'BAJA') {
+            $color = 'red';
+        }
+
+        $estadoFormateado = "<span style='color: $color;'>$estadoWs</span>";
+
         $bloques = [
             ['Monitor', valorPorDefecto($marcaModelo['MODELO'] ?? '')],
             ['Marca', valorPorDefecto($marcaModelo['MARCA'] ?? '')],
@@ -65,8 +74,8 @@ function obtenerMarcaModelo($conexion, $idModelo, $idMarca) {
             ['N° Serie', valorPorDefecto($data['SERIE'])],
             ['Procedencia', valorPorDefecto($procedencia)],
             ['Tipo Monitor', valorPorDefecto($tipoP)],
-            ['Estado', valorPorDefecto($estadoWs)],
-            ['__SEPARADOR__'], // para agregar línea horizontal
+            ['Estado', valorPorDefecto($estadoFormateado)],
+            /* ['__SEPARADOR__'], */
             ['Usuario Responsable', valorPorDefecto($usuario)],
             ['Área', valorPorDefecto($area)],
             ['Repartición', valorPorDefecto($reparticion)],
@@ -111,12 +120,19 @@ function obtenerMarcaModelo($conexion, $idModelo, $idMarca) {
 
         while ($row = mysqli_fetch_array($result)) {
             $fecha = date("d-m-Y", strtotime($row['FECHA']));
+
+            $color = 'blue';
+            if ($row['ESTADO'] === 'EN USO') {
+                $color = 'green';
+            } elseif ($row['ESTADO'] === 'BAJA') {
+                $color = 'red';
+            }
             echo "
                 <tr>
                     <td style='min-width:100px;'><h4 style='font-size:16px;text-align: center;'>$fecha</h4></td>
                     <td style='min-width:150px;'><h4 style='font-size:16px;text-align: left;margin-left:5px;'>{$row['NOMBRE']}</h4></td>
                     <td style='min-width:150px;'><h4 style='font-size:16px;text-align: left;margin-left:5px;'>{$row['AREA']}</h4></td>
-                    <td><h4 style='font-size:16px;text-align: center;'>{$row['ESTADO']}</h4></td>
+                    <td><h4 style='font-size:16px;text-align: center;color:".$color."'>{$row['ESTADO']}</h4></td>
                 </tr>";
         }
 

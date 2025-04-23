@@ -390,15 +390,25 @@ $row = $resultado->fetch_assoc();
                 $color = "blue";  // Si el estado es "S/A - STOCK", el color será azul
             }
 
+            $color = 'blue';
+            $flecha = "<i class='fa-solid fa-box-open' style='color:blue'></i>";
+            if ($estado === 'EN USO') {
+                $color = 'green';
+                $flecha = "<i class='fa-solid fa-arrow-up' style='color:green'></i>";
+            } elseif ($estado === 'BAJA') {
+                $color = 'red';
+                $flecha = "<i class='fa-solid fa-arrow-down' style='color:red'></i>";
+            }
+
             echo "
                 <tr>
                     <td><h4 style='font-size:16px; text-align:right;margin-right: 5px;'>".$rowSql['IMEI']."</h4></td>
                     <td><h4 class='wrap2' style='font-size:16px; text-align: left; margin-left: 5px;'>".$rowSql['NOMBRE']."</h4></td>
-                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['REPA']."</h4></td>
+                    <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>".$rowSql['REPA']."</h4></td>
                     <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>".$rowSql['PROCEDENCIA']."</h4></td>
                     <td><h4 class='wrap2' style='font-size:16px; text-align:left;margin-left: 5px;'>".$rowSql['PROVEEDOR']."</h4></td>
                     <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>".$rowSql['MARCA']." - ".$rowSql['MODELO']."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:16px; text-align:left;margin-left: 5px;color:".$color."'>".$rowSql['ESTADO']."</h4></td>
+                    <td><h4 class='wrap2' style='font-size:16px; text-align:left;margin-left: 5px;color:".$color."'>$flecha ".$rowSql['ESTADO']."</h4></td>
 
                     <td class='text-center text-nowrap'>
                         <span style='display: inline-flex; padding: 3px;'>

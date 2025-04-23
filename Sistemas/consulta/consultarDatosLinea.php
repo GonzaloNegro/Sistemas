@@ -57,6 +57,12 @@
             // $modelo=$consulta['MODELO'];
             // $marca=$consulta['MARCA'];
             // $estado=$consulta['ESTADO'];
+            $color = 'blue';
+            if ($estado === 'EN USO') {
+                $color = 'green';
+            } elseif ($estado === 'BAJA') {
+                $color = 'red';
+            }
             
             echo'
             
@@ -77,6 +83,10 @@
             <label style="color:black;">'.$proveedor.'</label>
         </div>
         <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+            <label style="color:black;">Estado:</label>
+            <label style="color:'.$color.';">'.$estado.'</label>
+        </div>
+        <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
             <label style="color:black;">Roaming:</label>
             <label style="color:black;">'.$roaming.'</label>
         </div>
@@ -95,10 +105,6 @@
         <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
             <label style="color:black;">Fecha Descuento:</label>
             <label style="color:black;">'.$fec.'</label>
-        </div>
-        <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-            <label style="color:black;">Estado:</label>
-            <label style="color:black;">'.$estado.'</label>
         </div>
         <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
             <label style="color:black;font-weight:bold;">Monto Total:</label>
@@ -177,6 +183,7 @@
                 if(isset($modelo)){}else{
                     $modelo = "SIN ASIGNAR";
                 }
+                
                 echo"
                 <tr>
                 <td><h4 style='text-align: right;margin-right:5px;'>".$fec."</h4 ></td>

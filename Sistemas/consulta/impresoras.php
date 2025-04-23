@@ -158,15 +158,16 @@ $row = $resultado->fetch_assoc();
                         const tabla = $("#tabla-datos");
                         tabla.empty();
                         respuesta.datos.forEach(fila => {
-                            let estado = fila.ESTADO;  // Este valor lo obtienes de tu lógica o de una variable
-                            let color;
+                            let estado = fila.ESTADO;
+                            let color = "blue";
+                            let flecha = "<i class='fa-solid fa-box-open' style='color:blue'></i>";
 
                             if (estado === "EN USO") {
-                            color = "green";  // Si el estado es "en uso", el color será verde
-                            } else if(estado === "BAJA") {
-                            color = "red";  // Si el estado no es "baja", el color será rojo
-                            } else if(estado === "S/A - STOCK") {
-                            color = "blue";  // Si el estado no es "solucionado", el color será rojo
+                                color = "green";
+                                flecha = "<i class='fa-solid fa-arrow-up' style='color:green'></i>";
+                            } else if (estado === "BAJA") {
+                                color = "red";
+                                flecha = "<i class='fa-solid fa-arrow-down' style='color:red'></i>";
                             }
                             
                             if(fila.SERIEG === "" || fila.SERIEG === "0"){
@@ -177,14 +178,14 @@ $row = $resultado->fetch_assoc();
                                 usuario = "NO ASIGNADO";
                             }
                             tabla.append(`<tr>
-                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.MODELO}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${usuario}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.AREA}</h4></td>
-                                <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${fila.REPA}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.SERIEG}</h4></td>
-                                <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.TIPO}</h4></td>
-                                <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.MARCA}</h4></td>
-                                <td><h4 style='color:${color};font-size:14px;text-align:left;margin-left: 5px;'>${fila.ESTADO}</h4></td>
+                                <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>${fila.MODELO}</h4></td>
+                                <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>${usuario}</h4></td>
+                                <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>${fila.AREA}</h4></td>
+                                <td><h4 style='max-width:180px;font-size:16px; text-align:left;margin-left: 5px;'>${fila.REPA}</h4></td>
+                                <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>${fila.SERIEG}</h4></td>
+                                <td><h4 style='font-size:16px;text-align:left;margin-left: 5px;'>${fila.TIPO}</h4></td>
+                                <td><h4 style='font-size:16px;text-align:left;margin-left: 5px;'>${fila.MARCA}</h4></td>
+                                <td><h4 style='color:${color};font-size:16px;text-align:left;margin-left: 5px;'>${flecha} ${fila.ESTADO}</h4></td>
                                 <td class='text-center text-nowrap'>
 
                                         <span style="display: inline-flex;padding:3px;">

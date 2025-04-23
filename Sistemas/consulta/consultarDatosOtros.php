@@ -39,10 +39,19 @@ if ($consulta = mysqli_fetch_assoc($consultaPeri)) {
     $estadoWs    = obtenerValor($datos_base, "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = {$consulta['ID_ESTADOWS']}", 'ESTADO');
     $modelo      = obtenerValor($datos_base, "SELECT MODELO FROM modelo WHERE ID_MODELO = {$consulta['ID_MODELO']}", 'MODELO');
 
+    $color = 'blue';
+    if ($estadoWs === 'EN USO') {
+        $color = 'green';
+    } elseif ($estadoWs === 'BAJA') {
+        $color = 'red';
+    }
+
+    $estadoFormateado = "<span style='color: $color;'>$estadoWs</span>";
+
     $campos = [
         "Tipo Periférico" => valorPorDefecto($consulta['TIPOP']) . ' - ' . $tipoperi,
         "Marca y Modelo" => $marca . ' - ' . $modelo,
-        "Estado" => $estadoWs,
+        "Estado" => $estadoFormateado,
         "Serie Gobierno" => valorPorDefecto($consulta['SERIEG']),
         "Serie" => valorPorDefecto($consulta['SERIE']),
         "Procedencia" => $procedencia,
@@ -83,13 +92,19 @@ if ($consulta = mysqli_fetch_assoc($consultaPeri)) {
                 $usu = obtenerValor($datos_base, "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = {$mov['ID_USUARIO']}", 'NOMBRE');
                 $estado = obtenerValor($datos_base, "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = {$mov['ID_ESTADOWS']}", 'ESTADO');
                 
+                $color = 'blue';
+                if ($estado === 'EN USO') {
+                    $color = 'green';
+                } elseif ($estado === 'BAJA') {
+                    $color = 'red';
+                }
 
                 echo "
                 <tr>
                     <td><h4 style='font-size:15px;padding:3px;min-width:100px;'>$fecha</h4></td>
                     <td><h4 style='font-size:15px;padding:3px;text-align:left;margin-left:3px;'>$area</h4></td>
                     <td><h4 style='font-size:15px;padding:3px;text-align:left;margin-left:3px;'>$usu</h4></td>
-                    <td><h4 style='font-size:15px;padding:3px;text-align:left;margin-left:3px;'>$estado</h4></td>
+                    <td><h4 style='font-size:15px;padding:3px;text-align:left;margin-left:3px;color:".$color."'>$estado</h4></td>
                 </tr>";
             }
             ?>

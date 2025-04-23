@@ -222,17 +222,17 @@ $row = $resultado->fetch_assoc();
                         const tabla = $("#tabla-datos");
                         tabla.empty();
                         respuesta.datos.forEach(fila => {
-                            let estado = fila.ESTADO;  // Este valor lo obtienes de tu lógica o de una variable
-                            let color;
+                            let estado = fila.ESTADO;
+                            let color = "blue";
+                            let flecha = "<i class='fa-solid fa-box-open' style='color:blue'></i>";
 
                             if (estado === "EN USO") {
-                            color = "green";  // Si el estado es "en uso", el color será verde
-                            } else if(estado === "BAJA") {
-                            color = "red";  // Si el estado no es "baja", el color será rojo
-                            } else if(estado === "S/A - STOCK") {
-                            color = "blue";  // Si el estado no es "solucionado", el color será rojo
+                                color = "green";
+                                flecha = "<i class='fa-solid fa-arrow-up' style='color:green'></i>";
+                            } else if (estado === "BAJA") {
+                                color = "red";
+                                flecha = "<i class='fa-solid fa-arrow-down' style='color:red'></i>";
                             }
-                            console.log(fila);
 
                             tabla.append(`<tr>
                                 <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.REPA}</h4></td>
@@ -243,7 +243,7 @@ $row = $resultado->fetch_assoc();
                                 <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.MICRO}</h4></td>
                                 <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.TIPOWS}</h4></td>
                                 <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.OBSERVACION}</h4></td>
-                                <td><h4 style='color:${color};font-size:14px;text-align:left;margin-left: 5px;'>${fila.ESTADO}</h4></td>
+                                <td style='min-width:100px;'><h4 style='color:${color};font-size:14px;text-align:left;margin-left: 5px;'>${flecha} ${fila.ESTADO}</h4></td>
 
                                 <td class='text-center text-nowrap'>
                                     <span style="display: inline-flex;padding:5px;">
@@ -628,7 +628,7 @@ $row = $resultado->fetch_assoc();
                 <th><p style="text-align:left; margin-left: 5px;">MICRO</p></th>
                 <th><p style="text-align:center;">TIPO</p></th>
                 <th><p style="text-align:left; margin-left: 5px;width:220px;">OBSERVACION</p></th>
-                <th><p style="text-align:center;">ESTADO</p></th>
+                <th><p style="text-align:left;margin-left: 5px;">ESTADO</p></th>
                 <th><p>MAS DETALLES</p></th>
             </tr>
         </thead>

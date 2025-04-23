@@ -41,7 +41,14 @@
             $modelo=$consulta['MODELO'];
             $marca=$consulta['MARCA'];
             $estado=$consulta['ESTADO'];
-            
+
+            $color = 'blue';
+            if ($estado === 'EN USO') {
+                $color = 'green';
+            } elseif ($estado === 'BAJA') {
+                $color = 'red';
+            }
+
             echo'
             
         <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
@@ -66,7 +73,7 @@
         </div>
         <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
             <label>Estado:</label>
-            <label>'.$estado.'</label>
+            <label style="color:'.$color.'">'.$estado.'</label>
         </div>
         ';
         if ($idLinea!=0 && $idLinea!=null) {
@@ -141,13 +148,20 @@
         $proveedor=$consulta['PROVEEDOR'];
         $estado=$consulta['ESTADO'];
 
+        $color = 'blue';
+        if ($estado === 'EN USO') {
+            $color = 'green';
+        } elseif ($estado === 'BAJA') {
+            $color = 'red';
+        }
+
         echo"
         <tr>
             <td><h4 style='text-align: right;padding: 5px;'>".$fec."</h4 ></td>
             <td><h4 style='text-align: left;padding: 5px;'>".$usuario."</h4 ></td>
             <td><h4 style='text-align: left;padding: 5px;'>".$procedencia."</h4 ></td>
             <td><h4 style='text-align: left;padding: 5px;'>".$proveedor."</h4></td>
-            <td><h4 style='text-align: left;padding: 5px;'>".$estado."</h4 ></td>
+            <td><h4 style='text-align: left;padding: 5px;color:".$color."'>".$estado."</h4 ></td>
             <td><h4 style='text-align: right;padding: 5px;'>".$numero."</h4 ></td>
         </tr>";
         }

@@ -186,50 +186,51 @@ $cu = $row['CUIL'];
                         const tabla = $("#tabla-datos");
                         tabla.empty();
                         respuesta.datos.forEach(fila => {
-                            let estado = fila.ESTADO;  // Este valor lo obtienes de tu lógica o de una variable
-                            let color;
+                            let estado = fila.ESTADO;
+
+                            // Declarar las variables por fuera
+                            let color = "black";
+                            let flecha = "";
 
                             if (estado === "SOLUCIONADO") {
-                            color = "green";  // Si el estado es "solucionado", el color será verde
-                            } else if(estado === "ANULADO" || estado === "SUSPENDIDO") {
-                            color = "red";  // Si el estado no es "solucionado", el color será rojo
-                            } else if(estado === "DERIVADO" || estado === "EN PROCESO") {
-                            color = "blue";  // Si el estado no es "solucionado", el color será rojo
+                                color = "green";
+                                flecha = "<i class='fa-solid fa-check' style='color:green'></i>";
+                            } else if (estado === "ANULADO" || estado === "SUSPENDIDO") {
+                                color = "red";
+                                flecha = "<i class='fa-solid fa-ban' style='color:red'></i>";
+                            } else if (estado === "DERIVADO" || estado === "EN PROCESO") {
+                                color = "blue";
+                                flecha = "<i class='fa-solid fa-gears' style='color:blue'></i>";
                             }
 
-                            // Verificar si la fecha de solución es "0000-00-00", en cuyo caso mostrar "-"
                             let fechaSolucion = (fila.FECHA_SOLUCION === "00-00-0000") ? "-" : fila.FECHA_SOLUCION;
 
                             let boton = fila.ESTADO == "SOLUCIONADO"
-                            ? `
-                            <td><span style='display: inline-flex; padding: 3px;margin-left:10px;'>
-                                    <a style='padding: 3px; cursor: pointer;'
-                                    data-bs-toggle='modal'
-                                    data-bs-target='#modalInfo'
-                                    onclick='cargar_informacion(${fila.ID_TICKET})'
-                                    class='mod'>
-                                        <i class='fa-solid fa-circle-info fa-2xl'
-                                        style='color: #0d6efd'
-                                        data-bs-toggle='popover'
-                                        data-bs-trigger='hover focus'
-                                        data-bs-placement='top'></i>
-                                    </a>
-                                </span>
-                            </td>` 
-                            : `
-                            <td><span style='display: inline-flex;padding:3px;margin-left:10px;'>
-                                    <a style='padding: 3px;cursor:pointer;'
-                                    href='./modificacion.php?no=${fila.ID_TICKET}' 
-                                    target='_blank' 
-                                    class='mod' 
-                                    data-bs-toggle='popover' 
-                                    data-bs-trigger='hover' 
-                                    data-bs-placement='top' 
-                                    data-bs-content='Editar'>
-                                    <i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i>
-                                    </a>
-                                </span>
-                            </td>`;
+                                ? `<td><span style='display: inline-flex; padding: 3px;margin-left:10px;'>
+                                        <a style='padding: 3px; cursor: pointer;'
+                                        data-bs-toggle='modal'
+                                        data-bs-target='#modalInfo'
+                                        onclick='cargar_informacion(${fila.ID_TICKET})'
+                                        class='mod'>
+                                            <i class='fa-solid fa-circle-info fa-2xl'
+                                            style='color: #0d6efd'
+                                            data-bs-toggle='popover'
+                                            data-bs-trigger='hover focus'
+                                            data-bs-placement='top'></i>
+                                        </a>
+                                    </span></td>` 
+                                : `<td><span style='display: inline-flex;padding:3px;margin-left:10px;'>
+                                        <a style='padding: 3px;cursor:pointer;'
+                                        href='./modificacion.php?no=${fila.ID_TICKET}' 
+                                        target='_blank' 
+                                        class='mod' 
+                                        data-bs-toggle='popover' 
+                                        data-bs-trigger='hover' 
+                                        data-bs-placement='top' 
+                                        data-bs-content='Editar'>
+                                        <i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i>
+                                        </a>
+                                    </span></td>`;
 
                             tabla.append(`<tr>
                                 <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>${fila.ID_TICKET}</h4></td>
@@ -237,7 +238,7 @@ $cu = $row['CUIL'];
                                 <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.NOMBRE}</h4></td>
                                 <td><h4 style='max-width: 180px;font-size:14px; text-align:left;margin-left: 5px;'>${fila.AREA} -<br/>${fila.REPA}</h4></td>
                                 <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;text-transform:uppercase;'>${fila.DESCRIPCION}</h4></td>
-                                <td><h4 style='font-size:14px; color:${color};text-align:left;margin-left: 5px;'>${fila.ESTADO}</h4></td>
+                                <td style='min-width:120px;'><h4 style='font-size:14px; color:${color};text-align:left;margin-left: 5px;'>${flecha} ${estado}</h4></td>
                                 <td><h4 style='font-size:14px; text-align:center;'>${fechaSolucion}</h4></td>
                                 <td><h4 style='font-size:14px; text-align:left;margin-right: 5px;'>${fila.RESOLUTOR}</h4></td>
                                 ${boton}
@@ -251,7 +252,7 @@ $cu = $row['CUIL'];
                         paginador.empty();
                         
                         
-                        const totalPaginas = respuesta.totalPaginas;
+                    const totalPaginas = respuesta.totalPaginas;
                     const paginaActual = respuesta.pagina;
 
                     // Función para agregar un botón

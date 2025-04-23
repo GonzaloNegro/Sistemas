@@ -192,9 +192,11 @@ if(!isset($_SESSION['cuil']))
                             let color;
 
                             if (estado === "ACTIVO") {
-                            color = "green";  // Si el estado es "solucionado", el color será verde
-                            } else if(estado === "INACTIVO") {
-                            color = "red";
+                                color = "green";
+                                flecha = "<i class='fa-solid fa-arrow-up' style='color:green'></i>";
+                            } else if (estado === "INACTIVO") {
+                                color = "red";
+                                flecha = "<i class='fa-solid fa-arrow-down' style='color:red'></i>";
                             }
 
                             if(fila.INTERNO === ""){
@@ -204,12 +206,12 @@ if(!isset($_SESSION['cuil']))
                             }
 
                             tabla.append(`<tr>
-                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.NOMBRE}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>${fila.CUIL}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.AREA}</h4></td>
-                                <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${fila.REPA}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>${interno}</h4></td>
-                                <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;color:${color};'>${estado}</h4></td>
+                                <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>${fila.NOMBRE}</h4></td>
+                                <td><h4 style='font-size:16px; text-align:right;margin-right: 5px;'>${fila.CUIL}</h4></td>
+                                <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>${fila.AREA}</h4></td>
+                                <td><h4 style='max-width:180px;font-size:16px; text-align:left;margin-left: 5px;'>${fila.REPA}</h4></td>
+                                <td><h4 style='font-size:16px; text-align:right;margin-right: 5px;'>${interno}</h4></td>
+                                <td><h4 style='font-size:16px;text-align:left;margin-left: 5px;color:${color};'>${flecha} ${estado}</h4></td>
                                 <td class='text-center text-nowrap'>
                                     <span style='display: inline-flex; padding: 3px;'>
                                         <a style='padding: 3px; cursor: pointer;'
