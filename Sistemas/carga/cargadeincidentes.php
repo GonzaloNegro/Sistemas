@@ -55,12 +55,14 @@ $row = $resultado->fetch_assoc();
         
 		function limpiar(){
 			$("#txtaDerivacion").val('');
+			$("#txtaDerivacion").val('');
 			$("#txtfechafin").val('');
 			$("#slctResoDer").val('');
 		};
 
 		if ($("#slctestado").val() == '3') {
 			limpiar();
+			$("#lbltxtaDerivacion").show(1300);
 			$("#txtaDerivacion").show(1300);
 		    $("#resoderi").show(1300);
 		    $("#slctResoDer").show(1300);
@@ -70,6 +72,7 @@ $row = $resultado->fetch_assoc();
 		}
 		if ($("#slctestado").val() == '1' || $("#slctestado").val() == '2' || $("#slctestado").val() == '5') {
 			limpiar();
+			$("#lbltxtaDerivacion").show(1300);
 			$("#txtaDerivacion").show(1300);
 			$("#txtfechafin").show(1300);
 			$("#lblfechaFin").show(1300);
@@ -78,6 +81,7 @@ $row = $resultado->fetch_assoc();
 		
 		if($("#slctestado").val() == '4'){
 			limpiar();
+			$("#lbltxtaDerivacion").hide(1000);
 			$("#txtaDerivacion").hide(1000);
 		    $("#resoderi").hide(1000);
 		    $("#slctResoDer").hide(1000);
@@ -366,36 +370,30 @@ $row = $resultado->fetch_assoc();
 				return false;
 			}
 		};
-		function enviar_formulario(formulario){
-			// var formulario = document.getElementById('formulario_carga');
-        	if (validar_formulario() && validar_fechas()
-			) {
-				// alert("Todo OK");
-				Swal.fire({
-                        title: "Esta seguro de guardar este incidente?",
-                        icon: "warning",
-                        showConfirmButton: true,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            formulario.submit()
+		function enviar_formulario_incidente(formulario) {
+    if (validar_formulario() && validar_fechas()) {
+        const campos = [
+            { id: 'txtfechainicio', label: 'Fecha de Inicio', formatoFecha: true },
+            { id: 'buscador', label: 'Usuario', esSelect: true },
+            { id: 'equipo', label: 'Equipo', esSelect: true },
+            { id: 'prioridad', label: 'Prioridad', esSelect: true },
+            { id: 'tip', label: 'Tipificación', esSelect: true },
+            { id: 'descripcion', label: 'Descripción' },
+            { id: 'txtfechafin', label: 'Fecha de Solución', formatoFecha: true },
+            { id: 'slctestado', label: 'Estado Incidente', esSelect: true },
+            { id: 'slctResoDer', label: 'Resolutor Derivado', esSelect: true },
+            { id: 'txtaDerivacion', label: 'Motivo' }
+        ];
 
+        confirmarEnvioFormulario(
+            formulario,
+            campos,
+            "Datos del incidente",
+            "¿Está seguro de crear este incidente?"
+        );
+    }
+}
 
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
-			}
-		}
-				
 		</script>
 <!--Select dinamico para actualizar el select de equipo a partir del usuario seleccionado-->
 <script type="text/javascript">
@@ -429,14 +427,16 @@ $row = $resultado->fetch_assoc();
 						<form method="POST" name="formulario_carga" action="guardarincidente.php" enctype="multipart/form-data">
 							<!--<label>NUMERO DE TICKET: <input type="text" name="numero_ticket" placeholder="NÚMERO DE TICKET" required></label>-->
 
-							<div class="form-group row" style="margin: 10px; padding:10px;">
+							<div class="form-group row" >
 								<label class="col-form-label col-xl col-lg">FECHA INICIO:</label>
 								<input type="date" class="form-control col-xl col-lg" name="fecha_inicio" id="txtfechainicio" required>
+							</div>	
 								<!-- <input class="form-control col-xl col-lg" type="text" name="fecha_inicio" id="txtfechainicio" required> -->
 								<!--//////////////////////////////////////////////////////////////////-->
 								<!--//////////////////////////////////////////////////////////////////-->
+							<div class="form-group row">
 								<label class="col-form-label col-xl col-lg">USUARIO:</label>
-								<select name="usuario" id="buscador" required class="form-control col-xl col-lg extend">
+								<select name="usuario" id="buscador" class="form-control col-xl col-lg" required>
 								<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
 								<?php
 								include("../particular/conexion.php");
@@ -477,12 +477,12 @@ $row = $resultado->fetch_assoc();
 							<!--//////////////////////////////////////////////////////////////////-->
 							
   								<!--select equipo-->
-								<div class="form-group row" style="margin: 10px; padding:10px;" id="select2lista">
+							<div class="form-group row" id="select2lista">
 								<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label> 
 			                    <select id='equipo' name='equipo' class='form-control col-xl col-lg' required></select>
-								</div>
+							</div>
                                 <!--////-->
-								<div class="form-group row" style="margin: 10px; padding:10px;">
+							<div class="form-group row">
 								<label class="col-form-label col-xl col-lg">PRIORIDAD: </label>
 									<select name="prioridad" id="prioridad" class="form-control col-xl col-lg" required>
 										<option value="" selected disabled="prioridad">-SELECCIONE UNA-</option>
@@ -495,6 +495,8 @@ $row = $resultado->fetch_assoc();
 										<option value="<?php echo $opciones['ID_PRIORIDAD']?>"><?php echo $opciones['PRIORIDAD']?></option>
 										<?php endforeach ?>
 									</select>
+								</div>
+								<div class="form-group row">
 									<label class="col-form-label col-xl">TIPIFICACIÓN: </label>
 									<select name="tipificacion" id="tip" class="form-control col-xl" required>
 										<option value="" selected disabled="tipificacion">-SELECCIONE UNA-</option>
@@ -507,80 +509,62 @@ $row = $resultado->fetch_assoc();
 											<option value="<?php echo $opciones['ID_TIPIFICACION']?>"><?php echo $opciones['TIPIFICACION']?></option>
 										<?php endforeach ?>
 									</select>
-									
-
-									<!--BUSCADOR-->
-									<script>
-									/* 		$('#tip').select2(); */
-										</script>
-
-										<script>
-	/* 										$(document).ready(function(){
-												$('#tip').change(function(){
-													buscador='b='+$('#tip').val();
-													$.ajax({
-														type: 'post',
-														url: 'Controladores/session.php',
-														data: tip,
-														success: function(r){
-															$('#tabla').load('Componentes/Tabla.php');
-														}
-													})
-												})
-											}) */
-										</script>
-
-
 								<!--//////////////////////////////////////////////////////////////////-->
 								<!--//////////////////////////////////////////////////////////////////-->
 							</div>
 														<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
-							<div class="form-group row" style="margin: 10px; padding:10px;">
-								<textarea name="descripcion" id="descripcion" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE" rows="3" required></textarea>
+							<div class="form-group row">
+								<label class="col-form-label col-xl">DESCRIPCIÓN: </label>
+								<textarea name="descripcion" id="descripcion" style="text-transform:uppercase;" class="form-control col-xl" placeholder="DESCRIPCIÓN DEL INCIDENTE" rows="3" required></textarea>
 							</div>
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
-							<div class="form-group row" style="margin: 10px; padding:10px;">
+							<div class="form-group row">
 								<label class="col-form-label col-xl" id="lblfechaFin" style="display:none;">FECHA SOLUCIÓN: </label>
 								<input type="date" name="fecha_solucion" id="txtfechafin" style="display:none;"class="form-control col-xl derecha">
-							<label class="col-form-label col-xl">ESTADO INCIDENTE: </label>
-							<select id="slctestado" name="estado" required class="form-control col-xl derecha" >
-								<option value='' selected disabled="estado">-SELECCIONE UNA-</option>
-								<?php
-								include("../particular/conexion.php");
-								$consulta= "SELECT * FROM estado ORDER BY ESTADO ASC";
-								$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-								?>
-								<?php foreach ($ejecutar as $opciones): ?> 
-									<option value="<?php echo $opciones['ID_ESTADO']?>"><?php echo $opciones['ESTADO']?></option>
-								<?php endforeach ?>
-							</select>
+							</div>
+							<div class="form-group row">
+								<label class="col-form-label col-xl">ESTADO INCIDENTE: </label>
+								<select id="slctestado" name="estado" required class="form-control col-xl derecha" >
+									<option value='' selected disabled="estado">-SELECCIONE UNA-</option>
+									<?php
+									include("../particular/conexion.php");
+									$consulta= "SELECT * FROM estado ORDER BY ESTADO ASC";
+									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+									?>
+									<?php foreach ($ejecutar as $opciones): ?> 
+										<option value="<?php echo $opciones['ID_ESTADO']?>"><?php echo $opciones['ESTADO']?></option>
+									<?php endforeach ?>
+								</select>
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!-- <label class="col-form-label col-xl">ADJUNTAR ARCHIVOS: </label>
 							<input type="file" name="imagen" class="form-control col-xl archivo" > -->
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
-							<label class="col-form-label col-xl" id="resoderi" style="display: none;">RESOLUTOR DERIVADO: </label>
-							<select name="derivado" id="slctResoDer" style="display: none;" class="form-control col-xl derecha">
-								<option value="" selected disabled="derivado">-SELECCIONE UNA-</option>
-								<?php
-								include("../particular/conexion.php");
-								$consulta= "SELECT * FROM resolutor ORDER BY RESOLUTOR ASC";
-								$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-								?>
-								<?php foreach ($ejecutar as $opciones): ?> 
-									<option value="<?php echo $opciones['ID_RESOLUTOR']?>"><?php echo $opciones['RESOLUTOR']?></option>
-								<?php endforeach ?>
-							</select>
+							</div>
+							<div class="form-group row">
+								<label class="col-form-label col-xl" id="resoderi" style="display: none;">RESOLUTOR DERIVADO: </label>
+								<select name="derivado" id="slctResoDer" style="display: none;" class="form-control col-xl derecha">
+									<option value="" selected disabled="derivado">-SELECCIONE UNA-</option>
+									<?php
+									include("../particular/conexion.php");
+									$consulta= "SELECT * FROM resolutor ORDER BY RESOLUTOR ASC";
+									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+									?>
+									<?php foreach ($ejecutar as $opciones): ?> 
+										<option value="<?php echo $opciones['ID_RESOLUTOR']?>"><?php echo $opciones['RESOLUTOR']?></option>
+									<?php endforeach ?>
+								</select>
 							
 							</div>
 
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
-							<div class="row" style="margin: 10px; padding:10px;">
-							<textarea name="motivo" style="margin-left: 40px; display: none; text-transform:uppercase;" id="txtaDerivacion" class="form-control col" placeholder="MOTIVO" rows="3"></textarea>
+							<div class="form-group row">
+								<label class="col-form-label col-xl" id="lbltxtaDerivacion" style="display: none;">MOTIVO: </label>
+								<textarea name="motivo" style="display: none; text-transform:uppercase;" id="txtaDerivacion" class="form-control col" placeholder="MOTIVO" rows="3"></textarea>
 							</div>
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
@@ -588,7 +572,7 @@ $row = $resultado->fetch_assoc();
 							<!-- <input id="btnform" type="button" value="GUARDAR" onClick="validar_formulario(this.form)"  name="g1" class="col-2 button"> -->
 							<?php 
 								if ($row['ID_PERFIL'] != 5) {
-								echo '<input id="btnform" type="button" value="GUARDAR" onClick="enviar_formulario(this.form)"  name="g1" class="col-2 button">';
+								echo '<input id="btnform" class="btn btn-success" type="button" value="GUARDAR" onClick="enviar_formulario_incidente(this.form)"  name="g1" class="col-1 button">';
 								}
 							?>
 							
@@ -614,6 +598,7 @@ $row = $resultado->fetch_assoc();
 			</div>
 		</div>
 	</footer>
+	<script src="../js/confirmacionForm.js"></script>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script>
   		AOS.init();

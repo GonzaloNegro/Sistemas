@@ -44,17 +44,19 @@ if($row['ID_PERFIL'] == 5)
 	</style>
 </head>
 <body>
-<?php include('../layout/consulta.php'); ?>
-  <h1 data-aos="zoom-in">CONSULTA PARA ALTAS</h1>
-	<section id="Inicio">
-        <div id="principal">
-            <a href="consultamarcas.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-MARCAS-</button></a>
-            <a href="consultamicros.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-MICROS-</button></a>
-            <a href="consultamodelos.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-MODELOS-</button></a>
-            <a href="consultapmadre.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-PLACA MADRE-</button></a>
-            <a href="consultapvideo.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-PLACA DE VIDEO-</button></a>     
-        </div>
-    </section>
+    <main>
+        <?php include('../layout/consulta.php'); ?>
+        <h1 data-aos="zoom-in">CONSULTA PARA ALTAS</h1>
+        <section id="Inicio">
+            <div id="principal1">
+                <a href="consultamarcas.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-MARCAS-</button></a>
+                <a href="consultamicros.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-MICROS-</button></a>
+                <a href="consultamodelos.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-MODELOS-</button></a>
+                <a href="consultapmadre.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-PLACA MADRE-</button></a>
+                <a href="consultapvideo.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-PLACA DE VIDEO-</button></a>     
+            </div>
+        </section>
+    </main>
     <footer>
 		<div class="footer">
 			<div class="container-fluid">

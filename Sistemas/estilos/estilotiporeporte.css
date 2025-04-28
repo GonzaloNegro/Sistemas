@@ -1,9 +1,30 @@
-section,
-header {
-  width: 97%;
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1; /* hace que el contenido principal ocupe el espacio disponible */
+}
+
+section, header {
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
+
+header{
+	height: auto;
+	background-color: #004582;
+	color: white;
+}
+.p-3{
+	padding: 0rem !important;
+}
+
 
 @font-face {
   font-family: TrasandinaBlack;
@@ -23,37 +44,58 @@ header {
   font-family: TrasandinaMedium;
   src: url("../fuente/TrasandinaMedium.otf");
 }
+@font-face{/* TEXTOS */
+	font-family: Poppins-Black; 
+	src: url("../fuente/Poppins-Black.ttf");
+	}
+@font-face{/* TEXTOS */
+	font-family: Poppins-BlackItalic; 
+	src: url("../fuente/Poppins-BlackItalic.ttf");
+	}
+@font-face{/* TITULOS */
+	font-family: BeVietnamPro-Medium; 
+	src: url("../fuente/BeVietnamPro-Medium.ttf");
+	}	
 
-h1{
-	text-align: center;	
-	color: #53AAE0;
-	font-family: TrasandinaBlack;
-	font-size: 32px;
-	letter-spacing: 5px;
-}
+  h1{
+    text-align: center;	
+    color: #004582;
+    font-family: BeVietnamPro-Medium;
+    font-size: 32px;
+    letter-spacing: 3px;
+  }
+  
+  h2{
+    text-align: left;	
+    font-family: TrasandinaBook;
+    font-size: 16px;
+    color: #edf0f5;
+    margin-left: 10px;
+  }
+  
+  h3{
+    text-align: center;	
+    color: #f7fbfd;
+    font-family: TrasandinaBlack;
+    font-size: 17px;
+    letter-spacing: 2px;
+  }
 
-h2{
-	text-align: left;	
-	font-family: TrasandinaBook;
-	font-size: 16px;
-	color: #edf0f5;
-	margin-left: 10px;
-}
-
-h3{
-	text-align: center;	
-	color: #f7fbfd;
-	font-family: TrasandinaBlack;
-	font-size: 17px;
-	letter-spacing: 2px;
-}
-
-h4{
-	text-align: center;	
-	font-family: TrasandinaBook;
-	font-size: 14px;
-	text-transform: uppercase;
-}
+  h4{
+    text-align: center;	
+    font-family: sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+  
+  }
+  
+  p{
+    text-align: center;
+    font-family: sans-serif;
+    color: #00519C;
+    font-size: 16px;
+    font-weight: bold;
+  }
 
 #inicio {
   width: auto;
@@ -197,11 +239,12 @@ h4{
 #foto{
   width: 160px;
   height: 80px;
-
+  margin-top: 5px;
   background-image: url("../imagenes/logoInfraestructura.png");
   background-repeat: no-repeat;
   background-size: 100%;
-cursor: default;
+  cursor: default;
+  filter: brightness(0) invert(1);
 }
 
 .espacio{
@@ -209,7 +252,7 @@ cursor: default;
 }
 
 .link{
-  color: #53AAE0 !important;
+  color: white !important;
   font-size: 20px;
 }
 
@@ -224,7 +267,9 @@ cursor: default;
 .link:hover, .link:focus {
   background-size: 100% 2px;
 }
-
+.link i{
+	color: white;
+}
 .altura{
   height: 80px;
 }
@@ -276,7 +321,8 @@ display: block;
 
 footer{
   height: auto;
-	border-top: 1px solid #53AAE0;
+  padding: 10px;
+	border-top: 1px solid #00519C;
 }
 
 .footer{
@@ -350,7 +396,7 @@ footer{
 
 .card .back{
   transform: perspective(600px) rotateY(180deg);
-  background-color:  #009cde;
+  background-color:  #004582;
 /*   background-image: url(imagenes/flechas.png);
   background-size: cover; */
   padding: 15px;

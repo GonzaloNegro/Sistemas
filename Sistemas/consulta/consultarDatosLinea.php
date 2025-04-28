@@ -186,7 +186,7 @@
                 
                 echo"
                 <tr>
-                <td><h4 style='text-align: right;margin-right:5px;'>".$fec."</h4 ></td>
+                <td><h4 style='text-align: center;'>".$fec."</h4 ></td>
                 <td><h4 style='text-align: right;margin-right:5px;'>".$linea."</h4 ></td>
                 <td><h4 style='text-align: left;margin-left:5px;min-width:180px;'>".$usuario."</h4 ></td>
                 <td><h4 style='text-align: left;margin-left:5px;min-width:180px;'>".$marca." ".$modelo."</h4 ></td>

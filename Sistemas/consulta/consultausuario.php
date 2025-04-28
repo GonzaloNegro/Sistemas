@@ -133,19 +133,19 @@ if(!isset($_SESSION['cuil']))
                     filtros.show();
                     filtros.append()
                     if (usuario.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>USUARIO</u>: ${usuario.val()}</li>`);
+                        filtros.append(`<li style="color:#004582; margin-left: 15px;"><u>USUARIO</u>: ${usuario.val()}</li>`);
                     }
                     if (area.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>AREA</u>: ${$("#area option:selected").text()}</li>`);
+                        filtros.append(`<li style="color:#004582; margin-left: 15px;"><u>AREA</u>: ${$("#area option:selected").text()}</li>`);
                     }
                     if (reparticion.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>REPARTICION</u>: ${$("#reparticion option:selected").text()}</li>`);
+                        filtros.append(`<li style="color:#004582; margin-left: 15px;"><u>REPARTICION</u>: ${$("#reparticion option:selected").text()}</li>`);
                     }
                     if (estado.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>ESTADO</u>: ${$("#estado option:selected").text()}</li>`);
+                        filtros.append(`<li style="color:#004582; margin-left: 15px;"><u>ESTADO</u>: ${$("#estado option:selected").text()}</li>`);
                     }
                     if (orden.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>ORDEN</u>: ${$("#orden option:selected").text()}</li>`);
+                        filtros.append(`<li style="color:#004582; margin-left: 15px;"><u>ORDEN</u>: ${$("#orden option:selected").text()}</li>`);
                     }
                 }
             </script>
@@ -206,12 +206,12 @@ if(!isset($_SESSION['cuil']))
                             }
 
                             tabla.append(`<tr>
-                                <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>${fila.NOMBRE}</h4></td>
-                                <td><h4 style='font-size:16px; text-align:right;margin-right: 5px;'>${fila.CUIL}</h4></td>
-                                <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>${fila.AREA}</h4></td>
-                                <td><h4 style='max-width:180px;font-size:16px; text-align:left;margin-left: 5px;'>${fila.REPA}</h4></td>
-                                <td><h4 style='font-size:16px; text-align:right;margin-right: 5px;'>${interno}</h4></td>
-                                <td><h4 style='font-size:16px;text-align:left;margin-left: 5px;color:${color};'>${flecha} ${estado}</h4></td>
+                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.NOMBRE}</h4></td>
+                                <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>${fila.CUIL}</h4></td>
+                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.AREA}</h4></td>
+                                <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${fila.REPA}</h4></td>
+                                <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>${interno}</h4></td>
+                                <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;color:${color};'>${flecha} ${estado}</h4></td>
                                 <td class='text-center text-nowrap'>
                                     <span style='display: inline-flex; padding: 3px;'>
                                         <a style='padding: 3px; cursor: pointer;'
@@ -338,6 +338,9 @@ if(!isset($_SESSION['cuil']))
 			<h1>CONSULTA DE USUARIOS</h1>
 		</div>
         <!-- <form method="POST" action="./consultausuario.php" class="contFilter--name"> -->
+            <div class="botonAgregar">
+                <button class="btn btn-success" style="font-size: 20px;"><a href="../abm/agregarusuario.php" style="text-decoration:none !important;color:white;" target="_blank">Agregar Usuario</a></button>
+            </div>
             <div class="filtros">
                 <div class="filtros-listado">
                     <div>
@@ -379,7 +382,11 @@ if(!isset($_SESSION['cuil']))
 						</script>
 
                     </div>
-                    <div>
+
+
+                </div>
+                <div class="filtros-listadoParalelo">
+                <div>
                         <label class="form-label">Repartición</label>
                         <select id="reparticion" name="reparticion" class="form-control largo">
                             <option value="">TODOS</option>
@@ -392,7 +399,7 @@ if(!isset($_SESSION['cuil']))
                                 <?php endforeach ?>
                         </select>
                     </div>
-                    <div>
+                <div>
                         <label class="form-label">Estado</label>
                         <select id="estado" name="estado" class="form-control largo">
                         <?php if ($_POST["estado"] != ''){ ?>
@@ -429,14 +436,7 @@ if(!isset($_SESSION['cuil']))
                     <div class="export" style="display:flex;justify-content: flex-end;">
                         <input class="btn btn-danger" id="btnLimpiar" name="Limpiar" onclick="Limpiar()" value="Limpiar">
                         <input type="submit" class="btn btn-success" id="btnForm" name="busqueda" value="Buscar">
-                    </div>
-                    </div>
-                <div class="filtros-listadoParalelo" style="margin-right:20px; margin-top:20px;">
-                    <div>
-                        <button class="btn btn-success" style="font-size: 20px;"><a href="../abm/agregarusuario.php" style="text-decoration:none !important;color:white;" target="_blank">Agregar nuevo usuario</a></button>
-                    </div>
-                    <div class="export">
-                        Exportar a: <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
+                        <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
                     </div>
                 </div>
             </div>
@@ -450,7 +450,7 @@ if(!isset($_SESSION['cuil']))
                 $row6 = $result6->fetch_assoc();
                 $total = $row6['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter primary">
                     <div class="card-pri">
                         <i class="fa-solid fa-clipboard-list"></i>
@@ -460,7 +460,7 @@ if(!isset($_SESSION['cuil']))
                         <span class="count-name">Usuarios Registrados</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <?php 
                 $sql6 = "SELECT COUNT(*) AS total FROM usuarios WHERE ID_ESTADOUSUARIO = 1";
@@ -468,7 +468,7 @@ if(!isset($_SESSION['cuil']))
                 $row6 = $result6->fetch_assoc();
                 $activo = $row6['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter success">
                     <div class="card-pri">
                         <i class="fa-sharp fa-solid fa-arrow-up"></i>
@@ -478,7 +478,7 @@ if(!isset($_SESSION['cuil']))
                         <span class="count-name">Usuarios Activos</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
 
             <?php 
@@ -487,7 +487,7 @@ if(!isset($_SESSION['cuil']))
                 $row6 = $result6->fetch_assoc();
                 $inactivos = $row6['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter danger">
                     <div class="card-pri">
                         <i class="fa-sharp fa-solid fa-arrow-down"></i>
@@ -497,11 +497,14 @@ if(!isset($_SESSION['cuil']))
                         <span class="count-name">Usuarios Inactivos</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
+            <p>Usuarios Registrados: <?php echo $total; ?></p>
+            <p>Usuarios Activos: <?php echo $activo; ?></p>
+            <p>Usuarios Inactivos: <?php echo $inactivos; ?></p>
         </div>
         <?php
         echo"<div class=filtrado>
-        <label style='color:blue; margin-left: 15px; margin-bottom:20px;' id='nroUsuarios'>Resultados Encontrados:</label>
+        <label style='color:#004582; margin-left: 15px; margin-bottom:20px;' id='nroUsuarios'>Resultados Encontrados:</label>
         ";    ?>
 
          <div id="filtrosUsados" style="display:none;">

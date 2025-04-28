@@ -33,7 +33,7 @@ h1 {
   color: #53aae0;
   font-family: TrasandinaBlack;
   font-size: 32px;
-  letter-spacing: 5px;
+  letter-spacing: 3px;
 }
 
 h2 {
@@ -332,6 +332,7 @@ nav a img {
   background-image: url("imagenes/logoInfraestructura.png");
   background-repeat: no-repeat;
   background-size: 100%;
+  filter: brightness(0) invert(1);
   /* border-radius: 10px; */
 }
 .color {

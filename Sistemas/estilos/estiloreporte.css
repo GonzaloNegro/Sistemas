@@ -1,6 +1,5 @@
-section,
-header {
-  width: 97%;
+section,header {
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -35,7 +34,7 @@ h1 {
   margin-bottom: 40px;
   margin-top: 25px;
   font-size: 32px;
-  letter-spacing: 5px;
+  letter-spacing: 3px;
 }
 
 h2 {
@@ -379,6 +378,7 @@ nav a img {
   background-repeat: no-repeat;
   background-size: 100%;
   border-radius: 10px;
+  filter: brightness(0) invert(1);
 }
 .color {
   border-bottom: groove 1px #f7fbfd;
@@ -429,7 +429,7 @@ h1 {
   color: #53aae0;
   font-family: TrasandinaBlack;
   font-size: 32px;
-  letter-spacing: 5px;
+  letter-spacing: 3px;
 }
 
 h2 {

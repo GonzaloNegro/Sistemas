@@ -23,6 +23,8 @@ $row = $resultado->fetch_assoc();
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymus"></script>
+    <script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css">
 	<style>
 			body{
@@ -31,6 +33,12 @@ $row = $resultado->fetch_assoc();
 	</style>
 </head>
 <body>
+    <script>
+        //Limpiar campos de formulario
+        function Limpiar(){
+            window.location.href='../consulta/otrosp.php';
+        }
+    </script>
     <!-- Script para inicializar el Popover -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -55,11 +63,14 @@ $row = $resultado->fetch_assoc();
 		<div id="titulo">
 			<h1>INVENTARIO OTROS PERIFÉRICOS</h1>
 		</div>
+        <div class="botonAgregar">
+            <button class="btn btn-success" style="font-size: 20px;"><a href="../abm/agregarotrosperifericos.php" style="text-decoration:none !important;color:white;" target="_blank">Agregar Periférico</a></button>
+        </div>
         <form method="POST" action="./otrosp.php" class="contFilter--name">
             <div class="filtros">
                 <div class="filtros-listado">
                     <div>
-                        <label class="form-label">Usuario/Modelo/Serieg</label>
+                        <label class="form-label">Usu/Mod/Serieg</label>
                         <input type="text" style="text-transform:uppercase;" name="buscar"  placeholder="Buscar" class="form-control largo">
                     </div>
                     <div>
@@ -88,6 +99,9 @@ $row = $resultado->fetch_assoc();
                                 <?php endforeach ?>
                         </select>
                     </div>
+  
+                </div>
+                <div class="filtros-listadoParalelo">
                     <div>
                         <label class="form-label">Orden</label>
                         <select id="assigned-tutor-filter" id="orden" name="orden" class="form-control largo">
@@ -149,16 +163,10 @@ $row = $resultado->fetch_assoc();
                                 <?php endforeach ?>
                         </select>
                     </div>
-                    <div class="export" style="display:flex;justify-content: flex-end;">
+                    <div style="display:flex;justify-content: flex-end;">
+                        <input type="button" class="btn btn-danger" id="btnLimpiar" onclick="Limpiar()" value="Limpiar">
                         <input type="submit" class="btn btn-success" name="busqueda" value="Buscar">
-                    </div>
-                </div>
-                <div class="filtros-listadoParalelo">
-                    <div>
-                        <button class="btn btn-success" style="font-size: 20px;"><a href="../abm/agregarotrosperifericos.php" style="text-decoration:none !important;color:white;" target="_blank">Agregar nuevo periférico</a></button>
-                    </div>
-                    <div class="export">
-                        <div>Exportar a: <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button></div>
+                        <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
                     </div>
                 </div>
             </div>
@@ -286,7 +294,7 @@ $row = $resultado->fetch_assoc();
                 $result6 = $datos_base->query($sql6);
                 $total = $result6->fetch_assoc()['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter primary">
                     <div class="card-pri">
                         <i class="fa-solid fa-clipboard-list"></i>
@@ -296,7 +304,7 @@ $row = $resultado->fetch_assoc();
                         <span class="count-name">Periféricos Registrados</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <?php 
                 $sql6 = "SELECT COUNT(*) AS total 
@@ -306,7 +314,7 @@ $row = $resultado->fetch_assoc();
                 $result6 = $datos_base->query($sql6);
                 $activo = $result6->fetch_assoc()['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter success">
                     <div class="card-pri">
                         <i class="fa-sharp fa-solid fa-arrow-up"></i>
@@ -316,7 +324,7 @@ $row = $resultado->fetch_assoc();
                         <span class="count-name">Periféricos Activos</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
 
             <?php 
@@ -330,7 +338,7 @@ $row = $resultado->fetch_assoc();
                 $row6 = $result6->fetch_assoc();
                 $stock = $row6['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter danger">
                     <div class="card-pri">
                         <i class="fa-sharp fa-solid fa-arrow-down"></i>
@@ -340,7 +348,11 @@ $row = $resultado->fetch_assoc();
                         <span class="count-name">Periféricos Inactivos - S/A Stock</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
+            <p>Periféricos Registrados: <?php echo $total; ?></p>
+            <p>Periféricos Activos: <?php echo $activo; ?></p>
+            <p>Periféricos Inactivos: <?php echo $inactivos; ?></p>
+            <p>Periféricos en Stock: <?php echo $stock; ?></p>
         </div>
         <?php };?>
 
@@ -386,14 +398,14 @@ $row = $resultado->fetch_assoc();
 
             echo "
                 <tr>
-                    <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>".$rowSql['MODELO']."</h4></td>
-                    <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>".$usuario."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:16px; text-align: left; margin-left: 5px;'>".$rowSql['AREA']."</h4></td>
-                    <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>".$rowSql['REPA']."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:16px; text-align:left;margin-left: 5px;'>".$rowSql['SERIEG']."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:16px; text-align:left;margin-left: 5px;'>".$rowSql['TIPO']."</h4></td>
-                    <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>".$rowSql['MARCA']."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:16px; text-align: left;margin-left:5px;color:".$color."'>$flecha ".$rowSql['ESTADO']."</h4></td>
+                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['MODELO']."</h4></td>
+                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$usuario."</h4></td>
+                    <td><h4 class='wrap2' style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['AREA']."</h4></td>
+                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['REPA']."</h4></td>
+                    <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['SERIEG']."</h4></td>
+                    <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['TIPO']."</h4></td>
+                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['MARCA']."</h4></td>
+                    <td><h4 class='wrap2' style='font-size:14px; text-align: left;margin-left:5px;color:".$color."'>$flecha ".$rowSql['ESTADO']."</h4></td>
                     
                     <td class='text-center text-nowrap'>
                         <span style='display: inline-flex; padding: 3px;'>
@@ -433,7 +445,7 @@ $row = $resultado->fetch_assoc();
             <h2>Filtrado por:</h2>
                 <ul>";
                     if($_POST['buscar'] != "" AND $_POST['buscar'] != " "){
-                        echo "<li><u>USUARIO/MODELO/SERIEG</u>: ".$_POST['buscar']."</li>";
+                        echo "<li><u>USU/MOD/SERIEG</u>: ".$_POST['buscar']."</li>";
                     }
                     if($_POST['area'] != ""){
                         $sql = "SELECT AREA FROM area WHERE ID_AREA = $_POST[area]";
@@ -608,6 +620,6 @@ $row = $resultado->fetch_assoc();
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 	</script>
-	
+    <script src="../js/script.js"></script>
 </body>
 </html>

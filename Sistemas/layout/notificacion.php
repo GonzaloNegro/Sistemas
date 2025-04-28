@@ -1,5 +1,5 @@
 <div class="notification-container">
-    <button class="notification-button" onclick="toggleNotifications()">🔔
+    <button class="notification-button btn btn-danger" onclick="toggleNotifications()">🔔
     <?php
         $IdRes = $row['ID_RESOLUTOR'];
         
@@ -23,7 +23,7 @@
         if($cantTotal > 0){
             echo $cantTotal;
         }
-        ?> Notificaciones</button>
+        ?> </button>
     <div class="notifications" id="notificationPanel">
         <ul>
             <?php
@@ -65,14 +65,20 @@
     }
 
     .notification-button {
-        background-color: #007bff;
-        color: white;
+        width: 45px;         /* Ajustá este valor según el tamaño que quieras */
+        height: 45px;
         border: none;
-        padding: 10px 15px;
+        padding: 10px 10px;
         cursor: pointer;
-        font-size: 16px;
+        font-size: 12px;
         border-radius: 5px;
-    }
+        margin-bottom:10px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+        }
 
     .notifications {
         display: none;

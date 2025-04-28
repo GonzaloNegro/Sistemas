@@ -6,7 +6,7 @@
         </a>
 
         <ul style="margin-left:20px !important;" class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 espacio">
-		    <li><a href="../carga/cargadeincidentes.php" class="nav-link px-2 link-secondary link destacado" style="border-left: 5px solid #53AAE0;">NUEVO INCIDENTE</a>
+		    <li><a href="../carga/cargadeincidentes.php" class="nav-link px-2 link-secondary link" style="border-left: 5px solid white;">NUEVO INCIDENTE</a>
  				<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
 					<li><a class="dropdown-item" href="./cargarapidaporusuario.php">CARGA RÁPIDA POR USUARIO</a></li>
 	 				<li><hr class="dropdown-divider"></li>
@@ -59,7 +59,7 @@
         </ul>
         <?php include('notificacion.php'); ?>
         <div class="dropdown text-end">
-          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"><h5 style="color: #007BFF;"><i class="bi bi-person rounded-circle" style="color: #007BFF;"></i> <?php echo utf8_decode($row['RESOLUTOR']);?></h5></a>
+          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle link" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"><h5 style="color: white;"><i class="bi bi-person rounded-circle" style="color: white;"></i> <?php echo utf8_decode($row['RESOLUTOR']);?></h5></a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
 		  	<?php if($row['ID_RESOLUTOR'] == 6)
             { echo '

@@ -54,101 +54,102 @@ $row = $resultado->fetch_assoc();
    
 </head>
 <body>
-<?php include('../layout/reportes.php'); ?>
+  <main>
+  <?php include('../layout/reportes.php'); ?>
 
-	<section id="Inicio">
-		<div id="titulo" style="margin-top:20px; margin-bottom: 20px;" data-aos="zoom-in">
-			<h1>TIPO DE REPORTE</h1>
-		</div>
-  </section>
-      
-		<script>
-/*                            function ocultar() {
-							document.getElementById("der").style.display = "none";
-							document.getElementById("contenedorinv").style.display = "block";
-                                      }
-
-							function mostrar() {
-							document.getElementById("der").style.display = "block";
-							document.getElementById("contenedorinv").style.display = "none";
-                                      } */
-        </script>
-         
+    <section id="Inicio">
+      <div id="titulo" style="margin-top:20px; margin-bottom: 20px;" data-aos="zoom-in">
+        <h1>TIPO DE REPORTE</h1>
+      </div>
     </section>
+        
+      <script>
+  /*                            function ocultar() {
+                document.getElementById("der").style.display = "none";
+                document.getElementById("contenedorinv").style.display = "block";
+                                        }
 
-    <section class="tarjetas">
-
-        <div class="card" data-aos="zoom-in">
-          <div class="face front">
-            <img src="../imagenes/incidentes.jpg" alt="">
-            <h3>INCIDENTES</h3>
-          </div>
-          <div class="face back">
-            <h3>INCIDENTES</h3>
-            <div class="link">
-              <a href="reporteincidentes.php">INCIDENTES</a> 
-            </div>
-          </div>
-        </div>
-
-        <div class="card" data-aos="zoom-in">
-          <div class="face front">
-          <img src="../imagenes/inventario.jpg" alt="">
-            <h3>INVENTARIO</h3>
-          </div>
-          <div class="face back">
-            <h3>INVENTARIO</h3>
-            <div class="link">
-              <a href="reporteinventario.php">EQUIPOS</a> 
-            </div>
-            <div class="link">
-            <a href="reporteperifericos.php">PERIFÉRICOS</a> 
-            </div>
-            <div class="link">
-            <a href="relevamientoinventario.php">INVENTARIO</a> 
-            </div>
-            <div class="link">
-            <a href="reporteimpresora.php">IMPRESORAS DINAMICO</a> 
-            </div>
-            <div class="link">
-            <a href="reporteequipo.php">EQUIPOS DINAMICO</a> 
-            </div>
-            <div class="link">
-            <a href="../consulta/reportePlanesTelefonia.php">PLANES TELEFÓNICOS</a> 
-            </div>
-            <div class="link">
-            <a href="../consulta/reporteLineasTelefonia.php">LÍNEAS TELEFÓNICAS</a> 
-            </div>
-          </div>
-        </div>
-
-        <div class="card" data-aos="zoom-in">
-          <div class="face front">
-          <img src="../imagenes/flechas.png" alt="">
-            <h3>MOVIMIENTOS</h3>
-          </div>
-          <div class="face back">
-            <h3>MOVIMIENTOS</h3>
-            <div class="link">
-              <a href="reportemovimientosequipos.php?movimiento=0">EQUIPOS</a> 
-            </div>
-            <div class="link">
-            <a href="reportemovimientosperifericos.php?movimiento=0">IMPRESORAS/PERIFÉRICOS</a> 
-            </div>
-            <h3>MEJORAS</h3>
-            <div class="link">
-              <a href="reportemejorasequipos.php?mejora=0">EQUIPOS</a> 
-            </div>
-          </div>
+                function mostrar() {
+                document.getElementById("der").style.display = "block";
+                document.getElementById("contenedorinv").style.display = "none";
+                                        } */
+          </script>
           
-            
-            
-            
+      </section>
+
+      <section class="tarjetas">
+
+          <div class="card" data-aos="zoom-in">
+            <div class="face front">
+              <img src="../imagenes/incidentes.jpg" alt="">
+              <h3>INCIDENTES</h3>
+            </div>
+            <div class="face back">
+              <h3>INCIDENTES</h3>
+              <div class="link">
+                <a href="reporteincidentes.php">INCIDENTES</a> 
+              </div>
+            </div>
           </div>
-        </div>
 
-    </section>
+          <div class="card" data-aos="zoom-in">
+            <div class="face front">
+            <img src="../imagenes/inventario.jpg" alt="">
+              <h3>INVENTARIO</h3>
+            </div>
+            <div class="face back">
+              <h3>INVENTARIO</h3>
+              <div class="link">
+                <a href="reporteinventario.php">EQUIPOS</a> 
+              </div>
+              <div class="link">
+              <a href="reporteperifericos.php">PERIFÉRICOS</a> 
+              </div>
+              <div class="link">
+              <a href="relevamientoinventario.php">INVENTARIO</a> 
+              </div>
+              <div class="link">
+              <a href="reporteimpresora.php">IMPRESORAS DINAMICO</a> 
+              </div>
+              <div class="link">
+              <a href="reporteequipo.php">EQUIPOS DINAMICO</a> 
+              </div>
+              <div class="link">
+              <a href="../consulta/reportePlanesTelefonia.php">PLANES TELEFÓNICOS</a> 
+              </div>
+              <div class="link">
+              <a href="../consulta/reporteLineasTelefonia.php">LÍNEAS TELEFÓNICAS</a> 
+              </div>
+            </div>
+          </div>
 
+          <div class="card" data-aos="zoom-in">
+            <div class="face front">
+            <img src="../imagenes/flechas.png" alt="">
+              <h3>MOVIMIENTOS</h3>
+            </div>
+            <div class="face back">
+              <h3>MOVIMIENTOS</h3>
+              <div class="link">
+                <a href="reportemovimientosequipos.php?movimiento=0">EQUIPOS</a> 
+              </div>
+              <div class="link">
+              <a href="reportemovimientosperifericos.php?movimiento=0">IMPRESORAS/PERIFÉRICOS</a> 
+              </div>
+              <h3>MEJORAS</h3>
+              <div class="link">
+                <a href="reportemejorasequipos.php?mejora=0">EQUIPOS</a> 
+              </div>
+            </div>
+            
+              
+              
+              
+            </div>
+          </div>
+
+      </section>
+    </main>
 
     <footer>
 		<div class="footer">

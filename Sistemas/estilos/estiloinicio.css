@@ -1,156 +1,182 @@
-section, footer, header{
-	width: 960px;
-	margin-left: auto;
-	margin-right: auto;
-
-}
-
-@font-face{
-	font-family: TrasandinaBlack;
-	src: url("../fuente/TrasandinaBlack.otf");
-}
-@font-face{
-	font-family: TrasandinaBold; 
-	src: url("../fuente/TrasandinaBold.otf");
-	}
-
-@font-face{
-	font-family: TrasandinaBook; 
-	src: url("../fuente/TrasandinaBook.otf");
-	}
-
-@font-face{
-	font-family: TrasandinaMedium; 
-	src: url("../fuente/TrasandinaMedium.otf");
-	}	
-	/*
-	url("TrasandinaBold-Italic.otf"), 
-	url("TrasandinaLight.otf"), url("TrasandinaMedium-Italic.otf"),
-	url("TrasandinaRegular.otf"), url("TrasandinaRegular-Italic.otf"), 
-	url("TrasandinaUltra.otf");*/
-
-h1{
-	text-align: center;	
-	color: #53AAE0;
-	font-family: TrasandinaBlack;
-	font-size: 40px;
-	letter-spacing: 5px;
-}
-
-h2{
-	text-align: center;	
-	color: #53AAE0;
-	font-family: TrasandinaMedium;
-	font-size: 28px;
-}
-
-h3{
-	text-align: center;	
-	margin-top: 10px;
-	font-size: 20px;
-	color: #f7fbfd;
-	font-family: TrasandinaBold;
-}
-
-h4{
-	text-align: center;	
-	margin-top: 10px;
-	font-size: 16px;
-	color: #f7fbfd;
-	font-family: TrasandinaBold;
-}
-
-header{
-	height: 160px;
-}
-
-#titulo{
-	height: 40px;
-}
-
-#ingreso{
-	height: 300px;
-	position: static;
-}
-
-#sistemas{
-	height: 80px;
-	width: 380px;
-	float: left;
-}
-
-#ingresar{
-	height: 250px;
-	width: 320px;
-	float: right;
-	background-color: #1c7cd5;
-	border-radius: 10px;
-}
-
-input{
-	width: 300px;
-	margin-top: 10px;
-	margin-left: auto;
-	margin-right: auto;
-	padding: 10px;
-	display: block;
+* {
 	box-sizing: border-box;
-	border-radius: 10px;
-	border-color: white;
-	background-color: #f7fbfd;
+	margin: 0;
+	padding: 0;
+	font-family: 'Segoe UI', sans-serif;
 }
 
-::placeholder { 
-	color: #899dac; 
+body, html {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
-.button{
-	color: #f7fbfd;
-	font-size: 20px;
-	font-family: TrasandinaBook;
-	background-color: #53AAE0;
-	border-color: #f7fbfd;
-	cursor: pointer;
+body {
+	margin: 0;
+	padding: 0;
+	min-height: 100vh;
+	background: url('../imagenes/fondo.jpg') no-repeat center center fixed;
+	background-size: cover;
+	font-family: Arial, sans-serif;
 }
 
-.button:hover{
-	background-color: #f7fbfd;
-	color: #53AAE0;
-	transition-property: background-color, #f7fbfd;
-	transition-duration: 1s;
-	transition-delay: 0s;
-}
-
-footer{
-	height: 150px;
-}
-
-#logo{
-	width: 300px;
-	height: 200px;
-	float: left;
-}
-#logo img{
+header {
 	width: 100%;
-  height: auto;
+	background: linear-gradient(to bottom, rgba(0, 157, 218, 0.5), rgba(255, 255, 255, 0.5) 80%, rgba(249, 253, 255, 0) 100%);
+	color: white;
+	padding: 70px 0;
+	text-align: center;
 }
 
-#logogob{
-	height: 60px;
-	float: right;
+
+
+header h2 {
+	font-size: 1.8em;
+	letter-spacing: 1px;
 }
 
-#logogob 	img{
-  width: 300px;
-  height: 80px;
+section.ingreso {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
 }
 
-.enlaces{
-	color: #f7fbfd;
+.sistemas {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 90%;
+	max-width: 1100px;
+	gap: 60px;
 }
 
-#resetpwd{
-	margin-top: 10px;
-	margin-left: 28%;
-	margin-right: auto;
+.sistemas > div:first-child {
+	flex: 1;
+	text-align: left;
+	color: #004582;
+	margin-bottom: 20px;
+}
+
+.sistemas h1 {
+	font-size: 2.4em;
+	margin-bottom: 10px;
+	color: #004582;
+}
+
+.sistemas p {
+	font-size: 1.1em;
+	color: #555;
+}
+
+.ingresar {
+	background-color: white;
+	padding: 35px;
+	border-radius: 15px;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+	width: 100%;
+	max-width: 400px;
+}
+
+.ingresar h3 {
+	color: #004582;
+	margin-bottom: 25px;
+	text-align: center;
+}
+
+.ingresar input[type="number"],
+.ingresar input[type="password"] {
+	width: 100%;
+	padding: 12px;
+	margin-bottom: 18px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	font-size: 1em;
+}
+
+.ingresar input[type="submit"].button {
+
+	border: none;
+	width: 100%;
+	padding: 12px;
+	border-radius: 8px;
+	font-size: 1.1em;
+	font-weight: bold;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+
+
+#resetpwd {
+	margin-top: 12px;
+	text-align: center;
+}
+
+.enlaces {
+	color: #004582;
+	text-decoration: none;
+	font-size: 0.9em;
+}
+
+.enlaces:hover {
+	text-decoration: underline;
+}
+
+footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 12px 30px;
+}
+
+footer .logo img,
+footer .logogob img {
+	height: 55px;
+}
+
+#loader {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 9999;
+	opacity: 1;
+	transition: opacity 0.9s ease;
+}
+
+.loader-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+
+.loader-spinner {
+	border: 6px solid #f3f3f3;
+	border-top: 6px solid #009ADA;
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+	transform: translateZ(0);
+}
+
+.loader-text {
+	margin-top: 15px;
+	font-size: 18px;
+	color: #009ADA;
+	font-weight: bold;
+	font-family: sans-serif;
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
 }

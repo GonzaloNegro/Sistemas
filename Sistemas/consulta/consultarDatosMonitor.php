@@ -17,7 +17,7 @@ function valorPorDefecto($valor) {
 function generarBloqueHTML($etiqueta, $valor) {
     return "
         <div style='width:100%;display:flex;justify-content:space-between;align-items: flex-start;'>
-            <label>$etiqueta:</label><label>$valor</label>
+            <label style='color:black;''>$etiqueta:</label><label style='color:black;''>$valor</label>
         </div>";
 }
 
@@ -107,7 +107,7 @@ function obtenerMarcaModelo($conexion, $idModelo, $idMarca) {
     if (mysqli_num_rows($result) > 0) {
         echo "<hr style='display: block; height: 3px;'>
         <div id='grilla'>
-            <h2 style='color:#53AAE0;font-size: 20px;font-weight: bold;'>MOVIMIENTOS</h2>
+            <h2 style='color:#00519C;font-size: 20px;font-weight: bold;'>MOVIMIENTOS</h2>
             <table width='100%'>
                 <thead>
                     <tr>

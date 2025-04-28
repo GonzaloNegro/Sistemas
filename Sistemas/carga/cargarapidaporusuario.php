@@ -303,11 +303,13 @@ $row = $resultado->fetch_assoc();
 		<div id="principal" class="container-fluid" data-aos="zoom-in">
 			<form method="POST" action="guardarcargarapidausu.php">
 
-					<div class="form-group row" style="margin: 10px; padding:10px;">
+					<div class="form-group row">
 						<label class="col-form-label col-xl col-lg">FECHA:</label>
 						<input type="date" class="form-control col-xl col-lg" name="fechaini" id="txtfecha" required>
+					</div>
+					<div class="form-group row">
 						<label class="col-form-label col-xl col-lg">USUARIO:</label>
-						<select name="usuario" id="buscador" required class="form-control col-xl col-lg extend">
+						<select name="usuario" id="buscador" class="form-control col-xl col-lg" required>
 						<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
 						<?php
 						include("../particular/conexion.php");
@@ -342,13 +344,13 @@ $row = $resultado->fetch_assoc();
 						<!--//////////////////////////////////////////////////////////////////-->
 						<!--//////////////////////////////////////////////////////////////////-->
 		            </div>
-  					<!--select equipo-->
-						<div class="form-group row" style="margin: 10px; padding:10px;" id="select2lista">
-						<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label> 
-			            <select id='equipo' name='equipo' class='form-control col-xl col-lg' required></select></div>
-                    <!--////-->	
+			<!--select equipo-->
+				<div class="form-group row"  id="select2lista">
+				<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label> 
+				<select id='equipo' name='equipo' class='form-control col-xl col-lg' required></select></div>
+			<!--////-->	
 
-				<div class="form-group row" style="margin: 10px; padding:10px;">
+				<div class="form-group row">
 					<div class="accordion accordion-flush" id="accordionFlushExample">
 						<div class="accordion-item">
 							<h2 class="accordion-header" id="flush-headingOne">
@@ -358,7 +360,7 @@ $row = $resultado->fetch_assoc();
 							</h2>
 							<div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
 							<div class="accordion-body">
-								<div class="form-group row" style="margin: 10px; padding:10px;">
+								<div class="form-group row">
 									<label class="col-form-label col-xl">TIPIFICACIÓN: </label>
 										<select name="tipificacion1" id="tipificacion1" class="form-control col-xl">
 										<option value="" selected disabled="tipificacion">-SELECCIONE UNA-</option>
@@ -372,8 +374,9 @@ $row = $resultado->fetch_assoc();
 										<?php endforeach ?>
 										</select>
 								</div>
-								<div class="form-group row" style="margin: 10px; padding:10px;">
-									<textarea id="descripcion1" name="descripcion1" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE" rows="3"></textarea>
+								<div class="form-group row">
+									<label class="col-form-label col-xl">DESCRIPCIÓN: </label>
+									<textarea id="descripcion1" name="descripcion1" style="text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE" rows="3"></textarea>
 								</div>
 							</div>
 							</div>
@@ -386,7 +389,7 @@ $row = $resultado->fetch_assoc();
 							</h2>
 							<div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
 							<div class="accordion-body">
-								<div class="form-group row" style="margin: 10px; padding:10px;">
+								<div class="form-group row">
 									<label class="col-form-label col-xl">TIPIFICACIÓN: </label>
 										<select name="tipificacion2" id="tipificacion2" class="form-control col-xl">
 										<option value="" selected disabled="tipificacion">-SELECCIONE UNA-</option>
@@ -401,8 +404,9 @@ $row = $resultado->fetch_assoc();
 										</select>
 
 								</div>
-								<div class="form-group row" style="margin: 10px; padding:10px;">
-									<textarea id="descripcion2" name="descripcion2" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE" rows="3"></textarea>
+								<div class="form-group row">
+									<label class="col-form-label col-xl">DESCRIPCIÓN: </label>
+									<textarea id="descripcion2" name="descripcion2" style="text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE" rows="3"></textarea>
 								</div>
 							</div>
 							</div>
@@ -415,7 +419,7 @@ $row = $resultado->fetch_assoc();
 							</h2>
 							<div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
 							<div class="accordion-body">
-								<div class="form-group row" style="margin: 10px; padding:10px;">
+								<div class="form-group row">
 									<label class="col-form-label col-xl">TIPIFICACIÓN: </label>
 										<select name="tipificacion3" id="tipificacion3" class="form-control col-xl">
 										<option value="" selected disabled="tipificacion">-SELECCIONE UNA-</option>
@@ -429,8 +433,9 @@ $row = $resultado->fetch_assoc();
 										<?php endforeach ?>
 										</select>
 								</div>
-								<div class="form-group row" style="margin: 10px; padding:10px;">
-									<textarea id="descripcion3" name="descripcion3" style="margin-left: 40px; text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE" rows="3"></textarea>
+								<div class="form-group row">
+									<label class="col-form-label col-xl">DESCRIPCIÓN: </label>
+									<textarea id="descripcion3" name="descripcion3" style="text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE" rows="3"></textarea>
 								</div>
 							</div>
 							</div>
@@ -443,7 +448,7 @@ $row = $resultado->fetch_assoc();
 				<?php 
 								if ($row['ID_PERFIL'] != 5) {
 								echo '<div class="row justify-content-end" style="margin: 10px; padding:10px;">
-								<input id="btnform" onClick="enviar_formulario(this.form)" type="button" value="GUARDAR" name="g1" class="col-2 button">
+								<input id="btnform" onClick="enviar_formulario(this.form)" type="button" value="GUARDAR" name="g1" class="btn btn-success">
 							</div>';
 								}
 							?>

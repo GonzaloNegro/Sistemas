@@ -120,23 +120,23 @@ $cu = $row['CUIL'];
                     filtros.show();
                     filtros.append()
                     if (descripcion.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>DESCRIPCIÓN</u>: ${descripcion.val()}</li>`);
+                        filtros.append(`<li style="color:#004582; margin-left: 15px;"><u>DESCRIPCIÓN</u>: ${descripcion.val()}</li>`);
                     }
                     if (fechaDesde.val() != '' && fechaHasta.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>PERÍODO DE CREACIÓN</u>: ${fechaDesde.val()} - ${fechaHasta.val()} </li>`);
+                        filtros.append(`<li style="color:#004582; margin-left: 15px;"><u>PERÍODO DE CREACIÓN</u>: ${fechaDesde.val()} - ${fechaHasta.val()} </li>`);
                     }
                     
                     if (usuario.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>USUARIO</u>: ${$("#buscador_usuario option:selected").text()}</li>`);
+                        filtros.append(`<li style="color:#004582; margin-left: 15px;"><u>USUARIO</u>: ${$("#buscador_usuario option:selected").text()}</li>`);
                     }
                     if (estado.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>ESTADO</u>: ${$("#estado option:selected").text()}</li>`);
+                        filtros.append(`<li style="color:#004582; margin-left: 15px;"><u>ESTADO</u>: ${$("#estado option:selected").text()}</li>`);
                     }
                     if (resolutor.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>RESOLUTOR</u>: ${$("#resolutor option:selected").text()}</li>`);
+                        filtros.append(`<li style="color:#004582; margin-left: 15px;"><u>RESOLUTOR</u>: ${$("#resolutor option:selected").text()}</li>`);
                     }
                     if (edificio.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>EDIFICIO</u>: ${$("#edificio option:selected").text()}</li>`);
+                        filtros.append(`<li style="color:#004582; margin-left: 15px;"><u>EDIFICIO</u>: ${$("#edificio option:selected").text()}</li>`);
                     }
                 }
             </script>
@@ -233,12 +233,12 @@ $cu = $row['CUIL'];
                                     </span></td>`;
 
                             tabla.append(`<tr>
-                                <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>${fila.ID_TICKET}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:center;'>${fila.FECHA_INICIO}</h4></td>
+                                <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>#${fila.ID_TICKET}</h4></td>
+                                <td style='min-width:100px;'><h4 style='font-size:14px; text-align:center;'>${fila.FECHA_INICIO}</h4></td>
                                 <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.NOMBRE}</h4></td>
                                 <td><h4 style='max-width: 180px;font-size:14px; text-align:left;margin-left: 5px;'>${fila.AREA} -<br/>${fila.REPA}</h4></td>
                                 <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;text-transform:uppercase;'>${fila.DESCRIPCION}</h4></td>
-                                <td style='min-width:120px;'><h4 style='font-size:14px; color:${color};text-align:left;margin-left: 5px;'>${flecha} ${estado}</h4></td>
+                                <td style='min-width:150px;'><h4 style='font-size:14px; color:${color};text-align:left;margin-left: 5px;'>${flecha} ${estado}</h4></td>
                                 <td><h4 style='font-size:14px; text-align:center;'>${fechaSolucion}</h4></td>
                                 <td><h4 style='font-size:14px; text-align:left;margin-right: 5px;'>${fila.RESOLUTOR}</h4></td>
                                 ${boton}
@@ -339,6 +339,9 @@ $cu = $row['CUIL'];
 			<h1>CONSULTA DE INCIDENTES</h1>
 		</div>
         <!-- <form  class="contFilter--name"> -->
+            <div class="botonAgregar">
+                <button class="btn btn-success" style="font-size: 20px;"><a href="../carga/cargadeincidentes.php" style="text-decoration:none !important;color:white;" target="_blank">Crear Incidente</a></button>
+            </div>
             <div class="filtros">
                 <div class="filtros-listado">
                     <div>
@@ -364,7 +367,13 @@ $cu = $row['CUIL'];
                             <option value="5">ORDENAR POR FECHA DE SOLUCIÓN</option>
                         </select>
                     </div>
-                    <div>
+
+
+
+                </div>
+
+                <div class="filtros-listadoParalelo">
+                <div>
                         <label class="form-label">Usuario</label>
                         <select id="buscador_usuario" name="usuario" class="form-control largo" style="padding-left: -20px !important;">
                             <option value="">TODOS</option>
@@ -398,7 +407,6 @@ $cu = $row['CUIL'];
 							})
 						</script>
                     </div>
-
                     <div>
                         <label class="form-label">Estado</label>
                         <select id="estado" name="estado" class="form-control largo">
@@ -436,25 +444,24 @@ $cu = $row['CUIL'];
                     <div class="export" style="display:flex;justify-content: flex-end;">
                         <input class="btn btn-danger" id="btnLimpiar" name="Limpiar" onclick="Limpiar()" value="Limpiar">
                         <input type="submit" class="btn btn-success" id="btnForm" name="busqueda" value="Buscar">
+                        <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
                     </div>
-                </div>
-
-                <div class="filtros-listadoParalelo" style="margin-right:20px; margin-top:-70px;">
-                    <div class="export">
-                        Exportar a: <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
-                    </div>
+<!--                     <div class="export">
+                        <button type="submit" form="formu" style="border:none; background-color:transparent;">Exportar: <i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
+                    </div> -->
                 </div>
                 <!-- </form> -->
             </div>
                     
-                <div style="margin-bottom: 15px; margin-top:15px;" class="principal-info">
+            <div style="margin-bottom: 15px; margin-top:15px;" class="principal-info">
+
             <?php 
                 $sql6 = "SELECT COUNT(*) AS total FROM ticket";
                 $result6 = $datos_base->query($sql6);
                 $row6 = $result6->fetch_assoc();
                 $total = $row6['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter primary">
                     <div class="card-pri">
                         <i class="fa-solid fa-clipboard-list"></i>
@@ -464,7 +471,7 @@ $cu = $row['CUIL'];
                         <span class="count-name">Totales</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <?php 
                 $sql6 = "SELECT COUNT(*) AS total FROM ticket WHERE ID_ESTADO = 2";
@@ -472,7 +479,7 @@ $cu = $row['CUIL'];
                 $row6 = $result6->fetch_assoc();
                 $solucionado = $row6['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter success">
                     <div class="card-pri">
                         <i class="fa-regular fa-circle-check"></i>
@@ -482,7 +489,7 @@ $cu = $row['CUIL'];
                         <span class="count-name">Solucionados</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
 
             <?php 
@@ -496,7 +503,7 @@ $cu = $row['CUIL'];
                 $row6 = $result6->fetch_assoc();
                 $espera = $row6['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter danger">
                     <div class="card-pri">
                         <i class="fa-solid fa-triangle-exclamation"></i>
@@ -506,16 +513,20 @@ $cu = $row['CUIL'];
                         <span class="count-name">Por solucionar - Anulados</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
+            <p>Incidentes totales: <?php echo $total; ?></p>
+            <p>Incidentes Solucionados: <?php echo $solucionado; ?></p>
+            <p>Incidentes Por solucionar: <?php echo $espera; ?></p>
+            <p>Incidentes Anulados: <?php echo $finales; ?></p>
         </div>    
         <?php
         echo"<div class=filtrado>
-        <label style='color:blue; margin-left: 15px; margin-bottom:20px;' id='nroIncidentes'>Resultados Encontrados:</label>
+        <label style='color:#004582; margin-left: 15px; margin-bottom:20px;' id='nroIncidentes'>Resultados Encontrados:</label>
         ";    ?>
         
         <div id="filtrosUsados" style="display:none;">
-        <h2>Filtrado por:</h2>
-                <ul></ul>
+            <h2>Filtrado por:</h2>
+            <ul></ul>
         </div>
             </div>
         <table class="table_id" style="width: 98%; margin: 0 auto;">

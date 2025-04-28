@@ -152,33 +152,25 @@ $row = $resultado->fetch_assoc();
 								return false;
 							}
 		};
-		function enviar_formulario(formulario){
-        	if (validar_formulario()) {
-				// alert("Todo OK");
-				Swal.fire({
-                        title: "Esta seguro de guardar esta área?",
-                        icon: "warning",
-                        showConfirmButton: true,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            formulario.submit()
+		function enviar_formulario_area(formulario) {
+			if (validar_formulario()) {
+				const campos = [
+					{ id: 'area', label: 'Nombre del área' },
+					{ id: 'repa', label: 'Repartición', esSelect: true },
+					{ id: 'estado', label: 'Estado', esSelect: true },
+					{ id: 'observacion', label: 'Observaciones' }
+				];
 
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
+				confirmarEnvioFormulario(
+					formulario,
+					campos,
+					"Datos del área",
+					"¿Está seguro de guardar esta área?"
+				);
 			}
 		}
+
+
 				
 		</script>
 		<div id="reporteEst">   
@@ -231,7 +223,7 @@ $row = $resultado->fetch_assoc();
 						<?php 
 							if ($row['ID_PERFIL'] != 5) {
 								echo '<div class="form-group row justify-content-end" style="margin: 10px; padding:10px;">
-											<input onClick="enviar_formulario(this.form)" style="width:20%"class="col-3 button" type="button" value="GUARDAR" class="button">
+											<input onClick="enviar_formulario_area(this.form)" style="width:20%"class="col-3 button" type="button" value="GUARDAR" class="button">
 										</div>';
 							}
 						?>
@@ -252,6 +244,7 @@ $row = $resultado->fetch_assoc();
 		</div>
 	</section>
 	<footer></footer>
+	<script src="../js/confirmacionForm.js"></script>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
     <script>

@@ -128,10 +128,6 @@ $row = $resultado->fetch_assoc();
                     {
                         selector: "#turno",
                         errorMessage: "No seleccionó turno."
-                    },
-                    {
-                        selector: "#activo",
-                        errorMessage: "No seleccionó activo."
                     }
                 ];
 
@@ -166,34 +162,30 @@ $row = $resultado->fetch_assoc();
 								return false;
 							}
 		};
-		function enviar_formulario(formulario){
-        	if (validar_formulario()) {
-				// alert("Todo OK");
-				Swal.fire({
-                        title: "Esta seguro de guardar este usuario?",
-                        icon: "warning",
-                        showConfirmButton: true,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            formulario.submit()
+        function enviar_formulario_usuario(formulario) {
+            if (validar_formulario()) {
+                const campos = [
+                    { id: 'nombre_usuario', label: 'Usuario' },
+                    { id: 'cuil', label: 'Cuil' },
+                    { id: 'area', label: 'Área', esSelect: true },
+                    { id: 'piso', label: 'Piso' },
+                    { id: 'interno', label: 'Interno' },
+                    { id: 'telPersonal', label: 'Teléfono Personal' },
+                    { id: 'correo', label: 'Correo' },
+                    { id: 'correoPersonal', label: 'Correo Personal' },
+                    { id: 'turno', label: 'Turno', esSelect: true },
+                    { id: 'observaciones', label: 'Observaciones' }
+                ];
 
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
-			}
-		}
-				
+                confirmarEnvioFormulario(
+                    formulario,
+                    campos,
+                    "Datos del usuario",
+                    "¿Está seguro de guardar este usuario?"
+                );
+            }
+        }
+            
 		</script>
 	<div id="reporteEst">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
@@ -210,7 +202,7 @@ $row = $resultado->fetch_assoc();
 							<label id="lblForm" class="col-form-label col-xl col-lg">USUARIO:</label>
                             <input id="nombre_usuario" class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="nombre_usuario" placeholder="APELLIDO Y NOMBRE" required>
 							<label id="lblForm"class="col-form-label col-xl col-lg">CUIL:</label>
-                            <input id="cuil" class="form-control col-xl col-lg" type="text" name="cuil" placeholder="CUIL" required>
+                            <input id="cuil" class="form-control col-xl col-lg" type="number" max="11" name="cuil" placeholder="CUIL" required>
                             </div>
                             <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">ÁREA:</label>
@@ -229,7 +221,7 @@ $row = $resultado->fetch_assoc();
 
 
 							<label id="lblForm"class="col-form-label col-xl col-lg">PISO:</label>
-                            <select name="piso" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                            <select name="piso" id="piso" style="text-transform:uppercase" class="form-control col-xl col-lg">
 <!-- 								<option selected disabled="piso">-SELECCIONE UNA-</option> -->
 								<option value="PB" selected>PB</option>
 								<option value="P1">P1</option>
@@ -247,15 +239,15 @@ $row = $resultado->fetch_assoc();
                             </div>
                             <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">INTERNO:</label>
-                            <input class="form-control col-xl col-lg" type="text" name="interno" placeholder="INTERNO" class="corto">
+                            <input class="form-control col-xl col-lg" type="number" max="5" name="interno" id="interno" placeholder="INTERNO" class="corto">
 							<label id="lblForm"class="col-form-label col-xl col-lg">TELEFONO PERSONAL:</label>
-                            <input class="form-control col-xl col-lg" type="text" name="telefono_personal" placeholder="TELEFONO PERSONAL">
+                            <input class="form-control col-xl col-lg" type="text" name="telefono_personal" id="telPersonal" placeholder="TELEFONO PERSONAL">
                             </div>
                             <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">CORREO:</label>
-                            <input class="form-control col-xl col-lg" type="text" name="correo" maxlength="75" placeholder="CORREO" class="achicar">
+                            <input class="form-control col-xl col-lg" type="text" name="correo" maxlength="75" id="correo" placeholder="CORREO" class="achicar">
 							<label id="lblForm"class="col-form-label col-xl col-lg">CORREO PERSONAL:</label>
-                            <input class="form-control col-xl col-lg" type="text" maxlength="75" name="correo_personal" placeholder="CORREO PERSONAL" class="achicar">
+                            <input class="form-control col-xl col-lg" type="text" maxlength="75" id="correoPersonal" name="correo_personal" placeholder="CORREO PERSONAL" class="achicar">
 							</div>
 							<div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">TURNO:</label>
@@ -272,12 +264,12 @@ $row = $resultado->fetch_assoc();
 							<?php endforeach ?>
 							</select>
                             <label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIÓN:</label>
-							<textarea class="form-control col-xl col-lg" name="obs" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3"></textarea>
+							<textarea class="form-control col-xl col-lg" name="obs" id="observaciones" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3"></textarea>
 							</div>
                             <?php 
 							if ($row['ID_PERFIL'] != 5) {
 								echo '<div class="row justify-content-end" style="margin: 10px; padding:10px;">
-                                        <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="col-3 button" type="button" value="GUARDAR" >
+                                        <input onClick="enviar_formulario_usuario(this.form)" style="width: 20%;"class="col-3 button" type="button" value="GUARDAR" >
                                         </div>';
 							}
 						?>
@@ -302,6 +294,7 @@ $row = $resultado->fetch_assoc();
 			?>
 		</div>
 	</section>
+    <script src="../js/confirmacionForm.js"></script>
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>

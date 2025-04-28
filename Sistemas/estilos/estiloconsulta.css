@@ -1,12 +1,22 @@
-section, header{
+body{
+	background-color: whitesmoke !important;
+}
+
+section, header, footer{
+	background-color: whitesmoke;
 	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
+
 }
 
 header{
-	height: 60px;
-/* 	background-color: #00519C; */
+	height: auto;
+	background-color: #004582;
+	color: white;
+}
+.p-3{
+	padding: 0rem !important;
 }
 
 @font-face{
@@ -26,14 +36,26 @@ header{
 @font-face{
 	font-family: TrasandinaMedium; 
 	src: url("../fuente/TrasandinaMedium.otf");
+	}
+@font-face{/* TEXTOS */
+	font-family: Poppins-Black; 
+	src: url("../fuente/Poppins-Black.ttf");
+	}
+@font-face{/* TEXTOS */
+	font-family: Poppins-BlackItalic; 
+	src: url("../fuente/Poppins-BlackItalic.ttf");
+	}
+@font-face{/* TITULOS */
+	font-family: BeVietnamPro-Medium; 
+	src: url("../fuente/BeVietnamPro-Medium.ttf");
 	}	
 
 h1{
 	text-align: center;	
-	color: #53AAE0;
-	font-family: TrasandinaBlack;
+	color: #004582;
+	font-family: BeVietnamPro-Medium;
 	font-size: 32px;
-	letter-spacing: 5px;
+	letter-spacing: 3px;
 }
 
 h2{
@@ -52,24 +74,26 @@ h3{
 	letter-spacing: 2px;
 }
 
-#fila{
-	                  
-	font-size: 20px;
-	}
-
 h4{
 	text-align: center;	
-	font-family: TrasandinaBook;
+	font-family: sans-serif;
 	font-size: 14px;
 	text-transform: uppercase;
+
 }
 
 p{
 	text-align: center;
-	font-family: TrasandinaMedium;
+	font-family: sans-serif;
 	color: #00519C;
-	font-size: 18px;
+	font-size: 16px;
+	font-weight: bold;
 }
+
+#fila{	                  
+	font-size: 20px;
+}
+
 #contador p{
 	text-align: left;
 	margin-left: 20px;
@@ -279,61 +303,64 @@ select{
 	border-bottom: solid 1px #f7fbfd;
 }
 
-table{
+table {
 	text-align: left;
 	margin-left: 5px;
- 	background-color: #dbe5e9;
-
-	border-collapse: collapse;
-	width:100%;
-	box-shadow: 5px -2px 66px 0px rgba(0,0,0,0.24) inset;
-	-webkit-box-shadow: 5px -2px 66px 0px rgba(0,0,0,0.24) inset;
-	-moz-box-shadow: 5px -2px 66px 0px rgba(0,0,0,0.24) inset;
+	background-color: white;
+	border-collapse: collapse; /* NECESARIO para sticky estable */
+	width: 100%;
+	box-shadow: none;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* <<< Sombra un poco más fuerte */
+	border-radius: 15px; /* Si querés bordes redondeados */
 }
 
-/* th, td{
-	border: solid 1px #f7fbfd;
-	border-bottom: solid 1px #073256;	
-} */
+thead {
+	background-color: white;
+	border-bottom: 2px solid black; /* Línea divisoria más gruesa */
+}
 
-thead{
-	background-color: #dbe5e9;
-	/* border-bottom: solid 5px #073256; */
-	width: 100%;
-	
-}/*ACA ESTABA EL PROBLEMA DEL ACOMODAMIENTO EN "VER PENDIENTES" Y "VER" QUE SE ACHICABA EL TABLE*/
-
-.table_id thead th{
+.table_id thead th {
 	position: sticky;
 	top: 0;
-	background-color: #dbe5e9;
-	z-index: 1;
+	background-color: white;
+	z-index: 2; /* Un poco más alto para evitar superposición */
 }
 
-tr:nth-child(even){
-	background-color: #edf0f5;
+
+tr {
+	border-bottom: 1px solid #e0e0e0; /* Línea tenue entre registros */
 }
 
-tr:hover td{
-	background-color: #D6D6D6;
+tr:hover td {
+	background-color: #f5f5f5;
+}
+
+th, td {
+	padding: 8px 12px;
+	transition: background-color 0.2s ease-in-out;
+}
+
+th p{
+	color: #004582;
 }
 
 
 #foto{
     width: 160px;
     height: 80px;
+	margin-top: 5px;
     background-image: url("../imagenes/logoInfraestructura.png");
     background-repeat: no-repeat;
     background-size: 100%;
 	cursor: default;
+	filter: brightness(0) invert(1);
 }
-
 .espacio{
     margin-left: 20px;
 }
 
 .link{
-    color: #53AAE0 !important;
+    color: white !important;
     font-size: 20px;
 }
 
@@ -347,6 +374,9 @@ tr:hover td{
 }
 .link:hover, .link:focus {
     background-size: 100% 2px;
+}
+.link i{
+	color: white;
 }
 
 .altura{
@@ -668,48 +698,69 @@ footer{
 	flex-direction: column;
 	gap: 20px;
 }
-.filtros{
-	width: 100%;
-	background-color: #53aae025;
+
+.botonAgregar{
 	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: row;
+	justify-content: flex-end;
+	margin-right: 20px;
 }
-.filtros-listado, .filtros-listado-busqueda{
-	width: 100%;
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
-	gap: 10px;
-	flex-wrap: wrap;
-	flex-direction: column;
+
+.filtros {
+    width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
+    margin-top: 20px;
+    display: flex;
+    justify-content: center; /* Centra los elementos dentro del contenedor */
+    align-items: stretch; /* Asegura que los elementos hijos se estiren a la misma altura */
+    flex-direction: row;
+    padding: 0 10px; /* Para dar algo de espacio a los lados */
 }
-.filtros-listado div{
-	width: 700px;
-	display: flex;
-	justify-content: space-between;
-	flex-direction: row;
+
+.filtros-listado, .filtros-listadoParalelo {
+    width: 50%; /* Ambos ocuparán el 50% del contenedor */
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+    flex-direction: column;
+    height: 100%; /* Esto asegura que ambas columnas tengan la misma altura */
+    flex-grow: 1; /* Hace que ambas columnas crezcan igualmente */
 }
-.filtros-listado input, .filtros-listado select{
-	height: 30px;
-	font-size: 14px;
-	margin: 4px
+
+.filtros-listado div, .filtros-listadoParalelo div {
+    width: 550px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
 }
-.filtros-listadoParalelo{
-	width: 100%;
-	height: 250px;
-	display: flex;
-	justify-content: flex-start;
-	align-items: flex-end;
-	flex-direction: column;
-	margin-right: 50px;
-	gap: 10px;
+
+.filtros input, .filtros select {
+    height: 30px;
+    font-size: 14px;
+    margin: 4px;
 }
+
+.filtros-listado{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filtros-listadoParalelo {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+}
+
+
 .export{
 	margin-top: 0px;
 }
-.filtros-listado label{
+.filtros label{
 	color: black;
 }
 .filtros-listado-busqueda{
@@ -730,15 +781,15 @@ footer{
 .filtrado{
 	width: 100%;
 	padding: 20px;
-	border-top: 2px solid blue;
+	border-top: 2px solid #004582;
 }
 .filtrado h2{
 	font-size: 24px;
 	text-decoration: underline;
-	color: blue;
+	color: #00519C;
 }
-.filtrado ul li{
-	color: blue;
+li{
+	color:#00519C;
 }
 
 
@@ -833,155 +884,173 @@ footer{
 		text-align:left;
 		text-decoration: underline;
 	}
+
+.acordeonSeparacion{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
+}
+
+.acord{
+	width: 100%;
+}
+	
 	/* Para dar formato al reporte de planes */
 
 	@media print {
-                                             #vlv {display:none;}
-                                             #form_filtro {display:none; height: 0px !important;}
-                                             p{font-size: 10px !important; margin-top:2px !important}
-											 .plan{
-												font-size:12px;
-											}
-											#subtotal{
-												font-size: 14px!important;
-											}
-											.planRepLineas{
-												font-size:13px !important;
-											}
-											/*//ajustamos el tamaño de columnas de tabla*/
-											.usuario{
-												width: 20%;
-											}
-											.costo{
-												width: 10%;
-											}
-											/* */
-                                             .ind {
-                                                font-size: 12px;
-                                                margin-bottom: 10px !important;
-                                                font-weight: bold;
-                                             }
-                                             #periodo{font-size: 16px !important; font-weight: bold !important;}
-                                             .row{
-                                                margin-top: 1px !important;
-                                                margin-bottom: 1px !important;
-                                                height: 30px !important;
-                                             }
-                                             .col {height: 30px !important;}
-                                             hr{
-                                                margin-top: 10px !important;
-                                             }
-                                             /* .cabecera{display: block;} */
-                                             .print-header {
-                                                position: fixed;
-                                                top: 0;
-                                                left: 0;
-                                                width: 100%;
-                                                height: 100px;
-                                                text-align: center;
-                                                /* background: white;  */
-                                                z-index: 1000;
-                                            }
-                                            .print-header img {
-                                                max-height: 80px; /* Ajustar tamaño de la imagen */
-                                            }
-                                            .prov{font-size: 13px !important;}
-                                            #head{display:block !important; }
-                                            #titulo{
-                                                /* font-size: 19px !important;  */
-                                                margin-top: 5px !important;
-                                                margin-bottom: 20px !important;
-                                                height: 20px;
-                                                display: flex !important;
-                                                justify-content: center !important; /* Centrar horizontalmente */
-                                                align-items: center !important;
-                                                }
-                                            .subtitulo{
-                                                display:none;
-                                            }
-                                            .sbtRep{
-                                                display:block;
-                                                font-size: 19px !important; 
-                                                margin-top: 0px !important;
-                                                margin-bottom: 5px !important;
-                                                height: 20px;
-                                                width: 75%!important;
-                                            }
-											#subtitulo{
-												font-size: 17px!important;
-											}
-                                            .page-break {
-                                                page-break-before: always;
-                                                margin-top: 80px;
-                                            }
-                                            #total{font-size:15px !important;
-                                                margin-bottom: 10px !important;
-                                                font-weight: bold;}
-                                            td,th{
-                                                font-size: 14px !important; 
-                                                background-color: #dbe5e9!important;
-                                            }
-                                            table{
-                                                border: solid 1px #f7fbfd !important;
-                                            }
-                                            #totalPlanes{
-                                                margin-top:10px!important;
-                                            }
-                                            body {
-                                                margin-bottom: 3cm!important;
-                                            }
+			#vlv {display:none;}
+			#form_filtro {display:none; height: 0px !important;}
+			p{font-size: 10px !important; margin-top:2px !important}
+			.plan{
+			font-size:12px;
+		}
+		#subtotal{
+			font-size: 14px!important;
+		}
+		.planRepLineas{
+			font-size:13px !important;
+		}
+		/*//ajustamos el tamaño de columnas de tabla*/
+		.usuario{
+			width: 20%;
+		}
+		.costo{
+			width: 10%;
+		}
+		/* */
+			.ind {
+			font-size: 12px;
+			margin-bottom: 10px !important;
+			font-weight: bold;
+			}
+			#periodo{font-size: 16px !important; font-weight: bold !important;}
+			.row{
+			margin-top: 1px !important;
+			margin-bottom: 1px !important;
+			height: 30px !important;
+			}
+			.col {height: 30px !important;}
+			hr{
+			margin-top: 10px !important;
+			}
+			/* .cabecera{display: block;} */
+			.print-header {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100px;
+			text-align: center;
+			/* background: white;  */
+			z-index: 1000;
+		}
+		.print-header img {
+			max-height: 80px; /* Ajustar tamaño de la imagen */
+		}
+		.prov{font-size: 13px !important;}
+		#head{display:block !important; }
+		#titulo{
+			/* font-size: 19px !important;  */
+			margin-top: 5px !important;
+			margin-bottom: 20px !important;
+			height: 20px;
+			display: flex !important;
+			justify-content: center !important; /* Centrar horizontalmente */
+			align-items: center !important;
+			}
+		.subtitulo{
+			display:none;
+		}
+		.sbtRep{
+			display:block;
+			font-size: 19px !important; 
+			margin-top: 0px !important;
+			margin-bottom: 5px !important;
+			height: 20px;
+			width: 75%!important;
+		}
+		#subtitulo{
+			font-size: 17px!important;
+		}
+		.page-break {
+			page-break-before: always;
+			margin-top: 80px;
+		}
+		#total{font-size:15px !important;
+			margin-bottom: 10px !important;
+			font-weight: bold;}
+		td,th{
+			font-size: 14px !important; 
+			background-color: #dbe5e9!important;
+		}
+		table{
+			border: solid 1px #f7fbfd !important;
+		}
+		#totalPlanes{
+			margin-top:10px!important;
+		}
+		body {
+			margin-bottom: 3cm!important;
+		}
 
-                                            /* Pie de página fijo */
-                                            
+		/* Pie de página fijo */
+		
 
-											:root {
-												--total-pages: 0;
-											  }
-											  
-											  body {
-												counter-reset: page-counter 0 total-pages var(--total-pages);
-											  }
-											  /* .prov::before {
-												counter-increment: page-counter 1;
-												content: counter(page-counter) " de " counter(total-pages);
-											  } */
-											/* Pie de página fijo */
-                                            footer {
-                                                /* position: fixed!important; */
-                                                bottom: 0!important;
-                                                left: 0!important;
-                                                right: 0!important;
-                                                text-align: center!important;
-                                                font-size: 12px!important;
-                                                color: gray!important;
-                                            }
-											#footer_pag{
-												position: static!important;
-												margin-bottom: 0px!important;
-												}
+		:root {
+			--total-pages: 0;
+			}
+			
+			body {
+			counter-reset: page-counter 0 total-pages var(--total-pages);
+			}
+			/* .prov::before {
+			counter-increment: page-counter 1;
+			content: counter(page-counter) " de " counter(total-pages);
+			} */
+		/* Pie de página fijo */
+		footer {
+			/* position: fixed!important; */
+			bottom: 0!important;
+			left: 0!important;
+			right: 0!important;
+			text-align: center!important;
+			font-size: 12px!important;
+			color: gray!important;
+		}
+		#footer_pag{
+			position: static!important;
+			margin-bottom: 0px!important;
+			}
 
-											/* .footer{
-												position: relative!important;
-												width: 185mm!important;
-												height: auto!important;
-												bottom:50px;
-												bottom:10px;
-												padding: 0!important;
-												left: 0mm!important;
-												background-color: transparent!important;
-											} 
-											  .footer::before {
-												counter-increment: page-counter 1;
-												content: counter(page-counter) " of " counter(total-pages);
-											} */
-											
-                                                            }
-											@page {
-												margin-top: 5mm;
-												}
-                                                            @media screen {
-                                            .print-footer {
-                                                display: none; /* Ocultar el pie de página en pantalla */
-                                            }
-                                        }
-										
+		/* .footer{
+			position: relative!important;
+			width: 185mm!important;
+			height: auto!important;
+			bottom:50px;
+			bottom:10px;
+			padding: 0!important;
+			left: 0mm!important;
+			background-color: transparent!important;
+		} 
+			.footer::before {
+			counter-increment: page-counter 1;
+			content: counter(page-counter) " of " counter(total-pages);
+		} */
+		
+						}
+		@page {
+			margin-top: 5mm;
+			}
+						@media screen {
+		.print-footer {
+			display: none; /* Ocultar el pie de página en pantalla */
+		}
+	}
+
+	table{
+		width: 98%;
+		margin: 0 auto;
+	}
+	

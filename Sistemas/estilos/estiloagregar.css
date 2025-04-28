@@ -32,7 +32,7 @@ h1{
 	color: #53AAE0;
 	font-family: TrasandinaBlack;
 	font-size: 32px;
-	letter-spacing: 5px;
+	letter-spacing: 3px;
 }
 
 h2{
@@ -370,17 +370,14 @@ nav a img{
 	/*Fin de Menù lateral*/
 
 	#foto{
-		width: 190px;
-		height: 110px;
-		margin-top: 200px;
-		margin-left: auto;
-		margin-right: auto;
-		margin-bottom: 50px;
-		background-color: #f7fbfd;
+		width: 160px;
+		height: 80px;
+		margin-top: 5px;
 		background-image: url("../imagenes/logoInfraestructura.png");
 		background-repeat: no-repeat;
 		background-size: 100%;
-		border-radius: 10px;
+		cursor: default;
+		filter: brightness(0) invert(1);
 	}
 .color{
 	border-bottom: groove 1px #f7fbfd;

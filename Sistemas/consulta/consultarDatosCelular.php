@@ -52,27 +52,27 @@
             echo'
             
         <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-            <label>IMEI:</label>
-            <label>'.$imei.'</label>
+            <label style="color:black;">IMEI:</label>
+            <label style="color:black;">'.$imei.'</label>
         </div>
         <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-            <label>Usuario:</label>
-            <label>'.$usuario.'</label>
+            <label style="color:black;">Usuario:</label>
+            <label style="color:black;">'.$usuario.'</label>
         </div>
         <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-            <label>Roaming:</label>
-            <label>'.$procedencia.'</label>
+            <label style="color:black;">Roaming:</label>
+            <label style="color:black;">'.$procedencia.'</label>
         </div>
         <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-            <label>Proveedor:</label>
-            <label>'.$proveedor.'</label>
+            <label style="color:black;">Proveedor:</label>
+            <label style="color:black;">'.$proveedor.'</label>
         </div>
         <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-            <label>Modelo:</label>
-            <label>'.$marca.' - '.$modelo.'</label>
+            <label style="color:black;">Modelo:</label>
+            <label style="color:black;">'.$marca.' - '.$modelo.'</label>
         </div>
         <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-            <label>Estado:</label>
+            <label style="color:black;">Estado:</label>
             <label style="color:'.$color.'">'.$estado.'</label>
         </div>
         ';

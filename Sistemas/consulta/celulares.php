@@ -33,6 +33,12 @@ $row = $resultado->fetch_assoc();
 	</style>
 </head>
 <body>
+<script>
+        //Limpiar campos de formulario
+        function Limpiar(){
+            window.location.href='../consulta/celulares.php';
+        }
+    </script>
     <!-- Script para inicializar el Popover -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -56,7 +62,7 @@ $row = $resultado->fetch_assoc();
         #h2{
                 text-align: left;	
                 font-family: TrasandinaBook;
-                font-size: 16px;
+                font-size: 14px;
                 color: #edf0f5;
                 margin-left: 10px;
                 margin-top: 5px;  
@@ -66,6 +72,15 @@ $row = $resultado->fetch_assoc();
 		<div id="titulo">
 			<h1>CELULARES</h1>
 		</div>
+        <div class="botonAgregar">
+            <?php 
+                if ($row['ID_PERFIL'] == 1 || $row['ID_PERFIL'] == 2 || $row['ID_PERFIL'] == 6) {
+                    echo'<div>
+                    <button class="btn btn-success" style="font-size: 20px;"><a href="./agregarCelular.php" style="text-decoration:none !important;color:white;" target="_blank">Agregar Celular</a></button>
+                    </div>';
+                }
+                ?>
+        </div>
         <form method="POST" id="form_filtro" action="./celulares.php" class="contFilter--name">
             <div class="filtros">
                 <div class="filtros-listado">
@@ -99,24 +114,26 @@ $row = $resultado->fetch_assoc();
                                 <?php endforeach ?>
                         </select>
                     </div>
-                    <div>
-                        <label class="form-label">Modelo</label>
-                        <select id="modelo" name="modelo" class="form-control largo">
-                            <option value="">TODOS</option>
-                            <?php 
-                            $consulta= "SELECT m.MODELO, ma.MARCA, m.ID_TIPOP, m.ID_MODELO
-                            FROM modelo m
-                            LEFT JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
-                            WHERE m.ID_TIPOP = 18 
-                            ORDER BY m.MODELO ASC";
-                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                            ?>
-                            <?php foreach ($ejecutar as $opciones): ?> 
-                                <option value="<?php echo $opciones['ID_MODELO']?>"><?php echo $opciones['MARCA'].' - '.$opciones['MODELO']?></option>
-                                <?php endforeach ?>
-                        </select>
-                    </div>
-                    <div>
+                </div>
+                <div class="filtros-listadoParalelo">
+                <div>
+                    <label class="form-label">Modelo</label>
+                    <select id="modelo" name="modelo" class="form-control largo">
+                        <option value="">TODOS</option>
+                        <?php 
+                        $consulta= "SELECT m.MODELO, ma.MARCA, m.ID_TIPOP, m.ID_MODELO
+                        FROM modelo m
+                        LEFT JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
+                        WHERE m.ID_TIPOP = 18 
+                        ORDER BY m.MODELO ASC";
+                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                        ?>
+                        <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value="<?php echo $opciones['ID_MODELO']?>"><?php echo $opciones['MARCA'].' - '.$opciones['MODELO']?></option>
+                            <?php endforeach ?>
+                    </select>
+                </div>
+                <div>
                         <label class="form-label">Estado</label>
                         <select id="estado" name="estado" class="form-control largo">
                             <option value="">TODOS</option>
@@ -151,41 +168,10 @@ $row = $resultado->fetch_assoc();
                         </select>
                     </div>
                     <div style="display:flex;justify-content: flex-end;">
-                        <!-- <input type="submit" class="btn btn-success" name="busqueda" value="Buscar"> -->
+                        <input type="button" class="btn btn-danger" id="btnLimpiar" onclick="Limpiar()" value="Limpiar">
                         <input onClick="filtrar()" class="btn btn-success" name="busqueda" value="Buscar">
+                        <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
                     </div>
-                </div>
-                <div class="filtros-listadoParalelo">
-                    <?php 
-                     if ($row['ID_PERFIL'] == 1 || $row['ID_PERFIL'] == 2 || $row['ID_PERFIL'] == 6) {
-                        echo'<div>
-                            <button class="btn btn-success" style="font-size: 20px;"><a href="./agregarCelular.php" style="text-decoration:none !important;color:white;" target="_blank">Agregar nuevo celular</a></button>
-                        </div>';
-                    }
-                    
-                    ?>
-                    
-                    <div class="export">
-                        Exportar a: <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
-                    </div>
-<!--                     <div>
-                        <?php
-                            $sql3 = "SELECT COUNT(*) AS TOTAL
-                            FROM celular 
-                            WHERE ID_ESTADOWS = 1 AND ID_PROCEDENCIA = 6";
-                            $result3 = $datos_base->query($sql3);
-                            $row3 = $result3->fetch_assoc();
-                            $totalCelularesPropios = $row3['TOTAL'];
-
-                            $sql3 = "SELECT COUNT(*) AS TOTAL
-                            FROM linea 
-                            WHERE ID_ESTADOWS = 1";
-                            $result3 = $datos_base->query($sql3);
-                            $row3 = $result3->fetch_assoc();
-                            $totalLineas = $row3['TOTAL'];
-                        ?>
-                        <p>Cantidad de celulares propios: <?php echo $totalCelularesPropios;?></p>
-                    </div> -->
                 </div>
             </div>
         <?php 
@@ -308,7 +294,7 @@ $row = $resultado->fetch_assoc();
                 $row6 = $result6->fetch_assoc();
                 $total = $row6['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter primary">
                     <div class="card-pri">
                         <i class="fa-solid fa-clipboard-list"></i>
@@ -318,7 +304,7 @@ $row = $resultado->fetch_assoc();
                         <span class="count-name">Celulares Registrados</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <?php 
                 $sql6 = "SELECT COUNT(*) AS total FROM celular WHERE ID_ESTADOWS = 1";
@@ -326,7 +312,7 @@ $row = $resultado->fetch_assoc();
                 $row6 = $result6->fetch_assoc();
                 $activo = $row6['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter success">
                     <div class="card-pri">
                         <i class="fa-sharp fa-solid fa-arrow-up"></i>
@@ -336,7 +322,7 @@ $row = $resultado->fetch_assoc();
                         <span class="count-name">Celulares Activos</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
 
             <?php 
@@ -345,7 +331,7 @@ $row = $resultado->fetch_assoc();
                 $row6 = $result6->fetch_assoc();
                 $inactivos = $row6['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter danger">
                     <div class="card-pri">
                         <i class="fa-sharp fa-solid fa-arrow-down"></i>
@@ -355,7 +341,11 @@ $row = $resultado->fetch_assoc();
                         <span class="count-name">Celulares Inactivos</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
+
+            <p>Celulares Registrados: <?php echo $total; ?></p>
+            <p>Celulares Activos: <?php echo $activo; ?></p>
+            <p>Celulares Inactivos: <?php echo $inactivos; ?></p>
         </div>
         <?php };?>
 
@@ -402,13 +392,13 @@ $row = $resultado->fetch_assoc();
 
             echo "
                 <tr>
-                    <td><h4 style='font-size:16px; text-align:right;margin-right: 5px;'>".$rowSql['IMEI']."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:16px; text-align: left; margin-left: 5px;'>".$rowSql['NOMBRE']."</h4></td>
-                    <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>".$rowSql['REPA']."</h4></td>
-                    <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>".$rowSql['PROCEDENCIA']."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:16px; text-align:left;margin-left: 5px;'>".$rowSql['PROVEEDOR']."</h4></td>
-                    <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>".$rowSql['MARCA']." - ".$rowSql['MODELO']."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:16px; text-align:left;margin-left: 5px;color:".$color."'>$flecha ".$rowSql['ESTADO']."</h4></td>
+                    <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>".$rowSql['IMEI']."</h4></td>
+                    <td><h4 class='wrap2' style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['NOMBRE']."</h4></td>
+                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['REPA']."</h4></td>
+                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['PROCEDENCIA']."</h4></td>
+                    <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['PROVEEDOR']."</h4></td>
+                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['MARCA']." - ".$rowSql['MODELO']."</h4></td>
+                    <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;color:".$color."'>$flecha ".$rowSql['ESTADO']."</h4></td>
 
                     <td class='text-center text-nowrap'>
                         <span style='display: inline-flex; padding: 3px;'>

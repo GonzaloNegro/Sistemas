@@ -15,8 +15,8 @@ function valorPorDefecto($valor) {
 function generarBloqueHTML($label, $valor) {
     return "
         <div style='width:100%;display:flex;justify-content:space-between;align-items: flex-start;'>
-            <label>$label:</label>
-            <label>$valor</label>
+            <label style='color:black;'>$label:</label>
+            <label style='color:black;'>$valor</label>
         </div>";
 }
 
@@ -73,7 +73,7 @@ if ($consulta = mysqli_fetch_assoc($consultaPeri)) {
 ?>
 
 <div id="grilla">
-    <h2 style="color:#53AAE0;font-size: 20px;font-weight: bold;">MOVIMIENTOS</h2>
+    <h2 style="color:#00519C;font-size: 20px;font-weight: bold;">MOVIMIENTOS</h2>
     <table width="auto">
         <thead>
             <tr>

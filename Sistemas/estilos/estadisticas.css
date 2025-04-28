@@ -1,9 +1,19 @@
 section,
 header {
-  width: 97%;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
+
+header{
+	height: auto;
+	background-color: #004582;
+	color: white;
+}
+.p-3{
+	padding: 0rem !important;
+}
+
 
 @font-face {
   font-family: TrasandinaBlack;
@@ -23,30 +33,57 @@ header {
   font-family: TrasandinaMedium;
   src: url("../fuente/TrasandinaMedium.otf");
 }
+@font-face{/* TEXTOS */
+	font-family: Poppins-Black; 
+	src: url("../fuente/Poppins-Black.ttf");
+	}
+@font-face{/* TEXTOS */
+	font-family: Poppins-BlackItalic; 
+	src: url("../fuente/Poppins-BlackItalic.ttf");
+	}
+@font-face{/* TITULOS */
+	font-family: BeVietnamPro-Medium; 
+	src: url("../fuente/BeVietnamPro-Medium.ttf");
+	}	
 
-h1 {
-  text-align: center;
-  color: #53aae0;
-  font-family: TrasandinaBlack;
-  margin-bottom: 40px;
-  margin-top: 25px;
-  font-size: 32px;
-  letter-spacing: 5px;
+h1{
+	text-align: center;	
+	color: #004582;
+	font-family: BeVietnamPro-Medium;
+	font-size: 32px;
+	letter-spacing: 3px;
 }
 
-h2 {
-  text-align: left;
-  font-family: TrasandinaBook;
-  font-size: 16px;
-  color: #edf0f5;
-  margin-left: 10px;
+h2{
+	text-align: left;	
+	font-family: TrasandinaBook;
+	font-size: 16px;
+	color: #edf0f5;
+	margin-left: 10px;
 }
 
-h4 {
-  text-align: center;
-  font-family: TrasandinaBook;
-  font-size: 20px;
-  text-transform: uppercase;
+h3{
+	text-align: center;	
+	color: #f7fbfd;
+	font-family: TrasandinaBlack;
+	font-size: 17px;
+	letter-spacing: 2px;
+}
+
+h4{
+	text-align: center;	
+	font-family: sans-serif;
+	font-size: 14px;
+	text-transform: uppercase;
+
+}
+
+p{
+	text-align: center;
+	font-family: sans-serif;
+	color: #00519C;
+	font-size: 16px;
+	font-weight: bold;
 }
 
 #inicio {
@@ -191,11 +228,12 @@ h4 {
 #foto{
   width: 160px;
   height: 80px;
-
+	margin-top: 5px;
   background-image: url("../imagenes/logoInfraestructura.png");
   background-repeat: no-repeat;
   background-size: 100%;
-cursor: default;
+  cursor: default;
+  filter: brightness(0) invert(1);
 }
 
 .espacio{
@@ -203,7 +241,7 @@ cursor: default;
 }
 
 .link{
-  color: #53AAE0 !important;
+  color: white !important;
   font-size: 20px;
 }
 
@@ -217,6 +255,10 @@ cursor: default;
 }
 .link:hover, .link:focus {
   background-size: 100% 2px;
+}
+
+.link i{
+	color: white;
 }
 
 .altura{

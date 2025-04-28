@@ -10,7 +10,6 @@
         if (isset($_POST['idWs'])) {
             $id_ws = $_POST['idWs'];
             // Asegúrate de que estás utilizando $id_ws correctamente en la consulta y devuelve datos.
-            echo "ID WS recibido: " . $id_ws;
         }
         $equipo = $_POST['idWs'];
         
@@ -21,7 +20,7 @@
 ?>
         <section id="movimientos" style="display:flex;gap:100px;flex-direction:column;">
 		<div id="grilla">
-            <h2 style="color:#53AAE0;font-size: 20px;font-weight: bold;">Movimientos equipo <?php echo $serg;?></h2>
+            <h2 style="color:#00519C;font-size: 20px;font-weight: bold;">Movimientos equipo <?php echo $serg;?></h2>
 		<?php
 		    function colorear($v1, $v2, $v3){
                 if($v1 != $v2){
@@ -113,7 +112,7 @@
     echo "</table>";?>
     </div>
     <div id="grillamov">
-        <h2 style="color:#53AAE0;font-size: 20px;font-weight: bold;">Mejoras equipo <?php echo $serg;?></h2>
+        <h2 style="color:#00519C;font-size: 20px;font-weight: bold;">Mejoras equipo <?php echo $serg;?></h2>
 		<?php
             function colorear2($v1, $v2, $v3){
                 if($v1 != $v2){

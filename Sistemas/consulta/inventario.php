@@ -144,26 +144,26 @@ $row = $resultado->fetch_assoc();
         filtros.append();
         
         if (busqueda.val() != '') {
-            filtros.append(`<li style="color:blue; margin-left: 15px;"><u>BÚSQUEDA</u>: ${busqueda.val()}</li>`);
+            filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>BÚSQUEDA</u>: ${busqueda.val()}</li>`);
         }
         
         if (area.val() != '') {
-            filtros.append(`<li style="color:blue; margin-left: 15px;"><u>AREA</u>: ${$("#area option:selected").text()}</li>`);
+            filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>AREA</u>: ${$("#area option:selected").text()}</li>`);
         }
         if (reparticion.val() != '') {
-            filtros.append(`<li style="color:blue; margin-left: 15px;"><u>REPARTICION</u>: ${$("#reparticion option:selected").text()}</li>`);
+            filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>REPARTICION</u>: ${$("#reparticion option:selected").text()}</li>`);
         }
         if (tipows.val() != '') {
-            filtros.append(`<li style="color:blue; margin-left: 15px;"><u>TIPO WS</u>: ${$("#tipows option:selected").text()}</li>`);
+            filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>TIPO WS</u>: ${$("#tipows option:selected").text()}</li>`);
         }if (so.val() != '') {
-            filtros.append(`<li style="color:blue; margin-left: 15px;"><u>S.O.</u>: ${$("#so option:selected").text()}</li>`);
+            filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>S.O.</u>: ${$("#so option:selected").text()}</li>`);
         }if (micro.val() != '') {
-            filtros.append(`<li style="color:blue; margin-left: 15px;"><u>MICRO</u>: ${$("#micro option:selected").text()}</li>`);
+            filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>MICRO</u>: ${$("#micro option:selected").text()}</li>`);
         }if (estado.val() != '') {
-            filtros.append(`<li style="color:blue; margin-left: 15px;"><u>ESTADO</u>: ${$("#estado option:selected").text()}</li>`);
+            filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>ESTADO</u>: ${$("#estado option:selected").text()}</li>`);
         }
         if (orden.val() != '') {
-            filtros.append(`<li style="color:blue; margin-left: 15px;"><u>ORDEN</u>: ${$("#orden option:selected").text()}</li>`);
+            filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>ORDEN</u>: ${$("#orden option:selected").text()}</li>`);
         }
 
         filtros.show();
@@ -400,11 +400,14 @@ $row = $resultado->fetch_assoc();
 		<div id="titulo">
 			<h1>INVENTARIO DE EQUIPOS</h1>
 		</div>
+        <div class="botonAgregar">
+            <button class="btn btn-success" style="font-size: 20px;"><a href="./agregarequipo.php" style="text-decoration:none !important;color:white;" target="_blank">Agregar Equipo</a></button>
+        </div>
         <!-- <form method="POST" action="./inventario.php" class="contFilter--name"> -->
             <div class="filtros">
                 <div class="filtros-listado">
                     <div>
-                        <label class="form-label">Usuario/N°WS/Observación</label>
+                        <label class="form-label">Usu/WS/Obs</label>
                         <input type="text" style="text-transform:uppercase;" id ="buscar" name="buscar"  placeholder="Buscar" class="form-control largo">
                     </div>
                     <div>
@@ -455,7 +458,7 @@ $row = $resultado->fetch_assoc();
                         </select>
                     </div>
                     <div>
-                        <label class="form-label">Sistema Operativo</label>
+                        <label class="form-label">Sist.Operativo</label>
                         <select id="so" name="so" class="form-control largo">
                             <option value="">TODOS</option>
                             <?php 
@@ -467,7 +470,9 @@ $row = $resultado->fetch_assoc();
                                 <?php endforeach ?>
                         </select>
                     </div>
-                    <div>
+                </div>
+                <div class="filtros-listadoParalelo">
+                <div>
                         <label class="form-label">Micro</label>
                         <select id="micro" name="micro" class="form-control largo">
                             <option value="">TODOS</option>
@@ -536,14 +541,8 @@ $row = $resultado->fetch_assoc();
                     <div style="display:flex;justify-content: flex-end;">
                         <input class="btn btn-danger" id="btnLimpiar" name="Limpiar" onclick="Limpiar()" value="Limpiar">
                         <input type="submit" class="btn btn-success" id="btnForm" name="busqueda" value="Buscar">
-                    </div>
-                </div>
-                <div class="filtros-listadoParalelo">
-                    <div>
-                        <button class="btn btn-success" style="font-size: 20px;"><a href="agregarequipo.php" style="text-decoration:none !important;color:white;" target="_blank">Agregar nuevo equipo</a></button>
-                    </div>
-                    <div class="export">
-                        Exportar a: <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
+
+                        <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
                     </div>
                 </div>
             </div>
@@ -558,7 +557,7 @@ $row = $resultado->fetch_assoc();
                 $row6 = $result6->fetch_assoc();
                 $total = $row6['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter primary">
                     <div class="card-pri">
                         <i class="fa-solid fa-clipboard-list"></i>
@@ -568,7 +567,7 @@ $row = $resultado->fetch_assoc();
                         <span class="count-name">Equipos Registrados</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <?php 
                 $sql6 = "SELECT COUNT(*) AS total FROM inventario WHERE ID_ESTADOWS = 1";
@@ -576,7 +575,7 @@ $row = $resultado->fetch_assoc();
                 $row6 = $result6->fetch_assoc();
                 $activo = $row6['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter success">
                     <div class="card-pri">
                         <i class="fa-sharp fa-solid fa-arrow-up"></i>
@@ -586,7 +585,7 @@ $row = $resultado->fetch_assoc();
                         <span class="count-name">Equipos Activos</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
 
             <?php 
@@ -595,7 +594,7 @@ $row = $resultado->fetch_assoc();
                 $row6 = $result6->fetch_assoc();
                 $inactivos = $row6['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter danger">
                     <div class="card-pri">
                         <i class="fa-sharp fa-solid fa-arrow-down"></i>
@@ -605,11 +604,14 @@ $row = $resultado->fetch_assoc();
                         <span class="count-name">Equipos Inactivos</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
+            <p>Equipos Registrados: <?php echo $total; ?></p>
+            <p>Equipos Activos: <?php echo $activo; ?></p>
+            <p>Equipos Inactivos: <?php echo $inactivos; ?></p>
         </div>
         <?php
         echo"<div class=filtrado>
-        <label style='color:blue; margin-left: 15px; margin-bottom:20px;' id='nroInventario'>Resultados Encontrados:</label>
+        <label style='color:#00519C; margin-left: 15px; margin-bottom:20px;' id='nroInventario'>Resultados Encontrados:</label>
         ";    ?>
 
         <div id="filtrosUsados" style="display:none;">

@@ -148,10 +148,11 @@ $date2 = date('Y-m-d'); */
 			$ws = $row['ID_WS'];
 		} */
 		if($equipo == 0 OR $equipo == ""){
-			$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
+/* 			$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
 			$resultado = $datos_base->query($sql);
 			$row = $resultado->fetch_assoc();
-			$ws = $row['ID_WS'];
+			$ws = $row['ID_WS']; */
+			$ws = 0;
 		}
 
 			/* SI ESTA CERRADO */

@@ -14,8 +14,8 @@ function valorOporDefecto($valor) {
 function generarBloqueHTML($label, $valor) {
     return '
     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-        <label>' . $label . ':</label>
-        <label>' . valorOporDefecto($valor) . '</label>
+        <label style="color:black;">' . $label . ':</label>
+        <label style="color:black;">' . valorOporDefecto($valor) . '</label>
     </div>';
 }
 
@@ -31,6 +31,7 @@ if ($num_rows > 0) {
         $idEstado = $consulta['ID_ESTADO'];
         $idResolutor = $consulta['ID_RESOLUTOR'];
         $idUsuario = $consulta['ID_USUARIO'];
+        $idWs = $consulta['ID_WS'];
         $fechaSolucion = date("d-m-Y", strtotime($consulta['FECHA_SOLUCION']));
 
         // Obtener estado
@@ -39,6 +40,14 @@ if ($num_rows > 0) {
         $resultado = $datos_base->query($sent);
         if ($row = $resultado->fetch_assoc()) {
             $estado = $row['ESTADO'];
+        }
+
+        // Obtener estado
+        $ws = "-";
+        $sent = "SELECT SERIEG FROM inventario WHERE ID_WS = $idWs";
+        $resultado = $datos_base->query($sent);
+        if ($row = $resultado->fetch_assoc()) {
+            $ws = $row['SERIEG'];
         }
 
         // Obtener resolutor
@@ -72,12 +81,13 @@ if ($num_rows > 0) {
 
         // Mostrar datos del ticket
         $camposTicket = [
-            "N° Incidente" => $idTicket,
+            "N° Incidente" => '#'.$idTicket,
             "Fecha Inicio" => $fechaInicio,
             "Hora Creación" => $hora,
             "Usuario" => $usuario,
             "Área" => $area,
             "Repartición" => $reparticion,
+            "Equipo" => $ws,
             "Descripción" => $desc,
             "Estado" => "<span style='color:green;'>$estado</span>",
             "Fecha Solución" => $fechaSolucion,
@@ -94,7 +104,7 @@ if ($num_rows > 0) {
 ?>
 
 <div id="grilla">
-    <h2 style="color:#53AAE0;font-size: 20px;font-weight: bold;">MOVIMIENTOS</h2>
+    <h2 style="color:#00519C;font-size: 20px;font-weight: bold;">MOVIMIENTOS</h2>
     <?php
     echo "<table width=auto>
         <thead>

@@ -10,7 +10,7 @@
 
         //SERVIDOR QUE MUESTRA UNA TABLA CON LAS NOVEDADES DE UN CASO DETERMINADO
     $id_linea = $_POST['idLinea'];
-    $resultados=mysqli_query($datos_base, "SELECT l.NRO, u.NOMBRE, p.PLAN, pr.PROVEEDOR, r.ROAMING, l.DESCUENTO, n.NOMBREPLAN, l.FECHADESCUENTO, m.MONTO, m.EXTRAS, m.MONTOTOTAL, e.ESTADO, m.FECHA
+    $resultados=mysqli_query($datos_base, "SELECT l.NRO, u.NOMBRE, p.PLAN, pr.PROVEEDOR, r.ROAMING, l.DESCUENTO, n.NOMBREPLAN, l.FECHADESCUENTO, m.MONTO, m.EXTRAS, m.MONTOTOTAL, e.ESTADO, m.FECHA, m.OBSERVACION
     from movilinea m 
     left join linea l on l.ID_LINEA=m.ID_LINEA 
     left join usuarios u on u.ID_USUARIO=m.ID_USUARIO 
@@ -20,7 +20,7 @@
     left join roaming r on r.ID_ROAMING=l.ID_ROAMING 
     left join estado_ws e on e.ID_ESTADOWS=l.ID_ESTADOWS 
     where l.ID_LINEA = $id_linea
-    ORDER BY m.FECHA ASC");
+    ORDER BY m.FECHA DESC");
     $num_rows= mysqli_num_rows($resultados);
     // echo"<h1>".$celular."</h1>";
     if ($num_rows>0) {
@@ -37,6 +37,7 @@
                 <th><p style='text-align:center;padding: 15px;'>FECHA DESCUENTO</p></th>
                 <th><p style='text-align:right;margin-right: 5px;padding: 15px;'>EXTRAS</p></th>
                 <th><p style='text-align:right; margin-right: 5px;padding: 15px;'>MONTO TOTAL</p></th>
+                <th><p style='text-align:right; margin-right: 5px;padding: 15px;'>OBSERVACIÓN</p></th>
             </tr>
         </thead>
         <tbody>";
@@ -76,10 +77,18 @@
             $montoTotal=$consulta['MONTOTOTAL'];
             $descuento=$consulta['DESCUENTO'];
             $estado=$consulta['ESTADO'];
+            $observacion=$consulta['OBSERVACION'];
             // $nombreplan=$consulta['NOMBREPLAN'];
             // $modelo=$consulta['MODELO'];
             // $marca=$consulta['MARCA'];
             // $estado=$consulta['ESTADO'];
+
+            $color = 'blue';
+            if ($estado === 'EN USO') {
+                $color = 'green';
+            } elseif ($estado === 'BAJA') {
+                $color = 'red';
+            }
             
             echo"
             <tr>
@@ -87,12 +96,13 @@
             <td><h4 style='text-align: left;padding: 5px;'>".$nombre."</h4 ></td>
             <td><h4 style='text-align: left;padding: 5px;'>".$nombrePlan." ".$plan."</h4 ></td>
             <td><h4 style='text-align: left;margin-left:5px;'>".$roaming."</h4 ></td>
-            <td><h4 style='text-align: left;margin-left:5px;'>".$estado."</h4 ></td>
+            <td><h4 style='text-align: left;margin-left:5px;color:".$color."'>".$estado."</h4 ></td>
             <td><h4 style='text-align: right;margin-right:5px;'>$".$monto."</h4 ></td>
             <td><h4 style='text-align: right;margin-right:5px;'>".$descuento."%</h4 ></td>
             <td><h4 style='text-align: center;'>".$fecdes."</h4 ></td>
             <td><h4 style='text-align: right;margin-right:5px;'>$".$extras."</h4 ></td>
             <td><h4 style='text-align: right;margin-right:5px;color:green;font-weight:bold;font-size:16px;'>$".$montoTotal."</h4 ></td>
+            <td><h4 style='text-align: right;margin-right:5px;'>".$observacion."</h4 ></td>
             </tr>
         </tbody>";
           }	

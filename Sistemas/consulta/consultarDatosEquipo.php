@@ -62,8 +62,8 @@ function ConsultarIncidente($no_tic)
         width: 97%;
         margin-right: auto;
         margin-left: auto;
-        background-color: #dbe5e9;
         border-radius: 10px;
+        border: 1px solid #00519C;
     }
 
     #detalles{
@@ -608,16 +608,26 @@ function ConsultarIncidente($no_tic)
                     }
 
                 ?>  
-                    <div class="form-group row" style=" padding:5px;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>EQUIPO:</u>&nbsp &nbsp &nbsp<?php echo $consulta[3]?></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>USUARIO:</u>&nbsp &nbsp &nbsp<?php echo $nom ?></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>ÁREA DE UBICACIÓN:</u>&nbsp &nbsp &nbsp<?php echo $are?></h4>
+                    <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>EQUIPO</u>:</h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[3]?></h4>
                     </div>
-
-
-                    <div class="form-group row" style="padding:5px;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>TIPO DE EQUIPO:</u>&nbsp &nbsp &nbsp<?php echo $tip?></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MARCA:</u>&nbsp &nbsp &nbsp<?php echo $mar?></h4>
+                    <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>USUARIO</u>:</h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $nom ?></h4>
+                    </div>
+                    <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>ÁREA DE UBICACIÓN</u>:</h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $are ?></h4>
+                    </div>
+                    
+                    <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>TIPO</u>:</h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $tip?></h4>
+                    </div>
+                    <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MARCA</u>:</h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $mar?></h4>
                         <?php 
                         if($est == 'EN USO'){
                             $color = 'green';
@@ -627,25 +637,32 @@ function ConsultarIncidente($no_tic)
                             $color = 'blue';
                         }
                         ?>
-                        <h4 id="lblForm" class="col-form-label col-xl col-lg">
-                            <u>ESTADO DEL EQUIPO:</u>&nbsp;&nbsp;&nbsp;
-                            <span style="color: <?php echo $color; ?>"><?php echo $est; ?></span>
-                        </h4>
+                    </div>
+                    <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+                        <h4 id="lblForm" class="col-form-label col-xl col-lg"><u>ESTADO DEL EQUIPO:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"style="color: <?php echo $color; ?>"><?php echo $est?></h4>
                     </div>
 
                     <hr style='display: block; height: 3px;'>
 
-                    <div class="form-group row" style="padding:5px;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>SISTEMA OPERATIVO:</u>&nbsp &nbsp &nbsp<?php echo $so?></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PROCESADOR:</u>&nbsp &nbsp &nbsp<?php echo $micro?></h4>
+                    <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>SISTEMA OPERATIVO:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $so?></h4>
                     </div>
 
-                    <div class="form-group row" style="padding:5px;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PLACA MADRE:</u>&nbsp &nbsp &nbsp<?php echo $placam." - ".$placammarca;?></h4>
+                    <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PROCESADOR:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $micro?></h4>
                     </div>
 
+                    <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PLACA MADRE:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $placam." - ".$placammarca;?></h4>
+                    </div>
 
-                    <div class="form-group row" style="padding:10px;">
+                <div class="acordeonSeparacion">
+                    <div class="form-group row acord" style="padding:10px;">
+
                         <div class="accordion accordion-flush" id="accordionFlushExample">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingOne">
@@ -734,7 +751,7 @@ function ConsultarIncidente($no_tic)
 
 
 
-                    <div class="form-group row" style="padding:10px;">
+                    <div class="form-group row acord" style="padding:10px;">
                     <div class="accordion accordion-flush" id="accordionFlushExample">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingOn">
@@ -815,28 +832,51 @@ function ConsultarIncidente($no_tic)
                             </div>
                         </div>
                     </div>
-
+                </div>
 
 
 
                     <hr style='display: block; height: 3px;'>
 
-                    <div class="form-group row" style="padding:5px;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>SERIALN:</u>&nbsp &nbsp &nbsp<?php echo $consulta[2]?></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MASTERIZACIÓN:</u>&nbsp &nbsp &nbsp<?php echo $consulta[10]?></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>OBSERVACIÓN:</u>&nbsp &nbsp &nbsp<?php echo $consulta[7]?></h4>
+                    <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>SERIALN:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[2]?></h4>
                     </div>
 
-                    <div class="form-group row" style="padding:5px;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>RED:</u>&nbsp &nbsp &nbsp<?php echo $red?></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>NRO MAC:</u>&nbsp &nbsp &nbsp<?php echo $consulta[11]?></h4> 
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>RESERVA DE IP:</u>&nbsp &nbsp &nbsp<?php echo $consulta[12]?></h4>
+                    <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MASTERIZACIÓN:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[10]?></h4>
                     </div>
 
-                    <div class="form-group row" style="padding:5px;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PROVEEDOR:</u>&nbsp &nbsp &nbsp<?php echo $prov?></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u>&nbsp &nbsp &nbsp<?php echo $consulta[9]?></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $consulta[17]?></h4>
+                    <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>OBSERVACIÓN:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[7]?></h4>
+                    </div>
+                    
+                    <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>RED:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $red?></h4>
+                    </div>
+                    <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>NRO MAC:</u></h4> 
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[11]?></h4> 
+                    </div>
+                    <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>RESERVA DE IP:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[12]?></h4>
+                    </div>
+
+                    <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PROVEEDOR:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $prov?></h4>
+                        </div>
+                    <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[9]?></h4>
+                    </div>
+                    <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[17]?></h4>
                     </div>
             </div>
 	</section>

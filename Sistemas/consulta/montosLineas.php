@@ -34,6 +34,12 @@ $row = $resultado->fetch_assoc();
 	</style>
 </head>
 <body>
+    <script>
+        //Limpiar campos de formulario
+        function Limpiar(){
+            window.location.href='../consulta/montosLineas.php';
+        }
+    </script>
     <!-- Script para inicializar el Popover -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -56,7 +62,7 @@ $row = $resultado->fetch_assoc();
 			#h2{
 	              text-align: left;	
 	              font-family: TrasandinaBook;
-	              font-size: 16px;
+	              font-size: 14px;
 	              color: #edf0f5;
 	              margin-left: 10px;
 	              margin-top: 5px;;
@@ -67,6 +73,16 @@ $row = $resultado->fetch_assoc();
 		<div id="titulo">
 			<h1>MONTOS LÍNEAS</h1>
 		</div>
+        <div class="botonAgregar" style="display:flex;gap:10px;">
+            <?php if($row['ID_PERFIL'] == 1 || $row['ID_PERFIL'] == 2 || $row['ID_PERFIL'] == 6){
+                echo '<div>
+                        <button class="btn btn-success" style="font-size: 20px;"><a href="./agregarLinea.php" style="text-decoration:none !important;color:white;" target="_blank">Agregar Línea</a></button>
+                    </div>';
+            }
+            ?>
+            <button class="btn btn-warning" style="font-size: 20px;background-color:#FF7800;"><a href="./montosMensuales.php" style="text-decoration:none !important;color:white;" target="_blank">Montos mensuales</a></button>
+        </div>
+
         <form method="POST" id="form_filtro" action="./MontosLineas.php" class="contFilter--name">
             <div class="filtros">
                 <div class="filtros-listado">
@@ -105,6 +121,8 @@ $row = $resultado->fetch_assoc();
                                 <?php endforeach ?>
                         </select>
                     </div>
+                </div>
+                <div class="filtros-listadoParalelo">
                     <div>
                         <label class="form-label">Repartición</label>
                         <select id="subject-filter" id="reparticion" name="reparticion" class="form-control largo">
@@ -155,34 +173,20 @@ $row = $resultado->fetch_assoc();
                     </div>
 
                     <div style="display:flex;justify-content: flex-end;">
-                        <!-- <input type="submit" class="btn btn-success" name="busqueda" value="Buscar"> -->
-                        <input onClick="filtrar()" class="btn btn-success" name="busqueda" value="Buscar">
-                    </div>
-                </div>
-
-                <div class="filtros-listadoParalelo">
-                    
-                    <?php if($row['ID_PERFIL'] == 1 || $row['ID_PERFIL'] == 2 || $row['ID_PERFIL'] == 6){
-                        echo '<div>
-                                    <button class="btn btn-success" style="font-size: 20px;"><a href="./agregarLinea.php" style="text-decoration:none !important;color:white;" target="_blank">Agregar nueva línea</a></button>
-                                </div>';
-                    }
-                    ?>
-                    <div>
-                        <button class="btn btn-warning" style="font-size: 20px;background-color:#FF7800;"><a href="./montosMensuales.php" style="text-decoration:none !important;color:white;" target="_blank">Montos mensuales</a></button>
-                    </div>
-                    <div class="export">
-                        Exportar a: <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
+                        <input type="button" class="btn btn-danger" id="btnLimpiar" onclick="Limpiar()" value="Limpiar">
+                        <input type="submit" class="btn btn-success" name="busqueda" value="Buscar">
+                        <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
                     </div>
                 </div>
             </div>
+        </div>
         <?php 
 
         if ($_POST['buscar'] == ''){ $_POST['buscar'] = ' ';}
         $aKeyword = explode(" ", $_POST['buscar']);
 
         if ($_POST["buscar"] == '' AND $_POST['ID_NOMBREPLAN'] == '' AND $_POST['ID_ESTADOWS'] == '' AND $_POST['ID_PROVEEDOR'] == ''){ 
-                $query ="SELECT m.ID_MOVILINEA, m.ID_LINEA, m.EXTRAS, l.NRO, e.ESTADO, p.PLAN, n.NOMBREPLAN, n.MONTO, u.NOMBRE, l.DESCUENTO, l.FECHADESCUENTO, r.ROAMING, pr.PROVEEDOR, m.MONTOTOTAL, re.REPA
+                $query ="SELECT m.ID_MOVILINEA, m.ID_LINEA, m.EXTRAS, l.NRO, e.ESTADO, p.PLAN, n.NOMBREPLAN, n.MONTO, u.NOMBRE, l.DESCUENTO, l.FECHADESCUENTO, pr.PROVEEDOR, m.MONTOTOTAL, re.REPA
                 FROM movilinea m
                 INNER JOIN (
                     SELECT ID_LINEA, MAX(ID_MOVILINEA) AS UltimoID
@@ -194,13 +198,12 @@ $row = $resultado->fetch_assoc();
                 LEFT JOIN nombreplan n ON n.ID_NOMBREPLAN = l.ID_NOMBREPLAN 
                 LEFT JOIN plan p ON p.ID_PLAN = n.ID_PLAN
                 LEFT JOIN proveedor pr ON pr.ID_PROVEEDOR = n.ID_PROVEEDOR 
-                LEFT JOIN roaming r ON r.ID_ROAMING = l.ID_ROAMING
                 LEFT JOIN usuarios u ON u.ID_USUARIO = l.ID_USUARIO 
                 LEFT JOIN area a on a.ID_AREA=u.ID_AREA
                 LEFT JOIN reparticion re on a.ID_REPA=re.ID_REPA
                 ORDER BY u.NOMBRE ASC ";
         }elseif(isset($_POST['busqueda'])){
-                $query = "SELECT m.ID_MOVILINEA, m.ID_LINEA, m.EXTRAS, l.NRO, e.ESTADO, p.PLAN, n.NOMBREPLAN, n.MONTO, u.NOMBRE, l.DESCUENTO, l.FECHADESCUENTO, r.ROAMING, pr.PROVEEDOR, m.MONTOTOTAL, re.REPA
+                $query = "SELECT m.ID_MOVILINEA, m.ID_LINEA, m.EXTRAS, l.NRO, e.ESTADO, p.PLAN, n.NOMBREPLAN, n.MONTO, u.NOMBRE, l.DESCUENTO, l.FECHADESCUENTO, pr.PROVEEDOR, m.MONTOTOTAL, re.REPA
                 FROM movilinea m
                 INNER JOIN (
                     SELECT ID_LINEA, MAX(ID_MOVILINEA) AS UltimoID
@@ -212,7 +215,6 @@ $row = $resultado->fetch_assoc();
                 LEFT JOIN nombreplan n ON n.ID_NOMBREPLAN = l.ID_NOMBREPLAN 
                 LEFT JOIN plan p ON p.ID_PLAN = n.ID_PLAN
                 LEFT JOIN proveedor pr ON pr.ID_PROVEEDOR = n.ID_PROVEEDOR 
-                LEFT JOIN roaming r ON r.ID_ROAMING = l.ID_ROAMING
                 LEFT JOIN usuarios u ON u.ID_USUARIO = l.ID_USUARIO 
                 LEFT JOIN area a on a.ID_AREA=u.ID_AREA
                 LEFT JOIN reparticion re on a.ID_REPA=re.ID_REPA  ";
@@ -275,7 +277,7 @@ $row = $resultado->fetch_assoc();
     GROUP BY m.ID_LINEA
     ORDER BY m.ID_MOVILINEA DESC"; */
 
-    $query ="SELECT m.ID_MOVILINEA, m.ID_LINEA, m.EXTRAS, l.NRO, e.ESTADO, p.PLAN, n.NOMBREPLAN, n.MONTO, u.NOMBRE, l.DESCUENTO, l.FECHADESCUENTO, r.ROAMING, pr.PROVEEDOR, m.MONTOTOTAL, re.REPA
+    $query ="SELECT m.ID_MOVILINEA, m.ID_LINEA, m.EXTRAS, l.NRO, e.ESTADO, p.PLAN, n.NOMBREPLAN, n.MONTO, u.NOMBRE, l.DESCUENTO, l.FECHADESCUENTO, pr.PROVEEDOR, m.MONTOTOTAL, re.REPA
     FROM movilinea m
     INNER JOIN (
         SELECT ID_LINEA, MAX(ID_MOVILINEA) AS UltimoID
@@ -287,7 +289,6 @@ $row = $resultado->fetch_assoc();
     LEFT JOIN nombreplan n ON n.ID_NOMBREPLAN = l.ID_NOMBREPLAN 
     LEFT JOIN plan p ON p.ID_PLAN = n.ID_PLAN
     LEFT JOIN proveedor pr ON pr.ID_PROVEEDOR = n.ID_PROVEEDOR 
-    LEFT JOIN roaming r ON r.ID_ROAMING = l.ID_ROAMING
     LEFT JOIN usuarios u ON u.ID_USUARIO = l.ID_USUARIO 
     LEFT JOIN area a on a.ID_AREA=u.ID_AREA
     LEFT JOIN reparticion re on a.ID_REPA=re.ID_REPA
@@ -314,23 +315,7 @@ $row = $resultado->fetch_assoc();
         $mesUltimoRegistro = $row_['MES'];
 
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        $mesActual = date("n");
+    $mesActual = date("n");
     $añoActual = date("Y");
     switch ($mesActual) {
         case '1': $mes = 'Enero';break;
@@ -374,7 +359,7 @@ $row = $resultado->fetch_assoc();
                 $row6 = $result6->fetch_assoc();
                 $total = $row6['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter primary">
                     <div class="card-pri">
                         <i class="fa-solid fa-clipboard-list"></i>
@@ -384,7 +369,7 @@ $row = $resultado->fetch_assoc();
                         <span class="count-name">Líneas Registradas</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <?php 
                 $sql6 = "SELECT COUNT(*) AS total FROM linea WHERE ID_ESTADOWS = 1";
@@ -392,7 +377,7 @@ $row = $resultado->fetch_assoc();
                 $row6 = $result6->fetch_assoc();
                 $activo = $row6['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter success">
                     <div class="card-pri">
                         <i class="fa-sharp fa-solid fa-arrow-up"></i>
@@ -402,7 +387,7 @@ $row = $resultado->fetch_assoc();
                         <span class="count-name">Líneas Activas</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
 
             <?php 
@@ -411,7 +396,7 @@ $row = $resultado->fetch_assoc();
                 $row6 = $result6->fetch_assoc();
                 $inactivos = $row6['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter danger">
                     <div class="card-pri">
                         <i class="fa-sharp fa-solid fa-arrow-down"></i>
@@ -421,12 +406,14 @@ $row = $resultado->fetch_assoc();
                         <span class="count-name">Líneas Inactivas</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
+            <p>Líneas Registradas: <?php echo $total; ?></p>
+            <p>Líneas Activas: <?php echo $activo; ?></p>
+            <p>Líneas Inactivas: <?php echo $inactivos; ?></p>
         </div>
 
         <?php };?>
-
-    <table class="table_id" id="tabla_lineas" style="width: 98%; margin: 0 auto;">
+    <table class="table_id tablaLineas" id="tabla_lineas" >
         <thead>
             <tr>
                 <th><p style='text-align:right; margin-right: 5px;'>NÚMERO</p></th>
@@ -434,12 +421,11 @@ $row = $resultado->fetch_assoc();
                 <th><p style="text-align:left; margin-left: 5px;">REPARTICIÓN</p></th>
                 <th><p style='text-align:left; margin-left: 5px;'>PLAN</p></th>
                 <th><p style='text-align:left; margin-left: 5px;'>PROVEEDOR</p></th>
-                <th><p style='text-align:left; margin-left: 5px;'>ROAMING</p></th>
                 <th><p style='text-align:right; margin-right: 5px;'>MONTO</p></th>
                 <th><p style='text-align:right; margin-right: 5px;'>EXTRAS</p></th>
                 <th><p style='text-align:right; margin-right: 5px;'>DESCUENTO</p></th>
                 <!-- <th><p style='text-align:center;'>FECHA DESCUENTO</p></th> -->
-                <th><p style='text-align:right; margin-right: 10px;'>MONTO TOTAL</p></th>
+                <th><p style='text-align:right; margin-right: 5px;'>MONTO TOTAL</p></th>
                 <th><p style='text-align:left; margin-left: 10px;'>ESTADO</p></th>
                 <th><p>ACCIÓN</p></th>
             </tr>
@@ -462,17 +448,16 @@ $row = $resultado->fetch_assoc();
 
             echo "
                 <tr>
-                <td><h4 style='font-size:16px; text-align: right; margin-right: 5px;'>".$rowSql['NRO']."</h4 ></td>
-                <td><h4 style='font-size:16px; text-align: left; margin-left: 5px;'>".$rowSql['NOMBRE']."</h4 ></td>
-                <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>".$rowSql['REPA']."</h4></td>
-                <td><h4 style='font-size:16px; text-align: left; margin-left: 5px;'>".$rowSql['NOMBREPLAN']." - ".$rowSql['PLAN']."</h4 ></td>
-                <td><h4 style='font-size:16px; text-align: left; margin-left: 5px;'>".$rowSql['PROVEEDOR']."</h4 ></td>
-                <td><h4 style='font-size:16px; text-align: left; margin-left: 5px;'>".$rowSql['ROAMING']."</h4 ></td>
-                <td><h4 style='font-size:16px; text-align: right; margin-right: 5px;color:green;font-weight:bold;'>"."$".$rowSql['MONTO']."</h4 ></td>
-                <td><h4 style='font-size:16px; text-align: right; margin-right: 5px;color:red;font-weight:bold;'>"."$".$rowSql['EXTRAS']."</h4 ></td>
-                <td><h4 style='font-size:16px; text-align: right; margin-right: 5px;'>".$rowSql['DESCUENTO']."%"."</h4 ></td>
-                <td><h4 style='font-size:18px; text-align: right; margin-right: 5px;color:green;font-weight:bold;'>"."$".$rowSql['MONTOTOTAL']."</h4 ></td>
-                <td><h4 style='font-size:16px; text-align: left; margin-left: 5px;color:".$color.";'>$flecha ".$rowSql['ESTADO']."</h4 ></td>
+                <td><h4 style='font-size:14px; text-align: right; margin-right: 5px;'>".$rowSql['NRO']."</h4 ></td>
+                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['NOMBRE']."</h4 ></td>
+                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['REPA']."</h4></td>
+                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['NOMBREPLAN']." - ".$rowSql['PLAN']."</h4 ></td>
+                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['PROVEEDOR']."</h4 ></td>
+                <td><h4 style='font-size:14px; text-align: right; margin-right: 5px;color:green;font-weight:bold;'>"."$".$rowSql['MONTO']."</h4 ></td>
+                <td><h4 style='font-size:14px; text-align: right; margin-right: 5px;color:red;font-weight:bold;'>"."$".$rowSql['EXTRAS']."</h4 ></td>
+                <td><h4 style='font-size:14px; text-align: right; margin-right: 5px;'>".$rowSql['DESCUENTO']."%"."</h4 ></td>
+                <td><h4 style='font-size:16px; text-align: right; margin-right: 5px;color:green;font-weight:bold;'>"."$".$rowSql['MONTOTOTAL']."</h4 ></td>
+                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;color:".$color.";'>$flecha ".$rowSql['ESTADO']."</h4 ></td>
                 <td class='text-center text-nowrap'>
                     <span style='display: inline-flex; padding: 3px;'>
                         <a style='padding: 3px; cursor: pointer;'
@@ -559,6 +544,7 @@ $row = $resultado->fetch_assoc();
                 }
         echo '</table>';
         ?>
+
 		</div>
         <form id="formu" action="../exportar/ExcelMontosLineas.php" method="POST">
             <input type="text" id="excel" name="sql" class="valorPeque" readonly="readonly" value="<?php echo $query;?>">

@@ -69,25 +69,25 @@ $row = $resultado->fetch_assoc();
                     filtros.append();
                     
                     if (busqueda.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>BÚSQUEDA</u>: ${busqueda.val()}</li>`);
+                        filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>BÚSQUEDA</u>: ${busqueda.val()}</li>`);
                     }
                     
                     if (area.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>AREA</u>: ${$("#area option:selected").text()}</li>`);
+                        filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>AREA</u>: ${$("#area option:selected").text()}</li>`);
                     }
                     if (reparticion.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>REPARTICION</u>: ${$("#reparticion option:selected").text()}</li>`);
+                        filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>REPARTICION</u>: ${$("#reparticion option:selected").text()}</li>`);
                     }
                     if (tipop.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>TIPO P</u>: ${$("#tipop option:selected").text()}</li>`);
+                        filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>TIPO P</u>: ${$("#tipop option:selected").text()}</li>`);
                     }
                     if (marca.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>MARCA</u>: ${$("#marca option:selected").text()}</li>`);
+                        filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>MARCA</u>: ${$("#marca option:selected").text()}</li>`);
                     }if (estado.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>ESTADO</u>: ${$("#estado option:selected").text()}</li>`);
+                        filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>ESTADO</u>: ${$("#estado option:selected").text()}</li>`);
                     }
                     if (orden.val() != '') {
-                        filtros.append(`<li style="color:blue; margin-left: 15px;"><u>ORDEN</u>: ${$("#orden option:selected").text()}</li>`);
+                        filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>ORDEN</u>: ${$("#orden option:selected").text()}</li>`);
                     }
 
                     filtros.show();
@@ -161,13 +161,13 @@ $row = $resultado->fetch_assoc();
                                 usuario = "NO ASIGNADO";
                             }
                             tabla.append(`<tr>
-                            <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>${fila.MODELO}</h4></td>
-                            <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>${usuario}</h4></td>
-                            <td><h4 style='font-size:16px; text-align:left;margin-left: 5px;'>${fila.AREA}</h4></td>
-                            <td><h4 style='max-width:180px;font-size:16px; text-align:left;margin-left: 5px;'>${fila.REPA}</h4></td>
-                            <td><h4 style='font-size:16px;text-align:left;margin-left: 5px;'>${fila.TIPO}</h4></td>
-                            <td><h4 style='font-size:16px;text-align:left;margin-left: 5px;'>${fila.MARCA}</h4></td>
-                            <td><h4 style='color:${color};font-size:16px;text-align:left;margin-left: 5px;'>${flecha} ${fila.ESTADO}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.MODELO}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${usuario}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.AREA}</h4></td>
+                            <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${fila.REPA}</h4></td>
+                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.TIPO}</h4></td>
+                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.MARCA}</h4></td>
+                            <td><h4 style='color:${color};font-size:14px;text-align:left;margin-left: 5px;'>${flecha} ${fila.ESTADO}</h4></td>
 
                             <td class='text-center text-nowrap'>
                                 <span style="display: inline-flex;padding:3px;">
@@ -287,6 +287,10 @@ $row = $resultado->fetch_assoc();
 		<div id="titulo">
             <h1>INVENTARIO MONITORES</h1>
 		</div>
+        <div>
+            <div class="botonAgregar">
+                <button class="btn btn-success" style="font-size: 20px;"><a href="../abm/agregarmonitor.php" style="text-decoration:none !important;color:white;" target="_blank">Agregar Monitor</a></button>
+            </div>
         <div class="filtros">
                 <div class="filtros-listado">
                     <div>
@@ -340,7 +344,11 @@ $row = $resultado->fetch_assoc();
 							})
 						</script>
                     </div>
-                    <div>
+ 
+                </div>
+                    
+                <div class="filtros-listadoParalelo">
+                <div>
                         <label class="form-label">Orden</label>
                         <select id="orden" name="orden" class="form-control largo">
                             <?php if ($_POST["orden"] != ''){ ?>
@@ -404,14 +412,8 @@ $row = $resultado->fetch_assoc();
                     <div class="export" style="display:flex;justify-content: flex-end;">
                         <input class="btn btn-danger" id="btnLimpiar" name="Limpiar" onclick="Limpiar()" value="Limpiar">
                         <input type="submit" class="btn btn-success" id="btnForm" name="busqueda" value="Buscar">
+                        <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
                     </div>
-                </div>
-                    
-                <div class="filtros-listadoParalelo">
-                    <div>
-                        <button class="btn btn-success" style="font-size: 20px;"><a href="../abm/agregarmonitor.php" style="text-decoration:none !important;color:white;" target="_blank">Agregar nuevo monitor</a></button>
-                    </div>
-                    <div>Exportar a:<button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button></div>
                 </div>
             </div>
 
@@ -422,7 +424,7 @@ $row = $resultado->fetch_assoc();
                 $row6 = $result6->fetch_assoc();
                 $total = $row6['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter primary">
                     <div class="card-pri">
                         <i class="fa-solid fa-clipboard-list"></i>
@@ -432,7 +434,7 @@ $row = $resultado->fetch_assoc();
                         <span class="count-name">Monitores Registrados</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <?php 
                 $sql6 = "SELECT COUNT(*) AS total FROM periferico WHERE (ID_TIPOP = 7 OR ID_TIPOP = 8) AND ID_ESTADOWS = 1";
@@ -440,7 +442,7 @@ $row = $resultado->fetch_assoc();
                 $row6 = $result6->fetch_assoc();
                 $activo = $row6['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter success">
                     <div class="card-pri">
                         <i class="fa-sharp fa-solid fa-arrow-up"></i>
@@ -450,7 +452,7 @@ $row = $resultado->fetch_assoc();
                         <span class="count-name">Monitores Activos</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
 
             <?php 
@@ -459,7 +461,7 @@ $row = $resultado->fetch_assoc();
                 $row6 = $result6->fetch_assoc();
                 $inactivos = $row6['total'];
             ?>
-            <div class="col-md-3">
+<!--             <div class="col-md-3">
                 <div class="card-counter danger">
                     <div class="card-pri">
                         <i class="fa-sharp fa-solid fa-arrow-down"></i>
@@ -469,12 +471,15 @@ $row = $resultado->fetch_assoc();
                         <span class="count-name">Monitores Inactivos</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
+            <p>Monitores Registrados: <?php echo $total; ?></p>
+            <p>Monitores Activos: <?php echo $activo; ?></p>
+            <p>Monitores Inactivos: <?php echo $inactivos; ?></p>
         </div>
 
         <?php
         echo"<div class=filtrado>
-        <label style='color:blue; margin-left: 15px; margin-bottom:20px;' id='nroMonitores'>Resultados Encontrados:</label>
+        <label style='color:#00519C; margin-left: 15px; margin-bottom:20px;' id='nroMonitores'>Resultados Encontrados:</label>
         ";    ?>
 
         <div id="filtrosUsados" style="display:none;">
