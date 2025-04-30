@@ -1,11 +1,32 @@
+body{
+	background-color: whitesmoke !important;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1; /* hace que el contenido principal ocupe el espacio disponible */
+}
+
 section, header{
-	width: 97%;
+	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
 }
 
 header{
-	height: 60px;
+	height: auto;
+	background-color: #004582;
+	color: white;
+}
+.p-3{
+	padding: 0rem !important;
 }
 
 @font-face{
@@ -27,38 +48,73 @@ header{
 	src: url("../fuente/TrasandinaMedium.otf");
 	}	
 
-h1{
-	text-align: center;	
-	color: #53AAE0;
-	font-family: TrasandinaBlack;
-	font-size: 32px;
-	letter-spacing: 3px;
-}
+	@font-face{/* TEXTOS */
+		font-family: Poppins-Black; 
+		src: url("../fuente/Poppins-Black.ttf");
+		}
+	@font-face{/* TEXTOS */
+		font-family: Poppins-BlackItalic; 
+		src: url("../fuente/Poppins-BlackItalic.ttf");
+		}
+	@font-face{/* TITULOS */
+		font-family: BeVietnamPro-Medium; 
+		src: url("../fuente/BeVietnamPro-Medium.ttf");
+		}	
+	
+	h1{
+		text-align: center;	
+		color: #004582;
+		font-family: BeVietnamPro-Medium;
+		font-size: 32px;
+		letter-spacing: 3px;
+	}
+	
+	h2{
+		text-align: left;	
+		font-family: TrasandinaBook;
+		font-size: 16px;
+		color: #edf0f5;
+		margin-left: 10px;
+	}
+	
+	h3{
+		text-align: center;	
+		color: #f7fbfd;
+		font-family: TrasandinaBlack;
+		font-size: 17px;
+		letter-spacing: 2px;
+	}
+	
+	h4{
+		text-align: center;	
+		font-family: sans-serif;
+		font-size: 14px;
+		text-transform: uppercase;
+	
+	}
+	
+	p{
+		text-align: center;
+		font-family: sans-serif;
+		color: #00519C;
+		font-size: 16px;
+		font-weight: bold;
+	}
 
-h2{
-	text-align: left;	
-	font-family: TrasandinaBook;
-	font-size: 16px;
-	color: #edf0f5;
-	margin-left: 10px;
-}
-
-#h2{
-	text-align: left;	
-	font-family: TrasandinaBook;
-	font-size: 16px;
-	color: #edf0f5;
-	margin-left: 10px;
-	margin-top: 5px;;
-}
-
+	label{
+		text-align: left;
+		font-size: 20px;
+		font-family: TrasandinaBook;
+		text-decoration: underline;
+		color: #00519C;
+		font-weight: bold;
+	}
+	
 /*FRONT*/
 
 #titulo{
 	width: 100%;
-	height: 54px;
-	margin-top: 20px; 
-	margin-bottom: 20px;
+	height: auto;
 }
 
 #principal{
@@ -88,28 +144,27 @@ h2{
 	-webkit-box-shadow: 5px -2px 66px 0px rgba(0,0,0,0.16) inset;
 	-moz-box-shadow: 5px -2px 66px 0px rgba(0,0,0,0.16) inset;
 }
-.form--info input{
-	width: 300px;
-}
-.form--info--btn{
-	width: 100%;
-	display: flex;
-	justify-content: flex-end;
-}
-.form--info--btn input{
-	width: 120px;
-}
 
 
 #principalu{
-	width: 670px;
+	margin-bottom: 100px;
 	height: auto;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 10px;
-	background-color: #dbe5e9;
-	border-radius: 15px;transition-duration: 0.5s;
-	border: 1px solid #899dac;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+form{
+	width: 800px !important;
+	padding: 25px;
+	background-color: white;
+	border: 1px solid #00519C;
+	border-radius: 10px;
+}
+
+form div{
+	margin: 5px;
 }
 
 #principalr{
@@ -136,10 +191,10 @@ h2{
 
 /*FRONT*/
 
-input, select{
-	height: 50px;
-	width: 400px;
-	display: inline-block;
+input{
+	height: 40px;
+	width: auto;
+	display: inline;
 	box-sizing: border-box;
 	border-radius: 10px;
 	border-color: white;
@@ -149,14 +204,27 @@ input:hover{
 	border-color:#29343e;
 	transition-delay: 0.1s;
 }
-
-#lblForm{
-    font-size: 23px;
+select:hover{
+	border-color:#29343e;
+	transition-delay: 0.1s;
 }
-input{
-	background-color: white;
+textarea:hover{
+	border-color:#29343e;
+	transition-delay: 0.1s;
 }
 
+select{
+	width: auto;
+	display: inline;
+	box-sizing: border-box;
+	border-radius: 10px;
+	border-color: white;
+}
+
+.select2-container {
+    width: 385px !important; /* O cualquier otro tamaño que desees */
+	padding: 0px !important;
+}
 .txt{
 	margin-top: 10px;
 	margin-left: 10px;
@@ -401,6 +469,11 @@ nav a img{
 	border-radius: 30px;
 	padding: 0px;
 	color: white;
+	background-color: #00519C;
+}
+
+#vlv:hover{
+background-color: #176AB5;
 }
 
 .id{
@@ -412,4 +485,14 @@ nav a img{
 
 .chkLinea{
 	width: 20px;
+}
+
+footer{
+	height: auto;
+	border-top: 1px solid #004582;
+}
+
+.footer{
+	margin: 0 auto;
+	width: 400px;
 }

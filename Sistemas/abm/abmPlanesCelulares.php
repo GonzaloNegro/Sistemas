@@ -95,7 +95,7 @@ if($row['ID_PERFIL'] == 3 OR $row['ID_PERFIL'] == 4){
 		</div>
         
         <?php
-				echo "<table width=100%>
+				echo "<table table class='table_id tablaLineas' id='tabla_lineas'>
 						<thead>
 							<tr>
 								<th><p style='text-align:left; margin-left: 10px;'>NOMBRE</p></th>
@@ -129,12 +129,12 @@ if($row['ID_PERFIL'] == 3 OR $row['ID_PERFIL'] == 4){
 											echo
 											" 
 												<tr>
-													<td><h4 style='font-size:16px; text-align: left; margin-left: 5px;color: $color;'>".$listar['NOMBREPLAN']." - ".$listar['PLAN']."</h4 ></td>
-													<td><h4 style='font-size:16px; text-align: left; margin-left: 5px;color: $color;'>".$listar['PROVEEDOR']."</h4 ></td>
-													<td><h4 style='font-size:16px; text-align: right; margin-right: 5px;color: $color;'>"."$".$listar['MONTO']."</h4 ></td>";
+													<td><h4 style='font-size:14px; text-align: left; margin-left: 5px;color: $color;'>".$listar['NOMBREPLAN']." - ".$listar['PLAN']."</h4 ></td>
+													<td><h4 style='font-size:14px; text-align: left; margin-left: 5px;color: $color;'>".$listar['PROVEEDOR']."</h4 ></td>
+													<td><h4 style='font-size:14px; text-align: right; margin-right: 5px;color: $color;'>"."$".$listar['MONTO']."</h4 ></td>";
 													if ($row['ID_PERFIL'] != 5) {
 														echo"
-													<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modPlanes.php?no=".$listar['ID_NOMBREPLAN']." class=mod>Editar</a></td>";
+													<td class='text-center text-nowrap'><a href=modPlanes.php?no=".$listar['ID_NOMBREPLAN']."><i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i></a></td>";
 													}
 													echo"
 												</tr>
@@ -159,12 +159,12 @@ if($row['ID_PERFIL'] == 3 OR $row['ID_PERFIL'] == 4){
 											echo
 											" 
 												<tr>
-													<td><h4 style='font-size:16px; text-align: left; margin-left: 5px;color: $color;'>".$listar['NOMBREPLAN']." - ".$listar['PLAN']."</h4 ></td>
-													<td><h4 style='font-size:16px; text-align: left; margin-left: 5px;color: $color;'>".$listar['PROVEEDOR']."</h4 ></td>
-													<td><h4 style='font-size:16px; text-align: right; margin-right: 5px;color: $color;'>"."$".$listar['MONTO']."</h4 ></td>";
+													<td><h4 style='font-size:14px; text-align: left; margin-left: 5px;color: $color;'>".$listar['NOMBREPLAN']." - ".$listar['PLAN']."</h4 ></td>
+													<td><h4 style='font-size:14px; text-align: left; margin-left: 5px;color: $color;'>".$listar['PROVEEDOR']."</h4 ></td>
+													<td><h4 style='font-size:14px; text-align: right; margin-right: 5px;color: $color;'>"."$".$listar['MONTO']."</h4 ></td>";
 													if ($row['ID_PERFIL'] != 5) {
 														echo"
-													<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modPlanes.php?no=".$listar['ID_NOMBREPLAN']." class=mod>Editar</a></td>";
+													<td class='text-center text-nowrap'><a href=modPlanes.php?no=".$listar['ID_NOMBREPLAN']." ><i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i></a></td>";
 													}
 
 													echo"

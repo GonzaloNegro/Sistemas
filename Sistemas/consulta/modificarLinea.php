@@ -50,16 +50,17 @@ $idRoaming = $consulta[7];
 	</style>
 </head>
 <body>
+<main>
 	<div id="reporteEst">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
             <a id="vlv"  href="./MontosLineas.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
         </div>					
     </div>
 	<section id="Inicio">
-		<div id="titulo" style="margin:20px;">
+		<div id="titulo">
 			<h1>MODIFICAR LINEA</h1>
 		</div>
-		<div id="principalr" style="width: 97%" class="container-fluid" data-aos="zoom-in">
+		<div id="principalu" style="width: 97%" class="container-fluid" data-aos="zoom-in">
 				<?php 
                 include("../particular/conexion.php");
                 $sent= "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = $idEstado";
@@ -98,13 +99,17 @@ $idRoaming = $consulta[7];
                 ?>
 			<form method="POST" action="modificados.php">
 			<!-- <form method="POST" action="modificarLinea.php"> -->
-				<div class="form-group column" style="margin: 10px; padding:10px;">
-					<label>ID: </label>
-                    <input type="text" class="id" name="id" value="<?php echo $idLinea?>">
-				</div>
-				<div class="form-group row" style="margin: 10px; padding:10px;">
+				<div class="form-group row">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">ID:</label>
+                    <input type="text" class="id" name="id" value="<?php echo $idLinea?>" style="background-color:transparent;" readonly>
+                </div>
+				
+				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">NÚMERO:</label>
 					<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" name="nro" id="cardnumber" value="<?php echo $consulta[1]?>" required readonly>
+				</div>
+
+				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
 						<select name="usuario" id="usuario" style="text-transform:uppercase" onchange="cargarCelulares(this.value)" class="form-control col-xl col-lg" required>
 						<option selected value="100"><?php echo $usuario;?></option>
@@ -119,7 +124,7 @@ $idRoaming = $consulta[7];
 						</select>
 				</div>
 
-				<div class="form-group row" style="margin: 10px; padding:10px;">
+				<div class="form-group row">
 <!-- 					<div id="divCelulares" class="col-xl col-lg" style="display:none">
 					<label id="lblForm"class="col-form-label col-xl col-lg">ASIGNANDO A CELULAR:</label>
 					<div class="col-xl col-lg" >
@@ -132,8 +137,8 @@ $idRoaming = $consulta[7];
 						<select name="celular" id="celulares" style="text-transform:uppercase" class="form-control col-xl col-lg"><option value="" selected disabled>- SELECCIONE UNA OPCIÓN -</option></select>
 					<!-- </div> -->
 				</div>
-
-				<div class="form-group row" style="margin: 10px; padding:10px;">
+				
+				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
 					<select name="estado" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 					<option selected value="200"><?php echo $estado;?></option>
@@ -143,10 +148,12 @@ $idRoaming = $consulta[7];
 					$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 					?>
 					<?php foreach ($ejecutar as $opciones): ?> 
-						<option value="<?php echo $opciones['ID_ESTADOWS']?>"><?php echo $opciones['ESTADO']?></option>
+					<option value="<?php echo $opciones['ID_ESTADOWS']?>"><?php echo $opciones['ESTADO']?></option>
 					<?php endforeach ?>
 					</select>
-
+				</div>
+					
+				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">ROAMING:</label>
 					<select name="roaming" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 					<option selected value="400"><?php echo $roaming;?></option>
@@ -156,20 +163,22 @@ $idRoaming = $consulta[7];
 					$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 					?>
 					<?php foreach ($ejecutar as $opciones): ?> 
-						<option value="<?php echo $opciones['ID_ROAMING']?>"><?php echo $opciones['ROAMING']?></option>
+					<option value="<?php echo $opciones['ID_ROAMING']?>"><?php echo $opciones['ROAMING']?></option>
 					<?php endforeach ?>
 					</select>
 				</div>
 				
-				<div class="form-group row" style="margin: 10px; padding:10px;">
+				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">DESCUENTO:</label>
 					<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" name="descuento" step="0.01" placeholder="10,00" required value="<?php echo $descuento?>">
-
+				</div>
+					
+				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">FECHA DESCUENTO:</label>
 					<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="date" name="fechaDescuento" value="<?php echo $fechaDescuento?>">
 				</div>
 
-				<div class="form-group row" style="margin: 10px; padding:10px;">
+				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE PLAN:</label>
 					<select name="nombrePlan" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 					<option selected value="300"><?php echo $nombrePlan." - ".$plan." - ".$prove;?></option>
@@ -183,22 +192,26 @@ $idRoaming = $consulta[7];
 					$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 					?>
 					<?php foreach ($ejecutar as $opciones): ?> 
-						<option value= <?php echo $opciones['ID_NOMBREPLAN'] ?>><?php echo $opciones['NOMBREPLAN'].' - '.$opciones['PLAN'].' - '.$opciones['PROVEEDOR']?></option>
+					<option value= <?php echo $opciones['ID_NOMBREPLAN'] ?>><?php echo $opciones['NOMBREPLAN'].' - '.$opciones['PLAN'].' - '.$opciones['PROVEEDOR']?></option>
 					<?php endforeach ?>
 					</select>
+				</div>  
 
+
+				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">EXTRAS:<span style="color:red;">*</span></label>
 					<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" name="extras" step="0.01" placeholder="1500,00" value="<?php echo $extras?>" required>
 				</div>  
 				
-				<div class="form-group row" style="margin: 10px; padding:10px;">
+				<div class="form-group row">
 					<label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓN:</label> 
 					<textarea class="form-control col-xl col-lg" name="obs" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3" ><?php echo $observaciones;?></textarea>
 				</div> 
 
-				<div class="form-group row justify-content-end" style="margin: 10px; padding:10px;">
-					<input style="width:20%"class="col-3 button" type="submit" name="modificarLinea" value="GUARDAR" class="button">
+				<div class="form-group row justify-content-end">
+					<input style="width:20%"class="btn btn-success" type="submit" name="modificarLinea" value="MODIFICAR" class="button">
 				</div>	
+				<p style="color:red;text-align:left;font-size:14px;">* Al ingresar los extras de Personal, al precio que sale en la factura agregar el iva y con Claro se ingresa tal cual figura</p>
 			</form>
 			
 					<?php
@@ -219,8 +232,18 @@ $idRoaming = $consulta[7];
 				}
 			?>
 		</div>
-		<label style="color:red">* Al ingresar los extras de Personal, al precio que sale en la factura agregar el iva y con Claro se ingresa tal cual figura</label>
+
 	</section>
+    </main>
+	<footer>
+		<div class="footer">
+			<div class="container-fluid">
+				<div class="row">
+					<img src="../imagenes/cba-logo.png" class="img-fluid">
+				</div>
+			</div>
+		</div>
+    </footer>
 	<script>
 /* 	$(document).ready(function(){
     $("#usuario").change(function(){

@@ -90,7 +90,7 @@ $row = $resultado->fetch_assoc();
 			</form>
 		</div>
         <?php
-				echo "<table width=100%>
+				echo "<table class='table_id tablaLineas' id='tabla_lineas'>
 						<thead>
 							<tr>
 								<th><p style='text-align:left;padding:5px;'>PLACA MADRE</p></th>
@@ -112,9 +112,9 @@ $row = $resultado->fetch_assoc();
 										echo
 										" 
 											<tr>
-												<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['PLACAM']."</h4></td>
-												<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['MARCA']."</h4></td>
-												<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modplacam.php?no=".$listar['ID_PLACAM']." class=mod>Editar</a></td>
+												<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['PLACAM']."</h4></td>
+												<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['MARCA']."</h4></td>
+												<td class='text-center text-nowrap'><a href=modplacam.php?no=".$listar['ID_PLACAM']." ><i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i></a></td>
 											</tr>";
 						}
 					}
@@ -130,9 +130,9 @@ $row = $resultado->fetch_assoc();
 										echo
 										" 
 											<tr>
-												<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['PLACAM']."</h4></td>
-												<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['MARCA']."</h4></td>
-												<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modplacam.php?no=".$listar['ID_PLACAM']." class=mod>Editar</a></td>
+												<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['PLACAM']."</h4></td>
+												<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['MARCA']."</h4></td>
+												<td class='text-center text-nowrap'><a href=modplacam.php?no=".$listar['ID_PLACAM']." ><i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i></a></td>
 											</tr>";
 						}
 					}

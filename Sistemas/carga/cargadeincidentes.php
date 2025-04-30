@@ -424,54 +424,54 @@ $row = $resultado->fetch_assoc();
 			<h1>CARGA DE INCIDENTES</h1>
 		</div>
 		<div id="principal" class="container-fluid" data-aos="zoom-in">
-						<form method="POST" name="formulario_carga" action="guardarincidente.php" enctype="multipart/form-data">
-							<!--<label>NUMERO DE TICKET: <input type="text" name="numero_ticket" placeholder="NÚMERO DE TICKET" required></label>-->
+		<form method="POST" name="formulario_carga" action="guardarincidente.php" enctype="multipart/form-data">
+			<!--<label>NUMERO DE TICKET: <input type="text" name="numero_ticket" placeholder="NÚMERO DE TICKET" required></label>-->
 
-							<div class="form-group row" >
-								<label class="col-form-label col-xl col-lg">FECHA INICIO:</label>
-								<input type="date" class="form-control col-xl col-lg" name="fecha_inicio" id="txtfechainicio" required>
-							</div>	
-								<!-- <input class="form-control col-xl col-lg" type="text" name="fecha_inicio" id="txtfechainicio" required> -->
-								<!--//////////////////////////////////////////////////////////////////-->
-								<!--//////////////////////////////////////////////////////////////////-->
-							<div class="form-group row">
-								<label class="col-form-label col-xl col-lg">USUARIO:</label>
-								<select name="usuario" id="buscador" class="form-control col-xl col-lg" required>
-								<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
-								<?php
-								include("../particular/conexion.php");
-								$consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 AND ID_USUARIO <> 277 ORDER BY NOMBRE ASC";
-								$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-								?>
-								<?php foreach ($ejecutar as $opciones): ?> 
-									<option value="<?php echo $opciones['ID_USUARIO']?>"><?php echo $opciones['NOMBRE']?></option>
-								<?php endforeach ?>
+			<div class="form-group row" >
+				<label class="col-form-label col-xl col-lg">FECHA INICIO:</label>
+				<input type="date" class="form-control col-xl col-lg" name="fecha_inicio" id="txtfechainicio" required>
+			</div>	
+				<!-- <input class="form-control col-xl col-lg" type="text" name="fecha_inicio" id="txtfechainicio" required> -->
+				<!--//////////////////////////////////////////////////////////////////-->
+				<!--//////////////////////////////////////////////////////////////////-->
+			<div class="form-group row">
+				<label class="col-form-label col-xl col-lg">USUARIO:</label>
+				<select name="usuario" id="buscador" class="form-control col-xl col-lg" required>
+				<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
+				<?php
+				include("../particular/conexion.php");
+				$consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 AND ID_USUARIO <> 277 ORDER BY NOMBRE ASC";
+				$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+				?>
+				<?php foreach ($ejecutar as $opciones): ?> 
+					<option value="<?php echo $opciones['ID_USUARIO']?>"><?php echo $opciones['NOMBRE']?></option>
+				<?php endforeach ?>
 
-								</select>
-									<!--BUSCADOR-->
-									<script>
-										$('#buscador').select2({theme: 'bootstrap4',});
-									</script>
-									<script>
-										$(document).ready(function(){
-											$('#buscador').change(function(){
-												buscador='b='+$('#buscador').val();
-												$.ajax({
-													type: 'post',
-													url: 'Controladores/session.php',
-													data: buscador,
-													success: function(r){
-														$('#tabla').load('Componentes/Tabla.php');
-													}
-												})
-											})
-										})
-									</script>
-									
+				</select>
+					<!--BUSCADOR-->
+					<script>
+						$('#buscador').select2({theme: 'bootstrap4',});
+					</script>
+					<script>
+						$(document).ready(function(){
+							$('#buscador').change(function(){
+								buscador='b='+$('#buscador').val();
+								$.ajax({
+									type: 'post',
+									url: 'Controladores/session.php',
+									data: buscador,
+									success: function(r){
+										$('#tabla').load('Componentes/Tabla.php');
+									}
+								})
+							})
+						})
+					</script>
+					
 
-								<!--//////////////////////////////////////////////////////////////////-->
-								<!--//////////////////////////////////////////////////////////////////-->
-		                    </div>	
+				<!--//////////////////////////////////////////////////////////////////-->
+				<!--//////////////////////////////////////////////////////////////////-->
+			</div>	
 							
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
@@ -509,9 +509,9 @@ $row = $resultado->fetch_assoc();
 											<option value="<?php echo $opciones['ID_TIPIFICACION']?>"><?php echo $opciones['TIPIFICACION']?></option>
 										<?php endforeach ?>
 									</select>
+								</div>
 								<!--//////////////////////////////////////////////////////////////////-->
 								<!--//////////////////////////////////////////////////////////////////-->
-							</div>
 														<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
 							<div class="form-group row">
@@ -568,11 +568,11 @@ $row = $resultado->fetch_assoc();
 							</div>
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
-							<div class="row justify-content-end" style="margin: 10px; padding:10px;">
+							<div class="form-group row justify-content-end">
 							<!-- <input id="btnform" type="button" value="GUARDAR" onClick="validar_formulario(this.form)"  name="g1" class="col-2 button"> -->
 							<?php 
 								if ($row['ID_PERFIL'] != 5) {
-								echo '<input id="btnform" class="btn btn-success" type="button" value="GUARDAR" onClick="enviar_formulario_incidente(this.form)"  name="g1" class="col-1 button">';
+								echo '<input id="btnform" class="btn btn-success" style="width:20%" type="button" value="GUARDAR" onClick="enviar_formulario_incidente(this.form)"  name="g1" class="col-1 button">';
 								}
 							?>
 							

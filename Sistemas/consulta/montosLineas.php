@@ -413,7 +413,7 @@ $row = $resultado->fetch_assoc();
         </div>
 
         <?php };?>
-    <table class="table_id tablaLineas" id="tabla_lineas" >
+    <table class="table_id tablaLineas" id="tabla_lineas">
         <thead>
             <tr>
                 <th><p style='text-align:right; margin-right: 5px;'>NÚMERO</p></th>

@@ -25,18 +25,13 @@ function ConsultarIncidente($no_tic)
 	<title>MODIFICAR ÁREA</title>
 	<link rel="icon" href="../imagenes/logoInfraestructura.png">
 	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
+	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 </head>
 <body>
     <script>
@@ -117,13 +112,15 @@ function ConsultarIncidente($no_tic)
 		}
 				
 		</script>
+
+<main>
     <div id="reporteEst">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
             <a id="vlv"  href="abmarea.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
         </div>					
     </div>
 	<section id="Inicio">
-		<div id="titulo" style="margin:20px;">
+		<div id="titulo">
 			<h1>MODIFICAR ÁREA</h1>
 		</div>
 		<div id="principalu" style="width: 97%" class="container-fluid">
@@ -141,18 +138,22 @@ function ConsultarIncidente($no_tic)
 
                 ?>
                 <form method="POST" action="guardarmodarea2.php">
-                    <label>ID: </label>
-                    <input type="text" class="id" name="id" value="<?php echo $consulta['ID_AREA']?>" readonly>
+                    <div class="form-group row" >
+						<label id="lblForm"class="col-form-label col-xl col-lg">ID:</label>
+                        <input type="text" class="id" name="id" style="background-color:transparent;" class="form-control col-form-label col-xl col-lg" value="<?php echo $consulta['ID_AREA']?>" readonly>
+					</div>	
 
-                    <div class="form-group row" style="margin: 10px; padding:10px;">
+                    <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DEL ÁREA: </label>
                         <input id="area" style="margin-top: 5px;text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" type="text" name="area" value="<?php echo $consulta['AREA']?>">
-                        
-						<label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIONES:</label>
-						<textarea class="form-control col-xl col-lg" name="obs" style="text-transform:uppercase" rows="3"><?php echo $consulta['OBSERVACION']?></textarea>
                     </div>
-
-                    <div class="form-group row" style="margin: 10px; padding:10px;">
+                    
+                    <div class="form-group row">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIONES:</label>
+						<textarea class="form-control col-form-label col-xl col-lg" name="obs" style="text-transform:uppercase" rows="3"><?php echo $consulta['OBSERVACION']?></textarea>
+                    </div>
+                    
+                    <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
                         <select id="estado" name="estado" style="text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                             <option selected value="200"><?php echo $estado?></option>
@@ -164,7 +165,11 @@ function ConsultarIncidente($no_tic)
                             <?php foreach ($ejecutar as $opciones): ?> 
                             <option value= <?php echo $opciones['ID_ESTADOUSUARIO'] ?>><?php echo $opciones['ESTADO']?></option>
                             <?php endforeach?>
-                        </select>
+                            </select>
+                    </div>
+                        
+                        
+                    <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">REPARTICIÓN:</label>
                         <select id="repa" name="repa" style="text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                             <option selected value="100"><?php echo $repa?></option>
@@ -178,12 +183,22 @@ function ConsultarIncidente($no_tic)
                             <?php endforeach?>
                         </select>
                     </div>
-                    <div class="form-group row justify-content-end" style="margin: 10px; padding:10px;">
-                        <input onClick="enviar_formulario(this.form)" style="width:20%"class="col-3 button" type="button" value="MODIFICAR" class="button">
+                    <div class="form-group row justify-content-end">
+                        <input onClick="enviar_formulario(this.form)" style="width:20%" type="button" value="MODIFICAR" class="btn btn-success">
                     </div>	
                 </form>
 	    </div>
 	</section>
+	</main>
+	<footer>
+		<div class="footer">
+			<div class="container-fluid">
+				<div class="row">
+					<img src="../imagenes/cba-logo.png" class="img-fluid">
+				</div>
+			</div>
+		</div>
+	</footer>
 	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>
 </html>

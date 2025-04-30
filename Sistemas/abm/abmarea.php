@@ -21,11 +21,6 @@ $row = $resultado->fetch_assoc();
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloallabm.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
 <script type="text/javascript">
@@ -78,12 +73,12 @@ $row = $resultado->fetch_assoc();
 		</div>
 
         <?php
-				echo "<table width=100%>
+				echo "<table class='table_id tablaLineas' id='tabla_lineas'>
 						<thead>
 							<tr>
-								<th><p style='text-align:left;padding:5px;'>ÁREA</p></th>
-								<th><p style='text-align:left;padding:5px;'>REPARTICIÓN</p></th>
-								<th><p style='text-align:left;padding:5px;'>ESTADO</p></th>";
+								<th><p style='font-size:16px;text-align:left;padding:5px;'>ÁREA</p></th>
+								<th><p style='font-size:16px;text-align:left;padding:5px;'>REPARTICIÓN</p></th>
+								<th><p style='font-size:16px;text-align:left;padding:5px;'>ESTADO</p></th>";
 								if ($row['ID_PERFIL'] != 5) {
 									echo"<th><p>MODIFICAR</p></th>
 									</tr>";
@@ -106,11 +101,11 @@ $row = $resultado->fetch_assoc();
 									echo
 									" 
 										<tr>
-										<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['AREA']."</h4 ></td>
-										<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['REPA']."</h4 ></td>
-										<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['ESTADO']."</h4 ></td>";
+										<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['AREA']."</h4 ></td>
+										<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['REPA']."</h4 ></td>
+										<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['ESTADO']."</h4 ></td>";
 										if ($row['ID_PERFIL'] != 5) {
-											echo"<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modarea.php?no=".$listar['ID_AREA']." class=mod>Editar</a></td>
+											echo"<td class='text-center text-nowrap'><a href=modarea.php?no=".$listar['ID_AREA']."><i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i></a></td>
 										</tr>
 									";}
 								} 
@@ -127,11 +122,11 @@ $row = $resultado->fetch_assoc();
 									echo
 									" 
 										<tr>
-										<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['AREA']."</h4 ></td>
-										<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['REPA']."</h4 ></td>
-										<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['ESTADO']."</h4 ></td>";
+										<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['AREA']."</h4 ></td>
+										<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['REPA']."</h4 ></td>
+										<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['ESTADO']."</h4 ></td>";
 										if ($row['ID_PERFIL'] != 5) {
-											echo"<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modarea.php?no=".$listar['ID_AREA']." class=mod>Editar</a></td>
+											echo"<td class='text-center text-nowrap'><a href=modarea.php?no=".$listar['ID_AREA']."><i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i></a></td>
 											</tr>
 										";
 										}

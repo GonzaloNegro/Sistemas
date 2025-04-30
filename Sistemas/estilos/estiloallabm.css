@@ -1,3 +1,7 @@
+body{
+	background-color: whitesmoke !important;
+}
+
 section, header{
 	width: 97%;
 	margin-left: auto;
@@ -26,39 +30,58 @@ header{
 	font-family: TrasandinaMedium; 
 	src: url("../fuente/TrasandinaMedium.otf");
 	}	
-
-h1{
-	text-align: center;	
-	color: #53AAE0;
-	font-family: TrasandinaBlack;
-	margin-bottom: 40px;
-	margin-top:25px;
-	font-size: 32px;
-	letter-spacing: 3px;
-}
-
-
-h2{
-	text-align: left;	
-	font-family: TrasandinaBook;
-	font-size: 16px;
-	color: #edf0f5;
-	margin-left: 10px;
-}
-
-h4{
-	text-align: center;	
-	font-family: TrasandinaBook;
-	font-size: 14px;
-	text-transform: uppercase;
-}
-
-p{
-	text-align: center;
-	font-family: TrasandinaMedium;
-	color: #00519C;
-	font-size: 18px;
-}
+	@font-face{/* TEXTOS */
+		font-family: Poppins-Black; 
+		src: url("../fuente/Poppins-Black.ttf");
+		}
+	@font-face{/* TEXTOS */
+		font-family: Poppins-BlackItalic; 
+		src: url("../fuente/Poppins-BlackItalic.ttf");
+		}
+	@font-face{/* TITULOS */
+		font-family: BeVietnamPro-Medium; 
+		src: url("../fuente/BeVietnamPro-Medium.ttf");
+		}	
+	
+	h1{
+		text-align: center;	
+		color: #004582;
+		font-family: BeVietnamPro-Medium;
+		font-size: 32px;
+		letter-spacing: 3px;
+	}
+	
+	h2{
+		text-align: left;	
+		font-family: TrasandinaBook;
+		font-size: 16px;
+		color: #edf0f5;
+		margin-left: 10px;
+	}
+	
+	h3{
+		text-align: center;	
+		color: #f7fbfd;
+		font-family: TrasandinaBlack;
+		font-size: 17px;
+		letter-spacing: 2px;
+	}
+	
+	h4{
+		text-align: center;	
+		font-family: sans-serif;
+		font-size: 14px;
+		text-transform: uppercase;
+	
+	}
+	
+	p{
+		text-align: center;
+		font-family: sans-serif;
+		color: #00519C;
+		font-size: 16px;
+		font-weight: bold;
+	}
 
 .indicadores{
 	font-family: TrasandinaBook; 
@@ -408,7 +431,6 @@ nav a img{
 	width: 40%; 
 	height: auto; 
 	margin-top: 40px; 
-	background-color: #5c6f82; 
 	border-radius: 15px;
 	transition-duration: 0.5s; 
 	transition-delay: 0s; 
@@ -427,6 +449,11 @@ nav a img{
 	border-radius: 30px;
 	padding: 0px;
 	color: white;
+	background-color: #00519C;
+}
+
+#vlv:hover{
+background-color: #176AB5;
 }
 
 #agr{
@@ -434,65 +461,53 @@ nav a img{
 	right: 50px;
 	width: auto; 
 	height: auto; 
-	width: 50px;
-	height: 50px;
+	width: 55px;
+	height: 55px;
 	font-size: 32px;
 	font-weight: bold;
 	border-radius: 30px;
 	padding: 0px;
 }
 
-h1{
-	text-align: center;	
-	color: #53AAE0;
-	font-family: TrasandinaBlack;
-	font-size: 32px;
-	letter-spacing: 3px;
-}
-
-h2{
-	text-align: left;	
-	font-family: TrasandinaBook;
-	font-size: 16px;
-	color: #edf0f5;
-	margin-left: 10px;
-}
-
-#h2{
-	text-align: left;	
-	font-family: TrasandinaBook;
-	font-size: 16px;
-	color: #edf0f5;
-	margin-left: 10px;
-	margin-top: 5px;;
-}
-
-table{
+table {
 	text-align: left;
 	margin-left: 5px;
- 	background-color: #dbe5e9;
-
-	border-collapse: collapse;
-	width:100%;
-}
-
-th, td{
-	border: solid 1px #f7fbfd;
-	border-bottom: solid 1px #073256;
-}
-
-thead{
-	background-color: #dbe5e9;
-	border-bottom: solid 5px #073256;
+	background-color: white;
+	border-collapse: collapse; /* NECESARIO para sticky estable */
 	width: 100%;
-}/*ACA ESTABA EL PROBLEMA DEL ACOMODAMIENTO EN "VER PENDIENTES" Y "VER" QUE SE ACHICABA EL TABLE*/
-
-tr:nth-child(even){
-	background-color: #edf0f5;
+	box-shadow: none;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* <<< Sombra un poco más fuerte */
+	border-radius: 15px; /* Si querés bordes redondeados */
 }
 
-tr:hover td{
-	background-color: #D6D6D6;
+thead {
+	background-color: white;
+	border-bottom: 2px solid black; /* Línea divisoria más gruesa */
+}
+
+.table_id thead th {
+	position: sticky;
+	top: 0;
+	background-color: white;
+	z-index: 2; /* Un poco más alto para evitar superposición */
+}
+
+
+tr {
+	border-bottom: 1px solid #e0e0e0; /* Línea tenue entre registros */
+}
+
+tr:hover td {
+	background-color: #f5f5f5;
+}
+
+th, td {
+	padding: 8px 12px;
+	transition: background-color 0.2s ease-in-out;
+}
+
+th p{
+	color: #004582;
 }
 
 *::-webkit-scrollbar {
@@ -561,7 +576,6 @@ input:hover{
 
 #filtros {
 	width: 100%;
-	background-color: #53aae025;
 	display: flex;
 	justify-content: flex-start;
 	align-items: flex-start;
@@ -582,6 +596,7 @@ input:hover{
 	flex-direction: row;
 	align-items: center;
 	gap: 10px;
+	background-color: transparent;
 }
 
 .form-label {

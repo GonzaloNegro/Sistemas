@@ -1,8 +1,22 @@
-section, footer, header{
+body{
+	background-color: whitesmoke !important;
+}
+
+section, header, footer{
+	background-color: whitesmoke;
 	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
 
+}
+
+header{
+	height: auto;
+	background-color: #004582;
+	color: white;
+}
+.p-3{
+	padding: 0rem !important;
 }
 
 @font-face{
@@ -23,68 +37,58 @@ section, footer, header{
 	font-family: TrasandinaMedium; 
 	src: url("../fuente/TrasandinaMedium.otf");
 	}	
-	/*
-	url("TrasandinaBold-Italic.otf"), 
-	url("TrasandinaLight.otf"), url("TrasandinaMedium-Italic.otf"),
-	url("TrasandinaRegular.otf"), url("TrasandinaRegular-Italic.otf"), 
-	url("TrasandinaUltra.otf");*/
-
-h1{
-	text-align: center;	
-	color: #53AAE0;
-	font-family: TrasandinaBlack;
-	font-size: 40px;
-	letter-spacing: 3px;
-}
-
-h2{
-	text-align: center;	
-	color: #53AAE0;
-	font-family: TrasandinaMedium;
-	font-size: 24px;
-}
-
-h3{
-	text-align: center;	
-	margin-top: 10px;
-	font-size: 20px;
-	font-family: TrasandinaBold;
-}
-
-h4{
-	text-align: left;	
-	margin-top: 10px;
-	margin-left: 15px;
-	font-size: 15px;
-	color: #f7fbfd;
-	font-family: TrasandinaMedium;
-}
-
-#h4{
-	text-align: left;	
-	margin-top: 20px;
-	margin-left: 15px;
-	font-size: 17px;
-	color: #f7fbfd;
-	font-family: TrasandinaMedium;
-}
-
-h5{
-	text-align: center;	
-	font-family: TrasandinaBook;
-	font-size: 14px;
-}
-
-p{
-	text-align: center;
-	font-family: TrasandinaMedium;
-	color: #00519C;
-	font-size: 18px;
-}
-
-header{
-	height: 60px;
-}
+	@font-face{/* TEXTOS */
+		font-family: Poppins-Black; 
+		src: url("../fuente/Poppins-Black.ttf");
+		}
+	@font-face{/* TEXTOS */
+		font-family: Poppins-BlackItalic; 
+		src: url("../fuente/Poppins-BlackItalic.ttf");
+		}
+	@font-face{/* TITULOS */
+		font-family: BeVietnamPro-Medium; 
+		src: url("../fuente/BeVietnamPro-Medium.ttf");
+		}	
+	
+	h1{
+		text-align: center;	
+		color: #004582;
+		font-family: BeVietnamPro-Medium;
+		font-size: 32px;
+		letter-spacing: 3px;
+	}
+	
+	h2{
+		text-align: left;	
+		font-family: TrasandinaBook;
+		font-size: 16px;
+		color: #edf0f5;
+		margin-left: 10px;
+	}
+	
+	h3{
+		text-align: center;	
+		color: #f7fbfd;
+		font-family: TrasandinaBlack;
+		font-size: 17px;
+		letter-spacing: 2px;
+	}
+	
+	h4{
+		text-align: center;	
+		font-family: sans-serif;
+		font-size: 14px;
+		text-transform: uppercase;
+	
+	}
+	
+	p{
+		text-align: center;
+		font-family: sans-serif;
+		color: #00519C;
+		font-size: 16px;
+		font-weight: bold;
+	}
 
 #titulo{
 	height: 60px;
@@ -131,6 +135,7 @@ header{
 	border-radius: 30px;
 	padding: 0px;
 	color: white;
+	background-color: #00519C;
 }
 
 #modif{
@@ -146,10 +151,6 @@ header{
 
 }
 
-#ingreso, #movimientos{
-	margin-bottom: 50px;
-}
-
 #movimientos{
 	height: auto;
 	float: left;
@@ -157,34 +158,45 @@ header{
 }
 
 #grilla{
-    width: 98%;
+    width: 800px;
     height: auto;
     margin-left: auto;
     margin-right: auto;
 }
 
-input, textarea, select{
-	width: 170px;
-	margin-top: 10px;
-	margin-left: 15px;
-	padding: 10px;
+#principal{
+
+	height: auto;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+form{
+	width: 800px !important;
+	padding: 25px;
+	background-color: white;
+	border: 1px solid #00519C;
+	border-radius: 10px;
+}
+
+form div{
+	margin: 5px;
+}
+
+input{
+	height: 40px;
+	width: auto;
 	display: inline;
 	box-sizing: border-box;
 	border-radius: 10px;
 	border-color: white;
-	background-color: #f7fbfd;
 }
 
 input:hover{
 	border-color:#29343e;
 	transition-delay: 0.1s;
-}
-
-#input{
-	margin-left: 5px;
-	margin-right: 5px;
-	margin-top: 10px;
-	margin-bottom: 10px;
 }
 select:hover{
 	border-color:#29343e;
@@ -195,15 +207,56 @@ textarea:hover{
 	transition-delay: 0.1s;
 }
 
+select{
+	width: auto;
+	display: inline;
+	box-sizing: border-box;
+	border-radius: 10px;
+	border-color: white;
+}
+
+.select2-container {
+    width: 385px !important; /* O cualquier otro tamaño que desees */
+	padding: 0px !important;
+}
+
+
+span .select2-selection__arrow{
+	margin-right: 10px;
+	
+}/* FLECHITA DEL CBM */
+
+span .select2-search .select2-search--dropdown
+{
+	width: auto;
+}
+
+.select2-search__field
+{
+	width: auto;
+	margin-left: 1px !important;
+}
+
 textarea{
-	width: 470px;
+	width: 1280px;
+
+	display: inline;
+	box-sizing: border-box;
+	border-radius: 10px;
+	border-color: white;
 }
 
 label{
 	text-align: left;
-	margin-left: 30px;
 	font-size: 20px;
 	font-family: TrasandinaBook;
+	text-decoration: underline;
+	color: #00519C;
+	font-weight: bold;
+}
+
+input{
+	background-color: white;
 }
 
 ::placeholder { 
@@ -276,33 +329,47 @@ label{
 	border-style: none;
 }
 
-table{
+table {
 	text-align: left;
 	margin-left: 5px;
- 	background-color: #dbe5e9;
-
-	border-collapse: collapse;
-	width:100%;
-}
-
-th, td{
-	border: solid 1px #f7fbfd;
-	border-bottom: solid 1px #073256;
-}
-
-thead{
-	background-color: #dbe5e9;
-	border-bottom: solid 5px #073256;
+	background-color: white;
+	border-collapse: collapse; /* NECESARIO para sticky estable */
 	width: 100%;
-}/*ACA ESTABA EL PROBLEMA DEL ACOMODAMIENTO EN "VER PENDIENTES" Y "VER" QUE SE ACHICABA EL TABLE*/
-
-tr:nth-child(even){
-	background-color: #edf0f5;
+	box-shadow: none;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* <<< Sombra un poco más fuerte */
+	border-radius: 15px; /* Si querés bordes redondeados */
 }
 
-tr:hover td{
-	background-color: #D6D6D6;
+thead {
+	background-color: white;
+	border-bottom: 2px solid black; /* Línea divisoria más gruesa */
 }
+
+.table_id thead th {
+	position: sticky;
+	top: 0;
+	background-color: white;
+	z-index: 2; /* Un poco más alto para evitar superposición */
+}
+
+
+tr {
+	border-bottom: 1px solid #e0e0e0; /* Línea tenue entre registros */
+}
+
+tr:hover td {
+	background-color: #f5f5f5;
+}
+
+th, td {
+	padding: 8px 12px;
+	transition: background-color 0.2s ease-in-out;
+}
+
+th p{
+	color: #004582;
+}
+
 
 #volver{
     height: 28px;
@@ -311,9 +378,6 @@ tr:hover td{
     margin-right: auto;
 }
 
-#lblForm{
-    font-size: 23px;
-}
 .botones-mod{
 	width: 100%;
 	height: auto;
@@ -323,4 +387,7 @@ tr:hover td{
 	align-items: center;
 	flex-direction: row;
 	gap: 40px;
+	>input{
+		width: 180px;
+	}
 }

@@ -84,69 +84,79 @@ if($consulta[4] != 3 AND $consulta[4] != 4){
 		?>
 		<?php $guardar = $consulta[0]?>			
 		
-		<div id="modif" class="container-fluid">
-			
+		<div id="principal" class="container-fluid" data-aos="zoom-in">
 			<form method="POST" action="guardarmodificacion.php">
-			<h3 style="margin-bottom: 20px;">INCIDENTE NRO: <input type="text" name="id_inc" class="id"  value="<?php echo $consulta[0]?>"></h3>
+
+				<div class="form-group row" >
+					<label id="lblForm"class="col-form-label col-xl col-lg">INCIDENTE NRO:</label>
+					<input type="text" name="id_inc" class="id" value="<?php echo $consulta[0]?>" style="background-color:transparent;" readonly>
+				</div>
 				<!--/////////////////////////////////////FECHA INICIO///////////////////////////////////////////-->
 				<!--/////////////////////////////////////FECHA INICIO///////////////////////////////////////////-->			
-				<div class="form-group row" style="margin: 10px; padding: 5px;">
+				<div class="form-group row" >
 					<label id="lblForm"class="col-form-label col-xl col-lg">FECHA INICIO: </label>
 					<input type="date" class="form-control col-xl col-lg" name="fecha_inicio" value="<?php echo $consulta[1]?>">
-				    <!--/////////////////////////////////////USUARIO///////////////////////////////////////////-->
-				    <!--/////////////////////////////////////USUARIO///////////////////////////////////////////-->
+				</div>
+				<!--/////////////////////////////////////USUARIO///////////////////////////////////////////-->
+				<!--/////////////////////////////////////USUARIO///////////////////////////////////////////-->
+				<div class="form-group row" >
 				    <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
 				    <select class="form-control col-xl col-lg" style="text-transform:uppercase"  name="usuario">
-									<option selected value="150"><?php echo $usu?></option>
-									<?php
-									include("../particular/conexion.php");
-									$consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 ORDER BY NOMBRE ASC";
-									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-									?>
-									<?php foreach ($ejecutar as $opciones): ?> 
-										<option value="<?php echo $opciones['ID_USUARIO']?>"><?php echo $opciones['NOMBRE']?></option>
-									<?php endforeach ?>
+					<option selected value="150"><?php echo $usu?></option>
+					<?php
+					include("../particular/conexion.php");
+					$consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 ORDER BY NOMBRE ASC";
+					$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+					?>
+					<?php foreach ($ejecutar as $opciones): ?> 
+						<option value="<?php echo $opciones['ID_USUARIO']?>"><?php echo $opciones['NOMBRE']?></option>
+					<?php endforeach ?>
 					</select>
 				</div>
 
 				<!--/////////////////////////////////////FECHA SOLUCION///////////////////////////////////////////-->
 				<!--/////////////////////////////////////FECHA SOLUCION///////////////////////////////////////////-->
-				<div class="form-group row" style="margin: 10px; padding:10px;">
+				<div class="form-group row" >
 				    <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO: </label>
 				    <select name="estado" class="form-control col-xl col-lg" style="text-transform:uppercase">
-									<option selected value ="50"><?php echo $est?></option>
-									<?php
-									include("../particular/conexion.php");
-									$consulta= "SELECT * FROM estado WHERE ID_ESTADO = 1 OR ID_ESTADO = 3 OR ID_ESTADO = 4 ORDER BY ESTADO ASC";
-									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-									?>
-									<?php foreach ($ejecutar as $opciones): ?> 
-										<option value="<?php echo $opciones['ID_ESTADO']?>"><?php echo $opciones['ESTADO']?></option>
-									<?php endforeach ?>
-								</select>
+					<option selected value ="50"><?php echo $est?></option>
+					<?php
+					include("../particular/conexion.php");
+					$consulta= "SELECT * FROM estado WHERE ID_ESTADO = 1 OR ID_ESTADO = 3 OR ID_ESTADO = 4 ORDER BY ESTADO ASC";
+					$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+					?>
+					<?php foreach ($ejecutar as $opciones): ?> 
+						<option value="<?php echo $opciones['ID_ESTADO']?>"><?php echo $opciones['ESTADO']?></option>
+					<?php endforeach ?>
+					</select>
+				</div>
+
+				<div class="form-group row" >
 				<?php $default_res = $consulta[7];?>
 					<label id="lblForm"class="col-form-label col-xl col-lg">RESOLUTOR: </label>
 					<select name="resolutor" class="form-control col-xl col-lg" style="text-transform:uppercase">
-									<option selected value="100"><?php echo $nom?></option>
-									<?php
-									include("../particular/conexion.php");
-									$consulta= "SELECT * FROM resolutor ORDER BY RESOLUTOR ASC";
-									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-									?>
-									<?php foreach ($ejecutar as $opciones): ?> 
-									<option value= <?php echo $opciones['ID_RESOLUTOR'] ?>><?php echo $opciones['RESOLUTOR']?></option>
-									<?php endforeach?>
+					<option selected value="100"><?php echo $nom?></option>
+					<?php
+					include("../particular/conexion.php");
+					$consulta= "SELECT * FROM resolutor ORDER BY RESOLUTOR ASC";
+					$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+					?>
+					<?php foreach ($ejecutar as $opciones): ?> 
+					<option value= <?php echo $opciones['ID_RESOLUTOR'] ?>><?php echo $opciones['RESOLUTOR']?></option>
+					<?php endforeach?>
 					</select>
 				</div>
 				<!--/////////////////////////////////////DESCRIPCION///////////////////////////////////////////-->
 				<!--/////////////////////////////////////DESCRIPCION///////////////////////////////////////////-->	
-				<div class="form-group row" style="margin: 10px; padding:10px;">
-					<label id="lblForm"class="col-form-label col-xl col-lg">DESCRIPCIÓN: <textarea class="form-control col-xl col-lg" name="descripcion" style="text-transform:uppercase"><?php echo $des?></textarea></label>				    
+				<div class="form-group row" >
+					<label id="lblForm"class="col-form-label col-xl col-lg">DESCRIPCIÓN:</label>	
+					<textarea class="form-control col-xl col-lg" name="descripcion" style="text-transform:uppercase"><?php echo $des?></textarea>			    
 				</div>
 				<!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
 				<!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
-				<div class="form-group row" style="margin: 10px; padding:10px;">
-					<label id="lblForm"class="col-form-label col-xl col-lg">MOTIVO: <textarea class="form-control col-xl col-lg" rows="3" name="motivo" style="text-transform:uppercase" placeholder="MOTIVO DERIVACIÓN/SOLUCIÓN/ANULACIÓN"></textarea></label>
+				<div class="form-group row" >
+					<label id="lblForm"class="col-form-label col-xl col-lg">MOTIVO:</label>
+					<textarea class="form-control col-xl col-lg" rows="3" name="motivo" style="text-transform:uppercase" placeholder="MOTIVO DERIVACIÓN/SOLUCIÓN/ANULACIÓN"></textarea>
 				</div>
 				<!--////////////////////////////////////////////////////////////////////////////////-->
 				<!--////////////////////////////////////////////////////////////////////////////////-->
@@ -185,11 +195,11 @@ if($consulta[4] != 3 AND $consulta[4] != 4){
 				echo "<table width=100%>
 						<thead>
 							<tr>
-								<th><p style='font-size:16px;text-align: center;'>FECHA</p></th>
-								<th><p style='font-size:16px;text-align: center;'>HORA</p></th>
-								<th><p style='font-size:16px;text-align: left;margin-left:5px;'>RESOLUTOR</p></th>
-								<th><p style='font-size:16px;text-align: left;margin-left:5px;'>ESTADO</p></th>
-								<th><p style='font-size:16px;text-align: left;margin-left:5px;'>MOTIVO</p></th>
+								<th><p style='font-size:14px;text-align: center;min-width:100px;'>FECHA</p></th>
+								<th><p style='font-size:14px;text-align: center;'>HORA</p></th>
+								<th><p style='font-size:14px;text-align: left;margin-left:5px;'>RESOLUTOR</p></th>
+								<th><p style='font-size:14px;text-align: left;margin-left:5px;'>ESTADO</p></th>
+								<th><p style='font-size:14px;text-align: left;margin-left:5px;'>MOTIVO</p></th>
 							</tr>
 						</thead>";
 
@@ -217,11 +227,11 @@ if($consulta[4] != 3 AND $consulta[4] != 4){
 
 							echo "
 								<tr>
-									<td><h5 style='font-size:16px;text-align: center;'>".$fecord."</h5></td>
-									<td><h5 style='font-size:16px;text-align: center;'>".$listar['HORA']."</h5></td>
-									<td><h5 style='font-size:16px;text-align: left;margin-left:5px;'>".$nom."</h5></td>
-									<td><h5 style='font-size:16px;text-align: left;margin-left:5px;'>".$est."</h5></td>
-									<td><h5 style='font-size:16px;text-align: left;margin-left:5px;text-transform:uppercase;'>".$listar['MOTIVO']."</h5></td>
+									<td><h5 style='font-size:14px;text-align: center;'>".$fecord."</h5></td>
+									<td><h5 style='font-size:14px;text-align: center;'>".$listar['HORA']."</h5></td>
+									<td><h5 style='font-size:14px;text-align: left;margin-left:5px;'>".$nom."</h5></td>
+									<td><h5 style='font-size:14px;text-align: left;margin-left:5px;'>".$est."</h5></td>
+									<td><h5 style='font-size:14px;text-align: left;margin-left:5px;text-transform:uppercase;'>".$listar['MOTIVO']."</h5></td>
 								</tr>";
 						}}
 					echo "</table>";

@@ -96,7 +96,10 @@ $row = $resultado->fetch_assoc();
                             <option value="12">DICIEMBRE - CORRESPONDE A NOVIEMBRE</option>
                         </select>
                     </div>
-                    <div>
+  
+                </div>
+                <div class="filtros-listadoParalelo">
+                <div>
                         <label class="form-label">Proveedor</label>
                         <select id="proveedor" name="proveedor" class="form-control largo">
                             <option value="">TODOS</option>
@@ -144,21 +147,17 @@ $row = $resultado->fetch_assoc();
 
                     <div style="display:flex;justify-content: flex-end;">
                         <input onClick="filtrar()" class="btn btn-success" name="busqueda" value="Buscar">
-                    </div>
+
                     <?php
                     if(isset($_POST['busqueda'])){;?>
-                    <div style="display:flex;justify-content: flex-end;">
-                        <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspExportar a CSV</button>
+
+                        <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>CSV</button>
                     </div>
-                    <?php
-                    };
-                    ?>
-                </div>
-<!--                 <div class="filtros-listadoParalelo">
-                    <div>
+                    <?php }; ?>
+<!--                     <div>
                         <h3 style="color:#53AAE0;" id="monto_total">MONTO TOTAL: $<?php $montoTotal; ?></h3>
-                    </div>
-                </div> -->
+                    </div> -->
+                </div>
             </div>
             <?php 
             $mesActual = date("n");
@@ -305,17 +304,17 @@ $row = $resultado->fetch_assoc();
             }
             echo "
                 <tr>
-                <td><h4 style='font-size:16px; text-align: right; margin-right: 5px;'>".$rowSql['NRO']."</h4 ></td>
-                <td><h4 style='font-size:16px; text-align: left; margin-left: 5px;'>".$rowSql['NOMBRE']."</h4 ></td>
-                <td><h4 style='font-size:16px; text-align: left; margin-left: 5px;'>".$rowSql['NOMBREPLAN']." - ".$rowSql['PLAN']."</h4 ></td>
-                <td><h4 style='font-size:16px; text-align: left; margin-left: 5px;'>".$rowSql['PROVEEDOR']."</h4 ></td>
-                <td><h4 style='font-size:16px; text-align: left; margin-left: 5px;'>".$rowSql['ROAMING']."</h4 ></td>
-                <td><h4 style='font-size:16px; text-align: right; margin-right: 5px;color:green;font-weight:bold;'>"."$".$rowSql['MONTO']."</h4 ></td>
-                <td><h4 style='font-size:16px; text-align: right; margin-right: 5px;color:red;font-weight:bold;'>"."$".$rowSql['EXTRAS']."</h4 ></td>
-                <td><h4 style='font-size:16px; text-align: right; margin-right: 5px;'>".$rowSql['DESCUENTO']."%"."</h4 ></td>
-                <td><h4 style='font-size:16px; text-align: center;'>".$fec."</h4 ></td>
+                <td><h4 style='font-size:14px; text-align: right; margin-right: 5px;'>".$rowSql['NRO']."</h4 ></td>
+                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['NOMBRE']."</h4 ></td>
+                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['NOMBREPLAN']." - ".$rowSql['PLAN']."</h4 ></td>
+                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['PROVEEDOR']."</h4 ></td>
+                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['ROAMING']."</h4 ></td>
+                <td><h4 style='font-size:14px; text-align: right; margin-right: 5px;color:green;font-weight:bold;'>"."$".$rowSql['MONTO']."</h4 ></td>
+                <td><h4 style='font-size:14px; text-align: right; margin-right: 5px;color:red;font-weight:bold;'>"."$".$rowSql['EXTRAS']."</h4 ></td>
+                <td><h4 style='font-size:14px; text-align: right; margin-right: 5px;'>".$rowSql['DESCUENTO']."%"."</h4 ></td>
+                <td><h4 style='font-size:14px; text-align: center;'>".$fec."</h4 ></td>
                 <td><h4 style='font-size:18px; text-align: right; margin-right: 5px;color:green;font-weight:bold;'>"."$".$rowSql['MONTOTOTAL']."</h4 ></td>
-                <td><h4 style='font-size:16px; text-align: left; margin-left: 5px;'>".$rowSql['ESTADO']."</h4 ></td>
+                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['ESTADO']."</h4 ></td>
             </tr>
             ";
         }
@@ -447,14 +446,15 @@ $row = $resultado->fetch_assoc();
                 $sqli = $datos_base->query($queryy);
                 $num_rows= mysqli_num_rows($sqli);
                 echo "
-                    <div class='row' style='width:80%;display:flex;flex-direction:row;gap:15px;justify-content: space-between;'>
-                    <div class='col'><p style='font-size:22px;text-align:left;text-decoration:underline;'>PLAN</p></div>
-                    <div class='col'><p style='font-size:22px;text-decoration:underline;'>CANTIDAD DE LINEAS</p></div>
-                    <div class='col'><p style='font-size:22px;text-decoration:underline;'>MONTO CON DESCUENTO</p></div>
-                    <div class='col'><p style='font-size:22px;text-decoration:underline;'>MONTO UNITARIO SIN DESCUENTO</p></div>
-                    <div class='col'><p style='font-size:22px;text-decoration:underline;'>MONTO SIN DESCUENTO</p></div>
+                    <div class='row' style='width:95%;display:flex;flex-direction:row;gap:15px;justify-content: space-between;'>
+                        <div class='col'><p style='font-size:18px;text-align:left;text-decoration:underline;'>PLAN</p></div>
+                        <div class='col'><p style='font-size:18px;text-decoration:underline;text-align:right;'>CANTIDAD DE LINEAS</p></div>
+                        <div class='col'><p style='font-size:18px;text-decoration:underline;text-align:right;'>MONTO CON DESCUENTO</p></div>
+                        <div class='col'><p style='font-size:18px;text-decoration:underline;text-align:right;'>MONTO UNITARIO SIN DESCUENTO</p></div>
+                        <div class='col'><p style='font-size:18px;text-decoration:underline;text-align:right;'>MONTO SIN DESCUENTO</p></div>
                     
                      </div>";
+                     
                 // while($consul = mysqli_fetch_array($cons))
                 while($rowSqli = $sqli->fetch_assoc()) {
                 // {
@@ -470,14 +470,14 @@ $row = $resultado->fetch_assoc();
                 // }
                 
                     echo "
-                    <div class='row' style='width:80%;display:flex;flex-direction:row;gap:10px;justify-content: space-between;'>
+                    <div class='row' style='width:95%;display:flex;flex-direction:row;gap:10px;justify-content: space-between;'>
                     <div class='col'><p style='font-size:18px;text-align:left;'>".$rowSqli['nomPlanGr']." - ".$rowSqli['planGr'].": </p></div>
-                    <div class='col'><p style='color:green;font-weight:bold;'>".$rowSqli['CANTIDAD']."</p></div>
-                    <div class='col'><p style='color:green;font-weight:bold;'>$".$rowSqli['totalGr']."</p></div>
-                    <div class='col'><p style='color:green;font-weight:bold;'>$".$rowSqli['MONTO']."</p></div>
-                    <div class='col'><p style='color:green;font-weight:bold;'>$".$rowSqli['totalSd']."</p></div>
+                    <div class='col'><p style='color:green;font-weight:bold;text-align:right;'>".$rowSqli['CANTIDAD']."</p></div>
+                    <div class='col'><p style='color:green;font-weight:bold;text-align:right;'>$".$rowSqli['totalGr']."</p></div>
+                    <div class='col'><p style='color:green;font-weight:bold;text-align:right;'>$".$rowSqli['MONTO']."</p></div>
+                    <div class='col'><p style='color:green;font-weight:bold;text-align:right;'>$".$rowSqli['totalSd']."</p></div>
                     
-                    </div>";
+                    </div><hr style='height: 1px;'>";
                 }
 
                 

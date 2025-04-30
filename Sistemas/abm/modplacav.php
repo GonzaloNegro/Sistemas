@@ -32,13 +32,13 @@ function ConsultarIncidente($no_tic)
 <head>
 	<title>MODIFICAR PLACA DE VIDEO</title><meta charset="utf-8">
 	<link rel="icon" href="../imagenes/logoInfraestructura.png">
-	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 	<style>
 			body{
 				background-color: #edf0f5;
@@ -72,13 +72,14 @@ function ConsultarIncidente($no_tic)
                     })
 			}
     </script>
+<main>
     <div id="reporteEst">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
             <a id="vlv"  href="abmplacav.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
         </div>					
     </div>
         <section id="Inicio">
-		<div id="titulo" style="margin: 20px;">
+		<div id="titulo">
 			<h1>MODIFICAR PLACA DE VIDEO</h1>
 		</div>
 		<div id="principalu" style="width: 97%" class="container-fluid" data-aos="zoom-in">
@@ -99,54 +100,69 @@ function ConsultarIncidente($no_tic)
             $tipo = $row['TIPOMEM'];
             ?>
             <form method="POST" action="guardarmodplacav2.php">
-            <label >ID: </label>&nbsp &nbsp
-                    <input type="text" class="id" name="id" value="<?php echo $consulta[0]?>">
-            <div class="form-group row" style="margin: 10px; padding:10px;">
-                <label id="lblForm"class="col-form-label col-xl col-lg">MEMORIA:</label>
-                <select name="memoria" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-                        <option selected value="100"><?php echo $mem?></option>
-                        <?php
-                        $consulta= "SELECT * FROM memoria ORDER BY MEMORIA ASC";
-                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                        ?>
-                        <?php foreach ($ejecutar as $opciones): ?> 
-                            <option value="<?php echo $opciones['ID_MEMORIA']?>"><?php echo $opciones['MEMORIA']?></option>						
+                <div class="form-group row">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">ID: </label>
+                    <input type="text" class="id" name="id" style="background-color:transparent;" value="<?php echo $consulta[0]?>" readonly>
+                </div>
+                
+                <div class="form-group row">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">MEMORIA:</label>
+                    <select name="memoria" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                    <option selected value="100"><?php echo $mem?></option>
+                    <?php
+                    $consulta= "SELECT * FROM memoria ORDER BY MEMORIA ASC";
+                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                    ?>
+                    <?php foreach ($ejecutar as $opciones): ?> 
+                    <option value="<?php echo $opciones['ID_MEMORIA']?>"><?php echo $opciones['MEMORIA']?></option>						
                     <?php endforeach ?>
-                </select>
+                    </select>
+                </div>
 
-                <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
-                <select name="modelo" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-                <option selected value="200"><?php echo $mod?></option>
-                        <?php
-                        $consulta= "SELECT * FROM modelo WHERE ID_TIPOP = 15 ORDER BY MODELO ASC";
-                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                        ?>
-                        <?php foreach ($ejecutar as $opciones): ?> 
-                            <option value="<?php echo $opciones['ID_MODELO']?>"><?php echo $opciones['MODELO']?></option>						
+                <div class="form-group row">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
+                    <select name="modelo" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                    <option selected value="200"><?php echo $mod?></option>
+                    <?php
+                    $consulta= "SELECT * FROM modelo WHERE ID_TIPOP = 15 ORDER BY MODELO ASC";
+                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                    ?>
+                    <?php foreach ($ejecutar as $opciones): ?> 
+                    <option value="<?php echo $opciones['ID_MODELO']?>"><?php echo $opciones['MODELO']?></option>						
                     <?php endforeach ?>
-                </select>
-            </div>
+                    </select>
+                </div>
 
-            <div class="form-group row" style="margin: 10px; padding:10px;">
-                <label id="lblForm"class="col-form-label col-xl col-lg">TIPO MEMORIA:</label>
-                <select name="tipo" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                <div class="form-group row">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">TIPO MEMORIA:</label>
+                    <select name="tipo" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                     <option selected value="300"><?php echo $tipo?></option>
-                        <?php
-                        $consulta= "SELECT * FROM tipomem ORDER BY TIPOMEM ASC";
-                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                        ?>
-                        <?php foreach ($ejecutar as $opciones): ?> 
-                            <option value="<?php echo $opciones['ID_TIPOMEM']?>"><?php echo $opciones['TIPOMEM']?></option>						
+                    <?php
+                    $consulta= "SELECT * FROM tipomem ORDER BY TIPOMEM ASC";
+                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                    ?>
+                    <?php foreach ($ejecutar as $opciones): ?> 
+                    <option value="<?php echo $opciones['ID_TIPOMEM']?>"><?php echo $opciones['TIPOMEM']?></option>						
                     <?php endforeach ?>
-                </select>
-            </div>
+                    </select>
+                </div>
 
-            <div class="row justify-content-end" style="margin: 10px; padding:10px;">
-                <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="col-3 button" type="button" value="GUARDAR" >
+            <div class="row justify-content-end">
+                <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" type="button" value="MODIFICAR" >
             </div>
         </form>
 		</div>
 	</section>
+	</main>
+	<footer>
+		<div class="footer">
+			<div class="container-fluid">
+				<div class="row">
+					<img src="../imagenes/cba-logo.png" class="img-fluid">
+				</div>
+			</div>
+		</div>
+	</footer>
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>

@@ -43,7 +43,6 @@ $nrocelular = $consulta[8];
 <head>
 	<title>MODIFICAR CELULAR</title><meta charset="utf-8">
 	<link rel="icon" href="../imagenes/logoInfraestructura.png">
-	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -51,6 +50,7 @@ $nrocelular = $consulta[8];
 	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 	<style>
 			body{
 			background-color: #edf0f5;
@@ -58,16 +58,17 @@ $nrocelular = $consulta[8];
 	</style>
 </head>
 <body>
+<main>
 	<div id="reporteEst">
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
             <a id="vlv"  href="./celulares.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
         </div>
     </div>
 	<section id="Inicio">
-		<div id="titulo" style="margin:20px;">
+		<div id="titulo">
 			<h1>MODIFICAR CELULAR</h1>
 		</div>
-		<div id="principalr" style="width: 97%" class="container-fluid" data-aos="zoom-in">
+		<div id="principalu" style="width: 97%" class="container-fluid" data-aos="zoom-in">
 		<?php
 			$sent= "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = $idUsuario";
 			$resultado = $datos_base->query($sent);
@@ -100,14 +101,17 @@ $nrocelular = $consulta[8];
 			$row = $resultado->fetch_assoc();
 			$observaciones = $row['OBSERVACION'];
 		?>
-						<form method="POST" action="agregados.php">
-						<div class="form-group column" style="margin: 10px; padding:10px;">
-							<label>ID: </label>
-							<input type="text" class="id" name="id" style="cursor: default;" value="<?php echo $consulta[0]?>" readonly>
+					<form method="POST" action="agregados.php">
+						<div class="form-group row">
+							<label id="lblForm"class="col-form-label col-xl col-lg">ID: </label>
+							<input type="text" class="id" name="id" value="<?php echo $consulta[0]?>" style="background-color:transparent;" readonly>
 						</div>
-                        <div class="form-group row" style="margin: 10px; padding:10px;">
-                            <label id="lblForm"class="col-form-label col-xl col-lg">IMEI:</label>
+						
+                        <div class="form-group row">
+							<label id="lblForm"class="col-form-label col-xl col-lg">IMEI:</label>
 							<input style="margin-top: 5px; text-transform:uppercase;cursor: default;" class="form-control col-form-label col-xl col-lg" type="text" name="imei" placeholder="IMEI" value="<?php echo $imei?>" required readonly>
+						</div>
+						<div class="form-group row">
 							<label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
 								<select name="usuario" id="usuario" style="text-transform:uppercase" onchange="cargarLineas(this.value)" class="form-control col-xl col-lg" required>
 								<option selected value="100"><?php echo $usuario;?></option>
@@ -122,7 +126,7 @@ $nrocelular = $consulta[8];
 								</select>
                         </div>
 
-						<div  class="form-group row" style="margin: 10px; padding:10px;">
+						<div  class="form-group row">
 <!-- 							<div id="divlineas" class="col-xl col-lg">
 								<label id="lblForm"class="col-form-label col-xl col-lg">ASIGNADO A LINEA:</label>
 								<div class="col-xl col-lg" >
@@ -133,7 +137,7 @@ $nrocelular = $consulta[8];
 							<!-- <div id="lineasusuario" class="col-xl col-lg"> -->
 							<label id="lblForm"class="col-form-label col-xl col-lg">LINEA:</label>
 							<select name="linea" id="lineas" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-						</select>
+							</select>
 							<!-- </div> -->
 						</div>
 
@@ -148,20 +152,22 @@ $nrocelular = $consulta[8];
 							<?php ## endforeach ?>
 							 -->
 
-                        <div class="form-group row" style="margin: 10px; padding:10px;">
-                            <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
+                        <div class="form-group row">
+							<label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
                             <select name="estado" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 							<option selected value="200"><?php echo $estado;?></option>
-                            <?php
+							<?php
                             include("../particular/conexion.php");
                             $consulta= "SELECT * FROM estado_ws ORDER BY ESTADO ASC";
                             $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                             ?>
                             <?php foreach ($ejecutar as $opciones): ?>
-                                <option value="<?php echo $opciones['ID_ESTADOWS']?>"><?php echo $opciones['ESTADO']?></option>
-                            <?php endforeach ?>
+                            <option value="<?php echo $opciones['ID_ESTADOWS']?>"><?php echo $opciones['ESTADO']?></option>
+							<?php endforeach ?>
                             </select>
-
+						<div class="form-group row">
+							
+						</div>
                             <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:</label>
                             <select name="proveedor" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 							<option selected value="300"><?php echo $proveedor;?></option>
@@ -176,7 +182,7 @@ $nrocelular = $consulta[8];
                             </select>
                         </div>
 
-						<div class="form-group row" style="margin: 10px; padding:10px;">
+						<div class="form-group row">
 							<label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
                             <select name="modelo" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 							<option selected value="400"><?php echo $marca." - ".$modelo;?></option>
@@ -193,7 +199,9 @@ $nrocelular = $consulta[8];
                                 <option value="<?php echo $opciones['ID_MODELO']?>"><?php echo $opciones['MARCA']." - ".$opciones['MODELO']?></option>
                             <?php endforeach ?>
                             </select>
+						</div>
 
+						<div class="form-group row">
                             <label id="lblForm"class="col-form-label col-xl col-lg">PROCEDENCIA:</label>
                             <select name="procedencia" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 							<option selected value="500"><?php echo $procedencia;?></option>
@@ -208,14 +216,14 @@ $nrocelular = $consulta[8];
                             </select>
 						</div>
 
-						<div class="form-group row" style="margin: 10px; padding:10px;">
+						<div class="form-group row">
 							<label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓN:</label>
                             <textarea class="form-control col-xl col-lg" name="obs" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3" ><?php echo $observaciones;?></textarea>
 						</div>
 
-						<div class="form-group row justify-content-end" style="margin: 10px; padding:10px;">
-					<!-- <input style="width:20%" class="col-3 button" type="submit" name="modificarCelular" value="GUARDAR" class="button"> -->
-				</div>
+						<div class="form-group row justify-content-end">
+							<input style="width:20%" class="btn btn-success" type="submit" name="modificarCelular" value="MODIFICAR" class="button">
+						</div>
 					</form>
 					<?php
 				if(isset($_GET['ok'])){
@@ -236,6 +244,16 @@ $nrocelular = $consulta[8];
 			?>
 		</div>
 	</section>
+	</main>
+	<footer>
+		<div class="footer">
+			<div class="container-fluid">
+				<div class="row">
+					<img src="../imagenes/cba-logo.png" class="img-fluid">
+				</div>
+			</div>
+		</div>
+    </footer>
 	<script>
 /* 	$(document).ready(function(){
     $("#usuario").change(function(){

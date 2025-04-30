@@ -17,7 +17,6 @@ $row = $resultado->fetch_assoc();
 	<title>AGREGAR MARCA</title>
 	<meta charset="utf-8">
 	<link rel="icon" href="../imagenes/logoInfraestructura.png">
-	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,6 +24,7 @@ $row = $resultado->fetch_assoc();
 	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 	<style>
 			body{
 			background-color: #edf0f5;
@@ -152,26 +152,26 @@ $row = $resultado->fetch_assoc();
                     })
 			}
 		}
-				
 		</script>
+<main>
 	<div id="reporteEst">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
             <a id="vlv"  href="abmmarcas.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
         </div>					
     </div>
 	<section id="Inicio">
-		<div id="titulo" style="margin:20px;">
+		<div id="titulo">
 			<h1>AGREGAR MARCA</h1>
 		</div>
 		<div id="principalu" style="width: 97%" class="container-fluid" data-aos="zoom-in">
 		<form method="POST" action="guardarmodmarca.php">
-				<div class="form-group row" style="margin: 10px; padding:10px;">
-					<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DE LA MARCA:</label>
-					<input id="marca" style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="marca" placeholder="NOMBRE DE LA MARCA" required>
-				</div>	
-				<div class="form-group row justify-content-end" style="margin: 10px; padding:10px;">
-					<input onClick="enviar_formulario(this.form)" style="width:20%"class="col-3 button" type="button" value="GUARDAR" class="button">
-				</div>	
+            <div class="form-group row">
+                <label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DE LA MARCA:</label>
+                <input id="marca" style="text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="marca" placeholder="NOMBRE DE LA MARCA" required>
+            </div>	
+            <div class="form-group row justify-content-end">
+                <input onClick="enviar_formulario(this.form)" style="width:20%"class="btn btn-success" type="button" value="GUARDAR" class="button">
+            </div>	
 		</form>
 			<?php
 				if(isset($_GET['ok'])){
@@ -187,6 +187,16 @@ $row = $resultado->fetch_assoc();
 			?>
 		</div>
 	</section>
+	</main>
+	<footer>
+		<div class="footer">
+			<div class="container-fluid">
+				<div class="row">
+					<img src="../imagenes/cba-logo.png" class="img-fluid">
+				</div>
+			</div>
+		</div>
+	</footer>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
     <script>

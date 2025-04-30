@@ -77,7 +77,7 @@ $row = $resultado->fetch_assoc();
 		</div>
 
         <?php
-				echo "<table width=100%>
+				echo "<table class='table_id tablaLineas' id='tabla_lineas'>
 						<thead>
 							<tr>
 								<th><p style='text-align:left;padding:5px;'>PLACA</p></th>
@@ -103,10 +103,10 @@ $row = $resultado->fetch_assoc();
 									echo
 									" 
 										<tr>
-											<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['MODELO']."</h4></td>
-											<td><h4 style='font-size:16px;text-align:right;padding:5px;'>".$listar['MEMORIA']."</h4></td>
-											<td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['TIPOMEM']."</h4></td>
-											<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modplacav.php?no=".$listar['ID_PVIDEO']." class=mod>Editar</a></td>
+											<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['MODELO']."</h4></td>
+											<td><h4 style='font-size:14px;text-align:right;padding:5px;'>".$listar['MEMORIA']."</h4></td>
+											<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['TIPOMEM']."</h4></td>
+											<td class='text-center text-nowrap'><a href=modplacav.php?no=".$listar['ID_PVIDEO']."><i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i></a></td>
 									</tr>";
 						}
 					}
@@ -125,10 +125,10 @@ $row = $resultado->fetch_assoc();
 										echo
 										" 
 											<tr>
-                                            <td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['MODELO']."</h4></td>
-                                            <td><h4 style='font-size:16px;text-align:right;padding:5px;'>".$listar['MEMORIA']."</h4></td>
-                                            <td><h4 style='font-size:16px;text-align:left;padding:5px;'>".$listar['TIPOMEM']."</h4></td>
-											<td class='text-center text-nowrap'><a class='btn btn-info' style=' color:white;' href=modplacav.php?no=".$listar['ID_PVIDEO']." class=mod>Editar</a></td>
+                                            <td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['MODELO']."</h4></td>
+                                            <td><h4 style='font-size:14px;text-align:right;padding:5px;'>".$listar['MEMORIA']."</h4></td>
+                                            <td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['TIPOMEM']."</h4></td>
+											<td class='text-center text-nowrap'><a href=modplacav.php?no=".$listar['ID_PVIDEO']."><i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i></a></td>
 										</tr>";
 						}
 					}

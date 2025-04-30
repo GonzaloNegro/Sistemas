@@ -447,8 +447,8 @@ $row = $resultado->fetch_assoc();
 				<!--//////////////////////////////////////////////////////////////////-->
 				<?php 
 								if ($row['ID_PERFIL'] != 5) {
-								echo '<div class="row justify-content-end" style="margin: 10px; padding:10px;">
-								<input id="btnform" onClick="enviar_formulario(this.form)" type="button" value="GUARDAR" name="g1" class="btn btn-success">
+								echo '<div class="form-group row justify-content-end">
+								<input id="btnform" onClick="enviar_formulario(this.form)" style="width:20%" type="button" value="GUARDAR" name="g1" class="btn btn-success">
 							</div>';
 								}
 							?>

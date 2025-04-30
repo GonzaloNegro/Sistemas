@@ -26,7 +26,6 @@ function ConsultarIncidente($no_tic)
 <title>MODIFICAR TIPIFICACIÓN</title>
 <link rel="icon" href="../imagenes/logoInfraestructura.png">
 	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -34,6 +33,7 @@ function ConsultarIncidente($no_tic)
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 	<style>
 			body{
 			background-color: #edf0f5;
@@ -91,6 +91,8 @@ function ConsultarIncidente($no_tic)
                     })
 				}}
 			</script>
+
+<main>
 	<div id="reporteEst">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
             <a id="vlv"  href="abmtipificacion.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
@@ -100,21 +102,32 @@ function ConsultarIncidente($no_tic)
     <div id="titulo">
 			<h1>MODIFICAR TIPIFICACIÓN</h1>
 		</div>
-		<div id="principal">
-			<form method="POST" action="guardarmodtipificacion2.php">
-				<div class="form--info">
-					<label>TIPIFICACIÓN ID: </label>
-					<input type="text" class="id" name="id" value="<?php echo $consulta['ID_TIPIFICACION']?>" readonly>
+		<div id="principalu">
+			<form method="POST" action="guardarmodtipificacion2.php">			
+				<div class="form-group row">
+					<label id="lblForm"class="col-form-label col-xl col-lg">TIPIFICACIÓN ID:</label>
+					<input type="text" class="id" name="id" value="<?php echo $consulta['ID_TIPIFICACION']?>" style="background-color:transparent;" readonly>
 				</div>
-				<div class="form--info">
-					<input id="tipificacion" style="text-transform:uppercase;" class="form-control"  type="text" name="tip" value="<?php echo $consulta['TIPIFICACION']?>">
+				<div class="form-group row">
+					<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DE LA TIPIFICACIÓN:</label>
+					<input id="tipificacion" style="text-transform:uppercase;" class="form-control col-form-label col-xl col-lg"  type="text" name="tip" value="<?php echo $consulta['TIPIFICACION']?>">
 				</div>	
-				<div class="form--info--btn">
-					<input class="btn btn-success" type="button" onClick="enviar_formulario(this.form)" value="MODIFICAR" >
+				<div class="form-group row justify-content-end">
+					<input class="btn btn-success" type="button" style="width:20%" onClick="enviar_formulario(this.form)" value="MODIFICAR" >
 				</div>
 			</form>
 	    </div>
 	</section>
+	</main>
+	<footer>
+		<div class="footer">
+			<div class="container-fluid">
+				<div class="row">
+					<img src="../imagenes/cba-logo.png" class="img-fluid">
+				</div>
+			</div>
+		</div>
+	</footer>
 	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>
 </html>

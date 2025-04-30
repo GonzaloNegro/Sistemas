@@ -31,11 +31,6 @@ $row = $resultado->fetch_assoc();
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="../estilos/estiloabm.css" rel="stylesheet" type="text/css" />
-   <style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
     <main> 

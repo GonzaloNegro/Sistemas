@@ -26,15 +26,15 @@ function ConsultarIncidente($no_tic)
 <title>MODIFICAR EQUIPO</title>
 <link rel="icon" href="../imagenes/logoInfraestructura.png">
 	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
   
 
   <script>
@@ -57,13 +57,14 @@ function ConsultarIncidente($no_tic)
 	</style>
 </head>
 <body>
+<main>
     <div id="reporteEst">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
             <a id="vlv"  href="../consulta/inventario.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
         </div>					
     </div>
 	<section id="Inicio">
-    <div id="titulo" style="margin: 20px;">
+    <div id="titulo">
 			<h1>MODIFICAR EQUIPO</h1>
 		</div>
         <div id="principalu" style="width: 97%" class="container-fluid">
@@ -433,34 +434,48 @@ function ConsultarIncidente($no_tic)
                 
 
                 <form method="POST" action="../abm/guardarmodequipo2.php">
-                     <label>ID: </label>
-                    <input type="text" class="id" name="id" value="<?php echo $consulta['ID_WS']?>">
+                    <div class="form-group row">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">ID:</label>
+                        <input type="text" class="id" name="id" value="<?php echo $consulta['ID_WS']?>" style="background-color:transparent;" readonly>
+                    </div>
 
-                    <div class="form-group row" style="margin: 10px; padding:10px;">
+                    <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">N° GOBIERNO: </label>
                         <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serieg" value="<?php echo $consulta['SERIEG']?>">
+                    </div>
+
+                    <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE: </label>
                         <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serialn" value="<?php echo $consulta['SERIALN']?>">
                     </div>
 
-                    <div class="form-group row" style="margin: 10px; padding:10px;">
+                    <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">MAC: </label>
                         <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="mac" value="<?php echo $consulta['MAC']?>">
+                    </div>
+
+                    <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIÓN: </label>
                         <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" rows="3"><?php echo $consulta['OBSERVACION']?></textarea>
                     </div>
 
-                    <div class="form-group row" style="margin: 10px; padding:10px;">
+                    <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">IP: </label>
                         <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="ip" value="<?php echo $consulta['IP']?>">
+                    </div>
+
+                    <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">FACTURA: </label>
                         <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="fac" value="<?php echo $consulta['FACTURA']?>">
                     </div>
 
 
-                    <div class="form-group row" style="margin: 10px; padding:10px;">
+                    <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA: </label>
                         <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="gar" value="<?php echo $consulta['GARANTIA']?>">
+                    </div>
+
+                    <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">MASTERIZACIÓN: </label>
                         <select style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" name="masterizacion">
                         <option selected value="100"><?php echo $consulta['MASTERIZADA']?></option>
@@ -470,139 +485,151 @@ function ConsultarIncidente($no_tic)
                     </div>
 
 
-                    <div class="form-group row" style="margin: 10px; padding:10px;">
+                    <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">RIP: </label>
                         <select style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" name="reserva">
                         <option selected value="200"><?php echo $consulta['RIP']?></option>
                             <option value ="NO">NO</option>
                             <option value="SI">SI</option>
                         </select>
+                    </div>
+
+                    <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">RED: </label>
                         <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="red">
-                                        <option selected value="300"><?php echo $red?></option>
-                                        <?php
-                                        include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM red ORDER BY RED ASC";
-                                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                        ?>
-                                        <?php foreach ($ejecutar as $opciones): ?> 
-                                        <option value= <?php echo $opciones['ID_RED'] ?>><?php echo $opciones['RED']?></option>
-                                        <?php endforeach?>
-                                    </select>
+                        <option selected value="300"><?php echo $red?></option>
+                        <?php
+                        include("../particular/conexion.php");
+                        $consulta= "SELECT * FROM red ORDER BY RED ASC";
+                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                        ?>
+                        <?php foreach ($ejecutar as $opciones): ?> 
+                        <option value= <?php echo $opciones['ID_RED'] ?>><?php echo $opciones['RED']?></option>
+                        <?php endforeach?>
+                        </select>
                     </div>
 
-
-                    <div class="form-group row" style="margin: 10px; padding:10px;">
-
-                    <label id="lblForm"class="col-form-label col-xl col-lg">SISTEMA OPERATIVO: </label>
+                    <div class="form-group row">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">SISTEMA OPERATIVO: </label>
                         <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="so">
-                                    <option selected value="500"><?php echo $so?></option>
-                                    <?php
-                                    include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM so ORDER BY SIST_OP ASC";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_SO'] ?>><?php echo $opciones['SIST_OP']?></option>
-                                    <?php endforeach?>
-                                </select>      
+                        <option selected value="500"><?php echo $so?></option>
+                        <?php
+                        include("../particular/conexion.php");
+                        $consulta= "SELECT * FROM so ORDER BY SIST_OP ASC";
+                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                        ?>
+                        <?php foreach ($ejecutar as $opciones): ?> 
+                        <option value= <?php echo $opciones['ID_SO'] ?>><?php echo $opciones['SIST_OP']?></option>
+                        <?php endforeach?>
+                        </select>      
+                    </div>
+
+                    <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO: </label>
                         <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="est">
-                                        <option selected value="700"><?php echo $est?></option>
-                                        <?php
-                                        include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM estado_ws ORDER BY ESTADO ASC";
-                                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                        ?>
-                                        <?php foreach ($ejecutar as $opciones): ?> 
-                                        <option value= <?php echo $opciones['ID_ESTADOWS'] ?>><?php echo $opciones['ESTADO']?></option>
-                                        <?php endforeach?>
-                                    </select>
+                        <option selected value="700"><?php echo $est?></option>
+                        <?php
+                        include("../particular/conexion.php");
+                        $consulta= "SELECT * FROM estado_ws ORDER BY ESTADO ASC";
+                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                        ?>
+                        <?php foreach ($ejecutar as $opciones): ?> 
+                        <option value= <?php echo $opciones['ID_ESTADOWS'] ?>><?php echo $opciones['ESTADO']?></option>
+                        <?php endforeach?>
+                        </select>
                     </div>
 
 
-                    <div class="form-group row" style="margin: 10px; padding:10px;">
+                    <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR: </label>
                         <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="prov">
-                                        <option selected value="800"><?php echo $pro?></option>
-                                        <?php
-                                        include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
-                                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                        ?>
-                                        <?php foreach ($ejecutar as $opciones): ?> 
-                                        <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
-                                        <?php endforeach?>
-                                    </select>
+                        <option selected value="800"><?php echo $pro?></option>
+                        <?php
+                        include("../particular/conexion.php");
+                        $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
+                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                        ?>
+                        <?php foreach ($ejecutar as $opciones): ?> 
+                        <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                        <?php endforeach?>
+                        </select>
+                    </div>
+
+                    <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DE EQUIPO: </label>
                         <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="tippc">
-                                        <option selected value="900"><?php echo $tip?></option>
-                                        <?php
-                                        include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM tipows ORDER BY TIPOWS ASC";
-                                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                        ?>
-                                        <?php foreach ($ejecutar as $opciones): ?> 
-                                        <option value= <?php echo $opciones['ID_TIPOWS'] ?>><?php echo $opciones['TIPOWS']?></option>
-                                        <?php endforeach?>
-                                    </select>
+                        <option selected value="900"><?php echo $tip?></option>
+                        <?php
+                        include("../particular/conexion.php");
+                        $consulta= "SELECT * FROM tipows ORDER BY TIPOWS ASC";
+                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                        ?>
+                        <?php foreach ($ejecutar as $opciones): ?> 
+                        <option value= <?php echo $opciones['ID_TIPOWS'] ?>><?php echo $opciones['TIPOWS']?></option>
+                        <?php endforeach?>
+                        </select>
                     </div>
 
 
-                    <div class="form-group row" style="margin: 10px; padding:10px;">            
+                    <div class="form-group row">            
                         <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO: </label>
                         <select id="slcusu" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="usu">
-                                        <option selected value="1000"><?php echo $usu?></option>
-                                        <?php
-                                        include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 ORDER BY NOMBRE ASC";
-                                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                        ?>
-                                        <?php foreach ($ejecutar as $opciones): ?> 
-                                        <option value= <?php echo $opciones['ID_USUARIO'] ?>><?php echo $opciones['NOMBRE']?></option>
-                                        <?php endforeach?>
-                                    </select>
-                        <label id="lblArea" style="font-size:24px;"class="col-form-label col-xl col-lg">AREA: </label>
-                        <select id="slcarea" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="area" disabled>
-                        <!-- falta verificar bien eñ value-->
-                                        <option selected value="1100"><?php echo $area?></option>
-                                        <?php
-                                        include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM area ORDER BY AREA ASC";
-                                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                        ?>
-                                        <?php foreach ($ejecutar as $opciones): ?> 
-                                        <option value= <?php echo $opciones['ID_AREA'] ?>><?php echo $opciones['AREA']?></option>
-                                        <?php endforeach?>
-                                    </select>
+                        <option selected value="1000"><?php echo $usu?></option>
+                        <?php
+                        include("../particular/conexion.php");
+                        $consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 ORDER BY NOMBRE ASC";
+                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                        ?>
+                        <?php foreach ($ejecutar as $opciones): ?> 
+                        <option value= <?php echo $opciones['ID_USUARIO'] ?>><?php echo $opciones['NOMBRE']?></option>
+                        <?php endforeach?>
+                        </select>
                     </div>
 
-                    <div class="form-group row" style="margin: 10px; padding:10px;">            
-                        <label id="lblForm"class="col-form-label col-xl col-lg">PROCEDENCIA:</label>
-                            <select name="procedencia" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-                            <option selected value="2400"><?php echo $procedencia?></option>
-                                <?php
-                                include("../particular/conexion.php");
-                                $consulta= "SELECT * FROM procedencia ORDER BY PROCEDENCIA ASC";
-                                $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                ?>
-                                <?php foreach ($ejecutar as $opciones): ?> 
-                                <option value= <?php echo $opciones['ID_PROCEDENCIA'] ?>><?php echo $opciones['PROCEDENCIA']?></option>
-                                <?php endforeach?>
-                            </select>
+                    <div class="form-group row">
+                        <label id="lblArea" class="col-form-label col-xl col-lg">AREA: </label>
+                        <select id="slcarea" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="area" disabled>
+                        <!-- falta verificar bien eñ value-->
+                        <option selected value="1100"><?php echo $area?></option>
+                        <?php
+                        include("../particular/conexion.php");
+                        $consulta= "SELECT * FROM area ORDER BY AREA ASC";
+                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                        ?>
+                        <?php foreach ($ejecutar as $opciones): ?> 
+                        <option value= <?php echo $opciones['ID_AREA'] ?>><?php echo $opciones['AREA']?></option>
+                        <?php endforeach?>
+                        </select>
+                    </div>
 
+                    <div class="form-group row">            
+                        <label id="lblForm"class="col-form-label col-xl col-lg">PROCEDENCIA:</label>
+                        <select name="procedencia" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                        <option selected value="2400"><?php echo $procedencia?></option>
+                        <?php
+                        include("../particular/conexion.php");
+                        $consulta= "SELECT * FROM procedencia ORDER BY PROCEDENCIA ASC";
+                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                        ?>
+                        <?php foreach ($ejecutar as $opciones): ?> 
+                        <option value= <?php echo $opciones['ID_PROCEDENCIA'] ?>><?php echo $opciones['PROCEDENCIA']?></option>
+                        <?php endforeach?>
+                        </select>
+                    </div>
+
+                    <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">MARCA: </label>
                         <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="marca">
-                                        <option selected value="1100"><?php echo $mar?></option>
-                                        <?php
-                                        include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
-                                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                        ?>
-                                        <?php foreach ($ejecutar as $opciones): ?> 
-                                        <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
-                                        <?php endforeach?>
-                                    </select>
+                        <option selected value="1100"><?php echo $mar?></option>
+                        <?php
+                        include("../particular/conexion.php");
+                        $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
+                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                        ?>
+                        <?php foreach ($ejecutar as $opciones): ?> 
+                        <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
+                        <?php endforeach?>
+                        </select>
                     </div>
 
 
@@ -1539,12 +1566,22 @@ function ConsultarIncidente($no_tic)
   </div>
 </div>
 
-                    <div class="form-group row justify-content-end" style="margin: 10px; padding:10px;">
-					    <input style="width:20%" onClick="enviarFormulario(this.form)"class="col-3 button" type="button" value="MODIFICAR" class="button">
+                    <div class="form-group row justify-content-end">
+					    <input style="width:20%" onClick="enviarFormulario(this.form)"class="btn btn-success" type="button" value="MODIFICAR" class="button">
 				    </div>
                 </form>
 	    </div>
 	</section>
+    </main>
+	<footer>
+		<div class="footer">
+			<div class="container-fluid">
+				<div class="row">
+					<img src="../imagenes/cba-logo.png" class="img-fluid">
+				</div>
+			</div>
+		</div>
+    </footer>
   <script>
       function enviarFormulario(formulario){
         // var formulario = document.getElementById('form_carga');
