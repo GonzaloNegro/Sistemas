@@ -25,7 +25,7 @@ $row = $resultado->fetch_assoc();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css">
 	<style>
 			body{
@@ -34,6 +34,86 @@ $row = $resultado->fetch_assoc();
 	</style>
 </head>
 <body>
+<script type="text/javascript">
+			function ok(){
+				swal(  {title: "Montos Actualizados Correctamente!!",
+						icon: "success",
+						showConfirmButton: true,
+						showCancelButton: false,
+						})
+						.then((confirmar) => {
+						if (confirmar) {
+							window.location.href='montosLineas.php';
+						}
+						}
+						);
+			}	
+			</script>
+<script type="text/javascript">
+			function error(){
+				swal(  {title: "Ya hay líneas actualizadas este mes para Personal o Claro.",
+						icon: "error",
+						})
+						.then((confirmar) => {
+						if (confirmar) {
+							window.location.href='montosLineas.php';
+						}
+						}
+						);
+			}	
+			</script>
+<script type="text/javascript">
+			function errorp(){
+				swal(  {title: "Ya hay líneas actualizadas este mes para el operador seleccionado.",
+						icon: "error",
+						})
+						.then((confirmar) => {
+						if (confirmar) {
+							window.location.href='montosLineas.php';
+						}
+						}
+						);
+			}	
+			</script>
+    <script>
+        function actualizar_montos(form){
+            var formulario = form;
+            Swal.fire({
+            title: 'Selecciona una opción',
+            html: `
+                <label style="display: flex; align-items: center; gap: 8px; color: black;">
+                    <input type="radio" name="opcion" value="claro">
+                    <span>Claro</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; color: black;">
+                    <input type="radio" name="opcion" value="personal">
+                    <span>Personal</span>
+                </label>
+
+                <label style="display: flex; align-items: center; gap: 8px; color: black;">
+                    <input type="radio" name="opcion" value="todos">
+                    <span>Todos</span>
+                </label>
+                </div>
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Enviar',
+            cancelButtonText: 'Cancelar',
+            preConfirm: () => {
+            const selected = document.querySelector('input[name="opcion"]:checked');
+            if (!selected) {
+                Swal.showValidationMessage('Debes seleccionar una opción');
+            }
+            return selected ? selected.value : null;
+            }
+        }).then((result) => {
+            if (result.isConfirmed && result.value) {
+            document.getElementById('operadorSeleccionado').value = result.value;
+            formulario.submit();
+            }
+        });
+        }
+    </script>
     <script>
         //Limpiar campos de formulario
         function Limpiar(){
@@ -307,16 +387,23 @@ $row = $resultado->fetch_assoc();
     </form>
 
     <?php
-        $sqla = "SELECT ID_MOVILINEA AS id, YEAR(FECHA) AS AÑO, MONTH(FECHA) AS MES FROM movilinea ORDER BY FECHA DESC LIMIT 1";
+        $añoActual = date('Y');
+        $mesActual = date('n');
+        // $sqla = "SELECT ID_MOVILINEA AS id, YEAR(FECHA) AS AÑO, MONTH(FECHA) AS MES FROM movilinea ORDER BY FECHA DESC LIMIT 1";
+        $sqla = "SELECT 
+                        SUM(CASE WHEN n.ID_PROVEEDOR = 34 THEN 1 ELSE 0 END) AS PERSONAL,
+                        SUM(CASE WHEN n.ID_PROVEEDOR = 35 THEN 1 ELSE 0 END) AS CLARO
+                      FROM movilinea m
+                      INNER JOIN linea l ON m.ID_LINEA = l.ID_LINEA
+                      INNER JOIN nombreplan n ON l.ID_NOMBREPLAN = n.ID_NOMBREPLAN
+                      WHERE YEAR(FECHA) = $añoActual AND MONTH(FECHA) = $mesActual";
         $resultado = $datos_base->query($sqla);
         $row_ = $resultado->fetch_assoc();
-        $idUltimoRegistro = $row_['id'];
-        $añoUltimoRegistro = $row_['AÑO'];
-        $mesUltimoRegistro = $row_['MES'];
-
-    
-    $mesActual = date("n");
-    $añoActual = date("Y");
+        // $idUltimoRegistro = $row_['id'];
+        // $añoUltimoRegistro = $row_['AÑO'];
+        // $mesUltimoRegistro = $row_['MES'];
+        $claro = $row_['CLARO'];
+        $personal = $row_['PERSONAL'];
     switch ($mesActual) {
         case '1': $mes = 'Enero';break;
         case '2': $mes = 'Febrero';break;
@@ -333,19 +420,22 @@ $row = $resultado->fetch_assoc();
         default: $mes = ''; break;
         }
 
-    if($añoUltimoRegistro == $añoActual && $mesUltimoRegistro == $mesActual){
+    // if($añoUltimoRegistro == $añoActual && $mesUltimoRegistro == $mesActual){
 
-    }elseif($añoUltimoRegistro <= $añoActual && $mesUltimoRegistro != $mesActual){
-        if($row['ID_PERFIL'] == 1 || $row['ID_PERFIL'] == 2){
+    // }elseif($añoUltimoRegistro <= $añoActual && $mesUltimoRegistro != $mesActual){
+    //     if($row['ID_PERFIL'] == 1 || $row['ID_PERFIL'] == 2){
+    if($claro > 0 && $personal > 0){}
+    else{
     ?>
     <!-- Boton de actulizar monto mensual-->
     <form method="POST" action="./modificados.php" class="contFilter--name">
     <div style="width:100%;padding:10px 30px;display: flex;justify-content: flex-end;align-items: flex-end;">
-        <button type="submit" name="btnActualizarMontoMensual" class="btn btn-danger">Actualizar montos mes <?php echo $mes;?></button>
+        <input type="hidden" name="operador" id="operadorSeleccionado">
+        <button type="button" name="btnActualizarMontoMensual" class="btn btn-danger" onclick="actualizar_montos(this.form)">Actualizar montos mes <?php echo $mes;?></button>
 <!--         <a href="montosLineasActualizado.php" name="btnActualizarMontoMensual" class="btn btn-danger">Actualizar montos mes <?php echo $mes;?></a> -->
 
     </div>
-    <?php }}?>
+    <?php }?>
     </form>
 
     <?php 
@@ -551,6 +641,23 @@ $row = $resultado->fetch_assoc();
         <form id="formu" action="../exportar/ExcelMontosLineas.php" method="POST">
             <input type="text" id="excel" name="sql" class="valorPeque" readonly="readonly" value="<?php echo $query;?>">
         </form>
+        <?php
+				if(isset($_GET['ok'])){
+					?>
+					<script>ok();</script>
+					<?php			
+				}
+				if(isset($_GET['error'])){
+					?>
+					<script>error();</script>
+					<?php			
+				}
+                if(isset($_GET['errorp'])){
+					?>
+					<script>errorp();</script>
+					<?php			
+				}
+			?> 
 	</section>
 	<footer></footer>
 
@@ -802,7 +909,8 @@ $row = $resultado->fetch_assoc();
         }
     }
 
-    </style>     
+    </style>    
+    
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script>
   		AOS.init();
