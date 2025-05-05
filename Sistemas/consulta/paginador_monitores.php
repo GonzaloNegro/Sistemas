@@ -14,7 +14,7 @@ $row = $resultado->fetch_assoc();
 $cu = $row['CUIL'];
 ?>
 <?php
-        if (!isset($_GET['buscar'])){$_GET['buscar'] = '';}
+        if (!isset($_GET['busqueda'])){$_GET['busqueda'] = '';}
         if (!isset($_GET['area'])){$_GET['area'] = '';}
         if (!isset($_GET["tipo"])){$_GET["tipo"] = '';}
         if (!isset($_GET["orden"])){$_GET["orden"] = '';}
@@ -40,10 +40,10 @@ $where = [];
 $where[] = " p.TIPOP = 'MONITOR' ";
 
 
-if (!empty($_GET['buscar'])) {
-    $aKeyword = explode(" ", $_GET['buscar']);
+if (!empty($_GET['busqueda'])) {
+    $aKeyword = explode(" ", $_GET['busqueda']);
     // $usuario = intval($_GET['usuario']);
-    $where[] = " ((u.NOMBRE LIKE LOWER('%".$aKeyword[0]."%') OR mo.MODELO LIKE LOWER('%".$aKeyword[0]."%')) ";
+    $where[] = " (LOWER(u.NOMBRE) LIKE LOWER('%".$aKeyword[0]."%') OR LOWER(mo.MODELO) LIKE LOWER('%".$aKeyword[0]."%')) ";
 
     for($i = 1; $i < count($aKeyword); $i++) {
     if(!empty($aKeyword[$i])) {

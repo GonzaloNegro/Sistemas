@@ -110,8 +110,8 @@ $row = $resultado->fetch_assoc();
                 //Cargar datos en la tabla
         $(document).ready(function () {
             function cargarDatos(pagina = 1) {
-                // Obtener valor del formulario
-                const busqueda = $("#buscar").val();
+                    // Obtener valor del formulario
+                    const busqueda = $("#buscar").val();
                     const area = $("#area").val();
                     const reparticion = $("#reparticion").val();
                     const tipop = $("#tipop").val();
@@ -444,7 +444,7 @@ $row = $resultado->fetch_assoc();
                                 <?php endforeach ?>
                         </select>
                     </div>
-                    <div style="display:flex;justify-content: flex-end;">
+                    <div class="export" style="display:flex;justify-content: flex-end;">
                         <input class="btn btn-danger" id="btnLimpiar" name="Limpiar" onclick="Limpiar()" value="Limpiar">
                         <input type="submit" class="btn btn-success" id="btnForm" name="busqueda" value="Buscar">
                         <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
@@ -515,14 +515,12 @@ $row = $resultado->fetch_assoc();
         </div>
         <?php
         echo"<div class=filtrado>
-        <label style='color:#00519C; margin-left: 15px; margin-bottom:20px;' id='nroImpresoras'>Resultados Encontrados:</label>
-        ";    ?>
-
-        <div id="filtrosUsados" style="display:none;">
-            <h2>Filtrado por:</h2>
-                <ul></ul>
-            </div>
-    </div>  
+                <label style='color:#00519C; margin-left: 15px; margin-bottom:20px;' id='nroImpresoras'>Resultados Encontrados:</label>";?>
+                <div id="filtrosUsados" style="display:none;">
+                    <h2>Filtrado por:</h2>
+                    <ul></ul>
+                </div>
+            </div>  
 
     <table class="table_id" style="width: 98%; margin: 0 auto;">
         <thead>

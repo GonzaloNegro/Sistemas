@@ -417,7 +417,7 @@ $row = $resultado->fetch_assoc();
                 </div>
             </div>
 
-    <div class="principal-info">
+        <div class="principal-info">
             <?php 
                 $sql6 = "SELECT COUNT(*) AS total FROM periferico WHERE ID_TIPOP = 7 OR ID_TIPOP = 8";
                 $result6 = $datos_base->query($sql6);
@@ -479,14 +479,14 @@ $row = $resultado->fetch_assoc();
 
         <?php
         echo"<div class=filtrado>
-        <label style='color:#00519C; margin-left: 15px; margin-bottom:20px;' id='nroMonitores'>Resultados Encontrados:</label>
-        ";    ?>
+                <label style='color:#00519C; margin-left: 15px; margin-bottom:20px;' id='nroMonitores'>Resultados Encontrados:</label>
+        ";?>
 
-        <div id="filtrosUsados" style="display:none;">
-            <h2>Filtrado por:</h2>
-                <ul></ul>
-            </div>
-    </div>  
+                <div id="filtrosUsados" style="display:none;">
+                    <h2>Filtrado por:</h2>
+                    <ul></ul>
+                </div>
+            </div>  
     <table class="table_id" style="width: 98%; margin: 0 auto;">
         <thead>
             <tr>

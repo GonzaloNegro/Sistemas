@@ -611,14 +611,13 @@ $row = $resultado->fetch_assoc();
         </div>
         <?php
         echo"<div class=filtrado>
-        <label style='color:#00519C; margin-left: 15px; margin-bottom:20px;' id='nroInventario'>Resultados Encontrados:</label>
-        ";    ?>
-
-        <div id="filtrosUsados" style="display:none;">
-            <h2>Filtrado por:</h2>
-                <ul></ul>
-            </div>
-    </div>                        
+                <label style='color:#00519C; margin-left: 15px; margin-bottom:20px;' id='nroInventario'>Resultados Encontrados:</label>";?>
+                <div id="filtrosUsados" style="display:none;">
+                    <h2>Filtrado por:</h2>
+                    <ul></ul>
+                </div>
+            </div>    
+                                
     <table class="table_id" style="width: 98%; margin: 0 auto;">
         <thead>
             <tr>

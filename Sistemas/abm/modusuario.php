@@ -202,7 +202,7 @@ function ConsultarIncidente($no_tic)
                     <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
                     <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
                     <div class="row justify-content-end">
-                            <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" type="button" value="MODIFICAR" >
+                            <input onClick="enviar_formulario(this.form)" style="width: 20%;" class="btn btn-success" type="button" value="MODIFICAR" >
                     </div>
                 </form>
 	    </div>

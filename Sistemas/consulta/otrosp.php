@@ -438,10 +438,10 @@ $row = $resultado->fetch_assoc();
                 
                 </tr>
             ";
-        }
+        }?>
+        <div class=filtrado> <?php
         if($_POST['buscar'] != "" AND $_POST['buscar'] != " " OR $_POST['area'] != "" OR $_POST['reparticion'] != "" OR $_POST['marca'] != "" OR $_POST['tipo'] != "" OR $_POST['estado'] != ""){
             echo "
-            <div class=filtrado>
             <h2>Filtrado por:</h2>
                 <ul>";
                     if($_POST['buscar'] != "" AND $_POST['buscar'] != " "){

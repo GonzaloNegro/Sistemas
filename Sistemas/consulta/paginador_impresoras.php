@@ -14,7 +14,7 @@ $row = $resultado->fetch_assoc();
 $cu = $row['CUIL'];
 ?>
 <?php
-        if (!isset($_GET['buscar'])){$_GET['buscar'] = '';}
+        if (!isset($_GET['busqueda'])){$_GET['busqueda'] = '';}
         if (!isset($_GET['area'])){$_GET['area'] = '';}
         if (!isset($_GET["orden"])){$_GET["orden"] = '';}
         if (!isset($_GET['tipop'])){$_GET['tipop'] = 'IMPRESORA';}
@@ -40,17 +40,22 @@ $where = [];
 $where[] = " p.TIPOP = 'IMPRESORA' ";
 
 
-if (!empty($_GET['buscar'])) {
-    $aKeyword = explode(" ", $_GET['buscar']);
-    // $usuario = intval($_GET['usuario']);
-    $where[] = " (u.NOMBRE LIKE LOWER('%".$aKeyword[0]."%') OR p.SERIEG LIKE LOWER('%".$aKeyword[0]."%'))";
+if (!empty($_GET['busqueda'])) {
+    $aKeyword = explode(" ", $_GET['busqueda']);
+    $whereBuscar = "(LOWER(u.NOMBRE) LIKE LOWER('%".$aKeyword[0]."%') OR LOWER(p.SERIEG) LIKE LOWER('%".$aKeyword[0]."%'))";
 
     for($i = 1; $i < count($aKeyword); $i++) {
-    if(!empty($aKeyword[$i])) {
-        $where[] = " OR u.NOMBRE LIKE '%" . $aKeyword[$i] . "%' OR p.SERIEG LIKE '%" . $aKeyword[$i] . "%'";
+        if(!empty($aKeyword[$i])) {
+            $whereBuscar .= " AND (LOWER(u.NOMBRE) LIKE LOWER('%".$aKeyword[$i]."%') OR LOWER(p.SERIEG) LIKE LOWER('%".$aKeyword[$i]."%'))";
+        }
     }
-    }
+
+    $where[] = $whereBuscar;
 }
+
+
+
+
 if (!empty($_GET['reparticion'])) {
     $reparticion = intval($_GET['reparticion']);
     $where[] = "r.ID_REPA = $reparticion";

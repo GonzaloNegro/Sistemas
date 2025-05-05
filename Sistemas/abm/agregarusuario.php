@@ -16,19 +16,13 @@ $row = $resultado->fetch_assoc();
 <head>
 	<title>AGREGAR USUARIO</title><meta charset="utf-8">
 	<link rel="icon" href="../imagenes/logoInfraestructura.png">
-	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-	 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-	<style>
-			body{
-				background-color: #edf0f5;
-			}
-	</style>
+	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 </head>
 <body>
 <script type="text/javascript">
@@ -185,96 +179,111 @@ $row = $resultado->fetch_assoc();
                 );
             }
         }
-            
 		</script>
+
+<main>
 	<div id="reporteEst">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
             <a id="vlv"  href="../consulta/consultausuario.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
         </div>					
     </div>	
         <section id="Inicio">
-		<div id="titulo" style="margin: 20px;">
+		<div id="titulo">
 			<h1>AGREGAR USUARIO</h1>
 		</div>
 		<div id="principalu" style="width: 97%" class="container-fluid" data-aos="zoom-in">
-						<form method="POST" action="guardarmodusuario.php">
-                            <div class="form-group row" style="margin: 10px; padding:10px;">
-							<label id="lblForm" class="col-form-label col-xl col-lg">USUARIO:</label>
-                            <input id="nombre_usuario" class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="nombre_usuario" placeholder="APELLIDO Y NOMBRE" required>
-							<label id="lblForm"class="col-form-label col-xl col-lg">CUIL:</label>
-                            <input id="cuil" class="form-control col-xl col-lg" type="number" max="11" name="cuil" placeholder="CUIL" required>
-                            </div>
-                            <div class="form-group row" style="margin: 10px; padding:10px;">
-							<label id="lblForm"class="col-form-label col-xl col-lg">ÁREA:</label>
-                            <select id="area" name="area" class="form-control col-xl col-lg" required>
-							<option selected disabled="area">-SELECCIONE UNA-</option>
-							<?php
-							include("../particular/conexion.php");
+            <form method="POST" action="guardarmodusuario.php">
+                <div class="form-group row">
+                    <label id="lblForm" class="col-form-label col-xl col-lg">USUARIO:</label>
+                    <input id="nombre_usuario" class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="nombre_usuario" placeholder="APELLIDO Y NOMBRE" required>
+                </div>
 
-							$consulta= "SELECT a.ID_AREA, a.AREA, r.REPA FROM area a inner join reparticion r on a.ID_REPA=r.ID_REPA ORDER BY AREA ASC";
-							$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-							?>
-							<?php foreach ($ejecutar as $opciones): ?> 
-								<option value="<?php echo $opciones['ID_AREA']?>"><?php echo $opciones['AREA']?> - <?php echo $opciones['REPA']?></option>						
-							<?php endforeach ?>
-							</select>
+                <div class="form-group row">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">CUIL:</label>
+                    <input id="cuil" class="form-control col-xl col-lg" type="number" max="11" name="cuil" placeholder="CUIL" required>
+                </div>
+                <div class="form-group row">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">ÁREA:</label>
+                    <select id="area" name="area" class="form-control col-xl col-lg" required>
+                    <option selected disabled="area">-SELECCIONE UNA-</option>
+                    <?php
+                    include("../particular/conexion.php");
+                    $consulta= "SELECT a.ID_AREA, a.AREA, r.REPA FROM area a inner join reparticion r on a.ID_REPA=r.ID_REPA ORDER BY AREA ASC";
+                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                    ?>
+                    <?php foreach ($ejecutar as $opciones): ?> 
+                    <option value="<?php echo $opciones['ID_AREA']?>"><?php echo $opciones['AREA']?> - <?php echo $opciones['REPA']?></option>						
+                    <?php endforeach ?>
+                    </select>
+                </div>
 
+                <div class="form-group row">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">PISO:</label>
+                    <select name="piso" id="piso" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                    <!-- <option selected disabled="piso">-SELECCIONE UNA-</option> -->
+                    <option value="PB" selected>PB</option>
+                    <option value="P1">P1</option>
+                    <option value="P2">P2</option>
+                    <option value="P3">P3</option>
+                    <option value="P4">P4</option>
+                    <option value="P5">P5</option>
+                    <option value="P6">P6</option>
+                    <option value="P7">P7</option>
+                    <option value="P8">P8</option>
+                    <option value="P9">P9</option>
+                    <option value="EP">EP</option>
+                    <option value="SUB">SUB</option>
+                    </select>
+                </div>
 
-							<label id="lblForm"class="col-form-label col-xl col-lg">PISO:</label>
-                            <select name="piso" id="piso" style="text-transform:uppercase" class="form-control col-xl col-lg">
-<!-- 								<option selected disabled="piso">-SELECCIONE UNA-</option> -->
-								<option value="PB" selected>PB</option>
-								<option value="P1">P1</option>
-								<option value="P2">P2</option>
-                                <option value="P3">P3</option>
-								<option value="P4">P4</option>
-                                <option value="P5">P5</option>
-								<option value="P6">P6</option>
-                                <option value="P7">P7</option>
-								<option value="P8">P8</option>
-                                <option value="P9">P9</option>
-                                <option value="EP">EP</option>
-								<option value="SUB">SUB</option>
-							</select>
-                            </div>
-                            <div class="form-group row" style="margin: 10px; padding:10px;">
-							<label id="lblForm"class="col-form-label col-xl col-lg">INTERNO:</label>
-                            <input class="form-control col-xl col-lg" type="number" max="5" name="interno" id="interno" placeholder="INTERNO" class="corto">
-							<label id="lblForm"class="col-form-label col-xl col-lg">TELEFONO PERSONAL:</label>
-                            <input class="form-control col-xl col-lg" type="text" name="telefono_personal" id="telPersonal" placeholder="TELEFONO PERSONAL">
-                            </div>
-                            <div class="form-group row" style="margin: 10px; padding:10px;">
-							<label id="lblForm"class="col-form-label col-xl col-lg">CORREO:</label>
-                            <input class="form-control col-xl col-lg" type="text" name="correo" maxlength="75" id="correo" placeholder="CORREO" class="achicar">
-							<label id="lblForm"class="col-form-label col-xl col-lg">CORREO PERSONAL:</label>
-                            <input class="form-control col-xl col-lg" type="text" maxlength="75" id="correoPersonal" name="correo_personal" placeholder="CORREO PERSONAL" class="achicar">
-							</div>
-							<div class="form-group row" style="margin: 10px; padding:10px;">
-							<label id="lblForm"class="col-form-label col-xl col-lg">TURNO:</label>
-							<select id="turno" name="turno" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-							<option selected disabled>-SELECCIONE UNA-</option>
-							<?php
-							include("../particular/conexion.php");
+                <div class="form-group row">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">INTERNO:</label>
+                    <input class="form-control col-xl col-lg" type="number" max="5" name="interno" id="interno" placeholder="INTERNO" class="corto">
+                </div>
 
-							$consulta= "SELECT * FROM turnos ORDER BY TURNO ASC";
-							$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-							?>
-							<?php foreach ($ejecutar as $opciones): ?> 
-								<option value="<?php echo $opciones['ID_TURNO']?>"><?php echo $opciones['TURNO']?></option>						
-							<?php endforeach ?>
-							</select>
-                            <label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIÓN:</label>
-							<textarea class="form-control col-xl col-lg" name="obs" id="observaciones" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3"></textarea>
-							</div>
-                            <?php 
-							if ($row['ID_PERFIL'] != 5) {
-								echo '<div class="row justify-content-end" style="margin: 10px; padding:10px;">
-                                        <input onClick="enviar_formulario_usuario(this.form)" style="width: 20%;"class="col-3 button" type="button" value="GUARDAR" >
-                                        </div>';
-							}
-						?>
-                            
-					</form>
+                <div class="form-group row">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">TELEFONO PERSONAL:</label>
+                    <input class="form-control col-xl col-lg" type="text" name="telefono_personal" id="telPersonal" placeholder="TELEFONO PERSONAL">
+                </div>
+
+                <div class="form-group row">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">CORREO:</label>
+                    <input class="form-control col-xl col-lg" type="text" name="correo" maxlength="75" id="correo" placeholder="CORREO" class="achicar">
+                </div>
+
+                <div class="form-group row">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">CORREO PERSONAL:</label>
+                    <input class="form-control col-xl col-lg" type="text" maxlength="75" id="correoPersonal" name="correo_personal" placeholder="CORREO PERSONAL" class="achicar">
+                </div>
+
+                <div class="form-group row">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">TURNO:</label>
+                    <select id="turno" name="turno" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                    <option selected disabled>-SELECCIONE UNA-</option>
+                    <?php
+                    include("../particular/conexion.php");
+                    $consulta= "SELECT * FROM turnos ORDER BY TURNO ASC";
+                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                    ?>
+                    <?php foreach ($ejecutar as $opciones): ?> 
+                    <option value="<?php echo $opciones['ID_TURNO']?>"><?php echo $opciones['TURNO']?></option>						
+                    <?php endforeach ?>
+                    </select>
+                </div>
+
+                <div class="form-group row">
+                    <label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓN:</label>
+                    <textarea class="form-control col-xl col-lg" name="obs" id="observaciones" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3"></textarea>
+                </div>
+                <?php 
+                if ($row['ID_PERFIL'] != 5) {
+                    echo '<div class="row justify-content-end" >
+                            <input onClick="enviar_formulario_usuario(this.form)"class="btn btn-success" style="width: 20%;" type="button" value="GUARDAR" >
+                            </div>';
+                }
+            ?>
+                
+        </form>
 					<?php
 				if(isset($_GET['ok'])){
 					?>
@@ -294,6 +303,15 @@ $row = $resultado->fetch_assoc();
 			?>
 		</div>
 	</section>
+	<footer>
+		<div class="footer">
+			<div class="container-fluid">
+				<div class="row">
+					<img src="../imagenes/cba-logo.png" class="img-fluid">
+				</div>
+			</div>
+		</div>
+	</footer>
     <script src="../js/confirmacionForm.js"></script>
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
