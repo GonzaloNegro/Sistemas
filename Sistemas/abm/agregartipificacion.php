@@ -172,13 +172,13 @@ $row = $resultado->fetch_assoc();
 			<h1>AGREGAR TIPIFICACIÓN</h1>
 		</div>
 		<div id="principalu">
-			<form method="POST" action="guardarmodtipificacion.php">
+			<form method="POST" action="./agregados.php">
 				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DE LA TIPIFICACIÓN:</label>
 					<input id="tipificacion" style="text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" type="text" name="tip" placeholder="NOMBRE DE TIPIFICACIÓN" required>
 				</div>	
 				<div class="form-group row justify-content-end">
-					<input class="btn btn-success" type="button" style="width:20%" onClick="enviar_formulario(this.form)" value="GUARDAR">
+					<input class="btn btn-success" type="button" name="agregarTipificacion" style="width:20%" onClick="enviar_formulario(this.form)" value="GUARDAR">
 				</div>	
 			</form>
 					<?php

@@ -248,24 +248,24 @@ $row = $resultado->fetch_assoc();
 			<h1>AGREGAR RESOLUTOR</h1>
 		</div>
 		<div id="principalu" style="width: 97%" class="container-fluid" data-aos="zoom-in">
-					<form method="POST" action="guardarmodresolutor.php">
+					<form method="POST" action="./agregados.php">
                         <div class="form-group row">
                             <label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE:</label>
 							<input id="nombre_resolutor" style="text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="nombre_resolutor" placeholder="NOMBRE" required>
                         </div>	
                         <div class="form-group row">
 							<label id="lblForm"class="col-form-label col-xl col-lg">CUIL:</label>
-                            <input id="cuil" class="form-control col-form-label col-xl col-lg" type="number"  oninput="validarLongitud(this)" name="cuil" placeholder="CUIL" required>
+                            <input id="cuil" class="form-control col-form-label col-xl col-lg" type="number"  oninput="validarLongitud(this)" name="cuil" placeholder="20xxxxxxxx3" required>
                         </div>
 
                         <div class="form-group row">
                             <label id="lblForm" class="col-form-label col-xl col-lg">CORREO:</label> 
-							<input id="correo" style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="mail" name="correo" placeholder="CORREO">
+							<input id="correo" style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="mail" name="correo" placeholder="xxxxx@cba.gov.ar">
                         </div>  
 
                         <div class="form-group row">
 							<label id="lblForm"class="col-form-label col-xl col-lg">TELEFONO:</label>
-                            <input id="telefono" style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="number" name="telefono" placeholder="TELEFONO">
+                            <input id="telefono" style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="number" name="telefono" placeholder="351xxxxxxx">
                         </div>    
 						
                         <div class="form-group row">
@@ -297,7 +297,7 @@ $row = $resultado->fetch_assoc();
 								</select>
 						</div>  
 						<div class="form-group row justify-content-end">
-					<input style="width:20%" onClick="enviar_formulario(this.form)" type="button" value="GUARDAR" class="btn btn-success">
+					<input style="width:20%" onClick="enviar_formulario(this.form)" type="button" value="GUARDAR" name="agregarResolutor" class="btn btn-success">
 				</div>	
 					</form>
 					<?php

@@ -164,13 +164,13 @@ $row = $resultado->fetch_assoc();
 			<h1>AGREGAR MARCA</h1>
 		</div>
 		<div id="principalu" style="width: 97%" class="container-fluid" data-aos="zoom-in">
-		<form method="POST" action="guardarmodmarca.php">
+		<form method="POST" action="./agregados.php">
             <div class="form-group row">
                 <label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DE LA MARCA:</label>
                 <input id="marca" style="text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="marca" placeholder="NOMBRE DE LA MARCA" required>
             </div>	
             <div class="form-group row justify-content-end">
-                <input onClick="enviar_formulario(this.form)" style="width:20%"class="btn btn-success" type="button" value="GUARDAR" class="button">
+                <input onClick="enviar_formulario(this.form)" style="width:20%" class="btn btn-success" type="button" value="GUARDAR" name="agregarMarca" class="button">
             </div>	
 		</form>
 			<?php

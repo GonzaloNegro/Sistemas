@@ -16,33 +16,17 @@ $row = $resultado->fetch_assoc();
 <head>
 	<title>AGREGAR MONITOR</title><meta charset="utf-8">
 	<link rel="icon" href="../imagenes/logoInfraestructura.png">
-	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
+    <link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 </head>
 <body>
 <script type="text/javascript">
-			function ok(){
-				// swal(  {title: "Monitor cargado correctamente",
-				// 		icon: "success",
-				// 		showConfirmButton: true,
-				// 		showCancelButton: false,
-				// 		})
-				// 		.then((confirmar) => {
-				// 		if (confirmar) {
-				// 			window.location.href='abmmonitores.php';
-				// 		}
-				// 		}
-				// 		);
+			function ok(){				// 		);
                 Swal.fire({
                         title: "Monitor cargado correctamente.",
                         icon: "success",
@@ -197,113 +181,128 @@ $row = $resultado->fetch_assoc();
 		}
 				
 		</script>
+<main>
     <div id="reporteEst">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
             <a id="vlv"  href="../consulta/monitores.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
         </div>					
     </div>
 	<section id="Inicio">
-		<div id="titulo" style="margin:20px;">
+		<div id="titulo">
 			<h1>AGREGAR MONITOR</h1>
 		</div>
-		<div id="principale" style="width: auto" class="container-fluid" data-aos="zoom-in">
+		<div id="principalu" style="width: auto" class="container-fluid" data-aos="zoom-in">
 						<form method="POST" action="guardarmodmonitor.php">
 
-                        <div class="form-group row" style="margin: 10px; padding:10px;">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">TIPO MONITOR:</label>
+                        <div class="form-group row">
+                            <label id="lblForm"class="col-form-label col-xl col-lg">TIPO MONITOR:</label>
                             <select id="tipop" name="tipop" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                                    <?php
-                                    include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM tipop WHERE ID_TIPOP = 7 OR ID_TIPOP = 8 ORDER BY TIPO ASC";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_TIPOP'] ?>><?php echo $opciones['TIPO']?></option>
-                                    <?php endforeach?>
-                                </select>
+                            <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                            <?php
+                            include("../particular/conexion.php");
+                            $consulta= "SELECT * FROM tipop WHERE ID_TIPOP = 7 OR ID_TIPOP = 8 ORDER BY TIPO ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value= <?php echo $opciones['ID_TIPOP'] ?>><?php echo $opciones['TIPO']?></option>
+                            <?php endforeach?>
+                            </select>
+                        </div>
+
+                        <div class="form-group row">
                             <label id="lblForm" class="col-form-label col-xl col-lg">N° GOBIERNO:</label> 
 							<input id="serieg" class="form-control col-xl col-lg" placeholder="DEL MONITOR" style="text-transform:uppercase;" name="serieg" required>
                         </div>
 
-                        <div class="form-group row" style="margin: 10px; padding:10px;">
+                        <div class="form-group row">
                             <label id="lblForm" class="col-form-label col-xl col-lg">N° SERIE:</label> 
 							<input id="serie" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="serie" required>
+                        </div>
+
+                        <div class="form-group row">
                             <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
-                                <select id="usu" name="usu" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                                    <?php
-                                    include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 ORDER BY NOMBRE ASC";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_USUARIO'] ?>><?php echo $opciones['NOMBRE']?></option>
-                                    <?php endforeach?>
-                                </select>
+                            <select id="usu" name="usu" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                            <?php
+                            include("../particular/conexion.php");
+                            $consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 ORDER BY NOMBRE ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value= <?php echo $opciones['ID_USUARIO'] ?>><?php echo $opciones['NOMBRE']?></option>
+                            <?php endforeach?>
+                            </select>
                         </div>    
 
-                        <div class="form-group row" style="margin: 10px; padding:10px;"> 
-                                <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
+                        <div class="form-group row">
+                            <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
                             <select id="mod" name="mod" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                                    <?php
-                                    include("../particular/conexion.php");
-                                    $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA
-                                    FROM modelo m
-                                    INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
-                                    INNER JOIN tipop t ON t.ID_TIPOP = m.ID_TIPOP
-                                    WHERE (m.ID_TIPOP = 7 OR m.ID_TIPOP = 8) ORDER BY MODELO ASC";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA']?></option>
-                                    <?php endforeach?>
-                                </select>
-                                <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
+                            <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                            <?php
+                            include("../particular/conexion.php");
+                            $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA
+                            FROM modelo m
+                            INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
+                            INNER JOIN tipop t ON t.ID_TIPOP = m.ID_TIPOP
+                            WHERE (m.ID_TIPOP = 7 OR m.ID_TIPOP = 8) ORDER BY MODELO ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA']?></option>
+                            <?php endforeach?>
+                            </select>
+                        </div>
+
+                        <div class="form-group row">
+                            <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
                             <select id="est" name="est" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                                    <?php
-                                    include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM estado_ws ORDER BY ESTADO ASC";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_ESTADOWS'] ?>><?php echo $opciones['ESTADO']?></option>
-                                    <?php endforeach?>
-                                </select>
+                            <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                            <?php
+                            include("../particular/conexion.php");
+                            $consulta= "SELECT * FROM estado_ws ORDER BY ESTADO ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value= <?php echo $opciones['ID_ESTADOWS'] ?>><?php echo $opciones['ESTADO']?></option>
+                            <?php endforeach?>
+                            </select>
                         </div> 
 
-                        <div class="form-group row" style="margin: 10px; padding:10px;">
+                        <div class="form-group row">
                             <label id="lblForm" class="col-form-label col-xl col-lg">FACTURA:</label> 
 							<input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="fac" placeholder="N° Factura">
+                        </div>
+
+                        <div class="form-group row">
                             <label id="lblForm" class="col-form-label col-xl col-lg">GARANTIA:</label> 
 							<input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar" placeholder ="TIEMPO DE GARANTIA">
                         </div>
 
 
-                        <div class="form-group row" style="margin: 10px; padding:10px;">
-
+                        <div class="form-group row">
 							<label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:</label>
                             <select id="prov" name="prov" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                                    <?php
-                                    include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
-                                    <?php endforeach?>
-                                </select>
+                            <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                            <?php
+                            include("../particular/conexion.php");
+                            $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                            <?php endforeach?>
+                            </select>
+                        </div>
+
+                        <div class="form-group row">
                             <label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓN:</label> 
                             <textarea class="form-control col-xl col-lg" name="obs" placeholder="Observación" style="text-transform:uppercase" rows="3"></textarea>
                         </div>
                         <?php 
 							if ($row['ID_PERFIL'] != 5) {
-								echo '<div class="form-group row justify-content-end" style="margin: 10px; padding:10px;">
-                                            <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="col-3 button" type="button" value="GUARDAR MONITOR" class="button">
-                                        </div> ';
+								echo '<div class="form-group row justify-content-end">
+                                        <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" type="button" value="GUARDAR" class="button">
+                                    </div> ';
 							}
 						?>
                            
@@ -322,6 +321,16 @@ $row = $resultado->fetch_assoc();
 			?>
 		</div>
 	</section>
+    </main>
+	<footer>
+		<div class="footer">
+			<div class="container-fluid">
+				<div class="row">
+					<img src="../imagenes/cba-logo.png" class="img-fluid">
+				</div>
+			</div>
+		</div>
+	</footer>
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>

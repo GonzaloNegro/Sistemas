@@ -192,7 +192,7 @@ $row = $resultado->fetch_assoc();
 			<h1>AGREGAR USUARIO</h1>
 		</div>
 		<div id="principalu" style="width: 97%" class="container-fluid" data-aos="zoom-in">
-            <form method="POST" action="guardarmodusuario.php">
+            <form method="POST" action="./agregados.php">
                 <div class="form-group row">
                     <label id="lblForm" class="col-form-label col-xl col-lg">USUARIO:</label>
                     <input id="nombre_usuario" class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="nombre_usuario" placeholder="APELLIDO Y NOMBRE" required>
@@ -200,7 +200,7 @@ $row = $resultado->fetch_assoc();
 
                 <div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">CUIL:</label>
-                    <input id="cuil" class="form-control col-xl col-lg" type="number" max="11" name="cuil" placeholder="CUIL" required>
+                    <input id="cuil" class="form-control col-xl col-lg" type="number" max="11" name="cuil" placeholder="20300000003" oninput="if(this.value.length > 11) this.value = this.value.slice(0, 11)" required>
                 </div>
                 <div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">ÁREA:</label>
@@ -238,22 +238,22 @@ $row = $resultado->fetch_assoc();
 
                 <div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">INTERNO:</label>
-                    <input class="form-control col-xl col-lg" type="number" max="5" name="interno" id="interno" placeholder="INTERNO" class="corto">
+                    <input class="form-control col-xl col-lg" type="number" max="5" name="interno" id="interno" placeholder="xxxx" class="corto">
                 </div>
 
                 <div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">TELEFONO PERSONAL:</label>
-                    <input class="form-control col-xl col-lg" type="text" name="telefono_personal" id="telPersonal" placeholder="TELEFONO PERSONAL">
+                    <input class="form-control col-xl col-lg" type="text" name="telefono_personal" id="telPersonal" placeholder="351xxxxxxx">
                 </div>
 
                 <div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">CORREO:</label>
-                    <input class="form-control col-xl col-lg" type="text" name="correo" maxlength="75" id="correo" placeholder="CORREO" class="achicar">
+                    <input class="form-control col-xl col-lg" type="text" name="correo" maxlength="75" id="correo" placeholder="xxxxx@cba.gov.ar" class="achicar">
                 </div>
 
                 <div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">CORREO PERSONAL:</label>
-                    <input class="form-control col-xl col-lg" type="text" maxlength="75" id="correoPersonal" name="correo_personal" placeholder="CORREO PERSONAL" class="achicar">
+                    <input class="form-control col-xl col-lg" type="text" maxlength="75" id="correoPersonal" name="correo_personal" placeholder="xxxxx@gmail.com" class="achicar">
                 </div>
 
                 <div class="form-group row">
@@ -273,12 +273,12 @@ $row = $resultado->fetch_assoc();
 
                 <div class="form-group row">
                     <label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓN:</label>
-                    <textarea class="form-control col-xl col-lg" name="obs" id="observaciones" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3"></textarea>
+                    <textarea class="form-control col-xl col-lg" name="obs" id="observaciones" placeholder="Descripción de la observación" style="text-transform:uppercase" rows="3"></textarea>
                 </div>
                 <?php 
                 if ($row['ID_PERFIL'] != 5) {
                     echo '<div class="row justify-content-end" >
-                            <input onClick="enviar_formulario_usuario(this.form)"class="btn btn-success" style="width: 20%;" type="button" value="GUARDAR" >
+                            <input onClick="enviar_formulario_usuario(this.form)"class="btn btn-success" name="agregarUsuario" style="width: 20%;" type="button" value="GUARDAR" >
                             </div>';
                 }
             ?>

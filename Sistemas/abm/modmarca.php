@@ -77,7 +77,7 @@ function ConsultarIncidente($no_tic)
 			<h1>MODIFICAR MARCA</h1>
 		</div>
 		<div id="principalu" style="width: 97%" class="container-fluid">
-            <form method="POST" action="guardarmodmarca2.php">
+            <form method="POST" action="./modificados.php">
 				<div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">ID: </label>
                     <input type="text" class="id" name="id" style="background-color:transparent;" value="<?php echo $consulta[0]?>" readonly>
@@ -89,7 +89,7 @@ function ConsultarIncidente($no_tic)
 				</div>
                     <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
 				<div class="form-group row justify-content-end">
-					<input onClick="enviar_formulario(this.form)" style="width:20%"class="btn btn-success" type="button" value="MODIFICAR" class="button">
+					<input onClick="enviar_formulario(this.form)" style="width:20%" class="btn btn-success" type="button" value="MODIFICAR" name="modMarca" class="button">
 				</div>	
             </form>
 	    </div>

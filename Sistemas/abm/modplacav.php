@@ -99,7 +99,7 @@ function ConsultarIncidente($no_tic)
             $row = $resultado->fetch_assoc();
             $tipo = $row['TIPOMEM'];
             ?>
-            <form method="POST" action="guardarmodplacav2.php">
+            <form method="POST" action="./modificados.php">
                 <div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">ID: </label>
                     <input type="text" class="id" name="id" style="background-color:transparent;" value="<?php echo $consulta[0]?>" readonly>
@@ -148,7 +148,7 @@ function ConsultarIncidente($no_tic)
                 </div>
 
             <div class="row justify-content-end">
-                <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" type="button" value="MODIFICAR" >
+                <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" type="button" name="modPlacav" value="MODIFICAR" >
             </div>
         </form>
 		</div>

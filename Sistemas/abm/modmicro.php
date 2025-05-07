@@ -81,7 +81,7 @@ function enviar_formulario(formulario){
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
                         $ma = $row['MARCA'];?>
-                <form method="POST" action="guardarmodmicro2.php">
+                <form method="POST" action="./modificados.php">
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">ID: </label>
                         <input type="text" class="id" name="id" style="background-color:transparent;" value="<?php echo $consulta[0]?>" readonly>
@@ -107,7 +107,7 @@ function enviar_formulario(formulario){
                     </div>
 
                     <div class="row justify-content-end">
-                        <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" type="submit" value="MODIFICAR">
+                        <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" type="submit" name="modMicro" value="MODIFICAR">
                     </div>
                 </form>
 	    </div>

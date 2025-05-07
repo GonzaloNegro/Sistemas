@@ -184,66 +184,64 @@ function ConsultarIncidente($no_tic)
 
         ?>        
 		<div id="principalu" style="width: 97%" class="container-fluid">
-            <form method="POST" action="guardarmodresolutor2.php">
+            <form method="POST" action="./modificados.php">
 				<div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">ID: </label>
                     <input type="text" class="id" name="id" style="background-color:transparent;" value="<?php echo $consulta['ID_RESOLUTOR']?>" readonly>
                 </div>
 
+                <div class="form-group row">
+                    <label id="lblForm" class="col-form-label col-xl col-lg">NOMBRE: </label>
+                    <input id="nombre_resolutor" class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="nom" value="<?php echo $consulta['RESOLUTOR']?>">
+                </div>
+                <div class="form-group row">
+                    <label id="lblForm" class="col-form-label col-xl col-lg">CUIL: </label>
+                    <input id="cuil" class="form-control col-xl col-lg" type="text" name="cuil" value="<?php echo $consulta['CUIL']?>">
+                </div>
 
+                <div class="form-group row">
+                    <label id="lblForm" class="col-form-label col-xl col-lg">CORREO: </label>
+                    <input id="correo" class="form-control col-xl col-lg" type="text" name="cor" value="<?php echo $consulta['CORREO']?>">
+                </div>
+                <div class="form-group row">
+                    <label id="lblForm" class="col-form-label col-xl col-lg">TELEFONO: </label>
+                    <input id="telefono" class="form-control col-xl col-lg" type="text" name="tel" value="<?php echo $consulta['TELEFONO']?>">
+                </div>
 
-                    <div class="form-group row">
-                        <label id="lblForm" class="col-form-label col-xl col-lg">NOMBRE: </label>
-                        <input id="nombre_resolutor" class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="nom" value="<?php echo $consulta['RESOLUTOR']?>">
-                    </div>
-                    <div class="form-group row">
-                        <label id="lblForm" class="col-form-label col-xl col-lg">CUIL: </label>
-                        <input id="cuil" class="form-control col-xl col-lg" type="text" name="cuil" value="<?php echo $consulta['CUIL']?>">
-                   </div>
-
-                   <div class="form-group row">
-                        <label id="lblForm" class="col-form-label col-xl col-lg">CORREO: </label>
-                        <input id="correo" class="form-control col-xl col-lg" type="text" name="cor" value="<?php echo $consulta['CORREO']?>">
-                    </div>
-                    <div class="form-group row">
-                        <label id="lblForm" class="col-form-label col-xl col-lg">TELEFONO: </label>
-                        <input id="telefono" class="form-control col-xl col-lg" type="text" name="tel" value="<?php echo $consulta['TELEFONO']?>">
-                    </div>
-
-                    <div class="form-group row">
-                        <label id="lblForm" class="col-form-label col-xl col-lg">TIPO DE RESOLUTOR:</label>
-                        <select id="tipo" name="tipo" class="form-control col-xl col-lg" style="text-transform:uppercase">
-                                        <option selected value="100"><?php echo $tr?></option>
-                                        <?php
-                                        include("../particular/conexion.php");
-                                        $consulta= "SELECT * FROM tipo_resolutor ORDER BY TIPO_RESOLUTOR ASC";
-                                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                        ?>
-                                        <?php foreach ($ejecutar as $opciones): ?> 
-                                        <option value= <?php echo $opciones['ID_TIPO_RESOLUTOR'] ?>><?php echo $opciones['TIPO_RESOLUTOR']?></option>
-                                        <?php endforeach?>
-                        </select>
-                    </div>
-                    <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">PERFIL:</label>
-								<select id="perfil" name="perfil" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-								<option selected value="101"><?php echo $tp?></option>
-								<?php
-								include("../particular/conexion.php");
-								$consulta= "SELECT * FROM perfiles ORDER BY PERFILES ASC";
-								$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-								?>
-								<?php foreach ($ejecutar as $opciones): ?> 
-									<option value="<?php echo $opciones['ID_PERFIL']?>"><?php echo $opciones['PERFILES']?></option>
-								<?php endforeach ?>
-								</select>
-                    </div>
-                    <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
-                    <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
-                    <div class="row justify-content-end">
-                        <input onClick="enviar_formulario(this.form)" style="width: 20%;" class="btn btn-success" type="button" value="MODIFICAR">
-                    </div>
-                </form>
+                <div class="form-group row">
+                    <label id="lblForm" class="col-form-label col-xl col-lg">TIPO DE RESOLUTOR:</label>
+                    <select id="tipo" name="tipo" class="form-control col-xl col-lg" style="text-transform:uppercase">
+                                    <option selected value="100"><?php echo $tr?></option>
+                                    <?php
+                                    include("../particular/conexion.php");
+                                    $consulta= "SELECT * FROM tipo_resolutor ORDER BY TIPO_RESOLUTOR ASC";
+                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                                    ?>
+                                    <?php foreach ($ejecutar as $opciones): ?> 
+                                    <option value= <?php echo $opciones['ID_TIPO_RESOLUTOR'] ?>><?php echo $opciones['TIPO_RESOLUTOR']?></option>
+                                    <?php endforeach?>
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">PERFIL:</label>
+                            <select id="perfil" name="perfil" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <option selected value="101"><?php echo $tp?></option>
+                            <?php
+                            include("../particular/conexion.php");
+                            $consulta= "SELECT * FROM perfiles ORDER BY PERFILES ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                                <option value="<?php echo $opciones['ID_PERFIL']?>"><?php echo $opciones['PERFILES']?></option>
+                            <?php endforeach ?>
+                            </select>
+                </div>
+                <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
+                <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
+                <div class="row justify-content-end">
+                    <input onClick="enviar_formulario(this.form)" style="width: 20%;" class="btn btn-success" type="button" name="modResolutor" value="MODIFICAR">
+                </div>
+            </form>
 	    </div>
 	</section>
 	</main>

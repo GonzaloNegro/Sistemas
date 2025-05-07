@@ -93,7 +93,7 @@ function ConsultarIncidente($no_tic)
                         $ma = $row['MARCA'];?>
                         <!--  CONSULTA DE DATOS -->
 
-            <form method="POST" action="guardarmodelo2.php">
+            <form method="POST" action="./modificados.php">
                 <div class="form-group row">
 				    <label id="lblForm"class="col-form-label col-xl col-lg">ID: </label>
                     <input type="text" class="id" name="id" style="background-color:transparent;" value="<?php echo $consulta[0]?>" readonly>
@@ -136,7 +136,7 @@ function ConsultarIncidente($no_tic)
                 <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
                 <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
                 <div class="row justify-content-end">
-                    <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" type="button" value="MODIFICAR" >
+                    <input onClick="enviar_formulario(this.form)" style="width: 20%;" class="btn btn-success" type="button" name="modModelo" value="MODIFICAR">
                 </div>
             </form>
 	    </div>

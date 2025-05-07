@@ -182,11 +182,12 @@ $row = $resultado->fetch_assoc();
 				<h1>AGREGAR ÁREA</h1>
 			</div>
 			<div id="principalu" style="width: auto" class="container-fluid" data-aos="zoom-in">
-				<form method="POST" action="guardarmodarea.php">
-					<div class="form-group row" >
+				<form method="POST" action="./agregados.php">
+					<div class="form-group row">
 						<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DEL ÁREA:</label>
 						<input id="area" style="text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="area" placeholder="NOMBRE DEL ÁREA" required>
 					</div>	
+
 					<div class="form-group row" >
 						<label id="lblForm"class="col-form-label col-xl col-lg">REPARTICIÓN:</label>
 						<select id="repa" name="repa" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
@@ -225,7 +226,7 @@ $row = $resultado->fetch_assoc();
 					if ($row['ID_PERFIL'] != 5) {
 						echo '
 							<div class="form-group row justify-content-end">
-								<input onClick="enviar_formulario_area(this.form)" style="width:20%" type="button" value="GUARDAR" class="btn btn-success">
+								<input onClick="enviar_formulario_area(this.form)" style="width:20%" type="button" name="agregarArea" value="GUARDAR" class="btn btn-success">
 							</div>';
 						}
 					?>

@@ -137,7 +137,7 @@ function ConsultarIncidente($no_tic)
                 $estado = $row['ESTADO'];
 
                 ?>
-                <form method="POST" action="guardarmodarea2.php">
+                <form method="POST" action="./modificados.php">
                     <div class="form-group row" >
 						<label id="lblForm"class="col-form-label col-xl col-lg">ID:</label>
                         <input type="text" class="id" name="id" style="background-color:transparent;" class="form-control col-form-label col-xl col-lg" value="<?php echo $consulta['ID_AREA']?>" readonly>
@@ -184,7 +184,7 @@ function ConsultarIncidente($no_tic)
                         </select>
                     </div>
                     <div class="form-group row justify-content-end">
-                        <input onClick="enviar_formulario(this.form)" style="width:20%" type="button" value="MODIFICAR" class="btn btn-success">
+                        <input onClick="enviar_formulario(this.form)" style="width:20%" type="button" value="MODIFICAR" name="modArea" class="btn btn-success">
                     </div>	
                 </form>
 	    </div>

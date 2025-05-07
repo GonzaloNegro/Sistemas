@@ -95,7 +95,7 @@ function ConsultarIncidente($no_tic)
                 $estado = $row['ESTADO'];
                 ?>
 
-                <form method="POST" action="guardarmodusuario2.php">
+                <form method="POST" action="./modificados.php">
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">ID:</label>
                         <input type="text" class="id" name="id" value="<?php echo $consulta['ID_USUARIO']?>" style="background-color:transparent;" readonly>
@@ -108,12 +108,12 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row">
                         <label id="lblForm" class="col-form-label col-xl col-lg">CUIL: </label>
-                        <input class="form-control col-xl col-lg" type="text" name="cuil" value="<?php echo $consulta['CUIL']?>">
+                        <input class="form-control col-xl col-lg" type="number" name="cuil" oninput="if(this.value.length > 11) this.value = this.value.slice(0, 11)" value="<?php echo $consulta['CUIL']?>">
                     </div>
                     
                     <div class="form-group row">
                         <label id="lblForm" class="col-form-label col-xl col-lg">INTERNO:</label>
-                        <input class="form-control col-xl col-lg" type="text" name="int" value="<?php echo $consulta['INTERNO']?>">
+                        <input class="form-control col-xl col-lg" type="number" name="int" value="<?php echo $consulta['INTERNO']?>">
                     </div>
 
                     <div class="form-group row">
@@ -123,12 +123,12 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row">
                         <label id="lblForm" class="col-form-label col-xl col-lg">CORREO: </label>
-                        <input class="form-control col-xl col-lg" type="text" name="cor" value="<?php echo $consulta['CORREO']?>">
+                        <input class="form-control col-xl col-lg" type="email" name="cor" value="<?php echo $consulta['CORREO']?>">
                     </div>
 
                     <div class="form-group row">
                         <label id="lblForm" class="col-form-label col-xl col-lg">CORREO PERSONAL: </label>
-                        <input class="form-control col-xl col-lg" type="text" name="corp" value="<?php echo $consulta['CORREO_PERSONAL']?>">
+                        <input class="form-control col-xl col-lg" type="email" name="corp" value="<?php echo $consulta['CORREO_PERSONAL']?>">
                     </div>
                     
                     <div class="form-group row">
@@ -202,7 +202,7 @@ function ConsultarIncidente($no_tic)
                     <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
                     <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
                     <div class="row justify-content-end">
-                            <input onClick="enviar_formulario(this.form)" style="width: 20%;" class="btn btn-success" type="button" value="MODIFICAR" >
+                            <input onClick="enviar_formulario(this.form)" style="width: 20%;" name="modUsuario" class="btn btn-success" type="button" value="MODIFICAR" >
                     </div>
                 </form>
 	    </div>

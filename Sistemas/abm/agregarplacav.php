@@ -115,11 +115,11 @@ $row = $resultado->fetch_assoc();
         </div>					
     </div>
         <section id="Inicio">
-		<div id="titulo" style="margin: 20px;">
+		<div id="titulo">
 			<h1>AGREGAR PLACA DE VIDEO</h1>
 		</div>
 		<div id="principalu" style="width: 97%" class="container-fluid" data-aos="zoom-in">
-            <form method="POST" action="guardarmodplacav.php">
+            <form method="POST" action="./agregados.php">
             <div class="form-group row">
                 <label id="lblForm"class="col-form-label col-xl col-lg">MEMORIA:</label>
                 <select id="memoria" name="memoria" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
@@ -169,7 +169,7 @@ $row = $resultado->fetch_assoc();
             </div>
 
             <div class="row justify-content-end">
-                <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" type="button" value="GUARDAR" >
+                <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" type="button" name="agregarPlacav" value="GUARDAR" >
             </div>
         </form>
 		</div>

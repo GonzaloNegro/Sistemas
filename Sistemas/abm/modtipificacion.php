@@ -103,7 +103,7 @@ function ConsultarIncidente($no_tic)
 			<h1>MODIFICAR TIPIFICACIÓN</h1>
 		</div>
 		<div id="principalu">
-			<form method="POST" action="guardarmodtipificacion2.php">			
+			<form method="POST" action="./modificados.php">			
 				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">TIPIFICACIÓN ID:</label>
 					<input type="text" class="id" name="id" value="<?php echo $consulta['ID_TIPIFICACION']?>" style="background-color:transparent;" readonly>
@@ -113,7 +113,7 @@ function ConsultarIncidente($no_tic)
 					<input id="tipificacion" style="text-transform:uppercase;" class="form-control col-form-label col-xl col-lg"  type="text" name="tip" value="<?php echo $consulta['TIPIFICACION']?>">
 				</div>	
 				<div class="form-group row justify-content-end">
-					<input class="btn btn-success" type="button" style="width:20%" onClick="enviar_formulario(this.form)" value="MODIFICAR" >
+					<input class="btn btn-success" type="button" style="width:20%" name="modTipificacion" onClick="enviar_formulario(this.form)" value="MODIFICAR" >
 				</div>
 			</form>
 	    </div>

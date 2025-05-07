@@ -193,7 +193,7 @@ $row = $resultado->fetch_assoc();
 			<h1>AGREGAR PLACA MADRE</h1>
 		</div>
 		<div id="principalu" style="width: 97%" class="container-fluid" data-aos="zoom-in">
-						<form method="POST" action="guardarmodplacam.php">
+						<form method="POST" action="./agregados.php">
                             <div class="form-group row">
                                 <label id="lblForm" class="col-form-label col-xl col-lg">PLACA MADRE:</label>
                                 <input id="placam" class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="placam" placeholder="NOMBRE DEL MODELO" required>
@@ -215,7 +215,7 @@ $row = $resultado->fetch_assoc();
                             </div>
 
                             <div class="row justify-content-end">
-                                <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" type="button" value="GUARDAR" >
+                                <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" type="button" name="agregarPlacam" value="GUARDAR" >
                             </div>
 					</form>
 					<?php

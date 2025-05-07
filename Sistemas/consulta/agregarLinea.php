@@ -17,7 +17,6 @@ $row = $resultado->fetch_assoc();
 <head>
 	<title>AGREGAR LINEA</title><meta charset="utf-8">
 	<link rel="icon" href="../imagenes/logoInfraestructura.png">
-	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -26,11 +25,8 @@ $row = $resultado->fetch_assoc();
 	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
+	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
+
 </head>
 <body>
 <script type="text/javascript">
@@ -115,43 +111,40 @@ $row = $resultado->fetch_assoc();
 						});
 					});
 				</script>
+<main>
 	<div id="reporteEst">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
             <a id="vlv"  href="./montosLineas.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
         </div>					
     </div>
 	<section id="Inicio">
-		<div id="titulo" style="margin:20px;">
+		<div id="titulo">
 			<h1>AGREGAR LINEA</h1>
 		</div>
-		<div id="principalr" style="width: 97%" class="container-fluid" data-aos="zoom-in">
+		<div id="principalu" style="width: 97%" class="container-fluid" data-aos="zoom-in">
 			<form method="POST" action="agregados.php">
 
-				<div class="form-group row" style="margin: 10px; padding:10px;">
-
+				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">NÚMERO:</label>
 					<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" name="text" id="cardnumber" placeholder="NÚMERO" required>
-					<label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
-						<select name="usuario" id="usuario" style="text-transform:uppercase" onchange="cargarLineas()" class="form-control col-xl col-lg" required>
-						<option selected disabled="">-SELECCIONE UNA-</option>
-						<?php
-						include("../particular/conexion.php");
-						$consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 ORDER BY NOMBRE ASC";
-						$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-						?>
-						<?php foreach ($ejecutar as $opciones): ?> 
-							<option value="<?php echo $opciones['ID_USUARIO']?>"><?php echo $opciones['NOMBRE']?></option>
-						<?php endforeach ?>
-						</select>
 				</div>
 
-				<div class="form-group row" style="margin: 10px; padding:10px;">
-<!-- 					<div id="divCelulares" class="col-xl col-lg" style="display:none">
-					<label id="lblForm"class="col-form-label col-xl col-lg">ASIGNANDO A CELULAR:</label>
-					<div class="col-xl col-lg" >
-						<input type="checkbox" class="chkLinea" id="checkCelular">
-					</div>
-					</div> -->
+				<div class="form-group row">
+					<label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
+					<select name="usuario" id="usuario" style="text-transform:uppercase" onchange="cargarLineas()" class="form-control col-xl col-lg" required>
+					<option selected disabled="">-SELECCIONE UNA-</option>
+					<?php
+					include("../particular/conexion.php");
+					$consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 ORDER BY NOMBRE ASC";
+					$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+					?>
+					<?php foreach ($ejecutar as $opciones): ?> 
+					<option value="<?php echo $opciones['ID_USUARIO']?>"><?php echo $opciones['NOMBRE']?></option>
+					<?php endforeach ?>
+					</select>
+				</div>
+
+				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
 					<select id="estado" name="estado" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 					<option selected disabled="">-SELECCIONE UNA-</option>
@@ -161,14 +154,14 @@ $row = $resultado->fetch_assoc();
 					$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 					?>
 					<?php foreach ($ejecutar as $opciones): ?> 
-						<option value="<?php echo $opciones['ID_ESTADOWS']?>"><?php echo $opciones['ESTADO']?></option>
+					<option value="<?php echo $opciones['ID_ESTADOWS']?>"><?php echo $opciones['ESTADO']?></option>
 					<?php endforeach ?>
 					</select>
+				</div>
 
-					<!-- <div id="celularesusuario" style="display:none" class="col-xl col-lg"> -->
-						<label id="lblForm"class="col-form-label col-xl col-lg">CELULAR:</label>
-						<select name="celular" id="celulares" style="text-transform:uppercase" class="form-control col-xl col-lg" required><option value="" selected disabled>- SELECCIONE UNA OPCIÓN -</option></select>
-					<!-- </div> -->
+				<div class="form-group row">
+					<label id="lblForm"class="col-form-label col-xl col-lg">CELULAR:</label>
+					<select name="celular" id="celulares" style="text-transform:uppercase" class="form-control col-xl col-lg" required><option value="" selected disabled>- SELECCIONE UNA OPCIÓN -</option></select>
 				</div>
 
 				<!--<div class="form-group row" style="margin: 10px; padding:10px;">
@@ -199,15 +192,17 @@ $row = $resultado->fetch_assoc();
 					</select> 
 				</div>-->
 				
-				<div class="form-group row" style="margin: 10px; padding:10px;">
+				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">DESCUENTO:</label>
 					<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" name="descuento" id="descuento" step="0.01" placeholder="10,00" required>
+				</div>
 
+				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">FECHA DESCUENTO:</label>
 					<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="date" name="fecha" id="fecha" required>
 				</div>
 
-				<div class="form-group row" style="margin: 10px; padding:10px;">
+				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE PLAN:</label>
 					<select id="nombrePlan" name="nombrePlan" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 					<option selected disabled="">-SELECCIONE UNA-</option>
@@ -221,10 +216,12 @@ $row = $resultado->fetch_assoc();
 					$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 					?>
 					<?php foreach ($ejecutar as $opciones): ?> 
-						<option value="<?php echo $opciones['ID_NOMBREPLAN']?>"><?php echo $opciones['NOMBREPLAN'].' - '.$opciones['PLAN'].' - '.$opciones['PROVEEDOR']?></option>
+					<option value="<?php echo $opciones['ID_NOMBREPLAN']?>"><?php echo $opciones['NOMBREPLAN'].' - '.$opciones['PLAN'].' - '.$opciones['PROVEEDOR']?></option>
 					<?php endforeach ?>
 					</select>
+				</div>
 
+				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">ROAMING:</label>
 					<select name="roaming" id="roaming" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 					<option selected disabled="">-SELECCIONE UNA-</option>
@@ -234,24 +231,27 @@ $row = $resultado->fetch_assoc();
 					$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 					?>
 					<?php foreach ($ejecutar as $opciones): ?> 
-						<option value="<?php echo $opciones['ID_ROAMING']?>"><?php echo $opciones['ROAMING']?></option>
+					<option value="<?php echo $opciones['ID_ROAMING']?>"><?php echo $opciones['ROAMING']?></option>
 					<?php endforeach ?>
 					</select>
 				</div>  
 				
-				<div class="form-group row" style="margin: 10px; padding:10px;">
+				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">EXTRAS:</label>
 					<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" name="extras" id="extras" step="0.01" placeholder="0,00" required>
+				</div>
+
+				<div class="form-group row">
 					<label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓN:</label> 
 					<textarea class="form-control col-xl col-lg" name="obs" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3" ></textarea>
 				</div> 
 				<?php 
-								if ($row['ID_PERFIL'] != 5) {
-								echo '<div class="form-group row justify-content-end" style="margin: 10px; padding:10px;">
-								<input style="width:20%" onClick="enviar_formulario(this.form)" class="col-3 button" type="button" name="agregarLinea" value="GUARDAR" class="button">
-							</div>	';
-								}
-							?>
+					if ($row['ID_PERFIL'] != 5) {
+					echo '<div class="form-group row justify-content-end">
+					<input style="width:20%" onClick="enviar_formulario(this.form)" class="btn btn-success" type="button" name="agregarLinea" value="GUARDAR" class="button">
+				</div>	';
+					}
+				?>
 				
 			</form>
 					<?php
@@ -273,6 +273,16 @@ $row = $resultado->fetch_assoc();
 			?>
 		</div>
 	</section>
+	</main>
+	<footer>
+		<div class="footer">
+			<div class="container-fluid">
+				<div class="row">
+					<img src="../imagenes/cba-logo.png" class="img-fluid">
+				</div>
+			</div>
+		</div>
+	</footer>
 	<script>
 /* 	$(document).ready(function(){
     $("#usuario").change(function(){

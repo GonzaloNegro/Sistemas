@@ -177,7 +177,7 @@ $row = $resultado->fetch_assoc();
 			<h1>AGREGAR PLAN</h1>
 		</div>
 		<div id="principalu" style="width: 97%" class="container-fluid" data-aos="zoom-in">
-			<form method="POST" action="agregados.php">
+			<form method="POST" action="./agregados.php">
 
 				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE:</label>
@@ -219,12 +219,12 @@ $row = $resultado->fetch_assoc();
 					<input id="monto" style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" name="monto" step="0.01" placeholder="10,00" required>
 				</div>
                 <?php 
-							if ($row['ID_PERFIL'] != 5) {
-								echo '<div class="form-group row justify-content-end">
-                                    <input onClick="enviar_formulario(this.form)" style="width:20%"class="btn btn-success" name="agregarPlan" type="button" value="GUARDAR" class="button">
-                                </div>	';
-							}
-						?>
+                    if ($row['ID_PERFIL'] != 5) {
+                        echo '<div class="form-group row justify-content-end">
+                            <input onClick="enviar_formulario(this.form)" style="width:20%"class="btn btn-success" name="agregarPlan" type="button" value="GUARDAR" class="button">
+                        </div>	';
+                    }
+                ?>
 				
 			</form>
 					<?php
