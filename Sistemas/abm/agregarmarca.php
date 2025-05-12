@@ -39,10 +39,11 @@ $row = $resultado->fetch_assoc();
                         icon: "success",
                         showConfirmButton: true,
                         showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -65,10 +66,11 @@ $row = $resultado->fetch_assoc();
                         icon: "error",
                         showConfirmButton: true,
                         showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -90,7 +92,7 @@ $row = $resultado->fetch_assoc();
 			var fieldsToValidate = [
                     {
                         selector: "#marca",
-                        errorMessage: "No ingresó marca."
+                        errorMessage: "No ingresó nombre de la Marca."
                     }
                 ];
 
@@ -117,39 +119,27 @@ $row = $resultado->fetch_assoc();
                     }
                 });
 
-				if (isValid ==true) {
-								
-								return true;
-							}
-							else{
-								return false;
-							}
+				if (isValid ==true) {				
+					return true;
+				}
+				else{
+					return false;
+				}
 		};
-		function enviar_formulario(formulario){
-        	if (validar_formulario()) {
-				// alert("Todo OK");
-				Swal.fire({
-                        title: "Esta seguro de guardar esta marca?",
-                        icon: "warning",
-                        showConfirmButton: true,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            formulario.submit()
+		function enviar_formulario(formulario, accion){
+			// Asigna el valor de la acción al campo oculto "accion"
+			formulario.querySelector('#accion').value = accion;
+			if (validar_formulario()) {
+				const campos = [
+					{ id: 'marca', label: 'Nombre de la Marca' }
+				];
 
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
+				confirmarEnvioFormulario(
+					formulario,
+					campos,
+					"Datos de la Marca",
+					"¿Está seguro de guardar esta marca?"
+				);
 			}
 		}
 		</script>
@@ -168,9 +158,11 @@ $row = $resultado->fetch_assoc();
             <div class="form-group row">
                 <label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DE LA MARCA:</label>
                 <input id="marca" style="text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="marca" placeholder="NOMBRE DE LA MARCA" required>
-            </div>	
+            </div>
+            <!-- Campo oculto para la acción -->
+            <input type="hidden" id="accion" name="accion" value="agregarMarca">
             <div class="form-group row justify-content-end">
-                <input onClick="enviar_formulario(this.form)" style="width:20%" class="btn btn-success" type="button" value="GUARDAR" name="agregarMarca" class="button">
+                <input onclick="enviar_formulario(this.form, \'agregarMarca\')" style="width:20%" class="btn btn-success" type="button" value="GUARDAR" name="agregarMarca" class="button">
             </div>	
 		</form>
 			<?php
@@ -197,6 +189,7 @@ $row = $resultado->fetch_assoc();
 			</div>
 		</div>
 	</footer>
+    <script src="../js/confirmacionForm.js"></script>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
     <script>

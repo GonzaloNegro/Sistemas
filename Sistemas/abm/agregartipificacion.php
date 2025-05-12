@@ -50,11 +50,12 @@ $row = $resultado->fetch_assoc();
                         icon: "success",
                         showConfirmButton: true,
                         showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
-                        customClass:{
+						confirmButtonColor: '#198754',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Confirmar',
+						cancelButtonText: "Cancelar",
+						reverseButtons: true,
+								customClass:{
                             actions: 'reverse-button'
                         }
                     })
@@ -71,25 +72,16 @@ $row = $resultado->fetch_assoc();
 			</script>
 <script type="text/javascript">
 			function no(){
-				// swal(  {title: "La tipificación ya está registrada",
-				// 		icon: "error",
-				// 		})
-				// 		.then((confirmar) => {
-				// 		if (confirmar) {
-				// 			window.location.href='agregartipificacion.php';
-				// 		}
-				// 		}
-				// 		);
-				
 				Swal.fire({
                         title: "La tipificación ya está registrada",
                         icon: "error",
                         showConfirmButton: true,
                         showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -107,59 +99,65 @@ $row = $resultado->fetch_assoc();
 			}	
 			</script>
 			<script>
-				function validar(){
-					var tipificacion = $('#tipificacion').val();
-					if (tipificacion == ""|| tipificacion == null) {
-						Swal.fire({
-            						title: "Por favor ingrese la tipificación.",
-            						icon: "warning",
-            						showConfirmButton: true,
-            						showCancelButton: false,
-            						confirmButtonColor: '#3085d6',
-            						cancelButtonColor: '#d33',
-            						confirmButtonText: 'Aceptar',
-            						cancelButtonText: "Cancelar",
-            						customClass:{
-                					actions: 'reverse-button'
-            						}
-									})
-							return false;
-					}
-					else{
-						return true;
-					}
+        function validar_formulario(){
+			
+			var fieldsToValidate = [
+                    {
+                        selector: "#tipificacion",
+                        errorMessage: "No ingresó nombre de la Tipificación."
+                    }
+                ];
+
+                var isValid = true;
+
+				$.each(fieldsToValidate, function(index, field) {
+                    var element = $(field.selector);
+                    if (element.val()== "" || element.val()== null) {
+                      Swal.fire({
+                      title: field.errorMessage,
+                      icon: "warning",
+                      showConfirmButton: true,
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Aceptar',
+                      cancelButtonText: "Cancelar",
+                      customClass:{
+                      actions: 'reverse-button'
+                        }
+                      })
+                        isValid = false;
+                        return false;
+                    }
+                });
+
+				if (isValid ==true) {				
+					return true;
 				}
+				else{
+					return false;
+				}
+		};
 			</script>
 			<script>
 				
-				function enviar_formulario(form){
-					 if (validar()) {
-						Swal.fire({
-                        title: "Esta seguro de guardar esta tipificación?",
-                        icon: "warning",
-                        showConfirmButton: true,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            form.submit()
+			function enviar_formulario(formulario, accion) {
+			// Asigna el valor de la acción al campo oculto "accion"
+			formulario.querySelector('#accion').value = accion;
 
+			if (validar_formulario()) {
+				const campos = [
+					{ id: 'tipificacion', label: 'Nombre de la Tipificación' }
+				];
 
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
-					}
-
-					
-				}
+				confirmarEnvioFormulario(
+					formulario,
+					campos,
+					"Datos de la tipifícación",
+					"¿Está seguro de guardar esta tipificación?"
+				);
+			}
+		}
 			</script>
 <main>
 	<div id="reporteEst">   
@@ -177,8 +175,11 @@ $row = $resultado->fetch_assoc();
 					<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DE LA TIPIFICACIÓN:</label>
 					<input id="tipificacion" style="text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" type="text" name="tip" placeholder="NOMBRE DE TIPIFICACIÓN" required>
 				</div>	
+				<!-- Campo oculto para la acción -->
+				<input type="hidden" id="accion" name="accion" value="agregarTipificacion">
+
 				<div class="form-group row justify-content-end">
-					<input class="btn btn-success" type="button" name="agregarTipificacion" style="width:20%" onClick="enviar_formulario(this.form)" value="GUARDAR">
+					<input class="btn btn-success" type="button" name="agregarTipificacion" style="width:20%" onclick="enviar_formulario(this.form, 'agregarTipificacion')" value="GUARDAR">
 				</div>	
 			</form>
 					<?php
@@ -228,6 +229,7 @@ $row = $resultado->fetch_assoc();
 			</div>
 		</div>
 	</footer>
+	<script src="../js/confirmacionForm.js"></script>
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>

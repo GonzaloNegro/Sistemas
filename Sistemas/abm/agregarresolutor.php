@@ -50,10 +50,11 @@ $row = $resultado->fetch_assoc();
                         icon: "success",
                         showConfirmButton: true,
                         showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -85,10 +86,11 @@ $row = $resultado->fetch_assoc();
                         icon: "info",
                         showConfirmButton: true,
                         showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -121,10 +123,11 @@ $row = $resultado->fetch_assoc();
                         icon: "error",
                         showConfirmButton: true,
                         showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -151,14 +154,6 @@ $row = $resultado->fetch_assoc();
                     {
                         selector: "#cuil",
                         errorMessage: "No ingresó cuil."
-                    },
-                    {
-                        selector: "#correo",
-                        errorMessage: "No ingresó correo."
-                    },
-                    {
-                        selector: "#telefono",
-                        errorMessage: "No ingresó teléfono."
                     },
                     {
                         selector: "#tipo",
@@ -201,33 +196,28 @@ $row = $resultado->fetch_assoc();
 								return false;
 							}
 		};
-		function enviar_formulario(formulario){
-        	if (validar_formulario()) {
-				// alert("Todo OK");
-				Swal.fire({
-                        title: "Esta seguro de guardar este resolutor?",
-                        icon: "warning",
-                        showConfirmButton: true,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            formulario.submit()
+		function enviar_formulario(formulario, acción){
+			// Asigna el valor de la acción al campo oculto "accion"
+			formulario.querySelector('#accion').value = accion;
+			if (validar_formulario()) {
+				const campos = [
+                    { id: 'nombre_resolutor', label: 'Nombre del resolutor' },
+                    { id: 'cuil', label: 'Cuil'},
+                    { id: 'correo', label: 'Correo'},
+                    { id: 'telefono', label: 'Teléfono' },
+                    { id: 'tipo', label: 'Tipo', esSelect: true },
+                    { id: 'perfil', label: 'Perfil', esSelect: true},
+                    ];
 
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
+				confirmarEnvioFormulario(
+					formulario,
+					campos,
+					"Datos del Resolutor",
+					"¿Está seguro de guardar este resolutor?"
+				);
 			}
 		}
+
 		</script>
         <script>
             function validarLongitud(input) {
@@ -296,9 +286,11 @@ $row = $resultado->fetch_assoc();
 								<?php endforeach ?>
 								</select>
 						</div>  
+					<!-- Campo oculto para la acción -->
+					<input type="hidden" id="accion" name="accion" value="agregarResolutor">
 						<div class="form-group row justify-content-end">
-					<input style="width:20%" onClick="enviar_formulario(this.form)" type="button" value="GUARDAR" name="agregarResolutor" class="btn btn-success">
-				</div>	
+							<input style="width:20%" onClick="enviar_formulario(this.form, \'agregarResolutor\')" type="button" value="GUARDAR" name="agregarResolutor" class="btn btn-success">
+						</div>	
 					</form>
 					<?php
 				if(isset($_GET['ok'])){
@@ -329,6 +321,7 @@ $row = $resultado->fetch_assoc();
 			</div>
 		</div>
 	</footer>
+    <script src="../js/confirmacionForm.js"></script>
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>

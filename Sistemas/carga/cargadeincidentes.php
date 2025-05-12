@@ -27,7 +27,7 @@ $row = $resultado->fetch_assoc();
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	<!--FIN BUSCADOR SELECT-->
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 	<!--Estilo bootstrap para select2-->
@@ -389,7 +389,7 @@ $row = $resultado->fetch_assoc();
             formulario,
             campos,
             "Datos del incidente",
-            "¿Está seguro de crear este incidente?"
+            "¿Está seguro de crear este incidente?",
         );
     }
 }
@@ -419,6 +419,7 @@ $row = $resultado->fetch_assoc();
 	}
 </script>
 <?php include('../layout/incidente.php'); ?>
+<main>
 	<section id="Inicio" class="container-fluid">
 		<div id="titulo" style="margin-top:20px; margin-bottom:20px;" data-aos="zoom-in">
 			<h1>CARGA DE INCIDENTES</h1>
@@ -589,6 +590,7 @@ $row = $resultado->fetch_assoc();
 			?>
 		</div>
 	</section>
+	</main>
 	<footer>
 		<div class="footer">
 			<div class="container-fluid">

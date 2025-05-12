@@ -47,39 +47,113 @@ $monto = $consulta[4];
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
-	<style>
-			body{
-				background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
 <script>
-function enviar_formulario(formulario){
-        	Swal.fire({
-                        title: "Esta seguro de modificar este plan?",
-                        icon: "warning",
-                        showConfirmButton: true,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            formulario.submit()
-
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
+        function validar_formulario(){
 			
-		}
+			var fieldsToValidate = [
+                    {
+                        selector: "#nombrePlan",
+                        errorMessage: "No ingresó nombre del Plan."
+                    },
+                    {
+                        selector: "#proveedor",
+                        errorMessage: "No ingresó proveedor."
+                    },
+                    {
+                        selector: "#plan",
+                        errorMessage: "No ingresó plan."
+                    },
+                    {
+                        selector: "#monto",
+                        errorMessage: "No ingresó monto."
+                    }
+                ];
+
+                var isValid = true;
+
+				$.each(fieldsToValidate, function(index, field) {
+                    var element = $(field.selector);
+                    if (element.val()== "" || element.val()== null) {
+                      Swal.fire({
+                      title: field.errorMessage,
+                      icon: "warning",
+                      showConfirmButton: true,
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Aceptar',
+                      cancelButtonText: "Cancelar",
+                      customClass:{
+                      actions: 'reverse-button'
+                        }
+                      })
+                        isValid = false;
+                        return false;
+                    }
+                });
+
+				if (isValid ==true) {
+								
+								return true;
+							}
+							else{
+								return false;
+							}
+		};
+
+        function enviar_formulario(formulario) {
+    if (validar_formulario()) {
+
+        const campos = [
+            { id: 'nombrePlan', label: 'Nombre del Plan' },
+            { id: 'plan', label: 'Plan', esSelect: true },
+            { id: 'proveedor', label: 'Proveedor', esSelect: true },
+            { id: 'monto', label: 'Monto' }
+        ];
+
+        let mensajeHtml = "<ul style='text-align:left;'>"; 
+
+        campos.forEach(campo => {
+            const elemento = document.getElementById(campo.id);
+            let valor = campo.esSelect
+                ? elemento.options[elemento.selectedIndex].text
+                : elemento.value;
+
+            if (valor.trim() !== "") {
+                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor}</li>`;
+            }
+        });
+
+        mensajeHtml += "</ul>";
+
+        mensajeHtml += `<br>
+        <strong style="color:red;">Recuerde que cambiar los datos del Plan actual afectará en los siguientes registros.</strong>`;
+
+        mensajeHtml += '<br><strong>¿Está seguro de modificar este Plan?</strong><br><br>';
+
+        Swal.fire({
+            title: "Datos modificados del Plan",
+            icon: "warning",
+            html: mensajeHtml,
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonColor: '#198754',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: "Cancelar",
+            reverseButtons: true,
+            customClass: {
+                actions: 'reverse-button'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                formulario.submit();
+            }
+        });
+    }
+}
 		</script>
 <main>
     <div id="reporteEst">   
@@ -111,11 +185,11 @@ function enviar_formulario(formulario){
 
             <div class="form-group row">
                 <label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE PLAN:</label>
-                <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="nombrePlan" value="<?php echo $nbombrePlan?>">
+                <input type="text" id="nombrePlan" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="nombrePlan" value="<?php echo $nbombrePlan?>">
             </div>
             <div class="form-group row">
                 <label id="lblForm"class="col-form-label col-xl col-lg">PLAN:</label>
-                <select name="plan" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                <select name="plan" id="plan" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                 <option selected value="100"><?php echo $plan?></option>
                         <?php
                         $consulta= "SELECT * FROM plan ORDER BY PLAN ASC";
@@ -129,7 +203,7 @@ function enviar_formulario(formulario){
 
             <div class="form-group row">
                 <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:</label>
-                <select name="proveedor" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                <select name="proveedor" id="proveedor" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                     <option selected value="200"><?php echo $proveedor?></option>
                         <?php
                         $consulta= "SELECT * FROM proveedor WHERE ID_PROVEEDOR BETWEEN 34 AND 35 ORDER BY PROVEEDOR ASC";
@@ -143,7 +217,7 @@ function enviar_formulario(formulario){
 
             <div class="form-group row">
                 <label id="lblForm"class="col-form-label col-xl col-lg">MONTO SIN DESCUENTO:</label>
-                <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" name="monto" step="0.01" placeholder="10,00" required value="<?php echo $monto?>">
+                <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" id="monto" name="monto" step="0.01" placeholder="10,00" required value="<?php echo $monto?>">
             </div>
 
             <div class="row justify-content-end">

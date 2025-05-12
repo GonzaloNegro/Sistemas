@@ -7,31 +7,14 @@ $consulta = ConsultarIncidente($_GET['no']);
 
 function ConsultarIncidente($no_tic)
 {	
-	$datos_base=mysqli_connect('localhost', 'root', '', 'incidentes') or exit('No se puede conectar con la base de datos');
-	$sentencia =  "SELECT * FROM periferico WHERE ID_PERI='".$no_tic."'";
-	$resultado = mysqli_query($datos_base, $sentencia);
-	$filas = mysqli_fetch_assoc($resultado);
-	return [
-		$filas['ID_PERI'],/*0*/
-		$filas['ID_TIPOP'],/*1*/
-		$filas['NOMBREP'],/*2*/
-        $filas['SERIEG'],/*3*/
-        $filas['ID_MARCA'],/*4*/
-        $filas['SERIE'],/*5*/
-        $filas['ID_PROCEDENCIA'],/*6*/
-        $filas['OBSERVACION'],/*7*/
-        $filas['TIPOP'],/*8*/
-        $filas['MAC'],/*9*/
-        $filas['RIP'],/*10*/
-        $filas['IP'],/*11*/
-        $filas['ID_PROVEEDOR'],/*12*/
-        $filas['FACTURA'],/*13*/
-        // $filas['ID_AREA'],/*14*/
-        // $filas['ID_USUARIO'],/*15*/
-        $filas['GARANTIA'],/*16*/
-        $filas['ID_ESTADOWS'],/*17*/
-        $filas['ID_MODELO'],/*18*/
-	];
+    $datos_base = mysqli_connect('localhost', 'root', '', 'incidentes') or exit('No se puede conectar con la base de datos');
+
+	$no_tic = mysqli_real_escape_string($datos_base, $no_tic);
+
+    $sentencia = "SELECT * FROM periferico WHERE ID_PERI='" . $no_tic . "'";
+    $resultado = mysqli_query($datos_base, $sentencia);
+
+    return mysqli_fetch_assoc($resultado);
 }
 
 ?>
@@ -48,11 +31,6 @@ function ConsultarIncidente($no_tic)
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
 <script>
@@ -63,10 +41,11 @@ function enviar_formulario(formulario){
                         icon: "warning",
                         showConfirmButton: true,
                         showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -99,89 +78,97 @@ function enviar_formulario(formulario){
                         <!--  CONSULTA DE DATOS -->
                         <?php 
                         include("../particular/conexion.php");
-                        $sent= "SELECT TIPO FROM tipop WHERE ID_TIPOP = $consulta[1]";
-                        $resultado = $datos_base->query($sent);
-                        $row = $resultado->fetch_assoc();
-                        $tip = $row['TIPO'];
-
-                        $sent= "SELECT PROCEDENCIA FROM procedencia WHERE ID_PROCEDENCIA = $consulta[6]";
-                        $resultado = $datos_base->query($sent);
-                        $row = $resultado->fetch_assoc();
-                        $proc = $row['PROCEDENCIA'];
-
-                        $sent= "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR = $consulta[12]";
-                        $resultado = $datos_base->query($sent);
-                        $row = $resultado->fetch_assoc();
-                        $prov = $row['PROVEEDOR'];
-
-                        // $sent= "SELECT AREA FROM area WHERE ID_AREA = $consulta[14]";
-                        // $resultado = $datos_base->query($sent);
-                        // $row = $resultado->fetch_assoc();
-                        // $are = $row['AREA'];
-
-                        // $sent= "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = $consulta[15]";
-                        // $resultado = $datos_base->query($sent);
-                        // $row = $resultado->fetch_assoc();
-                        // $usu = $row['NOMBRE'];
-
-                        $sent= "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = $consulta[15]";
-                        $resultado = $datos_base->query($sent);
-                        $row = $resultado->fetch_assoc();
-                        $est = $row['ESTADO'];
+                        function obtenerCampoPorId($conexion, $tabla, $campo, $id_nombre, $id_valor) {
+                            $id_valor = (int)$id_valor;
                         
+                            $sql = "SELECT $campo FROM $tabla WHERE $id_nombre = $id_valor";
+                            $resultado = $conexion->query($sql);
+                        
+                            if ($resultado && $fila = $resultado->fetch_assoc()) {
+                                return $fila[$campo];
+                            }
+                            return null;
+                        }
+
+                        $tip = obtenerCampoPorId($datos_base, 'tipop', 'TIPO', 'ID_TIPOP', $consulta['ID_TIPOP']);
+                        $proc = obtenerCampoPorId($datos_base, 'procedencia', 'PROCEDENCIA', 'ID_PROCEDENCIA', $consulta['ID_PROCEDENCIA']);
+                        $prov = obtenerCampoPorId($datos_base, 'proveedor', 'PROVEEDOR', 'ID_PROVEEDOR', $consulta['ID_PROVEEDOR']);
+                        $est = obtenerCampoPorId($datos_base, 'estado_ws', 'ESTADO', 'ID_ESTADOWS', $consulta['ID_ESTADOWS']);
+                        
+
+                        $sent= "SELECT ep.ID_WS, i.SERIEG
+                        FROM equipo_periferico ep
+                        LEFT JOIN inventario i ON i.ID_WS = ep.ID_WS
+                        WHERE ep.ID_PERI = $consulta[ID_PERI]
+                        ORDER BY ep.ID_EQUIPO_PERIFERICO DESC
+                        LIMIT 1";
+                        $resultado = $datos_base->query($sent);
+                        $row = $resultado->fetch_assoc();
+                        $ws = $row['ID_WS'];
+                        $equip = $row['SERIEG'];
+
+                        $sent= "SELECT u.NOMBRE
+                        FROM wsusuario ws
+                        LEFT JOIN usuarios u ON u.ID_USUARIO = ws.ID_USUARIO
+                        WHERE ws.ID_WS = $ws
+                        ORDER BY ws.ID_WSUSU DESC
+                        LIMIT 1";
+                        $resultado = $datos_base->query($sent);
+                        $row = $resultado->fetch_assoc();
+                        $usu = $row['NOMBRE'];
+
                         $sent= "SELECT mo.MODELO, ma.MARCA 
                         FROM modelo mo
                         INNER JOIN marcas ma ON ma.ID_MARCA = mo.ID_MARCA
-                        WHERE mo.ID_MODELO = $consulta[16]";
+                        WHERE mo.ID_MODELO = $consulta[ID_MODELO]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
                         $mod = $row['MODELO']." - ".$row['MARCA'];?>
                         <!--  CONSULTA DE DATOS -->
 
-
-                <form method="POST" action="guardarmodimpresora2.php">
+                <form method="POST" action="./modificados.php">
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">ID:</label>
-                        <input type="text" class="id" name="id" value="<?php echo $consulta[0]?>" style="background-color:transparent;" readonly>
+                        <input type="text" class="id" name="id" value="<?php echo $consulta['ID_PERI']?>" style="background-color:transparent;" readonly>
                     </div>
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">N° GOBIERNO: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serieg" value="<?php echo $consulta[3]?>">
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serieg" value="<?php echo $consulta['SERIEG']?>">
                     </div>
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serie" value="<?php echo $consulta[5]?>">
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serie" value="<?php echo $consulta['SERIE']?>">
                     </div>
                     
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">MAC: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="mac" value="<?php echo $consulta[9]?>">
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="mac" value="<?php echo $consulta['MAC']?>">
                     </div>
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIÓN: </label>
-                        <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" rows="3"><?php echo $consulta[7]?></textarea>
+                        <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" rows="3"><?php echo $consulta['OBSERVACION']?></textarea>
                     </div>
                     
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">IP: </label>
-                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="ip" value="<?php echo $consulta[11]?>">
+                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="ip" value="<?php echo $consulta['IP']?>">
                     </div>
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">FACTURA: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="factura" value="<?php echo $consulta[13]?>">
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="factura" value="<?php echo $consulta['FACTURA']?>">
                     </div>
                     
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="garantia" value="<?php echo $consulta[16]?>">
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="garantia" value="<?php echo $consulta['GARANTIA']?>">
                     </div>
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">RIP: </label>
                         <select name="rip" style="margin-top: 5px"class="form-control col-form-label col-xl col-lg">
-                        <option selected value="100"><?php echo $consulta[10]?></option>
+                        <option selected value="100"><?php echo $consulta['RIP']?></option>
                         <option value ="NO">NO</option>
                         <option value="SI">SI</option>
                         </select>
@@ -252,16 +239,23 @@ function enviar_formulario(formulario){
                     </div>
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO: </label>
-                        <select name="usu" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
-                        <option selected value="600"><?php echo $usu?></option>
+                        <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL CUÁL ESTÁ ASIGNADO: </label>
+                        <select name="equip" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                        <option selected value="600"><?php echo $usu." - ".$equip?></option>
                         <?php
-                        include("../particular/conexion.php");
-                        $consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 ORDER BY NOMBRE ASC";
+                        $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
+                        FROM wsusuario w
+                        INNER JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO
+                        INNER JOIN inventario i ON i.ID_WS = w.ID_WS
+                        WHERE u.ID_ESTADOUSUARIO = 1 
+                        AND w.ID_WS <> 0 
+                        AND w.ID_USUARIO <> 277
+                        AND i.ID_TIPOWS = 1 /* PC */
+                        ORDER BY u.NOMBRE ASC";
                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                         ?>
                         <?php foreach ($ejecutar as $opciones): ?> 
-                        <option value= <?php echo $opciones['ID_USUARIO'] ?>><?php echo $opciones['NOMBRE']?></option>
+                        <option value= <?php echo $opciones['ID_WS'] ?>><?php echo $opciones['NOMBRE']." - ".$opciones['SERIEG']?></option>
                         <?php endforeach?>
                         </select>
                     </div>
@@ -283,7 +277,7 @@ function enviar_formulario(formulario){
                     <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
                     <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
                     <div class="form-group row justify-content-end">
-					    <input onClick="enviar_formulario(this.form)" style="width:20%"class="btn btn-success" type="button" value="MODIFICAR" class="button">
+					    <input onClick="enviar_formulario(this.form)" style="width:20%"class="btn btn-success" type="button" name="modImpresora" value="MODIFICAR" class="button">
 				    </div>
                 </form>
 	    </div>

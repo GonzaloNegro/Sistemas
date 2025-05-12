@@ -365,7 +365,12 @@ $row = $resultado->fetch_assoc();
         </thead>
 
         <?php $cantidadTotal = 0;?>
-        <?php While($rowSql = $sql->fetch_assoc()) {
+        <?php 
+        function mostrarValor($valor) {
+            return ($valor === null || $valor === '' || strtolower($valor) === 'null' || strtolower($valor) === 'undefined') ? '-' : $valor;
+        }
+
+        While($rowSql = $sql->fetch_assoc()) {
             $cantidadTotal++;
             $NUMERO=$rowSql['IMEI']; 
 
@@ -392,13 +397,13 @@ $row = $resultado->fetch_assoc();
 
             echo "
                 <tr>
-                    <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>".$rowSql['IMEI']."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['NOMBRE']."</h4></td>
-                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['REPA']."</h4></td>
-                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['PROCEDENCIA']."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['PROVEEDOR']."</h4></td>
-                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['MARCA']." - ".$rowSql['MODELO']."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;color:".$color."'>$flecha ".$rowSql['ESTADO']."</h4></td>
+                <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>".mostrarValor($rowSql['IMEI'])."</h4></td>
+                <td><h4 class='wrap2' style='font-size:14px; text-align: left; margin-left: 5px;'>".mostrarValor($rowSql['NOMBRE'])."</h4></td>
+                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['REPA'])."</h4></td>
+                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['PROCEDENCIA'])."</h4></td>
+                <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['PROVEEDOR'])."</h4></td>
+                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['MARCA'])." - ".mostrarValor($rowSql['MODELO'])."</h4></td>
+                <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;color:".$color."'>".$flecha." ".mostrarValor($rowSql['ESTADO'])."</h4></td>
 
                     <td class='text-center text-nowrap'>
                         <span style='display: inline-flex; padding: 3px;'>

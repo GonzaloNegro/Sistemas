@@ -81,24 +81,26 @@ $row = $resultado->fetch_assoc();
             Swal.fire({
             title: 'Selecciona una opción',
             html: `
-                <label style="display: flex; align-items: center; gap: 8px; color: black;">
-                    <input type="radio" name="opcion" value="claro">
-                    <span>Claro</span>
+            <div style="flex-direction: column; gap: 8px; color: black;">
+                <label style="display: flex; align-items: center; gap: 4px; color: black;">
+                    <input style="width:auto;margin:0px;margin-top:0px;margin-left:0px;" type="radio" name="opcion" value="claro">
+                    Claro
                 </label>
-                <label style="display: flex; align-items: center; gap: 8px; color: black;">
-                    <input type="radio" name="opcion" value="personal">
-                    <span>Personal</span>
+                <label style="display: flex; align-items: center; gap: 4px; color: black;">
+                    <input style="width:auto;margin:0px;margin-top:0px;margin-left:0px;" type="radio" name="opcion" value="personal">
+                    Personal
                 </label>
-
-                <label style="display: flex; align-items: center; gap: 8px; color: black;">
-                    <input type="radio" name="opcion" value="todos">
-                    <span>Todos</span>
+                <label style="display: flex; align-items: center; gap: 4px; color: black;">
+                    <input style="width:auto;margin:0px;margin-top:0px;margin-left:0px;" type="radio" name="opcion" value="todos">
+                    Todos
                 </label>
-                </div>
-            `,
+            </div>`,
             showCancelButton: true,
-            confirmButtonText: 'Enviar',
+            confirmButtonColor: '#198754',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
             cancelButtonText: 'Cancelar',
+            reverseButtons: true,
             preConfirm: () => {
             const selected = document.querySelector('input[name="opcion"]:checked');
             if (!selected) {
@@ -522,7 +524,12 @@ $row = $resultado->fetch_assoc();
         </thead>
 
         <?php $cantidadTotal = 0;?>
-        <?php While($rowSql = $sql->fetch_assoc()) {
+        <?php 
+        function mostrarValor($valor) {
+            return ($valor === null || $valor === '' || strtolower($valor) === 'null' || strtolower($valor) === 'undefined') ? '-' : $valor;
+        }
+        
+        While($rowSql = $sql->fetch_assoc()) {
             $cantidadTotal++;
             $NUMERO=$rowSql['NRO'];
 
@@ -538,16 +545,17 @@ $row = $resultado->fetch_assoc();
 
             echo "
                 <tr>
-                <td><h4 style='font-size:14px; text-align: right; margin-right: 5px;'>".$rowSql['NRO']."</h4 ></td>
-                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['NOMBRE']."</h4 ></td>
-                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['REPA']."</h4></td>
-                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['NOMBREPLAN']." - ".$rowSql['PLAN']."</h4 ></td>
-                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['PROVEEDOR']."</h4 ></td>
-                <td><h4 style='font-size:14px; text-align: right; margin-right: 5px;color:green;font-weight:bold;'>"."$".$rowSql['MONTO']."</h4 ></td>
-                <td><h4 style='font-size:14px; text-align: right; margin-right: 5px;color:red;font-weight:bold;'>"."$".$rowSql['EXTRAS']."</h4 ></td>
-                <td><h4 style='font-size:14px; text-align: right; margin-right: 5px;'>".$rowSql['DESCUENTO']."%"."</h4 ></td>
-                <td><h4 style='font-size:16px; text-align: right; margin-right: 5px;color:green;font-weight:bold;'>"."$".$rowSql['MONTOTOTAL']."</h4 ></td>
-                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;color:".$color.";'>$flecha ".$rowSql['ESTADO']."</h4 ></td>
+                <td><h4 style='font-size:14px; text-align: right; margin-right: 5px;'>".mostrarValor($rowSql['NRO'])."</h4></td>
+                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;'>".mostrarValor($rowSql['NOMBRE'])."</h4></td>
+                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['REPA'])."</h4></td>
+                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;'>".mostrarValor($rowSql['NOMBREPLAN'])." - ".mostrarValor($rowSql['PLAN'])."</h4></td>
+                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;'>".mostrarValor($rowSql['PROVEEDOR'])."</h4></td>
+                <td><h4 style='font-size:14px; text-align: right; margin-right: 5px;color:green;font-weight:bold;'>$".mostrarValor($rowSql['MONTO'])."</h4></td>
+                <td><h4 style='font-size:14px; text-align: right; margin-right: 5px;color:red;font-weight:bold;'>$".mostrarValor($rowSql['EXTRAS'])."</h4></td>
+                <td><h4 style='font-size:14px; text-align: right; margin-right: 5px;'>".mostrarValor($rowSql['DESCUENTO'])."%</h4></td>
+                <td><h4 style='font-size:16px; text-align: right; margin-right: 5px;color:green;font-weight:bold;'>$".mostrarValor($rowSql['MONTOTOTAL'])."</h4></td>
+                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;color:".$color.";'>".$flecha." ".mostrarValor($rowSql['ESTADO'])."</h4></td>
+                
                 <td class='text-center text-nowrap'>
                     <span style='display: inline-flex; padding: 3px;'>
                         <a style='padding: 3px; cursor: pointer;'

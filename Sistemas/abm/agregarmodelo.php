@@ -40,10 +40,11 @@ $row = $resultado->fetch_assoc();
                         icon: "success",
                         showConfirmButton: true,
                         showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -66,10 +67,11 @@ $row = $resultado->fetch_assoc();
                         icon: "info",
                         showConfirmButton: true,
                         showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -92,10 +94,11 @@ $row = $resultado->fetch_assoc();
                         icon: "error",
                         showConfirmButton: true,
                         showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -160,33 +163,24 @@ $row = $resultado->fetch_assoc();
 								return false;
 							}
 		};
-		function enviar_formulario(formulario){
-        	if (validar_formulario()) {
-				// alert("Todo OK");
-				Swal.fire({
-                        title: "Esta seguro de guardar este modelo?",
-                        icon: "warning",
-                        showConfirmButton: true,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            formulario.submit()
+		function enviar_formulario(formulario, accion){
+			// Asigna el valor de la acción al campo oculto "accion"
+			formulario.querySelector('#accion').value = accion;
+			if (validar_formulario()) {
+				const campos = [
+					{ id: 'modelo', label: 'Nombre del modelo' },
+					{ id: 'marca', label: 'Marca', esSelect: true },
+					{ id: 'tipo', label: 'Tipo de periférico', esSelect: true }
+				];
 
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
+				confirmarEnvioFormulario(
+					formulario,
+					campos,
+					"Datos del modelo",
+					"¿Está seguro de guardar este modelo?"
+				);
 			}
-		}			
+		}	
 		</script>
 <main>
 	<div id="reporteEst">   
@@ -234,9 +228,10 @@ $row = $resultado->fetch_assoc();
 							<?php endforeach ?>
 							</select>
                         </div>
-
+                        <!-- Campo oculto para la acción -->
+                        <input type="hidden" id="accion" name="accion" value="agregarModelo">
                         <div class="row justify-content-end">
-                            <input onClick="enviar_formulario(this.form)" style="width: 20%;" class="btn btn-success" type="button" name="agregarModelo" value="GUARDAR" >
+                            <input onclick="enviar_formulario(this.form, \'agregarModelo\')" style="width: 20%;" class="btn btn-success" type="button" name="agregarModelo" value="GUARDAR" >
                         </div>
 					</form>
 					<?php
@@ -268,6 +263,7 @@ $row = $resultado->fetch_assoc();
 			</div>
 		</div>
 	</footer>
+    <script src="../js/confirmacionForm.js"></script>
 	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>

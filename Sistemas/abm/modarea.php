@@ -10,7 +10,6 @@ function ConsultarIncidente($no_tic)
     $datos_base = mysqli_connect('localhost', 'root', '', 'incidentes') 
         or exit('No se puede conectar con la base de datos');
 
-	/* sanitizar el valor recibido en $no_tic antes de meterlo en la consulta SQL. Esto es una medida de seguridad contra inyección SQL */
 	$no_tic = mysqli_real_escape_string($datos_base, $no_tic);
 
     $sentencia = "SELECT * FROM area WHERE ID_AREA='" . $no_tic . "'";
@@ -83,35 +82,64 @@ function ConsultarIncidente($no_tic)
 								return false;
 							}
 		};
-		function enviar_formulario(formulario){
-        	if (validar_formulario()) {
-				// alert("Todo OK");
-				Swal.fire({
-                        title: "Esta seguro de modificar esta área?",
-                        icon: "warning",
-                        showConfirmButton: true,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            formulario.submit()
 
+        function enviar_formulario(formulario) {
+    if (validar_formulario()) {
+        const estadoActual = "<?php echo $consulta['ID_ESTADOUSUARIO']; ?>";
+        const estadoSeleccionado = document.getElementById("estado").value;
 
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
-			}
-		}
-				
-		</script>
+        const campos = [
+            { id: 'area', label: 'Nombre del área' },
+            { id: 'repa', label: 'Repartición', esSelect: true },
+            { id: 'estado', label: 'Estado', esSelect: true },
+            { id: 'observacion', label: 'Observaciones' }
+        ];
+
+        let mensajeHtml = "<ul style='text-align:left;'>"; 
+
+        campos.forEach(campo => {
+            const elemento = document.getElementById(campo.id);
+            let valor = campo.esSelect
+                ? elemento.options[elemento.selectedIndex].text
+                : elemento.value;
+
+            if (valor.trim() !== "") {
+                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor}</li>`;
+            }
+        });
+
+        mensajeHtml += "</ul>";
+
+        if (estadoActual === "1" && estadoSeleccionado === "2") {
+            mensajeHtml += `<br>
+                <strong style="color:red;">Recuerde que cambiar el estado del área a INACTIVO afectará su funcionamiento.
+                <br>Los usuarios asignados a esta área dejarán de tener una área asignada.</strong>`;
+        }
+
+        mensajeHtml += '<br><strong>¿Está seguro de modificar esta área?</strong><br><br>';
+
+        Swal.fire({
+            title: "Datos modificados del área",
+            icon: "warning",
+            html: mensajeHtml,
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonColor: '#198754',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: "Cancelar",
+            reverseButtons: true,
+            customClass: {
+                actions: 'reverse-button'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                formulario.submit();
+            }
+        });
+    }
+}
+    </script>
 
 <main>
     <div id="reporteEst">   
@@ -150,7 +178,7 @@ function ConsultarIncidente($no_tic)
                     
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIONES:</label>
-						<textarea class="form-control col-form-label col-xl col-lg" name="obs" style="text-transform:uppercase" rows="3"><?php echo $consulta['OBSERVACION']?></textarea>
+						<textarea class="form-control col-form-label col-xl col-lg" id="observacion" name="obs" style="text-transform:uppercase" rows="3"><?php echo $consulta['OBSERVACION']?></textarea>
                     </div>
                     
                     <div class="form-group row">

@@ -2,6 +2,37 @@ body{
 	background-color: whitesmoke !important;
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+	min-height: 100vh;
+}
+
+main {
+    flex: 1; /* hace que el contenido principal ocupe el espacio disponible */
+}
+
+section, header{
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+header{
+	height: auto;
+	background-color: #004582;
+	color: white;
+}
+/* body{
+	background-color: whitesmoke !important;
+}
+
 section, header, footer{
 	background-color: whitesmoke;
 	width: 100%;
@@ -10,11 +41,19 @@ section, header, footer{
 
 }
 
+body {
+	min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
 header{
 	height: auto;
 	background-color: #004582;
 	color: white;
-}
+} */
 .p-3{
 	padding: 0rem !important;
 }
@@ -344,7 +383,7 @@ h5{
 
 /* Footer siempre del mismo alto */
 footer {
-	height: 110px;
+	height: auto;
 	border-top: 1px solid #004582;
 	background-color: #f0f0f0; /* opcional */
   }

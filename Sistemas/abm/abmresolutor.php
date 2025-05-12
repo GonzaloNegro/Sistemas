@@ -90,6 +90,10 @@ $row = $resultado->fetch_assoc();
 							</tr>
 						</thead>
 					";
+					function mostrarValor($valor) {
+						return (empty(trim($valor)) || strtolower($valor) === 'null' || strtolower($valor) === 'undefined') ? '-' : $valor;
+					}
+					
 					if(isset($_POST['btn2']))
 					{
 						$doc = $_POST['buscar'];
@@ -103,16 +107,16 @@ $row = $resultado->fetch_assoc();
 							echo
 								" 
 								<tr>
-								<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['RESOLUTOR']."</h4 ></td>
-                                <td><h4 style='font-size:14px;text-align:right;padding:5px;'>".$listar['CUIL']."</h4 ></td>
-                            	<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['TIPO_RESOLUTOR']."</h4 ></td>
-                                <td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['CORREO']."</h4 ></td>
+								<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".mostrarValor($listar['RESOLUTOR'])."</h4 ></td>
+                                <td><h4 style='font-size:14px;text-align:right;padding:5px;'>".mostrarValor($listar['CUIL'])."</h4 ></td>
+                            	<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".mostrarValor($listar['TIPO_RESOLUTOR'])."</h4 ></td>
+                                <td><h4 style='font-size:14px;text-align:left;padding:5px;'>".mostrarValor($listar['CORREO'])."</h4 ></td>
 								<td class='text-center text-nowrap'><a href=modresolutor.php?no=".$listar['ID_RESOLUTOR']."><i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i></a></td>
 								</tr>";
 						}
 					}				
 					else
-					{
+					{						
 						$consulta=mysqli_query($datos_base, "SELECT r.ID_RESOLUTOR, r.RESOLUTOR, r.CUIL, t.TIPO_RESOLUTOR, r.CORREO
 						FROM resolutor r
                         LEFT JOIN tipo_resolutor t ON  r.ID_TIPO_RESOLUTOR = t.ID_TIPO_RESOLUTOR 
@@ -122,10 +126,10 @@ $row = $resultado->fetch_assoc();
 							echo
 								" 
 								<tr>
-								<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['RESOLUTOR']."</h4 ></td>
-                                <td><h4 style='font-size:14px;text-align:right;padding:5px;'>".$listar['CUIL']."</h4 ></td>
-                                <td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['TIPO_RESOLUTOR']."</h4 ></td>
-                                <td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['CORREO']."</h4 ></td>
+								<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".mostrarValor($listar['RESOLUTOR'])."</h4 ></td>
+                                <td><h4 style='font-size:14px;text-align:right;padding:5px;'>".mostrarValor($listar['CUIL'])."</h4 ></td>
+                                <td><h4 style='font-size:14px;text-align:left;padding:5px;'>".mostrarValor($listar['TIPO_RESOLUTOR'])."</h4 ></td>
+                                <td><h4 style='font-size:14px;text-align:left;padding:5px;'>".mostrarValor($listar['CORREO'])."</h4 ></td>
 								<td class='text-center text-nowrap'><a href=modresolutor.php?no=".$listar['ID_RESOLUTOR']."><i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i></a></td>
 								</tr>";
 						}

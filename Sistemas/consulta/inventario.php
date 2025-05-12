@@ -20,6 +20,8 @@ $row = $resultado->fetch_assoc();
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymus"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css">
     <script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
@@ -31,11 +33,6 @@ $row = $resultado->fetch_assoc();
 	<!--Estilo bootstrap para select2-->
 	<link rel="stylesheet" href="/path/to/select2.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
     <!-- Script para inicializar el Popover -->
@@ -49,80 +46,53 @@ $row = $resultado->fetch_assoc();
         });
     </script>
     <script>
-	function ok(){
+    function ok() {
         Swal.fire({
-                    title: "Equipo cargado correctamente.",
-                    icon: "success",
-                    showConfirmButton: true,
-                    showCancelButton: false,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Aceptar',
-                    cancelButtonText: "Cancelar",
-                    customClass:{
-                        actions: 'reverse-button'
-                    }
-                })
-                .then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href='abmequipos.php';
+            title: "Equipo cargado correctamente.",
+            icon: "success",
+            showConfirmButton: true,
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#198754',
+            customClass: {
+                actions: 'reverse-button'
+            }
+        });
+    }
 
 
-                    } else if (result.isDenied) {
-                        Swal.fire('Changes are not saved', '', 'info')
-                    }
-                })
-        }	
-
-	function no(){
-        Swal.fire({
-                    title: "El equipo ya está registrado",
-                    icon: "error",
-                    showConfirmButton: true,
-                    showCancelButton: false,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Aceptar',
-                    cancelButtonText: "Cancelar",
-                    customClass:{
-                        actions: 'reverse-button'
-                    }
-                })
-                .then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href='agregarequipo.php';
-
-
-                    } else if (result.isDenied) {
-                        Swal.fire('Changes are not saved', '', 'info')
-                    }
-                })
+    function no() {
+    Swal.fire({
+        title: "El equipo ya está registrado",
+        icon: "error",
+        showConfirmButton: true,
+        confirmButtonColor: '#d33', // Color rojo
+        confirmButtonText: 'Cerrar',
+        customClass: {
+            actions: 'reverse-button'
         }
+    });
+}
+
 
     function okMod(){
-        Swal,fire(  {title: "Equipo modificado correctamente",
+        Swal.fire(  {title: "Equipo modificado correctamente",
                 icon: "success",
                 showConfirmButton: true,
-                showCancelButton: false,
-                })
-                .then((confirmar) => {
-                if (confirmar) {
-                    window.location.href='abmequipos.php';
-                }
-                }
-                );
+                confirmButtonText: 'Aceptar',
+                confirmButtonColor: '#198754',
+                });
         }
-    function noMod(){
-        Swal.fire(  {title: "El equipo ingresado ya está registrado",
+        function noMod() {
+            Swal.fire({
+                title: "El equipo ingresado ya está registrado",
                 icon: "error",
-                })
-                .then((confirmar) => {
-                if (confirmar) {
-                    window.location.href='abmequipos.php';
-                }
-                }
-                );
-        }	
+                showConfirmButton: false,
+                showCancelButton: true,
+                cancelButtonColor: '#d33', // Color rojo
+                cancelButtonText: 'Cerrar',
+            });
+        }
+
 
 
     //Funcion que va mostrando que filtros se van utilizando
@@ -234,16 +204,21 @@ $row = $resultado->fetch_assoc();
                                 flecha = "<i class='fa-solid fa-arrow-down' style='color:red'></i>";
                             }
 
-                            tabla.append(`<tr>
-                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.REPA}</h4></td>
-                                <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.AREA}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.NOMBRE}</h4></td>
-                                <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${fila.SERIEG}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.SIST_OP}</h4></td>
-                                <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.MICRO}</h4></td>
-                                <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.TIPOWS}</h4></td>
-                                <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.OBSERVACION}</h4></td>
-                                <td style='min-width:100px;'><h4 style='color:${color};font-size:14px;text-align:left;margin-left: 5px;'>${flecha} ${fila.ESTADO}</h4></td>
+                            function mostrarValor(valor) {
+                                return (valor === null || valor === undefined || valor === '') ? '-' : valor;
+                            }
+
+                            tabla.append(
+                            `<tr>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.REPA)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.AREA)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.NOMBRE)}</h4></td>
+                            <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.SERIEG)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.SIST_OP)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.MICRO)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.TIPOWS)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.OBSERVACION)}</h4></td>
+                            <td style='min-width:100px;'><h4 style='color:${color};font-size:14px;text-align:left;margin-left: 5px;'>${flecha} ${mostrarValor(fila.ESTADO)}</h4></td>
 
                                 <td class='text-center text-nowrap'>
                                     <span style="display: inline-flex;padding:5px;">
@@ -401,7 +376,7 @@ $row = $resultado->fetch_assoc();
 			<h1>INVENTARIO DE EQUIPOS</h1>
 		</div>
         <div class="botonAgregar">
-            <button class="btn btn-success" style="font-size: 20px;"><a href="./agregarequipo.php" style="text-decoration:none !important;color:white;" target="_blank">Agregar Equipo</a></button>
+            <button class="btn btn-success" style="font-size: 20px;"><a href="../abm/agregarequipo.php" style="text-decoration:none !important;color:white;" target="_blank">Agregar Equipo</a></button>
         </div>
         <!-- <form method="POST" action="./inventario.php" class="contFilter--name"> -->
             <div class="filtros">
@@ -864,7 +839,6 @@ $row = $resultado->fetch_assoc();
   		AOS.init();
 	</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))

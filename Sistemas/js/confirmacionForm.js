@@ -41,13 +41,12 @@ function confirmarEnvioFormulario(formulario, campos, titulo, mensajeConfirmacio
 		icon: "warning",
 		showConfirmButton: true,
 		showCancelButton: true,
-		confirmButtonColor: '#3085d6',
+		confirmButtonColor: '#198754',
 		cancelButtonColor: '#d33',
-		confirmButtonText: 'Aceptar',
+		confirmButtonText: 'Confirmar',
 		cancelButtonText: "Cancelar",
-		customClass: {
-			actions: 'reverse-button'
-		}
+		reverseButtons: true,
+		title: `<span style="color: #333;">${titulo}</span>`
 	}).then(result => {
 		if (result.isConfirmed) {
 			formulario.submit();

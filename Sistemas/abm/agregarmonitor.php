@@ -32,10 +32,11 @@ $row = $resultado->fetch_assoc();
                         icon: "success",
                         showConfirmButton: true,
                         showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -68,10 +69,11 @@ $row = $resultado->fetch_assoc();
                         icon: "error",
                         showConfirmButton: true,
                         showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -104,8 +106,8 @@ $row = $resultado->fetch_assoc();
                         errorMessage: "No ingresó Nro. de serie."
                     },
                     {
-                        selector: "#usu",
-                        errorMessage: "No seleccionó usuario."
+                        selector: "#equip",
+                        errorMessage: "No seleccionó equipo."
                     },
                     {
                         selector: "#mod",
@@ -160,10 +162,11 @@ $row = $resultado->fetch_assoc();
                         icon: "warning",
                         showConfirmButton: true,
                         showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -192,7 +195,7 @@ $row = $resultado->fetch_assoc();
 			<h1>AGREGAR MONITOR</h1>
 		</div>
 		<div id="principalu" style="width: auto" class="container-fluid" data-aos="zoom-in">
-						<form method="POST" action="guardarmodmonitor.php">
+						<form method="POST" action="./agregados.php">
 
                         <div class="form-group row">
                             <label id="lblForm"class="col-form-label col-xl col-lg">TIPO MONITOR:</label>
@@ -220,16 +223,23 @@ $row = $resultado->fetch_assoc();
                         </div>
 
                         <div class="form-group row">
-                            <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
-                            <select id="usu" name="usu" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL QUE SE ASIGNA:</label>
+                            <select id="equip" name="equip" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                             <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                             <?php
-                            include("../particular/conexion.php");
-                            $consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 ORDER BY NOMBRE ASC";
+                            $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
+                            FROM wsusuario w
+                            INNER JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO
+                            INNER JOIN inventario i ON i.ID_WS = w.ID_WS
+                            WHERE u.ID_ESTADOUSUARIO = 1 
+                            AND w.ID_WS <> 0 
+                            AND w.ID_USUARIO <> 277
+                            AND i.ID_TIPOWS = 1 /* PC */
+                            ORDER BY u.NOMBRE ASC";
                             $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                             ?>
                             <?php foreach ($ejecutar as $opciones): ?> 
-                            <option value= <?php echo $opciones['ID_USUARIO'] ?>><?php echo $opciones['NOMBRE']?></option>
+                                <option value= <?php echo $opciones['ID_WS'] ?>><?php echo $opciones['NOMBRE']." - ".$opciones['SERIEG']?></option>
                             <?php endforeach?>
                             </select>
                         </div>    
@@ -301,7 +311,7 @@ $row = $resultado->fetch_assoc();
                         <?php 
 							if ($row['ID_PERFIL'] != 5) {
 								echo '<div class="form-group row justify-content-end">
-                                        <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" type="button" value="GUARDAR" class="button">
+                                        <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" type="button" name="agregarMonitor" value="GUARDAR" class="button">
                                     </div> ';
 							}
 						?>

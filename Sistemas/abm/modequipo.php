@@ -433,7 +433,7 @@ function ConsultarIncidente($no_tic)
                   ?>
                 
 
-                <form method="POST" action="../abm/guardarmodequipo2.php">
+                <form method="POST" action="./modificados.php">
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">ID:</label>
                         <input type="text" class="id" name="id" value="<?php echo $consulta['ID_WS']?>" style="background-color:transparent;" readonly>
@@ -1567,7 +1567,7 @@ function ConsultarIncidente($no_tic)
 </div>
 
                     <div class="form-group row justify-content-end">
-					    <input style="width:20%" onClick="enviarFormulario(this.form)"class="btn btn-success" type="button" value="MODIFICAR" class="button">
+					    <input style="width:20%" onClick="enviarFormulario(this.form)"class="btn btn-success" type="button" name="modEquipo" value="MODIFICAR" class="button">
 				    </div>
                 </form>
 	    </div>
@@ -1590,10 +1590,11 @@ function ConsultarIncidente($no_tic)
                         icon: "warning",
                         showConfirmButton: true,
                         showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }

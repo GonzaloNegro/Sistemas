@@ -31,40 +31,98 @@ function ConsultarIncidente($no_tic)
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
 	<script>
-		function enviar_formulario(formulario){
-        	Swal.fire({
-                        title: "Esta seguro de modificar esta marca?",
-                        icon: "warning",
-                        showConfirmButton: true,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            formulario.submit()
-
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
+        function validar_formulario(){
 			
-		}
-				
+			var fieldsToValidate = [
+                    {
+                        selector: "#marca",
+                        errorMessage: "No ingresó nombre de la marca."
+                    }
+                ];
+
+                var isValid = true;
+
+				$.each(fieldsToValidate, function(index, field) {
+                    var element = $(field.selector);
+                    if (element.val()== "" || element.val()== null) {
+                      Swal.fire({
+                      title: field.errorMessage,
+                      icon: "warning",
+                      showConfirmButton: true,
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Aceptar',
+                      cancelButtonText: "Cancelar",
+                      customClass:{
+                      actions: 'reverse-button'
+                        }
+                      })
+                        isValid = false;
+                        return false;
+                    }
+                });
+
+				if (isValid ==true) {
+								
+								return true;
+							}
+							else{
+								return false;
+							}
+		};
+
+        function enviar_formulario(formulario) {
+    if (validar_formulario()) {
+        const campos = [
+            { id: 'marca', label: 'Nombre de la marca' }
+        ];
+
+        let mensajeHtml = "<ul style='text-align:left;'>"; 
+
+        campos.forEach(campo => {
+            const elemento = document.getElementById(campo.id);
+            let valor = campo.esSelect
+                ? elemento.options[elemento.selectedIndex].text
+                : elemento.value;
+
+            if (valor.trim() !== "") {
+                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor}</li>`;
+            }
+        });
+
+        mensajeHtml += "</ul>";
+
+		mensajeHtml += `<br>
+		<strong style="color:red;">Recuerde que cambiar datos de la marca afectará los registros.</strong>`;
+
+
+        mensajeHtml += '<br><strong>¿Está seguro de modificar esta marca?</strong><br><br>';
+
+        Swal.fire({
+            title: "Datos modificados de la marca",
+            icon: "warning",
+            html: mensajeHtml,
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonColor: '#198754',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: "Cancelar",
+            reverseButtons: true,
+            customClass: {
+                actions: 'reverse-button'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                formulario.submit();
+            }
+        });
+    }
+}
 		</script>
 <main>
     <div id="reporteEst">   
@@ -85,11 +143,11 @@ function ConsultarIncidente($no_tic)
                     <!--//////////////////////////////////AREA//////////////////////////////////////-->
 					<div class="form-group row">
                 	<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DE LA MARCA: </label>
-                	<input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="marca" value="<?php echo $consulta[1]?>">
+                	<input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="marca" id="marca" value="<?php echo $consulta[1]?>">
 				</div>
                     <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
 				<div class="form-group row justify-content-end">
-					<input onClick="enviar_formulario(this.form)" style="width:20%" class="btn btn-success" type="button" value="MODIFICAR" name="modMarca" class="button">
+					<input onclick="enviar_formulario(this.form)" style="width:20%" class="btn btn-success" type="button" value="MODIFICAR" name="modMarca" class="button">
 				</div>	
             </form>
 	    </div>

@@ -373,7 +373,12 @@ $row = $resultado->fetch_assoc();
         </thead>
 
         <?php $cantidadTotal = 0;?>
-        <?php While($rowSql = $sql->fetch_assoc()) {
+        <?php 
+        function mostrarValor($valor) {
+            return ($valor === null || $valor === '' || strtolower($valor) === 'null' || strtolower($valor) === 'undefined') ? '-' : $valor;
+        }
+        
+        While($rowSql = $sql->fetch_assoc()) {
             $cantidadTotal++;
             
             $estado = $rowSql['ESTADO']; // Este valor lo obtienes de tu lógica o de una variable
@@ -395,17 +400,17 @@ $row = $resultado->fetch_assoc();
             if($usuario==NULL){
                 $usuario = "NO ASIGNADO";
             }                
-
+           
             echo "
                 <tr>
-                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['MODELO']."</h4></td>
-                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$usuario."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:14px; text-align: left; margin-left: 5px;'>".$rowSql['AREA']."</h4></td>
-                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['REPA']."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['SERIEG']."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['TIPO']."</h4></td>
-                    <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".$rowSql['MARCA']."</h4></td>
-                    <td><h4 class='wrap2' style='font-size:14px; text-align: left;margin-left:5px;color:".$color."'>$flecha ".$rowSql['ESTADO']."</h4></td>
+                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['MODELO'])."</h4></td>
+                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($usuario)."</h4></td>
+                <td><h4 class='wrap2' style='font-size:14px; text-align: left; margin-left: 5px;'>".mostrarValor($rowSql['AREA'])."</h4></td>
+                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['REPA'])."</h4></td>
+                <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['SERIEG'])."</h4></td>
+                <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['TIPO'])."</h4></td>
+                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['MARCA'])."</h4></td>
+                <td><h4 class='wrap2' style='font-size:14px; text-align: left;margin-left:5px;color:".$color."'>".$flecha." ".mostrarValor($rowSql['ESTADO'])."</h4></td>
                     
                     <td class='text-center text-nowrap'>
                         <span style='display: inline-flex; padding: 3px;'>
