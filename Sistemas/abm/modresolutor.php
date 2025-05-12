@@ -113,33 +113,92 @@ function ConsultarIncidente($no_tic)
 								return false;
 							}
 		};
-		function enviar_formulario(formulario){
-        	if (validar_formulario()) {
-				// alert("Todo OK");
-				Swal.fire({
-                        title: "Esta seguro de modificar este resolutor?",
-                        icon: "warning",
-                        showConfirmButton: true,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            formulario.submit()
+
+        const perfilActual = "<?php echo $consulta['ID_PERFIL']; ?>";
+        let perfilCambiado = false;
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const selectPerfil = document.getElementById("perfil");
+
+            // Cuando se cambia el perfil, se valida si es distinto al perfil actual
+            selectPerfil.addEventListener("change", function() {
+                const nuevoPerfil = this.value;
+                perfilCambiado = nuevoPerfil !== perfilActual;
+            });
+        });
+
+function enviar_formulario(formulario) {
+    if (validar_formulario()) {
+        let mensajeHtml = "";  // Mensaje que se mostrará en el modal
+        let datosValidos = false;  // Variable para verificar si hay datos válidos
+
+        // Campos a validar
+        const campos = [
+            { id: 'nombre_resolutor', label: 'Nombre del resolutor' },
+            { id: 'cuil', label: 'Cuil'},
+            { id: 'correo', label: 'Correo'},
+            { id: 'telefono', label: 'Teléfono' },
+            { id: 'tipo', label: 'Tipo', esSelect: true },
+            { id: 'perfil', label: 'Perfil', esSelect: true},
+        ];
+
+        // Validación de los campos
+        let mensajeCampos = "<ul style='text-align:left;'>";
+        campos.forEach(campo => {
+            const elemento = document.getElementById(campo.id);
+            let valor = campo.esSelect
+                ? elemento.options[elemento.selectedIndex].text
+                : elemento.value;
+
+            if (valor.trim() !== "") {
+                mensajeCampos += `<li><strong>${campo.label}:</strong> ${valor}</li>`;
+                datosValidos = true;  // Si hay datos válidos, establecemos la bandera
+            }
+        });
+        mensajeCampos += "</ul>";
+
+        // Si no hay datos válidos, mostramos un mensaje de advertencia
+        if (!datosValidos) {
+    mensajeHtml = "<p style='color:red;'>No hay datos para guardar. Por favor, complete los campos requeridos.</p>";
+} else {
+    mensajeHtml = mensajeCampos; // Primero los campos válidos
+
+    if (perfilCambiado) {
+        // Concatenar el mensaje de advertencia del perfil
+        mensajeHtml += `
+            <br><strong style="color:red;">El perfil seleccionado podría no tener acceso a algunas funciones o pantallas disponibles para otros perfiles.</strong>`;
+    }
+
+    // Finalmente, el mensaje de confirmación
+    mensajeHtml += '<br><strong>¿Está seguro de modificar este resolutor?</strong><br><br>';
+}
 
 
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
-			}
-		}
+        // Mostramos el modal de confirmación con SweetAlert
+        Swal.fire({
+            title: "Datos modificados del resolutor",
+            icon: "warning",
+            html: mensajeHtml,
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonColor: '#198754',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: "Cancelar",
+            reverseButtons: true,
+            customClass: {
+                actions: 'reverse-button'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                formulario.submit();  // Si el usuario confirma, se envía el formulario
+            }
+        });
+    }
+}
+
+</script>
+
 				
 		</script>
 
@@ -223,7 +282,7 @@ function ConsultarIncidente($no_tic)
                     </select>
                 </div>
                 <div class="form-group row">
-                    <label id="lblForm"class="col-form-label col-xl col-lg">PERFIL:</label>
+                    <label class="col-form-label col-xl col-lg">PERFIL:</label>
                             <select id="perfil" name="perfil" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                             <option selected value="101"><?php echo $tp?></option>
                             <?php
@@ -239,7 +298,7 @@ function ConsultarIncidente($no_tic)
                 <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
                 <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
                 <div class="row justify-content-end">
-                    <input onClick="enviar_formulario(this.form)" style="width: 20%;" class="btn btn-success" type="button" name="modResolutor" value="MODIFICAR">
+                    <input onclick="enviar_formulario(this.form)" style="width: 20%;" class="btn btn-success" type="button" name="modResolutor" value="MODIFICAR">
                 </div>
             </form>
 	    </div>

@@ -89,10 +89,11 @@ if(!isset($_SESSION['cuil']))
                         icon: "success",
                         showConfirmButton: true,
                         showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -205,13 +206,17 @@ if(!isset($_SESSION['cuil']))
                                 interno = fila.INTERNO;
                             }
 
+                            function mostrarValor(valor) {
+                                return (valor === null || valor === undefined || valor === '') ? '-' : valor;
+                            }
+
                             tabla.append(`<tr>
-                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.NOMBRE}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>${fila.CUIL}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.AREA}</h4></td>
-                                <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${fila.REPA}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>${interno}</h4></td>
-                                <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;color:${color};'>${flecha} ${estado}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.NOMBRE)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>${mostrarValor(fila.CUIL)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.AREA)}</h4></td>
+                            <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.REPA)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>${mostrarValor(interno)}</h4></td>
+                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;color:${color};'>${flecha} ${mostrarValor(estado)}</h4></td>
                                 <td class='text-center text-nowrap'>
                                     <span style='display: inline-flex; padding: 3px;'>
                                         <a style='padding: 3px; cursor: pointer;'

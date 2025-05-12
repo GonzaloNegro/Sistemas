@@ -13,18 +13,18 @@ $row = $resultado->fetch_assoc();
 
 $consulta = ConsultarIncidente($_GET['no']);
 
+
 function ConsultarIncidente($no_tic)
 {	
-	$datos_base=mysqli_connect('localhost', 'root', '', 'incidentes') or exit('No se puede conectar con la base de datos');
-	$sentencia =  "SELECT * FROM pvideo WHERE ID_PVIDEO='".$no_tic."'";
-	$resultado = mysqli_query($datos_base, $sentencia);
-	$filas = mysqli_fetch_assoc($resultado);
-	return [
-		$filas['ID_PVIDEO'],/*0*/
-		$filas['ID_MEMORIA'],/*1*/
-        $filas['ID_MODELO'],/*2*/
-        $filas['ID_TIPOMEM'],/*3*/
-	];
+    $datos_base = mysqli_connect('localhost', 'root', '', 'incidentes') 
+        or exit('No se puede conectar con la base de datos');
+
+	$no_tic = mysqli_real_escape_string($datos_base, $no_tic);
+
+    $sentencia = "SELECT * FROM pvideo WHERE ID_PVIDEO='" . $no_tic . "'";
+    $resultado = mysqli_query($datos_base, $sentencia);
+
+    return mysqli_fetch_assoc($resultado);
 }
 ?>
 <!DOCTYPE html>
@@ -39,38 +39,108 @@ function ConsultarIncidente($no_tic)
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
-	<style>
-			body{
-				background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
     <script>
-        function enviar_formulario(formulario){
-        	Swal.fire({
-                        title: "Esta seguro de modificar esta placa de video?",
-                        icon: "warning",
-                        showConfirmButton: true,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            formulario.submit()
+        function validar_formulario(){
+			
+			var fieldsToValidate = [
+                    {
+                        selector: "#memoria",
+                        errorMessage: "No ingresó la memoria de la placa de video."
+                    },
+                    {
+                        selector: "#modelo",
+                        errorMessage: "No seleccionó modelo."
+                    },
+                    {
+                        selector: "#tipo",
+                        errorMessage: "No seleccionó tipo."
+                    }
+                ];
 
+                var isValid = true;
 
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
+				$.each(fieldsToValidate, function(index, field) {
+                    var element = $(field.selector);
+                    if (element.val()== "" || element.val()== null) {
+                      Swal.fire({
+                      title: field.errorMessage,
+                      icon: "warning",
+                      showConfirmButton: true,
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Aceptar',
+                      cancelButtonText: "Cancelar",
+                      customClass:{
+                      actions: 'reverse-button'
                         }
-                    })
-			}
+                      })
+                        isValid = false;
+                        return false;
+                    }
+                });
+
+				if (isValid ==true) {
+								
+								return true;
+							}
+							else{
+								return false;
+							}
+		};
+
+        function enviar_formulario(formulario) {
+        if (validar_formulario()) {
+
+        const campos = [
+            { id: 'memoria', label: 'Memoria de la placa de video', esSelect: true  },
+            { id: 'modelo', label: 'Modelo', esSelect: true },
+            { id: 'tipo', label: 'Tipo de memoria', esSelect: true }
+        ];
+
+        let mensajeHtml = "<ul style='text-align:left;'>"; 
+
+        campos.forEach(campo => {
+            const elemento = document.getElementById(campo.id);
+            let valor = campo.esSelect
+                ? elemento.options[elemento.selectedIndex].text
+                : elemento.value;
+
+            if (valor.trim() !== "") {
+                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor}</li>`;
+            }
+        });
+
+        mensajeHtml += "</ul>";
+
+        mensajeHtml += `<br>
+            <strong style="color:red;">Recuerde que cambiar los datos de la placa de video afectará los registros.</strong>`;
+
+        mensajeHtml += '<br><strong>¿Está seguro de modificar esta placa de video?</strong><br><br>';
+
+        Swal.fire({
+            title: "Datos modificados de la placa de video",
+            icon: "warning",
+            html: mensajeHtml,
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonColor: '#198754',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: "Cancelar",
+            reverseButtons: true,
+            customClass: {
+                actions: 'reverse-button'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                formulario.submit();
+            }
+        });
+    }
+}
     </script>
 <main>
     <div id="reporteEst">   
@@ -84,17 +154,17 @@ function ConsultarIncidente($no_tic)
 		</div>
 		<div id="principalu" style="width: 97%" class="container-fluid" data-aos="zoom-in">
             <?php 
-            $sent= "SELECT MEMORIA FROM memoria WHERE ID_MEMORIA = $consulta[1]";
+            $sent= "SELECT MEMORIA FROM memoria WHERE ID_MEMORIA = $consulta[ID_MEMORIA]";
             $resultado = $datos_base->query($sent);
             $row = $resultado->fetch_assoc();
             $mem = $row['MEMORIA'];
 
-            $sent= "SELECT MODELO FROM modelo WHERE ID_MODELO = $consulta[2]";
+            $sent= "SELECT MODELO FROM modelo WHERE ID_MODELO = $consulta[ID_MODELO]";
             $resultado = $datos_base->query($sent);
             $row = $resultado->fetch_assoc();
             $mod = $row['MODELO'];
 
-            $sent= "SELECT TIPOMEM FROM tipomem WHERE ID_TIPOMEM = $consulta[3]";
+            $sent= "SELECT TIPOMEM FROM tipomem WHERE ID_TIPOMEM = $consulta[ID_TIPOMEM]";
             $resultado = $datos_base->query($sent);
             $row = $resultado->fetch_assoc();
             $tipo = $row['TIPOMEM'];
@@ -102,12 +172,12 @@ function ConsultarIncidente($no_tic)
             <form method="POST" action="./modificados.php">
                 <div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">ID: </label>
-                    <input type="text" class="id" name="id" style="background-color:transparent;" value="<?php echo $consulta[0]?>" readonly>
+                    <input type="text" class="id" name="id" style="background-color:transparent;" value="<?php echo $consulta['ID_PVIDEO']?>" readonly>
                 </div>
                 
                 <div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">MEMORIA:</label>
-                    <select name="memoria" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                    <select name="memoria" id="memoria" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                     <option selected value="100"><?php echo $mem?></option>
                     <?php
                     $consulta= "SELECT * FROM memoria ORDER BY MEMORIA ASC";
@@ -121,7 +191,7 @@ function ConsultarIncidente($no_tic)
 
                 <div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
-                    <select name="modelo" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                    <select name="modelo" id="modelo" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                     <option selected value="200"><?php echo $mod?></option>
                     <?php
                     $consulta= "SELECT * FROM modelo WHERE ID_TIPOP = 15 ORDER BY MODELO ASC";
@@ -135,7 +205,7 @@ function ConsultarIncidente($no_tic)
 
                 <div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">TIPO MEMORIA:</label>
-                    <select name="tipo" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                    <select name="tipo" style="text-transform:uppercase" id="tipo" class="form-control col-xl col-lg" required>
                     <option selected value="300"><?php echo $tipo?></option>
                     <?php
                     $consulta= "SELECT * FROM tipomem ORDER BY TIPOMEM ASC";
@@ -148,7 +218,7 @@ function ConsultarIncidente($no_tic)
                 </div>
 
             <div class="row justify-content-end">
-                <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" type="button" name="modPlacav" value="MODIFICAR" >
+                <input onclick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" type="button" name="modPlacav" value="MODIFICAR" >
             </div>
         </form>
 		</div>

@@ -16,14 +16,14 @@ $row = $resultado->fetch_assoc();
 <head>
 	<title>AGREGAR EQUIPO</title><meta charset="utf-8">
 	<link rel="icon" href="../imagenes/logoInfraestructura.png">
-	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 
 <script>
 	$(document).ready(function(){
@@ -47,192 +47,365 @@ $row = $resultado->fetch_assoc();
 	</style>
 </head>
 <body>
+<script type="text/javascript">
+			function ok(){
+				// swal(  {title: "Equipo cargado correctamente",
+				// 		icon: "success",
+				// 		showConfirmButton: true,
+				// 		showCancelButton: false,
+				// 		})
+				// 		.then((confirmar) => {
+				// 		if (confirmar) {
+				// 			window.location.href='abmequipos.php';
+				// 		}
+				// 		}
+				// 		);
+        Swal.fire({
+                        title: "Equipo cargado correctamente.",
+                        icon: "success",
+                        showConfirmButton: true,
+                        showCancelButton: false,
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
+                        customClass:{
+                            actions: 'reverse-button'
+                        }
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                          window.location.href='../consulta/inventario.php';
+
+
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
+			}	
+			</script>
+<script type="text/javascript">
+			function no(){
+				// swal(  {title: "El equipo ya está registrado",
+				// 		icon: "error",
+				// 		})
+				// 		.then((confirmar) => {
+				// 		if (confirmar) {
+				// 			window.location.href='agregarequipo.php';
+				// 		}
+				// 		}
+				// 		);
+        Swal.fire({
+                        title: "El equipo ya está registrado",
+                        icon: "error",
+                        showConfirmButton: true,
+                        showCancelButton: false,
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
+                        customClass:{
+                            actions: 'reverse-button'
+                        }
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                          window.location.href='agregarequipo.php';
+
+
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
+			}	
+</script>
+<script>
+function validar_formulario() {
+  var valorUsuario = $('#slcusu').val();
+  var valorArea = $('#slcarea').val();
+
+  var fieldsToValidate = [
+    { selector: "#slcest", errorMessage: "No seleccionó estado." },
+    { selector: "#nrows", errorMessage: "El campo Número de WS está vacío." },
+    { selector: "#slcmarca", errorMessage: "No seleccionó marca." },
+    { selector: "#slcso", errorMessage: "No seleccionó Sistema Operativo." },
+    { selector: "#slctipopc", errorMessage: "No seleccionó el tipo de pc." },
+    { selector: "#slcmast", errorMessage: "No selecciono Masterización." },
+    { selector: "#slcrip", errorMessage: "No seleccionó RIP." },
+    { selector: "#slcred", errorMessage: "No seleccionó la red." },
+    { selector: "#slcprocedencia", errorMessage: "No seleccionó procedencia." }
+  ];
+
+  if (valorUsuario != null) {
+    if (valorUsuario == 277 && valorArea == null) {
+      Swal.fire({
+        title: "Por favor seleccione el Área donde se utilizará el equipo",
+        icon: "warning",
+        confirmButtonText: 'Aceptar'
+      });
+      return false;
+    }
+
+    for (let field of fieldsToValidate) {
+      var element = $(field.selector);
+      if (element.val() == "" || element.val() == null) {
+        Swal.fire({
+          title: field.errorMessage,
+          icon: "warning",
+          confirmButtonText: 'Aceptar'
+        });
+        return false;
+      }
+    }
+
+    return true; // ✅ Todo validado correctamente
+
+  } else {
+    Swal.fire({
+      title: "Por favor seleccione el usuario o en su defecto el campo 'Sin Asignar'",
+      icon: "warning",
+      confirmButtonText: 'Aceptar'
+    });
+    return false;
+  }
+}
+;
+
+			function enviar_formulario(formulario, accion) {
+			// Asigna el valor de la acción al campo oculto "accion"
+			formulario.querySelector('#accion').value = accion;
+
+			if (validar_formulario()) {
+				const campos = [
+					{ id: 'slcest', label: 'Estado', esSelect: true },
+					{ id: 'nrows', label: 'N°WS' },
+					{ id: 'slcmarca', label: 'Marca', esSelect: true },
+					{ id: 'slcso', label: 'N°Serie' },
+					{ id: 'slctipopc', label: 'Tipo pc', esSelect: true },
+					{ id: 'slcmast', label: 'Masterización', esSelect: true },
+					{ id: 'slcrip', label: 'Reserva de IP', esSelect: true },
+					{ id: 'slcred', label: 'Red', esSelect: true },
+					{ id: 'slcprocedencia', label: 'Procedencia', esSelect: true }
+				];
+
+				confirmarEnvioFormulario(
+					formulario,
+					campos,
+					"Datos del equipo",
+					"¿Está seguro de guardar este equipo?"
+				);
+			}
+		}
+    </script>
+<main>
     <div id="reporteEst">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-            <a id="vlv"  href="abmequipos.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
+            <a id="vlv"  href="../consulta/inventario.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
         </div>					
     </div>
 
 	<section id="Inicio">
-		<div id="titulo" style="margin:20px;">
+		<div id="titulo">
 			<h1>AGREGAR EQUIPO</h1>
 		</div>
-		<div id="principale" style="width: auto" class="container-fluid" data-aos="zoom-in">
-						<form method="POST" id="form_carga" action="guardarmodequipo.php">
+		<div id="principalu" style="width: auto" class="container-fluid" data-aos="zoom-in">
+						<form method="POST" id="form_carga" action="./agregados.php">
                         
-                        <div class="form-group row" style="margin: 10px; padding:10px;">
-                            <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
-                                <select name="usu" id="slcusu" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-                                    <option  value="0" selected disabled="">-SELECCIONE UNA-</option>
-                                    <?php
-                                    include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 ORDER BY NOMBRE ASC";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_USUARIO'] ?>><?php echo $opciones['NOMBRE']?></option>
-                                    <?php endforeach?>
-                                </select>
-                                <label  name="txtarea" id="lblarea" class="col-form-label col-xl col-lg" style="display: none; font-size: 23px;">AREA:</label>
-                                <select name="area" id="slcarea" style="text-transform:uppercase; display:none;" class="form-control col-xl col-lg">
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                                    <?php
-                                    include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM area  ORDER BY AREA ASC";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_AREA'] ?>><?php echo $opciones['AREA']?></option>
-                                    <?php endforeach?>
-                                </select>
-                                
+                        <div class="form-group row">
+                            <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:<span style="color:red;">*</span></label>
+                            <select name="usu" id="slcusu" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <option  value="0" selected disabled="">-SELECCIONE UNA-</option>
+                            <?php
+                            include("../particular/conexion.php");
+                            $consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1  ORDER BY NOMBRE ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value= <?php echo $opciones['ID_USUARIO'] ?>><?php echo $opciones['NOMBRE']?></option>
+                            <?php endforeach?>
+                            </select>
                         </div>
 
-                        <div class="form-group row" style="margin: 10px; padding:10px;">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
-                                <select name="est" id="slcest" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                                    <?php
-                                    include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM estado_ws  ORDER BY ESTADO ASC";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_ESTADOWS'] ?>><?php echo $opciones['ESTADO']?></option>
-                                    <?php endforeach?>
-                                </select>
+                        <div class="form-group row">
+                            <label  name="txtarea" id="lblarea" class="col-form-label col-xl col-lg" style="display: none; font-size: 23px;">AREA:</label>
+                            <select name="area" id="slcarea" style="text-transform:uppercase; display:none;" class="form-control col-xl col-lg">
+                            <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                            <?php
+                            include("../particular/conexion.php");
+                            $consulta= "SELECT * FROM area  ORDER BY AREA ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value= <?php echo $opciones['ID_AREA'] ?>><?php echo $opciones['AREA']?></option>
+                            <?php endforeach?>
+                            </select>
+                        </div>
 
-                                <label id="lblForm" class="col-form-label col-xl col-lg">N° WS:</label> 
-							              <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="serieg" id="nrows" placeholder="WSXXXXX" required>
+                        <div class="form-group row">
+                            <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:<span style="color:red;">*</span></label>
+                            <select name="est" id="slcest" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                            <?php
+                            include("../particular/conexion.php");
+                            $consulta= "SELECT * FROM estado_ws  ORDER BY ESTADO ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value= <?php echo $opciones['ID_ESTADOWS'] ?>><?php echo $opciones['ESTADO']?></option>
+                            <?php endforeach?>
+                            </select>
+                        </div>
+
+                        <div class="form-group row">
+                            <label id="lblForm" class="col-form-label col-xl col-lg">N° WS:<span style="color:red;">*</span></label> 
+                            <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="serieg" id="nrows" placeholder="WSXXXXX" required>
                         </div>
 
 
-                        <div class="form-group row" style="margin: 10px; padding:10px;">
-                            
-                            <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE:</label>
+                        <div class="form-group row">
+                            <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE:<span style="color:red;">*</span></label>
                             <input class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="serialn" id="serial" required>
-                            <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
+                        </div>
+
+                        <div class="form-group row">
+                            <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:<span style="color:red;">*</span></label>
                             <select name="marca" id="slcmarca" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                                    <?php
-                                    include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
-                                    <?php endforeach?>
-                                </select>
+                            <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                            <?php
+                            include("../particular/conexion.php");
+                            $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
+                            <?php endforeach?>
+                            </select>
                         </div>    
 
 
-                        <div class="form-group row" style="margin: 10px; padding:10px;">
-                        
-                                <label id="lblForm"class="col-form-label col-xl col-lg">S.O:</label>
-                                <select name="so" id="slcso" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                                    <?php
-                                    include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM so ORDER BY SIST_OP ASC";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_SO'] ?>><?php echo $opciones['SIST_OP']?></option>
-                                    <?php endforeach?>
-                                </select>
-                                <label id="lblForm" class="col-form-label col-xl col-lg">TIPO PC:</label> 
-							              <select name="tippc" id="slctipopc" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                                    <?php
-                                    include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM tipows ORDER BY TIPOWS ASC";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_TIPOWS'] ?>><?php echo $opciones['TIPOWS']?></option>
-                                    <?php endforeach?>
-                                </select>
+                        <div class="form-group row">
+                            <label id="lblForm"class="col-form-label col-xl col-lg">S.O:<span style="color:red;">*</span></label>
+                            <select name="so" id="slcso" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                            <?php
+                            include("../particular/conexion.php");
+                            $consulta= "SELECT * FROM so ORDER BY SIST_OP ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value= <?php echo $opciones['ID_SO'] ?>><?php echo $opciones['SIST_OP']?></option>
+                            <?php endforeach?>
+                            </select>
+                        </div>
 
 
+                        <div class="form-group row">
+                            <label id="lblForm" class="col-form-label col-xl col-lg">TIPO PC:<span style="color:red;">*</span></label> 
+                            <select name="tippc" id="slctipopc" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                            <?php
+                            include("../particular/conexion.php");
+                            $consulta= "SELECT * FROM tipows ORDER BY TIPOWS ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value= <?php echo $opciones['ID_TIPOWS'] ?>><?php echo $opciones['TIPOWS']?></option>
+                            <?php endforeach?>
+                            </select>
                         </div> 
 
 
-                        <div class="form-group row" style="margin: 10px; padding:10px;">
-                            <label id="lblForm"class="col-form-label col-xl col-lg">MASTERIZACIÓN:</label>
+                        <div class="form-group row">
+                            <label id="lblForm"class="col-form-label col-xl col-lg">MASTERIZACIÓN:<span style="color:red;">*</span></label>
                             <select name="masterizacion" id="slcmast" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                 <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                 <option value="SI">SI</option>
                                 <option value="NO">NO</option>
                             </select>
+                        </div>
+
+
+                        <div class="form-group row">
                             <label id="lblForm" class="col-form-label col-xl col-lg">MAC:</label> 
-							              <input class="form-control col-xl col-lg" name="mac" placeholder="N° MAC">
-                            </div> 
+                            <input class="form-control col-xl col-lg" name="mac" placeholder="N° MAC">
+                        </div> 
 
 
-                        <div class="form-group row" style="margin: 10px; padding:10px;">
-                            
-                            <label id="lblForm"class="col-form-label col-xl col-lg">RIP:</label>
+                        <div class="form-group row">
+                            <label id="lblForm"class="col-form-label col-xl col-lg">RIP:<span style="color:red;">*</span></label>
                             <select name="reserva" id="slcrip" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                 <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                 <option value="SI">SI</option>
                                 <option value="NO">NO</option>
                             </select>
+                        </div>
+
+                        <div class="form-group row">
                             <label id="lblForm" class="col-form-label col-xl col-lg">IP:</label> 
-						              	<input class="form-control col-xl col-lg" name="ip" placeholder="N° IP">
+                            <input class="form-control col-xl col-lg" name="ip" placeholder="N° IP">
                         </div>
 
 
-                        <div class="form-group row" style="margin: 10px; padding:10px;">
-                            
+                        <div class="form-group row">
                             <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:</label>
-                            <select name="prov" id="slcprov" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                                    <?php
-                                    include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
-                                    <?php endforeach?>
-                                </select>
-                                <label id="lblForm" class="col-form-label col-xl col-lg">FACTURA:</label> 
-							              <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="fac" placeholder="N° Factura">
+                            <select name="prov" id="slcprov" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                            <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                            <?php
+                            include("../particular/conexion.php");
+                            $consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
+                            <?php endforeach?>
+                            </select>
+                        </div>
 
+                        <div class="form-group row">
+                            <label id="lblForm" class="col-form-label col-xl col-lg">FACTURA:</label> 
+                            <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="fac" placeholder="N° Factura">
                         </div>
 
 
-                        <div class="form-group row" style="margin: 10px; padding:10px;">
+                        <div class="form-group row">
                             <label id="lblForm" class="col-form-label col-xl col-lg">GARANTIA:</label> 
-							              <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar" placeholder="TIEMPO DE GARANTIA">
-                            <label id="lblForm"class="col-form-label col-xl col-lg">RED:</label>
+                            <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar" placeholder="TIEMPO DE GARANTIA">
+                        </div>
+
+                        <div class="form-group row">
+                            <label id="lblForm"class="col-form-label col-xl col-lg">RED:<span style="color:red;">*</span></label>
                             <select name="red" id="slcred" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                                    <?php
-                                    include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM red ORDER BY RED ASC";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_RED'] ?>><?php echo $opciones['RED']?></option>
-                                    <?php endforeach?>
-                                </select>
+                            <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                            <?php
+                            include("../particular/conexion.php");
+                            $consulta= "SELECT * FROM red ORDER BY RED ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value= <?php echo $opciones['ID_RED'] ?>><?php echo $opciones['RED']?></option>
+                            <?php endforeach?>
+                            </select>
+                        </div>
+
+                        <div class="form-group row">
+                            <label id="lblForm"class="col-form-label col-xl col-lg">PROCEDENCIA:<span style="color:red;">*</span></label>
+                            <select name="procedencia" id="slcprocedencia" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                            <?php
+                            include("../particular/conexion.php");
+                            $consulta= "SELECT * FROM procedencia ORDER BY PROCEDENCIA ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value= <?php echo $opciones['ID_PROCEDENCIA'] ?>><?php echo $opciones['PROCEDENCIA']?></option>
+                            <?php endforeach?>
+                            </select>
                         </div>
 
 
-                        <div class="form-group row" style="margin: 10px; padding:10px;">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">PROCEDENCIA:</label>
-                            <select name="procedencia" id="slcprocedencia" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-                                    <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                                    <?php
-                                    include("../particular/conexion.php");
-                                    $consulta= "SELECT * FROM procedencia ORDER BY PROCEDENCIA ASC";
-                                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                                    ?>
-                                    <?php foreach ($ejecutar as $opciones): ?> 
-                                    <option value= <?php echo $opciones['ID_PROCEDENCIA'] ?>><?php echo $opciones['PROCEDENCIA']?></option>
-                                    <?php endforeach?>
-                                </select>
+                        <div class="form-group row">
                             <label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓN:</label> 
                               <textarea class="form-control col-xl col-lg" name="obs" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3" ></textarea>
                         </div>
@@ -255,8 +428,8 @@ $row = $resultado->fetch_assoc();
     <div id="flush-collapsepm" class="accordion-collapse collapse" aria-labelledby="flush-headingpm" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">PLACA:</label> 
-							    <select name="ppla" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+          <label id="lblForm" class="col-form-label col-xl col-lg">PLACA:<span style="color:red;">*</span></label> 
+							    <select name="ppla" id="ppla" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -327,8 +500,8 @@ $row = $resultado->fetch_assoc();
     <div id="flush-collapsemi" class="accordion-collapse collapse" aria-labelledby="flush-headingmi" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MICRO:</label> 
-							    <select name="mmic" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+          <label id="lblForm" class="col-form-label col-xl col-lg">MICRO:<span style="color:red;">*</span></label> 
+							    <select name="mmic" id="mmic" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1201,163 +1374,147 @@ $row = $resultado->fetch_assoc();
     </div>
   </div>
 </div>
+<!-- Campo oculto para la acción -->
+<input type="hidden" id="accion" name="accion" value="agregarEquipo">
 <?php 
     if ($row['ID_PERFIL'] != 5) {
-      echo '<div class="form-group row justify-content-end" style="margin: 10px; padding:10px;">
-                  <input onClick="validar()" style="width: 20%;"class="col-3 button" id="btnform" type="button" value="GUARDAR EQUIPO" class="button">
+      echo '<div class="form-group row justify-content-end">
+                  <input type="button" name="agregarEquipo" value="GUARDAR" class="btn btn-success" onclick="enviar_formulario(this.form, \'agregarEquipo\')" style="width: 20%;" id="btnform">
             </div>';
     }
 ?>
                             
 					</form>
+                    <?php
+						if(isset($_GET['ok'])){
+							?>
+							<script>ok();</script>
+							<?php			
+						}
+						if(isset($_GET['no'])){
+							?>
+							<script>no();</script>
+							<?php			
+						}
+					?>
 		</div>
 	</section>
-	<footer></footer>
-  
-  <script>
-        function validar(){
-        // var formulario = document.getElementById('form_carga');
-        var valorUsuario = $('#slcusu').val();
-        var valorArea = $('#slcarea').val()
-        var fieldsToValidate = [
-                    {
-                        selector: "#slcest",
-                        errorMessage: "No seleccionó estado."
-                    },
-                    {
-                        selector: "#nrows",
-                        errorMessage: "El campo Número de WS está vacío."
-                    },
-                    {
-                        selector: "#slcmarca",
-                        errorMessage: "No seleccionó marca."
-                    },
-                    {
-                        selector: "#slcso",
-                        errorMessage: "No seleccionó Sistema Operativo."
-                    },
-                    {
-                        selector: "#slctipopc",
-                        errorMessage: "No seleccionó el tipo de pc."
-                    },
-                    {
-                        selector: "#slcmast",
-                        errorMessage: "No selecciono Masterización."
-                    },
-                    {
-                        selector: "#slcrip",
-                        errorMessage: "No seleccionó RIP."
-                    },
-                    {
-                        selector: "#slcprov",
-                        errorMessage: "No seleccionó proveedor."
-                    },
-                    {
-                        selector: "#slcred",
-                        errorMessage: "No seleccionó la red."
-                    },
-                    {
-                        selector: "#slcprocedencia",
-                        errorMessage: "No seleccionó procedencia."
-                    }
-                ];
+    <div id="recuadroCampos">
+        <p><u>Campos obligatorios</u>:</p>
+        <ul>
+            <li id="campo-usu" class="rojo">Usuario <i class="fa-solid fa-xmark"></i></li>
+            <li id="campo-est" class="rojo">Estado <i class="fa-solid fa-xmark"></i></li>
+            <li id="campo-nrows" class="rojo">N° Ws <i class="fa-solid fa-xmark"></i></li>
+            <li id="campo-serial" class="rojo">N° Serie <i class="fa-solid fa-xmark"></i></li>
+            <li id="campo-slcmarca" class="rojo">Marca <i class="fa-solid fa-xmark"></i></li>
+            <li id="campo-slcso" class="rojo">Sist. Operativo <i class="fa-solid fa-xmark"></i></li>
+            <li id="campo-slctipopc" class="rojo">Tipo PC <i class="fa-solid fa-xmark"></i></li>
+            <li id="campo-slcmast" class="rojo">Masterización <i class="fa-solid fa-xmark"></i></li>
+            <li id="campo-slcrip" class="rojo">Reserva IP <i class="fa-solid fa-xmark"></i></li>
+            <li id="campo-slcred" class="rojo">Red <i class="fa-solid fa-xmark"></i></li>
+            <li id="campo-slcprocedencia" class="rojo">Procedencia <i class="fa-solid fa-xmark"></i></li>
+            <li id="campo-ppla" class="rojo">Placa Madre <i class="fa-solid fa-xmark"></i></li>
+            <li id="campo-mmic" class="rojo">Micro <i class="fa-solid fa-xmark"></i></li>
+        </ul>
+    </div>
 
-                var isValid = true;
-        if (valorUsuario!=null) {
-          if (valorUsuario==277 && valorArea==null) {
-            Swal.fire({
-            title: "Por favor seleccione el Area donde se utilizará el equipo",
-            icon: "warning",
-            showConfirmButton: true,
-            showCancelButton: false,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Aceptar',
-            cancelButtonText: "Cancelar",
-            customClass:{
-                actions: 'reverse-button'
-            }
-        })
-          }
-          else{
+<!-- ✅ Estilos y Script al final del body -->
+<style>
+  #recuadroCampos {
+    position: fixed;
+    bottom: 20px;
+    right: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 15px;
+    font-size: 14px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    z-index: 9999;
+    border-radius:5px;
+  }
+    #recuadroCampos p{
+        font-size: 14px;
+    }
 
-                $.each(fieldsToValidate, function(index, field) {
-                    var element = $(field.selector);
-                    if (element.val()== "" || element.val()== null) {
-                      Swal.fire({
-                      title: field.errorMessage,
-                      icon: "warning",
-                      showConfirmButton: true,
-                      showCancelButton: false,
-                      confirmButtonColor: '#3085d6',
-                      cancelButtonColor: '#d33',
-                      confirmButtonText: 'Aceptar',
-                      cancelButtonText: "Cancelar",
-                      customClass:{
-                      actions: 'reverse-button'
-                        }
-                      })
-                        isValid = false;
-                        return false;
-                    }
-                    // alert(element.val());
-                });
+  #recuadroCampos ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  #recuadroCampos li {
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  .rojo {
+    color: red;
+  }
+  .verde {
+    color: green;
+  }
+</style>
 
-                if (isValid) {
-                  // alert("Esta validado");
-                  enviarFormulario();
-                }
-          }
-          
-        } else {
-          Swal.fire({
-            title: "Por favor seleccione el usuario o en su defecto el campo 'Sin Asignar'",
-            icon: "warning",
-            showConfirmButton: true,
-            showCancelButton: false,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Aceptar',
-            cancelButtonText: "Cancelar",
-            customClass:{
-                actions: 'reverse-button'
-            }
-        })
-        }
-        
+<script>
+function actualizarEstadoCampo(idCampo, idLabel) {
+  const campo = document.getElementById(idCampo);
+  const valor = campo.value;
+  const label = document.getElementById(idLabel);
+  const icono = label.querySelector("i");
+
+  // Para selects: validar que no esté vacía y que no sea la primera opción
+  const esSelect = campo.tagName === "SELECT";
+  const esValido = esSelect
+    ? valor.trim() !== "" && campo.selectedIndex !== 0
+    : valor.trim() !== "";
+
+  label.classList.toggle("verde", esValido);
+  label.classList.toggle("rojo", !esValido);
+  icono.classList.toggle("fa-check", esValido);
+  icono.classList.toggle("fa-xmark", !esValido);
+}
+
+// Lista de campos: [idCampo, idLabel]
+const campos = [
+  ["slcusu", "campo-usu"],
+  ["slcest", "campo-est"],
+  ["nrows", "campo-nrows"],
+  ["serial", "campo-serial"],
+  ["slcmarca", "campo-slcmarca"],
+  ["slcso", "campo-slcso"],
+  ["slctipopc", "campo-slctipopc"],
+  ["slcmast", "campo-slcmast"],
+  ["slcrip", "campo-slcrip"],
+  ["slcred", "campo-slcred"],
+  ["slcprocedencia", "campo-slcprocedencia"],
+  ["ppla", "campo-ppla"],
+  ["mmic", "campo-mmic"]
+];
+
+// Asignar listeners y verificar al cargar
+window.addEventListener("DOMContentLoaded", () => {
+  campos.forEach(([idCampo, idLabel]) => {
+    const campo = document.getElementById(idCampo);
+    if (campo) {
+      campo.addEventListener("change", () => actualizarEstadoCampo(idCampo, idLabel));
+      campo.addEventListener("input", () => actualizarEstadoCampo(idCampo, idLabel)); // para inputs
+      actualizarEstadoCampo(idCampo, idLabel);
+    }
+  });
+});
+</script>
 
 
-};
-    </script>
-    </script>
-    <script>
-      function enviarFormulario(){
-        var formulario = document.getElementById('form_carga');
-        Swal.fire({
-                        title: "Esta seguro de guardar este equipo?",
-                        icon: "warning",
-                        showConfirmButton: true,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            formulario.submit();
-                            
-
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
-      }
-    </script>
+    </main>
+	<footer>
+		<div class="footer">
+			<div class="container-fluid">
+				<div class="row">
+					<img src="../imagenes/cba-logo.png" class="img-fluid">
+				</div>
+			</div>
+		</div>
+    </footer>
+    <script src="../js/confirmacionForm.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
     <script>
@@ -1425,10 +1582,11 @@ $row = $resultado->fetch_assoc();
                         icon: "warning",
                         showConfirmButton: true,
                         showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }

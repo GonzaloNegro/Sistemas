@@ -97,10 +97,33 @@ function ConsultarIncidente($no_tic)
             $resultado = $datos_base->query($sent);
             $row = $resultado->fetch_assoc();
             $tip = $row['TIPO'];
+            
+            $sent= "SELECT ep.ID_WS, i.SERIEG
+            FROM equipo_periferico ep
+            LEFT JOIN inventario i ON i.ID_WS = ep.ID_WS
+            WHERE ep.ID_PERI = $consulta[ID_PERI]
+            ORDER BY ep.ID_EQUIPO_PERIFERICO DESC
+            LIMIT 1";
+            $resultado = $datos_base->query($sent);
+            $row = $resultado->fetch_assoc();
+            $ws = $row['ID_WS'];
+            $equip = $row['SERIEG'];
+
+            $sent= "SELECT u.NOMBRE
+            FROM wsusuario ws
+            LEFT JOIN usuarios u ON u.ID_USUARIO = ws.ID_USUARIO
+            WHERE ws.ID_WS = $ws
+            ORDER BY ws.ID_WSUSU DESC
+            LIMIT 1";
+            $resultado = $datos_base->query($sent);
+            $row = $resultado->fetch_assoc();
+            $usu = $row['NOMBRE'];
+            
             ?>
+
             <!--  CONSULTA DE DATOS -->
 
-            <form method="POST" action="guardarmodmonitor2.php">
+            <form method="POST" action="./modificados.php">
                 <div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">ID:</label>
                     <input type="text" class="id" name="id" value="<?php echo $consulta['ID_PERI']?>" style="background-color:transparent;" readonly>
@@ -205,23 +228,31 @@ function ConsultarIncidente($no_tic)
                 </div>
 
                 <div class="form-group row">
-                    <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO: </label>
-                    <select name="usu" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
-                    <option selected value="600"><?php echo $usu?></option>
+                    <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL CUÁL ESTÁ ASIGNADO: </label>
+                    <select name="equip" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                    <option selected value="600"><?php echo $usu." - ".$equip?></option>
                     <?php
                     include("../particular/conexion.php");
-                    $consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 ORDER BY NOMBRE ASC";
+                    $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
+                    FROM wsusuario w
+                    INNER JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO
+                    INNER JOIN inventario i ON i.ID_WS = w.ID_WS
+                    WHERE u.ID_ESTADOUSUARIO = 1 
+                    AND w.ID_WS <> 0 
+                    AND w.ID_USUARIO <> 277
+                    AND i.ID_TIPOWS = 1 /* PC */
+                    ORDER BY u.NOMBRE ASC";
                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                     ?>
                     <?php foreach ($ejecutar as $opciones): ?> 
-                    <option value= <?php echo $opciones['ID_USUARIO'] ?>><?php echo $opciones['NOMBRE']?></option>
+                        <option value= <?php echo $opciones['ID_WS'] ?>><?php echo $opciones['NOMBRE']." - ".$opciones['SERIEG']?></option>
                     <?php endforeach?>
                     </select>
                 </div>
                 <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
                 <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
                 <div class="form-group row justify-content-end">
-                    <input onClick="enviar_formulario(this.form)" style="width:20%"class="btn btn-success" type="button" value="MODIFICAR" class="button">
+                    <input onClick="enviar_formulario(this.form)" style="width:20%"class="btn btn-success" type="button" name="modMonitores" value="MODIFICAR" class="button">
                 </div>
             </form>
         </div>

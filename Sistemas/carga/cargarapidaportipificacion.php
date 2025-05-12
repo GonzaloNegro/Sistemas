@@ -60,10 +60,11 @@ $row = $resultado->fetch_assoc();
                         icon: "success",
                         showConfirmButton: true,
                         showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -315,10 +316,11 @@ $row = $resultado->fetch_assoc();
                         icon: "warning",
                         showConfirmButton: true,
                         showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -341,6 +343,7 @@ $row = $resultado->fetch_assoc();
 		</script>
 
 <?php include('../layout/incidente.php'); ?>
+<main>
 	<section id="Inicio" class="container-fluid">
 		<div id="titulo" style="margin-top:20px; margin-bottom:20px;" data-aos="zoom-in">
 			<h1>CARGA RÁPIDA POR TIPIFICACIÓN</h1>
@@ -559,6 +562,7 @@ $row = $resultado->fetch_assoc();
 			?>
 		</div>
 	</section>
+</main>
 	<footer>
 		<div class="footer">
 			<div class="container-fluid">

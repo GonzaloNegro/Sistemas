@@ -40,10 +40,11 @@ $row = $resultado->fetch_assoc();
                         icon: "success",
                         showConfirmButton: true,
                         showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -66,10 +67,11 @@ $row = $resultado->fetch_assoc();
                         icon: "error",
                         showConfirmButton: true,
                         showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -138,33 +140,25 @@ $row = $resultado->fetch_assoc();
 								return false;
 							}
 		};
-		function enviar_formulario(formulario){
-        	if (validar_formulario()) {
-				// alert("Todo OK");
-				Swal.fire({
-                        title: "Esta seguro de guardar este plan?",
-                        icon: "warning",
-                        showConfirmButton: true,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            formulario.submit()
+		function enviar_formulario(formulario, accion) {
+			// Asigna el valor de la acción al campo oculto "accion"
+			formulario.querySelector('#accion').value = accion;
+			if (validar_formulario()) {
+				const campos = [
+					{ id: 'nombrePlan', label: 'Nombre del Plan' },
+					{ id: 'proveedor', label: 'Proveedor', esSelect: true },
+					{ id: 'plan', label: 'Plan', esSelect: true },
+					{ id: 'monto', label: 'Monto' }
+				];
 
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
+				confirmarEnvioFormulario(
+					formulario,
+					campos,
+					"Datos del Plan",
+					"¿Está seguro de guardar este Plan?"
+				);
 			}
-		}		
+		}	
 		</script>
 <main>
 	<div id="reporteEst">   
@@ -218,10 +212,12 @@ $row = $resultado->fetch_assoc();
 					<label id="lblForm"class="col-form-label col-xl col-lg">MONTO SIN DESCUENTO:</label>
 					<input id="monto" style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" name="monto" step="0.01" placeholder="10,00" required>
 				</div>
+				<!-- Campo oculto para la acción -->
+				<input type="hidden" id="accion" name="accion" value="agregarPlan">
                 <?php 
                     if ($row['ID_PERFIL'] != 5) {
                         echo '<div class="form-group row justify-content-end">
-                            <input onClick="enviar_formulario(this.form)" style="width:20%"class="btn btn-success" name="agregarPlan" type="button" value="GUARDAR" class="button">
+                            <input onclick="enviar_formulario(this.form, \'agregarPlan\')" style="width:20%"class="btn btn-success" name="agregarPlan" type="button" value="GUARDAR" class="button">
                         </div>	';
                     }
                 ?>
@@ -256,6 +252,7 @@ $row = $resultado->fetch_assoc();
 			</div>
 		</div>
 	</footer>
+    <script src="../js/confirmacionForm.js"></script>
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>

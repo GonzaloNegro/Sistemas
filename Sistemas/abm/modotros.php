@@ -7,31 +7,14 @@ $consulta = ConsultarIncidente($_GET['no']);
 
 function ConsultarIncidente($no_tic)
 {	
-	$datos_base=mysqli_connect('localhost', 'root', '', 'incidentes') or exit('No se puede conectar con la base de datos');
-	$sentencia =  "SELECT * FROM periferico WHERE ID_PERI='".$no_tic."'";
-	$resultado = mysqli_query($datos_base, $sentencia);
-	$filas = mysqli_fetch_assoc($resultado);
-	return [
-		$filas['ID_PERI'],/*0*/
-		$filas['ID_TIPOP'],/*1*/
-		$filas['NOMBREP'],/*2*/
-        $filas['SERIEG'],/*3*/
-        $filas['ID_MARCA'],/*4*/
-        $filas['SERIE'],/*5*/
-        $filas['ID_PROCEDENCIA'],/*6*/
-        $filas['OBSERVACION'],/*7*/
-        $filas['TIPOP'],/*8*/
-        $filas['MAC'],/*9*/
-        $filas['RIP'],/*10*/
-        $filas['IP'],/*11*/
-        $filas['ID_PROVEEDOR'],/*12*/
-        $filas['FACTURA'],/*13*/
-        $filas['ID_AREA'],/*14*/
-        $filas['ID_USUARIO'],/*15*/
-        $filas['GARANTIA'],/*16*/
-        $filas['ID_ESTADOWS'],/*17*/
-        $filas['ID_MODELO'],/*18*/
-	];
+    $datos_base = mysqli_connect('localhost', 'root', '', 'incidentes') or exit('No se puede conectar con la base de datos');
+
+	$no_tic = mysqli_real_escape_string($datos_base, $no_tic);
+
+    $sentencia = "SELECT * FROM periferico WHERE ID_PERI='" . $no_tic . "'";
+    $resultado = mysqli_query($datos_base, $sentencia);
+
+    return mysqli_fetch_assoc($resultado);
 }
 
 ?>
@@ -57,10 +40,11 @@ function ConsultarIncidente($no_tic)
                         icon: "warning",
                         showConfirmButton: true,
                         showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -90,82 +74,84 @@ function ConsultarIncidente($no_tic)
 
                         <!--  CONSULTA DE DATOS -->
                         <?php 
-                        $sent= "SELECT MARCA FROM marcas WHERE ID_MARCA = $consulta[4]";
+                        $sent= "SELECT MARCA FROM marcas WHERE ID_MARCA = $consulta[ID_MARCA]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
                         $mar = $row['MARCA'];
 
-                        $sent= "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR = $consulta[12]";
+                        $sent= "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR = $consulta[ID_PROVEEDOR]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
                         $prov = $row['PROVEEDOR'];
 
+                        $sent= "SELECT ep.ID_WS, i.SERIEG
+                        FROM equipo_periferico ep
+                        LEFT JOIN inventario i ON i.ID_WS = ep.ID_WS
+                        WHERE ep.ID_PERI = $consulta[ID_PERI]
+                        ORDER BY ep.ID_EQUIPO_PERIFERICO DESC
+                        LIMIT 1";
+                        $resultado = $datos_base->query($sent);
+                        $row = $resultado->fetch_assoc();
+                        $ws = $row['ID_WS'];
+                        $equip = $row['SERIEG'];
+
                         $sent= "SELECT u.NOMBRE
-                        FROM usuarios u
-                        JOIN (
-                            SELECT wu.ID_USUARIO
-                            FROM wsusuario wu
-                            WHERE wu.ID_WS = (
-                                SELECT ep.ID_WS
-                                FROM equipo_periferico ep
-                                WHERE ep.ID_PERI = $consulta[0]
-                                ORDER BY ep.ID_EQUIPO_PERIFERICO DESC
-                                LIMIT 1
-                            )
-                            ORDER BY wu.ID_WSUSU DESC
-                            LIMIT 1
-                        ) AS ult_usu ON ult_usu.ID_USUARIO = u.ID_USUARIO";
+                        FROM wsusuario ws
+                        LEFT JOIN usuarios u ON u.ID_USUARIO = ws.ID_USUARIO
+                        WHERE ws.ID_WS = $ws
+                        ORDER BY ws.ID_WSUSU DESC
+                        LIMIT 1";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
                         $usu = $row['NOMBRE'];
 
-                        $sent= "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = $consulta[17]";
+                        $sent= "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = $consulta[ID_ESTADOWS]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
                         $est = $row['ESTADO'];
 
-                        $sent= "SELECT MODELO FROM modelo WHERE ID_MODELO = $consulta[18]";
+                        $sent= "SELECT MODELO FROM modelo WHERE ID_MODELO = $consulta[ID_MODELO]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
                         $mod = $row['MODELO'];
 
-                        $sent= "SELECT TIPO FROM tipop WHERE ID_TIPOP = $consulta[1]";
+                        $sent= "SELECT TIPO FROM tipop WHERE ID_TIPOP = $consulta[ID_TIPOP]";
                         $resultado = $datos_base->query($sent);
                         $row = $resultado->fetch_assoc();
                         $tip = $row['TIPO'];?>
                         <!--  CONSULTA DE DATOS -->
 
 
-                <form method="POST" action="guardarmodperiferico2.php">
+                <form method="POST" action="./modificados.php">
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">ID:</label>
-                        <input type="text" class="id" name="id" value="<?php echo $consulta[0]?>" style="background-color:transparent;" readonly>
+                        <input type="text" class="id" name="id" value="<?php echo $consulta['ID_PERI']?>" style="background-color:transparent;" readonly>
                     </div>
                 
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">N° GOBIERNO: </label>
-                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="serieg" value="<?php echo $consulta[3]?>">
+                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="serieg" value="<?php echo $consulta['SERIEG']?>">
                     </div>
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE: </label>
-                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="serie" value="<?php echo $consulta[5]?>">
+                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="serie" value="<?php echo $consulta['SERIE']?>">
                     </div>
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">FACTURA: </label>
-                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="fac" value="<?php echo $consulta[13]?>">
+                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="fac" value="<?php echo $consulta['FACTURA']?>">
                     </div>
                     
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIÓN: </label>
-                        <textarea style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" name="obs" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3" value="<?php echo $consulta[7]?>"></textarea>
+                        <textarea style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" name="obs" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3"><?php echo $consulta['OBSERVACION']?></textarea>
                     </div>
 
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA: </label>
-                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="garantia" value="<?php echo $consulta[16]?>">
+                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="garantia" value="<?php echo $consulta['GARANTIA']?>">
                     </div>
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">MARCA: </label>
@@ -243,23 +229,30 @@ function ConsultarIncidente($no_tic)
                     </div>
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO: </label>
-                        <select name="usu" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
-                        <option selected value="600"><?php echo $usu?></option>
+                        <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL CUÁL ESTÁ ASIGNADO: </label>
+                        <select name="equip" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                        <option selected value="600"><?php echo $usu." - ".$equip?></option>
                         <?php
-                        include("../particular/conexion.php");
-                        $consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 ORDER BY NOMBRE ASC";
+                        $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
+                        FROM wsusuario w
+                        INNER JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO
+                        INNER JOIN inventario i ON i.ID_WS = w.ID_WS
+                        WHERE u.ID_ESTADOUSUARIO = 1 
+                        AND w.ID_WS <> 0 
+                        AND w.ID_USUARIO <> 277
+                        AND i.ID_TIPOWS = 1 /* PC */
+                        ORDER BY u.NOMBRE ASC";
                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                         ?>
                         <?php foreach ($ejecutar as $opciones): ?> 
-                        <option value= <?php echo $opciones['ID_USUARIO'] ?>><?php echo $opciones['NOMBRE']?></option>
+                        <option value= <?php echo $opciones['ID_WS'] ?>><?php echo $opciones['NOMBRE']." - ".$opciones['SERIEG']?></option>
                         <?php endforeach?>
                         </select>
                     </div>
                     <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
                     <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
                     <div class="form-group row justify-content-end">
-					    <input onClick="enviar_formulario(this.form)" style="width:20%"class="btn btn-success" type="button" value="MODIFICAR" class="button">
+					    <input onClick="enviar_formulario(this.form)" style="width:20%"class="btn btn-success" type="button" name="modOtros" value="MODIFICAR" class="button">
 				    </div>
                 </form>
 	    </div>

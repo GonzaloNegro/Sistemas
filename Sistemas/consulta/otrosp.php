@@ -488,9 +488,131 @@ $row = $resultado->fetch_assoc();
                 <th><p>MAS DETALLES</p></th>
             </tr>
         </thead>
-        <tbody id="tabla-datos"></tbody>
-        </table>  
+
+        <?php $cantidadTotal = 0;?>
+        <?php 
+        function mostrarValor($valor) {
+            return ($valor === null || $valor === '' || strtolower($valor) === 'null' || strtolower($valor) === 'undefined') ? '-' : $valor;
+        }
         
+        While($rowSql = $sql->fetch_assoc()) {
+            $cantidadTotal++;
+            
+            $estado = $rowSql['ESTADO']; // Este valor lo obtienes de tu lógica o de una variable
+
+            $color = 'blue';
+            $flecha = "<i class='fa-solid fa-box-open' style='color:blue'></i>";
+            if ($estado === 'EN USO') {
+                $color = 'green';
+                $flecha = "<i class='fa-solid fa-arrow-up' style='color:green'></i>";
+            } elseif ($estado === 'BAJA') {
+                $color = 'red';
+                $flecha = "<i class='fa-solid fa-arrow-down' style='color:red'></i>";
+            }
+
+            if($rowSql['SERIEG'] === "" || $rowSql['SERIEG'] === "0"){
+                $rowSql['SERIEG'] = "-";
+            }
+            $usuario = $rowSql['NOMBRE'];
+            if($usuario==NULL){
+                $usuario = "NO ASIGNADO";
+            }                
+           
+            echo "
+                <tr>
+                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['MODELO'])."</h4></td>
+                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($usuario)."</h4></td>
+                <td><h4 class='wrap2' style='font-size:14px; text-align: left; margin-left: 5px;'>".mostrarValor($rowSql['AREA'])."</h4></td>
+                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['REPA'])."</h4></td>
+                <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['SERIEG'])."</h4></td>
+                <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['TIPO'])."</h4></td>
+                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['MARCA'])."</h4></td>
+                <td><h4 class='wrap2' style='font-size:14px; text-align: left;margin-left:5px;color:".$color."'>".$flecha." ".mostrarValor($rowSql['ESTADO'])."</h4></td>
+                    
+                    <td class='text-center text-nowrap'>
+                        <span style='display: inline-flex; padding: 3px;'>
+                            <a style='padding: 3px; cursor: pointer;'
+                            data-bs-toggle='modal'
+                            data-bs-target='#modalInfo'
+                            onclick='cargar_informacion(" . $rowSql['ID_PERI'] . ")'
+                            class='mod'>
+                                <i class='fa-solid fa-circle-info fa-2xl'
+                                style='color: #0d6efd'
+                                data-bs-toggle='popover'
+                                data-bs-trigger='hover focus'
+                                data-bs-placement='top'></i>
+                            </a>
+                        </span>
+
+                        <span style='display: inline-flex;padding:3px;'>
+                            <a style='padding:3px;' 
+                            href='../abm/modotros.php?no=" . $rowSql['ID_PERI'] . "' 
+                            target='_blank' 
+                            class='mod' 
+                            data-bs-toggle='popover' 
+                            data-bs-trigger='hover' 
+                            data-bs-placement='top' 
+                            data-bs-content='Editar'>
+                            <i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i>
+                            </a>
+                        </span>
+                    </td>
+                
+                </tr>
+            ";
+        }?>
+        <div class=filtrado> <?php
+        if($_POST['buscar'] != "" AND $_POST['buscar'] != " " OR $_POST['area'] != "" OR $_POST['reparticion'] != "" OR $_POST['marca'] != "" OR $_POST['tipo'] != "" OR $_POST['estado'] != ""){
+            echo "
+            <h2>Filtrado por:</h2>
+                <ul>";
+                    if($_POST['buscar'] != "" AND $_POST['buscar'] != " "){
+                        echo "<li><u>USU/MOD/SERIEG</u>: ".$_POST['buscar']."</li>";
+                    }
+                    if($_POST['area'] != ""){
+                        $sql = "SELECT AREA FROM area WHERE ID_AREA = $_POST[area]";
+                        $resultado = $datos_base->query($sql);
+                        $row = $resultado->fetch_assoc();
+                        $area = $row['AREA'];
+                        echo "<li><u>ÁREA</u>: ".$area."</li>";
+                    }
+                    if($_POST['reparticion'] != ""){
+                        $sql = "SELECT REPA FROM reparticion WHERE ID_REPA = $_POST[reparticion]";
+                        $resultado = $datos_base->query($sql);
+                        $row = $resultado->fetch_assoc();
+                        $repa = $row['REPA'];
+                        echo "<li><u>REPARTICIÓN</u>: ".$repa."</li>";
+                    }
+                    if($_POST['marca'] != ""){
+                        $sql = "SELECT MARCA FROM marcas WHERE ID_MARCA = $_POST[marca]";
+                        $resultado = $datos_base->query($sql);
+                        $row = $resultado->fetch_assoc();
+                        $marca = $row['MARCA'];
+                        echo "<li><u>MARCA</u>: ".$marca."</li>";
+                    }
+                    if($_POST['tipo'] != ""){
+                        $sql = "SELECT TIPO FROM tipop WHERE ID_TIPOP = $_POST[tipo]";
+                        $resultado = $datos_base->query($sql);
+                        $row = $resultado->fetch_assoc();
+                        $tipo = $row['TIPO'];
+                        echo "<li><u>TIPO</u>: ".$tipo."</li>";
+                    }
+                    if($_POST['estado'] != ""){
+                        $sql = "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = $_POST[estado]";
+                        $resultado = $datos_base->query($sql);
+                        $row = $resultado->fetch_assoc();
+                        $estadows = $row['ESTADO'];
+                        echo "<li><u>ESTADO</u>: ".$estadows."</li>";
+                    }
+                    echo"
+                </ul>
+                <h2>Cantidad de registros: </h2>
+                <ul><li>$cantidadTotal</li></ul>
+            </div>
+            ";
+                }
+        echo '</table>';
+        ?>
 		</div>
         <form id="formu" action="../exportar/ExcelOtrosPeri.php" method="POST">
             <input type="text" id="excel" name="sql" class="valorPeque" readonly="readonly" value="<?php echo $query;?>">

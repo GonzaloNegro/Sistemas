@@ -73,10 +73,11 @@ $cu = $row['CUIL'];
                         icon: "success",
                         showConfirmButton: true,
                         showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -232,16 +233,20 @@ $cu = $row['CUIL'];
                                         </a>
                                     </span></td>`;
 
+                            function mostrarValor(valor) {
+                                return (valor === null || valor === undefined || valor === '') ? '-' : valor;
+                            }
+
                             tabla.append(`<tr>
-                                <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>#${fila.ID_TICKET}</h4></td>
-                                <td style='min-width:100px;'><h4 style='font-size:14px; text-align:center;'>${fila.FECHA_INICIO}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.NOMBRE}</h4></td>
-                                <td><h4 style='max-width: 180px;font-size:14px; text-align:left;margin-left: 5px;'>${fila.AREA} -<br/>${fila.REPA}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;text-transform:uppercase;'>${fila.DESCRIPCION}</h4></td>
-                                <td style='min-width:150px;'><h4 style='font-size:14px; color:${color};text-align:left;margin-left: 5px;'>${flecha} ${estado}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:center;'>${fechaSolucion}</h4></td>
-                                <td><h4 style='font-size:14px; text-align:left;margin-right: 5px;'>${fila.RESOLUTOR}</h4></td>
-                                ${boton}
+                            <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>#${mostrarValor(fila.ID_TICKET)}</h4></td>
+                            <td style='min-width:100px;'><h4 style='font-size:14px; text-align:center;'>${mostrarValor(fila.FECHA_INICIO)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.NOMBRE)}</h4></td>
+                            <td><h4 style='max-width: 180px;font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.AREA)} -<br/>${mostrarValor(fila.REPA)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;text-transform:uppercase;'>${mostrarValor(fila.DESCRIPCION)}</h4></td>
+                            <td style='min-width:150px;'><h4 style='font-size:14px; color:${color};text-align:left;margin-left: 5px;'>${mostrarValor(flecha)} ${mostrarValor(estado)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:center;'>${mostrarValor(fechaSolucion)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-right: 5px;'>${mostrarValor(fila.RESOLUTOR)}</h4></td>
+                            ${boton}
                             </tr>`);
                         });
                         document.querySelectorAll('[data-bs-toggle="popover"]').forEach(el => {

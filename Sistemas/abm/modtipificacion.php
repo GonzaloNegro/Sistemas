@@ -34,62 +34,98 @@ function ConsultarIncidente($no_tic)
 	<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
 <script>
-	function validar(){
-		var tipificacion = $('#tipificacion').val();
-		if (tipificacion == ""|| tipificacion == null) {
-			Swal.fire({
-            	title: "Por favor ingrese la tipificación.",
-            	icon: "warning",
-            	showConfirmButton: true,
-            	showCancelButton: false,
-            	confirmButtonColor: '#3085d6',
-            	cancelButtonColor: '#d33',
-            	confirmButtonText: 'Aceptar',
-            	cancelButtonText: "Cancelar",
-            	customClass:{
-                	actions: 'reverse-button'
-            		}
-				})
-				return false;
+        function validar_formulario(){
+			
+			var fieldsToValidate = [
+                    {
+                        selector: "#tipificacion",
+                        errorMessage: "No ingresó nombre de la Tipificación."
+                    }
+                ];
+
+                var isValid = true;
+
+				$.each(fieldsToValidate, function(index, field) {
+                    var element = $(field.selector);
+                    if (element.val()== "" || element.val()== null) {
+                      Swal.fire({
+                      title: field.errorMessage,
+                      icon: "warning",
+                      showConfirmButton: true,
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Aceptar',
+                      cancelButtonText: "Cancelar",
+                      customClass:{
+                      actions: 'reverse-button'
+                        }
+                      })
+                        isValid = false;
+                        return false;
+                    }
+                });
+
+				if (isValid ==true) {				
+					return true;
 				}
-		else{
-				return true;
-					}
+				else{
+					return false;
 				}
+		};
 </script>
 <script>
-	function enviar_formulario(form){
-		if (validar()) {
-			Swal.fire({
-            title: "Esta seguro de modificar esta tipificación?",
+	function enviar_formulario(formulario) {
+    if (validar_formulario()) {
+
+        const campos = [
+            { id: 'tipificacion', label: 'Nombre de la Tipificación' }
+        ];
+
+        let mensajeHtml = "<ul style='text-align:left;'>"; 
+
+        campos.forEach(campo => {
+            const elemento = document.getElementById(campo.id);
+            let valor = campo.esSelect
+                ? elemento.options[elemento.selectedIndex].text
+                : elemento.value;
+
+            if (valor.trim() !== "") {
+                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor}</li>`;
+            }
+        });
+
+        mensajeHtml += "</ul>";
+
+		mensajeHtml += `<br>
+		<strong style="color:red;">Recuerde que cambiar el nombre de la Tipificación afectará los registros</strong>`;
+
+        mensajeHtml += '<br><strong>¿Está seguro de modificar esta Tipificación?</strong><br><br>';
+
+        Swal.fire({
+            title: "Datos modificados de la Tipificación",
             icon: "warning",
+            html: mensajeHtml,
             showConfirmButton: true,
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#198754',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Aceptar',
+            confirmButtonText: 'Confirmar',
             cancelButtonText: "Cancelar",
-            customClass:{
+            reverseButtons: true,
+            customClass: {
                 actions: 'reverse-button'
-                }
-            })
-            .then((result) => {
-                if (result.isConfirmed) {
-                    form.submit()
-				}
-				else if (result.isDenied) {
-                    Swal.fire('Changes are not saved', '', 'info')
-                    }
-                    })
-				}}
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                formulario.submit();
+            }
+        });
+    }
+}
 			</script>
 
 <main>
@@ -103,7 +139,7 @@ function ConsultarIncidente($no_tic)
 			<h1>MODIFICAR TIPIFICACIÓN</h1>
 		</div>
 		<div id="principalu">
-			<form method="POST" action="./modificados.php">			
+			<form method="POST" name="formulario_carga" action="./modificados.php">			
 				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">TIPIFICACIÓN ID:</label>
 					<input type="text" class="id" name="id" value="<?php echo $consulta['ID_TIPIFICACION']?>" style="background-color:transparent;" readonly>
@@ -113,7 +149,7 @@ function ConsultarIncidente($no_tic)
 					<input id="tipificacion" style="text-transform:uppercase;" class="form-control col-form-label col-xl col-lg"  type="text" name="tip" value="<?php echo $consulta['TIPIFICACION']?>">
 				</div>	
 				<div class="form-group row justify-content-end">
-					<input class="btn btn-success" type="button" style="width:20%" name="modTipificacion" onClick="enviar_formulario(this.form)" value="MODIFICAR" >
+					<input class="btn btn-success" type="button" style="width:20%" name="modTipificacion" onclick="enviar_formulario(this.form)" value="MODIFICAR" >
 				</div>
 			</form>
 	    </div>
@@ -128,6 +164,7 @@ function ConsultarIncidente($no_tic)
 			</div>
 		</div>
 	</footer>
+	<script src="../js/confirmacionForm.js"></script>
 	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>
 </html>

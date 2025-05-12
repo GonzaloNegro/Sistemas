@@ -49,10 +49,11 @@ $row = $resultado->fetch_assoc();
                         icon: "success",
                         showConfirmButton: true,
                         showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -70,24 +71,16 @@ $row = $resultado->fetch_assoc();
 			</script>
 <script type="text/javascript">
 			function no(){
-				// swal(  {title: "La área ingresada ya está registrada",
-				// 		icon: "error",
-				// 		})
-				// 		.then((confirmar) => {
-				// 		if (confirmar) {
-				// 			window.location.href='agregararea.php';
-				// 		}
-				// 		}
-				// 		);
 				Swal.fire({
                         title: "El área ya está registrada",
                         icon: "error",
                         showConfirmButton: true,
                         showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
+						confirmButtonColor: '#198754',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Confirmar',
+						cancelButtonText: "Cancelar",
+						reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -144,15 +137,17 @@ $row = $resultado->fetch_assoc();
                     }
                 });
 
-				if (isValid ==true) {
-								
-								return true;
-							}
-							else{
-								return false;
-							}
+				if (isValid ==true) {				
+					return true;
+				}
+				else{
+					return false;
+				}
 		};
-		function enviar_formulario_area(formulario) {
+		function enviar_formulario(formulario, accion) {
+			// Asigna el valor de la acción al campo oculto "accion"
+			formulario.querySelector('#accion').value = accion;
+
 			if (validar_formulario()) {
 				const campos = [
 					{ id: 'area', label: 'Nombre del área' },
@@ -222,11 +217,13 @@ $row = $resultado->fetch_assoc();
 						<label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIONES:</label>
 						<textarea id="observacion"class="form-control col-xl col-lg" name="obs" placeholder="OBSERVACIONES" style="text-transform:uppercase" rows="3"></textarea>
 					</div>
+					<!-- Campo oculto para la acción -->
+					<input type="hidden" id="accion" name="accion" value="agregarArea">
 					<?php 
 					if ($row['ID_PERFIL'] != 5) {
 						echo '
 							<div class="form-group row justify-content-end">
-								<input onClick="enviar_formulario_area(this.form)" style="width:20%" type="button" name="agregarArea" value="GUARDAR" class="btn btn-success">
+								<input onclick="enviar_formulario(this.form, \'agregarArea\')" style="width:20%" type="button" name="agregarArea" value="GUARDAR" class="btn btn-success">
 							</div>';
 						}
 					?>

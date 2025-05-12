@@ -37,14 +37,14 @@ $row = $resultado->fetch_assoc();
 			var fieldsToValidate = [
                     {
                         selector: "#memoria",
-                        errorMessage: "No ingresó nombre de placa de video."
+                        errorMessage: "No ingresó la memoria de la placa de video."
                     },
                     {
                         selector: "#modelo",
                         errorMessage: "No seleccionó modelo."
                     },
                     {
-                        selector: "#modelo",
+                        selector: "#tipo",
                         errorMessage: "No seleccionó tipo."
                     }
                 ];
@@ -80,31 +80,22 @@ $row = $resultado->fetch_assoc();
 								return false;
 							}
 		};
-		function enviar_formulario(formulario){
-        	if (validar_formulario()) {
-				// alert("Todo OK");
-				Swal.fire({
-                        title: "Esta seguro de guardar esta placa de video?",
-                        icon: "warning",
-                        showConfirmButton: true,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: "Cancelar",
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            formulario.submit()
+        function enviar_formulario(formulario, accion) {
+			// Asigna el valor de la acción al campo oculto "accion"
+			formulario.querySelector('#accion').value = accion;
+			if (validar_formulario()) {
+				const campos = [
+					{ id: 'memoria', label: 'Memoria de la placa de video', esSelect: true  },
+					{ id: 'modelo', label: 'Modelo', esSelect: true },
+					{ id: 'tipo', label: 'Tipo de memoria', esSelect: true }
+				];
 
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
+				confirmarEnvioFormulario(
+					formulario,
+					campos,
+					"Datos de la placa de video",
+					"¿Está seguro de guardar esta placa de video?"
+				);
 			}
 		}
 		</script> 
@@ -167,9 +158,10 @@ $row = $resultado->fetch_assoc();
                     <?php endforeach ?>
                 </select>
             </div>
-
+            <!-- Campo oculto para la acción -->
+            <input type="hidden" id="accion" name="accion" value="agregarPlacav">
             <div class="row justify-content-end">
-                <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" type="button" name="agregarPlacav" value="GUARDAR" >
+                <input onclick="enviar_formulario(this.form, \'agregarPlacav\')" style="width: 20%;"class="btn btn-success" type="button" name="agregarPlacav" value="GUARDAR" >
             </div>
         </form>
 		</div>
@@ -184,6 +176,7 @@ $row = $resultado->fetch_assoc();
 			</div>
 		</div>
 	</footer>
+    <script src="../js/confirmacionForm.js"></script>
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
