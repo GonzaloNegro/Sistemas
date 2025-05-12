@@ -222,17 +222,22 @@ $row = $resultado->fetch_assoc();
                             if(!usuario){
                                 usuario = "NO ASIGNADO";
                             }
+
+                            function mostrarValor(valor) {
+                                return (valor === null || valor === undefined || valor === '') ? '-' : valor;
+                            }
+
                             tabla.append(`<tr>
-                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.NRO}</h4></td>
-                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${usuario}</h4></td>
-                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.REPA}</h4></td>
-                            <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${fila.NOMBREPLAN} - ${fila.PLAN}</h4></td>
-                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.PROVEEDOR}</h4></td>
-                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.MONTO}</h4></td>
-                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.EXTRAS}</h4></td>
-                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.DESCUENTO}</h4></td>
-                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.MONTOTOTAL}</h4></td>
-                            <td><h4 style='color:${color};font-size:14px;text-align:left;margin-left: 5px;'>${flecha} ${fila.ESTADO}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.NRO)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(usuario)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.REPA)}</h4></td>
+                            <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.NOMBREPLAN)} - ${mostrarValor(fila.PLAN)}</h4></td>
+                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.PROVEEDOR)}</h4></td>
+                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.MONTO)}</h4></td>
+                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.EXTRAS)}</h4></td>
+                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.DESCUENTO)}</h4></td>
+                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.MONTOTOTAL)}</h4></td>
+                            <td><h4 style='color:${color};font-size:14px;text-align:left;margin-left: 5px;'>${flecha} ${mostrarValor(fila.ESTADO)}</h4></td>
 
                             <td class='text-center text-nowrap'>
                             <span style='display: inline-flex; padding: 3px;'>
@@ -643,129 +648,8 @@ $row = $resultado->fetch_assoc();
                 <th><p>ACCIÓN</p></th>
             </tr>
         </thead>
-
-        <?php $cantidadTotal = 0;?>
-        <?php 
-        function mostrarValor($valor) {
-            return ($valor === null || $valor === '' || strtolower($valor) === 'null' || strtolower($valor) === 'undefined') ? '-' : $valor;
-        }
-        
-        While($rowSql = $sql->fetch_assoc()) {
-            $cantidadTotal++;
-            $NUMERO=$rowSql['NRO'];
-
-            $color = 'blue';
-            $flecha = "<i class='fa-solid fa-box-open' style='color:blue'></i>";
-            if ($rowSql['ESTADO'] === 'EN USO') {
-                $color = 'green';
-                $flecha = "<i class='fa-solid fa-arrow-up' style='color:green'></i>";
-            } elseif ($rowSql['ESTADO'] === 'BAJA') {
-                $color = 'red';
-                $flecha = "<i class='fa-solid fa-arrow-down' style='color:red'></i>";
-            }
-
-            echo "
-                <tr>
-                <td><h4 style='font-size:14px; text-align: right; margin-right: 5px;'>".mostrarValor($rowSql['NRO'])."</h4></td>
-                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;'>".mostrarValor($rowSql['NOMBRE'])."</h4></td>
-                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['REPA'])."</h4></td>
-                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;'>".mostrarValor($rowSql['NOMBREPLAN'])." - ".mostrarValor($rowSql['PLAN'])."</h4></td>
-                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;'>".mostrarValor($rowSql['PROVEEDOR'])."</h4></td>
-                <td><h4 style='font-size:14px; text-align: right; margin-right: 5px;color:green;font-weight:bold;'>$".mostrarValor($rowSql['MONTO'])."</h4></td>
-                <td><h4 style='font-size:14px; text-align: right; margin-right: 5px;color:red;font-weight:bold;'>$".mostrarValor($rowSql['EXTRAS'])."</h4></td>
-                <td><h4 style='font-size:14px; text-align: right; margin-right: 5px;'>".mostrarValor($rowSql['DESCUENTO'])."%</h4></td>
-                <td><h4 style='font-size:16px; text-align: right; margin-right: 5px;color:green;font-weight:bold;'>$".mostrarValor($rowSql['MONTOTOTAL'])."</h4></td>
-                <td><h4 style='font-size:14px; text-align: left; margin-left: 5px;color:".$color.";'>".$flecha." ".mostrarValor($rowSql['ESTADO'])."</h4></td>
-                
-                <td class='text-center text-nowrap'>
-                    <span style='display: inline-flex; padding: 3px;'>
-                        <a style='padding: 3px; cursor: pointer;'
-                        data-bs-toggle='modal'
-                        data-bs-target='#exampleModal'
-                        onclick='cargar_informacion(" . $rowSql['ID_LINEA'] . ")'
-                        class='mod'>
-                            <i class='fa-solid fa-circle-info fa-2xl'
-                            style='color: #0d6efd'
-                            data-bs-toggle='popover'
-                            data-bs-trigger='hover focus'
-                            data-bs-placement='top'></i>
-                        </a>
-                    </span>
-
-                    <span style='display: inline-flex;padding:3px;'>
-                        <a style='padding:3px;' href='#' 
-                            data-bs-toggle='modal' 
-                            data-bs-target='#exampleModal2' 
-                            onclick='cargar_informacion2(" . $rowSql['ID_LINEA'] . ")'
-                            class='mod'
-                            title='Movimientos Montos'>
-                            <i style='color: #fd7e14' 
-                            class='fa-solid fa-arrow-down-wide-short fa-2xl'></i>
-                        </a>
-                    </span>";
-
-                    if($row['ID_PERFIL'] == 1 || $row['ID_PERFIL'] == 2 || $row['ID_PERFIL'] == 6) 
-                    { echo"
-                    <span style='display: inline-flex;padding:3px;'>
-                        <a style='padding:3px;' 
-                        href='./modificarLinea.php?num=" . $rowSql['ID_LINEA'] . "' 
-                        target='_blank' 
-                        class='mod' 
-                        data-bs-toggle='popover' 
-                        data-bs-trigger='hover' 
-                        data-bs-placement='top' 
-                        data-bs-content='Editar'>
-                        <i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i>
-                        </a>
-                    </span>";
-                    }
-                    ;
-                    echo"
-                </td>
-            </tr>
-            ";}
-
-            ?>
-                <div class="filtrado">
-            <?php
-        if($_POST['buscar'] != "" AND $_POST['buscar'] != " " OR $_POST['reparticion'] != "" OR $_POST['nombreplan'] != "" OR $_POST['estado'] != ""){
-            echo "
-            <h2>Filtrado por:</h2>
-                <ul>";
-                    if($_POST['buscar'] != "" AND $_POST['buscar'] != " "){
-                        echo "<li><u>NÚMERO/USUARIO</u>: ".$_POST['buscar']."</li>";
-                    }
-                    if($_POST['reparticion'] != ""){
-                        $sql = "SELECT REPA FROM reparticion WHERE ID_REPA = $_POST[reparticion]";
-                        $resultado = $datos_base->query($sql);
-                        $row = $resultado->fetch_assoc();
-                        $repa = $row['REPA'];
-                        echo "<li><u>REPARTICIÓN</u>: ".$repa."</li>";
-                    }
-                    if($_POST['nombreplan'] != ""){
-                        $sql = "SELECT NOMBREPLAN FROM nombreplan WHERE ID_NOMBREPLAN = $_POST[nombreplan]";
-                        $resultado = $datos_base->query($sql);
-                        $row = $resultado->fetch_assoc();
-                        $nombreplan = $row['NOMBREPLAN'];
-                        echo "<li><u>NOMBREPLAN</u>: ".$nombreplan."</li>";
-                    }
-                    if($_POST['estado'] != ""){
-                        $sql = "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = $_POST[estado]";
-                        $resultado = $datos_base->query($sql);
-                        $row = $resultado->fetch_assoc();
-                        $estadows = $row['ESTADO'];
-                        echo "<li><u>ESTADO</u>: ".$estadows."</li>";
-                    }
-                    echo"
-                </ul>
-                <h2>Cantidad de registros: </h2>
-                <ul><li>$cantidadTotal</li></ul>
-            </div>
-            ";
-                }
-        echo '</table>';
-        ?>
-
+        <tbody id="tabla-datos"></tbody>
+    </table>
 		</div>
         <form id="formu" action="../exportar/ExcelMontosLineas.php" method="POST">
             <input type="text" id="excel" name="sql" class="valorPeque" readonly="readonly" value="<?php echo $query;?>">

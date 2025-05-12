@@ -166,14 +166,19 @@ $row = $resultado->fetch_assoc();
                             if(!usuario){
                                 usuario = "NO ASIGNADO";
                             }
+                            
+                            function mostrarValor(valor) {
+                                return (valor === null || valor === undefined || valor === '') ? '-' : valor;
+                            }
+
                             tabla.append(`<tr>
-                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.IMEI}</h4></td>
-                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${usuario}</h4></td>
-                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${fila.REPA}</h4></td>
-                            <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${fila.PROCEDENCIA}</h4></td>
-                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.PROVEEDOR}</h4></td>
-                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${fila.MARCA} - ${fila.MODELO}</h4></td>
-                            <td><h4 style='color:${color};font-size:14px;text-align:left;margin-left: 5px;'>${flecha} ${fila.ESTADO}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:right;margin-tight: 5px;'>${mostrarValor(fila.IMEI)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(usuario)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.REPA)}</h4></td>
+                            <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.PROCEDENCIA)}</h4></td>
+                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.PROVEEDOR)}</h4></td>
+                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.MARCA)} - ${mostrarValor(fila.MODELO)}</h4></td>
+                            <td><h4 style='color:${color};font-size:14px;text-align:left;margin-left: 5px;'>${flecha} ${mostrarValor(fila.ESTADO)}</h4></td>
 
                             <td class='text-center text-nowrap'>
                                 <span style="display: inline-flex;padding:3px;">
@@ -478,130 +483,8 @@ $row = $resultado->fetch_assoc();
                 <th><p>ACCIÓN</p></th>
             </tr>
         </thead>
-
-        <?php $cantidadTotal = 0;?>
-        <?php 
-        function mostrarValor($valor) {
-            return ($valor === null || $valor === '' || strtolower($valor) === 'null' || strtolower($valor) === 'undefined') ? '-' : $valor;
-        }
-
-        While($rowSql = $sql->fetch_assoc()) {
-            $cantidadTotal++;
-            $NUMERO=$rowSql['IMEI']; 
-
-            $estado = $rowSql['ESTADO']; // Este valor lo obtienes de tu lógica o de una variable
-            $color = "";
-
-            if ($estado === "EN USO") {
-                $color = "green";  // Si el estado es "en uso", el color será verde
-            } elseif ($estado === "BAJA") {
-                $color = "red";  // Si el estado es "baja", el color será rojo
-            } elseif ($estado === "S/A - STOCK") {
-                $color = "blue";  // Si el estado es "S/A - STOCK", el color será azul
-            }
-
-            $color = 'blue';
-            $flecha = "<i class='fa-solid fa-box-open' style='color:blue'></i>";
-            if ($estado === 'EN USO') {
-                $color = 'green';
-                $flecha = "<i class='fa-solid fa-arrow-up' style='color:green'></i>";
-            } elseif ($estado === 'BAJA') {
-                $color = 'red';
-                $flecha = "<i class='fa-solid fa-arrow-down' style='color:red'></i>";
-            }
-
-            echo "
-                <tr>
-                <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>".mostrarValor($rowSql['IMEI'])."</h4></td>
-                <td><h4 class='wrap2' style='font-size:14px; text-align: left; margin-left: 5px;'>".mostrarValor($rowSql['NOMBRE'])."</h4></td>
-                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['REPA'])."</h4></td>
-                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['PROCEDENCIA'])."</h4></td>
-                <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['PROVEEDOR'])."</h4></td>
-                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['MARCA'])." - ".mostrarValor($rowSql['MODELO'])."</h4></td>
-                <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;color:".$color."'>".$flecha." ".mostrarValor($rowSql['ESTADO'])."</h4></td>
-
-                    <td class='text-center text-nowrap'>
-                        <span style='display: inline-flex; padding: 3px;'>
-                            <a style='padding: 3px; cursor: pointer;'
-                            data-bs-toggle='modal'
-                            data-bs-target='#exampleModal'
-                            onclick='cargar_informacion(" . $rowSql['ID_CELULAR'] . ")'
-                            class='mod'>
-                                <i class='fa-solid fa-circle-info fa-2xl'
-                                style='color: #0d6efd'
-                                data-bs-toggle='popover'
-                                data-bs-trigger='hover focus'
-                                data-bs-placement='top'></i>
-                            </a>
-                        </span>";
-                        
-                        if ($row['ID_PERFIL'] == 1 || $row['ID_PERFIL'] == 2 || $row['ID_PERFIL'] == 6) {
-                            echo"
-                                <span style='display: inline-flex;padding:3px;'>
-                                    <a style='padding:3px;' 
-                                    href='./modificarCelular.php?num=" . $rowSql['ID_CELULAR'] . "' 
-                                    target='_blank' 
-                                    class='mod' 
-                                    data-bs-toggle='popover' 
-                                    data-bs-trigger='hover' 
-                                    data-bs-placement='top' 
-                                    data-bs-content='Editar'>
-                                    <i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i>
-                                    </a>
-                                </span>";
-                        }
-                        echo"
-                    </td>
-                </tr>
-            ";}
-
-            ?>
-                <div class="filtrado">
-            <?php
-        if($_POST['buscar'] != "" AND $_POST['buscar'] != " " OR $_POST['reparticion'] != "" OR $_POST['proveedor'] != "" OR $_POST['modelo'] != "" OR $_POST['estado'] != ""){
-            echo "
-            <h2>Filtrado por:</h2>
-                <ul>";
-                    if($_POST['buscar'] != "" AND $_POST['buscar'] != " "){
-                        echo "<li><u>IMEI/USUARIO</u>: ".$_POST['buscar']."</li>";
-                    }
-                    if($_POST['proveedor'] != ""){
-                        $sql = "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR = $_POST[proveedor]";
-                        $resultado = $datos_base->query($sql);
-                        $row = $resultado->fetch_assoc();
-                        $proveedor = $row['PROVEEDOR'];
-                        echo "<li><u>PROVEEDOR</u>: ".$proveedor."</li>";
-                    }
-                    if($_POST['reparticion'] != ""){
-                        $sql = "SELECT REPA FROM reparticion WHERE ID_REPA = $_POST[reparticion]";
-                        $resultado = $datos_base->query($sql);
-                        $row = $resultado->fetch_assoc();
-                        $repa = $row['REPA'];
-                        echo "<li><u>REPARTICIÓN</u>: ".$repa."</li>";
-                    }
-                    if($_POST['modelo'] != ""){
-                        $sql = "SELECT MODELO FROM modelo WHERE ID_MODELO = $_POST[modelo]";
-                        $resultado = $datos_base->query($sql);
-                        $row = $resultado->fetch_assoc();
-                        $modelo = $row['MODELO'];
-                        echo "<li><u>MODELO</u>: ".$modelo."</li>";
-                    }
-                    if($_POST['estado'] != ""){
-                        $sql = "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = $_POST[estado]";
-                        $resultado = $datos_base->query($sql);
-                        $row = $resultado->fetch_assoc();
-                        $estadows = $row['ESTADO'];
-                        echo "<li><u>ESTADO</u>: ".$estadows."</li>";
-                    }
-                    echo"
-                </ul>
-                <h2>Cantidad de registros: </h2>
-                <ul><li>$cantidadTotal</li></ul>
-            </div>
-            ";
-                }
-        echo '</table>';
-        ?>
+        <tbody id="tabla-datos"></tbody>
+    </table>
 		</div>
         <form id="formu" action="../exportar/ExcelCelulares.php" method="POST">
             <input type="text" id="excel" name="sql" class="valorPeque" readonly="readonly" value="<?php echo $query;?>">
