@@ -14,7 +14,8 @@ $row = $resultado->fetch_assoc();
 <!DOCTYPE html>
 <html>
 <head>
-	<title>CELULARES</title><meta charset="utf-8">
+	<title>CELULARES</title>
+    <meta charset="utf-8">
 	<link rel="icon" href="../imagenes/logoInfraestructura.png">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -23,7 +24,7 @@ $row = $resultado->fetch_assoc();
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymus"></script>
     <script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<style>
@@ -49,14 +50,6 @@ $row = $resultado->fetch_assoc();
             });
         });
     </script>
-<?php
-    if (!isset($_POST['buscar'])){$_POST['buscar'] = '';}
-    if (!isset($_POST["proveedor"])){$_POST["proveedor"] = '';}
-    if (!isset($_POST['modelo'])){$_POST['modelo'] = '';}
-    if (!isset($_POST["estado"])){$_POST["estado"] = '';}
-    if (!isset($_POST["orden"])){$_POST["orden"] = '';}
-    if (!isset($_POST["reparticion"])){$_POST["reparticion"] = '';}
-?>
 <?php include('../layout/inventario.php'); ?>
     <style>
         #h2{
@@ -68,6 +61,233 @@ $row = $resultado->fetch_assoc();
                 margin-top: 5px;  
             }
     </style>
+    <script>
+                //Funcion que va mostrando que filtros se van utilizando
+                function mostrarFiltros(){
+                    const busqueda = $("#imei");
+                    const proveedor = $("#proveedor");
+                    const modelo = $("#modelo");
+                    const orden = $("#orden"); 
+                    const estado = $("#estado");
+                    const reparticion = $("#reparticion");
+                    
+                    const filtros = $("#filtrosUsados");
+                    // Vaciar el div antes de agregar nuevos filtros
+                    filtros.empty();
+
+                    
+                    filtros.append();
+                    
+                    if (busqueda.val() != '') {
+                        filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>BÚSQUEDA</u>: ${busqueda.val()}</li>`);
+                    }
+                    
+                    if (proveedor.val() != '') {
+                        filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>PROVEEDOR</u>: ${$("#proveedor option:selected").text()}</li>`);
+                    }
+                    if (reparticion.val() != '') {
+                        filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>REPARTICION</u>: ${$("#reparticion option:selected").text()}</li>`);
+                    }
+                    if (modelo.val() != '') {
+                        filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>MODELO</u>: ${$("#modelo option:selected").text()}</li>`);
+                    }
+                    if (estado.val() != '') {
+                        filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>ESTADO</u>: ${$("#estado option:selected").text()}</li>`);
+                    }
+                    if (orden.val() != '') {
+                        filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>ORDEN</u>: ${$("#orden option:selected").text()}</li>`);
+                    }
+
+                    filtros.show();
+                }
+            </script>
+            <script>
+                //Cargar datos en la tabla
+        $(document).ready(function () {
+            function cargarDatos(pagina = 1) {
+                // Obtener valor del formulario
+                const busqueda = $("#imei").val();
+                    const proveedor = $("#proveedor").val();
+                    const modelo = $("#modelo").val();
+                    const orden = $("#orden").val(); 
+                    const estado = $("#estado").val();
+                    const reparticion = $("#reparticion").val();
+                //Obtener los datos de la tabla de usuarios
+                $.ajax({
+                    url: "paginador_celulares.php", // Archivo PHP
+                    type: "GET",
+                    data: { 
+                            pagina: pagina,
+                            busqueda: busqueda,
+                            proveedor: proveedor,
+                            reparticion: reparticion,
+                            orden: orden,
+                            modelo: modelo,
+                            estado: estado,
+                             },
+                    dataType: "json",
+                    //Respuesta obtenida de paginador.php
+                    success: function (respuesta) {
+                        //Cargamos el nro de incidentes obtenidos en label
+                        
+                        const lblUsuarios = $("#nroCelulares").text("Resultados Encontrados: "+respuesta.totalCelulares); 
+
+                        //Mostramos el label con el numero de resultados encontramos
+                        if(busqueda=='' && proveedor=='' && reparticion=='' && orden=='' && modelo==''&& estado==''){
+                            $("#nroCelulares").hide();
+                        }
+                        else{
+                            $("#nroCelulares").show();
+                        }
+
+                        //Cargamos la consulta sql utilizada en el value del input del formulario para generar el excel
+                        
+
+                         const inputExcel = $("#excel");
+                         inputExcel.val(respuesta.query);
+
+                        // Poblar la tabla
+                        const tabla = $("#tabla-datos");
+                        tabla.empty();
+                        respuesta.datos.forEach(fila => {
+                            let estado = fila.ESTADO;
+                            let color = "blue";
+                            let flecha = "<i class='fa-solid fa-box-open' style='color:blue'></i>";
+
+                            if (estado === "EN USO") {
+                                color = "green";
+                                flecha = "<i class='fa-solid fa-arrow-up' style='color:green'></i>";
+                            } else if (estado === "BAJA") {
+                                color = "red";
+                                flecha = "<i class='fa-solid fa-arrow-down' style='color:red'></i>";
+                            }
+
+                            let usuario = fila.NOMBRE;
+                            if(!usuario){
+                                usuario = "NO ASIGNADO";
+                            }
+                            
+                            function mostrarValor(valor) {
+                                return (valor === null || valor === undefined || valor === '') ? '-' : valor;
+                            }
+
+                            tabla.append(`<tr>
+                            <td><h4 style='font-size:14px; text-align:right;margin-tight: 5px;'>${mostrarValor(fila.IMEI)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(usuario)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.REPA)}</h4></td>
+                            <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.PROCEDENCIA)}</h4></td>
+                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.PROVEEDOR)}</h4></td>
+                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.MARCA)} - ${mostrarValor(fila.MODELO)}</h4></td>
+                            <td><h4 style='color:${color};font-size:14px;text-align:left;margin-left: 5px;'>${flecha} ${mostrarValor(fila.ESTADO)}</h4></td>
+
+                            <td class='text-center text-nowrap'>
+                                <span style="display: inline-flex;padding:3px;">
+                                    <a style="padding:3px;" href="#" 
+                                    data-bs-toggle='modal' 
+                                    data-bs-target='#modalInfo'
+                                    onclick='cargar_informacion(${fila.ID_CELULAR})'
+                                    class='mod'>
+                                        <i style="color: #0d6efd" 
+                                        class="fa-solid fa-circle-info fa-2xl" 
+                                        data-bs-toggle="popover" 
+                                        data-bs-trigger="hover" 
+                                        data-bs-placement="top" 
+                                        ></i>
+                                    </a>
+                                </span>
+
+                                <span style="display: inline-flex;padding:3px;">
+                                    <a style="padding:3px;" 
+                                    href='../abm/modmonitores.php?no=${fila.ID_CELULAR}' 
+                                    target='_blank' 
+                                    class='mod' 
+                                    data-bs-toggle='popover' 
+                                    data-bs-trigger='hover' 
+                                    data-bs-placement='top' 
+                                    data-bs-content='Editar'>
+                                        <i style="color: #198754" class="fa-solid fa-pen-to-square fa-2xl"></i>
+                                    </a>
+                                </span>
+                            </td>
+                        </tr>`);
+                        });
+
+                        $(function () {
+                            // Asegúrate de que los popovers se inicialicen solo una vez después de agregar los elementos
+                            $('[data-bs-toggle="popover"]').each(function() {
+                                if (!$(this).data('bs.popover')) {
+                                    $(this).popover(); // Inicializa el popover solo si no está inicializado
+                                }
+                            });
+                        });
+
+                        // Crear los botones de paginación
+                        const paginador = $("#paginador");
+                        paginador.empty();
+                        
+                        
+                        const totalPaginas = respuesta.totalPaginas;
+                    const paginaActual = respuesta.pagina;
+
+                    // Función para agregar un botón
+                    function agregarBoton(pagina, texto, activo = false, desactivado = false) {
+                        paginador.append(`
+                            <li class="page-item ${activo ? 'active' : ''} ${desactivado ? 'disabled' : ''}">
+                                <button class="page-link btn-pagina" data-pagina="${pagina}" ${desactivado ? 'disabled' : ''}>
+                                    ${texto}
+                                </button>
+                            </li>
+                        `);
+                    }
+                    
+                    // Botón "Anterior"
+                    agregarBoton(paginaActual - 1, '&laquo; Anterior', false, paginaActual === 1);
+
+                    // Primera página
+                    agregarBoton(1, '1', paginaActual === 1);
+
+                    // Puntos suspensivos si la página actual está lejos de la primera
+                    if (paginaActual > 4) {
+                        paginador.append('<li class="page-item disabled"><span class="page-link">...</span></li>');
+                    }
+
+                    // Páginas cercanas a la actual
+                    for (let i = Math.max(2, paginaActual - 2); i <= Math.min(totalPaginas - 1, paginaActual + 2); i++) {
+                        agregarBoton(i, i, paginaActual === i);
+                    }
+
+                    // Puntos suspensivos si la página actual está lejos de la última
+                    if (paginaActual < totalPaginas - 3) {
+                        paginador.append('<li class="page-item disabled"><span class="page-link">...</span></li>');
+                    }
+
+                    // Última página
+                    agregarBoton(totalPaginas, totalPaginas, paginaActual === totalPaginas);
+
+                    // Botón "Siguiente"
+                    agregarBoton(paginaActual + 1, 'Siguiente &raquo;', false, paginaActual === totalPaginas);
+                    ////
+                    }
+                });
+            }
+
+            // Manejar el evento del formulario de filtro
+            $("#btnForm").on("click", function (e) {
+                //e.preventDefault(); // Evitar recarga de la página
+                cargarDatos(1); // Cargar datos desde la primera página con el filtro aplicado
+                mostrarFiltros();
+            });
+
+            // Cargar la página inicial
+            cargarDatos();
+
+            // Evento para cambiar de página
+            $(document).on("click", ".btn-pagina", function () {
+                const pagina = $(this).data("pagina");
+                cargarDatos(pagina);
+            });
+        });
+    </script>
   <section id="consulta">
 		<div id="titulo">
 			<h1>CELULARES</h1>
@@ -81,7 +301,7 @@ $row = $resultado->fetch_assoc();
                 }
                 ?>
         </div>
-        <form method="POST" id="form_filtro" action="./celulares.php" class="contFilter--name">
+        <!-- <form method="POST" id="form_filtro" action="./celulares.php" class="contFilter--name"> -->
             <div class="filtros">
                 <div class="filtros-listado">
                     <div>
@@ -90,7 +310,7 @@ $row = $resultado->fetch_assoc();
                     </div>
                     <div>
                         <label class="form-label">Repartición</label>
-                        <select id="subject-filter" id="reparticion" name="reparticion" class="form-control largo">
+                        <select id="reparticion" name="reparticion" class="form-control largo">
                             <option value="">TODOS</option>
                             <?php 
                             $consulta= "SELECT * FROM reparticion ORDER BY REPA ASC";
@@ -169,123 +389,13 @@ $row = $resultado->fetch_assoc();
                     </div>
                     <div style="display:flex;justify-content: flex-end;">
                         <input type="button" class="btn btn-danger" id="btnLimpiar" onclick="Limpiar()" value="Limpiar">
-                        <input onClick="filtrar()" class="btn btn-success" name="busqueda" value="Buscar">
+                        <input type="submit" class="btn btn-success" id="btnForm" name="busqueda" value="Buscar">
                         <button type="submit" form="formu" style="border:none; background-color:transparent;"><i class="fa-solid fa-file-excel fa-2x" style="color: #1f5120;"></i>&nbspCSV</button>
                     </div>
                 </div>
             </div>
-        <?php 
-
-        if ($_POST['buscar'] == ''){ $_POST['buscar'] = ' ';}
-        $aKeyword = explode(" ", $_POST['buscar']);
-
-        if ($_POST["buscar"] == '' AND $_POST['ID_MODELO'] == '' AND $_POST['ID_PROVEEDOR'] == '' AND $_POST['ID_ESTADOWS'] == ''){ 
-                $query ="SELECT m.ID_MOVICEL, m.ID_CELULAR, c.IMEI, e.ESTADO, u.NOMBRE, pr.PROVEEDOR, mo.MODELO, p.PROCEDENCIA, ma.MARCA, r.REPA
-                FROM movicelular m
-                INNER JOIN (
-                    SELECT ID_CELULAR, MAX(ID_MOVICEL) AS UltimoID
-                    FROM movicelular
-                    GROUP BY ID_CELULAR
-                ) ultimos ON m.ID_CELULAR = ultimos.ID_CELULAR AND m.ID_MOVICEL = ultimos.UltimoID
-                LEFT JOIN celular c ON m.ID_CELULAR = c.ID_CELULAR
-                LEFT JOIN estado_ws e ON e.ID_ESTADOWS = c.ID_ESTADOWS
-                LEFT JOIN modelo mo ON mo.ID_MODELO = c.ID_MODELO
-                LEFT JOIN marcas ma ON ma.ID_MARCA = mo.ID_MARCA
-                LEFT JOIN procedencia p ON p.ID_PROCEDENCIA = c.ID_PROCEDENCIA
-                LEFT JOIN proveedor pr ON pr.ID_PROVEEDOR = c.ID_PROVEEDOR 
-                LEFT JOIN usuarios u ON u.ID_USUARIO = m.ID_USUARIO 
-                LEFT JOIN area a on a.ID_AREA=u.ID_AREA
-                LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA
-                ORDER BY u.NOMBRE ASC ";
-        }elseif(isset($_POST['busqueda'])){
-                $query = "SELECT m.ID_MOVICEL, m.ID_CELULAR, c.IMEI, e.ESTADO, u.NOMBRE, pr.PROVEEDOR, mo.MODELO, p.PROCEDENCIA, ma.MARCA, r.REPA
-                FROM movicelular m
-                INNER JOIN (
-                    SELECT ID_CELULAR, MAX(ID_MOVICEL) AS UltimoID
-                    FROM movicelular
-                    GROUP BY ID_CELULAR
-                ) ultimos ON m.ID_CELULAR = ultimos.ID_CELULAR AND m.ID_MOVICEL = ultimos.UltimoID
-                LEFT JOIN celular c ON m.ID_CELULAR = c.ID_CELULAR
-                LEFT JOIN estado_ws e ON e.ID_ESTADOWS = c.ID_ESTADOWS
-                LEFT JOIN modelo mo ON mo.ID_MODELO = c.ID_MODELO
-                LEFT JOIN marcas ma ON ma.ID_MARCA = mo.ID_MARCA
-                LEFT JOIN procedencia p ON p.ID_PROCEDENCIA = c.ID_PROCEDENCIA
-                LEFT JOIN proveedor pr ON pr.ID_PROVEEDOR = c.ID_PROVEEDOR 
-                LEFT JOIN usuarios u ON u.ID_USUARIO = m.ID_USUARIO 
-                LEFT JOIN area a on a.ID_AREA=u.ID_AREA
-                LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA ";
-
-                if ($_POST["buscar"] != '' ){ 
-                        $query .= " WHERE (u.NOMBRE LIKE LOWER('%".$aKeyword[0]."%') OR c.IMEI LIKE LOWER('%".$aKeyword[0]."%')) ";
-                
-                    for($i = 1; $i < count($aKeyword); $i++) {
-                    if(!empty($aKeyword[$i])) {
-                        $query .= " OR u.NOMBRE LIKE '%" . $aKeyword[$i] . "%' c.IMEI LIKE '%" . $aKeyword[$i] . "%' ";
-                    }
-                    }
-
-                }
-          
-        if ($_POST["reparticion"] != '' ){
-            $query .= " AND r.ID_REPA = '".$_POST["reparticion"]."' ";
-        }
-        if ($_POST["proveedor"] != '' ){
-            $query .= " AND pr.ID_PROVEEDOR = '".$_POST["proveedor"]."' ";
-        }
-        if ($_POST["modelo"] != '' ){
-            $query .= " AND mo.ID_MODELO = '".$_POST["modelo"]."' ";
-        }
-        if ($_POST["estado"] != '' ){
-            $query .= " AND e.ID_ESTADOWS = '".$_POST["estado"]."' ";
-        }
-
-
-        if ($_POST["orden"] == '1' ){
-        $query .= " ORDER BY u.NOMBRE ASC ";
-        }
-        if ($_POST["orden"] == '2' ){
-        $query .= " ORDER BY pr.PROVEEDOR ASC ";
-        }
-        if ($_POST["orden"] == '3' ){
-            $query .= " ORDER BY mo.MODELO ASC ";
-        }
-        if ($_POST["orden"] == '4' ){
-            $query .= "  ORDER BY e.ESTADO ASC ";
-        }
-
-}else{
-    $query ="SELECT m.ID_MOVICEL, m.ID_CELULAR, c.IMEI, e.ESTADO, u.NOMBRE, pr.PROVEEDOR, mo.MODELO, p.PROCEDENCIA, ma.MARCA, r.REPA
-    FROM movicelular m
-    INNER JOIN (
-        SELECT ID_CELULAR, MAX(ID_MOVICEL) AS UltimoID
-        FROM movicelular
-        GROUP BY ID_CELULAR
-    ) ultimos ON m.ID_CELULAR = ultimos.ID_CELULAR AND m.ID_MOVICEL = ultimos.UltimoID
-    LEFT JOIN celular c ON m.ID_CELULAR = c.ID_CELULAR
-    LEFT JOIN estado_ws e ON e.ID_ESTADOWS = c.ID_ESTADOWS
-    LEFT JOIN modelo mo ON mo.ID_MODELO = c.ID_MODELO
-    LEFT JOIN marcas ma ON ma.ID_MARCA = mo.ID_MARCA
-    LEFT JOIN procedencia p ON p.ID_PROCEDENCIA = c.ID_PROCEDENCIA
-    LEFT JOIN proveedor pr ON pr.ID_PROVEEDOR = c.ID_PROVEEDOR 
-    LEFT JOIN usuarios u ON u.ID_USUARIO = m.ID_USUARIO 
-    LEFT JOIN area a on a.ID_AREA=u.ID_AREA
-    LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA
-    ";
-}
-
-/*         $consulta=mysqli_query($datos_base, $query); */
-         $sql = $datos_base->query($query);
-
-         $numeroSql = mysqli_num_rows($sql);
-
-        ?>
-<!--         <div class="contResult">
-            <p style="font-weight: bold; color:#53AAE0;"><i class="mdi mdi-file-document"></i> <?php echo $numeroSql; ?> Resultados encontrados</p>
-        </div> -->
-    </form>
-    <?php 
-        if($_POST["buscar"] == ' ' AND $_POST['proveedor'] == '' AND $_POST['reparticion'] == '' AND $_POST['modelo'] == '' AND $_POST['estado'] == ''){;
-        ?>
+<!--         
+    </form> -->
 
         <div class="principal-info">
             <?php 
@@ -347,7 +457,17 @@ $row = $resultado->fetch_assoc();
             <p>Celulares Activos: <?php echo $activo; ?></p>
             <p>Celulares Inactivos: <?php echo $inactivos; ?></p>
         </div>
-        <?php };?>
+        
+        <?php
+        echo"<div class=filtrado>
+                <label style='color:#00519C; margin-left: 15px; margin-bottom:20px;' id='nroCelulares'>Resultados Encontrados:</label>
+        ";?>
+
+                <div id="filtrosUsados" style="display:none;">
+                    <h2>Filtrado por:</h2>
+                    <ul></ul>
+                </div>
+            </div>  
 
 
     <table class="table_id" style="width: 98%; margin: 0 auto;">
@@ -363,136 +483,14 @@ $row = $resultado->fetch_assoc();
                 <th><p>ACCIÓN</p></th>
             </tr>
         </thead>
-
-        <?php $cantidadTotal = 0;?>
-        <?php 
-        function mostrarValor($valor) {
-            return ($valor === null || $valor === '' || strtolower($valor) === 'null' || strtolower($valor) === 'undefined') ? '-' : $valor;
-        }
-
-        While($rowSql = $sql->fetch_assoc()) {
-            $cantidadTotal++;
-            $NUMERO=$rowSql['IMEI']; 
-
-            $estado = $rowSql['ESTADO']; // Este valor lo obtienes de tu lógica o de una variable
-            $color = "";
-
-            if ($estado === "EN USO") {
-                $color = "green";  // Si el estado es "en uso", el color será verde
-            } elseif ($estado === "BAJA") {
-                $color = "red";  // Si el estado es "baja", el color será rojo
-            } elseif ($estado === "S/A - STOCK") {
-                $color = "blue";  // Si el estado es "S/A - STOCK", el color será azul
-            }
-
-            $color = 'blue';
-            $flecha = "<i class='fa-solid fa-box-open' style='color:blue'></i>";
-            if ($estado === 'EN USO') {
-                $color = 'green';
-                $flecha = "<i class='fa-solid fa-arrow-up' style='color:green'></i>";
-            } elseif ($estado === 'BAJA') {
-                $color = 'red';
-                $flecha = "<i class='fa-solid fa-arrow-down' style='color:red'></i>";
-            }
-
-            echo "
-                <tr>
-                <td><h4 style='font-size:14px; text-align:right;margin-right: 5px;'>".mostrarValor($rowSql['IMEI'])."</h4></td>
-                <td><h4 class='wrap2' style='font-size:14px; text-align: left; margin-left: 5px;'>".mostrarValor($rowSql['NOMBRE'])."</h4></td>
-                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['REPA'])."</h4></td>
-                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['PROCEDENCIA'])."</h4></td>
-                <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['PROVEEDOR'])."</h4></td>
-                <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>".mostrarValor($rowSql['MARCA'])." - ".mostrarValor($rowSql['MODELO'])."</h4></td>
-                <td><h4 class='wrap2' style='font-size:14px; text-align:left;margin-left: 5px;color:".$color."'>".$flecha." ".mostrarValor($rowSql['ESTADO'])."</h4></td>
-
-                    <td class='text-center text-nowrap'>
-                        <span style='display: inline-flex; padding: 3px;'>
-                            <a style='padding: 3px; cursor: pointer;'
-                            data-bs-toggle='modal'
-                            data-bs-target='#exampleModal'
-                            onclick='cargar_informacion(" . $rowSql['ID_CELULAR'] . ")'
-                            class='mod'>
-                                <i class='fa-solid fa-circle-info fa-2xl'
-                                style='color: #0d6efd'
-                                data-bs-toggle='popover'
-                                data-bs-trigger='hover focus'
-                                data-bs-placement='top'></i>
-                            </a>
-                        </span>";
-                        
-                        if ($row['ID_PERFIL'] == 1 || $row['ID_PERFIL'] == 2 || $row['ID_PERFIL'] == 6) {
-                            echo"
-                                <span style='display: inline-flex;padding:3px;'>
-                                    <a style='padding:3px;' 
-                                    href='./modificarCelular.php?num=" . $rowSql['ID_CELULAR'] . "' 
-                                    target='_blank' 
-                                    class='mod' 
-                                    data-bs-toggle='popover' 
-                                    data-bs-trigger='hover' 
-                                    data-bs-placement='top' 
-                                    data-bs-content='Editar'>
-                                    <i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i>
-                                    </a>
-                                </span>";
-                        }
-                        echo"
-                    </td>
-                </tr>
-            ";}
-
-            ?>
-                <div class="filtrado">
-            <?php
-        if($_POST['buscar'] != "" AND $_POST['buscar'] != " " OR $_POST['reparticion'] != "" OR $_POST['proveedor'] != "" OR $_POST['modelo'] != "" OR $_POST['estado'] != ""){
-            echo "
-            <h2>Filtrado por:</h2>
-                <ul>";
-                    if($_POST['buscar'] != "" AND $_POST['buscar'] != " "){
-                        echo "<li><u>IMEI/USUARIO</u>: ".$_POST['buscar']."</li>";
-                    }
-                    if($_POST['proveedor'] != ""){
-                        $sql = "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR = $_POST[proveedor]";
-                        $resultado = $datos_base->query($sql);
-                        $row = $resultado->fetch_assoc();
-                        $proveedor = $row['PROVEEDOR'];
-                        echo "<li><u>PROVEEDOR</u>: ".$proveedor."</li>";
-                    }
-                    if($_POST['reparticion'] != ""){
-                        $sql = "SELECT REPA FROM reparticion WHERE ID_REPA = $_POST[reparticion]";
-                        $resultado = $datos_base->query($sql);
-                        $row = $resultado->fetch_assoc();
-                        $repa = $row['REPA'];
-                        echo "<li><u>REPARTICIÓN</u>: ".$repa."</li>";
-                    }
-                    if($_POST['modelo'] != ""){
-                        $sql = "SELECT MODELO FROM modelo WHERE ID_MODELO = $_POST[modelo]";
-                        $resultado = $datos_base->query($sql);
-                        $row = $resultado->fetch_assoc();
-                        $modelo = $row['MODELO'];
-                        echo "<li><u>MODELO</u>: ".$modelo."</li>";
-                    }
-                    if($_POST['estado'] != ""){
-                        $sql = "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = $_POST[estado]";
-                        $resultado = $datos_base->query($sql);
-                        $row = $resultado->fetch_assoc();
-                        $estadows = $row['ESTADO'];
-                        echo "<li><u>ESTADO</u>: ".$estadows."</li>";
-                    }
-                    echo"
-                </ul>
-                <h2>Cantidad de registros: </h2>
-                <ul><li>$cantidadTotal</li></ul>
-            </div>
-            ";
-                }
-        echo '</table>';
-        ?>
+        <tbody id="tabla-datos"></tbody>
+    </table>
 		</div>
         <form id="formu" action="../exportar/ExcelCelulares.php" method="POST">
             <input type="text" id="excel" name="sql" class="valorPeque" readonly="readonly" value="<?php echo $query;?>">
         </form>
 	</section>
-	<footer></footer>
+	<footer id="footer_pag"><div class="pagination justify-content-center mt-3" id="paginador"></div></footer>
 
     <div class="modal fade modal--usu" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
