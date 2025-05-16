@@ -24,14 +24,8 @@ $row = $resultado->fetch_assoc();
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymus"></script>
     <script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
-    
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
 <script>
@@ -198,7 +192,7 @@ $row = $resultado->fetch_assoc();
 
                                 <span style="display: inline-flex;padding:3px;">
                                     <a style="padding:3px;" 
-                                    href='../abm/modmonitores.php?no=${fila.ID_CELULAR}' 
+                                    href='./modificarCelular.php?num=${fila.ID_CELULAR}' 
                                     target='_blank' 
                                     class='mod' 
                                     data-bs-toggle='popover' 
@@ -492,7 +486,7 @@ $row = $resultado->fetch_assoc();
 	</section>
 	<footer id="footer_pag"><div class="pagination justify-content-center mt-3" id="paginador"></div></footer>
 
-    <div class="modal fade modal--usu" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <div class="modal fade modal--usu" id="modalInfo" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">

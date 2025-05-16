@@ -7,28 +7,24 @@ $consulta = ConsultarIncidente($_GET['num']);
 
 function ConsultarIncidente($no_tic)
 {	
-	$datos_base=mysqli_connect('localhost', 'root', '', 'incidentes') or exit('No se puede conectar con la base de datos');
-	$sentencia =  "SELECT * FROM linea WHERE ID_LINEA='".$no_tic."'";
-	$resultado = mysqli_query($datos_base, $sentencia);
-	$filas = mysqli_fetch_assoc($resultado);
-	return [
-		$filas['ID_LINEA'],/*0*/
-		$filas['NRO'],/*1*/
-        $filas['ID_ESTADOWS'],/*2*/
-        $filas['ID_PLAN'],/*3*/
-        $filas['DESCUENTO'],/*4*/
-        $filas['FECHADESCUENTO'],/*5*/
-        $filas['ID_NOMBREPLAN'],/*6*/
-        $filas['ID_ROAMING'],/*7*/
-	];
+    $datos_base = mysqli_connect('localhost', 'root', '', 'incidentes') or exit('No se puede conectar con la base de datos');
+
+	$no_tic = mysqli_real_escape_string($datos_base, $no_tic);
+
+    $sentencia = "SELECT * FROM linea WHERE ID_LINEA='" . $no_tic . "'";
+    $resultado = mysqli_query($datos_base, $sentencia);
+
+    return mysqli_fetch_assoc($resultado);
 }
-$idLinea= $consulta[0];
-$idEstado = $consulta[2];
-$idPlan = $consulta[3];
-$descuento = $consulta[4];
-$fechaDescuento = $consulta[5];
-$idNombrePlan = $consulta[6];
-$idRoaming = $consulta[7];
+
+$idLinea= $consulta['ID_LINEA'];
+$nro= $consulta['NRO'];
+$idEstado = $consulta['ID_ESTADOWS'];
+$idPlan = $consulta['ID_PLAN'];
+$descuento = $consulta['DESCUENTO'];
+$fechaDescuento = $consulta['FECHADESCUENTO'];
+$idNombrePlan = $consulta['ID_NOMBREPLAN'];
+$idRoaming = $consulta['ID_ROAMING'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -42,14 +38,147 @@ $idRoaming = $consulta[7];
 	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
+<script>
+          function validar_formulario(){
+			
+			var fieldsToValidate = [
+                    {
+                        selector: "#cardnumber",
+                        errorMessage: "No seleccionó el número."
+                    },
+                    {
+                        selector: "#usuario",
+                        errorMessage: "No seleccionó un usuario."
+                    },
+                    {
+                        selector: "#celulares",
+                        errorMessage: "No seleccionó un celular."
+                    },
+                    {
+                        selector: "#estado",
+                        errorMessage: "No seleccionó un estado."
+                    },
+                    {
+                        selector: "#roaming",
+                        errorMessage: "No seleccionó el roaming."
+                    },
+                    {
+                        selector: "#descuento",
+                        errorMessage: "No ingresó un descuento."
+                    },
+                    {
+                        selector: "#nombrePlan",
+                        errorMessage: "No ingresó un plan."
+                    },
+                    {
+                        selector: "#extras",
+                        errorMessage: "No ingresó el monto extra."
+                    }
+                ];
+
+                var isValid = true;
+
+				$.each(fieldsToValidate, function(index, field) {
+                    var element = $(field.selector);
+                    if (element.val()== "" || element.val()== null) {
+                      Swal.fire({
+                      title: field.errorMessage,
+                      icon: "warning",
+                      showConfirmButton: true,
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Aceptar',
+                      cancelButtonText: "Cancelar",
+                      customClass:{
+                      actions: 'reverse-button'
+                        }
+                      })
+                        isValid = false;
+                        return false;
+                    }
+                });
+
+				if (isValid ==true) {
+								
+								return true;
+							}
+							else{
+								return false;
+							}
+		};
+
+    function enviar_formulario(formulario, accion) {
+        // Asigna el valor de la acción al campo oculto "accion"
+        if (validar_formulario()) {
+
+        const campos = [
+            { id: 'cardnumber', label: 'Número' },
+            { id: 'usuario', label: 'Usuario', esSelect: true },
+            { id: 'celulares', label: 'Celular', esSelect: true },
+            { id: 'estado', label: 'Estado', esSelect: true },
+            { id: 'roaming', label: 'Roaming', esSelect: true },
+            { id: 'descuento', label: 'Descuento' },
+            { id: 'fechaDescuento', label: 'Fecha descuento' },
+            { id: 'nombrePlan', label: 'Nombre del plan', esSelect: true },
+            { id: 'extras', label: 'Extras' },
+            { id: 'obs', label: 'Observación' },
+        ];
+
+        let mensajeHtml = "<ul style='text-align:left;'>"; 
+
+        campos.forEach(campo => {
+            const elemento = document.getElementById(campo.id);
+            let valor = campo.esSelect
+                ? elemento.options[elemento.selectedIndex].text
+                : elemento.value;
+
+			const fecha = new Date(valor);
+            if (!isNaN(fecha) && campo.id.toLowerCase().includes("fecha")) {
+                const dia = String(fecha.getDate()).padStart(2, '0');
+                const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+                const anio = fecha.getFullYear();
+                valor = `${dia}/${mes}/${anio}`;
+            }
+
+            if (valor.trim() !== "") {
+                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor.toUpperCase()}</li>`;
+            }
+        });
+
+        mensajeHtml += "</ul>";
+
+        mensajeHtml += `<br>
+            <strong style="color:red;">Recuerde que cambiar los datos del monto/linea afectará los registros.</strong>`;
+
+        mensajeHtml += '<br><strong>¿Está seguro de modificar este monto/linea?</strong><br><br>';
+
+        Swal.fire({
+            title: "Datos modificados del monto/linea",
+            icon: "warning",
+            html: mensajeHtml,
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonColor: '#198754',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: "Cancelar",
+            reverseButtons: true,
+            customClass: {
+                actions: 'reverse-button'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                formulario.submit();
+            }
+        });
+    }
+}
+    </script>
 <main>
 	<div id="reporteEst">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
@@ -85,7 +214,7 @@ $idRoaming = $consulta[7];
                 $row = $resultado->fetch_assoc();
                 $roaming = $row['ROAMING'];
 
-				$sent= "SELECT ID_USUARIO, ID_MOVILINEA, EXTRAS, OBSERVACION FROM movilinea WHERE ID_LINEA = $consulta[0] ORDER BY ID_MOVILINEA DESC";
+				$sent= "SELECT ID_USUARIO, ID_MOVILINEA, EXTRAS, OBSERVACION FROM movilinea WHERE ID_LINEA = $idLinea ORDER BY ID_MOVILINEA DESC";
                 $resultado = $datos_base->query($sent);
                 $row = $resultado->fetch_assoc();
                 $extras = $row['EXTRAS'];
@@ -97,16 +226,16 @@ $idRoaming = $consulta[7];
                 $row = $resultado->fetch_assoc();
                 $usuario = $row['NOMBRE'];
                 ?>
-			<form method="POST" action="modificados.php">
+			<form method="POST" action="../abm/modificados.php">
 			<!-- <form method="POST" action="modificarLinea.php"> -->
 				<div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">ID:</label>
-                    <input type="text" class="id" name="id" value="<?php echo $idLinea?>" style="background-color:transparent;" readonly>
+                    <input type="text" class="id" name="id" id="id" value="<?php echo $idLinea?>" style="background-color:transparent;" readonly>
                 </div>
 				
 				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">NÚMERO:</label>
-					<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" name="nro" id="cardnumber" value="<?php echo $consulta[1]?>" required readonly>
+					<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" name="nro" id="cardnumber" value="<?php echo $nro?>" required readonly>
 				</div>
 
 				<div class="form-group row">
@@ -140,7 +269,7 @@ $idRoaming = $consulta[7];
 				
 				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
-					<select name="estado" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+					<select name="estado" id="estado" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 					<option selected value="200"><?php echo $estado;?></option>
 					<?php
 					include("../particular/conexion.php");
@@ -155,7 +284,7 @@ $idRoaming = $consulta[7];
 					
 				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">ROAMING:</label>
-					<select name="roaming" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+					<select name="roaming" id="roaming" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 					<option selected value="400"><?php echo $roaming;?></option>
 					<?php
 					include("../particular/conexion.php");
@@ -170,17 +299,17 @@ $idRoaming = $consulta[7];
 				
 				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">DESCUENTO:</label>
-					<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" name="descuento" step="0.01" placeholder="10,00" required value="<?php echo $descuento?>">
+					<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" id="descuento" name="descuento" step="0.01" placeholder="10,00" required value="<?php echo $descuento?>">
 				</div>
 					
 				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">FECHA DESCUENTO:</label>
-					<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="date" name="fechaDescuento" value="<?php echo $fechaDescuento?>">
+					<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="date" id="fechaDescuento" name="fechaDescuento" value="<?php echo $fechaDescuento?>">
 				</div>
 
 				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE PLAN:</label>
-					<select name="nombrePlan" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+					<select name="nombrePlan" id="nombrePlan" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 					<option selected value="300"><?php echo $nombrePlan." - ".$plan." - ".$prove;?></option>
 					<?php
 					include("../particular/conexion.php");
@@ -200,18 +329,19 @@ $idRoaming = $consulta[7];
 
 				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">EXTRAS:<span style="color:red;">*</span></label>
-					<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" name="extras" step="0.01" placeholder="1500,00" value="<?php echo $extras?>" required>
+					<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" id="extras" name="extras" step="0.01" placeholder="1500,00" value="<?php echo $extras?>" required>
 				</div>  
 				
 				<div class="form-group row">
 					<label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓN:</label> 
-					<textarea class="form-control col-xl col-lg" name="obs" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3" ><?php echo $observaciones;?></textarea>
+					<textarea class="form-control col-xl col-lg" id="obs" name="obs" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3" ><?php echo $observaciones;?></textarea>
 				</div> 
-
+				<!-- Campo oculto para la acción -->
+				<input type="hidden" id="accion" name="accion" value="modificarLinea">
 				<div class="form-group row justify-content-end">
-					<input style="width:20%"class="btn btn-success" type="submit" name="modificarLinea" value="MODIFICAR" class="button">
+					<input style="width:20%" onclick="enviar_formulario(this.form, 'modificarLinea')" class="btn btn-success" type="button" name="modificarLinea" value="MODIFICAR" class="button">
 				</div>	
-				<p style="color:red;text-align:left;font-size:14px;">* Al ingresar los extras de Personal, al precio que sale en la factura agregar el iva y con Claro se ingresa tal cual figura</p>
+				<p style="color:red;text-align:left;font-size:14px;">* Al ingresar los extras de Personal, al precio que sale en la factura agregarle el iva.</br>En el caso de Claro, se ingresa tal cual figura en la factura.</p>
 			</form>
 			
 					<?php
@@ -280,7 +410,7 @@ $idRoaming = $consulta[7];
         //LA VARIABLE BUSCAR UTILIZA EL ID usuario Y LA ENVIA AL consultarcelulares disponibles///
         $.ajax({
             data: parametros,
-            url: "../consulta/consultarCelularesDisponibles.php",
+            url: "./consultarCelularesDisponibles.php",
             type: "POST",
             //TRAE DE FORMA ASINCRONA, CONSUME EL SERVIDOR DE NOVEDADES Y MUESTRA EN EL DIV MOSTRAR_MENSAJE TODAS LAS NOVEDADES RELACIONADAS////
             beforesend: function() {

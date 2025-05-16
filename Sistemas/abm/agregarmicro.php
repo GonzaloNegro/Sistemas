@@ -185,11 +185,11 @@ $row = $resultado->fetch_assoc();
 		<div id="principalu" style="width: 97%" class="container-fluid" data-aos="zoom-in">
             <form method="POST" action="./agregados.php">
                 <div class="form-group row">
-                    <label id="lblForm" class="col-form-label col-xl col-lg">MICRO:</label>
+                    <label id="lblForm" class="col-form-label col-xl col-lg">MICRO:<span style="color:red;">*</span></label>
                     <input id="micro" class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="micro" placeholder="NOMBRE DEL MICRO" required>
                 </div>
                 <div class="form-group row">
-                    <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
+                    <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:<span style="color:red;">*</span></label>
                     <select id="marca" name="marca" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                     <option selected disabled="area">-SELECCIONE UNA-</option>
                     <?php
@@ -206,7 +206,7 @@ $row = $resultado->fetch_assoc();
                 <!-- Campo oculto para la acción -->
                 <input type="hidden" id="accion" name="accion" value="agregarMicro">
                 <div class="row justify-content-end">
-                    <input onClick="enviar_formulario(this.form, \'agregarMicro\')" style="width: 20%;"class="btn btn-success" type="button" name="agregarMicro" value="GUARDAR" >
+                    <input onclick="enviar_formulario(this.form, 'agregarMicro')" style="width: 20%;"class="btn btn-success" type="button" name="agregarMicro" value="GUARDAR" >
                 </div>
         </form>
 					<?php

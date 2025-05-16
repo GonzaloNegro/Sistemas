@@ -80,7 +80,9 @@ function ConsultarIncidente($no_tic)
                 }
 		};
 
-        function enviar_formulario(formulario) {
+function enviar_formulario(formulario, accion) {
+    // Asigna el valor de la acción al campo oculto "accion"
+    formulario.querySelector('#accion').value = accion;
     if (validar_formulario()) {
 
         const campos = [
@@ -97,7 +99,7 @@ function ConsultarIncidente($no_tic)
                 : elemento.value;
 
             if (valor.trim() !== "") {
-                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor}</li>`;
+                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor.toUpperCase()}</li>`;
             }
         });
 
@@ -153,7 +155,7 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row">
                         <label id="lblForm" class="col-form-label col-xl col-lg">MICRO:</label>
-                        <input class="form-control col-xl col-lg" id="micro" type="text" name="micro" placeholder="NOMBRE DEL MODELO" value="<?php echo $consulta['MICRO']?>" required>
+                        <input class="form-control col-xl col-lg" id="micro" type="text" name="micro" style="text-transform:uppercase;" placeholder="NOMBRE DEL MODELO" value="<?php echo $consulta['MICRO']?>" required>
                     </div>
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
@@ -169,9 +171,9 @@ function ConsultarIncidente($no_tic)
                         <?php endforeach?>
                         </select>
                     </div>
-
+                    <input type="hidden" id="accion" name="accion" value="modMarca">
                     <div class="row justify-content-end">
-                        <input type="button" onclick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success"  name="modMicro" value="MODIFICAR">
+                        <input type="button" onclick="enviar_formulario(this.form, 'modMicro')" style="width: 20%;"class="btn btn-success"  name="modMicro" value="MODIFICAR">
                     </div>
                 </form>
 	    </div>

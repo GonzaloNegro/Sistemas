@@ -26,53 +26,31 @@ $row = $resultado->fetch_assoc();
     <script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
 <script type="text/javascript">
 			function ok(){
-				swal(  {title: "Montos Actualizados Correctamente!!",
+				Swal.fire(  {title: "Monto/Linea Actualizada Correctamente!!",
 						icon: "success",
 						showConfirmButton: true,
 						showCancelButton: false,
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='montosLineas.php';
-						}
-						}
-						);
+						});
 			}	
 			</script>
 <script type="text/javascript">
 			function error(){
-				swal(  {title: "Ya hay líneas actualizadas este mes para Personal o Claro.",
+				Swal.fire(  {title: "Ya hay líneas actualizadas este mes para Personal o Claro.",
 						icon: "error",
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='montosLineas.php';
-						}
-						}
-						);
+						});
 			}	
 			</script>
 <script type="text/javascript">
 			function errorp(){
-				swal(  {title: "Ya hay líneas actualizadas este mes para el operador seleccionado.",
+				Swal.fire(  {title: "Ya hay líneas actualizadas este mes para el operador seleccionado.",
 						icon: "error",
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='montosLineas.php';
-						}
-						}
-						);
+						});
 			}	
 			</script>
     <script>
@@ -223,20 +201,58 @@ $row = $resultado->fetch_assoc();
                                 usuario = "NO ASIGNADO";
                             }
 
-                            function mostrarValor(valor) {
-                                return (valor === null || valor === undefined || valor === '') ? '-' : valor;
+                            function mostrarValor(valor, simbolo = '', posicion = 'antes', opciones = {}) {
+                                if (
+                                    valor === null ||
+                                    valor === undefined ||
+                                    valor === '' ||
+                                    valor === '0.00' ||
+                                    parseFloat(valor) === 0
+                                ) {
+                                    return '-';
+                                }
+
+                                // Símbolo en la posición adecuada
+                                let valorFormateado = (posicion === 'despues')
+                                    ? `${valor}${simbolo}`
+                                    : `${simbolo}${valor}`;
+
+                                // Aplicar estilo si se solicita
+                                let estilo = '';
+                                if (opciones.color) {
+                                    estilo += `color:${opciones.color};`;
+                                }
+                                if (opciones.negrita) {
+                                    estilo += 'font-weight:bold;';
+                                }
+
+                                return `<span style="${estilo}">${valorFormateado}</span>`;
+                            }
+
+
+                            function mostrarPlan(nombrePlan, plan) {
+                                const val1 = mostrarValor(nombrePlan);
+                                const val2 = mostrarValor(plan);
+
+                                if (val1 === '-' && val2 === '-') {
+                                    return '-';
+                                } else if (val1 !== '-' && val2 !== '-') {
+                                    return `${val1} - ${val2}`;
+                                } else {
+                                    return val1 !== '-' ? val1 : val2;
+                                }
                             }
 
                             tabla.append(`<tr>
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.NRO)}</h4></td>
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(usuario)}</h4></td>
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.REPA)}</h4></td>
-                            <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.NOMBREPLAN)} - ${mostrarValor(fila.PLAN)}</h4></td>
+                            <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${mostrarPlan(fila.NOMBREPLAN, fila.PLAN)}</h4></td>
                             <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.PROVEEDOR)}</h4></td>
-                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.MONTO)}</h4></td>
-                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.EXTRAS)}</h4></td>
-                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.DESCUENTO)}</h4></td>
-                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.MONTOTOTAL)}</h4></td>
+                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.MONTO, '$', 'antes', { color: 'green', negrita: false })}</h4></td>
+                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.EXTRAS, '$', 'antes', { color: 'red', negrita: true })}</h4></td>
+                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.DESCUENTO, '%', 'despues', { color: 'green', negrita: false })}</h4></td>
+                            <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.MONTOTOTAL, '$', 'antes', { color: 'green', negrita: true })}</h4></td>
                             <td><h4 style='color:${color};font-size:14px;text-align:left;margin-left: 5px;'>${flecha} ${mostrarValor(fila.ESTADO)}</h4></td>
 
                             <td class='text-center text-nowrap'>
@@ -267,7 +283,7 @@ $row = $resultado->fetch_assoc();
                             </span>
                             <span style='display: inline-flex;padding:3px;'>
                                 <a style='padding:3px;' 
-                                href='./modificarLinea.php?num=" . $rowSql['ID_LINEA'] . "' 
+                                href='./modificarLinea.php?num=${fila.ID_LINEA}' 
                                 target='_blank' 
                                 class='mod' 
                                 data-bs-toggle='popover' 
@@ -549,7 +565,7 @@ $row = $resultado->fetch_assoc();
     else{
     ?>
     <!-- Boton de actulizar monto mensual-->
-    <form method="POST" action="./modificados.php" class="contFilter--name">
+    <form method="POST" action="../abm/modificados.php" class="contFilter--name">
     <div style="width:100%;padding:10px 30px;display: flex;justify-content: flex-end;align-items: flex-end;">
         <input type="hidden" name="operador" id="operadorSeleccionado">
         <button type="button" name="btnActualizarMontoMensual" class="btn btn-danger" onclick="actualizar_montos(this.form)">Actualizar montos mes <?php echo $mes;?></button>

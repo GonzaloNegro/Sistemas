@@ -103,7 +103,9 @@ $monto = $consulta[4];
 							}
 		};
 
-        function enviar_formulario(formulario) {
+function enviar_formulario(formulario, accion) {
+    // Asigna el valor de la acción al campo oculto "accion"
+    formulario.querySelector('#accion').value = accion;
     if (validar_formulario()) {
 
         const campos = [
@@ -122,7 +124,7 @@ $monto = $consulta[4];
                 : elemento.value;
 
             if (valor.trim() !== "") {
-                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor}</li>`;
+                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor.toUpperCase()}</li>`;
             }
         });
 
@@ -219,9 +221,10 @@ $monto = $consulta[4];
                 <label id="lblForm"class="col-form-label col-xl col-lg">MONTO SIN DESCUENTO:</label>
                 <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" id="monto" name="monto" step="0.01" placeholder="10,00" required value="<?php echo $monto?>">
             </div>
-
+            <!-- Campo oculto para la acción -->
+            <input type="hidden" id="accion" name="accion" value="btnModPlanes">
             <div class="row justify-content-end">
-                <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" name="btnModPlanes" type="button" value="MODIFICAR">
+                <input class="btn btn-success" type="button" style="width:20%" name="btnModPlanes" onclick="enviar_formulario(this.form, 'btnModPlanes')" value="MODIFICAR">
             </div>
         </form>
 		</div>

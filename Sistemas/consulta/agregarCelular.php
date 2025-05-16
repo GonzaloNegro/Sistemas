@@ -73,12 +73,12 @@ $row = $resultado->fetch_assoc();
 		<div id="principalu" style="width: 97%" class="container-fluid" data-aos="zoom-in">
 						<form method="POST" action="agregados.php">
 						<div class="form-group row">
-							<label id="lblForm"class="col-form-label col-xl col-lg">IMEI:</label>
+							<label id="lblForm"class="col-form-label col-xl col-lg">IMEI:<span style="color:red;">*</span></label>
 							<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="imei" placeholder="IMEI" required>
 						</div>	
 
 						<div class="form-group row" >
-							<label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
+							<label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:<span style="color:red;">*</span></label>
 							<select name="usuario" id="usuario" style="text-transform:uppercase" onchange="cargarLineas()" class="form-control col-xl col-lg" required>
 							<option selected disabled="">-SELECCIONE UNA-</option>
 							<?php
@@ -101,7 +101,7 @@ $row = $resultado->fetch_assoc();
 							</div> -->
 
 							<!-- <div id="lineasusuario" class="col-xl col-lg"> -->
-							<label id="lblForm"class="col-form-label col-xl col-lg">LINEA:</label>
+							<label id="lblForm"class="col-form-label col-xl col-lg">LINEA:<span style="color:red;">*</span></label>
 							<select name="linea" id="lineas" style="text-transform:uppercase" class="form-control col-xl col-lg" required><option value="" selected disabled>- SELECCIONE UNA-</option></select>
 							<!-- </div> -->
 						</div>
@@ -118,7 +118,7 @@ $row = $resultado->fetch_assoc();
 							 -->
 
 							 <div class="form-group row" >
-                            <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
+                            <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:<span style="color:red;">*</span></label>
                             <select name="estado" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                             <option selected disabled="">-SELECCIONE UNA-</option>
                             <?php
@@ -133,7 +133,7 @@ $row = $resultado->fetch_assoc();
 						</div>
 
 						<div class="form-group row" >
-                            <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:</label>
+                            <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:<span style="color:red;">*</span></label>
                             <select name="proveedor" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                             <option selected disabled="">-SELECCIONE UNA-</option>
                             <?php
@@ -148,7 +148,7 @@ $row = $resultado->fetch_assoc();
                         </div>
 
 						<div class="form-group row" >
-							<label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
+							<label id="lblForm"class="col-form-label col-xl col-lg">MODELO:<span style="color:red;">*</span></label>
                             <select name="modelo" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                             <option selected disabled="">-SELECCIONE UNA-</option>
                             <?php
@@ -167,7 +167,7 @@ $row = $resultado->fetch_assoc();
 						</div>
 
 						<div class="form-group row" >
-                            <label id="lblForm"class="col-form-label col-xl col-lg">PROCEDENCIA:</label>
+                            <label id="lblForm"class="col-form-label col-xl col-lg">PROCEDENCIA:<span style="color:red;">*</span></label>
                             <select name="procedencia" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                             <option selected disabled="">-SELECCIONE UNA-</option>
                             <?php

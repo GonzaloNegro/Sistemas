@@ -127,12 +127,12 @@ $row = $resultado->fetch_assoc();
 			<form method="POST" action="agregados.php">
 
 				<div class="form-group row">
-					<label id="lblForm"class="col-form-label col-xl col-lg">NÚMERO:</label>
+					<label id="lblForm"class="col-form-label col-xl col-lg">NÚMERO:<span style="color:red;">*</span></label>
 					<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" name="text" id="cardnumber" placeholder="NÚMERO" required>
 				</div>
 
 				<div class="form-group row">
-					<label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
+					<label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:<span style="color:red;">*</span></label>
 					<select name="usuario" id="usuario" style="text-transform:uppercase" onchange="cargarLineas()" class="form-control col-xl col-lg" required>
 					<option selected disabled="">-SELECCIONE UNA-</option>
 					<?php
@@ -147,7 +147,7 @@ $row = $resultado->fetch_assoc();
 				</div>
 
 				<div class="form-group row">
-					<label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
+					<label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:<span style="color:red;">*</span></label>
 					<select id="estado" name="estado" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 					<option selected disabled="">-SELECCIONE UNA-</option>
 					<?php
@@ -162,7 +162,7 @@ $row = $resultado->fetch_assoc();
 				</div>
 
 				<div class="form-group row">
-					<label id="lblForm"class="col-form-label col-xl col-lg">CELULAR:</label>
+					<label id="lblForm"class="col-form-label col-xl col-lg">CELULAR:<span style="color:red;">*</span></label>
 					<select name="celular" id="celulares" style="text-transform:uppercase" class="form-control col-xl col-lg" required><option value="" selected disabled>- SELECCIONE UNA OPCIÓN -</option></select>
 				</div>
 
@@ -195,17 +195,17 @@ $row = $resultado->fetch_assoc();
 				</div>-->
 				
 				<div class="form-group row">
-					<label id="lblForm"class="col-form-label col-xl col-lg">DESCUENTO:</label>
+					<label id="lblForm"class="col-form-label col-xl col-lg">DESCUENTO:<span style="color:red;">*</span></label>
 					<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" name="descuento" id="descuento" step="0.01" placeholder="10,00" required>
 				</div>
 
 				<div class="form-group row">
-					<label id="lblForm"class="col-form-label col-xl col-lg">FECHA DESCUENTO:</label>
+					<label id="lblForm"class="col-form-label col-xl col-lg">FECHA DESCUENTO:<span style="color:red;">*</span></label>
 					<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="date" name="fecha" id="fecha" required>
 				</div>
 
 				<div class="form-group row">
-					<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE PLAN:</label>
+					<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE PLAN:<span style="color:red;">*</span></label>
 					<select id="nombrePlan" name="nombrePlan" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 					<option selected disabled="">-SELECCIONE UNA-</option>
 					<?php
@@ -224,7 +224,7 @@ $row = $resultado->fetch_assoc();
 				</div>
 
 				<div class="form-group row">
-					<label id="lblForm"class="col-form-label col-xl col-lg">ROAMING:</label>
+					<label id="lblForm"class="col-form-label col-xl col-lg">ROAMING:<span style="color:red;">*</span></label>
 					<select name="roaming" id="roaming" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 					<option selected disabled="">-SELECCIONE UNA-</option>
 					<?php
@@ -239,7 +239,7 @@ $row = $resultado->fetch_assoc();
 				</div>  
 				
 				<div class="form-group row">
-					<label id="lblForm"class="col-form-label col-xl col-lg">EXTRAS:</label>
+					<label id="lblForm"class="col-form-label col-xl col-lg">EXTRAS:<span style="color:red;">*</span></label>
 					<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" name="extras" id="extras" step="0.01" placeholder="0,00" required>
 				</div>
 

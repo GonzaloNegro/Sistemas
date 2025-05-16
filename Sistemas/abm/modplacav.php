@@ -91,7 +91,8 @@ function ConsultarIncidente($no_tic)
 							}
 		};
 
-        function enviar_formulario(formulario) {
+    function enviar_formulario(formulario, accion) {
+        // Asigna el valor de la acción al campo oculto "accion"
         if (validar_formulario()) {
 
         const campos = [
@@ -109,7 +110,7 @@ function ConsultarIncidente($no_tic)
                 : elemento.value;
 
             if (valor.trim() !== "") {
-                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor}</li>`;
+                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor.toUpperCase()}</li>`;
             }
         });
 
@@ -216,11 +217,12 @@ function ConsultarIncidente($no_tic)
                     <?php endforeach ?>
                     </select>
                 </div>
-
-            <div class="row justify-content-end">
-                <input onclick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" type="button" name="modPlacav" value="MODIFICAR" >
-            </div>
-        </form>
+                <!-- Campo oculto para la acción -->
+                <input type="hidden" id="accion" name="accion" value="modPlacav">
+                <div class="row justify-content-end">
+                    <input onclick="enviar_formulario(this.form, 'modPlacav')" style="width: 20%;"class="btn btn-success" type="button" name="modPlacav" value="MODIFICAR" >
+                </div>
+            </form>
 		</div>
 	</section>
 	</main>

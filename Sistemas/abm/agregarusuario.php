@@ -119,7 +119,7 @@ $row = $resultado->fetch_assoc();
                         errorMessage: "No ingresó cuil."
                     },
                     {
-                        selector: "#cuil",
+                        selector: "#area",
                         errorMessage: "No seleccionó área."
                     },
                     {
@@ -159,13 +159,15 @@ $row = $resultado->fetch_assoc();
 								return false;
 							}
 		};
-        function enviar_formulario_usuario(formulario) {
+        function enviar_formulario(formulario, accion) {
+			// Asigna el valor de la acción al campo oculto "accion"
+			formulario.querySelector('#accion').value = accion;
             if (validar_formulario()) {
                 const campos = [
                     { id: 'nombre_usuario', label: 'Usuario' },
                     { id: 'cuil', label: 'Cuil' },
                     { id: 'area', label: 'Área', esSelect: true },
-                    { id: 'piso', label: 'Piso' },
+                    { id: 'piso', label: 'Piso', esSelect: true },
                     { id: 'interno', label: 'Interno' },
                     { id: 'telPersonal', label: 'Teléfono Personal' },
                     { id: 'correo', label: 'Correo' },
@@ -197,16 +199,16 @@ $row = $resultado->fetch_assoc();
 		<div id="principalu" style="width: 97%" class="container-fluid" data-aos="zoom-in">
             <form method="POST" action="./agregados.php">
                 <div class="form-group row">
-                    <label id="lblForm" class="col-form-label col-xl col-lg">USUARIO:</label>
+                    <label id="lblForm" class="col-form-label col-xl col-lg">USUARIO:<span style="color:red;">*</span></label>
                     <input id="nombre_usuario" class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="nombre_usuario" placeholder="APELLIDO Y NOMBRE" required>
                 </div>
 
                 <div class="form-group row">
-                    <label id="lblForm"class="col-form-label col-xl col-lg">CUIL:</label>
+                    <label id="lblForm"class="col-form-label col-xl col-lg">CUIL:<span style="color:red;">*</span></label>
                     <input id="cuil" class="form-control col-xl col-lg" type="number" max="11" name="cuil" placeholder="20300000003" oninput="if(this.value.length > 11) this.value = this.value.slice(0, 11)" required>
                 </div>
                 <div class="form-group row">
-                    <label id="lblForm"class="col-form-label col-xl col-lg">ÁREA:</label>
+                    <label id="lblForm"class="col-form-label col-xl col-lg">ÁREA:<span style="color:red;">*</span></label>
                     <select id="area" name="area" class="form-control col-xl col-lg" required>
                     <option selected disabled="area">-SELECCIONE UNA-</option>
                     <?php
@@ -260,7 +262,7 @@ $row = $resultado->fetch_assoc();
                 </div>
 
                 <div class="form-group row">
-                    <label id="lblForm"class="col-form-label col-xl col-lg">TURNO:</label>
+                    <label id="lblForm"class="col-form-label col-xl col-lg">TURNO:<span style="color:red;">*</span></label>
                     <select id="turno" name="turno" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                     <option selected disabled>-SELECCIONE UNA-</option>
                     <?php
@@ -278,10 +280,12 @@ $row = $resultado->fetch_assoc();
                     <label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓN:</label>
                     <textarea class="form-control col-xl col-lg" name="obs" id="observaciones" placeholder="Descripción de la observación" style="text-transform:uppercase" rows="3"></textarea>
                 </div>
+				<!-- Campo oculto para la acción -->
+				<input type="hidden" id="accion" name="accion" value="agregarUsuario">
                 <?php 
                 if ($row['ID_PERFIL'] != 5) {
                     echo '<div class="row justify-content-end" >
-                            <input onClick="enviar_formulario_usuario(this.form)"class="btn btn-success" name="agregarUsuario" style="width: 20%;" type="button" value="GUARDAR" >
+                            <input onClick="enviar_formulario_usuario(this.form, \'agregarUsuario\')"class="btn btn-success" name="agregarUsuario" style="width: 20%;" type="button" value="GUARDAR" >
                             </div>';
                 }
             ?>

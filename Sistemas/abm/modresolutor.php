@@ -65,14 +65,6 @@ function ConsultarIncidente($no_tic)
                         errorMessage: "No ingresó cuil."
                     },
                     {
-                        selector: "#correo",
-                        errorMessage: "No ingresó correo."
-                    },
-                    {
-                        selector: "#telefono",
-                        errorMessage: "No ingresó teléfono."
-                    },
-                    {
                         selector: "#tipo",
                         errorMessage: "No seleccionó tipo."
                     },
@@ -127,7 +119,9 @@ function ConsultarIncidente($no_tic)
             });
         });
 
-function enviar_formulario(formulario) {
+function enviar_formulario(formulario, accion) {
+    // Asigna el valor de la acción al campo oculto "accion"
+    formulario.querySelector('#accion').value = accion;
     if (validar_formulario()) {
         let mensajeHtml = "";  // Mensaje que se mostrará en el modal
         let datosValidos = false;  // Variable para verificar si hay datos válidos
@@ -151,7 +145,7 @@ function enviar_formulario(formulario) {
                 : elemento.value;
 
             if (valor.trim() !== "") {
-                mensajeCampos += `<li><strong>${campo.label}:</strong> ${valor}</li>`;
+                mensajeCampos += `<li><strong>${campo.label}:</strong> ${valor.toUpperCase()}</li>`;
                 datosValidos = true;  // Si hay datos válidos, establecemos la bandera
             }
         });
@@ -251,11 +245,11 @@ function enviar_formulario(formulario) {
 
                 <div class="form-group row">
                     <label id="lblForm" class="col-form-label col-xl col-lg">NOMBRE: </label>
-                    <input id="nombre_resolutor" class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="nom" value="<?php echo $consulta['RESOLUTOR']?>">
+                    <input id="nombre_resolutor" class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="nom" value="<?php echo $consulta['RESOLUTOR']?>" required>
                 </div>
                 <div class="form-group row">
                     <label id="lblForm" class="col-form-label col-xl col-lg">CUIL: </label>
-                    <input id="cuil" class="form-control col-xl col-lg" type="text" name="cuil" value="<?php echo $consulta['CUIL']?>">
+                    <input id="cuil" class="form-control col-xl col-lg" type="text" name="cuil" value="<?php echo $consulta['CUIL']?>" required>
                 </div>
 
                 <div class="form-group row">
@@ -269,7 +263,7 @@ function enviar_formulario(formulario) {
 
                 <div class="form-group row">
                     <label id="lblForm" class="col-form-label col-xl col-lg">TIPO DE RESOLUTOR:</label>
-                    <select id="tipo" name="tipo" class="form-control col-xl col-lg" style="text-transform:uppercase">
+                    <select id="tipo" name="tipo" class="form-control col-xl col-lg" style="text-transform:uppercase" required>
                                     <option selected value="100"><?php echo $tr?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -295,10 +289,10 @@ function enviar_formulario(formulario) {
                             <?php endforeach ?>
                             </select>
                 </div>
-                <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
-                <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
+                <!-- Campo oculto para la acción -->
+                <input type="hidden" id="accion" name="accion" value="modResolutor">
                 <div class="row justify-content-end">
-                    <input onclick="enviar_formulario(this.form)" style="width: 20%;" class="btn btn-success" type="button" name="modResolutor" value="MODIFICAR">
+                    <input onclick="enviar_formulario(this.form, 'modResolutor')" style="width: 20%;" class="btn btn-success" type="button" name="modResolutor" value="MODIFICAR">
                 </div>
             </form>
 	    </div>

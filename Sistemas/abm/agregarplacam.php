@@ -188,11 +188,11 @@ $row = $resultado->fetch_assoc();
 		<div id="principalu" style="width: 97%" class="container-fluid" data-aos="zoom-in">
 						<form method="POST" action="./agregados.php">
                             <div class="form-group row">
-                                <label id="lblForm" class="col-form-label col-xl col-lg">PLACA MADRE:</label>
+                                <label id="lblForm" class="col-form-label col-xl col-lg">PLACA MADRE:<span style="color:red;">*</span></label>
                                 <input id="placam" class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="placam" placeholder="NOMBRE DEL MODELO" required>
                             </div>
                             <div class="form-group row">
-                                <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
+                                <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:<span style="color:red;">*</span></label>
                                 <select id="marca" name="marca" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                                 <option selected disabled="area">-SELECCIONE UNA-</option>
                                 <?php
@@ -209,7 +209,7 @@ $row = $resultado->fetch_assoc();
                             <!-- Campo oculto para la acción -->
                             <input type="hidden" id="accion" name="accion" value="agregarPlacam">
                             <div class="row justify-content-end">
-                                <input onclick="enviar_formulario(this.form, \'agregarPlacam\')" style="width: 20%;"class="btn btn-success" type="button" name="agregarPlacam" value="GUARDAR" >
+                                <input onclick="enviar_formulario(this.form, 'agregarPlacam')" style="width: 20%;"class="btn btn-success" type="button" name="agregarPlacam" value="GUARDAR" >
                             </div>
 					</form>
 					<?php

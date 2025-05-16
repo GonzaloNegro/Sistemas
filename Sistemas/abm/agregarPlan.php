@@ -174,17 +174,18 @@ $row = $resultado->fetch_assoc();
 			<form method="POST" action="./agregados.php">
 
 				<div class="form-group row">
-					<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE:</label>
+					<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE:<span style="color:red;">*</span></label>
 					<input id="nombrePlan" style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="nombrePlan" placeholder="NOMBRE PLAN" required>
                 </div>
 
                 <div class="form-group row">
-					<label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:</label>
+					<label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:<span style="color:red;">*</span></label>
 						<select id="proveedor" name="proveedor" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 						<option selected disabled="">-SELECCIONE UNA-</option>
 						<?php
 						include("../particular/conexion.php");
-						$consulta= "SELECT * FROM proveedor ORDER BY PROVEEDOR ASC";
+						$consulta= "SELECT * FROM proveedor WHERE ID_PROVEEDOR IN (34, 35) ORDER BY PROVEEDOR ASC;
+						";
 						$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 						?>
 						<?php foreach ($ejecutar as $opciones): ?> 
@@ -194,7 +195,7 @@ $row = $resultado->fetch_assoc();
 				</div>
 				
                 <div class="form-group row">
-					<label id="lblForm"class="col-form-label col-xl col-lg">PLAN:</label>
+					<label id="lblForm"class="col-form-label col-xl col-lg">PLAN:<span style="color:red;">*</span></label>
 						<select id="plan" name="plan" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 						<option selected disabled="">-SELECCIONE UNA-</option>
 						<?php
@@ -209,7 +210,7 @@ $row = $resultado->fetch_assoc();
                 </div>
 
                 <div class="form-group row">
-					<label id="lblForm"class="col-form-label col-xl col-lg">MONTO SIN DESCUENTO:</label>
+					<label id="lblForm"class="col-form-label col-xl col-lg">MONTO SIN DESCUENTO:<span style="color:red;">*</span></label>
 					<input id="monto" style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="number" name="monto" step="0.01" placeholder="10,00" required>
 				</div>
 				<!-- Campo oculto para la acción -->

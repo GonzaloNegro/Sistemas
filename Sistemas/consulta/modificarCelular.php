@@ -5,37 +5,32 @@ include('../particular/conexion.php');
 
 $consulta = ConsultarIncidente($_GET['num']);
 $id_celular=$_GET['num'];
+
 function ConsultarIncidente($no_tic)
 {	
-	$datos_base=mysqli_connect('localhost', 'root', '', 'incidentes') or exit('No se puede conectar con la base de datos');
-	// $sentencia =  "SELECT * FROM celular WHERE ID_CELULAR='".$no_tic."'";
-	$sentencia =  "SELECT c.ID_CELULAR, c.IMEI, c.ID_USUARIO, c.ID_ESTADOWS, c.ID_PROVEEDOR, c.ID_MODELO, c.ID_PROCEDENCIA, lc.ID_LINEA, l.NRO 
+    $datos_base = mysqli_connect('localhost', 'root', '', 'incidentes') or exit('No se puede conectar con la base de datos');
+
+	$no_tic = mysqli_real_escape_string($datos_base, $no_tic);
+
+    $sentencia = "SELECT c.ID_CELULAR, c.IMEI, c.ID_USUARIO, c.ID_ESTADOWS, c.ID_PROVEEDOR, c.ID_MODELO, c.ID_PROCEDENCIA, lc.ID_LINEA, l.NRO 
 	FROM celular c 
 	left join lineacelular lc on c.ID_CELULAR=lc.ID_CELULAR 
 	left join linea l on lc.ID_LINEA=l.ID_LINEA 
 	WHERE c.ID_CELULAR='".$no_tic."'";
-	$resultado = mysqli_query($datos_base, $sentencia);
-	$filas = mysqli_fetch_assoc($resultado);
-	return [
-		$filas['ID_CELULAR'],/*0*/
-		$filas['IMEI'],/*1*/
-        $filas['ID_USUARIO'],/*2*/
-        $filas['ID_ESTADOWS'],/*3*/
-        $filas['ID_PROVEEDOR'],/*4*/
-        $filas['ID_MODELO'],/*5*/
-        $filas['ID_PROCEDENCIA'],/*6*/
-		$filas['ID_LINEA'],/*7*/
-		$filas['NRO']/*8*/
-	];
+    $resultado = mysqli_query($datos_base, $sentencia);
+
+    return mysqli_fetch_assoc($resultado);
 }
-$imei = $consulta[1];
-$idUsuario = $consulta[2];
-$idEstado = $consulta[3];
-$idProveedor = $consulta[4];
-$idModelo = $consulta[5];
-$idProcendencia = $consulta[6];
-$idLinea = $consulta[7];
-$nrocelular = $consulta[8];
+
+$id = $consulta['ID_CELULAR'];
+$imei = $consulta['IMEI'];
+$idUsuario = $consulta['ID_USUARIO'];
+$idEstado = $consulta['ID_ESTADOWS'];
+$idProveedor = $consulta['ID_PROVEEDOR'];
+$idModelo = $consulta['ID_MODELO'];
+$idProcendencia = $consulta['ID_PROCEDENCIA'];
+$idLinea = $consulta['ID_LINEA'];
+$nrocelular = $consulta['NRO'];
 
 ?>
 <!DOCTYPE html>
@@ -50,14 +45,141 @@ $nrocelular = $consulta[8];
 	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
+<script>
+          function validar_formulario(){
+			
+			var fieldsToValidate = [
+                    {
+                        selector: "#imei",
+                        errorMessage: "No ingresó el imei."
+                    },
+                    {
+                        selector: "#usuario",
+                        errorMessage: "No seleccionó un usuario."
+                    },
+                    {
+                        selector: "#lineas",
+                        errorMessage: "No seleccionó una línea."
+                    },
+                    {
+                        selector: "#estado",
+                        errorMessage: "No seleccionó un estado."
+                    },
+                    {
+                        selector: "#prov",
+                        errorMessage: "No seleccionó proveedor."
+                    },
+                    {
+                        selector: "#mod",
+                        errorMessage: "No seleccionó modelo."
+                    },
+                    {
+                        selector: "#proc",
+                        errorMessage: "No seleccionó procedencia."
+                    }
+                ];
+
+                var isValid = true;
+
+				$.each(fieldsToValidate, function(index, field) {
+                    var element = $(field.selector);
+                    if (element.val()== "" || element.val()== null) {
+                      Swal.fire({
+                      title: field.errorMessage,
+                      icon: "warning",
+                      showConfirmButton: true,
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Aceptar',
+                      cancelButtonText: "Cancelar",
+                      customClass:{
+                      actions: 'reverse-button'
+                        }
+                      })
+                        isValid = false;
+                        return false;
+                    }
+                });
+
+				if (isValid ==true) {
+								
+								return true;
+							}
+							else{
+								return false;
+							}
+		};
+
+    function enviar_formulario(formulario, accion) {
+        // Asigna el valor de la acción al campo oculto "accion"
+        if (validar_formulario()) {
+
+        const campos = [
+            { id: 'imei', label: 'Imei' },
+            { id: 'usuario', label: 'Usuario', esSelect: true },
+            { id: 'lineas', label: 'Linea', esSelect: true },
+            { id: 'estado', label: 'Estado', esSelect: true },
+            { id: 'prov', label: 'Proveedor', esSelect: true },
+            { id: 'mod', label: 'Modelo', esSelect: true },
+            { id: 'proc', label: 'Procedencia', esSelect: true },
+            { id: 'obs', label: 'Observación' },
+        ];
+
+        let mensajeHtml = "<ul style='text-align:left;'>"; 
+
+        campos.forEach(campo => {
+            const elemento = document.getElementById(campo.id);
+            let valor = campo.esSelect
+                ? elemento.options[elemento.selectedIndex].text
+                : elemento.value;
+
+			const fecha = new Date(valor);
+            if (!isNaN(fecha) && campo.id.toLowerCase().includes("fecha")) {
+                const dia = String(fecha.getDate()).padStart(2, '0');
+                const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+                const anio = fecha.getFullYear();
+                valor = `${dia}/${mes}/${anio}`;
+            }
+
+            if (valor.trim() !== "") {
+                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor.toUpperCase()}</li>`;
+            }
+        });
+
+        mensajeHtml += "</ul>";
+
+        mensajeHtml += `<br>
+            <strong style="color:red;">Recuerde que cambiar los datos del celular afectará los registros.</strong>`;
+
+        mensajeHtml += '<br><strong>¿Está seguro de modificar este celular?</strong><br><br>';
+
+        Swal.fire({
+            title: "Datos modificados del celular",
+            icon: "warning",
+            html: mensajeHtml,
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonColor: '#198754',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: "Cancelar",
+            reverseButtons: true,
+            customClass: {
+                actions: 'reverse-button'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                formulario.submit();
+            }
+        });
+    }
+}
+</script>
 <main>
 	<div id="reporteEst">
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
@@ -96,20 +218,20 @@ $nrocelular = $consulta[8];
 			$modelo = $row['MODELO'];
 			$marca = $row['MARCA'];
 
-			$sent= "SELECT ID_MOVICEL, OBSERVACION FROM movicelular WHERE ID_CELULAR = $consulta[0] ORDER BY ID_MOVICEL DESC";
+			$sent= "SELECT ID_MOVICEL, OBSERVACION FROM movicelular WHERE ID_CELULAR = $id ORDER BY ID_MOVICEL DESC";
 			$resultado = $datos_base->query($sent);
 			$row = $resultado->fetch_assoc();
 			$observaciones = $row['OBSERVACION'];
 		?>
-					<form method="POST" action="agregados.php">
+					<form method="POST" action="../abm/modificados.php">
 						<div class="form-group row">
 							<label id="lblForm"class="col-form-label col-xl col-lg">ID: </label>
-							<input type="text" class="id" name="id" value="<?php echo $consulta[0]?>" style="background-color:transparent;" readonly>
+							<input type="text" class="id" name="id" value="<?php echo $id?>" style="background-color:transparent;" readonly>
 						</div>
 						
                         <div class="form-group row">
 							<label id="lblForm"class="col-form-label col-xl col-lg">IMEI:</label>
-							<input style="margin-top: 5px; text-transform:uppercase;cursor: default;" class="form-control col-form-label col-xl col-lg" type="text" name="imei" placeholder="IMEI" value="<?php echo $imei?>" required readonly>
+							<input style="margin-top: 5px; text-transform:uppercase;cursor: default;" class="form-control col-form-label col-xl col-lg" type="text" name="imei" placeholder="IMEI" id="imei" value="<?php echo $imei?>" required readonly>
 						</div>
 						<div class="form-group row">
 							<label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
@@ -154,7 +276,7 @@ $nrocelular = $consulta[8];
 
                         <div class="form-group row">
 							<label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
-                            <select name="estado" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <select name="estado" id="estado" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 							<option selected value="200"><?php echo $estado;?></option>
 							<?php
                             include("../particular/conexion.php");
@@ -169,7 +291,7 @@ $nrocelular = $consulta[8];
 							
 						</div>
                             <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:</label>
-                            <select name="proveedor" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <select name="proveedor" id="prov" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 							<option selected value="300"><?php echo $proveedor;?></option>
                             <?php
                             include("../particular/conexion.php");
@@ -184,7 +306,7 @@ $nrocelular = $consulta[8];
 
 						<div class="form-group row">
 							<label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
-                            <select name="modelo" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <select name="modelo" id="mod" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 							<option selected value="400"><?php echo $marca." - ".$modelo;?></option>
                             <?php
                             include("../particular/conexion.php");
@@ -203,7 +325,7 @@ $nrocelular = $consulta[8];
 
 						<div class="form-group row">
                             <label id="lblForm"class="col-form-label col-xl col-lg">PROCEDENCIA:</label>
-                            <select name="procedencia" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <select name="procedencia" id="proc" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 							<option selected value="500"><?php echo $procedencia;?></option>
                             <?php
                             include("../particular/conexion.php");
@@ -218,11 +340,12 @@ $nrocelular = $consulta[8];
 
 						<div class="form-group row">
 							<label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓN:</label>
-                            <textarea class="form-control col-xl col-lg" name="obs" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3" ><?php echo $observaciones;?></textarea>
+                            <textarea class="form-control col-xl col-lg" id="obs" name="obs" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3" ><?php echo $observaciones;?></textarea>
 						</div>
-
+						<!-- Campo oculto para la acción -->
+						<input type="hidden" id="accion" name="accion" value="modificarCelular">
 						<div class="form-group row justify-content-end">
-							<input style="width:20%" class="btn btn-success" type="submit" name="modificarCelular" value="MODIFICAR" class="button">
+							<input style="width:20%" onclick="enviar_formulario(this.form, 'modificarCelular')"  class="btn btn-success" type="submit" name="modificarCelular" value="MODIFICAR" class="button">
 						</div>
 					</form>
 					<?php

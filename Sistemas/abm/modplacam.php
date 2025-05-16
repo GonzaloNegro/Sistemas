@@ -79,7 +79,8 @@ function ConsultarIncidente($no_tic)
 							}
 		};
 
-        function enviar_formulario(formulario) {
+    function enviar_formulario(formulario, accion) {
+        // Asigna el valor de la acción al campo oculto "accion"
         if (validar_formulario()) {
 
         const campos = [
@@ -96,7 +97,7 @@ function ConsultarIncidente($no_tic)
                 : elemento.value;
 
             if (valor.trim() !== "") {
-                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor}</li>`;
+                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor.toUpperCase()}</li>`;
             }
         });
 
@@ -129,23 +130,23 @@ function ConsultarIncidente($no_tic)
     }
 }
     </script>
-<main>
-    <div id="reporteEst">   
-        <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-            <a id="vlv"  href="abmplacamadre.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
-        </div>					
-    </div>
-	<section id="Inicio">
-    <div id="titulo">
-			<h1>MODIFICAR PLACA MADRE</h1>
-	</div>
-	<div id="principalu" style="width: 97%" class="container-fluid">
-                        <?php 
-                        include("../particular/conexion.php");
-                        $sent= "SELECT MARCA FROM marcas WHERE ID_MARCA = $consulta[ID_MARCA]";
-                        $resultado = $datos_base->query($sent);
-                        $row = $resultado->fetch_assoc();
-                        $ma = $row['MARCA'];?>
+    <main>
+        <div id="reporteEst">   
+            <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
+                <a id="vlv"  href="abmplacamadre.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
+            </div>					
+        </div>
+        <section id="Inicio">
+            <div id="titulo">
+                    <h1>MODIFICAR PLACA MADRE</h1>
+            </div>
+            <div id="principalu" style="width: 97%" class="container-fluid">
+                <?php 
+                include("../particular/conexion.php");
+                $sent= "SELECT MARCA FROM marcas WHERE ID_MARCA = $consulta[ID_MARCA]";
+                $resultado = $datos_base->query($sent);
+                $row = $resultado->fetch_assoc();
+                $ma = $row['MARCA'];?>
                 <form method="POST" action="./modificados.php">
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">ID: </label>
@@ -154,7 +155,7 @@ function ConsultarIncidente($no_tic)
                     
                     <div class="form-group row">
                         <label id="lblForm" class="col-form-label col-xl col-lg">PLACA MADRE:</label>
-                        <input class="form-control col-xl col-lg" id="placam" type="text" name="placam" placeholder="NOMBRE DEL MODELO" value="<?php echo $consulta['PLACAM']?>" required>
+                        <input class="form-control col-xl col-lg" id="placam" type="text" name="placam" placeholder="NOMBRE DEL MODELO" style="text-transform:uppercase;" value="<?php echo $consulta['PLACAM']?>" required>
                     </div>
                         
                     <div class="form-group row">
@@ -171,23 +172,24 @@ function ConsultarIncidente($no_tic)
                         <?php endforeach?>
                         </select>
                     </div>
-
+                    <!-- Campo oculto para la acción -->
+                    <input type="hidden" id="accion" name="accion" value="modPLacam">
                     <div class="row justify-content-end">
-                        <input onclick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" type="button" name="modPLacam" value="MODIFICAR" >
+                        <input onclick="enviar_formulario(this.form, 'modPLacam')" style="width: 20%;"class="btn btn-success" type="button" name="modPLacam" value="MODIFICAR" >
                     </div>
                 </form>
-	    </div>
-	</section>
-	</main>
-	<footer>
-		<div class="footer">
-			<div class="container-fluid">
-				<div class="row">
-					<img src="../imagenes/cba-logo.png" class="img-fluid">
-				</div>
-			</div>
-		</div>
-	</footer>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <img src="../imagenes/cba-logo.png" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </footer>
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>
 </html>

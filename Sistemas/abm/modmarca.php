@@ -75,7 +75,9 @@ function ConsultarIncidente($no_tic)
 							}
 		};
 
-        function enviar_formulario(formulario) {
+function enviar_formulario(formulario, accion) {
+    // Asigna el valor de la acción al campo oculto "accion"
+    formulario.querySelector('#accion').value = accion;
     if (validar_formulario()) {
         const campos = [
             { id: 'marca', label: 'Nombre de la marca' }
@@ -90,7 +92,7 @@ function ConsultarIncidente($no_tic)
                 : elemento.value;
 
             if (valor.trim() !== "") {
-                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor}</li>`;
+                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor.toUpperCase()}</li>`;
             }
         });
 
@@ -145,9 +147,9 @@ function ConsultarIncidente($no_tic)
                 	<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DE LA MARCA: </label>
                 	<input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="marca" id="marca" value="<?php echo $consulta[1]?>">
 				</div>
-                    <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
+                <input type="hidden" id="accion" name="accion" value="modMarca">
 				<div class="form-group row justify-content-end">
-					<input onclick="enviar_formulario(this.form)" style="width:20%" class="btn btn-success" type="button" value="MODIFICAR" name="modMarca" class="button">
+					<input onclick="enviar_formulario(this.form, 'modMarca')" style="width:20%" class="btn btn-success" type="button" value="MODIFICAR" name="modMarca" class="button">
 				</div>	
             </form>
 	    </div>

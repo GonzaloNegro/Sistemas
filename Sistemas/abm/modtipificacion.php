@@ -78,7 +78,9 @@ function ConsultarIncidente($no_tic)
 		};
 </script>
 <script>
-	function enviar_formulario(formulario) {
+function enviar_formulario(formulario, accion) {
+    // Asigna el valor de la acción al campo oculto "accion"
+    formulario.querySelector('#accion').value = accion;
     if (validar_formulario()) {
 
         const campos = [
@@ -94,7 +96,7 @@ function ConsultarIncidente($no_tic)
                 : elemento.value;
 
             if (valor.trim() !== "") {
-                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor}</li>`;
+                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor.toUpperCase()}</li>`;
             }
         });
 
@@ -148,8 +150,10 @@ function ConsultarIncidente($no_tic)
 					<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DE LA TIPIFICACIÓN:</label>
 					<input id="tipificacion" style="text-transform:uppercase;" class="form-control col-form-label col-xl col-lg"  type="text" name="tip" value="<?php echo $consulta['TIPIFICACION']?>">
 				</div>	
+                <!-- Campo oculto para la acción -->
+                <input type="hidden" id="accion" name="accion" value="modTipificacion">
 				<div class="form-group row justify-content-end">
-					<input class="btn btn-success" type="button" style="width:20%" name="modTipificacion" onclick="enviar_formulario(this.form)" value="MODIFICAR" >
+					<input class="btn btn-success" type="button" style="width:20%" name="modTipificacion" onclick="enviar_formulario(this.form, 'modTipificacion')" value="MODIFICAR">
 				</div>
 			</form>
 	    </div>

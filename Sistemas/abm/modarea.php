@@ -82,8 +82,9 @@ function ConsultarIncidente($no_tic)
 								return false;
 							}
 		};
-
-        function enviar_formulario(formulario) {
+function enviar_formulario(formulario, accion) {
+    // Asigna el valor de la acción al campo oculto "accion"
+    formulario.querySelector('#accion').value = accion;
     if (validar_formulario()) {
         const estadoActual = "<?php echo $consulta['ID_ESTADOUSUARIO']; ?>";
         const estadoSeleccionado = document.getElementById("estado").value;
@@ -104,7 +105,7 @@ function ConsultarIncidente($no_tic)
                 : elemento.value;
 
             if (valor.trim() !== "") {
-                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor}</li>`;
+                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor.toUpperCase()}</li>`;
             }
         });
 
@@ -211,8 +212,10 @@ function ConsultarIncidente($no_tic)
                             <?php endforeach?>
                         </select>
                     </div>
+                    <!-- Campo oculto para la acción -->
+                    <input type="hidden" id="accion" name="accion" value="modArea">
                     <div class="form-group row justify-content-end">
-                        <input onClick="enviar_formulario(this.form)" style="width:20%" type="button" value="MODIFICAR" name="modArea" class="btn btn-success">
+                        <input onclick="enviar_formulario(this.form, 'modArea')" style="width:20%" type="button" value="MODIFICAR" name="modArea" class="btn btn-success">
                     </div>	
                 </form>
 	    </div>

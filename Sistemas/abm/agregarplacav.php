@@ -112,7 +112,7 @@ $row = $resultado->fetch_assoc();
 		<div id="principalu" style="width: 97%" class="container-fluid" data-aos="zoom-in">
             <form method="POST" action="./agregados.php">
             <div class="form-group row">
-                <label id="lblForm"class="col-form-label col-xl col-lg">MEMORIA:</label>
+                <label id="lblForm"class="col-form-label col-xl col-lg">MEMORIA:<span style="color:red;">*</span></label>
                 <select id="memoria" name="memoria" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                         <option selected disabled="memoria">-SELECCIONE UNA-</option>
                         <?php
@@ -128,7 +128,7 @@ $row = $resultado->fetch_assoc();
             </div>
 
             <div class="form-group row">
-                <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
+                <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:<span style="color:red;">*</span></label>
                 <select id="modelo" name="modelo" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                         <option selected disabled="modelo">-SELECCIONE UNA-</option>
                         <?php
@@ -144,7 +144,7 @@ $row = $resultado->fetch_assoc();
             </div>
 
             <div class="form-group row">
-                <label id="lblForm"class="col-form-label col-xl col-lg">TIPO MEMORIA:</label>
+                <label id="lblForm"class="col-form-label col-xl col-lg">TIPO MEMORIA:<span style="color:red;">*</span></label>
                 <select id="tipo" name="tipo" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                         <option selected disabled="tipo">-SELECCIONE UNA-</option>
                         <?php
@@ -161,7 +161,7 @@ $row = $resultado->fetch_assoc();
             <!-- Campo oculto para la acción -->
             <input type="hidden" id="accion" name="accion" value="agregarPlacav">
             <div class="row justify-content-end">
-                <input onclick="enviar_formulario(this.form, \'agregarPlacav\')" style="width: 20%;"class="btn btn-success" type="button" name="agregarPlacav" value="GUARDAR" >
+                <input onclick="enviar_formulario(this.form, 'agregarPlacav')" style="width: 20%;"class="btn btn-success" type="button" name="agregarPlacav" value="GUARDAR" >
             </div>
         </form>
 		</div>

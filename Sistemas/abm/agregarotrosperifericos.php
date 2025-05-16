@@ -112,6 +112,10 @@ $row = $resultado->fetch_assoc();
                     {
                         selector: "#est",
                         errorMessage: "No seleccionó estado."
+                    },
+                    {
+                        selector: "#prov",
+                        errorMessage: "No seleccionó proveedor."
                     }
                 ];
 
@@ -146,34 +150,30 @@ $row = $resultado->fetch_assoc();
 								return false;
 							}
 		};
-		function enviar_formulario(formulario){
-        	if (validar_formulario()) {
-				// alert("Todo OK");
-				Swal.fire({
-                        title: "Esta seguro de guardar este periférico?",
-                        icon: "warning",
-                        showConfirmButton: true,
-                        showCancelButton: true,
-              confirmButtonColor: '#198754',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: "Cancelar",
-                reverseButtons: true,
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            formulario.submit()
+        function enviar_formulario(formulario, accion) {
+			// Asigna el valor de la acción al campo oculto "accion"
+			formulario.querySelector('#accion').value = accion;
 
+			if (validar_formulario()) {
+				const campos = [
+					{ id: 'tipop', label: 'Tipo de periférico', esSelect: true },
+					{ id: 'serieg', label: 'Serieg Gobierno'},
+					{ id: 'serie', label: 'N°Serie' },
+					{ id: 'marca', label: 'Marca', esSelect: true },
+					{ id: 'equip', label: 'Equipo al que se asigna', esSelect: true },
+					{ id: 'mod', label: 'Modelo', esSelect: true  },
+					{ id: 'est', label: 'Estado', esSelect: true }
+					{ id: 'prov', label: 'Proveedor', esSelect: true },
+				];
 
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
+				confirmarEnvioFormulario(
+					formulario,
+					campos,
+					"Datos del periférico",
+					"¿Está seguro de guardar este periférico?"
+				);
 			}
-		}
+		};
 		</script>
 <main>
     <div id="reporteEst">   
@@ -189,7 +189,7 @@ $row = $resultado->fetch_assoc();
 						<form method="POST" action="./agregados.php">
 
                         <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">TIPO PERIFÉRICO:</label>
+                        <label id="lblForm"class="col-form-label col-xl col-lg">TIPO PERIFÉRICO:<span style="color:red;">*</span></label>
                             <select id="tipop" name="tipop" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                             <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                             <?php
@@ -204,17 +204,17 @@ $row = $resultado->fetch_assoc();
                         </div>
 
                         <div class="form-group row">
-                            <label id="lblForm" class="col-form-label col-xl col-lg">N° GOBIERNO:</label> 
+                            <label id="lblForm" class="col-form-label col-xl col-lg">N° GOBIERNO:<span style="color:red;">*</span></label> 
 							<input id="serieg" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="serieg" required>
                         </div>
                         
                         <div class="form-group row">
-                            <label id="lblForm" class="col-form-label col-xl col-lg">N° SERIE:</label> 
+                            <label id="lblForm" class="col-form-label col-xl col-lg">N° SERIE:<span style="color:red;">*</span></label> 
 							<input id="serie" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="serie" required>
                         </div>
 
                         <div class="form-group row">
-							<label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
+							<label id="lblForm"class="col-form-label col-xl col-lg">MARCA:<span style="color:red;">*</span></label>
                             <select id="marca" name="marca" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                             <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                             <?php
@@ -229,7 +229,7 @@ $row = $resultado->fetch_assoc();
                         </div>    
 
                         <div class="form-group row">
-                            <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL QUE SE ASIGNA:</label>
+                            <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL QUE SE ASIGNA:<span style="color:red;">*</span></label>
                             <select id="equip" name="equip" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                             <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                             <?php
@@ -252,7 +252,7 @@ $row = $resultado->fetch_assoc();
                         </div>
 
                         <div class="form-group row">
-                            <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
+                            <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:<span style="color:red;">*</span></label>
                             <select id="mod" name="mod" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                             <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                             <?php
@@ -267,7 +267,7 @@ $row = $resultado->fetch_assoc();
                         </div> 
 
                         <div class="form-group row">
-							<label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
+							<label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:<span style="color:red;">*</span></label>
                             <select id="est" name="est" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                             <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                             <?php
@@ -293,8 +293,8 @@ $row = $resultado->fetch_assoc();
                         </div>
                         
                         <div class="form-group row">
-							<label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:</label>
-                            <select name="prov" style="text-transform:uppercase" class="form-control col-xl col-lg">
+							<label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:<span style="color:red;">*</span></label>
+                            <select name="prov" id="prov" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                             <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                             <?php
                             include("../particular/conexion.php");
@@ -311,10 +311,12 @@ $row = $resultado->fetch_assoc();
                             <label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓN:</label> 
                             <textarea class="form-control col-xl col-lg" name="obs" placeholder="Observación" style="text-transform:uppercase" rows="3"></textarea>
                         </div>
+                        <!-- Campo oculto para la acción -->
+                        <input type="hidden" id="accion" name="accion" value="agregarOtrosPerifericos">
                         <?php 
 							if ($row['ID_PERFIL'] != 5) {
 								echo '<div class="form-group row justify-content-end">
-                                    <input onClick="enviar_formulario(this.form)" style="width: 20%;"class="btn btn-success" type="button" name="agregarOtrosPerifericos" value="GUARDAR" class="button">
+                                    <input onClick="enviar_formulario(this.form, \'agregarOtrosPerifericos\')" style="width: 20%;"class="btn btn-success" type="button" name="agregarOtrosPerifericos" value="GUARDAR" class="button">
                                 </div>   ';
 							}
 						?>

@@ -179,12 +179,12 @@ $row = $resultado->fetch_assoc();
 			<div id="principalu" style="width: auto" class="container-fluid" data-aos="zoom-in">
 				<form method="POST" action="./agregados.php">
 					<div class="form-group row">
-						<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DEL ÁREA:</label>
+						<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DEL ÁREA:<span style="color:red;">*</span></label>
 						<input id="area" style="text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="area" placeholder="NOMBRE DEL ÁREA" required>
 					</div>	
 
 					<div class="form-group row" >
-						<label id="lblForm"class="col-form-label col-xl col-lg">REPARTICIÓN:</label>
+						<label id="lblForm"class="col-form-label col-xl col-lg">REPARTICIÓN:<span style="color:red;">*</span></label>
 						<select id="repa" name="repa" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 						<option selected disabled>-SELECCIONE UNA-</option>
 						<?php
@@ -199,7 +199,7 @@ $row = $resultado->fetch_assoc();
 						</select>
 					</div>	
 					<div class="form-group row" >
-						<label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
+						<label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:<span style="color:red;">*</span></label>
 						<select id="estado" name="estado" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 							<option selected disabled>-SELECCIONE UNA-</option>
 							<?php

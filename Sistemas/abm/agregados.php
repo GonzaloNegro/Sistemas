@@ -206,7 +206,7 @@ if (isset($_POST['accion'])) {
                 }
                 else
                 {
-                    mysqli_query($datos_base, "INSERT INTO resolutor VALUES (DEFAULT, '$resolutor', '$tipo', '$cuil', '$correo', '$telefono', 1234,'$rol')"); 
+                    mysqli_query($datos_base, "INSERT INTO resolutor VALUES (DEFAULT, '$resolutor', '$tipo', '$cuil', '$correo', '$telefono', 1234,'$perfil')"); 
 
                     mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'RESOLUTOR', 'AGREGADO',  '$resolutor', '', '$fechaActual', '$horaActual', '$resolutorActivo')");
 

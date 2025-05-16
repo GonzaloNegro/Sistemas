@@ -196,7 +196,7 @@ $row = $resultado->fetch_assoc();
 								return false;
 							}
 		};
-		function enviar_formulario(formulario, acción){
+		function enviar_formulario(formulario, accion){
 			// Asigna el valor de la acción al campo oculto "accion"
 			formulario.querySelector('#accion').value = accion;
 			if (validar_formulario()) {
@@ -240,11 +240,11 @@ $row = $resultado->fetch_assoc();
 		<div id="principalu" style="width: 97%" class="container-fluid" data-aos="zoom-in">
 					<form method="POST" action="./agregados.php">
                         <div class="form-group row">
-                            <label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE:</label>
+                            <label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE:<span style="color:red;">*</span></label>
 							<input id="nombre_resolutor" style="text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="nombre_resolutor" placeholder="NOMBRE" required>
                         </div>	
                         <div class="form-group row">
-							<label id="lblForm"class="col-form-label col-xl col-lg">CUIL:</label>
+							<label id="lblForm"class="col-form-label col-xl col-lg">CUIL:<span style="color:red;">*</span></label>
                             <input id="cuil" class="form-control col-form-label col-xl col-lg" type="number"  oninput="validarLongitud(this)" name="cuil" placeholder="20xxxxxxxx3" required>
                         </div>
 
@@ -259,7 +259,7 @@ $row = $resultado->fetch_assoc();
                         </div>    
 						
                         <div class="form-group row">
-							<label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
+							<label id="lblForm"class="col-form-label col-xl col-lg">TIPO:<span style="color:red;">*</span></label>
                             <select id="tipo" name="tipo" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 								<option selected disabled="area">-SELECCIONE UNA-</option>
 								<?php
@@ -273,7 +273,7 @@ $row = $resultado->fetch_assoc();
 								</select>
                         </div>  
                         <div class="form-group row">
-                            <label id="lblForm"class="col-form-label col-xl col-lg">PERFIL:</label>
+                            <label id="lblForm"class="col-form-label col-xl col-lg">PERFIL:<span style="color:red;">*</span></label>
 								<select id="perfil" name="perfil" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
 								<option selected disabled="perfil">-SELECCIONE UNA-</option>
 								<?php
@@ -289,7 +289,7 @@ $row = $resultado->fetch_assoc();
 					<!-- Campo oculto para la acción -->
 					<input type="hidden" id="accion" name="accion" value="agregarResolutor">
 						<div class="form-group row justify-content-end">
-							<input style="width:20%" onClick="enviar_formulario(this.form, \'agregarResolutor\')" type="button" value="GUARDAR" name="agregarResolutor" class="btn btn-success">
+							<input class="btn btn-success" type="button" name="agregarResolutor" style="width:20%" onclick="enviar_formulario(this.form, 'agregarResolutor')" value="GUARDAR">
 						</div>	
 					</form>
 					<?php

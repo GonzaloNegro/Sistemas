@@ -156,13 +156,13 @@ $row = $resultado->fetch_assoc();
 		<div id="principalu" style="width: 97%" class="container-fluid" data-aos="zoom-in">
 		<form method="POST" action="./agregados.php">
             <div class="form-group row">
-                <label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DE LA MARCA:</label>
+                <label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DE LA MARCA:<span style="color:red;">*</span></label>
                 <input id="marca" style="text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="marca" placeholder="NOMBRE DE LA MARCA" required>
             </div>
             <!-- Campo oculto para la acción -->
             <input type="hidden" id="accion" name="accion" value="agregarMarca">
             <div class="form-group row justify-content-end">
-                <input onclick="enviar_formulario(this.form, \'agregarMarca\')" style="width:20%" class="btn btn-success" type="button" value="GUARDAR" name="agregarMarca" class="button">
+                <input onclick="enviar_formulario(this.form, 'agregarMarca')" style="width:20%" class="btn btn-success" type="button" value="GUARDAR" name="agregarMarca" class="button">
             </div>	
 		</form>
 			<?php

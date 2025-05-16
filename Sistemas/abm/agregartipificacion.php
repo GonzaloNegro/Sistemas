@@ -172,7 +172,7 @@ $row = $resultado->fetch_assoc();
 		<div id="principalu">
 			<form method="POST" action="./agregados.php">
 				<div class="form-group row">
-					<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DE LA TIPIFICACIÓN:</label>
+					<label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DE LA TIPIFICACIÓN:<span style="color:red;">*</span></label>
 					<input id="tipificacion" style="text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" type="text" name="tip" placeholder="NOMBRE DE TIPIFICACIÓN" required>
 				</div>	
 				<!-- Campo oculto para la acción -->
