@@ -34,31 +34,124 @@ function ConsultarIncidente($no_tic)
 </head>
 <body>
     <script>
-        function enviar_formulario(formulario){
-        	Swal.fire({
-                        title: "Esta seguro de modificar este periférico?",
-                        icon: "warning",
-                        showConfirmButton: true,
-                        showCancelButton: true,
-              confirmButtonColor: '#198754',
+    function validar_formulario(){
+        var fieldsToValidate = [
+                {
+                    selector: "#nroSerie",
+                    errorMessage: "No ingresó número de serie."
+                },
+                {
+                    selector: "#modelo",
+                    errorMessage: "No seleccionó modelo."
+                }
+                ,
+                {
+                    selector: "#estado",
+                    errorMessage: "No seleccionó estado."
+                }
+                ,
+                {
+                    selector: "#proveedor",
+                    errorMessage: "No seleccionó proveedor."
+                }
+                ,
+                {
+                    selector: "#tipo",
+                    errorMessage: "No seleccionó tipo de monitor."
+                }
+            ];
+
+            var isValid = true;
+
+            $.each(fieldsToValidate, function(index, field) {
+                var element = $(field.selector);
+                if (element.val()== "" || element.val()== null) {
+                    Swal.fire({
+                    title: field.errorMessage,
+                    icon: "warning",
+                    showConfirmButton: true,
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonText: "Cancelar",
+                    customClass:{
+                    actions: 'reverse-button'
+                    }
+                    })
+                    isValid = false;
+                    return false;
+                }
+            });
+
+            if (isValid ==true) {						
+                return true;
+            }
+            else{
+                return false;
+            }
+    };
+
+    function enviar_formulario(formulario, accion) {
+        console.log(document.getElementById("accion").value);
+        // Asigna el valor de la acción al campo oculto "accion"
+        formulario.querySelector('#accion').value = accion;
+        if (validar_formulario()) {
+
+            const campos = [
+                { id: 'nroSerieg', label: 'N° Gobierno' },
+                { id: 'nroSerie', label: 'N° de serie' },
+                { id: 'obs', label: 'Observación'},
+                { id: 'factura', label: 'N° Factura'},
+                { id: 'garantia', label: 'Garantía' },
+                { id: 'modelo', label: 'Modelo', esSelect: true },
+                { id: 'estado', label: 'Estado', esSelect: true  },
+                { id: 'proveedor', label: 'Proveedor', esSelect: true },
+                { id: 'tipo', label: 'Tipo de periférico', esSelect: true  },
+                { id: 'equip', label: 'Equipo al cuál esta asignado', esSelect: true }
+            ];
+
+            let mensajeHtml = "<ul style='text-align:left;'>"; 
+
+            campos.forEach(campo => {
+                const elemento = document.getElementById(campo.id);
+                let valor = campo.esSelect
+                    ? elemento.options[elemento.selectedIndex].text
+                    : elemento.value;
+
+                if (valor.trim() !== "") {
+                    mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor.toUpperCase()}</li>`;
+                }
+            });
+
+            mensajeHtml += "</ul>";
+
+            mensajeHtml += `<br>
+            <strong style="color:red;">Recuerde que cambiar los datos del periférico afectará los registros.</strong>`;
+            mensajeHtml += '<br><strong>¿Está seguro de modificar este periférico?</strong><br><br>';
+
+            Swal.fire({
+                title: "Datos modificados del periférico",
+                icon: "warning",
+                html: mensajeHtml,
+                showConfirmButton: true,
+                showCancelButton: true,
+                confirmButtonColor: '#198754',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Confirmar',
                 cancelButtonText: "Cancelar",
                 reverseButtons: true,
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            formulario.submit()
-
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
-			}
+                customClass: {
+                    actions: 'reverse-button'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    formulario.submit();
+                }
+            });
+        }
+    }
+</script>
     </script>
 <main>
     <div id="reporteEst">   
@@ -74,10 +167,6 @@ function ConsultarIncidente($no_tic)
 
                         <!--  CONSULTA DE DATOS -->
                         <?php 
-                        $sent= "SELECT MARCA FROM marcas WHERE ID_MARCA = $consulta[ID_MARCA]";
-                        $resultado = $datos_base->query($sent);
-                        $row = $resultado->fetch_assoc();
-                        $mar = $row['MARCA'];
 
                         $sent= "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR = $consulta[ID_PROVEEDOR]";
                         $resultado = $datos_base->query($sent);
@@ -94,6 +183,10 @@ function ConsultarIncidente($no_tic)
                         $row = $resultado->fetch_assoc();
                         $ws = $row['ID_WS'];
                         $equip = $row['SERIEG'];
+
+                        if($ws == 0 || $ws == null){
+                            $ws = 0;
+                        }
 
                         $sent= "SELECT u.NOMBRE
                         FROM wsusuario ws
@@ -127,50 +220,49 @@ function ConsultarIncidente($no_tic)
                         <label id="lblForm"class="col-form-label col-xl col-lg">ID:</label>
                         <input type="text" class="id" name="id" value="<?php echo $consulta['ID_PERI']?>" style="background-color:transparent;" readonly>
                     </div>
-                
+
+                    <?php
+                        if(isset($equip)){
+                        echo"
+                            <div class='form-group row'>
+                                <p style='color:green;font-size:14px;' class='col-form-label col-xl col-lg'>PERIFÉRICO ASIGNADO AL EQUIPO:</u> ".$equip."</p>
+                            </div>";
+                        }else{
+                            echo"
+                            <div class='form-group row'>
+                                <p style='color:red;font-size:14px;' class='col-form-label col-xl col-lg'>ACTUALMENTE EL PERIFÉRICO NO ESTA ASIGNADO A UN EQUIPO</p>
+                            </div>";
+                        }
+                    ?>
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">N° GOBIERNO: </label>
-                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="serieg" value="<?php echo $consulta['SERIEG']?>">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">N° GOBIERNO:</label>
+                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="serieg" id="nroSerieg" value="<?php echo $consulta['SERIEG']?>">
                     </div>
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE: </label>
-                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="serie" value="<?php echo $consulta['SERIE']?>">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE:<span style="color:red;">*</span></label>
+                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="serie" id="nroSerie" value="<?php echo $consulta['SERIE']?>" required>
                     </div>
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">FACTURA: </label>
-                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="fac" value="<?php echo $consulta['FACTURA']?>">
+                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="fac" id="factura" value="<?php echo $consulta['FACTURA']?>">
                     </div>
                     
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIÓN: </label>
-                        <textarea style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" name="obs" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3"><?php echo $consulta['OBSERVACION']?></textarea>
+                        <textarea style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" name="obs" placeholder="OBSERVACIÓN" id="obs" style="text-transform:uppercase" rows="3"><?php echo $consulta['OBSERVACION']?></textarea>
                     </div>
 
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA: </label>
-                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="garantia" value="<?php echo $consulta['GARANTIA']?>">
-                    </div>
-                    <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">MARCA: </label>
-                        <select name="mar" style="margin-top: 5px"class="form-control col-form-label col-xl col-lg">
-                        <option selected value="100"><?php echo $mar?></option>
-                        <?php
-                        include("../particular/conexion.php");
-                        $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
-                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                        ?>
-                        <?php foreach ($ejecutar as $opciones): ?> 
-                        <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
-                        <?php endforeach?>
-                        </select>
+                        <label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA:</label>
+                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="garantia" id="garantia" value="<?php echo $consulta['GARANTIA']?>">
                     </div>
                     
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
-                        <select name="modelo" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:<span style="color:red;">*</span></label>
+                        <select name="modelo" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="modelo" required>
                         <option selected value="200"><?php echo $mod?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -184,8 +276,8 @@ function ConsultarIncidente($no_tic)
                     </div>
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO: </label>
-                        <select name="estado" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:<span style="color:red;">*</span></label>
+                        <select name="estado" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="estado" required>
                         <option selected value="300"><?php echo $est?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -199,8 +291,8 @@ function ConsultarIncidente($no_tic)
                     </div>
                                     
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR: </label>
-                        <select name="prov" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:<span style="color:red;">*</span></label>
+                        <select name="prov" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="proveedor" required>
                         <option selected value="400"><?php echo $prov?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -214,8 +306,8 @@ function ConsultarIncidente($no_tic)
                     </div>
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DE PERIFÉRICO: </label>
-                        <select name="tipop" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DE PERIFÉRICO:<span style="color:red;">*</span></label>
+                        <select name="tipop" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="tipo" required>
                         <option selected value="500"><?php echo $tip?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -229,9 +321,15 @@ function ConsultarIncidente($no_tic)
                     </div>
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL CUÁL ESTÁ ASIGNADO: </label>
-                        <select name="equip" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
-                        <option selected value="600"><?php echo $usu." - ".$equip?></option>
+                        <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL CUÁL ESTÁ ASIGNADO:</label>
+                        <select name="equip" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="equip">
+                        <option selected value="600"><?php 
+                        if($usu == null || $usu == 0){
+                            echo "";                        
+                        }else{
+                            echo $usu." - ".$equip;
+                        }
+                        ?></option>
                         <?php
                         $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
                         FROM wsusuario w
@@ -249,10 +347,9 @@ function ConsultarIncidente($no_tic)
                         <?php endforeach?>
                         </select>
                     </div>
-                    <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
-                    <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
+                    <input type="hidden" id="accion" name="accion" value="modOtros">
                     <div class="form-group row justify-content-end">
-					    <input onClick="enviar_formulario(this.form)" style="width:20%"class="btn btn-success" type="button" name="modOtros" value="MODIFICAR" class="button">
+					    <input onclick="enviar_formulario(this.form, 'modOtros')" style="width:20%"class="btn btn-success" type="button" name="modOtros" value="MODIFICAR" class="button">
 				    </div>
                 </form>
 	    </div>

@@ -173,7 +173,7 @@ function enviar_formulario(formulario, accion) {
 					</div>	
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DEL ÁREA: </label>
+                        <label id="lblForm"class="col-form-label col-xl col-lg">NOMBRE DEL ÁREA:<span style="color:red;">*</span></label>
                         <input id="area" style="margin-top: 5px;text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" type="text" name="area" value="<?php echo $consulta['AREA']?>">
                     </div>
                     
@@ -183,7 +183,7 @@ function enviar_formulario(formulario, accion) {
                     </div>
                     
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
+                        <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:<span style="color:red;">*</span></label>
                         <select id="estado" name="estado" style="text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                             <option selected value="200"><?php echo $estado?></option>
                             <?php
@@ -199,7 +199,7 @@ function enviar_formulario(formulario, accion) {
                         
                         
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">REPARTICIÓN:</label>
+                        <label id="lblForm"class="col-form-label col-xl col-lg">REPARTICIÓN:<span style="color:red;">*</span></label>
                         <select id="repa" name="repa" style="text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
                             <option selected value="100"><?php echo $repa?></option>
                             <?php

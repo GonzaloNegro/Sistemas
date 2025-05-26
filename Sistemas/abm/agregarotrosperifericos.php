@@ -89,16 +89,8 @@ $row = $resultado->fetch_assoc();
                         errorMessage: "No seleccionó el tipo de periférico."
                     },
                     {
-                        selector: "#serieg",
-                        errorMessage: "No ingresó Nro. de gobierno."
-                    },
-                    {
                         selector: "#serie",
                         errorMessage: "No ingresó Nro. de serie."
-                    },
-                    {
-                        selector: "#marca",
-                        errorMessage: "No seleccionó marca."
                     },
                     {
                         selector: "#equip",
@@ -159,7 +151,6 @@ $row = $resultado->fetch_assoc();
 					{ id: 'tipop', label: 'Tipo de periférico', esSelect: true },
 					{ id: 'serieg', label: 'Serieg Gobierno'},
 					{ id: 'serie', label: 'N°Serie' },
-					{ id: 'marca', label: 'Marca', esSelect: true },
 					{ id: 'equip', label: 'Equipo al que se asigna', esSelect: true },
 					{ id: 'mod', label: 'Modelo', esSelect: true  },
 					{ id: 'est', label: 'Estado', esSelect: true }
@@ -204,33 +195,18 @@ $row = $resultado->fetch_assoc();
                         </div>
 
                         <div class="form-group row">
-                            <label id="lblForm" class="col-form-label col-xl col-lg">N° GOBIERNO:<span style="color:red;">*</span></label> 
-							<input id="serieg" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="serieg" required>
+                            <label id="lblForm" class="col-form-label col-xl col-lg">N° GOBIERNO:</label> 
+							<input id="serieg" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="serieg">
                         </div>
                         
                         <div class="form-group row">
                             <label id="lblForm" class="col-form-label col-xl col-lg">N° SERIE:<span style="color:red;">*</span></label> 
 							<input id="serie" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="serie" required>
-                        </div>
+                        </div> 
 
                         <div class="form-group row">
-							<label id="lblForm"class="col-form-label col-xl col-lg">MARCA:<span style="color:red;">*</span></label>
-                            <select id="marca" name="marca" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-                            <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                            <?php
-                            include("../particular/conexion.php");
-                            $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
-                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                            ?>
-                            <?php foreach ($ejecutar as $opciones): ?> 
-                            <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
-                            <?php endforeach?>
-                            </select>
-                        </div>    
-
-                        <div class="form-group row">
-                            <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL QUE SE ASIGNA:<span style="color:red;">*</span></label>
-                            <select id="equip" name="equip" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL QUE SE ASIGNA:</label>
+                            <select id="equip" name="equip" style="text-transform:uppercase" class="form-control col-xl col-lg">
                             <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                             <?php
                             include("../particular/conexion.php");

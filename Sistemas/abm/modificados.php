@@ -10,10 +10,10 @@ $fechaActual = date('Y-m-d');
 /*BUSCO EL RESOLUTOR PARA agregados*/
 $cuil = $_SESSION['cuil'];
 
-$sqli = "SELECT RESOLUTOR FROM resolutor WHERE CUIL = '$cuil'";
+$sqli = "SELECT ID_RESOLUTOR FROM resolutor WHERE CUIL = '$cuil'";
 $resultado2 = $datos_base->query($sqli);
 $row2 = $resultado2->fetch_assoc();
-$resolutorActivo = $row2['RESOLUTOR'];
+$resolutorActivo = $row2['ID_RESOLUTOR'];
 /* ------------------------------- */
 
 
@@ -503,10 +503,9 @@ if (isset($_POST['accion'])) {
             $estado = $_POST['estado'] ?? 0;
             $prov = $_POST['prov'] ?? 0;
             $tipop = $_POST['tipop'] ?? 0;
-            $equip = $_POST['equip'] ?? 0;
+            $equipo = $_POST['equip'] ?? 0;
             $proc = $_POST['proc'] ?? 0;
-            
-            $fechaActual = date('Y-m-d');
+    
             
             if($rip == "100"){
                 $sql = "SELECT RIP FROM periferico WHERE ID_PERI = '$id'";
@@ -543,55 +542,72 @@ if (isset($_POST['accion'])) {
                 $tipop = $row4['ID_TIPOP'];
             }
             
-            if($usu == "600"){
-                $sql5 = "SELECT ID_USUARIO FROM periferico WHERE ID_PERI = '$id'";
-                $result5 = $datos_base->query($sql5);
-                $row5 = $result5->fetch_assoc();
-                $usu = $row5['ID_USUARIO'];
-                }/* NO ES MAS USUARIO, AHORA RELACIONA AL EQUIPO */
-            
-            if($marca == "800"){
-                $sql6 = "SELECT ID_PROCEDENCIA FROM periferico WHERE ID_PERI = '$id'";
-                $result6 = $datos_base->query($sql6);
-                $row6 = $result6->fetch_assoc();
-                $proc = $row6['ID_PROCEDENCIA'];
-            }
-            
-            $sqli = "SELECT ID_MARCA FROM modelo WHERE ID_MODELO = '$modelo'";
-            $resultado2 = $datos_base->query($sqli);
-            $row2 = $resultado2->fetch_assoc();
-            $marca = $row2['ID_MARCA'];
-            
             $sqli = "SELECT * FROM periferico WHERE SERIE ='$serie' AND ID_PERI != '$id' ";
             $resultado2 = $datos_base->query($sqli);
             $row2 = $resultado2->fetch_assoc();
             $ser = $row2['SERIE'];
             
-            $sqli = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$usu'";
-            $resultado2 = $datos_base->query($sqli);
-            $row2 = $resultado2->fetch_assoc();
-            $area = $row2['ID_AREA'];
-            
             if($serie == $ser){ 
-                header("Location: abmimpresoras.php?no");
+                header("Location: ../consulta/impresoras.php?noMod");
                 exit;
             }
             else{
-                /* MOVIMIENTOS DEL PERIFERICO */
-                $sqli = "SELECT ID_AREA, ID_USUARIO, ID_ESTADOWS FROM periferico WHERE ID_PERI = '$id'";
-                $resultado2 = $datos_base->query($sqli);
-                $row2 = $resultado2->fetch_assoc();
-                $a = $row2['ID_AREA'];
-                $u = $row2['ID_USUARIO'];/* HAY QUE CONSULTAR EL USUARIO NUEVAMENTE */
-                $e = $row2['ID_ESTADOWS'];
-                if($a != $area || $u != $usu || $e != $estado){
-                mysqli_query($datos_base, "INSERT INTO movimientosperi VALUES (DEFAULT, '$fechaActual', '$id', '$area', '$usu', '$estado')");
+                /* TRAIGO LOS DATOS ACTUALES DEL PERIFERICO */
+                $sql4 = "SELECT ID_WS, ID_ESTADOWS
+                FROM equipo_periferico 
+                WHERE ID_PERI = '$id' 
+                ORDER BY ID_EQUIPO_PERIFERICO DESC 
+                LIMIT 1";
+                $result4 = $datos_base->query($sql4);
+                $row4 = $result4->fetch_assoc();
+                $equipoBD = $row4['ID_WS'];
+                $estadoBD = $row4['ID_ESTADOWS'];
+
+                if($estado == 1 AND $estadoBD == $estado){/* BASE DE DATOS Y FORMULARIO: ACTIVO */
+                    if($equipoBD != $equipo){/*  SI CAMBIA DE EQUIPO */
+                        /* -INSERT DE DESVINCULACION DEL EQUIPO ACTUAL(tabla equipo_periferico) */
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipoBD', 0, '0000-00-00', '$fechaActual', '$estado')");
+                        /* -INSERT DE DESVINCULACION DEL PERIFERICO (tabla equipo_periferico) */
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, 0, '$id', '0000-00-00', '$fechaActual', '$estado')");
+                        /* -INSERT DE VINCULACION DEL NUEVO EQUIPO CON ESTE PERIFERICO (tabla equipo_periferico) */
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', '$estado')");
+                        
+                        
+                        /* -UPDATE DE LOS DATOS DEL FORM (tabla periferico) */
+                        mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg', SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
+
+                        /* -INSERT DEL NUEVO EQUIPO Y ESPECIFICAR IMPRESORA (tabla agregados) */
+                        $descripcion = $serg . " - " . $equipoBD;
+                        mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'IMPRESORA', 'MODIFICADO', '$equipo', '$descripcion', '$fechaActual', '$horaActual', '$resolutorActivo')");
+                    }else{/* SI SIGUE CON EL MISMO EQUIPO */
+                        /* -UPDATE DE LOS DEMAS DATOS (tabla perifericos) */
+                        mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg',  SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
+                    }
+                
+                } elseif ($estadoBD == 1 AND $estado != $estadoBD){ /* BASE DE DATO: ACTIVO || FORMULARIO: BAJA O STOCK */
+                    /* -INSERT DE DESVINCULACION DEL EQUIPO (tabla equipo_periferico) */
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', 0, '0000-00-00', '$fechaActual', '$estado')");
+                    /* -INSERT DE DESVINCULACION DEL PERIFERICO (tabla equipo_periferico) */
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, 0, '$id', '0000-00-00', '$fechaActual', '$estado')");
+
+                    /* -UPDATE PARA DAR DE BAJA AL PERIFERICO Y DEMAS DATOS (tabla periferico) */
+                    mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg',  SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
+
+                    /* -INSERT DEL NUEVO ESTADO Y ESPECIFICAR IMPRESORA (tabla agregados) */
+                    $descripcion = $serg . " - " . $estado;
+                    mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'IMPRESORA', 'MODIFICADO', '$estadoBD', '$descripcion', '$fechaActual', '$horaActual', '$resolutorActivo')");
+                } elseif ($estadoBD != 1 AND $estado == 1) {/*  BASE DE DATOS: BAJA O STOCK || FORMULARIO: ACTIVO */
+                    /* -INSERT DE VINCULACION DEL PERIFERICO Y EQUIPO (tabla equipo_periferico) */
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', '$estado')");
+
+                    /* -UPDATE DE LOS DATOS DEL FORM (tabla periferico) */
+                    mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg', SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia',  ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
+
+                    /* -INSERT DEL NUEVO ESTADO Y ESPECIFICAR IMPRESORA (tabla agregados) */
+                    $descripcion = $serg . " - " . $estado;
+                    mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'IMPRESORA', 'MODIFICADO', '$estadoBD', '$descripcion', '$fechaActual', '$horaActual', '$resolutorActivo')");
                 }
-            
-            
-                mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg', ID_MARCA = '$marca', SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', ID_AREA = '$area', ID_USUARIO = '$usu', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");/*  LA CONSULTA GUARDA UN USUARIO PERO HAY QUE GUARDAR LA RELACION CON EL EQUIPO EN LA TABLA INTERMEDIA DE equipo_periferico */
-            
-                header("Location: abmimpresoras.php?ok");
+                header("Location: ../consulta/impresoras.php?okMod");
                 exit;
             }
             break;
@@ -609,8 +625,6 @@ if (isset($_POST['accion'])) {
             $gar = $_POST['garantia'] ?? '';
             $fac = $_POST['fac'] ?? '';
             $obs = $_POST['obs'] ?? '';
-            
-            $fechaActual = date('Y-m-d');
             
             $sqli = "SELECT ID_MARCA FROM modelo
             WHERE ID_MODELO = '$modelo'";
@@ -703,9 +717,7 @@ if (isset($_POST['accion'])) {
             $gar = $_POST['garantia'] ?? '';
             $fac = $_POST['fac'] ?? '';
             $obs = $_POST['obs'] ?? '';
-            
-            $fechaActual = date('Y-m-d');
-            
+
             if($marca == "100"){
                 $sql6 = "SELECT ID_MARCA FROM periferico WHERE ID_PERI = '$id'";
                 $result6 = $datos_base->query($sql6);
@@ -804,7 +816,6 @@ if (isset($_POST['accion'])) {
             $obs = $_POST['obs'];
             $procedencia = $_POST['procedencia'];
             
-            $fechaActual = date('Y-m-d');
             
             $mem1 = $_POST['mem1'];
             $tmem1 = $_POST['tmem1'];
@@ -1549,8 +1560,6 @@ if (isset($_POST['accion'])) {
             $extras = $_POST['extras'];
             $obs = $_POST['obs'];
 
-            $fechaActual = date('Y-m-d');
-
             if($usuario == "100"){
                 $sql3 = "SELECT ID_USUARIO FROM linea WHERE ID_LINEA = '$id'";
                 $result3 = $datos_base->query($sql3);
@@ -1689,15 +1698,15 @@ if (isset($_POST['accion'])) {
 
         /* -----------------CELULAR: modificarCelular.php----------------- */
         case 'modificarCelular':
-            $id = $_POST['id'];
-            $imei = $_POST['imei'];
-            $usuario = $_POST['usuario'];
-            $linea = $_POST['linea'];
-            $estado = $_POST['estado'];
-            $proveedor = $_POST['proveedor'];
-            $modelo = $_POST['modelo'];
-            $procedencia = $_POST['procedencia'];
-            $obs = $_POST['obs'];
+            $id = $_POST['id'] ?? 0;
+            $imei = $_POST['imei'] ?? '';
+            $usuario = $_POST['usuario'] ?? 277;
+            $linea = $_POST['linea'] ?? 0;
+            $estado = $_POST['estado'] ?? 0;
+            $proveedor = $_POST['proveedor'] ?? 0;
+            $modelo = $_POST['modelo'] ?? 0;
+            $procedencia = $_POST['procedencia'] ?? 0;
+            $obs = $_POST['obs'] ?? '';
         
             if($usuario == "100"){
                 $sql3 = "SELECT ID_USUARIO FROM celular WHERE ID_CELULAR = '$id'";
@@ -1729,35 +1738,109 @@ if (isset($_POST['accion'])) {
                 $row3 = $result3->fetch_assoc();
                 $procedencia = $row3['ID_PROCEDENCIA'];
             }
-        
-            if($estado !=  1){//SI ESTADO ES DIFERENTE A "EN USO"
-                //SI ESTA DADO DE BAJA O SIN ASIGNAR
-                //TABLA celular: UPDATE USUARIO, ESTADO
-        
-                //TABLA movicelular: INSERT MODIFICANDO ESTADO, USUARIO, FECHA
-        
-                //TABLA lineacelular: INSERT MODIFICANDO ID_USUARIO Y SI TIENE LINEA ASIGNADA SACARLA.
-        
-        
-            }else{//SI EL ESTADO ES "EN USO"
-                //VERIFICAR SI $linea ES '' O TIENE UN VALOR, PARA VERIFICAR SI SE ASIGNA A UNA LINEA EXISTENTE O NO
-                if($linea = ''){//CELULAR SIN ASIGNAR A UNA LINEA
-                    //TABLA celular: UPDATE USUARIO, ESTADO, PROVEEDOR, MODELO, PROCEDENCIA
-        
-                    //TABLA movicelular: INSERT ID_MOVICEL DEFAULT, ID_CELULAR, ESTADOM USUARIO, FECHA, OBS
-        
-                    //TABLA lineacelular: INSERT ID_LINEACELULAR DEFAULT, ID_LINEA SERA 0, ID_CELULAR, USUARIO, FECHA
-        
-        
-                }else{//CELULAR CON LINEA ASIGNADA
-                    //TABLA celular: UPDATE
-        
-                    //TABLA movicelular: 
-        
-                    //TABLA lineacelular: 
-        
-                }
+
+            /* TRAIGO DATOS ACTUALES DEL CELULAR */
+            $sql3 = "SELECT c.ID_USUARIO, c.ID_ESTADOWS, l.ID_LINEA 
+            FROM celular c
+            LEFT JOIN lineacelular l ON l.ID_CELULAR = c.ID_CELULAR
+            WHERE ID_CELULAR = '$id'";
+            $result3 = $datos_base->query($sql3);
+            $row3 = $result3->fetch_assoc();
+            $usuarioBD = $row3['ID_USUARIO'];
+            $estadoBD = $row3['ID_ESTADOWS'];
+            $lineaBD = $row3['ID_LINEA'];
+
+            $error = false;
+
+            if($estado == 1 AND $estadoBD == $estado){/* BASE DE DATOS Y FORMULARIO: ACTIVO */
+               /*  SIGUE IGUAL EL ESTADO, ME FIJO SI CAMBIO EL USUARIO O LINEA */
+                /*  tabla celular UPDATE de datos */
+                if(mysqli_query($datos_base, "UPDATE celular SET IMEI = '$imei', ID_USUARIO = '$usuario', ID_ESTADOWS = '$estado', ID_PROVEEDOR = '$proveedor', ID_MODELO = '$modelo', ID_PROCEDENCIA = '$procedencia' WHERE ID_CELULAR = '$id'")) $error = true;
+                
+                if($usuarioBD != $usuario){	
+                    /* tabla movicelular INSERT solo por modificacion de usuario, estado */
+                    if(mysqli_query($datos_base, "INSERT INTO movicelular VALUES (DEFAULT, '$id', '$estado', '$usuario', '$fechaActual', '$obs')")) $error = true;   
+
+                    if($usuarioBD == 0 || $usuarioBD == 277){/* Sin usuario y pasa a uno asignado */
+                        /* tabla lineacelular se vincula con el nuevo usuario
+                        tabla lineacelular INSERT nuevo vinculo usuario y linea con celular*/
+                        if(mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$linea', '$id', '$usuario', '$fechaActual')")) $error = true;   
+
+                    }elseif($usuario == 0 || $usuario == 277){/* Tiene usuario y pasa a sin asignar */
+                        /* tabla lineacelular INSERT desvinculacion del celular del usuario y linea */
+                        if(mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, 0, '$id', $usuario, '$fechaActual')")) $error = true;   
+                        /* tabla lineacelular INSERT desvinculacion de usuario y linea del celular */
+                        if(mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$lineaBD', 0, '$usuarioBD', '$fechaActual')")) $error = true;   
+                    }else{/* Tiene usuario y se cambia de usuario */
+                        /* tabla lineacelular INSERT desvinculacion del celular del usuario y linea */
+                        if(mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, 0, '$id', 0, '$fechaActual')")) $error = true;   
+                        /* tabla lineacelular INSERT desvinculacion de usuario y linea del celular */
+                        if(mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$lineaBD', 0, '$usuarioBD', '$fechaActual')")) $error = true;   
+
+                        /* tabla lineacelular INSERT vinculacion de usuario y linea con celular */
+                        if(mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$linea', '$id', '$usuario', '$fechaActual')")) $error = true;   
+                    }
+                    /* tabla agregado INSERT cambio de usuario con datos del celu */
+                    $usuarioConcatenadoNuevo = 'IMEI: ' . $imei . '-' . $usuario;
+                    $usuarioConcatenadoViejo = 'IMEI: ' . $imei . '-' . $usuarioBD;
+                    if(mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'CELULAR', 'MODIFICADO', '$usuarioConcatenadoNuevo', '$usuarioConcatenadoViejo', '$fechaActual', '$horaActual', '$resolutorActivo')")) $error = true;   
+
+                }elseif($lineaBD != $linea){/* Mismo usuario y solo cambia la linea del usuario */
+                    /*  tabla lineacelular INSERT desvinculacion celular y usuario de la linea */
+                    if(mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, 0, '$id', 0, '$fechaActual')")) $error = true;   
+
+                    /*  tabla lineacelular INSERT desvinculacion de la linea del usuario y celular */
+                    if(mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$lineaBD', 0, '$usuarioBD', '$fechaActual')")) $error = true;   
+
+                    /* tabla lineacelular INSERT vinculacion celular y usuario a la nueva linea */
+                    if(mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$linea', '$id', '$usuarioBD', '$fechaActual')")) $error = true;
+
+                     /* tabla agregado INSERT cambio de inea con datos del celu */
+                    $usuarioConcatenadoNuevo = 'IMEI: ' . $imei . '-' . $linea;
+                    $usuarioConcatenadoViejo = 'IMEI: ' . $imei . '-' . $lineaBD;
+                    if(mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'CELULAR', 'MODIFICADO', '$usuarioConcatenadoNuevo', '$usuarioConcatenadoViejo', '$fechaActual', '$horaActual', '$resolutorActivo')")) $error = true;  
+
+                }           
+            } elseif ($estadoBD == 1 AND $estado != $estadoBD){/* BASE DE DATO: ACTIVO || FORMULARIO: BAJA O STOCK */
+                /*  SE DA DE BAJA EL CELULAR, SE ROMPE EL VINCULO CON USUARIO Y LINEA */
+                /* tabla celular UPDATE de datos */
+                if(mysqli_query($datos_base, "UPDATE celular SET IMEI = '$imei', ID_USUARIO = '$usuario', ID_ESTADOWS = '$estado', ID_PROVEEDOR = '$proveedor', ID_MODELO = '$modelo', ID_PROCEDENCIA = '$procedencia' WHERE ID_CELULAR = '$id'")) $error = true;
+                /* tabla movicelular INSERT. Cambia usuario y estado */
+                if(mysqli_query($datos_base, "INSERT INTO movicelular VALUES (DEFAULT, '$id', '$estado', '$usuario', '$fechaActual', '$obs')")) $error = true;   
+
+
+                /*  tabla lineacelular INSERT desvinculacion usuario de la linea del celular*/
+                if(mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$lineaBD', 0, '$usuarioBD', '$fechaActual')")) $error = true;   
+
+                /*  tabla lineacelular INSERT desvinculacion del celular de la linea y del usuario */
+                if(mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$linea', '$id', '$usuario', '$fechaActual')")) $error = true;   
+
+                /* tabla agregado INSERT cambio de inea con datos del celu */
+                $usuarioConcatenadoNuevo = 'IMEI: ' . $imei . '-' . $estado;
+                $usuarioConcatenadoViejo = 'IMEI: ' . $imei . '-' . $estadoBD;
+                if(mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'CELULAR', 'MODIFICADO', '$usuarioConcatenadoNuevo', '$usuarioConcatenadoViejo', '$fechaActual', '$horaActual', '$resolutorActivo')")) $error = true;  
+            } elseif ($estadoBD != 1 AND $estado == 1) {/*  BASE DE DATOS: BAJA O STOCK || FORMULARIO: ACTIVO */
+                /* tabla celular UPDATE de datos */
+                if(!mysqli_query($datos_base, "UPDATE celular SET IMEI = '$imei', ID_USUARIO = '$usuario', ID_ESTADOWS = '$estado', ID_PROVEEDOR = '$proveedor', ID_MODELO = '$modelo', ID_PROCEDENCIA = '$procedencia' WHERE ID_CELULAR = '$id'")) $error = true;
+
+                /* tabla movicelular INSERT. Cambia usuario (SI SE ASIGNA) y estado */
+                if(!mysqli_query($datos_base, "INSERT INTO movicelular VALUES (DEFAULT, '$id', '$estado', '$usuario', '$fechaActual', '$obs')")) $error = true;  
+
+                /* SOLO SI SE ASIGNA UNA LINEA: tabla lineacelular INSERT vinculacion linea con celular  */
+                if(!mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$linea', '$id', '$usuario', '$fechaActual')")) $error = true;   
+
+                /* tabla agregado INSERT cambio de estado y usuario con datos del celu (SI ES QUE SE ASIGNA) */
+                $usuarioConcatenadoNuevo = 'IMEI: ' . $imei . '-' . $estado;
+                $usuarioConcatenadoViejo = 'IMEI: ' . $imei . '-' . $estadoBD;
+                if(!mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'CELULAR', 'MODIFICADO', '$usuarioConcatenadoNuevo', '$usuarioConcatenadoViejo', '$fechaActual', '$horaActual', '$resolutorActivo')")) $error = true;  
             }
+                // REDIRECCIÓN FINAL
+                if ($error) {
+                    header("Location: ./celulares.php?noMod");
+                } else {
+                    header("Location: ./celulares.php?okMod");
+                }
+                exit;
             break;
 
         default:
@@ -1906,7 +1989,6 @@ if (isset($_POST['accion'])) {
 
             $montoTotal=$consulta['MONTOTOTAL'];
             $observacion=$consulta['OBSERVACION'];
-            $fechaActual = date('Y-m-d');
 
             $iva = 21;
             $impInternos = 1.21;

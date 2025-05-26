@@ -29,38 +29,130 @@ function ConsultarIncidente($no_tic)
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
     <script>
-    function enviar_formulario(formulario){
+        function validar_formulario(){
+			var fieldsToValidate = [
+                    {
+                        selector: "#nroSerie",
+                        errorMessage: "No ingresó número de serie."
+                    },
+                    {
+                        selector: "#modelo",
+                        errorMessage: "No seleccionó modelo."
+                    }
+                    ,
+                    {
+                        selector: "#estado",
+                        errorMessage: "No seleccionó estado."
+                    }
+                    ,
+                    {
+                        selector: "#proveedor",
+                        errorMessage: "No seleccionó proveedor."
+                    }
+                    ,
+                    {
+                        selector: "#tipo",
+                        errorMessage: "No seleccionó tipo de monitor."
+                    }
+                ];
+
+                var isValid = true;
+
+				$.each(fieldsToValidate, function(index, field) {
+                    var element = $(field.selector);
+                    if (element.val()== "" || element.val()== null) {
+                      Swal.fire({
+                      title: field.errorMessage,
+                      icon: "warning",
+                      showConfirmButton: true,
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Aceptar',
+                      cancelButtonText: "Cancelar",
+                      customClass:{
+                      actions: 'reverse-button'
+                        }
+                      })
+                        isValid = false;
+                        return false;
+                    }
+                });
+
+				if (isValid ==true) {						
+                    return true;
+                }
+                else{
+                    return false;
+                }
+		};
+
+function enviar_formulario(formulario, accion) {
+    // Asigna el valor de la acción al campo oculto "accion"
+    formulario.querySelector('#accion').value = accion;
+    if (validar_formulario()) {
+
+        const campos = [
+            { id: 'nroGob', label: 'N° Gobierno' },
+            { id: 'nroSerie', label: 'N° de serie' },
+            { id: 'fact', label: 'Factura'},
+            { id: 'obs', label: 'Observación'},
+            { id: 'garantia', label: 'Garantía' },
+            { id: 'modelo', label: 'Modelo', esSelect: true },
+            { id: 'estado', label: 'Estado', esSelect: true  },
+            { id: 'proveedor', label: 'Proveedor', esSelect: true },
+            { id: 'tipo', label: 'Tipo de monitor', esSelect: true  },
+            { id: 'equipo', label: 'Equipo al cuál esta asignado', esSelect: true }
+        ];
+
+        let mensajeHtml = "<ul style='text-align:left;'>"; 
+
+        campos.forEach(campo => {
+            const elemento = document.getElementById(campo.id);
+            let valor = campo.esSelect
+                ? elemento.options[elemento.selectedIndex].text
+                : elemento.value;
+
+            if (valor.trim() !== "") {
+                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor.toUpperCase()}</li>`;
+            }
+        });
+
+        mensajeHtml += "</ul>";
+
+        mensajeHtml += `<br>
+        <strong style="color:red;">Recuerde que cambiar los datos del monitor afectará los registros.</strong>`;
+        mensajeHtml += '<br><strong>¿Está seguro de modificar este monitor?</strong><br><br>';
+
         Swal.fire({
-            title: "Esta seguro de modificar este monitor?",
+            title: "Datos modificados del monitor",
             icon: "warning",
+            html: mensajeHtml,
             showConfirmButton: true,
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#198754',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Aceptar',
+            confirmButtonText: 'Confirmar',
             cancelButtonText: "Cancelar",
-            customClass:{
+            reverseButtons: true,
+            customClass: {
                 actions: 'reverse-button'
             }
-        })
-        .then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
-                formulario.submit()
-            } else if (result.isDenied) {
-                Swal.fire('Changes are not saved', '', 'info')
+                formulario.submit();
             }
-        })
+        });
     }
+}
     </script>
 <main>
     <div id="reporteEst">   		
@@ -109,6 +201,10 @@ function ConsultarIncidente($no_tic)
             $ws = $row['ID_WS'];
             $equip = $row['SERIEG'];
 
+            if($ws == 0 || $ws == null){
+                $ws = 0;
+            }
+
             $sent= "SELECT u.NOMBRE
             FROM wsusuario ws
             LEFT JOIN usuarios u ON u.ID_USUARIO = ws.ID_USUARIO
@@ -129,43 +225,47 @@ function ConsultarIncidente($no_tic)
                     <input type="text" class="id" name="id" value="<?php echo $consulta['ID_PERI']?>" style="background-color:transparent;" readonly>
                 </div>
                     <?php
-                        if(isset($equipo)){
+                        if(isset($equip)){
                         echo"
-                            <p><u>MONITOR ASIGNADO AL EQUIPO:</u> ".$equipo."</p>";
+                            <div class='form-group row'>
+                                <p style='color:green;font-size:14px;' class='col-form-label col-xl col-lg'>MONITOR ASIGNADO AL EQUIPO:</u> ".$equip."</p>
+                            </div>";
                         }else{
                             echo"
-                            <p><u>EL MONITOR NO ESTA ASIGNADO A UN EQUIPO</u></p>;";
+                            <div class='form-group row'>
+                                <p style='color:red;font-size:14px;' class='col-form-label col-xl col-lg'>ACTUALMENTE EL MONITOR NO ESTA ASIGNADO A UN EQUIPO</p>
+                            </div>";
                         }
                     ?>
 
                 <div class="form-group row">
-                    <label id="lblForm" class="col-form-label col-xl col-lg">N° GOBIERNO: </label>
-                    <input style="margin-top: 5px; text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" type="text" name="serieg" value="<?php echo $consulta['SERIEG']?>">
+                    <label id="lblForm" class="col-form-label col-xl col-lg">N° GOBIERNO:</label>
+                    <input style="margin-top: 5px; text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" type="text" name="serieg" id="nroGob" value="<?php echo $consulta['SERIEG']?>">
                 </div>
 
                 <div class="form-group row">
-                    <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE: </label>
-                    <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serie" value="<?php echo $consulta['SERIE']?>">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE:<span style="color:red;">*</span></label>
+                    <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serie" id="nroSerie" value="<?php echo $consulta['SERIE']?>" required>
                 </div>
                 
                 <div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">FACTURA: </label>
-                    <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="fac" value="<?php echo $consulta['FACTURA']?>">
+                    <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="fac" id="fact" value="<?php echo $consulta['FACTURA']?>">
                 </div>
 
                 <div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIÓN: </label>
-                    <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" rows="3"><?php echo $consulta['OBSERVACION']?></textarea>
+                    <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" id="obs" rows="3"><?php echo $consulta['OBSERVACION']?></textarea>
                 </div>
                 
                 <div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA: </label>
-                    <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="garantia" value="<?php echo $consulta['GARANTIA']?>">
+                    <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="garantia" id="garantia" value="<?php echo $consulta['GARANTIA']?>">
                 </div>
 
                 <div class="form-group row">
-                    <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
-                    <select name="modelo" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:<span style="color:red;">*</span></label>
+                    <select name="modelo" style="margin-top: 5px text-transform:uppercase" id="modelo" class="form-control col-form-label col-xl col-lg" required>
                     <option selected value="200"><?php echo $mod?></option>
                     <?php
                     include("../particular/conexion.php");
@@ -183,8 +283,8 @@ function ConsultarIncidente($no_tic)
                 </div>
 
                 <div class="form-group row"> 
-                    <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO: </label>
-                    <select name="estado" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:<span style="color:red;">*</span></label>
+                    <select name="estado" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="estado" required>
                     <option selected value="300"><?php echo $est?></option>
                     <?php
                     include("../particular/conexion.php");
@@ -198,8 +298,8 @@ function ConsultarIncidente($no_tic)
                 </div>
 
                 <div class="form-group row">
-                    <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR: </label>
-                    <select name="prov" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:<span style="color:red;">*</span></label>
+                    <select name="prov" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="proveedor" required>
                     <option selected value="400"><?php echo $prov?></option>
                     <?php
                     include("../particular/conexion.php");
@@ -213,8 +313,8 @@ function ConsultarIncidente($no_tic)
                 </div>
                                 
                 <div class="form-group row">
-                    <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DE MONITOR: </label>
-                    <select name="tipop" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DE MONITOR:<span style="color:red;">*</span></label>
+                    <select name="tipop" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="tipo" required>
                     <option selected value="500"><?php echo $tip?></option>
                     <?php
                     include("../particular/conexion.php");
@@ -228,9 +328,15 @@ function ConsultarIncidente($no_tic)
                 </div>
 
                 <div class="form-group row">
-                    <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL CUÁL ESTÁ ASIGNADO: </label>
-                    <select name="equip" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
-                    <option selected value="600"><?php echo $usu." - ".$equip?></option>
+                    <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL CUÁL ESTÁ ASIGNADO:</label>
+                    <select name="equip" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="equipo">
+                    <option selected value="600"><?php 
+                        if($usu == null || $usu == 0){
+                            echo "";                        
+                        }else{
+                            echo $usu." - ".$equip;
+                        }
+                    ?></option>
                     <?php
                     include("../particular/conexion.php");
                     $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
@@ -249,10 +355,9 @@ function ConsultarIncidente($no_tic)
                     <?php endforeach?>
                     </select>
                 </div>
-                <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
-                <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
+                <input type="hidden" id="accion" name="accion" value="modMonitores">
                 <div class="form-group row justify-content-end">
-                    <input onClick="enviar_formulario(this.form)" style="width:20%"class="btn btn-success" type="button" name="modMonitores" value="MODIFICAR" class="button">
+                    <input onclick="enviar_formulario(this.form, 'modMonitores')" style="width:20%"class="btn btn-success" type="button" name="modMonitores" value="MODIFICAR" class="button">
                 </div>
             </form>
         </div>

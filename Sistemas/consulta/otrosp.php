@@ -176,7 +176,7 @@ $row = $resultado->fetch_assoc();
 
                                 <span style="display: inline-flex;padding:3px;">
                                     <a style="padding:3px;" 
-                                    href='../abm/modmonitores.php?no=${fila.ID_PERI}' 
+                                    href='../abm/modotros.php?no=${fila.ID_PERI}' 
                                     target='_blank' 
                                     class='mod' 
                                     data-bs-toggle='popover' 

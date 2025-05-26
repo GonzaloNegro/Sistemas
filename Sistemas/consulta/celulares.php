@@ -29,6 +29,60 @@ $row = $resultado->fetch_assoc();
 </head>
 <body>
 <script>
+    function ok() {
+        Swal.fire({
+            title: "Celular cargado correctamente.",
+            icon: "success",
+            showConfirmButton: true,
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#198754',
+            customClass: {
+                actions: 'reverse-button'
+            }
+        });
+    }
+
+
+    function no() {
+        Swal.fire({
+            title: "El celular ya está registrado",
+            icon: "error",
+            showConfirmButton: true,
+            confirmButtonColor: '#d33', // Color rojo
+            confirmButtonText: 'Cerrar',
+            customClass: {
+                actions: 'reverse-button'
+            }
+        });
+    }
+
+
+    function okMod(){
+        Swal.fire(  {title: "Celular modificado correctamente",
+                icon: "success",
+                showConfirmButton: true,
+                confirmButtonText: 'Aceptar',
+                confirmButtonColor: '#198754',
+                customClass: {
+                    actions: 'reverse-button'
+                }
+            });
+        }
+        function noMod() {
+            Swal.fire({
+                title: "El celular ingresado ya está registrado",
+                icon: "error",
+                showConfirmButton: false,
+                showCancelButton: true,
+                cancelButtonColor: '#d33', // Color rojo
+                cancelButtonText: 'Cerrar',
+                customClass: {
+                    actions: 'reverse-button'
+                }
+            });
+        }
+
+
         //Limpiar campos de formulario
         function Limpiar(){
             window.location.href='../consulta/celulares.php';
@@ -45,16 +99,7 @@ $row = $resultado->fetch_assoc();
         });
     </script>
 <?php include('../layout/inventario.php'); ?>
-    <style>
-        #h2{
-                text-align: left;	
-                font-family: TrasandinaBook;
-                font-size: 14px;
-                color: #edf0f5;
-                margin-left: 10px;
-                margin-top: 5px;  
-            }
-    </style>
+
     <script>
                 //Funcion que va mostrando que filtros se van utilizando
                 function mostrarFiltros(){
@@ -483,6 +528,31 @@ $row = $resultado->fetch_assoc();
         <form id="formu" action="../exportar/ExcelCelulares.php" method="POST">
             <input type="text" id="excel" name="sql" class="valorPeque" readonly="readonly" value="<?php echo $query;?>">
         </form>
+        <?php
+            if(isset($_GET['okMod'])){
+                ?>
+                <script>okMod();</script>
+                <?php			
+            }
+
+            if(isset($_GET['noMod'])){
+                ?>
+                <script>noMod();</script>
+                <?php			
+            }
+
+            if(isset($_GET['ok'])){
+                ?>
+                <script>ok();</script>
+                <?php			
+            }
+
+            if(isset($_GET['no'])){
+                ?>
+                <script>no();</script>
+                <?php			
+            }
+        ?>
 	</section>
 	<footer id="footer_pag"><div class="pagination justify-content-center mt-3" id="paginador"></div></footer>
 

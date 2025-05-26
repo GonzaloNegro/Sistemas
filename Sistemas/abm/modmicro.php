@@ -138,44 +138,44 @@ function enviar_formulario(formulario, accion) {
         </div>					
     </div>
 	<section id="Inicio">
-    <div id="titulo">
-			<h1>MODIFICAR MICRO</h1>
-	</div>
-	<div id="principalu" style="width: 97%" class="container-fluid">
-                        <?php
-                        $sent= "SELECT MARCA FROM marcas WHERE ID_MARCA = $consulta[ID_MARCA]";
-                        $resultado = $datos_base->query($sent);
-                        $row = $resultado->fetch_assoc();
-                        $ma = $row['MARCA'];?>
-                <form method="POST" action="./modificados.php">
-                    <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">ID: </label>
-                        <input type="text" class="id" name="id" style="background-color:transparent;" value="<?php echo $consulta['ID_MICRO']?>" readonly>
-                    </div>
+        <div id="titulo">
+                <h1>MODIFICAR MICRO</h1>
+        </div>
+        <div id="principalu" style="width: 97%" class="container-fluid">
+            <?php
+            $sent= "SELECT MARCA FROM marcas WHERE ID_MARCA = $consulta[ID_MARCA]";
+            $resultado = $datos_base->query($sent);
+            $row = $resultado->fetch_assoc();
+            $ma = $row['MARCA'];?>
+            <form method="POST" action="./modificados.php">
+                <div class="form-group row">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">ID: </label>
+                    <input type="text" class="id" name="id" style="background-color:transparent;" value="<?php echo $consulta['ID_MICRO']?>" readonly>
+                </div>
 
-                    <div class="form-group row">
-                        <label id="lblForm" class="col-form-label col-xl col-lg">MICRO:</label>
-                        <input class="form-control col-xl col-lg" id="micro" type="text" name="micro" style="text-transform:uppercase;" placeholder="NOMBRE DEL MODELO" value="<?php echo $consulta['MICRO']?>" required>
-                    </div>
-                    <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:</label>
-                        <select name="marca" id="marca" style="text-transform:uppercase" class="form-control col-xl col-lg">
-                        <option selected value="100"><?php echo $ma?></option>
-                        <?php
-                        include("../particular/conexion.php");
-                        $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
-                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                        ?>
-                        <?php foreach ($ejecutar as $opciones): ?> 
-                        <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
-                        <?php endforeach?>
-                        </select>
-                    </div>
-                    <input type="hidden" id="accion" name="accion" value="modMarca">
-                    <div class="row justify-content-end">
-                        <input type="button" onclick="enviar_formulario(this.form, 'modMicro')" style="width: 20%;"class="btn btn-success"  name="modMicro" value="MODIFICAR">
-                    </div>
-                </form>
+                <div class="form-group row">
+                    <label id="lblForm" class="col-form-label col-xl col-lg">MICRO:<span style="color:red;">*</span></label>
+                    <input class="form-control col-xl col-lg" id="micro" type="text" name="micro" style="text-transform:uppercase;" placeholder="NOMBRE DEL MODELO" value="<?php echo $consulta['MICRO']?>" required>
+                </div>
+                <div class="form-group row">
+                    <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:<span style="color:red;">*</span></label>
+                    <select name="marca" id="marca" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                    <option selected value="100"><?php echo $ma?></option>
+                    <?php
+                    include("../particular/conexion.php");
+                    $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
+                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                    ?>
+                    <?php foreach ($ejecutar as $opciones): ?> 
+                    <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
+                    <?php endforeach?>
+                    </select>
+                </div>
+                <input type="hidden" id="accion" name="accion" value="modMarca">
+                <div class="row justify-content-end">
+                    <input type="button" onclick="enviar_formulario(this.form, 'modMicro')" style="width: 20%;"class="btn btn-success"  name="modMicro" value="MODIFICAR">
+                </div>
+            </form>
 	    </div>
 	</section>
 	</main>

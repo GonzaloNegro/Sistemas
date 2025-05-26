@@ -98,10 +98,6 @@ $row = $resultado->fetch_assoc();
                         errorMessage: "No seleccionó el tipo de monitor."
                     },
                     {
-                        selector: "#serieg",
-                        errorMessage: "No ingresó Nro. de gobierno."
-                    },
-                    {
                         selector: "#serie",
                         errorMessage: "No ingresó Nro. de serie."
                     },
@@ -208,8 +204,8 @@ $row = $resultado->fetch_assoc();
                         </div>
 
                         <div class="form-group row">
-                            <label id="lblForm" class="col-form-label col-xl col-lg">N° GOBIERNO:<span style="color:red;">*</span></label> 
-							<input id="serieg" class="form-control col-xl col-lg" placeholder="DEL MONITOR" style="text-transform:uppercase;" name="serieg" required>
+                            <label id="lblForm" class="col-form-label col-xl col-lg">N° GOBIERNO:</label> 
+							<input id="serieg" class="form-control col-xl col-lg" placeholder="DEL MONITOR" style="text-transform:uppercase;" name="serieg">
                         </div>
 
                         <div class="form-group row">
@@ -218,7 +214,7 @@ $row = $resultado->fetch_assoc();
                         </div>
 
                         <div class="form-group row">
-                            <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL QUE SE ASIGNA:<span style="color:red;">*</span></label>
+                            <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL QUE SE ASIGNA:</label>
                             <select id="equip" name="equip" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                             <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                             <?php

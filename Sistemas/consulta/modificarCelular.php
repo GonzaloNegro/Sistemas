@@ -62,10 +62,6 @@ $nrocelular = $consulta['NRO'];
                         errorMessage: "No seleccionó un usuario."
                     },
                     {
-                        selector: "#lineas",
-                        errorMessage: "No seleccionó una línea."
-                    },
-                    {
                         selector: "#estado",
                         errorMessage: "No seleccionó un estado."
                     },
@@ -118,6 +114,8 @@ $nrocelular = $consulta['NRO'];
     function enviar_formulario(formulario, accion) {
         // Asigna el valor de la acción al campo oculto "accion"
         if (validar_formulario()) {
+            const estadoActual = "<?php echo $idEstado; ?>";
+            const estadoSeleccionado = document.getElementById("estado").value;
 
         const campos = [
             { id: 'imei', label: 'Imei' },
@@ -153,8 +151,13 @@ $nrocelular = $consulta['NRO'];
 
         mensajeHtml += "</ul>";
 
-        mensajeHtml += `<br>
-            <strong style="color:red;">Recuerde que cambiar los datos del celular afectará los registros.</strong>`;
+        if (estadoActual === "1" && estadoSeleccionado === "2" || estadoSeleccionado === "3"){
+            mensajeHtml += `<br>
+                <strong style="color:red;">Recuerde que cambiar el estado del celular afectará los registros. Se desvinculará usuario y linea.</strong>`;
+        }else{
+            mensajeHtml += `<br>
+                <strong style="color:red;">Recuerde que cambiar los datos del celular afectará los registros.</strong>`;
+        }
 
         mensajeHtml += '<br><strong>¿Está seguro de modificar este celular?</strong><br><br>';
 
@@ -235,7 +238,7 @@ $nrocelular = $consulta['NRO'];
 						</div>
 						<div class="form-group row">
 							<label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
-								<select name="usuario" id="usuario" style="text-transform:uppercase" onchange="cargarLineas(this.value)" class="form-control col-xl col-lg" required>
+								<select name="usuario" id="usuario" style="text-transform:uppercase" onchange="cargarLineas(this.value); verificarDesactivacionCampos();" class="form-control col-xl col-lg" required>
 								<option selected value="100"><?php echo $usuario;?></option>
 								<?php
 								include("../particular/conexion.php");
@@ -258,7 +261,7 @@ $nrocelular = $consulta['NRO'];
 
 							<!-- <div id="lineasusuario" class="col-xl col-lg"> -->
 							<label id="lblForm"class="col-form-label col-xl col-lg">LINEA:</label>
-							<select name="linea" id="lineas" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+							<select name="linea" id="lineas" style="text-transform:uppercase" class="form-control col-xl col-lg">
 							</select>
 							<!-- </div> -->
 						</div>
@@ -276,7 +279,7 @@ $nrocelular = $consulta['NRO'];
 
                         <div class="form-group row">
 							<label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
-                            <select name="estado" id="estado" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <select name="estado" id="estado" style="text-transform:uppercase" class="form-control col-xl col-lg" onchange="verificarDesactivacionCampos()" required>
 							<option selected value="200"><?php echo $estado;?></option>
 							<?php
                             include("../particular/conexion.php");
@@ -345,7 +348,7 @@ $nrocelular = $consulta['NRO'];
 						<!-- Campo oculto para la acción -->
 						<input type="hidden" id="accion" name="accion" value="modificarCelular">
 						<div class="form-group row justify-content-end">
-							<input style="width:20%" onclick="enviar_formulario(this.form, 'modificarCelular')"  class="btn btn-success" type="submit" name="modificarCelular" value="MODIFICAR" class="button">
+							<input style="width:20%" onclick="enviar_formulario(this.form, 'modificarCelular')"  class="btn btn-success" type="button" name="modificarCelular" value="MODIFICAR" class="button">
 						</div>
 					</form>
 					<?php
@@ -405,7 +408,6 @@ $nrocelular = $consulta['NRO'];
 <!--FUNCIONALIDAD EN JQUERY QUE PETICIONA A consultarLineasDisponibles.php las lineas sin celular asignado-->
 <script>
     function cargarLineas(id_usuario, idcelular) {
-        
         var parametros = {
             "idUsuario": id_usuario,
 			"idCelular": idcelular
@@ -425,7 +427,58 @@ $nrocelular = $consulta['NRO'];
             }
         });
     };
-    
+
+    function verificarDesactivacionCampos() {
+        const usuarioSelect = document.getElementById('usuario');
+        const lineaSelect = document.getElementById('lineas');
+        const estado = document.getElementById('estado').value;
+        const id_usuario = usuarioSelect.value;
+
+        const estadoInvalido = (estado === "2" || estado === "3");
+        const usuarioInvalido = (id_usuario === "277");
+
+        if (estadoInvalido) {
+            usuarioSelect.innerHTML = '<option value="">NO DISPONIBLE</option>';
+            usuarioSelect.disabled = true;
+
+            lineaSelect.innerHTML = '<option value="">NO DISPONIBLE</option>';
+            lineaSelect.disabled = true;
+        } else {
+            usuarioSelect.disabled = false;
+            cargarUsuarios(); // 👉 Recargamos el select de usuarios
+
+            if (usuarioInvalido) {
+                lineaSelect.innerHTML = '<option value="">NO DISPONIBLE</option>';
+                lineaSelect.disabled = true;
+            } else {
+                lineaSelect.disabled = false;
+                cargarLineas(id_usuario);
+            }
+        }
+    }
+
+
+    function cargarUsuarios() {
+        const usuarioSelect = document.getElementById("usuario");
+        const usuarioSeleccionado = usuarioSelect.value; // Guardar valor actual
+
+        $.ajax({
+            url: "../consulta/consultarUsuariosDisponibles.php",
+            type: "GET",
+            success: function(data) {
+                usuarioSelect.innerHTML = data;
+
+                // Restaurar valor si aún existe en las nuevas opciones
+                const opcion = usuarioSelect.querySelector(`option[value="${usuarioSeleccionado}"]`);
+                if (opcion) {
+                    usuarioSelect.value = usuarioSeleccionado;
+                }
+            },
+            error: function() {
+                alert("Error al cargar usuarios.");
+            }
+        });
+    }
     </script> 
 	<script>cargarLineas(<?php echo $idUsuario;?>,<?php echo $id_celular;?>);</script>    
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>

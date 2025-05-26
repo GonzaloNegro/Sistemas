@@ -34,35 +34,127 @@ function ConsultarIncidente($no_tic)
 </head>
 <body>
 <script>
-function enviar_formulario(formulario){
-        	
-				Swal.fire({
-                        title: "Esta seguro de guardar esta impresora?",
-                        icon: "warning",
-                        showConfirmButton: true,
-                        showCancelButton: true,
-              confirmButtonColor: '#198754',
+    function validar_formulario(){
+        var fieldsToValidate = [
+                {
+                    selector: "#nroSerie",
+                    errorMessage: "No ingresó número de serie."
+                },
+                {
+                    selector: "#modelo",
+                    errorMessage: "No seleccionó modelo."
+                }
+                ,
+                {
+                    selector: "#estado",
+                    errorMessage: "No seleccionó estado."
+                }
+                ,
+                {
+                    selector: "#procedencia",
+                    errorMessage: "No seleccionó procedencia."
+                }
+                ,
+                {
+                    selector: "#tipo",
+                    errorMessage: "No seleccionó tipo de monitor."
+                }
+            ];
+
+            var isValid = true;
+
+            $.each(fieldsToValidate, function(index, field) {
+                var element = $(field.selector);
+                if (element.val()== "" || element.val()== null) {
+                    Swal.fire({
+                    title: field.errorMessage,
+                    icon: "warning",
+                    showConfirmButton: true,
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonText: "Cancelar",
+                    customClass:{
+                    actions: 'reverse-button'
+                    }
+                    })
+                    isValid = false;
+                    return false;
+                }
+            });
+
+            if (isValid ==true) {						
+                return true;
+            }
+            else{
+                return false;
+            }
+    };
+
+    function enviar_formulario(formulario, accion) {
+        // Asigna el valor de la acción al campo oculto "accion"
+        formulario.querySelector('#accion').value = accion;
+        if (validar_formulario()) {
+
+            const campos = [
+                { id: 'nroGob', label: 'N° Gobierno' },
+                { id: 'nroSerie', label: 'N° de serie' },
+                { id: 'mac', label: 'MAC'},
+                { id: 'obs', label: 'Observación'},
+                { id: 'ip', label: 'IP:'},
+                { id: 'factura', label: 'N° Factura'},
+                { id: 'garantia', label: 'Garantía' },
+                { id: 'rip', label: 'Reserva IP', esSelect: true  },
+                { id: 'modelo', label: 'Modelo', esSelect: true },
+                { id: 'estado', label: 'Estado', esSelect: true  },
+                { id: 'proveedor', label: 'Proveedor', esSelect: true },
+                { id: 'tipo', label: 'Tipo de monitor', esSelect: true  },
+                { id: 'equipo', label: 'Equipo al cuál esta asignado', esSelect: true },
+                { id: 'procedencia', label: 'Procedencia', esSelect: true }
+            ];
+
+            let mensajeHtml = "<ul style='text-align:left;'>"; 
+
+            campos.forEach(campo => {
+                const elemento = document.getElementById(campo.id);
+                let valor = campo.esSelect
+                    ? elemento.options[elemento.selectedIndex].text
+                    : elemento.value;
+
+                if (valor.trim() !== "") {
+                    mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor.toUpperCase()}</li>`;
+                }
+            });
+
+            mensajeHtml += "</ul>";
+
+            mensajeHtml += `<br>
+            <strong style="color:red;">Recuerde que cambiar los datos de la impresora afectará los registros.</strong>`;
+            mensajeHtml += '<br><strong>¿Está seguro de modificar esta impresora?</strong><br><br>';
+
+            Swal.fire({
+                title: "Datos modificados de la impresora",
+                icon: "warning",
+                html: mensajeHtml,
+                showConfirmButton: true,
+                showCancelButton: true,
+                confirmButtonColor: '#198754',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Confirmar',
                 cancelButtonText: "Cancelar",
                 reverseButtons: true,
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            formulario.submit()
-
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
-			
-		}
-				
-		</script>
+                customClass: {
+                    actions: 'reverse-button'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    formulario.submit();
+                }
+            });
+        }
+    }
+</script>
 <main>
     <div id="reporteEst">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
@@ -132,42 +224,56 @@ function enviar_formulario(formulario){
                         <input type="text" class="id" name="id" value="<?php echo $consulta['ID_PERI']?>" style="background-color:transparent;" readonly>
                     </div>
 
+                    <?php
+                        if(isset($equip)){
+                        echo"
+                            <div class='form-group row'>
+                                <p style='color:green;font-size:14px;' class='col-form-label col-xl col-lg'>IMPRESORA ASIGNADA AL EQUIPO:</u> ".$equip."</p>
+                            </div>";
+                        }else{
+                            echo"
+                            <div class='form-group row'>
+                                <p style='color:red;font-size:14px;' class='col-form-label col-xl col-lg'>ACTUALMENTE LA IMPRESORA NO ESTA ASIGNADA A UN EQUIPO</p>
+                            </div>";
+                        }
+                    ?>
+
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">N° GOBIERNO: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serieg" value="<?php echo $consulta['SERIEG']?>">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">N° GOBIERNO:</label>
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serieg" id="nroGob" value="<?php echo $consulta['SERIEG']?>">
                     </div>
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serie" value="<?php echo $consulta['SERIE']?>">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE:<span style="color:red;">*</span></label>
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serie" id="nroSerie" value="<?php echo $consulta['SERIE']?>" required>
                     </div>
                     
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">MAC: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="mac" value="<?php echo $consulta['MAC']?>">
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="mac" id="mac" value="<?php echo $consulta['MAC']?>">
                     </div>
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">OBSERVACIÓN: </label>
-                        <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" rows="3"><?php echo $consulta['OBSERVACION']?></textarea>
+                        <textarea style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" name="obs" id="obs" rows="3"><?php echo $consulta['OBSERVACION']?></textarea>
                     </div>
                     
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">IP: </label>
-                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="ip" value="<?php echo $consulta['IP']?>">
+                        <input style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" type="text" name="ip" id="ip" value="<?php echo $consulta['IP']?>">
                     </div>
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">FACTURA: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="factura" value="<?php echo $consulta['FACTURA']?>">
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="factura" id="factura" value="<?php echo $consulta['FACTURA']?>">
                     </div>
                     
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">GARANTIA: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="garantia" value="<?php echo $consulta['GARANTIA']?>">
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="garantia" id="garantia" value="<?php echo $consulta['GARANTIA']?>">
                     </div>
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">RIP: </label>
-                        <select name="rip" style="margin-top: 5px"class="form-control col-form-label col-xl col-lg">
+                        <select name="rip" style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" id="rip">
                         <option selected value="100"><?php echo $consulta['RIP']?></option>
                         <option value ="NO">NO</option>
                         <option value="SI">SI</option>
@@ -175,8 +281,8 @@ function enviar_formulario(formulario){
                     </div>
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:</label>
-                        <select name="modelo" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:<span style="color:red;">*</span></label>
+                        <select name="modelo" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="modelo" required>
                         <option selected value="200"><?php echo $mod?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -194,8 +300,8 @@ function enviar_formulario(formulario){
                     </div>
                     
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO: </label>
-                        <select name="estado" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:<span style="color:red;">*</span></label>
+                        <select name="estado" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="estado" required>
                         <option selected value="300"><?php echo $est?></option>
                         <?php
                         include("conexion.php");
@@ -210,7 +316,7 @@ function enviar_formulario(formulario){
                                     
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR: </label>
-                        <select name="prov" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                        <select name="prov" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="proveedor">
                         <option selected value="400"><?php echo $prov?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -224,8 +330,8 @@ function enviar_formulario(formulario){
                     </div>
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DE IMPRESORA: </label>
-                        <select name="tipop" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DE IMPRESORA:<span style="color:red;">*</span></label>
+                        <select name="tipop" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="tipo" required>
                         <option selected value="500"><?php echo $tip?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -239,9 +345,15 @@ function enviar_formulario(formulario){
                     </div>
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL CUÁL ESTÁ ASIGNADO: </label>
-                        <select name="equip" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg">
-                        <option selected value="600"><?php echo $usu." - ".$equip?></option>
+                        <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL CUÁL ESTÁ ASIGNADO:</label>
+                        <select name="equip" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="equipo">
+                        <option selected value="600"><?php 
+                            if($usu == null || $usu == 0){
+                                echo "";                        
+                            }else{
+                                echo $usu." - ".$equip;
+                            }
+                        ?></option>
                         <?php
                         $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
                         FROM wsusuario w
@@ -261,8 +373,8 @@ function enviar_formulario(formulario){
                     </div>
 
                     <div class="form-group row">     
-                        <label id="lblForm"class="col-form-label col-xl col-lg">PROCEDENCIA: </label>
-                        <select name="proc" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" required>
+                        <label id="lblForm"class="col-form-label col-xl col-lg">PROCEDENCIA:<span style="color:red;">*</span></label>
+                        <select name="proc" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="procedencia" required>
                         <option selected value="800"><?php echo $proc?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -274,10 +386,9 @@ function enviar_formulario(formulario){
                         <?php endforeach?>
                         </select>
                     </div>
-                    <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
-                    <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
+                    <input type="hidden" id="accion" name="accion" value="modImpresora">
                     <div class="form-group row justify-content-end">
-					    <input onClick="enviar_formulario(this.form)" style="width:20%"class="btn btn-success" type="button" name="modImpresora" value="MODIFICAR" class="button">
+					    <input onclick="enviar_formulario(this.form, 'modImpresora')" style="width:20%"class="btn btn-success" type="button" name="modImpresora" value="MODIFICAR" class="button">
 				    </div>
                 </form>
 	    </div>
