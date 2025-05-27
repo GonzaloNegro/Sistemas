@@ -21,6 +21,7 @@ $row = $resultado->fetch_assoc();
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
+	<link rel="icon" href="../imagenes/logoInfraestructura.png">
 	<title>Reportes de Incidencias</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -76,7 +77,7 @@ $row = $resultado->fetch_assoc();
 
 
 <div id="btncarga" class="form-group row justify-content-end" style="display: none;">
-<input id="boton" style="width:200px; margin-right:30px; margin-bottom:20px;" class="col-xl-2 col-lg-2 button" type="button" value="CARGAR REPORTE" >
+<input id="boton" style="width:150px; margin-right:60px; margin-bottom:20px;" class="col-xl-2 col-lg-2 btn btn-success" type="button" value="CARGAR REPORTE" >
 </div>
 </div>
 

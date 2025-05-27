@@ -15,10 +15,10 @@ $row = $resultado->fetch_assoc();
 <html>
 <head>
 	<title>Reporte de Estados</title><meta charset="utf-8">
+	<link rel="icon" href="../imagenes/logoInfraestructura.png">
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloreporte.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<style>
 			body{
 			background-color: #edf0f5;
@@ -29,7 +29,7 @@ $row = $resultado->fetch_assoc();
 <div id="reporteEst" style="width: 97%; margin-left: 20px;">
        
 	   <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-	      <a id="vlv"  href="reporteincidentes.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+		  <a id="vlv"  href="reporteincidentes.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
           <div class="btn-group col-2" role="group" >
                               <button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='../consulta/consulta.php'" ><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></button>
                               <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()" ><i class='bi bi-printer'></i></button>
@@ -66,7 +66,7 @@ $row = $resultado->fetch_assoc();
 				 <h4 class='indicadores'>HASTA: $fechahasta </h2>
 				 <h4 class='indicadores'>TOTAL INCIDENTES: ".$total['TOTAL']."</h2>
 
-				 <table>
+				 <table class='table_id tablaLineas'>
 			 		<thead style='border-bottom: solid 5px #073256 !important;'>
                     <tr>
                          <th><p class='cabecera'>ESTADO</p></th>
@@ -111,5 +111,7 @@ $row = $resultado->fetch_assoc();
 
 		
 		<script src="../js/sc.js"></script>
+		</section>
+<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>
 </html>

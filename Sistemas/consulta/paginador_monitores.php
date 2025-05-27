@@ -58,7 +58,7 @@ if (!empty($_GET['reparticion'])) {
 }
 if (!empty($_GET['marca'])) {
     $marca = intval($_GET['marca']);
-    $where[] = "p.ID_MARCA = $marca";
+    $where[] = "m.ID_MARCA = $marca";
 }
 if (!empty($_GET['area'])) {
     $area = intval($_GET['area']);

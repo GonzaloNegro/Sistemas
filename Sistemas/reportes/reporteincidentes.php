@@ -20,6 +20,7 @@ $row = $resultado->fetch_assoc();
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
+   <link rel="icon" href="../imagenes/logoInfraestructura.png">
 	<title>Reportes de Incidencias</title>
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -52,7 +53,7 @@ las opciones del filtro estan hardcodeadas, lo ideal seria a futuro traerlas de 
 <!-- en el archivo filtrosincidentes.js la funcion "mostrarfiltros" detecta la seleccion del tipo de filtro y por consecuencia
 oculta el div "principal" y muestra el div con los filtros correspondientes al tipo de reporte seleccionado-->
 <div id="principal"  style="width:75%; height: 150px; margin-top: 60px;" class="container-fluid">
-<div id="formprin" class="form-group row" style="margin: 10px; padding:10px; padding-bottom: 30px;">
+<div id="formprin" class="form-group row" style="margin: 10px; padding:10px; padding-bottom: 30px; color: white !important;">
    <label id="lblForm" style="margin-top:20px; font-size:28px;"class="col-form-label col-xl col-lg">SELECCIONE EL TIPO DE REPORTE:</label>
    <select id="tipo" style="margin-top:20px;" name="tiporeporte" class="form-control col-xl col-lg" formControlName="Activo" onChange="mostrarFiltros()" required>
        <option value="0" selected disabled="tipo">-SELECCIONE UNA-</option>
@@ -83,9 +84,9 @@ CADA FORMULARIO QUE TIENE con los campos de periodo de tiempo, una vez que se se
           <input class="col-xl col-lg form-control" style="margin-top: 10px;" type="date" name="fecha_hasta" id="txtfechahastaA" required>
        </div>
 
-       <div class="form-group row justify-content-center" style="margin: 10px; margin-top:20px; margin-right: 20px;">
-          <input style="width:200px; margin-bottom:20px; margin-right: 5px;" class="col-xl-2 col-lg-2 button" type="reset" id="btnVolver4" value="VOLVER" onClick="volver()">
-          <input style="width:200px; margin-left:10px; margin-bottom:20px;"class="col-xl-2 col-lg-2 button" type="submit" value="CARGAR REPORTE" class="button">
+       <div class="form-group row justify-content-end" style="margin: 10px; margin-top:20px; margin-right: 20px;">
+          <input style="width:120px;" class="col-xl-2 col-lg-2 btn btn-danger" type="reset" id="btnVolver4" value="CANCELAR" onClick="volver()">
+          <input style="width:150px;"; class="col-xl-2 col-lg-2 btn btn-success" type="submit" value="CARGAR REPORTE" class="button">
        </div>		
    </form>
 </div>
@@ -107,9 +108,9 @@ CADA FORMULARIO QUE TIENE con los campos de periodo de tiempo, una vez que se se
           <input class="col-xl col-lg form-control" style="margin-top: 10px;" type="date" name="fecha_hasta" id="txtfechahastaA" required>
        </div>
 
-       <div class="form-group row justify-content-center" style="margin: 10px; margin-top:20px; margin-right: 20px;">
-          <input style="width:200px; margin-bottom:20px; margin-right: 5px;" class="col-xl-2 col-lg-2 button" type="reset" id="btnVolver4" value="VOLVER" onClick="volver()">
-          <input style="width:200px; margin-left:10px; margin-bottom:20px;"class="col-xl-2 col-lg-2 button" type="submit" value="CARGAR REPORTE" class="button">
+       <div class="form-group row justify-content-end" style="margin: 10px; margin-top:20px; margin-right: 20px;">
+          <input style="width:120px;" class="col-xl-2 col-lg-2 btn btn-danger" type="reset" id="btnVolver4" value="CANCELAR" onClick="volver()">
+          <input style="width:150px;"class="col-xl-2 col-lg-2 btn btn-success" type="submit" value="CARGAR REPORTE" class="button">
        </div>		
 		</form>
      </div>
@@ -131,9 +132,9 @@ CADA FORMULARIO QUE TIENE con los campos de periodo de tiempo, una vez que se se
           <input class="col-xl col-lg form-control" style="margin-top: 10px;" type="date" name="fecha_hasta" id="txtfechahastaA" required>
        </div>
 
-       <div class="form-group row justify-content-center" style="margin: 10px; margin-top:20px; margin-right: 20px;">
-          <input style="width:200px; margin-bottom:20px; margin-right: 5px;" class="col-xl-2 col-lg-2 button" type="reset" id="btnVolver4" value="VOLVER" onClick="volver()">
-          <input style="width:200px; margin-left:10px; margin-bottom:20px;"class="col-xl-2 col-lg-2 button" type="submit" value="CARGAR REPORTE" class="button">
+       <div class="form-group row justify-content-end" style="margin: 10px; margin-top:20px; margin-right: 20px;">
+          <input style="width:120px;" class="col-xl-2 col-lg-2 btn btn-danger" type="reset" id="btnVolver4" value="CANCELAR" onClick="volver()">
+          <input style="width:150px;" class="col-xl-2 col-lg-2 btn btn-success" type="submit" value="CARGAR REPORTE" class="button">
        </div>	
         </form>
     </div>
@@ -158,9 +159,9 @@ CADA FORMULARIO QUE TIENE con los campos de periodo de tiempo, una vez que se se
           <input class="col-xl col-lg form-control" style="margin-top: 10px;" type="date" name="fecha_hasta" id="txtfechahastaA" required>
        </div>
 
-       <div class="form-group row justify-content-center" style="margin: 10px; margin-top:20px; margin-right: 20px;">
-          <input style="width:200px; margin-bottom:20px; margin-right: 5px;"class="col-xl-2 col-lg-2 button" type="reset" id="btnVolver4" value="VOLVER" onClick="volver()">
-          <input style="width:200px; margin-left:10px; margin-bottom:20px;"class="col-xl-2 col-lg-2 button" type="submit" value="CARGAR REPORTE" class="button">
+       <div class="form-group row justify-content-end" style="margin: 10px; margin-top:20px; margin-right: 20px;">
+          <input style="width:120px;" class="col-xl-2 col-lg-2 btn btn-danger" type="reset" id="btnVolver4" value="CANCELAR" onClick="volver()">
+          <input style="width:150px;"class="col-xl-2 col-lg-2 btn btn-success" type="submit" value="CARGAR REPORTE" class="button">
        </div>	
    </form>
    </div>

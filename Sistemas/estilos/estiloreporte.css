@@ -3,6 +3,9 @@ section,header {
   margin-left: auto;
   margin-right: auto;
 }
+body{
+  background-color: whitesmoke !important;
+}
 
 header {
   height: 60px;
@@ -26,16 +29,21 @@ header {
   font-family: TrasandinaMedium;
   src: url("../fuente/TrasandinaMedium.otf");
 }
+@font-face{/* TITULOS */
+  font-family: BeVietnamPro-Medium; 
+  src: url("../fuente/BeVietnamPro-Medium.ttf");
+  }
 
 h1 {
   text-align: center;
-  color: #53aae0;
-  font-family: TrasandinaBlack;
+  color: #004582 !important;
+	font-family: BeVietnamPro-Medium;
   margin-bottom: 40px;
   margin-top: 25px;
   font-size: 32px;
   letter-spacing: 3px;
 }
+
 
 h2 {
   text-align: left;
@@ -50,6 +58,7 @@ h4 {
   font-family: TrasandinaBook;
   font-size: 14px;
   text-transform: uppercase;
+  color: #004582 !important;
 }
 
 .indicadores {
@@ -81,17 +90,17 @@ h4 {
   width: 75%;
   height: 150px;
   margin-top: 60px;
-  background-color: #dbe5e9; 
+  background-color: white !important;
   border-radius: 15px;
-  border: 1px solid #53AAE0; 
+  border: 1px solid #899dac !important;
 }
 
 /*FRONT*/
 
 #p {
   text-align: center;
-  font-family: TrasandinaMedium;
-  color: #f7fbfd;
+  font-family: sans-serif;
+	color: #00519C !important;
   font-size: 18px;
 }
 
@@ -149,7 +158,7 @@ label {
   text-align: left;
   margin-left: 30px;
   font-size: 20px;
-  color: #f7fbfd;
+  color: #00519C !important;
   font-family: TrasandinaBook;
 }
 
@@ -186,7 +195,7 @@ input {
 #botonera {
   width: 100%;
   height: 60px;
-  background-color: #1c7cd5;
+  background-color: #FFFFFF;
   float: left;
   font-weight: bold;
   border-radius: 20px;
@@ -402,8 +411,8 @@ nav a img {
   width: 40%;
   height: auto;
   margin-top: 40px;
-  background-color: #dbe5e9; 
-  border: 1px solid #53AAE0; 
+  background-color: white; 
+  border: 1px solid #00519C; 
   border-radius: 15px;
   transition-duration: 0.5s;
   transition-delay: 0s;
@@ -422,15 +431,14 @@ nav a img {
 	border-radius: 30px;
 	padding: 0px;
 	color: white;
+	background-color: #00519C;
 }
 
-h1 {
-  text-align: center;
-  color: #53aae0;
-  font-family: TrasandinaBlack;
-  font-size: 32px;
-  letter-spacing: 3px;
+#vlv:hover{
+background-color: #176AB5;
 }
+
+
 
 h2 {
   text-align: left;
@@ -486,7 +494,7 @@ h2 {
 p {
   text-align: center;
   font-family: TrasandinaMedium;
-  color: #00519C;
+  color: #00519C !important;
   font-size: 18px;
 }
 
@@ -494,36 +502,50 @@ p {
 label{
   text-align: center;
   font-family: TrasandinaMedium;
-  color: #00519C;
+  color: #00519C !important;
 }
 
-table{
+table {
 	text-align: left;
 	margin-left: 5px;
- 	background-color: #dbe5e9;
-
-	border-collapse: collapse;
-	width:100%;
-}
-
-th, td{
-	border: solid 1px #f7fbfd;
-	border-bottom: solid 1px #073256;
-}
-td{
-  border-bottom: solid 1px #073256;
-}
-thead{
-	background-color: #dbe5e9;
-	border-bottom: solid 5px #073256;
+  margin-top: 20px;
+	background-color: white;
+	border-collapse: collapse; /* NECESARIO para sticky estable */
 	width: 100%;
-}
-tr:nth-child(even){
-	background-color: #edf0f5;
+	box-shadow: none;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* <<< Sombra un poco más fuerte */
+	border-radius: 15px; /* Si querés bordes redondeados */
 }
 
-tr:hover td{
-	background-color: #D6D6D6;
+thead {
+	background-color: white;
+	border-bottom: 2px solid black; /* Línea divisoria más gruesa */
+}
+
+.table_id thead th {
+	position: sticky;
+	top: 0;
+	background-color: white;
+	z-index: 2; /* Un poco más alto para evitar superposición */
+}
+
+
+tr {
+	border-bottom: 1px solid #e0e0e0; /* Línea tenue entre registros */
+  height: 20px;
+}
+
+tr:hover td {
+	background-color: #f5f5f5;
+}
+
+th, td {
+	padding: 8px 12px;
+	transition: background-color 0.2s ease-in-out;
+}
+
+th p{
+	color: #004582;
 }
 
 *::-webkit-scrollbar {

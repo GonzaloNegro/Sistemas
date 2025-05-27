@@ -57,9 +57,9 @@ $row = $resultado->fetch_assoc();
                     //SELECT PARA FILTRAR LOS EQUIPOS POR REPARTICION, se usa la funcion onchange para actualizar la pagina
 					echo"		
                 <div id='boxrepart' class='form-group row'>
-                    <a id='vlv' href='reporteinventario.php' class='col-3 btn btn-primary '
+                    <a id='vlv' style='top: 20px; margin-top: -3px;' href='reporteinventario.php' class='col-3 btn btn-primary '
                         style='margin-top: 2px; margin-bottom: 2px; height: 42px;' type='button'
-                        value='VOLVER'>VOLVER</a>
+                        value='VOLVER'><i class='fa-solid fa-arrow-left'></i></a>
                     <label id='lblForm' style='font-size:18px; margin-top: 2px; margin-bottom: 2px; width: 100px;'
                         class='col-form-label col-xl col-lg'>SELECCIONE REPARTICION:</label>
 						
@@ -90,7 +90,7 @@ $row = $resultado->fetch_assoc();
 			else {
 				echo"
 				<div class='form-group row justify-content-between' style='margin: 10px; padding:10px;'>
-	      <a id='vlv'  href='reporteinventario.php' class='col-3 btn btn-primary ' type='button'  value='VOLVER'>VOLVER</a>
+	      <a id='vlv'  href='reporteinventario.php' class='col-3 btn btn-primary ' type='button'  value='VOLVER'><i class='fa-solid fa-arrow-left'></i></a>
           <div class='btn-group col-2' role='group' >
                               <button id='botonleft' type='button' class='btn btn-secondary' onclick='location.href='../consulta/consulta.php'' ><i style=' margin-bottom:10px;'class='bi bi-house-door'></i></button>
                               <button id='botonright' type='button' class='btn btn-success' onClick='imprimir()' ><i class='bi bi-printer'></i></button>
@@ -282,7 +282,7 @@ if($reparticion==0) {
             <h4 id='ind' class='indicadores' style='margin-top: 20px;'>TOTAL EQUIPOS:".$total['TOTAL']."</h4>
                 <h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."</h4>
                 <table id='tablareporte' width=97%>
-                    <thead style='border-bottom: solid 5px #073256 !important;>
+                    <thead style='border-bottom: solid 5px #073256 !important;'>
                         <tr>
                             <th class='cabecera'>
                                 <p>PROVEEDOR</p>
@@ -342,7 +342,7 @@ if($reparticion==0) {
                         ".$total['TOTAL']."</h4>
                     <h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."</h4>
                     <table id='tablareporte' width=97%>
-                        <thead style='border-bottom: solid 5px #073256 !important;>
+                        <thead style='border-bottom: solid 5px #073256 !important;'>
                             <tr>
                                 <th class='cabecera'>
                                     <p>SO</p>
@@ -484,7 +484,7 @@ if($reparticion==0) {
                         <h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."
                         </h4>
                         <table id='tablareporte' width=97%>
-                            <thead style='border-bottom: solid 5px #073256 !important;>
+                            <thead style='border-bottom: solid 5px #073256 !important;'>
                                 <tr>
                                     <th class='cabecera'>
                                         <p>AREA</p>
@@ -711,153 +711,6 @@ if($reparticion==0) {
                                             ?>
     </section>
 </body>
-
+<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </html>
 
-
-<?php
-// if ($reparticion==2 & $opc=='AREA') {
-                            // $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA from inventario i
-                            // left join area a on i.ID_AREA=a.ID_AREA left join reparticion r on a.ID_REPA=r.ID_REPA where
-                            // a.ID_REPA=$reparticion");
-                            // $total = mysqli_fetch_array($conttotal);
-                            // $fecha = date("Y-m-d");
-                            // $nomrepa=$total['REPA'];
-                            // echo "
-                            // <h1 id='titulo'>REPORTE DE EQUIPOS POR AREA</h1>
-                            
-                            // <hr style='display: block;'>
-                            // <h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>
-                            //     REPARTICION: TODAS</h4>
-                            // <h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>
-                            //     REPARTICION: ".$nomrepa."</h4>
-                            // <h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>TOTAL
-                            //     EQUIPOS: ".$total['TOTAL']."</h4>
-                            // <h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL:
-                            //     ".$fecha."</h4>
-                            // <table id='tablareporte' class='table table-striped table-hover' width=97%>
-                            //     <thead>
-                            //         <tr >
-                            //             <th class='cabecera'>
-                            //                 <p>AREA</p>
-                            //             </th>
-                            //             <th class='cabecera'>
-                            //                 <p>TOTAL</p>
-                            //             </th>
-                            //             <th class='cabecera'>
-                            //                 <p>REPARTICION</p>
-                            //             </th>
-                            //             <th id='cabeceraacc' class='cabecera' width=65px>
-                            //                 <p>ACCIÓN</p>
-                            //             </th>
-                            //             </tr>
-                            //         </thead>";
-                            //     $consultar=mysqli_query($datos_base, "SELECT a.AREA, i.ID_AREA, a.ID_REPA, r.REPA,
-                            //     count(*) as TOTAL from inventario i left join area a on i.ID_AREA=a.ID_AREA left join
-                            //     reparticion r on a.ID_REPA=r.ID_REPA where a.ID_REPA=$reparticion
-                            //     group by a.AREA");
-                            //     while($listar = mysqli_fetch_array($consultar))
-                            //     {
-
-                            //     echo
-                            //     "
-                            //     <tr>
-                            //         <td>
-                            //             <h4 style='text-align: left;	'>".$listar['AREA']."</h4>
-                            //         </td>
-                            //         <td>
-                            //             <h4 style='text-align: center;	'>".$listar['TOTAL']."</h4>
-                            //         </td>
-                            //         <td>
-                            //             <h4 style='text-align: center;	'>".$listar['REPA']."</h4>
-                            //         </td>
-                            //         <td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary'
-                            //                 href=reporteareaequipo.php?Area=".$listar['ID_AREA']." class=mod><svg
-                            //                     xmlns='http://www.w3.org/2000/svg' width='20' height='20'
-                            //                     fill='currentcolor' margin='5' class='bi bi-eye' viewBox='0 0 16 16'>
-                                                
-                            //                     <path
-                            //                         d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z' />
-                                                
-                            //                     <path
-                            //                         d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z' />
-                                                
-                            //                 </svg></a></td>
-                            //         </tr>
-                            //     ";
-                            //     }
-
-
-
-                            //     }
-
-                            //     if ($reparticion==3 & $opc=='AREA') {
-                            //     $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA from
-                            //     inventario i left join area a on i.ID_AREA=a.ID_AREA left join reparticion r on
-                            //     a.ID_REPA=r.ID_REPA where a.ID_REPA=$reparticion");
-                            //     $total = mysqli_fetch_array($conttotal);
-                            //     $fecha = date("Y-m-d");
-                            //     $nomrepa=$total['REPA'];
-                            //     echo "
-                            //     <h1 id='titulo'>REPORTE DE EQUIPOS POR AREA</h1>
-                                
-                            //     <hr style='display: block;'>
-                            //     <h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>
-                            //         REPARTICION: ".$nomrepa."</h4>
-                            //     <h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>TOTAL
-                            //         EQUIPOS: ".$total['TOTAL']."</h4>
-                            //     <h4 class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>FECHA ACTUAL:
-                            //         ".$fecha."</h4>
-                            //     <table id='tablareporte' class='table table-striped table-hover' width=97%>
-                            //         <thead>
-                            //             <tr >
-                            //                 <th class='cabecera'>
-                            //                     <p>AREA</p>
-                            //                 </th>
-                            //                 <th class='cabecera'>
-                            //                     <p>TOTAL</p>
-                            //                 </th>
-                            //                 <th class='cabecera'>
-                            //                     <p>REPARTICION</p>
-                            //                 </th>
-                            //                 <th id='cabeceraacc' class='cabecera' width=65px>
-                            //                     <p>ACCIÓN</p>
-                            //                 </th>
-                            //                 </tr>
-                            //             </thead>";
-                            //         $consultar=mysqli_query($datos_base, "SELECT a.AREA, i.ID_AREA, a.ID_REPA,
-                            //         r.REPA, count(*) as TOTAL from inventario i left join area a on i.ID_AREA=a.ID_AREA
-                            //         left join reparticion r on a.ID_REPA=r.ID_REPA where a.ID_REPA=$reparticion
-                            //         group by a.AREA");
-                            //         while($listar = mysqli_fetch_array($consultar))
-                            //         {
-
-                            //         echo
-                            //         "
-                            //         <tr>
-                            //             <td>
-                            //                 <h4 style='text-align: left;	'>".$listar['AREA']."</h4>
-                            //             </td>
-                            //             <td>
-                            //                 <h4 style='text-align: center;	'>".$listar['TOTAL']."</h4>
-                            //             </td>
-                            //             <td>
-                            //                 <h4 style='text-align: center;	'>".$listar['REPA']."</h4>
-                            //             </td>
-                            //             <td class='text-center text-nowrap'><a class='btn btn-sm btn-outline-primary'
-                            //                     href=reporteareaequipo.php?Area=".$listar['ID_AREA']." class=mod><svg
-                            //                         xmlns='http://www.w3.org/2000/svg' width='20' height='20'
-                            //                         fill='currentcolor' margin='5' class='bi bi-eye'
-                            //                         viewBox='0 0 16 16'>
-                                                    
-                            //                         <path
-                            //                             d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z' />
-                                                    
-                            //                         <path
-                            //                             d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z' />
-                                                    
-                            //                     </svg></a></td>
-                            //             </tr>
-                            //         ";}
-
-                            //         }?>

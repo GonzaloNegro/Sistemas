@@ -16,6 +16,8 @@ $row = $resultado->fetch_assoc();
 <head>
 	<title>Inventario</title><meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloreporte.css">
+	<link rel="icon" href="../imagenes/logoInfraestructura.png">
+	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,7 +50,7 @@ $row = $resultado->fetch_assoc();
         <div id="mostrar_reporte" style="width: 97%; margin-left: 20px; display: block;">
 			
 		            <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-					<a id="vlv"  onClick="volver()" class="btn btn-primary ">VOLVER</a>	
+					<a id="vlv"  onClick="volver()" class="btn btn-primary "><i class="fa-solid fa-arrow-left"></i></a>	
 					<script>
                            function volver() {
 							window.history.back();
@@ -129,7 +131,9 @@ $row = $resultado->fetch_assoc();
 						</thead>";
 						#Consulta SQL para obtener los equipos filtrados por area seleccionada
 						$consultar=mysqli_query($datos_base, "select i.SERIEG as N°WS, i.ID_WS, u.NOMBRE, mi.MICRO, s.SIST_OP, e.ESTADO, a.AREA, r.REPA 
-						from inventario i left join usuarios u on i.ID_USUARIO=u.ID_USUARIO 
+						from inventario i 
+						left join wsusuario ws on ws.ID_WS=i.ID_WS
+						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO  
 						LEFT JOIN estado_ws e on i.ID_ESTADOWS=E.ID_ESTADOWS
                         left join area a on i.ID_AREA=a.ID_AREA 
 						left join so s on i.ID_SO=s.ID_SO LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA 
@@ -289,7 +293,9 @@ $row = $resultado->fetch_assoc();
 						</tr>
 						</thead>";
 						$consultar=mysqli_query($datos_base, "select i.SERIEG as N°WS, i.ID_WS, u.NOMBRE, mi.MICRO, s.SIST_OP, e.ESTADO, a.AREA, r.REPA 
-						from inventario i left join usuarios u on i.ID_USUARIO=u.ID_USUARIO 
+						from inventario i 
+						left join wsusuario ws on ws.ID_WS=i.ID_WS
+						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO
 						LEFT JOIN estado_ws e on i.ID_ESTADOWS=E.ID_ESTADOWS
                         left join area a on i.ID_AREA=a.ID_AREA 
 						left join so s on i.ID_SO=s.ID_SO LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA 
