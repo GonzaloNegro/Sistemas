@@ -228,7 +228,7 @@ function ConsultarIncidente($no_tic)
                         if(isset($equip)){
                         echo"
                             <div class='form-group row'>
-                                <p style='color:green;font-size:14px;' class='col-form-label col-xl col-lg'>IMPRESORA ASIGNADA AL EQUIPO:</u> ".$equip."</p>
+                                <p style='color:green;font-size:14px;' class='col-form-label col-xl col-lg'>IMPRESORA ACTUALMENTE ASIGNADA AL EQUIPO:</u> ".$equip."</p>
                             </div>";
                         }else{
                             echo"

@@ -228,7 +228,7 @@ function enviar_formulario(formulario, accion) {
                         if(isset($equip)){
                         echo"
                             <div class='form-group row'>
-                                <p style='color:green;font-size:14px;' class='col-form-label col-xl col-lg'>MONITOR ASIGNADO AL EQUIPO:</u> ".$equip."</p>
+                                <p style='color:green;font-size:14px;' class='col-form-label col-xl col-lg'>MONITOR ACTUALMENTE ASIGNADO AL EQUIPO:</u> ".$equip."</p>
                             </div>";
                         }else{
                             echo"
@@ -284,7 +284,7 @@ function enviar_formulario(formulario, accion) {
 
                 <div class="form-group row"> 
                     <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:<span style="color:red;">*</span></label>
-                    <select name="estado" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="estado" required>
+                    <select name="estado" onchange=verificarDisponibilidadEquipo(); style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="estado" required>
                     <option selected value="300"><?php echo $est?></option>
                     <?php
                     include("../particular/conexion.php");
@@ -372,6 +372,58 @@ function enviar_formulario(formulario, accion) {
 			</div>
 		</div>
     </footer>
+    <script>
+        // Estos valores vienen del backend
+        const equipoAnteriorID = "<?php echo $ws; ?>";
+        const equipoAnteriorTexto = "<?php echo $usu . ' - ' . $equip; ?>";
+
+        // Llamada a la función cuando se requiera (por ejemplo, al cargar o al cambiar estado)
+        cargarEquipos(equipoAnteriorID, equipoAnteriorTexto);
+
+        function verificarDisponibilidadEquipo() {
+            const estado = document.getElementById('estado').value;
+            const equipoSelect = document.getElementById('equipo');
+            const equipoSeleccionado = equipoSelect.value;
+
+            const estadoInvalido = (estado === "2" || estado === "3");
+
+            if (estadoInvalido) {
+                equipoSelect.innerHTML = '<option value="">NO DISPONIBLE</option>';
+                equipoSelect.disabled = true;
+            } else {
+                equipoSelect.disabled = false;
+                cargarEquipos(equipoAnteriorID, equipoAnteriorTexto);
+            }
+        }
+
+
+        function cargarEquipos(equipoAnteriorID = "", equipoAnteriorTexto = "") {
+            const equipoSelect = document.getElementById("equipo");
+
+            $.ajax({
+                url: "../consulta/consultarEquiposDisponibles.php",
+                type: "GET",
+                data: {
+                    equipoAnteriorID: equipoAnteriorID,
+                    equipoAnteriorTexto: equipoAnteriorTexto
+                },
+                success: function(data) {
+                    equipoSelect.innerHTML = data;
+
+                    // Intentar dejar seleccionado el equipo anterior si aún existe
+                    const opcion = equipoSelect.querySelector(`option[value="${equipoAnteriorID}"]`);
+                    if (opcion) {
+                        equipoSelect.value = equipoAnteriorID;
+                    }
+                },
+                error: function() {
+                    alert("Error al cargar los equipos disponibles.");
+                }
+            });
+        }
+
+
+    </script>
 <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>
 </html>
