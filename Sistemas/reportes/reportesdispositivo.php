@@ -14,7 +14,7 @@ $row = $resultado->fetch_assoc();
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Inventario</title><meta charset="utf-8">
+	<title>Periféricos </title><meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloreporte.css">
 	<link rel="icon" href="../imagenes/logoInfraestructura.png">
 	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
@@ -109,15 +109,20 @@ $row = $resultado->fetch_assoc();
 						</tr>
 						</thead>";
 						#SE OBTIENEN TODAS LAS AREAS CON LA CANTIDAD DE EQUIPOS ASIGNADOS
-						$consultar=mysqli_query($datos_base, "SELECT a.AREA, p.ID_AREA, count(*) as TOTAL from periferico p left join area a on p.ID_AREA=a.ID_AREA
-						where p.TIPOP='IMPRESORA' group by a.AREA");
+						$consultar=mysqli_query($datos_base, "SELECT a.AREA, a.ID_AREA, count(*) as TOTAL 
+						from periferico p 
+						left join equipo_periferico e on p.ID_PERI=e.ID_PERI 
+						left join inventario i on e.ID_WS=i.ID_WS 
+						left join wsusuario ws on ws.ID_WS=i.ID_WS 
+						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
+						left join area a on u.ID_AREA=a.ID_AREA where p.TIPOP='IMPRESORA' group by a.AREA");
 									while($listar = mysqli_fetch_array($consultar))
 									{
 										if ($listar['AREA']== 0) {
 											$nombre = 'SIN AREA';
 										}
 										else {
-											$nombre = $listar['AREA'];
+										 	$nombre = $listar['AREA'];
 										}
 				
 													echo
@@ -244,7 +249,13 @@ $row = $resultado->fetch_assoc();
 								<th class='cabe'><p >ACCION</p></th>
 								</tr>
 							</thead>";
-									$consultar=mysqli_query($datos_base, "SELECT a.AREA, p.ID_AREA, count(*) as TOTAL from periferico p left join area a on p.ID_AREA=a.ID_AREA
+									$consultar=mysqli_query($datos_base, "SELECT a.AREA, a.ID_AREA, count(*) as TOTAL 
+									from periferico p 
+									left join equipo_periferico e on p.ID_PERI=e.ID_PERI 
+									left join inventario i on e.ID_WS=i.ID_WS 
+									left join wsusuario ws on ws.ID_WS=i.ID_WS 
+									left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
+									left join area a on u.ID_AREA=a.ID_AREA
 									where p.TIPOP='MONITOR' group by a.AREA");
 												while($listar = mysqli_fetch_array($consultar))
 												{

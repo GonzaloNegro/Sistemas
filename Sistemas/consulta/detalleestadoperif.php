@@ -11,6 +11,11 @@ $sql = "SELECT CUIL, RESOLUTOR FROM resolutor WHERE CUIL='$iduser'";
 $resultado = $datos_base->query($sql);
 $row = $resultado->fetch_assoc();
 ?>
+
+<?php
+    if (!isset($_GET['Area'])){$_GET['Area'] = '';}
+    if (!isset($_GET["Reparticion"])){$_GET["Reparticion"] = '';}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -126,13 +131,16 @@ $row = $resultado->fetch_assoc();
 								<!--<th class='cabecera' id='cabeceraacc'><p>ACCIÓN</p></th>-->
 							</tr>
 						</thead>";
-						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, R.REPA, mo.MODELO			
+						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, r.REPA, mo.MODELO			
                         FROM periferico p 
-                        LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
-                        LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
-                        INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
+                        left join equipo_periferico e on p.ID_PERI=e.ID_PERI 
+						left join inventario i on e.ID_WS=i.ID_WS 
+						left join wsusuario ws on ws.ID_WS=i.ID_WS 
+						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
+						left join area a on u.ID_AREA=a.ID_AREA 
+						left join modelo mo on p.ID_MODELO=mo.ID_MODELO
+                        INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA 
                         INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA
-                        left join modelo mo on p.ID_MODELO=mo.ID_MODELO
 						WHERE p.TIPOP!='MONITOR' and p.TIPOP!='IMPRESORA' AND p.TIPOP!='SCANNER' and p.ID_ESTADOWS=$estado
                         ORDER BY u.NOMBRE ASC");
 									while($listar = mysqli_fetch_array($consultar))
@@ -188,11 +196,15 @@ $row = $resultado->fetch_assoc();
 						</thead>";
 						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, R.REPA, mo.MODELO			
                         FROM periferico p 
-                        LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
-                        LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
-                        INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
-                        INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA
-                        left join modelo mo on p.ID_MODELO=mo.ID_MODELO
+                        left join equipo_periferico e on p.ID_PERI=e.ID_PERI 
+						left join inventario i on e.ID_WS=i.ID_WS 
+						left join wsusuario ws on ws.ID_WS=i.ID_WS 
+						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
+						left join area a on u.ID_AREA=a.ID_AREA 
+                        INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
+						LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA 
+						left join modelo mo on p.ID_MODELO=mo.ID_MODELO
+                        INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA 
 						WHERE p.TIPOP='$tipo' and p.ID_ESTADOWS=$estado
                         ORDER BY u.NOMBRE ASC");
 									while($listar = mysqli_fetch_array($consultar))

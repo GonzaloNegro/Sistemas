@@ -7,9 +7,11 @@ if(!isset($_SESSION['cuil']))
         exit();
     };
 $iduser = $_SESSION['cuil'];
-$sql = "SELECT CUIL, RESOLUTOR, ID_PERFIL FROM resolutor WHERE CUIL='$iduser'";
+$sql = "SELECT CUIL, RESOLUTOR, ID_PERFIL, ID_REPARTICION FROM resolutor WHERE CUIL='$iduser'";
 $resultado = $datos_base->query($sql);
 $row = $resultado->fetch_assoc();
+$reparticion = $row['ID_REPARTICION'];
+$perfil=$row['ID_PERFIL'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -162,7 +164,7 @@ $row = $resultado->fetch_assoc();
 					{ id: 'serie', label: 'N°Serie' },
 					{ id: 'equip', label: 'Equipo al que se asigna', esSelect: true },
 					{ id: 'mod', label: 'Modelo', esSelect: true  },
-					{ id: 'est', label: 'Estado', esSelect: true }
+					{ id: 'est', label: 'Estado', esSelect: true },
 					{ id: 'prov', label: 'Proveedor', esSelect: true },
 				];
 
@@ -218,13 +220,42 @@ $row = $resultado->fetch_assoc();
                             <select id="equip" name="equip" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                             <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                             <?php
+                            //FILTRA PARA QUE DEPENDIENDO DE LA REPARTICION DEL RESOLUTOR SOLAMENTE SE PUEDA VISUALIZAR Y SELECCIONAR EL EQUIPO SIN ASIGNAR DE SU EDIFICIOV
+                            $where="";
+                            //se muestran ambos equipos S/A o el que corresponda al resolutor por edificio dependiendo del rol
+                            if($perfil==1 || $perfil==2){
+                                $where.="AND ( w.ID_USUARIO <> 310 OR (w.ID_USUARIO = 310 AND w.ID_WS = 477) ) 
+                                AND ( w.ID_USUARIO <> 277 OR (w.ID_USUARIO = 277 AND w.ID_WS = 476) )";
+                            }
+                            else{
+                                    if($reparticion == 4){
+                                        $usuario1=310;
+                                        $usuario2=277;
+                                        $id_ws=477;
+                                        $repa="r.ID_REPA=4 ";
+                                    }
+                                    else {
+                                        $usuario1=277;
+                                        $usuario2=310;
+                                        $id_ws=476;
+                                        $repa="r.ID_REPA=1 OR r.ID_REPA=2 OR r.ID_REPA=3 ";
+                                    }
+                                    $where.="AND w.ID_USUARIO <> $usuario2
+                                        AND (
+                                            w.ID_USUARIO <> $usuario1
+                                            OR (w.ID_USUARIO = $usuario1 AND w.ID_WS = $id_ws)
+                                        )
+                                        AND $repa";
+                            }
                             $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
                             FROM wsusuario w
                             INNER JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO
                             INNER JOIN inventario i ON i.ID_WS = w.ID_WS
+                            INNER JOIN area a ON u.ID_AREA=a.ID_AREA
+                            INNER JOIN reparticion r ON r.ID_REPA=a.ID_REPA
                             WHERE u.ID_ESTADOUSUARIO = 1 
                             AND w.ID_WS <> 0 
-                            AND w.ID_USUARIO <> 277
+                            $where
                             AND i.ID_TIPOWS = 1 /* PC */
                             ORDER BY u.NOMBRE ASC";
                             $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));

@@ -11,11 +11,18 @@ $sql = "SELECT CUIL, RESOLUTOR FROM resolutor WHERE CUIL='$iduser'";
 $resultado = $datos_base->query($sql);
 $row = $resultado->fetch_assoc();
 ?>
+
+<?php
+    if (!isset($_GET['Area'])){$_GET['Area'] = '';}
+    if (!isset($_GET["Reparticion"])){$_GET["Reparticion"] = '';}
+?>
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Inventario</title><meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloreporte.css">
+	<link rel="icon" href="../imagenes/logoInfraestructura.png">
+	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,7 +55,7 @@ $row = $resultado->fetch_assoc();
         <div id="mostrar_reporte" style="width: 97%; margin-left: 20px; display: block;">
 			
 		            <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-	                    <a id="vlv"  href="../reportes/reporteperifericos.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+						<a id="vlv"  href="../reportes/reporteperifericos.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
                         <div class="btn-group col-2" role="group" >
                               <button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='consulta.php'" ><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></button>
                               <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()" ><i class='bi bi-printer'></i></button>
@@ -77,6 +84,9 @@ $row = $resultado->fetch_assoc();
 					    #SE RECIBE POR GET EL ID DE TIPO DE PERIFERICO Y EL ID DE AREA
 					    $tipo = $_GET['Tipo'];
                         $area=$_GET['Area'];
+						if ($_GET['Area']=='' || $_GET['Area']==null){
+							$area=0;
+						}
 						#CONDICIONALES UTILIZADOS PARA GUARDAR EN VARIABLE EL NOMBRE DEL PERIFERICO Y SU URL PARA VER EL DETALLE, ESTE ACTUALMENTE NO SE USA Y ESTA COMENTADO
                         if ($tipo=='monitor') {
                             $perif='MONITORES';
@@ -92,7 +102,7 @@ $row = $resultado->fetch_assoc();
 							$url='consultadetalleimp.php';
                         }
 						#SE OBTIENE EL NOMBRE DEL AREA
-                        if ($area==0) {
+                        if ($area==0 || $area=='' || $area==null) {
                             $tit='S/A';
                         }
                         else {
@@ -103,7 +113,13 @@ $row = $resultado->fetch_assoc();
 						#CONDICIONAL PARA DETERMINAR TIPO DE PERIFERICOS
                         if ($tipo=='otros') {
 						#CONSULTA SQL PARA OBTENER EL NUMERO DE PERFIFERICOS EXCLUYENDO A MONITORES, IMPRESORAWS Y SCANNERS
-						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p WHERE p.TIPOP!='MONITOR' and p.TIPOP!='IMPRESORA' AND p.TIPOP!='SCANNER' and p.ID_AREA=$area");
+						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p
+						left join equipo_periferico e on p.ID_PERI=e.ID_PERI 
+						left join inventario i on e.ID_WS=i.ID_WS 
+						left join wsusuario ws on ws.ID_WS=i.ID_WS 
+						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
+						left join area a on u.ID_AREA=a.ID_AREA  
+						WHERE p.TIPOP!='MONITOR' and p.TIPOP!='IMPRESORA' AND p.TIPOP!='SCANNER' and a.ID_AREA=$area");
 			            $total = mysqli_fetch_array($conttotal);
 						$fecha = date("Y-m-d");
 						#SE OBTIENE EL UNMERO DE REPARTICION
@@ -131,12 +147,15 @@ $row = $resultado->fetch_assoc();
 						</thead>";
 						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO		
                         FROM periferico p 
-                        LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
-                        LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
-                        INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
+                        left join equipo_periferico e on p.ID_PERI=e.ID_PERI 
+						left join inventario i on e.ID_WS=i.ID_WS 
+						left join wsusuario ws on ws.ID_WS=i.ID_WS 
+						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
+						left join area a on u.ID_AREA=a.ID_AREA 
                         INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
 						left join modelo mo on p.ID_MODELO=mo.ID_MODELO
-                        WHERE p.TIPOP!='MONITOR' and p.TIPOP!='IMPRESORA' AND p.TIPOP!='SCANNER' and p.ID_AREA=$area
+                        INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA 
+                        WHERE p.TIPOP!='MONITOR' and p.TIPOP!='IMPRESORA' AND p.TIPOP!='SCANNER' and u.ID_AREA=$area
                         ORDER BY u.NOMBRE ASC");
 									while($listar = mysqli_fetch_array($consultar))
 									{
@@ -154,10 +173,7 @@ $row = $resultado->fetch_assoc();
 														<path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/></svg></a></td>-->
 													</tr>
 													"; 
-				
-													
-												
-									}
+				}
 					
 
                     echo "
@@ -166,18 +182,26 @@ $row = $resultado->fetch_assoc();
 						#CODIGO PARA EL RESTO DE PERIFERICOS
 					else {
 						#CONSULTA SQL PARA OBTENER EL NRO DE PERIFERICOS DEL TIPO SELECCIONADO
-						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p where p.TIPOP='$tipo' and p.ID_AREA=$area");
+
+						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p left join equipo_periferico e on p.ID_PERI=e.ID_PERI 
+						left join inventario i on e.ID_WS=i.ID_WS 
+						left join wsusuario ws on ws.ID_WS=i.ID_WS 
+						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
+						left join area a on u.ID_AREA=a.ID_AREA where p.TIPOP='$tipo' and u.ID_AREA=$area");
 			            $total = mysqli_fetch_array($conttotal);
 						$fecha = date("Y-m-d");
 						#OBTIENE NOMBRE DFE REPARTICION
 						$consultrepa=mysqli_query($datos_base, "select r.REPA from area a inner join reparticion r on a.ID_REPA=r.ID_REPA where a.ID_AREA=$area");
 						$reparticion= mysqli_fetch_array($consultrepa);
-						
-						#SE VISUALIZA EN HTML Y SE AGREGA LA CAVBECERA DE LA TABLA
+						$repa=$reparticion['REPA'];
+						if ($reparticion['REPA']==null || $reparticion['REPA']=="") {
+							$repa="";
+						}
+						#SE VISUALIZA EN HTML Y SE AGREGA LA CABECERA DE LA TABLA
 						echo "
 						<h1 id='titulo'>REPORTE DE $perif POR AREA: $tit</h1>
                         <hr style='display: block;'>
-						<h4 id='ind' class='indicadores' >REPARTICION: ".$reparticion['REPA']."</h4>
+						<h4 id='ind' class='indicadores' >REPARTICION: ".$repa."</h4>
 				        <h4 id='ind' class='indicadores' >TOTAL $perif: ".$total['TOTAL']."</h4>
 						<h4 class='indicadores' style='margin-bottom: 20px;'>FECHA ACTUAL: ".$fecha."</h4>
 						<table id='tablareporte' width=97%>
@@ -195,12 +219,15 @@ $row = $resultado->fetch_assoc();
 						#COINSULTA SQL POARA OBTENER TODOS LOS PERIFERICOS DE EL AREA SELECCIONADA Y POR TIPO 
 						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO		
                         FROM periferico p 
-                        LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
-                        LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
-                        INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
+                        left join equipo_periferico e on p.ID_PERI=e.ID_PERI 
+						left join inventario i on e.ID_WS=i.ID_WS 
+						left join wsusuario ws on ws.ID_WS=i.ID_WS 
+						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
+						left join area a on u.ID_AREA=a.ID_AREA 
                         INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
 						left join modelo mo on p.ID_MODELO=mo.ID_MODELO
-                        WHERE p.TIPOP='$tipo' and p.ID_AREA=$area
+                        INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA 
+                        WHERE p.TIPOP='$tipo' and u.ID_AREA=$area
                         ORDER BY u.NOMBRE ASC");
 						#SE EXTRAEN TODOS LOS PERIFERICOS
 									while($listar = mysqli_fetch_array($consultar))

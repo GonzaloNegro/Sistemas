@@ -19,6 +19,7 @@ $row = $resultado->fetch_assoc();
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 	<style>
 			body{
 			background-color: #edf0f5;
@@ -48,7 +49,7 @@ $row = $resultado->fetch_assoc();
         <div id="mostrar_reporte" style="width: 97%; margin-left: 20px; display: block;">
 			
 		            <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-	                    <a id="vlv"  href="../reportes/reporteperifericos.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+	                    <a id="vlv"  href="javascript: history.go(-1)" class="col-3 btn btn-primary " type="button"  value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
                         <div class="btn-group col-2" role="group" >
                               <button id="botonleft" type="button" class="btn btn-secondary" onclick="location.href='consulta.php'" ><i style=" margin-bottom:10px;"class='bi bi-house-door'></i></button>
                               <button id="botonright" type="button" class="btn btn-success" onClick="imprimir()" ><i class='bi bi-printer'></i></button>
@@ -127,11 +128,14 @@ $row = $resultado->fetch_assoc();
 						</thead>";
 						$consultar=mysqli_query($datos_base, "SELECT mo.MODELO, p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, r.REPA			
                         FROM periferico p 
-                        LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
-                        LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
-                        INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
+                        left join equipo_periferico e on p.ID_PERI=e.ID_PERI 
+						left join inventario i on e.ID_WS=i.ID_WS 
+						left join wsusuario ws on ws.ID_WS=i.ID_WS 
+						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
+						left join area a on u.ID_AREA=a.ID_AREA 
+						left join modelo mo on p.ID_MODELO=mo.ID_MODELO
+                        INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA  
                         INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA 
-                        left join modelo mo on p.ID_MODELO=mo.ID_MODELO
 						WHERE p.TIPOP!='MONITOR' and p.TIPOP!='IMPRESORA' AND p.TIPOP!='SCANNER' and p.ID_PROVEEDOR=$proveedor
                         ORDER BY u.NOMBRE ASC");
 									while($listar = mysqli_fetch_array($consultar))
@@ -186,12 +190,16 @@ $row = $resultado->fetch_assoc();
 							</tr>
 						</thead>";
 						$consultar=mysqli_query($datos_base, "SELECT mo.MODELO, p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, r.REPA			
-                        FROM periferico p 
-                        LEFT JOIN area AS a ON a.ID_AREA = p.ID_AREA 
-                        LEFT JOIN usuarios AS u ON u.ID_USUARIO = p.ID_USUARIO 
-                        INNER JOIN marcas AS m ON m.ID_MARCA = p.ID_MARCA 
-                        INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA 
-                        left join modelo mo on p.ID_MODELO=mo.ID_MODELO
+                        FROM periferico p
+						left join equipo_periferico e on p.ID_PERI=e.ID_PERI 
+						left join inventario i on e.ID_WS=i.ID_WS 
+						left join wsusuario ws on ws.ID_WS=i.ID_WS 
+						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
+						left join area a on u.ID_AREA=a.ID_AREA 
+                        INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
+						LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA 
+						left join modelo mo on p.ID_MODELO=mo.ID_MODELO
+                        INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA 
 						WHERE p.TIPOP='$tipo' and p.ID_PROVEEDOR=$proveedor
                         ORDER BY u.NOMBRE ASC");
 									while($listar = mysqli_fetch_array($consultar))

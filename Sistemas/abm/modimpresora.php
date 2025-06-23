@@ -1,5 +1,5 @@
 <?php 
-error_reporting(0);
+// error_reporting(0);
 session_start();
 include('../particular/conexion.php');
 
@@ -282,7 +282,7 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:<span style="color:red;">*</span></label>
-                        <select name="modelo" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="modelo" required>
+                        <select name="modelo" style="margin-top: 5px; text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="modelo" required>
                         <option selected value="200"><?php echo $mod?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -301,7 +301,7 @@ function ConsultarIncidente($no_tic)
                     
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:<span style="color:red;">*</span></label>
-                        <select name="estado" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="estado" required>
+                        <select name="estado" style="margin-top: 5px; text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="estado" required>
                         <option selected value="300"><?php echo $est?></option>
                         <?php
                         include("conexion.php");
@@ -316,7 +316,7 @@ function ConsultarIncidente($no_tic)
                                     
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR: </label>
-                        <select name="prov" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="proveedor">
+                        <select name="prov" style="margin-top: 5px; text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="proveedor">
                         <option selected value="400"><?php echo $prov?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -331,7 +331,7 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DE IMPRESORA:<span style="color:red;">*</span></label>
-                        <select name="tipop" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="tipo" required>
+                        <select name="tipop" style="margin-top: 5px; text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="tipo" required>
                         <option selected value="500"><?php echo $tip?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -346,7 +346,7 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL CUÁL ESTÁ ASIGNADO:</label>
-                        <select name="equip" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="equipo">
+                        <select name="equip" style="margin-top: 5px; text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="equipo">
                         <option selected value="600"><?php 
                             if($usu == null || $usu == 0){
                                 echo "";                        
@@ -374,7 +374,7 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row">     
                         <label id="lblForm"class="col-form-label col-xl col-lg">PROCEDENCIA:<span style="color:red;">*</span></label>
-                        <select name="proc" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="procedencia" required>
+                        <select name="proc" style="margin-top: 5px; text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="procedencia" required>
                         <option selected value="800"><?php echo $proc?></option>
                         <?php
                         include("../particular/conexion.php");
