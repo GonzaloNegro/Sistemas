@@ -133,7 +133,7 @@ if (isset($_POST['accion'])) {
             }
             */
             
-            
+             
             /* SI UNO DE LOS CAMPOS ESTA REPETIDO */
             $sql = "SELECT * FROM usuarios WHERE (CUIL ='$cuil' AND ID_USUARIO != '$id')";
             $resultado = $datos_base->query($sql);
@@ -563,12 +563,44 @@ if (isset($_POST['accion'])) {
                 $equipoBD = $row4['ID_WS'];
                 $estadoBD = $row4['ID_ESTADOWS'];
 
+                /* VERIFICO SI ESTABA ATADO A UN EQUIPO DEL MINISTERIO 725 O DEL 607 */
+                $sql4 = "SELECT r.ID_REPA
+                FROM wsusuario w
+                JOIN usuarios u ON w.ID_USUARIO = u.ID_USUARIO
+                JOIN area a ON u.ID_AREA = a.ID_AREA
+                JOIN reparticion r ON a.ID_REPA = r.ID_REPA
+                WHERE w.ID_WS = '$equipoBD'
+                AND w.FECHA_ASIGNACION = (
+                    SELECT MAX(FECHA_ASIGNACION)
+                    FROM wsusuario
+                    WHERE ID_WS = w.ID_WS
+                )
+                AND r.ID_REPA IN (1, 4)";
+                $result4 = $datos_base->query($sql4);
+                $row4 = $result4->fetch_assoc();
+                $repaBD = $row4['ID_REPA'];
+                /* 
+                Usuarios
+                277 -> SIN ASIGNAR HP 725
+                310 -> SIN ASIGNAR HP 607
+
+                Inventario
+                100 -> SIN ASIGNAR HP 725
+                101 -> SIN ASIGNAR HP 607
+                */
+                if($repaBD == 1){/* 725 */
+                    $sinAsignar = 100;/* 725 */
+                }elseif($repaBD == 4){/* 607 */
+                    $sinAsignar = 101;/* 607 */
+                }
+                /* --------------------------------------------------------------------- */
+
                 if($estado == 1 AND $estadoBD == $estado){/* BASE DE DATOS Y FORMULARIO: ACTIVO */
                     if($equipoBD != $equipo){/*  SI CAMBIA DE EQUIPO */
                         /* -INSERT DE DESVINCULACION DEL EQUIPO ACTUAL(tabla equipo_periferico) */
-                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipoBD', 0, '0000-00-00', '$fechaActual', '$estado')");
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipoBD', '$sinAsignar', '0000-00-00', '$fechaActual', '$estado')");
                         /* -INSERT DE DESVINCULACION DEL PERIFERICO (tabla equipo_periferico) */
-                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, 0, '$id', '0000-00-00', '$fechaActual', '$estado')");
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', '$estado')");
                         /* -INSERT DE VINCULACION DEL NUEVO EQUIPO CON ESTE PERIFERICO (tabla equipo_periferico) */
                         mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', '$estado')");
                         
@@ -586,9 +618,9 @@ if (isset($_POST['accion'])) {
                 
                 } elseif ($estadoBD == 1 AND $estado != $estadoBD){ /* BASE DE DATO: ACTIVO || FORMULARIO: BAJA O STOCK */
                     /* -INSERT DE DESVINCULACION DEL EQUIPO (tabla equipo_periferico) */
-                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', 0, '0000-00-00', '$fechaActual', '$estado')");
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$sinAsignar', '0000-00-00', '$fechaActual', '$estado')");
                     /* -INSERT DE DESVINCULACION DEL PERIFERICO (tabla equipo_periferico) */
-                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, 0, '$id', '0000-00-00', '$fechaActual', '$estado')");
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', '$estado')");
 
                     /* -UPDATE PARA DAR DE BAJA AL PERIFERICO Y DEMAS DATOS (tabla periferico) */
                     mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg',  SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
@@ -690,6 +722,39 @@ if (isset($_POST['accion'])) {
                 $a = $row2['ID_AREA'];
                 $u = $row2['ID_USUARIO'];
                 $e = $row2['ID_ESTADOWS'];
+                
+                /* VERIFICO SI ESTABA ATADO A UN EQUIPO DEL MINISTERIO 725 O DEL 607 */
+                $sql4 = "SELECT r.ID_REPA
+                FROM wsusuario w
+                JOIN usuarios u ON w.ID_USUARIO = u.ID_USUARIO
+                JOIN area a ON u.ID_AREA = a.ID_AREA
+                JOIN reparticion r ON a.ID_REPA = r.ID_REPA
+                WHERE w.ID_WS = '$equipoBD'
+                AND w.FECHA_ASIGNACION = (
+                    SELECT MAX(FECHA_ASIGNACION)
+                    FROM wsusuario
+                    WHERE ID_WS = w.ID_WS
+                )
+                AND r.ID_REPA IN (1, 4)";
+                $result4 = $datos_base->query($sql4);
+                $row4 = $result4->fetch_assoc();
+                $repaBD = $row4['ID_REPA'];
+                /* 
+                Usuarios
+                277 -> SIN ASIGNAR HP 725
+                310 -> SIN ASIGNAR HP 607
+
+                Inventario
+                100 -> SIN ASIGNAR HP 725
+                101 -> SIN ASIGNAR HP 607
+                */
+                if($repaBD == 1){/* 725 */
+                    $sinAsignar = 100;/* 725 */
+                }elseif($repaBD == 4){/* 607 */
+                    $sinAsignar = 101;/* 607 */
+                }
+                /* --------------------------------------------------------------------- */
+
                 if($a != $area || $u != $usu || $e != $estado){
                 mysqli_query($datos_base, "INSERT INTO movimientosperi VALUES (DEFAULT, '$fechaActual', '$id', '$area', '$usu', '$estado')");/* DEBERIA VOLVER A CONSULTAR BIEN EL USUARIO QUE ESTA RELACIONADO AL EQUIPO */
                 }
@@ -697,6 +762,7 @@ if (isset($_POST['accion'])) {
             
                 mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg', ID_MARCA = '$marca', SERIE = '$serie', OBSERVACION = '$obs', FACTURA = '$fac', ID_AREA = '$area', ID_USUARIO = '$usu', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_PROVEEDOR = '$prov', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
             /* EL UPDATE NO VA A FUNCIONAR PORQUE $usu NO LO TRAIGO MAS, TRAIGO EL EQUIPO */
+            
                 header("Location: abmmonitores.php?ok");
                 exit;
             }
@@ -725,7 +791,7 @@ if (isset($_POST['accion'])) {
                 $marca = $row6['ID_MARCA'];
             }
             
-            if($modelo == "200"){
+            if($modelo == "200"){ 
                 $sql1 = "SELECT ID_MODELO FROM periferico WHERE ID_PERI = '$id'";
                 $result1 = $datos_base->query($sql1);
                 $row1 = $result1->fetch_assoc();
@@ -2018,7 +2084,7 @@ if (isset($_POST['accion'])) {
 
         }
         mysqli_close($datos_base);	
-        header('Location: ./montosLineas.php?ok');
+        header('Location: ./consulta/montosLineas.php?ok');
         exit;
     }
 

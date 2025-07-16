@@ -145,8 +145,9 @@ $row = $resultado->fetch_assoc();
                             }
 
                             function mostrarValor(valor) {
-                                return (valor === null || valor === undefined || valor === '') ? '-' : valor;
+                                return (valor === null || valor === undefined || valor === '' || parseFloat(valor) === 0) ? '-' : valor;
                             }
+                            
 
                             tabla.append(`<tr>
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.MODELO)}</h4></td>

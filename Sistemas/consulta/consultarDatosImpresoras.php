@@ -16,7 +16,7 @@ function generarBloqueHTML($label, $valor) {
     return "
         <div style='width:100%;display:flex;justify-content:space-between;align-items: flex-start;'>
             <label style='color:black;'>$label:</label>
-            <label style='color:black;'>$valor</label>
+            <label style='color:black;text-transform:uppercase;'>$valor</label>
         </div>";
 }
 
@@ -33,7 +33,7 @@ $consultaPeri = mysqli_query($datos_base, "SELECT * FROM periferico WHERE ID_PER
 if ($consulta = mysqli_fetch_assoc($consultaPeri)) {
     // Obtener valores de tablas relacionadas
     $tipoperi    = obtenerValor($datos_base, "SELECT TIPO FROM tipop WHERE ID_TIPOP = {$consulta['ID_TIPOP']}", 'TIPO');
-    $marca       = obtenerValor($datos_base, "SELECT MARCA FROM marcas WHERE ID_MARCA = {$consulta['ID_MARCA']}", 'MARCA');
+    $marca       = obtenerValor($datos_base, "SELECT m.MARCA FROM marcas m LEFT JOIN modelo mo ON mo.ID_MARCA = m.ID_MARCA WHERE mo.ID_MODELO = {$consulta['ID_MODELO']}", 'MARCA');
     $procedencia = obtenerValor($datos_base, "SELECT PROCEDENCIA FROM procedencia WHERE ID_PROCEDENCIA = {$consulta['ID_PROCEDENCIA']}", 'PROCEDENCIA');
     $proveedor   = obtenerValor($datos_base, "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR = {$consulta['ID_PROVEEDOR']}", 'PROVEEDOR');
     $estadoWs    = obtenerValor($datos_base, "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = {$consulta['ID_ESTADOWS']}", 'ESTADO');

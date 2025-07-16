@@ -35,13 +35,13 @@
             ORDER BY t.ID_TICKET";
             $result = $datos_base->query($query);
             while($rowa = $result->fetch_assoc()) {
-                echo "<li><a href='http://localhost/GITSISTEMAS/Sistemas/Sistemas/consulta/modificacion.php?no=".$rowa['ID_TICKET']."'>&#128308; Ticket #".$rowa['ID_TICKET'].": (".$rowa['ESTADO'].") - ".$rowa['DESCRIPCION']."</a></li>";
+                echo "<li><a href='http://localhost/Sistemas/Sistemas/consulta/modificacion.php?no=".$rowa['ID_TICKET']."'>&#128308; Ticket #".$rowa['ID_TICKET'].": (".$rowa['ESTADO'].") - ".$rowa['DESCRIPCION']."</a></li>";
                 
                 /* echo "<li><a href='http://ws43575/Sistemas/consulta/modificacion.php?no=".$rowa['ID_TICKET']."'>&#128308; Ticket #".$rowa['ID_TICKET'].": (".$rowa['ESTADO'].") - ".$rowa['DESCRIPCION']."</a></li>"; */
             }
             
             if($cantidadUsu > 0){
-                echo "<li><a href='http://localhost/GITSISTEMAS/Sistemas/Sistemas/consulta/consultausuario.php'>&#128308; ".$notificacionUsuario."</a></li>";
+                echo "<li><a href='http://localhost/Sistemas/Sistemas/consulta/consultausuario.php'>&#128308; ".$notificacionUsuario."</a></li>";
                 
                 /* echo "<li><a href='http://ws43575/Sistemas/consulta/consultausuario.php'>&#128308; ".$notificacionUsuario."</a></li>"; */
             }
@@ -65,8 +65,8 @@
     }
 
     .notification-button {
-        width: 45px;         /* Ajustá este valor según el tamaño que quieras */
-        height: 45px;
+        width: 55px;         /* Ajustá este valor según el tamaño que quieras */
+        height: 55px;
         border: none;
         padding: 10px 10px;
         cursor: pointer;

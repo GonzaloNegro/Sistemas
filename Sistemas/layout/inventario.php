@@ -57,6 +57,7 @@
 			<li class="ubicacion link"><a href="../particular/bienvenida.php" data-bs-toggle="tooltip" title="Novedades" data-bs-placement="bottom"><i class="bi bi-info-circle"></i></a></li>
 			<li><a href="../Manual.pdf" class="ubicacion link" data-bs-toggle="tooltip" title="Manual" data-bs-placement="bottom"><i class="bi bi-journal"></i></a></li>
         </ul>
+        <?php include('../particular/busqueda-dinamica.php'); ?>
         <?php include('notificacion.php'); ?>
         <div class="dropdown text-end">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle link" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"><h5 style="color: white;"><i class="bi bi-person rounded-circle" style="color: white;"></i> <?php echo utf8_decode($row['RESOLUTOR']);?></h5></a>

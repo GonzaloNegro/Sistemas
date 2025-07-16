@@ -207,7 +207,7 @@ if(!isset($_SESSION['cuil']))
                             }
 
                             function mostrarValor(valor) {
-                                return (valor === null || valor === undefined || valor === '') ? '-' : valor;
+                                return (valor === null || valor === undefined || valor === '' || parseFloat(valor) === 0) ? '-' : valor;
                             }
 
                             tabla.append(`<tr>

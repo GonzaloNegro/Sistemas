@@ -17,7 +17,7 @@ function valorPorDefecto($valor) {
 function generarBloqueHTML($etiqueta, $valor) {
     return "
         <div style='width:100%;display:flex;justify-content:space-between;align-items: flex-start;'>
-            <label style='color:black;''>$etiqueta:</label><label style='color:black;''>$valor</label>
+            <label style='color:black;'>$etiqueta:</label><label style='color:black;text-transform:uppercase;'>$valor</label>
         </div>";
 }
 

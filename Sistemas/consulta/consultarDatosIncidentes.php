@@ -15,7 +15,7 @@ function generarBloqueHTML($label, $valor) {
     return '
     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
         <label style="color:black;">' . $label . ':</label>
-        <label style="color:black;">' . valorOporDefecto($valor) . '</label>
+        <label style="color:black;text-transform:uppercase;">' . valorOporDefecto($valor) . '</label>
     </div>';
 }
 
