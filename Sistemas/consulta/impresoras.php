@@ -368,14 +368,16 @@ $row = $resultado->fetch_assoc();
                         <select id="impresora" name="impresora" class="form-control largo">
                             <option value="">TODOS</option>
                             <?php 
-                            $consulta= "SELECT * 
-                            FROM modelo
-                            WHERE ID_TIPOP = 1 OR ID_TIPOP = 2 OR ID_TIPOP = 3 OR ID_TIPOP = 4 OR ID_TIPOP = 10 OR ID_TIPOP = 13
+                            $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
+                            FROM modelo m
+                            inner join marcas ma on m.ID_MARCA=ma.ID_MARCA
+                            WHERE ID_TIPOP = 1 OR ID_TIPOP = 2 OR ID_TIPOP = 3 
+                            OR ID_TIPOP = 4 OR ID_TIPOP = 10 OR ID_TIPOP = 13
                             ORDER BY MODELO ASC";
                             $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                             ?>
                             <?php foreach ($ejecutar as $opciones): ?> 
-                                <option value="<?php echo $opciones['ID_MODELO']?>"><?php echo $opciones['MODELO']?></option>
+                                <option value="<?php echo $opciones['ID_MODELO']?>"><?php echo $opciones['MODELO']?> - <?php echo $opciones['MARCA']?></option>
                                 <?php endforeach ?>
                         </select>
                     </div>
@@ -414,7 +416,11 @@ $row = $resultado->fetch_assoc();
                         <select id="marca" name="marca" class="form-control largo">
                             <option value="">TODOS</option>
                             <?php 
-                            $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
+                            // $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
+                            $consulta= "SELECT DISTINCT m.ID_MARCA, m.MARCA FROM marcas m inner join modelo o on m.ID_MARCA=o.ID_MARCA
+                            WHERE o.ID_TIPOP = 1 OR o.ID_TIPOP = 2 OR o.ID_TIPOP = 3 
+                            OR o.ID_TIPOP = 4 OR o.ID_TIPOP = 10 OR o.ID_TIPOP = 13
+                            ORDER BY m.MARCA ASC";
                             $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                             ?>
                             <?php foreach ($ejecutar as $opciones): ?> 

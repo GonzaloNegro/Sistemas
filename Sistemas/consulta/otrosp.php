@@ -353,7 +353,11 @@ $row = $resultado->fetch_assoc();
                         <select id="marca" name="marca" class="form-control largo">
                             <option value="">TODOS</option>
                             <?php 
-                            $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
+                            // $consulta= "SELECT * FROM marcas ORDER BY MARCA ASC";
+                            $consulta= "SELECT DISTINCT m.ID_MARCA, m.MARCA FROM marcas m inner join modelo o on m.ID_MARCA=o.ID_MARCA
+                            WHERE o.ID_TIPOP = 5 OR o.ID_TIPOP = 6 OR o.ID_TIPOP = 9 
+                            OR o.ID_TIPOP = 11 OR o.ID_TIPOP = 12
+                            ORDER BY m.MARCA ASC";
                             $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                             ?>
                             <?php foreach ($ejecutar as $opciones): ?> 
