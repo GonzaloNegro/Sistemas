@@ -43,6 +43,7 @@ $row = $resultado->fetch_assoc();
                     const marca = $("#marca");
                     const estado = $("#estado");
                     const reparticion = $("#reparticion");
+                    const modelo = $("#modelo");
                     
                     const filtros = $("#filtrosUsados");
                     // Vaciar el div antes de agregar nuevos filtros
@@ -66,7 +67,11 @@ $row = $resultado->fetch_assoc();
                     }
                     if (marca.val() != '') {
                         filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>MARCA</u>: ${$("#marca option:selected").text()}</li>`);
-                    }if (estado.val() != '') {
+                    }
+                    if (modelo.val() != '') {
+                        filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>MODELO</u>: ${$("#modelo option:selected").text()}</li>`);
+                    }
+                    if (estado.val() != '') {
                         filtros.append(`<li style="color:#00519C; margin-left: 15px;"><u>ESTADO</u>: ${$("#estado option:selected").text()}</li>`);
                     }
                     if (orden.val() != '') {
@@ -88,6 +93,7 @@ $row = $resultado->fetch_assoc();
                 const marca = $("#marca").val();
                 const estado = $("#estado").val();
                 const reparticion = $("#reparticion").val(); 
+                const modelo = $("#modelo").val();
                 //Obtener los datos de la tabla de usuarios
                 $.ajax({
                     url: "paginador_otrosp.php", // Archivo PHP
@@ -101,6 +107,7 @@ $row = $resultado->fetch_assoc();
                             tipop: tipop,
                             marca: marca,
                             estado: estado,
+                            modelo: modelo,
                              },
                     dataType: "json",
                     //Respuesta obtenida de paginador.php
@@ -110,7 +117,7 @@ $row = $resultado->fetch_assoc();
                         const lblUsuarios = $("#nroPerifericos").text("Resultados Encontrados: "+respuesta.totalOtrosP); 
 
                         //Mostramos el label con el numero de resultados encontramos
-                        if(busqueda=='' && area=='' && reparticion=='' && orden=='' && tipop=='' && marca=='' && estado==''){
+                        if(busqueda=='' && area=='' && reparticion=='' && orden=='' && tipop=='' && marca=='' && estado==''&& modelo==''){
                             $("#nroPerifericos").hide();
                         }
                         else{
@@ -321,6 +328,23 @@ $row = $resultado->fetch_assoc();
                             ?>
                             <?php foreach ($ejecutar as $opciones): ?> 
                                 <option value="<?php echo $opciones['ID_AREA']?>"><?php echo $opciones['AREA']?> - <?php echo $opciones['REPA']?></option>
+                                <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Periférico</label>
+                        <select id="modelo" name="modelo" class="form-control largo">
+                            <option value="">TODOS</option>
+                            <?php 
+                            $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
+                            FROM modelo m
+                            inner join marcas ma on m.ID_MARCA=ma.ID_MARCA
+                            WHERE ID_TIPOP IN (5, 6, 9, 11, 12)
+                            ORDER BY MODELO ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                                <option value="<?php echo $opciones['ID_MODELO']?>"><?php echo $opciones['MODELO']?> - <?php echo $opciones['MARCA']?></option>
                                 <?php endforeach ?>
                         </select>
                     </div>

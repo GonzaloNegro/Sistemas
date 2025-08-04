@@ -3,6 +3,15 @@ error_reporting(0);
 session_start();
 include('../particular/conexion.php');
 
+
+$iduser = $_SESSION['cuil'];
+$sql = "SELECT ID_RESOLUTOR, CUIL, RESOLUTOR, ID_PERFIL, ID_REPARTICION FROM resolutor WHERE CUIL='$iduser'";
+$resultado = $datos_base->query($sql);
+$row = $resultado->fetch_assoc();
+
+$perfil = $row['ID_PERFIL'];
+$repa = $row['ID_REPARTICION'];
+
 $consulta = ConsultarIncidente($_GET['no']);
 
 function ConsultarIncidente($no_tic)
@@ -265,7 +274,7 @@ function enviar_formulario(formulario, accion) {
 
                 <div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:<span style="color:red;">*</span></label>
-                    <select name="modelo" style="margin-top: 5px text-transform:uppercase" id="modelo" class="form-control col-form-label col-xl col-lg" required>
+                    <select name="modelo" style="margin-top: 5px; text-transform:uppercase;" id="modelo" class="form-control col-form-label col-xl col-lg" required>
                     <option selected value="200"><?php echo $mod?></option>
                     <?php
                     include("../particular/conexion.php");
@@ -284,7 +293,7 @@ function enviar_formulario(formulario, accion) {
 
                 <div class="form-group row"> 
                     <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:<span style="color:red;">*</span></label>
-                    <select name="estado" onchange=verificarDisponibilidadEquipo(); style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="estado" required>
+                    <select name="estado" onchange=verificarDisponibilidadEquipo(); style="margin-top: 5px; text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" id="estado" required>
                     <option selected value="300"><?php echo $est?></option>
                     <?php
                     include("../particular/conexion.php");
@@ -299,7 +308,7 @@ function enviar_formulario(formulario, accion) {
 
                 <div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:<span style="color:red;">*</span></label>
-                    <select name="prov" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="proveedor" required>
+                    <select name="prov" style="margin-top: 5px; text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" id="proveedor" required>
                     <option selected value="400"><?php echo $prov?></option>
                     <?php
                     include("../particular/conexion.php");
@@ -314,7 +323,7 @@ function enviar_formulario(formulario, accion) {
                                 
                 <div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DE MONITOR:<span style="color:red;">*</span></label>
-                    <select name="tipop" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="tipo" required>
+                    <select name="tipop" style="margin-top: 5px; text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" id="tipo" required>
                     <option selected value="500"><?php echo $tip?></option>
                     <?php
                     include("../particular/conexion.php");
@@ -329,7 +338,7 @@ function enviar_formulario(formulario, accion) {
 
                 <div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL CUÁL ESTÁ ASIGNADO:</label>
-                    <select name="equip" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="equipo">
+                    <select name="equip" style="margin-top: 5px; text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" id="equipo">
                     <option selected value="600"><?php 
                         if($usu == null || $usu == 0){
                             echo "";                        
@@ -339,15 +348,49 @@ function enviar_formulario(formulario, accion) {
                     ?></option>
                     <?php
                     include("../particular/conexion.php");
-                    $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
-                    FROM wsusuario w
-                    INNER JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO
-                    INNER JOIN inventario i ON i.ID_WS = w.ID_WS
-                    WHERE u.ID_ESTADOUSUARIO = 1 
-                    AND w.ID_WS <> 0 
-                    AND w.ID_USUARIO <> 277
-                    AND i.ID_TIPOWS = 1 /* PC */
-                    ORDER BY u.NOMBRE ASC";
+                    //Se agrega clausula para filtrar por reparticion de resolutor, si tiene rol 1 o 2 puede ver a todos los usuarios de ambos edificios
+                    //en agregar impresoras, monitores hay otra forma de hacerlo que da un poco mas de equipos
+                        $whereEq = "WHERE u.ID_ESTADOUSUARIO = 1 
+                        AND w.ID_WS <> 0 
+                        AND w.ID_USUARIO <> 277
+                        AND w.ID_USUARIO <> 310
+                        AND i.ID_TIPOWS = 1
+                        ";
+                        if ($perfil == 1 || $perfil == 2) {
+                        }
+                        else{
+                            if ($repa==1) {
+                                $whereEq.="AND r.ID_REPA IN (1, 2, 3)";
+                            }
+                            else{
+                                $whereEq.="AND r.ID_REPA=$repa";
+                            }
+                        }
+                        // $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
+                        // FROM wsusuario w
+                        // INNER JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO
+                        // INNER JOIN area a ON a.ID_AREA=u.ID_AREA
+                        // INNER JOIN reparticion r ON r.ID_REPA=a.ID_REPA
+                        // INNER JOIN inventario i ON i.ID_WS = w.ID_WS
+                        // $whereEq
+                        // ORDER BY u.NOMBRE ASC";
+                        $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
+                        FROM inventario i 
+                        LEFT JOIN area AS a ON i.ID_AREA = a.ID_AREA
+                        LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
+                        LEFT JOIN wsusuario AS w ON i.ID_WS = w.ID_WS
+                        LEFT JOIN usuarios as u on w.ID_USUARIO = u.ID_USUARIO
+                        $whereEq
+                        ORDER BY u.NOMBRE ASC";
+                    // $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
+                    // FROM wsusuario w
+                    // INNER JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO
+                    // INNER JOIN inventario i ON i.ID_WS = w.ID_WS
+                    // WHERE u.ID_ESTADOUSUARIO = 1 
+                    // AND w.ID_WS <> 0 
+                    // AND w.ID_USUARIO <> 277
+                    // AND i.ID_TIPOWS = 1 /* PC */
+                    // ORDER BY u.NOMBRE ASC";
                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                     ?>
                     <?php foreach ($ejecutar as $opciones): ?> 

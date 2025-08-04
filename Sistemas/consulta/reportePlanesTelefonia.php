@@ -173,16 +173,20 @@ $row = $resultado->fetch_assoc();
                     //Obtengo monto total y cantidad de lineas
                     $sent= "SELECT COUNT(ID_MOVILINEA) AS CANTIDAD, SUM(m.MONTOTOTAL) AS totalGr
                     FROM movilinea m
-                    INNER JOIN nombreplan n ON n.ID_NOMBREPLAN = m.ID_NOMBREPLAN
-                    INNER JOIN plan p ON p.ID_PLAN = n.ID_PLAN
-                    INNER JOIN proveedor pr on n.ID_PROVEEDOR=pr.ID_PROVEEDOR
-                    WHERE MONTH(m.FECHA) = $mesFiltro and YEAR(m.FECHA) = $añoFiltro AND m.ID_MOVILINEA = (
-                                  SELECT MAX(t.ID_MOVILINEA)
-                                  FROM movilinea t
-                                  WHERE m.id_linea = t.id_linea
-                                  and MONTH(t.FECHA) =  $mesFiltro
-                                  and YEAR(m.FECHA) = $añoFiltro
-                              )";
+                    LEFT JOIN linea l ON m.ID_LINEA = l.ID_LINEA 
+                        LEFT JOIN estado_ws e ON e.ID_ESTADOWS = l.ID_ESTADOWS 
+                        LEFT JOIN nombreplan n ON n.ID_NOMBREPLAN = l.ID_NOMBREPLAN 
+                        LEFT JOIN plan p ON p.ID_PLAN = n.ID_PLAN
+                        LEFT JOIN proveedor pr ON pr.ID_PROVEEDOR = n.ID_PROVEEDOR 
+                    	 WHERE MONTH(m.FECHA) = $mesFiltro and YEAR(m.FECHA) = $añoFiltro
+                    	 AND pr.ID_PROVEEDOR IN (34, 35) 
+                          AND m.ID_MOVILINEA = (
+                             SELECT MAX(t.ID_MOVILINEA)
+                             FROM movilinea t
+                             WHERE m.id_linea = t.id_linea
+                             and MONTH(t.FECHA) =  $mesFiltro
+                             and YEAR(t.FECHA) = $añoFiltro
+                         )";
                     $resultado = $datos_base->query($sent);
                     $row = $resultado->fetch_assoc();
                     $cantidad = $row['CANTIDAD'];
@@ -191,17 +195,20 @@ $row = $resultado->fetch_assoc();
                     //Obtengo monto de Personal
                     $sent= "SELECT COUNT(ID_MOVILINEA) AS CANTIDAD, SUM(m.MONTOTOTAL) AS totalGr
                     FROM movilinea m
-                    INNER JOIN nombreplan n ON n.ID_NOMBREPLAN = m.ID_NOMBREPLAN
-                    INNER JOIN plan p ON p.ID_PLAN = n.ID_PLAN
-                    INNER JOIN proveedor pr on n.ID_PROVEEDOR=pr.ID_PROVEEDOR
-                    WHERE MONTH(m.FECHA) = $mesFiltro and YEAR(m.FECHA) = $añoFiltro AND m.ID_MOVILINEA = (
-                                  SELECT MAX(t.ID_MOVILINEA)
-                                  FROM movilinea t
-                                  WHERE m.id_linea = t.id_linea
-                                  and MONTH(t.FECHA) =  $mesFiltro 
-                                  and YEAR(m.FECHA) = $añoFiltro
-                              )
-                              and pr.ID_PROVEEDOR=34";
+                    LEFT JOIN linea l ON m.ID_LINEA = l.ID_LINEA 
+                        LEFT JOIN estado_ws e ON e.ID_ESTADOWS = l.ID_ESTADOWS 
+                        LEFT JOIN nombreplan n ON n.ID_NOMBREPLAN = l.ID_NOMBREPLAN 
+                        LEFT JOIN plan p ON p.ID_PLAN = n.ID_PLAN
+                        LEFT JOIN proveedor pr ON pr.ID_PROVEEDOR = n.ID_PROVEEDOR 
+                    	 WHERE MONTH(m.FECHA) = $mesFiltro and YEAR(m.FECHA) = $añoFiltro
+                    	 AND pr.ID_PROVEEDOR = 34 
+                          AND m.ID_MOVILINEA = (
+                             SELECT MAX(t.ID_MOVILINEA)
+                             FROM movilinea t
+                             WHERE m.id_linea = t.id_linea
+                             and MONTH(t.FECHA) =  $mesFiltro
+                             and YEAR(t.FECHA) = $añoFiltro
+                         )";
                     $resultadoP = $datos_base->query($sent);
                     $rowP = $resultadoP->fetch_assoc();
                     $montoPersonal = $rowP['totalGr'];
@@ -210,17 +217,20 @@ $row = $resultado->fetch_assoc();
                     //Obtengo de Claro
                     $sent= "SELECT COUNT(ID_MOVILINEA) AS CANTIDAD, SUM(m.MONTOTOTAL) AS totalGr
                     FROM movilinea m
-                    INNER JOIN nombreplan n ON n.ID_NOMBREPLAN = m.ID_NOMBREPLAN
-                    INNER JOIN plan p ON p.ID_PLAN = n.ID_PLAN
-                    INNER JOIN proveedor pr on n.ID_PROVEEDOR=pr.ID_PROVEEDOR
-                    WHERE MONTH(m.FECHA) = $mesFiltro  and YEAR(m.FECHA) = $añoFiltro AND m.ID_MOVILINEA = (
-                                  SELECT MAX(t.ID_MOVILINEA)
-                                  FROM movilinea t
-                                  WHERE m.id_linea = t.id_linea
-                                  and MONTH(t.FECHA) =  $mesFiltro
-                                  and YEAR(m.FECHA) = $añoFiltro
-                              )
-                              and pr.ID_PROVEEDOR=35";
+                    LEFT JOIN linea l ON m.ID_LINEA = l.ID_LINEA 
+                        LEFT JOIN estado_ws e ON e.ID_ESTADOWS = l.ID_ESTADOWS 
+                        LEFT JOIN nombreplan n ON n.ID_NOMBREPLAN = l.ID_NOMBREPLAN 
+                        LEFT JOIN plan p ON p.ID_PLAN = n.ID_PLAN
+                        LEFT JOIN proveedor pr ON pr.ID_PROVEEDOR = n.ID_PROVEEDOR 
+                    	 WHERE MONTH(m.FECHA) = $mesFiltro and YEAR(m.FECHA) = $añoFiltro
+                    	 AND pr.ID_PROVEEDOR = 35 
+                          AND m.ID_MOVILINEA = (
+                             SELECT MAX(t.ID_MOVILINEA)
+                             FROM movilinea t
+                             WHERE m.id_linea = t.id_linea
+                             and MONTH(t.FECHA) =  $mesFiltro
+                             and YEAR(t.FECHA) = $añoFiltro
+                         )";
                     $resultadoC = $datos_base->query($sent);
                     $rowC = $resultadoC->fetch_assoc();
                     $montoClaro = $rowC['totalGr'];
@@ -235,14 +245,17 @@ $row = $resultado->fetch_assoc();
                     INNER JOIN nombreplan n ON n.ID_NOMBREPLAN = m.ID_NOMBREPLAN
                     INNER JOIN plan p ON p.ID_PLAN = n.ID_PLAN
                     INNER JOIN proveedor pr on n.ID_PROVEEDOR=pr.ID_PROVEEDOR
+                    LEFT JOIN linea l ON m.ID_LINEA = l.ID_LINEA 
+                    LEFT JOIN estado_ws e ON e.ID_ESTADOWS = l.ID_ESTADOWS 
                     WHERE MONTH(m.FECHA) = $mesFiltro  and YEAR(m.FECHA) = $añoFiltro AND m.ID_MOVILINEA = (
                                   SELECT MAX(t.ID_MOVILINEA)
                                   FROM movilinea t
                                   WHERE m.id_linea = t.id_linea
                                   and MONTH(t.FECHA) =  $mesFiltro
-                                  and YEAR(m.FECHA) = $añoFiltro
+                                  and YEAR(t.FECHA) = $añoFiltro
                               ) 
                     and pr.ID_PROVEEDOR=34
+                     AND e.ID_ESTADOWS = 1
                     GROUP BY n.NOMBREPLAN, n.ID_PLAN
                          ORDER BY montoUni ASC";
                     $sqliPer = $datos_base->query($queryy);
@@ -255,14 +268,17 @@ $row = $resultado->fetch_assoc();
                     INNER JOIN nombreplan n ON n.ID_NOMBREPLAN = m.ID_NOMBREPLAN
                     INNER JOIN plan p ON p.ID_PLAN = n.ID_PLAN
                     INNER JOIN proveedor pr on n.ID_PROVEEDOR=pr.ID_PROVEEDOR
+                    LEFT JOIN linea l ON m.ID_LINEA = l.ID_LINEA 
+                    LEFT JOIN estado_ws e ON e.ID_ESTADOWS = l.ID_ESTADOWS 
                     WHERE MONTH(m.FECHA) = $mesFiltro  and YEAR(m.FECHA) = $añoFiltro AND m.ID_MOVILINEA = (
                                   SELECT MAX(t.ID_MOVILINEA)
                                   FROM movilinea t
                                   WHERE m.id_linea = t.id_linea
                                   and MONTH(t.FECHA) =  $mesFiltro
-                                  and YEAR(m.FECHA) = $añoFiltro
+                                  and YEAR(t.FECHA) = $añoFiltro
                               ) 
                     and pr.ID_PROVEEDOR=35
+                     AND e.ID_ESTADOWS = 1
                     GROUP BY n.NOMBREPLAN, n.ID_PLAN
                          ORDER BY montoUni ASC";
                     $sqliCla = $datos_base->query($queryy);
@@ -274,7 +290,8 @@ $row = $resultado->fetch_assoc();
                 <!-- Indicadores generales de lineas-->
                 <div id="indicadores">
                     <?php 
-                     
+                        $año=$_POST['año'];
+
                         switch ($_POST['mes']) {
                             case '01': $mes = 'Enero';break;
                             case '02': $mes = 'Febrero';break;
@@ -296,7 +313,7 @@ $row = $resultado->fetch_assoc();
                     echo"
                     <hr style='display: block; margin-top:60px;'>
                     <div><h4 id='periodo'  class='ind' style='margin-top: 2px; margin-bottom: 2px; font-size: 22px; font-weight: bold;'>FECHA DE CONSULTA: $fechaActual</h4></div>
-                    <div><h4 id='periodo'  class='ind' style='margin-top: 2px; margin-bottom: 2px; font-size: 22px; font-weight: bold;'>PERIODO: $mes - 2024</h4></div>
+                    <div><h4 id='periodo'  class='ind' style='margin-top: 2px; margin-bottom: 2px; font-size: 22px; font-weight: bold;'>PERIODO: $mes - $año</h4></div>
                     <!--<div><div><h4 class='ind number' style='margin-top: 2px; margin-bottom: 2px;'>MONTO TOTAL: $$montoTotal</h4></div>
                     <div><h4 class='ind' style='margin-top: 2px; margin-bottom: 2px;'>CANTIDAD DE LÍNEAS TOTAL: $cantidad</h4></div>
                     <div><h4 class='ind number' style='margin-top: 2px; margin-bottom: 2px;'>SUBTOTAL PERSONAL: $$montoPersonal</h4></div>

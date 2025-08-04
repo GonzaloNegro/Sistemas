@@ -54,10 +54,10 @@ $idRoaming = $consulta['ID_ROAMING'];
                         selector: "#usuario",
                         errorMessage: "No seleccionó un usuario."
                     },
-                    {
-                        selector: "#celulares",
-                        errorMessage: "No seleccionó un celular."
-                    },
+                    // {
+                    //     selector: "#celulares",
+                    //     errorMessage: "No seleccionó un celular."
+                    // },
                     {
                         selector: "#estado",
                         errorMessage: "No seleccionó un estado."

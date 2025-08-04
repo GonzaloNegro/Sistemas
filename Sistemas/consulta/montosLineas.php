@@ -53,6 +53,32 @@ $row = $resultado->fetch_assoc();
 						});
 			}	
 			</script>
+<script>
+    function okMod(){
+        Swal.fire(  {title: "Celular modificado correctamente",
+                icon: "success",
+                showConfirmButton: true,
+                confirmButtonText: 'Aceptar',
+                confirmButtonColor: '#198754',
+                customClass: {
+                    actions: 'reverse-button'
+                }
+            });
+        }
+        function noMod() {
+            Swal.fire({
+                title: "El celular ingresado ya está registrado",
+                icon: "error",
+                showConfirmButton: false,
+                showCancelButton: true,
+                cancelButtonColor: '#d33', // Color rojo
+                cancelButtonText: 'Cerrar',
+                customClass: {
+                    actions: 'reverse-button'
+                }
+            });
+        }
+</script>
     <script>
         function actualizar_montos(form){
             var formulario = form;
@@ -686,6 +712,17 @@ $row = $resultado->fetch_assoc();
 					<script>errorp();</script>
 					<?php			
 				}
+                if(isset($_GET['okMod'])){
+                ?>
+                <script>okMod();</script>
+                <?php			
+            }
+
+            if(isset($_GET['noMod'])){
+                ?>
+                <script>noMod();</script>
+                <?php			
+            }
 			?> 
 	</section>
 	<footer id="footer_pag"><div class="pagination justify-content-center mt-3" id="paginador"></div></footer>
@@ -740,12 +777,12 @@ $row = $resultado->fetch_assoc();
         var parametros = {
             "idLinea": id_linea
         };
-        //LA VARIABLE BUSCAR UTILIZA EL ID CASO Y LA ENVIA AL SERVIDOR DE NOVEDADES///
+        //LA VARIABLE BUSCAR UTILIZA EL ID CASO Y LA ENVIA AL SERVIDOR DE consultarDatosLinea///
         $.ajax({
             data: parametros,
             url: "./consultarDatosLinea.php",
             type: "POST",
-            //TRAE DE FORMA ASINCRONA, CONSUME EL SERVIDOR DE NOVEDADES Y MUESTRA EN EL DIV MOSTRAR_MENSAJE TODAS LAS NOVEDADES RELACIONADAS////
+            //TRAE DE FORMA ASINCRONA, CONSUME EL SERVIDOR DE consultarDatosLinea Y MUESTRA EN EL DIV MOSTRAR_MENSAJE TODAS LAS consultarDatosLinea RELACIONADAS////
             beforesend: function() {
                 $("#mostrar_mensaje").html("Mensaje antes de Enviar");
             },
@@ -760,12 +797,12 @@ $row = $resultado->fetch_assoc();
         var parametros = {
             "idLinea": id_linea
         };
-        //LA VARIABLE BUSCAR UTILIZA EL ID CASO Y LA ENVIA AL SERVIDOR DE NOVEDADES///
+        //LA VARIABLE BUSCAR UTILIZA EL ID CASO Y LA ENVIA AL SERVIDOR DE consultarDatosLinea///
         $.ajax({
             data: parametros,
             url: "./consultarDatosLinea2.php",
             type: "POST",
-            //TRAE DE FORMA ASINCRONA, CONSUME EL SERVIDOR DE NOVEDADES Y MUESTRA EN EL DIV MOSTRAR_MENSAJE TODAS LAS NOVEDADES RELACIONADAS////
+            //TRAE DE FORMA ASINCRONA, CONSUME EL SERVIDOR DE consultarDatosLinea Y MUESTRA EN EL DIV MOSTRAR_MENSAJE TODAS LAS NOVEDADES consultarDatosLinea////
             beforesend: function() {
                 $("#mostrar_mensaje2").html("Mensaje antes de Enviar");
             },

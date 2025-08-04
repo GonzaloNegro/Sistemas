@@ -21,6 +21,7 @@ $cu = $row['CUIL'];
         if (!isset($_GET['marca'])){$_GET['marca'] = '';}
         if (!isset($_GET["estado"])){$_GET["estado"] = '';}
         if (!isset($_GET["reparticion"])){$_GET["reparticion"] = '';}
+        if (!isset($_GET["modelo"])){$_GET["modelo"] = '';}
     
     ?>
 
@@ -59,6 +60,10 @@ if (!empty($_GET['reparticion'])) {
 if (!empty($_GET['marca'])) {
     $marca = intval($_GET['marca']);
     $where[] = "m.ID_MARCA = $marca";
+}
+if (!empty($_GET['modelo'])) {
+    $modelo = intval($_GET['modelo']);
+    $where[] = "p.ID_MODELO = $modelo";
 }
 if (!empty($_GET['area'])) {
     $area = intval($_GET['area']);

@@ -1651,18 +1651,49 @@ if (isset($_POST['accion'])) {
                 $roaming = $row3['ID_ROAMING'];
             }
 
+            $errorML = false;
             if($estado !=  1){//SI ESTADO ES DIFERENTE A "EN USO"
                 //SI ESTA DADO DE BAJA O SIN ASIGNAR
                 //TABLA linea: UPDATE 
-                mysqli_query($datos_base, "UPDATE linea SET ID_USUARIO = 277, ID_ESTADOWS = '$estado', DESCUENTO = 0, FECHADESCUENTO = '0000-00-00', ID_NOMBREPLAN = 0, ID_ROAMING = 1 WHERE ID_LINEA = '$id'"); 
-
+                if(!mysqli_query($datos_base, "UPDATE linea SET ID_USUARIO = 277, ID_ESTADOWS = '$estado', DESCUENTO = 0, FECHADESCUENTO = '0000-00-00', ID_NOMBREPLAN = 0, ID_ROAMING = 1 WHERE ID_LINEA = '$id'")) $errorML = true; 
+                
                 //TABLA movilinea: INSERT MODIFICANDO ESTADO, USUARIO, FECHA
-                mysqli_query($datos_base, "INSERT INTO movilinea VALUES (DEFAULT, '$id', 277, '$estado', 0, 0, '0000-00-00', 1, 0, 0, 0, '', '$fechaActual')");
+                //Modificar movilinea cuando se a de baja? o insertar una fila?
+                if(!mysqli_query($datos_base, "INSERT INTO movilinea VALUES (DEFAULT, '$id', 277, '$estado', 0, 0, '0000-00-00', 1, 0, 0, 0, '', '$fechaActual')")) $errorML = true;
+
+
+                //Por las dudas esta es la consulta
+                
+                // $sqlB = "SELECT m.ID_MOVILINEA
+                // FROM linea l
+                // INNER JOIN movilinea m ON m.ID_LINEA = l.ID_LINEA
+                // WHERE m.ID_LINEA = '$id'
+                // ORDER BY m.ID_MOVILINEA DESC
+                // LIMIT 1";
+                // $resultB = $datos_base->query($sqlB); 
+                // $rowB = $resultB->fetch_assoc();
+                // $id_mv=$row3['ID_MOVILINEA'];
+                // mysqli_query($datos_base, "UPDATE movilinea 
+                //     SET 
+                //     ID_LINEA='$id', 
+                //     ID_USUARIO=277,
+                //     ID_ESTADOWS='$estado',
+                //     ID_NOMBREPLAN=0,
+                //     MONTO=0,
+                //     FECHADESCUENTO='0000-00-00',
+                //     ID_ROAMING=1,
+                //     DESCUENTO=0,
+                //     EXTRAS=0,
+                //     MONTOTOTAL=0,
+                //     OBSERVACION='',
+                //     FECHA='$fechaActual'
+                //     WHERE ID_MOVILINEA='$id_mv'
+                //     ");
 
                 //TABLA lineacelular: INSERT MODIFICANDO ID_USUARIO Y SI TIENE CELULAR ASIGNADO SACARLO.
                 $sql3 = "SELECT * FROM lineacelular
                 WHERE ID_LINEA = '$id'
-                ORDER BY ID_LINEACELULAR DESC";
+                ORDER BY ID_LINEACELULAR DESC LIMIT 1";
                 $result3 = $datos_base->query($sql3);
                 $row3 = $result3->fetch_assoc();
                 $celularAsignado = $row3['ID_CELULAR'];
@@ -1670,39 +1701,26 @@ if (isset($_POST['accion'])) {
 
                 if(isset($celularAsignado)){
                 //SI TIENE CELULAR ASIGNADO, HACER INSERT EN lineacelular DE ID_LINEA Y DE ID_CELULAR
-                mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, 0, '$celularAsignado', '$usuarioAsignado', '$fechaActual')");
+                if(!mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, 0, '$celularAsignado', '$usuarioAsignado', '$fechaActual')")) $errorML = true;
 
-                mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$id', 0, 277, '$fechaActual')");
+                if(!mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$id', 0, 277, '$fechaActual')")) $errorML = true;
                 }else{
                 //SI NO TIENE ASIGNADO UN CELULAR, HACER INSERT NUEVO EN lineacelular MODIFICANDO ID_USUARIO
-                mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$id', 0, 277, '$fechaActual')");
+                if(!mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$id', 0, 277, '$fechaActual')")) $errorML = true;
                 }
 
-            }else{//SI EL ESTADO ES "EN USO"
+            }else{
+                //SI EL ESTADO ES "EN USO"
                 //VERIFICAR SI ACTUALMENTE LA LINEA ESTA ASIGNADA A UN CELULAR
                 $sql3 = "SELECT * FROM lineacelular
                 WHERE ID_LINEA = '$id'
-                ORDER BY ID_LINEACELULAR DESC";
+                ORDER BY ID_LINEACELULAR DESC LIMIT 1";
                 $result3 = $datos_base->query($sql3);
                 $row3 = $result3->fetch_assoc();
                 $celularAsignado = $row3['ID_CELULAR'];
                 $usuarioAsignado = $row3['ID_USUARIO'];
 
-                //SI SE MODIFICA EL DATO DEL SELECT DEL CELULAR
-                if($celularAsignado != $celular){
-                    if($celular == 0){//EL CELULAR ES VACIO
-                        //SE INSERTA UN NUEVO DATO SOBRE LA LINEA, QUE AHORA ESTARA SIN CELULAR
-                        mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$id', 0, '$usuario', '$fechaActual')");
-                        
-                        //SE INSERTA UN NUEVO DATO SOBRE EL CELULAR VIEJO, QUE AHORA ESTARA SIN LINEA
-                        mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, 0, '$celularAsignado', '$usuarioAsignado', '$fechaActual')");
-                    }else{//SE LE ASIGNA UN NUEVO CELULAR
-                        //PRIMERO LA LINEA PASA A DEJAR EL USUARIO ANTERIOR Y SE PASA A SIN ASIGNAR
-                        mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$id', 0, 277, '$fechaActual')");
-                        //SE INSERTA UN NUEVO DATO LINKEANDO EL NUEVO CELULAR A LA LINEA
-                        mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$id', '$celular', '$usuario', '$fechaActual')");
-                    }
-                }
+                
 
                 //CONSULTAR LOS DATOS ACTUALES DE LA BD
                 $sql3 = "SELECT m.ID_MOVILINEA, l.NRO, m.ID_LINEA, m.ID_USUARIO, m.ID_ESTADOWS, m.ID_NOMBREPLAN, m.FECHADESCUENTO, m.DESCUENTO, m.EXTRAS, m.OBSERVACION, m.ID_ROAMING
@@ -1723,9 +1741,40 @@ if (isset($_POST['accion'])) {
                 $extrasBD = $row3['EXTRAS'];
                 $observacionBD = $row3['OBSERVACION'];
                 $roamingBD = $row3['ID_ROAMING'];
+                $id_mv=$row3['ID_MOVILINEA'];
+
+
+                //SI SE MODIFICA EL DATO DEL SELECT DEL CELULAR
+                //Caso Particular
+                
+                if($celularAsignado != $celular){
+                    if($celular == 0){//EL CELULAR ES VACIO
+                        //SE INSERTA UN NUEVO DATO SOBRE LA LINEA, QUE AHORA ESTARA SIN CELULAR
+                        if(!mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$id', 0, '$usuario', '$fechaActual')")) $errorML = true;
+                        
+                        //SE INSERTA UN NUEVO DATO SOBRE EL CELULAR VIEJO, QUE AHORA ESTARA SIN LINEA
+                        if(!mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, 0, '$celularAsignado', '$usuarioAsignado', '$fechaActual')")) $errorML = true;
+                    }else{//SE LE ASIGNA UN NUEVO CELULAR
+                        //PRIMERO LA LINEA PASA A DEJAR EL USUARIO ANTERIOR Y SE PASA A SIN ASIGNAR
+                        if(!mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$id', 0, 277, '$fechaActual')")) $errorML = true;
+                        //SE INSERTA UN NUEVO DATO LINKEANDO EL NUEVO CELULAR A LA LINEA
+                        if(!mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$id', '$celular', '$usuario', '$fechaActual')")) $errorML = true;
+                    }
+                }
+                else{
+                    //si bien cuando se psa de estado de baja a en uso el usuario puede no tener un celular,
+                // es necesario agregar una fila nueva con el usuario para mantener la trazabilidad
+                //Cuando se pasa de usuario a usuario primero hay que poner en baja la linea?
+                    if ($estadoBD==2 || $estadoBD==3) {
+                    //Se agrega el nuevo usuaario
+                        if(!mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$id', 0, '$usuario', '$fechaActual')")) $errorML = true;
+                }
+                }
+
+                
 
                 if($nro != $nroBD OR $usuario != $usuarioBD OR $estado != $estadoBD OR $descuento != $descuentoBD OR $fechaDescuento != $fechaDescuentoBD OR $nombrePlan != $nombrePlanBD OR $roaming != $roamingBD){
-                    mysqli_query($datos_base, "UPDATE linea SET NRO = '$nro', ID_USUARIO = '$usuario', ID_ESTADOWS = '$estado', DESCUENTO = '$descuento', FECHADESCUENTO = '$fechaDescuento', ID_NOMBREPLAN = '$nombrePlan', ID_ROAMING = '$roaming' WHERE ID_LINEA = '$id'"); 
+                    if(!mysqli_query($datos_base, "UPDATE linea SET NRO = '$nro', ID_USUARIO = '$usuario', ID_ESTADOWS = '$estado', DESCUENTO = '$descuento', FECHADESCUENTO = '$fechaDescuento', ID_NOMBREPLAN = '$nombrePlan', ID_ROAMING = '$roaming' WHERE ID_LINEA = '$id'")) $errorML = true;
                 }
 
                 if($usuario != $usuarioBD OR $estado != $estadoBD OR $descuento != $descuentoBD OR $fechaDescuento != $fechaDescuentoBD OR $nombrePlan != $nombrePlanBD OR $roaming != $roamingBD OR $extras != $extrasBD OR $observacion != $observacionBD){
@@ -1755,10 +1804,21 @@ if (isset($_POST['accion'])) {
                 $monto_total = $monto_total + $extras;
 
 
-                mysqli_query($datos_base, "INSERT INTO movilinea VALUES (DEFAULT, '$id', '$usuario', '$estado', '$nombrePlan', '$montoDelPlan', '$fechaDescuento', '$roaming', '$descuento', '$extras', '$monto_total', '$obs', '$fechaActual')");
+                // mysqli_query($datos_base, "INSERT INTO movilinea VALUES (DEFAULT, '$id', '$usuario', '$estado', '$nombrePlan', '$montoDelPlan', '$fechaDescuento', '$roaming', '$descuento', '$extras', '$monto_total', '$obs', '$fechaActual')");
+                if(!mysqli_query($datos_base, "UPDATE movilinea SET ID_LINEA='$id', ID_USUARIO='$usuario', ID_ESTADOWS='$estado', ID_NOMBREPLAN='$nombrePlan', MONTO='$montoDelPlan', FECHADESCUENTO='$fechaDescuento', ID_ROAMING='$roaming', DESCUENTO='$descuento', EXTRAS='$extras', MONTOTOTAL='$monto_total', OBSERVACION='$obs', FECHA='$fechaActual' WHERE ID_MOVILINEA='$id_mv'")) $errorML = true;
                 }
             }
-            header('Location: ../consulta/montosLineas.php?ok'); 
+            /* tabla agregado INSERT cambio de estado y usuario con datos del celu (SI ES QUE SE ASIGNA) */
+                $usuarioConcatenadoNuevo = 'Usuario Nuevo: ' . $usuario . '-' . $estado . '-' . $nombrePlan;
+                $usuarioConcatenadoViejo = 'Usuario Anterior: ' . $usuarioBD . '-' . $estadoBD . '-' . $nombrePlanBD;
+                if(!mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'LÍNEA', 'MODIFICADO', '$usuarioConcatenadoNuevo', '$usuarioConcatenadoViejo', '$fechaActual', '$horaActual', '$resolutorActivo')")) $error = true;  
+            //Redirecciones
+            if($errorML == true){
+                header('Location: ../consulta/montosLineas.php?noMod'); 
+            }
+            else{
+                header('Location: ../consulta/montosLineas.php?okMod'); 
+            }
             exit;
             break;
 
@@ -1809,7 +1869,7 @@ if (isset($_POST['accion'])) {
             $sql3 = "SELECT c.ID_USUARIO, c.ID_ESTADOWS, l.ID_LINEA 
             FROM celular c
             LEFT JOIN lineacelular l ON l.ID_CELULAR = c.ID_CELULAR
-            WHERE ID_CELULAR = '$id'";
+            WHERE c.ID_CELULAR = '$id'";
             $result3 = $datos_base->query($sql3);
             $row3 = $result3->fetch_assoc();
             $usuarioBD = $row3['ID_USUARIO'];
@@ -2084,7 +2144,7 @@ if (isset($_POST['accion'])) {
 
         }
         mysqli_close($datos_base);	
-        header('Location: ./consulta/montosLineas.php?ok');
+        header('Location: ../consulta/montosLineas.php?ok');
         exit;
     }
 

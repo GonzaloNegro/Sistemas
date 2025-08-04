@@ -11,6 +11,13 @@ $sql = "SELECT CUIL, RESOLUTOR FROM resolutor WHERE CUIL='$iduser'";
 $resultado = $datos_base->query($sql);
 $row = $resultado->fetch_assoc();
 ?>
+<?php
+        if (!isset($_POST['area'])){$_POST['area'] = '';}
+        if (!isset($_POST["reparticion"])){$_POST["reparticion"] = '';}
+        if (!isset($_POST["so"])){$_POST["so"] = '';}
+        if (!isset($_POST["micro"])){$_POST["micro"] = '';}
+        if (!isset($_POST['estado'])){$_POST['estado'] = '';}
+    ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -93,18 +100,16 @@ $row = $resultado->fetch_assoc();
                           </select>
 		      <!--SELECT DE AREA-->  
 				<label id="lblForm"class="col-form-label col-xl col-lg" style="color: black;">AREA:</label>
-                <select name="slcarea" id="slcarea" class="form-control col-xl col-lg">
-									<option value="" selected disabled>-SELECCIONE UNA-</option>
-                                    <?php
-									//SE OBTIENE POR TABLA TODAS LAS AREAS A SELECCIONAR
-									include("../particular/conexion.php");
-									$consulta= "SELECT * FROM area";
-									$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-									?>
-									<?php foreach ($ejecutar as $opciones): ?> 
-									<option value="<?php echo $opciones['ID_AREA']?>"><?php echo $opciones['AREA']?></option>
-									<?php endforeach ?>
-								</select>
+                <select id="slcarea" name="slcarea" class="form-control largo">
+                            <option value="">TODOS</option>
+                            <?php 
+                            $consulta= "SELECT a.ID_AREA, a.AREA, r.REPA FROM area a inner join reparticion r on a.ID_REPA=r.ID_REPA ORDER BY AREA ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                                <option value="<?php echo $opciones['ID_AREA']?>"><?php echo $opciones['AREA']?> - <?php echo $opciones['REPA']?></option>
+                                <?php endforeach ?>
+                        </select>
 								<!--fUNCIONALIDAD PARA BUSCAR DENTRO DE LA LISTA-->
 								<script>
 										$('#slcarea').select2();
@@ -203,7 +208,7 @@ $row = $resultado->fetch_assoc();
 		// EL NOMBRE DEL VALUE SELECCIONADO Y SE AGREGA LA ETIQUETA HTML AL DOCUMENTO
         $fecha = date("Y-m-d");
 		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
-		if (isset($_POST['selectorrepart'])) {
+		if (!empty($_POST['selectorrepart'])) {
 			$rep=$_POST['selectorrepart'];
 			$consularea=mysqli_query($datos_base, "select a.REPA from reparticion a where a.ID_REPA=$rep");
 			$consultit=mysqli_fetch_array($consularea);
@@ -211,7 +216,7 @@ $row = $resultado->fetch_assoc();
 			echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>REPARTICION: $tit</h4>";
 
 		}
-		if (isset($_POST['slcarea'])) {
+		if (!empty($_POST['slcarea'])) {
 			$area=$_POST['slcarea'];
 			$consularea=mysqli_query($datos_base, "select a.AREA from area a where a.ID_AREA=$area");
 			$consultit=mysqli_fetch_array($consularea);
@@ -219,7 +224,7 @@ $row = $resultado->fetch_assoc();
 			echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>AREA: $tit</h4>";
 
 		}
-		if (isset($_POST['slcestado'])) {
+		if (!empty($_POST['slcestado'])) {
 			$estado=$_POST['slcestado'];
 			$consularea=mysqli_query($datos_base, "select a.ESTADO from estado_ws a where a.ID_ESTADOWS=$estado");
 			$consultit=mysqli_fetch_array($consularea);
@@ -227,7 +232,7 @@ $row = $resultado->fetch_assoc();
 			echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>ESTADO: $tit</h4>";
 
 		}
-		if (isset($_POST['so'])) {
+		if (!empty($_POST['so'])) {
 			$so=$_POST['so'];
 			$consularea=mysqli_query($datos_base, "select a.SIST_OP from so a where a.ID_SO=$so");
 			$consultit=mysqli_fetch_array($consularea);
@@ -235,7 +240,7 @@ $row = $resultado->fetch_assoc();
 			echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>SISTEMA OPERATIVO: $tit</h4>";
 
 		}
-		if (isset($_POST['micro'])) {
+		if (!empty($_POST['micro'])) {
 			$micro=$_POST['micro'];
 			$consularea=mysqli_query($datos_base, "select a.MICRO from micro a where a.ID_MICRO=$micro");
 			$consultit=mysqli_fetch_array($consularea);
@@ -244,680 +249,67 @@ $row = $resultado->fetch_assoc();
 
 		}
 
+ $where = [];       
 		
 //SE DETECTA SI EL BOTON DEL FORMULARIO FUE PRESIONADO PARA CONFIRMAR QUE SE ENVIO EL FORMULARIO
-if(isset($_POST['btn2']))
-{	
+	
 	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE REPARTICION Y SE PROCEDE A LA COSULTA SQL
 	
-	if(isset($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['so']) & empty($_POST['micro']))
+	if(!empty($_POST['selectorrepart']))
 	{
 	$reparticion = $_POST['selectorrepart'];
-	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS,e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-	FROM inventario i 
-	LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-	LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-	LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-	LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-	LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-	INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-	LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-	left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-	left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-	inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-	WHERE a.ID_REPA = $reparticion and ws.SLOT=1
-	ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
+	$where[]="a.ID_REPA = $reparticion";
 		
 	}
 	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE AREA Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['slcarea']) & empty($_POST['selectorrepart']) & empty($_POST['slcestado']) & empty($_POST['so']) & empty($_POST['micro']))
+	if(!empty($_POST['slcarea']))
 	{
 	$area = $_POST['slcarea'];
-	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS,e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-	FROM inventario i 
-	LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-	LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-	LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-	LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-	LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-	INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-	LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-	left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-	left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-	inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-    WHERE i.ID_AREA = $area and ws.SLOT=1
-	ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
+	$where[]="i.ID_AREA = $area";
 		
 	}
 	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE ESTADO Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['slcestado']) & empty($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['so']) & empty($_POST['micro']))
+	if(!empty($_POST['slcestado']))
 	{
 	$estado = $_POST['slcestado'];
-	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS,e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-	FROM inventario i 
-	LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-	LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-	LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-	LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-	LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-	INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-	LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-	left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-	left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-    inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-	WHERE i.ID_ESTADOWS = $estado and ws.SLOT=1
-	ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
+	$where[]="e.ID_ESTADOWS = $estado";
 		
 	}
 	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE S.O. Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['so']) & empty($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['micro']))
+	if(!empty($_POST['so']))
 	{
 	$so = $_POST['so'];
-	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-	FROM inventario i 
-	LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-	LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-	LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-	LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-	LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-	INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-	LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-	left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-	left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-    inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-	WHERE s.ID_SO = $so and ws.SLOT=1
-	ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
+	$where[]="s.ID_SO = $so";
 		
 	}
 
 	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE MICROPROCESADOR Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['micro']) & empty($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['so']))
+	if(!empty($_POST['micro']))
 	{
 	$micro = $_POST['micro'];
-	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-	FROM inventario i 
-	LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-	LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-	LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-	LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-	LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-	INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-	LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-	left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-	left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-    inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS 
-	WHERE m.ID_MICRO = $micro and ws.SLOT=1
-	ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
+	$where[]="m.ID_MICRO = $micro";
 	}
-	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE S.O Y MICRO Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['so']) & isset($_POST['micro']) & empty($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['slcestado']))
-	{
-		$so = $_POST['so'];
-		$micro = $_POST['micro'];
-		$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		FROM inventario i 
-		LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		WHERE i.ID_SO = $so AND m.ID_MICRO = $micro and ws.SLOT=1
-		ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-		   }
-		   //SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE REPARTICION Y AREA Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['so']) & empty($_POST['micro']))
-		   {
-		   $reparticion = $_POST['selectorrepart'];
-		   $area = $_POST['slcarea'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		   FROM inventario i 
-		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		   WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and ws.SLOT=1
-		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE REPARTICION Y ESTADO Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['selectorrepart']) & isset($_POST['slcestado']) & empty($_POST['slcarea']) & empty($_POST['so']) & empty($_POST['micro']))
-		   {
-		   $reparticion = $_POST['selectorrepart'];
-		   $estado = $_POST['slcestado'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		   FROM inventario i 
-		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		   WHERE a.ID_REPA = $reparticion and i.ID_ESTADOWS=$estado and ws.SLOT=1
-		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE REPARTICION Y S.O Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['selectorrepart']) & isset($_POST['so']) & empty($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['micro']))
-		   {
-		   $reparticion = $_POST['selectorrepart'];
-		   $so = $_POST['so'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		   FROM inventario i 
-		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		   WHERE a.ID_REPA = $reparticion and i.ID_SO=$so and ws.SLOT=1
-		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE AREA Y S.O Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['slcarea']) & isset($_POST['so']) & empty($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['so']) & empty($_POST['micro']))
-		   {
-		$area = $_POST['slcarea'];
-		   $so = $_POST['so'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		   FROM inventario i 
-		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		   WHERE a.ID_AREA = $area and i.ID_SO=$so and ws.SLOT=1
-		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE ESTADO Y S.O Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['slcestado']) & isset($_POST['so']) & empty($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['micro']))
-		   {
-		   $estado = $_POST['slcestado'];
-		   $so = $_POST['so'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		   FROM inventario i 
-		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		   WHERE i.ID_ESTADOWS = $estado and i.ID_SO=$so and ws.SLOT=1
-		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE REPARTICION Y MICRO Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['selectorrepart']) & isset($_POST['micro']) & empty($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['so']))
-		   {
-		   $reparticion = $_POST['selectorrepart'];
-		   $micro = $_POST['micro'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		   FROM inventario i 
-		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		   WHERE a.ID_REPA = $reparticion and m.ID_MICRO=$micro and ws.SLOT=1
-		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE AREA Y MICRO Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['slcarea']) & isset($_POST['micro']) & empty($_POST['selectorrepart']) & empty($_POST['slcestado']) & empty($_POST['so']))
-		   {
-		   $area = $_POST['slcarea'];
-		   $micro = $_POST['micro'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		   FROM inventario i 
-		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		   WHERE a.ID_AREA = $area and m.ID_MICRO=$micro and ws.SLOT=1
-		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-
-	if(isset($_POST['slcestado']) & isset($_POST['micro']) & empty($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['so']))
-		   {
-			//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE ESTADO Y MICRO Y SE PROCEDE A LA COSULTA SQL
-		   $estado = $_POST['slcestado'];
-		   $micro = $_POST['micro'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		   FROM inventario i 
-		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		   WHERE i.ID_ESTADOWS = $estado and m.ID_MICRO=$micro and ws.SLOT=1
-		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE AREA Y ESTADO Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['slcarea']) & isset($_POST['slcestado']) & empty($_POST['selectorrepart']) & empty($_POST['so']) & empty($_POST['micro']))
-		   {
-			$area = $_POST['slcarea'];
-			$estado = $_POST['slcestado'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		   FROM inventario i 
-		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		   WHERE i.ID_AREA=$area and i.ID_ESTADOWS=$estado and ws.SLOT=1
-		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-
-	if(isset($_POST['so']) & isset($_POST['micro']) & empty($_POST['selectorrepart']) & empty($_POST['slcarea']) & empty($_POST['slcestado']))
-		   {
-		   //SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE MICRO Y SO Y SE PROCEDE A LA COSULTA SQL
-		   $micro = $_POST['micro'];
-		   $so = $_POST['so'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		   FROM inventario i 
-		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		   WHERE i.ID_SO=$so and m.ID_MICRO=$micro and ws.SLOT=1
-		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE REPARTICION, MICRO Y S.O Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['selectorrepart']) & isset($_POST['so']) & isset($_POST['micro']) & empty($_POST['slcarea']) & empty($_POST['slcestado']) & empty($_POST['micro']))
-		   {
-		   $reparticion = $_POST['selectorrepart'];
-		   $micro = $_POST['micro'];
-		   $so = $_POST['so'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		   FROM inventario i 
-		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		   WHERE a.ID_REPA = $reparticion and i.ID_SO=$so and m.ID_MICRO=$micro and ws.SLOT=1
-		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE AREA, MICRO Y S.O Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['slcarea']) & isset($_POST['so']) & isset($_POST['micro']) & empty($_POST['selectorrepart']) & empty($_POST['slcestado']))
-		   {
-		   $area = $_POST['slcarea'];
-		   $micro = $_POST['micro'];
-		   $so = $_POST['so'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		   FROM inventario i 
-		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		   WHERE i.ID_AREA=$area and i.ID_SO=$so and m.ID_MICRO=$micro and ws.SLOT=1
-		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE ESTADO, MICRO Y S.O Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['slcestado']) & isset($_POST['so']) & isset($_POST['micro']) & empty($_POST['selectorrepart']) & empty($_POST['slcarea']))
-		   {
-		   $estado = $_POST['slcestado'];
-		   $micro = $_POST['micro'];
-		   $so = $_POST['so'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		   FROM inventario i 
-		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		   WHERE i.ID_ESTADOWS=$estado and i.ID_SO=$so and m.ID_MICRO=$micro and ws.SLOT=1
-		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE REPARTICION,AREA Y ESTADO Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['slcestado']) & empty($_POST['so']) & empty($_POST['micro']))
-		   {
-		   $reparticion = $_POST['selectorrepart'];
-		   $area = $_POST['slcarea'];
-		   $estado = $_POST['slcestado'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		   FROM inventario i 
-		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		   WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and i.ID_ESTADOWS=$estado and ws.SLOT=1
-		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE REPARTICION, AREA Y S.O Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['so']) & empty($_POST['slcestado']) & empty($_POST['micro']))
-	{
-	$reparticion = $_POST['selectorrepart'];
-	$area = $_POST['slcarea'];
-	$so = $_POST['so'];
-	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-	FROM inventario i 
-	LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-	LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-	LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-	LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-	LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-	INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-	LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-	left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-	left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-	inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-	WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and i.ID_SO=$so and ws.SLOT=1
-	ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE REPARTICION, AREA Y MICRO Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['micro']) & empty($_POST['slcestado']) & empty($_POST['so']))
-		   {
-		   $reparticion = $_POST['selectorrepart'];
-		   $area = $_POST['slcarea'];
-		   $micro = $_POST['micro'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		   FROM inventario i 
-		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		   WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and m.ID_MICRO=$micro and ws.SLOT=1
-		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE REPARTICION, ESTADO Y S.O Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['selectorrepart']) & isset($_POST['slcestado']) & isset($_POST['so']) & empty($_POST['slcarea']) & empty($_POST['micro']))
-	{
-	$reparticion = $_POST['selectorrepart'];
-	$estado = $_POST['slcestado'];
-	$so = $_POST['so'];
-	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-	FROM inventario i 
-	LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-	LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-	LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-	LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-	LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-	INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-	LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-	left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-	left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-	inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-	WHERE a.ID_REPA = $reparticion and i.ID_ESTADOWS=$estado and i.ID_SO=$so and ws.SLOT=1
-	ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE REPARTICION, ESTADO Y MICRO Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['selectorrepart']) & isset($_POST['slcestado']) & isset($_POST['micro']) & empty($_POST['slcarea']) & empty($_POST['so']))
-		   {
-		   $reparticion = $_POST['selectorrepart'];
-		   $estado = $_POST['slcestado'];
-		   $micro = $_POST['micro'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		   FROM inventario i 
-		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		   WHERE a.ID_REPA = $reparticion and i.ID_ESTADOWS=$estado and m.ID_MICRO=$micro and ws.SLOT=1
-		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE AREA, ESTADO Y S.O Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['so']) & empty($_POST['selectorrepart']) & empty($_POST['micro']))
-	{
-	$area = $_POST['slcarea'];
-	$estado = $_POST['slcestado'];
-	$so = $_POST['so'];
-	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-	FROM inventario i 
-	LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-	LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-	LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-	LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-	LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-	INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-	LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-	left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-	left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-	inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-	WHERE a.ID_AREA = $area and i.ID_ESTADOWS=$estado and i.ID_SO=$so and ws.SLOT=1
-	ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE AREA, ESTADO Y MICRO Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['micro']) & empty($_POST['selectorrepart']) & empty($_POST['so']))
-		   {
-			$area = $_POST['slcarea'];
-		   $estado = $_POST['slcestado'];
-		   $micro = $_POST['micro'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		   FROM inventario i 
-		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		   WHERE a.ID_AREA = $area and i.ID_ESTADOWS=$estado and m.ID_MICRO=$micro and ws.SLOT=1
-		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-
-	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE REPARTICION, AREA Y ESTADO Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['so']) & empty($_POST['micro']))
-		   {
-		   $reparticion = $_POST['selectorrepart'];
-		   $area = $_POST['slcarea'];
-		   $estado = $_POST['slcestado'];
-		   $so = $_POST['so'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		   FROM inventario i 
-		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		   WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and i.ID_ESTADOWS=$estado and i.ID_SO=$so and ws.SLOT=1
-		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-	//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE REPARTICION, AREA, MICRO Y ESTADO Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['micro']) & empty($_POST['so']))
-		   {
-		   $reparticion = $_POST['selectorrepart'];
-		   $area = $_POST['slcarea'];
-		   $estado = $_POST['slcestado'];
-		   $micro = $_POST['micro'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		   FROM inventario i 
-		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		   WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and i.ID_ESTADOWS=$estado and m.ID_MICRO=$micro and ws.SLOT=1
-		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-		//SE DETECTA QUE SOLO SE SELECCIONO FILTRO DE REPARTICION, AREA, ESTADO, MICRO Y S.O Y SE PROCEDE A LA COSULTA SQL
-	if(isset($_POST['selectorrepart']) & isset($_POST['slcarea']) & isset($_POST['slcestado']) & isset($_POST['so']) & isset($_POST['micro']))
-		   {
-		   $reparticion = $_POST['selectorrepart'];
-		   $area = $_POST['slcarea'];
-		   $estado = $_POST['slcestado'];
-		   $micro = $_POST['micro'];
-		   $so = $_POST['so'];
-		   $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-		   FROM inventario i 
-		   LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-		   LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-		   LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-		   LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-		   LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-		   LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-		   INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-		   LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-		   left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-		   left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-		   inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-		   WHERE a.ID_REPA = $reparticion and i.ID_AREA=$area and i.ID_ESTADOWS=$estado and i.ID_SO=$so and m.ID_MICRO=$micro and ws.SLOT=1
-		   ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	}
-	// else {
-	// 	$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
-    //     FROM inventario i 
-    //     LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-    //     LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-    //     LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-    //     LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-    //     LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-    //     LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-    //     INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-    //     LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-    //     left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-    //     left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-    //     inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-    //     where ws.SLOT=1
-    //     ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
-	// }
 	
-	
-}
+// Construir consulta WHERE
+$whereClause = !empty($where) ? 'WHERE ' . implode(' AND ', $where) : '';
+
 //pOR DEFECTO SI NO SE SELECCIONO NINGUN FILTRO (PRIMERA VEZ QUE SE ENTRA A LA PAGINA O SE PRESIONA EL BOTON LIMPIAR ) SE REALIZA LA CONSULTA SQL SIN NINGUN FILTRO
-else
-{
-$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, wt.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO, me.MEMORIA, t.TIPOMEM
+
+$consultar=mysqli_query($datos_base, "SELECT i.ID_WS, t.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO
 FROM inventario i 
-LEFT JOIN usuarios AS u ON u.ID_USUARIO = i.ID_USUARIO
-LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-LEFT JOIN area AS a ON a.ID_AREA = i.ID_AREA
-LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-INNER JOIN so AS s ON s.ID_SO = i.ID_SO 
-LEFT JOIN wsmem ws on i.ID_WS=ws.ID_WS 
-left join memoria me ON ws.ID_MEMORIA = me.ID_MEMORIA 
-left join tipomem t on ws.ID_TIPOMEM=t.ID_TIPOMEM
-inner join tipows wt on i.ID_TIPOWS=wt.ID_TIPOWS
-where ws.SLOT=1
-ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
+        LEFT JOIN area AS a ON i.ID_AREA = a.ID_AREA
+        LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
+        LEFT JOIN wsusuario AS ws ON i.ID_WS = ws.ID_WS
+        LEFT JOIN usuarios as u on ws.ID_USUARIO = u.ID_USUARIO
+        LEFT JOIN tipows AS t ON t.ID_TIPOWS = i.ID_TIPOWS
+        LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
+        LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
+        LEFT JOIN so AS s ON s.ID_SO = i.ID_SO
+        LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = i.ID_ESTADOWS
+        $whereClause 
+        ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	
-}
+
    //SE GENERA LA CABECERA DE LA TABLA HTML CON LAS COLUMNAS CORRESPONDIENTRES      
 				echo "<table width=100%>
 						<thead>
