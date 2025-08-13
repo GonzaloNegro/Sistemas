@@ -55,7 +55,7 @@ $row = $resultado->fetch_assoc();
 			</script>
 <script>
     function okMod(){
-        Swal.fire(  {title: "Celular modificado correctamente",
+        Swal.fire(  {title: "Línea modificada correctamente",
                 icon: "success",
                 showConfirmButton: true,
                 confirmButtonText: 'Aceptar',
@@ -67,7 +67,7 @@ $row = $resultado->fetch_assoc();
         }
         function noMod() {
             Swal.fire({
-                title: "El celular ingresado ya está registrado",
+                title: "La línea ingresada ya está registrada",
                 icon: "error",
                 showConfirmButton: false,
                 showCancelButton: true,

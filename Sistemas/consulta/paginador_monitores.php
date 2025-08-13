@@ -94,7 +94,7 @@ if ($_GET["orden"] == '4' ){
 if ($_GET["orden"] == '5' ){
 $order .= "  ORDER BY e.ESTADO ASC ";
 }
-
+$where[]="ep.ID_EQUIPO_PERIFERICO=(select max(epp.ID_EQUIPO_PERIFERICO) from equipo_periferico epp where epp.ID_PERI=p.ID_PERI)";
 // Construir consulta WHERE
 $whereClause = !empty($where) ? 'WHERE ' . implode(' AND ', $where) : '';
 

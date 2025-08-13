@@ -85,11 +85,16 @@ if ($consulta = mysqli_fetch_assoc($consultaPeri)) {
         </thead>
         <tbody>
             <?php
-            $consultaMovs = mysqli_query($datos_base, "SELECT * FROM movimientosperi WHERE ID_PERI = '$idPeri'");
+            $consultaMovs = mysqli_query($datos_base, "SELECT * FROM equipo_periferico WHERE ID_PERI = '$idPeri'");
             while ($mov = mysqli_fetch_assoc($consultaMovs)) {
-                $fecha = valorPorDefecto(date("d-m-Y", strtotime($mov['FECHA'])));
-                $area  = obtenerValor($datos_base, "SELECT AREA FROM area WHERE ID_AREA = {$mov['ID_AREA']}", "ÁREA");
-                $usu = obtenerValor($datos_base, "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = {$mov['ID_USUARIO']}", 'NOMBRE');
+                $fecha = valorPorDefecto(date("d-m-Y", strtotime($mov['FECHA_ASIGNACION'])));
+                $area  = obtenerValor($datos_base, "SELECT a.AREA FROM wsusuario w 
+                            LEFT JOIN usuarios u ON w.ID_USUARIO=u.ID_USUARIO
+                            LEFT JOIN area a ON a.ID_AREA=u.ID_AREA
+                            WHERE w.ID_WS = {$mov['ID_WS']}", "AREA");
+                $usu = obtenerValor($datos_base, "SELECT u.NOMBRE FROM wsusuario w 
+                            LEFT JOIN usuarios u ON w.ID_USUARIO=u.ID_USUARIO
+                            WHERE w.ID_WS = {$mov['ID_WS']}", 'NOMBRE');
                 $estado = obtenerValor($datos_base, "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = {$mov['ID_ESTADOWS']}", 'ESTADO');
 
                 $color = 'blue';

@@ -267,7 +267,7 @@ $where = " WHERE p.TIPOP = 'IMPRESORA' ";
 	$where.= " AND mo.ID_MARCA = $marca ";
 	}
 
-
+	$where.=" AND ep.ID_EQUIPO_PERIFERICO=(select max(epp.ID_EQUIPO_PERIFERICO) from equipo_periferico epp where epp.ID_PERI=p.ID_PERI) ";
 	$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, r.REPA, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO		
 	FROM periferico p 
 	LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 

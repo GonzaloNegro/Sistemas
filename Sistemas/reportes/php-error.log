@@ -1,0 +1,5 @@
+[07-Aug-2025 20:27:28 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ep.ID_EQUIPO_PERIFERICO=(select max(epp.ID_EQUIPO_PERIFERICO) from equipo_per...' at line 13 in C:\xampp\htdocs\Sistemas\Sistemas\reportes\reporteimpresora.php:271
+Stack trace:
+#0 C:\xampp\htdocs\Sistemas\Sistemas\reportes\reporteimpresora.php(271): mysqli_query(Object(mysqli), 'SELECT p.ID_PER...')
+#1 {main}
+  thrown in C:\xampp\htdocs\Sistemas\Sistemas\reportes\reporteimpresora.php on line 271

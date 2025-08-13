@@ -417,27 +417,27 @@ if (isset($_POST['accion'])) {
                 $reserva = $_POST['reserva'] ?? 0;
                 $proc = $_POST['proc'] ?? 0;
 
-                $sqli = "SELECT ID_MARCA FROM modelo WHERE ID_MODELO = '$modelo'";
-                $resultado2 = $datos_base->query($sqli);
-                $row2 = $resultado2->fetch_assoc();
-                $marca = $row2['ID_MARCA'];
+                // $sqli = "SELECT ID_MARCA FROM modelo WHERE ID_MODELO = '$modelo'";
+                // $resultado2 = $datos_base->query($sqli);
+                // $row2 = $resultado2->fetch_assoc();
+                // $marca = $row2['ID_MARCA'];
 
-                $sqli = "SELECT * FROM periferico WHERE SERIE ='$serie' AND (ID_TIPOP = 1 OR ID_TIPOP = 2 OR ID_TIPOP = 3 OR ID_TIPOP = 4 OR ID_TIPOP = 10 OR ID_TIPOP = 13)";
+                $sqli = "SELECT * FROM periferico WHERE SERIE ='$serie' AND ID_TIPOP IN (1, 2, 3, 4, 10, 13)";
                 $resultado2 = $datos_base->query($sqli);
                 $row2 = $resultado2->fetch_assoc();
                 $ser = $row2['SERIE'];
 
-                $sqli = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$usu'";
-                $resultado2 = $datos_base->query($sqli);
-                $row2 = $resultado2->fetch_assoc();
-                $area = $row2['ID_AREA'];
+                // $sqli = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$usu'";
+                // $resultado2 = $datos_base->query($sqli);
+                // $row2 = $resultado2->fetch_assoc();
+                // $area = $row2['ID_AREA'];
 
                 if($serie == $ser){ 
                     header("Location: agregarimpresora.php?no");
                     exit;
                 }
                 else{
-                    mysqli_query($datos_base, "INSERT INTO periferico VALUES (DEFAULT, '$tipop', DEFAULT, '$serieg', '$marca', '$serie', '$proc', '$obs', 'IMPRESORA', '$mac', '$reserva', '$ip', '$prov', '$fac', '$area', '$usu', '$gar', '$est', '$modelo')");/* USUARIO ESTA MAL, AHORA SE ASIGNA A UN EQUIPO */
+                    mysqli_query($datos_base, "INSERT INTO periferico VALUES (DEFAULT, '$tipop', DEFAULT, '$serieg', '$serie', '$proc', '$obs', 'IMPRESORA', '$mac', '$reserva', '$ip', '$prov', '$fac', '$gar', '$est', '$modelo')");
 
                     /* GUARDANDO PARA LOS MOVIMIENTOS */
                     $pe=mysqli_query($datos_base, "SELECT MAX(ID_PERI) AS id FROM periferico");
@@ -445,8 +445,8 @@ if (isset($_POST['accion'])) {
                         $per = trim($row[0]);
                         }
 
-                    mysqli_query($datos_base, "INSERT INTO movimientosperi VALUES (DEFAULT, '$fechaActual', '$per', '$area', '$usu', '$est')");/* EL USUARIO HAY QUE TRAERLO DESDE LA TABLA INTERMEDIA A TRAVES DELE QUIPO */
-
+                    // mysqli_query($datos_base, "INSERT INTO movimientosperi VALUES (DEFAULT, '$fechaActual', '$per', '$area', '$usu', '$est')");/* EL USUARIO HAY QUE TRAERLO DESDE LA TABLA INTERMEDIA A TRAVES DELE QUIPO */
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equip', '$per', '$fechaActual', '', '$est')");
                     /* BUSCO EL MODELO PARA AGREGAR A agregados.php */
                     $sqli = "SELECT MODELO FROM modelo WHERE ID_MODELO = '$modelo' AND ID_MODELO ='$modelo'";
                     $resultado2 = $datos_base->query($sqli);
@@ -475,11 +475,11 @@ if (isset($_POST['accion'])) {
             $fac = $_POST['fac'] ?? '';
             $obs = $_POST['obs'] ?? '';
 
-            $sqli = "SELECT ID_MARCA FROM modelo
-            WHERE ID_MODELO = '$modelo'";
-            $resultado2 = $datos_base->query($sqli);
-            $row2 = $resultado2->fetch_assoc();
-            $marca = $row2['ID_MARCA'];
+            // $sqli = "SELECT ID_MARCA FROM modelo
+            // WHERE ID_MODELO = '$modelo'";
+            // $resultado2 = $datos_base->query($sqli);
+            // $row2 = $resultado2->fetch_assoc();
+            // $marca = $row2['ID_MARCA'];
 
             /*SI AMBOS CAMPOS ESTAN REPETIDOS*/
             $sqli = "SELECT * FROM periferico WHERE SERIE ='$serie' AND (ID_TIPOP = 7 OR ID_TIPOP = 8)";
@@ -487,10 +487,10 @@ if (isset($_POST['accion'])) {
             $row2 = $resultado2->fetch_assoc();
             $ser = $row2['SERIE'];
 
-            $sqli = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$usu'";
-            $resultado2 = $datos_base->query($sqli);
-            $row2 = $resultado2->fetch_assoc();
-            $area = $row2['ID_AREA'];/* ACA NO ES MAS USUARIO, ES QUIPO AL QUE ESTA ASIGNADO */
+            // $sqli = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$usu'";
+            // $resultado2 = $datos_base->query($sqli);
+            // $row2 = $resultado2->fetch_assoc();
+            // $area = $row2['ID_AREA'];/* ACA NO ES MAS USUARIO, ES QUIPO AL QUE ESTA ASIGNADO */
 
 
             if($serie == $ser){ 
@@ -498,7 +498,7 @@ if (isset($_POST['accion'])) {
                 exit;
             }
             else{
-                mysqli_query($datos_base, "INSERT INTO periferico VALUES (DEFAULT, '$tipop', DEFAULT, '$serieg', '$marca', '$serie', 3, '$obs', 'MONITOR', DEFAULT, 'NO', DEFAULT, '$prov', '$fac', '$area', '$usu', '$gar', '$est', '$modelo')");/* EL INSERT NO VA A FUNCIONAR PORQUE $usu NO LO TRAIGO MAS, TRAIGO EL EQUIPO */
+                mysqli_query($datos_base, "INSERT INTO periferico VALUES (DEFAULT, '$tipop', DEFAULT, '$serieg', '$serie', '$proc', '$obs', 'MONITOR', '$mac', '$reserva', '$ip', '$prov', '$fac', '$gar', '$est', '$modelo')");
 
 
                 /* GUARDANDO PARA LOS MOVIMIENTOS */
@@ -507,8 +507,8 @@ if (isset($_POST['accion'])) {
                     $per = trim($row[0]);
                     }
 
-                mysqli_query($datos_base, "INSERT INTO movimientosperi VALUES (DEFAULT, '$fechaActual', '$per', '$area', '$usu', '$est')");/* EL INSERT NO VA A FUNCIONAR PORQUE $usu NO LO TRAIGO MAS, TRAIGO EL EQUIPO */
-
+                // mysqli_query($datos_base, "INSERT INTO movimientosperi VALUES (DEFAULT, '$fechaActual', '$per', '$area', '$usu', '$est')");/* EL INSERT NO VA A FUNCIONAR PORQUE $usu NO LO TRAIGO MAS, TRAIGO EL EQUIPO */
+                mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equip', '$per', '$fechaActual', '', '$est')");
                 /* BUSCO EL MODELO PARA AGREGAR A agregados.php */
                 $sqli = "SELECT MODELO FROM modelo WHERE ID_MODELO = '$modelo' AND ID_MODELO ='$modelo'";
                 $resultado2 = $datos_base->query($sqli);
@@ -526,7 +526,7 @@ if (isset($_POST['accion'])) {
             /* ----------------- AGREGAR OTROS PERIFERICOS: agregarotrosperifericos.php----------------- */
             case 'agregarOtrosPerifericos':
                 $tipop = $_POST['tipop'] ?? 0;
-                $marca = $_POST['marca'] ?? 0;
+                // $marca = $_POST['marca'] ?? 0;
                 $equip = $_POST['equip'] ?? 0;
                 $modelo = $_POST['mod'] ?? 0;
                 $est = $_POST['est'] ?? 0;
@@ -539,20 +539,20 @@ if (isset($_POST['accion'])) {
                 $obs = $_POST['obs'] ?? '';
                 
                 /*SI AMBOS CAMPOS ESTAN REPETIDOS*/
-                $sqli = "SELECT * FROM periferico WHERE SERIEG = '$serieg' AND (ID_TIPOP = 5 OR ID_TIPOP = 6 OR ID_TIPOP = 9 OR ID_TIPOP = 11 OR ID_TIPOP = 12)";
+                $sqli = "SELECT * FROM periferico WHERE SERIEG = '$serieg' AND ID_TIPOP IN ( 5, 6, 9, 11, 12)";
                 $resultado2 = $datos_base->query($sqli);
                 $row2 = $resultado2->fetch_assoc();
                 $serg = $row2['SERIEG'];
                 
-                $sqli = "SELECT * FROM periferico WHERE SERIE ='$serie' AND (ID_TIPOP = 5 OR ID_TIPOP = 6 OR ID_TIPOP = 9 OR ID_TIPOP = 11 OR ID_TIPOP = 12)";
+                $sqli = "SELECT * FROM periferico WHERE SERIE ='$serie' AND ID_TIPOP IN ( 5, 6, 9, 11, 12)";
                 $resultado2 = $datos_base->query($sqli);
                 $row2 = $resultado2->fetch_assoc();
                 $ser = $row2['SERIE'];
                 
-                $sqli = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$usu'";
-                $resultado2 = $datos_base->query($sqli);
-                $row2 = $resultado2->fetch_assoc();
-                $area = $row2['ID_AREA'];/* HAY QUE TRAER EL USUARIO POR TABLA INTERMEDIA */
+                // $sqli = "SELECT ID_AREA FROM usuarios WHERE ID_USUARIO = '$usu'";
+                // $resultado2 = $datos_base->query($sqli);
+                // $row2 = $resultado2->fetch_assoc();
+                // $area = $row2['ID_AREA'];/* HAY QUE TRAER EL USUARIO POR TABLA INTERMEDIA */
                 
                 if($tipop == 5){
                     $tip = 'TICKEADORA';
@@ -575,7 +575,7 @@ if (isset($_POST['accion'])) {
                     exit;
                 }
                 else{
-                    mysqli_query($datos_base, "INSERT INTO periferico VALUES (DEFAULT, '$tipop', DEFAULT, '$serieg', '$marca', '$serie', 3, '$obs', '$tip', DEFAULT, 'NO', DEFAULT, '$prov', '$fac', '$area', '$usu', '$gar', '$est', '$modelo')");/* NO VA A FUNCIONAR PORQUE FALTA LOGICA RELACIONADA AL EQUIPO , USAURIO NO ESTA EN LA TABLA */
+                    mysqli_query($datos_base, "INSERT INTO periferico VALUES (DEFAULT, '$tipop', DEFAULT, '$serieg', '$serie', '$proc', '$obs', '$tip', '$mac', '$reserva', '$ip', '$prov', '$fac', '$gar', '$est', '$modelo')");
                 
                     /* GUARDANDO PARA LOS MOVIMIENTOS */
                     $pe=mysqli_query($datos_base, "SELECT MAX(ID_PERI) AS id FROM periferico");
@@ -583,7 +583,8 @@ if (isset($_POST['accion'])) {
                         $per = trim($row[0]);
                         }
                 
-                    mysqli_query($datos_base, "INSERT INTO movimientosperi VALUES (DEFAULT, '$fechaActual', '$per', '$area', '$usu', '$est')");/* HAY QUE CONSULTAR AL USUARIO NUEVAMENTE POR TABLA INTERMEDIA */
+                    // mysqli_query($datos_base, "INSERT INTO movimientosperi VALUES (DEFAULT, '$fechaActual', '$per', '$area', '$usu', '$est')");/* HAY QUE CONSULTAR AL USUARIO NUEVAMENTE POR TABLA INTERMEDIA */
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equip', '$per', '$fechaActual', '', '$est')");
                 
                     /* BUSCO EL MODELO PARA AGREGAR A agregados.php */
                     $sqli = "SELECT MODELO FROM modelo WHERE ID_MODELO = '$modelo' AND ID_MODELO ='$modelo'";

@@ -95,13 +95,14 @@ function obtenerMarcaModelo($conexion, $idModelo, $idMarca) {
     }
 
     $result = mysqli_query($datos_base, "
-        SELECT m.FECHA, u.NOMBRE, a.AREA, e.ESTADO 
-        FROM movimientosperi m 
-        LEFT JOIN usuarios u ON u.ID_USUARIO = m.ID_USUARIO 
-        LEFT JOIN area a ON a.ID_AREA = m.ID_AREA 
-        LEFT JOIN estado_ws e ON e.ID_ESTADOWS = m.ID_ESTADOWS 
-        WHERE m.ID_PERI = '$idPeri' 
-        ORDER BY m.FECHA ASC
+        SELECT e.FECHA_ASIGNACION, u.NOMBRE, a.AREA, s.ESTADO 
+        FROM equipo_periferico e
+        LEFT JOIN wsusuario w ON e.ID_WS=w.ID_WS
+        LEFT JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO
+        LEFT JOIN area a ON a.ID_AREA = u.ID_AREA
+        LEFT JOIN estado_ws s ON s.ID_ESTADOWS = e.ID_ESTADOWS 
+        WHERE e.ID_PERI = '$idPeri' 
+        ORDER BY e.ID_EQUIPO_PERIFERICO ASC
     ");
 
     if (mysqli_num_rows($result) > 0) {
@@ -119,7 +120,7 @@ function obtenerMarcaModelo($conexion, $idModelo, $idMarca) {
                 </thead>";
 
         while ($row = mysqli_fetch_array($result)) {
-            $fecha = date("d-m-Y", strtotime($row['FECHA']));
+            $fecha = date("d-m-Y", strtotime($row['FECHA_ASIGNACION']));
 
             $color = 'blue';
             if ($row['ESTADO'] === 'EN USO') {

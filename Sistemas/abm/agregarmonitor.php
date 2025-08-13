@@ -45,7 +45,7 @@ $perfil=$row['ID_PERFIL'];
                     })
                     .then((result) => {
                         if (result.isConfirmed) {
-                            window.location.href='abmmonitores.php';
+                            window.location.href='../consulta/amonitores.php';
 
 
                         } else if (result.isDenied) {
@@ -216,7 +216,7 @@ $perfil=$row['ID_PERFIL'];
                         </div>
 
                         <div class="form-group row">
-                            <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL QUE SE ASIGNA:</label>
+                            <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL QUE SE ASIGNA:<span style="color:red;">*</span></label>
                             <select id="equip" name="equip" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                             <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                             <?php
@@ -365,6 +365,7 @@ $perfil=$row['ID_PERFIL'];
 			</div>
 		</div>
 	</footer>
+    <script src="../js/confirmacionForm.js"></script>
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
