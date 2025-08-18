@@ -38,6 +38,7 @@ function ConsultarIncidente($no_tic)
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 </head>
@@ -117,7 +118,7 @@ function ConsultarIncidente($no_tic)
                 { id: 'estado', label: 'Estado', esSelect: true  },
                 { id: 'proveedor', label: 'Proveedor', esSelect: true },
                 { id: 'tipo', label: 'Tipo de periférico', esSelect: true  },
-                { id: 'equip', label: 'Equipo al cuál esta asignado', esSelect: true }
+                { id: 'equipo', label: 'Equipo al cuál esta asignado', esSelect: true }
             ];
 
             let mensajeHtml = "<ul style='text-align:left;'>"; 
@@ -286,10 +287,9 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:<span style="color:red;">*</span></label>
-                        <select name="estado" style="margin-top: 5px; text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" id="estado" required>
+                        <select name="estado" onchange=verificarDisponibilidadEquipo(); style="margin-top: 5px; text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="estado" required>
                         <option selected value="300"><?php echo $est?></option>
                         <?php
-                        include("../particular/conexion.php");
                         $consulta= "SELECT * FROM estado_ws ORDER BY ESTADO ASC";
                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                         ?>
@@ -331,7 +331,7 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL CUÁL ESTÁ ASIGNADO:</label>
-                        <select name="equip" style="margin-top: 5px; text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" id="equip">
+                        <select name="equip" style="margin-top: 5px; text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" id="equipo">
                         <option selected value="600"><?php 
                         if($usu == null || $usu == 0){
                             echo "";                        
@@ -358,14 +358,6 @@ function ConsultarIncidente($no_tic)
                                 $whereEq.="AND r.ID_REPA=$repa";
                             }
                         }
-                        // $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
-                        // FROM wsusuario w
-                        // INNER JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO
-                        // INNER JOIN area a ON a.ID_AREA=u.ID_AREA
-                        // INNER JOIN reparticion r ON r.ID_REPA=a.ID_REPA
-                        // INNER JOIN inventario i ON i.ID_WS = w.ID_WS
-                        // $whereEq
-                        // ORDER BY u.NOMBRE ASC";
                         $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
                         FROM inventario i 
                         LEFT JOIN area AS a ON i.ID_AREA = a.ID_AREA
@@ -374,15 +366,6 @@ function ConsultarIncidente($no_tic)
                         LEFT JOIN usuarios as u on w.ID_USUARIO = u.ID_USUARIO
                         $whereEq
                         ORDER BY u.NOMBRE ASC";
-                        // $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
-                        // FROM wsusuario w
-                        // INNER JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO
-                        // INNER JOIN inventario i ON i.ID_WS = w.ID_WS
-                        // WHERE u.ID_ESTADOUSUARIO = 1 
-                        // AND w.ID_WS <> 0 
-                        // AND w.ID_USUARIO <> 277
-                        // AND i.ID_TIPOWS = 1 /* PC */
-                        // ORDER BY u.NOMBRE ASC";
                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                         ?>
                         <?php foreach ($ejecutar as $opciones): ?> 
@@ -407,6 +390,56 @@ function ConsultarIncidente($no_tic)
 			</div>
 		</div>
     </footer>
+        <script>
+        // Estos valores vienen del backend
+        const equipoAnteriorID = "<?php echo $ws; ?>";
+        const equipoAnteriorTexto = "<?php echo $usu . ' - ' . $equip; ?>";
+
+        // Llamada a la función cuando se requiera (por ejemplo, al cargar o al cambiar estado)
+        cargarEquipos(equipoAnteriorID, equipoAnteriorTexto);
+
+        function verificarDisponibilidadEquipo() {
+            const estado = document.getElementById('estado').value;
+            const equipoSelect = document.getElementById('equipo');
+            const equipoSeleccionado = equipoSelect.value;
+
+            const estadoInvalido = (estado === "2" || estado === "3");
+
+            if (estadoInvalido) {
+                equipoSelect.innerHTML = '<option value="">NO DISPONIBLE</option>';
+                equipoSelect.disabled = true;
+            } else {
+                equipoSelect.disabled = false;
+                cargarEquipos(equipoAnteriorID, equipoAnteriorTexto);
+            }
+        }
+
+
+        function cargarEquipos(equipoAnteriorID = "", equipoAnteriorTexto = "") {
+            const equipoSelect = document.getElementById("equipo");
+
+            $.ajax({
+                url: "../consulta/consultarEquiposAsignadosDisponibles.php",
+                type: "GET",
+                data: {
+                    equipoAnteriorID: equipoAnteriorID,
+                    equipoAnteriorTexto: equipoAnteriorTexto
+                },
+                success: function(data) {
+                    equipoSelect.innerHTML = data;
+
+                    // Intentar dejar seleccionado el equipo anterior si aún existe
+                    const opcion = equipoSelect.querySelector(`option[value="${equipoAnteriorID}"]`);
+                    if (opcion) {
+                        equipoSelect.value = equipoAnteriorID;
+                    }
+                },
+                error: function() {
+                    alert("Error al cargar los equipos disponibles.");
+                }
+            });
+        }
+    </script>
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -43,7 +43,7 @@ $row = $resultado->fetch_assoc();
 							<tr>
                                 <th><p style='text-align:left;margin-left:5px;'>ABM AFECTADO</p></th>
                                 <th><p style='text-align:left;margin-left:5px;'>TIPO</p></th>
-								<th><p style='text-align:left;margin-left:5px;'>CONTENIDO</p></th>
+								<th><p style='text-align:left;margin-left:5px;'>CONTENIDO NUEVO</p></th>
 								<th><p style='text-align:left;margin-left:5px;'>CONTENIDO ANTERIOR</p></th>
                                 <th><p>FECHA</p></th>
                                 <th><p>HORA</p></th>
@@ -62,7 +62,7 @@ $row = $resultado->fetch_assoc();
 					}
 					
 
-						$consulta=mysqli_query($datos_base, "SELECT a.ABM, a.TIPO, a.CONTENIDO, a.FECHA, a.HORA, r.RESOLUTOR
+						$consulta=mysqli_query($datos_base, "SELECT a.ABM, a.TIPO, a.CONTENIDO_NUEVO, a.FECHA, a.HORA, r.RESOLUTOR, a.CONTENIDO_ANTERIOR
 						FROM agregado a
 						LEFT JOIN resolutor r ON r.ID_RESOLUTOR = a.ID_RESOLUTOR
 						ORDER BY a.FECHA DESC, a.HORA DESC
@@ -75,8 +75,8 @@ $row = $resultado->fetch_assoc();
 						<tr>
 						<td><h4 style='font-size:14px;text-align:left;margin-left:5px;'>".mostrarValor($listar['ABM'])."</h4 ></td>
                         <td><h4 style='font-size:14px;text-align:left;margin-left:5px;font-weight: bold;'>".mostrarValor($listar['TIPO'])."</h4 ></td>
-                        <td><h4 style='font-size:14px;text-align:left;margin-left:5px;'>".mostrarValor($listar['CONTENIDO'])."</h4 ></td>
-                        <td><h4 style='font-size:14px;text-align:left;margin-left:5px;'>".mostrarValor($listar['CONTENIDO_MODIFICADO'])."</h4 ></td>
+                        <td><h4 style='font-size:14px;text-align:left;margin-left:5px;'>".mostrarValor($listar['CONTENIDO_NUEVO'])."</h4 ></td>
+                        <td><h4 style='font-size:14px;text-align:left;margin-left:5px;'>".mostrarValor($listar['CONTENIDO_ANTERIOR'])."</h4 ></td>
 						<td><h4 style='font-size:14px;'>".mostrarValor($fecha)."</h4 ></td>
 						<td><h4 style='font-size:14px;'>".mostrarValor($listar['HORA'])."</h4 ></td>
 						<td><h4 style='font-size:14px;text-align:left;margin-left:5px;font-weight: bold;'>".mostrarValor($listar['RESOLUTOR'])."</h4></td>

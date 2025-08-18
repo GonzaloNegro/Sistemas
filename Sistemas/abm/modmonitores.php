@@ -27,7 +27,6 @@ function ConsultarIncidente($no_tic)
     return mysqli_fetch_assoc($resultado);
 }
 
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -347,8 +346,7 @@ function enviar_formulario(formulario, accion) {
                         }
                     ?></option>
                     <?php
-                    include("../particular/conexion.php");
-                    //Se agrega clausula para filtrar por reparticion de resolutor, si tiene rol 1 o 2 puede ver a todos los usuarios de ambos edificios
+                    //Se agrega clausula para filtrar por reparticion de resolutor, si tiene rol 1 o 2 puede ver a todos s usuarios de ambos edificios
                     //en agregar impresoras, monitores hay otra forma de hacerlo que da un poco mas de equipos
                         $whereEq = "WHERE u.ID_ESTADOUSUARIO = 1 
                         AND w.ID_WS <> 0 
@@ -357,23 +355,14 @@ function enviar_formulario(formulario, accion) {
                         AND i.ID_TIPOWS = 1
                         ";
                         if ($perfil == 1 || $perfil == 2) {
-                        }
-                        else{
-                            if ($repa==1) {
+                        }else{
+                            if ($repa==1) { 
                                 $whereEq.="AND r.ID_REPA IN (1, 2, 3)";
                             }
                             else{
                                 $whereEq.="AND r.ID_REPA=$repa";
                             }
                         }
-                        // $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
-                        // FROM wsusuario w
-                        // INNER JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO
-                        // INNER JOIN area a ON a.ID_AREA=u.ID_AREA
-                        // INNER JOIN reparticion r ON r.ID_REPA=a.ID_REPA
-                        // INNER JOIN inventario i ON i.ID_WS = w.ID_WS
-                        // $whereEq
-                        // ORDER BY u.NOMBRE ASC";
                         $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
                         FROM inventario i 
                         LEFT JOIN area AS a ON i.ID_AREA = a.ID_AREA
@@ -382,15 +371,6 @@ function enviar_formulario(formulario, accion) {
                         LEFT JOIN usuarios as u on w.ID_USUARIO = u.ID_USUARIO
                         $whereEq
                         ORDER BY u.NOMBRE ASC";
-                    // $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
-                    // FROM wsusuario w
-                    // INNER JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO
-                    // INNER JOIN inventario i ON i.ID_WS = w.ID_WS
-                    // WHERE u.ID_ESTADOUSUARIO = 1 
-                    // AND w.ID_WS <> 0 
-                    // AND w.ID_USUARIO <> 277
-                    // AND i.ID_TIPOWS = 1 /* PC */
-                    // ORDER BY u.NOMBRE ASC";
                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                     ?>
                     <?php foreach ($ejecutar as $opciones): ?> 
@@ -444,7 +424,7 @@ function enviar_formulario(formulario, accion) {
             const equipoSelect = document.getElementById("equipo");
 
             $.ajax({
-                url: "../consulta/consultarEquiposDisponibles.php",
+                url: "../consulta/consultarEquiposAsignadosDisponibles.php",
                 type: "GET",
                 data: {
                     equipoAnteriorID: equipoAnteriorID,
@@ -464,8 +444,6 @@ function enviar_formulario(formulario, accion) {
                 }
             });
         }
-
-
     </script>
 <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>

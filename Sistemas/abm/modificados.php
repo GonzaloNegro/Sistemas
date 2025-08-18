@@ -609,7 +609,7 @@ if (isset($_POST['accion'])) {
                         mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg', SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
 
                         /* -INSERT DEL NUEVO EQUIPO Y ESPECIFICAR IMPRESORA (tabla agregados) */
-                        $descripcion = $serg . " - " . $equipoBD;
+                        $descripcion = "SERIE: " . $serie . " - EQUIPO: " . $equipoBD;
                         mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'IMPRESORA', 'MODIFICADO', '$equipo', '$descripcion', '$fechaActual', '$horaActual', '$resolutorActivo')");
                     }else{/* SI SIGUE CON EL MISMO EQUIPO */
                         /* -UPDATE DE LOS DEMAS DATOS (tabla perifericos) */
@@ -626,7 +626,7 @@ if (isset($_POST['accion'])) {
                     mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg',  SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
 
                     /* -INSERT DEL NUEVO ESTADO Y ESPECIFICAR IMPRESORA (tabla agregados) */
-                    $descripcion = $serg . " - " . $estado;
+                    $descripcion = "SERIE: " . $serie . " - ESTADO: " . $estado;
                     mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'IMPRESORA', 'MODIFICADO', '$estadoBD', '$descripcion', '$fechaActual', '$horaActual', '$resolutorActivo')");
                 } elseif ($estadoBD != 1 AND $estado == 1) {/*  BASE DE DATOS: BAJA O STOCK || FORMULARIO: ACTIVO */
                     /* -INSERT DE VINCULACION DEL PERIFERICO Y EQUIPO (tabla equipo_periferico) */
@@ -636,7 +636,7 @@ if (isset($_POST['accion'])) {
                     mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg', SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia',  ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
 
                     /* -INSERT DEL NUEVO ESTADO Y ESPECIFICAR IMPRESORA (tabla agregados) */
-                    $descripcion = $serg . " - " . $estado;
+                    $descripcion = "SERIE: " . $serie . " - ESTADO: " . $estado;
                     mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'IMPRESORA', 'MODIFICADO', '$estadoBD', '$descripcion', '$fechaActual', '$horaActual', '$resolutorActivo')");
                 }
                 header("Location: ../consulta/impresoras.php?okMod");
@@ -648,12 +648,13 @@ if (isset($_POST['accion'])) {
         case 'modMonitores':
             $id = $_POST['id'] ?? 0;
             $tipop = $_POST['tipop'] ?? 0;
-            $equip = $_POST['equip'] ?? 0;
+            $equipo = $_POST['equip'] ?? 0;
             $modelo = $_POST['modelo'] ?? 0;
             $estado = $_POST['estado'] ?? 0;
             $prov = $_POST['prov'] ?? 0;
             
             $serieg = $_POST['serieg'] ?? '';
+            $serie = $_POST['serie'] ?? '';
             $gar = $_POST['garantia'] ?? '';
             $fac = $_POST['fac'] ?? '';
             $obs = $_POST['obs'] ?? '';
@@ -710,18 +711,21 @@ if (isset($_POST['accion'])) {
             $area = $row2['ID_AREA'];
             
             
-            if(/* $serieg == $serg OR */ $serie == $ser){ 
-                header("Location: abmmonitores.php?no");
+            if($serie == $ser){ 
+                header("Location: ..consulta/monitores.php?noMod");
                 exit;
             }
             else{
-                /* MOVIMIENTOS DEL PERIFERICO */
-                $sqli = "SELECT ID_AREA, ID_USUARIO, ID_ESTADOWS FROM periferico WHERE ID_PERI = '$id'";
-                $resultado2 = $datos_base->query($sqli);
-                $row2 = $resultado2->fetch_assoc();
-                $a = $row2['ID_AREA'];
-                $u = $row2['ID_USUARIO'];
-                $e = $row2['ID_ESTADOWS'];
+                /* TRAIGO LOS DATOS ACTUALES DEL PERIFERICO */
+                $sql4 = "SELECT ID_WS, ID_ESTADOWS
+                FROM equipo_periferico 
+                WHERE ID_PERI = '$id' 
+                ORDER BY ID_EQUIPO_PERIFERICO DESC 
+                LIMIT 1";
+                $result4 = $datos_base->query($sql4);
+                $row4 = $result4->fetch_assoc();
+                $equipoBD = $row4['ID_WS'];
+                $estadoBD = $row4['ID_ESTADOWS'];
                 
                 /* VERIFICO SI ESTABA ATADO A UN EQUIPO DEL MINISTERIO 725 O DEL 607 */
                 $sql4 = "SELECT r.ID_REPA
@@ -754,16 +758,51 @@ if (isset($_POST['accion'])) {
                     $sinAsignar = 101;/* 607 */
                 }
                 /* --------------------------------------------------------------------- */
+                if($estado == 1 AND $estadoBD == $estado){/* BASE DE DATOS Y FORMULARIO: ACTIVO */
+                    if($equipoBD != $equipo){/*  SI CAMBIA DE EQUIPO */
+                        /* -INSERT DE DESVINCULACION DEL EQUIPO ACTUAL(tabla equipo_periferico) */
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipoBD', '$sinAsignar', '0000-00-00', '$fechaActual', '$estado')");
+                        /* -INSERT DE DESVINCULACION DEL PERIFERICO (tabla equipo_periferico) */
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', '$estado')");
+                        /* -INSERT DE VINCULACION DEL NUEVO EQUIPO CON ESTE PERIFERICO (tabla equipo_periferico) */
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', '$estado')");
+                        
+                        
+                        /* -UPDATE DE LOS DATOS DEL FORM (tabla periferico) */
+                        mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg', SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
 
-                if($a != $area || $u != $usu || $e != $estado){
-                mysqli_query($datos_base, "INSERT INTO movimientosperi VALUES (DEFAULT, '$fechaActual', '$id', '$area', '$usu', '$estado')");/* DEBERIA VOLVER A CONSULTAR BIEN EL USUARIO QUE ESTA RELACIONADO AL EQUIPO */
-                }
-            
-            
-                mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg', ID_MARCA = '$marca', SERIE = '$serie', OBSERVACION = '$obs', FACTURA = '$fac', ID_AREA = '$area', ID_USUARIO = '$usu', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_PROVEEDOR = '$prov', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
-            /* EL UPDATE NO VA A FUNCIONAR PORQUE $usu NO LO TRAIGO MAS, TRAIGO EL EQUIPO */
-            
-                header("Location: abmmonitores.php?ok");
+                        /* -INSERT DEL NUEVO EQUIPO Y ESPECIFICAR IMPRESORA (tabla agregados) */
+                        $descripcion = "SERIE: " . $serie . " - EQUIPO: " . $equipoBD;/* trae ID_WS */
+                        mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'MONITOR', 'MODIFICADO', '$equipo', '$descripcion', '$fechaActual', '$horaActual', '$resolutorActivo')");
+                    }else{/* SI SIGUE CON EL MISMO EQUIPO */
+                        /* -UPDATE DE LOS DEMAS DATOS (tabla perifericos) */
+                        mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg',  SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
+                    }
+                
+                } elseif ($estadoBD == 1 AND $estado != $estadoBD){ /* BASE DE DATO: ACTIVO || FORMULARIO: BAJA O STOCK */
+                    /* -INSERT DE DESVINCULACION DEL EQUIPO (tabla equipo_periferico) */
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$sinAsignar', '0000-00-00', '$fechaActual', '$estado')");
+                    /* -INSERT DE DESVINCULACION DEL PERIFERICO (tabla equipo_periferico) */
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', '$estado')");
+
+                    /* -UPDATE PARA DAR DE BAJA AL PERIFERICO Y DEMAS DATOS (tabla periferico) */
+                    mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg',  SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
+
+                    /* -INSERT DEL NUEVO ESTADO Y ESPECIFICAR IMPRESORA (tabla agregados) */
+                    $descripcion = "SERIE: " . $serie . " - ESTADO: " . $estado;
+                    mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'MONITOR', 'MODIFICADO', '$estadoBD', '$descripcion', '$fechaActual', '$horaActual', '$resolutorActivo')");
+                } elseif ($estadoBD != 1 AND $estado == 1) {/*  BASE DE DATOS: BAJA O STOCK || FORMULARIO: ACTIVO */
+                    /* -INSERT DE VINCULACION DEL PERIFERICO Y EQUIPO (tabla equipo_periferico) */
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', '$estado')");
+
+                    /* -UPDATE DE LOS DATOS DEL FORM (tabla periferico) */
+                    mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg', SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
+
+                    /* -INSERT DEL NUEVO ESTADO Y ESPECIFICAR IMPRESORA (tabla agregados) */
+                    $descripcion = "SERIE: " . $serie . " - ESTADO: " . $estado;
+                    mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'MONITOR', 'MODIFICADO', '$estadoBD', '$descripcion', '$fechaActual', '$horaActual', '$resolutorActivo')");
+                }            
+                header("Location: ../consulta/monitores.php?okMod");
                 exit;
             }
             break;
@@ -838,25 +877,97 @@ if (isset($_POST['accion'])) {
             
             
             if(/* $serieg == $serg OR */ $serie == $ser){ 
-                header("Location: abmotros.php?no");
+                header("Location: ../consulta/otrosp.php?noMod");
                 exit;
             }
             else{
-                /* MOVIMIENTOS DEL PERIFERICO */
-                $sqli = "SELECT ID_AREA, ID_USUARIO, ID_ESTADOWS FROM periferico WHERE ID_PERI = '$id'";
-                $resultado2 = $datos_base->query($sqli);
-                $row2 = $resultado2->fetch_assoc();
-                $a = $row2['ID_AREA'];
-                $u = $row2['ID_USUARIO'];
-                $e = $row2['ID_ESTADOWS'];
-                if($a != $area || $u != $usu || $e != $estado){
-                mysqli_query($datos_base, "INSERT INTO movimientosperi VALUES (DEFAULT, '$fechaActual', '$id', '$area', '$usu', '$estado')");/* NO VA A FUNCIONAR PORQUE FALTA LOGICA RELACIONADA AL EQUIPO , USAURIO NO ESTA EN LA TABLA */
+                /* TRAIGO LOS DATOS ACTUALES DEL PERIFERICO */
+                $sql4 = "SELECT ID_WS, ID_ESTADOWS
+                FROM equipo_periferico 
+                WHERE ID_PERI = '$id' 
+                ORDER BY ID_EQUIPO_PERIFERICO DESC 
+                LIMIT 1";
+                $result4 = $datos_base->query($sql4);
+                $row4 = $result4->fetch_assoc();
+                $equipoBD = $row4['ID_WS'];
+                $estadoBD = $row4['ID_ESTADOWS'];
+                
+                /* VERIFICO SI ESTABA ATADO A UN EQUIPO DEL MINISTERIO 725 O DEL 607 */
+                $sql4 = "SELECT r.ID_REPA
+                FROM wsusuario w
+                JOIN usuarios u ON w.ID_USUARIO = u.ID_USUARIO
+                JOIN area a ON u.ID_AREA = a.ID_AREA
+                JOIN reparticion r ON a.ID_REPA = r.ID_REPA
+                WHERE w.ID_WS = '$equipoBD'
+                AND w.FECHA_ASIGNACION = (
+                    SELECT MAX(FECHA_ASIGNACION)
+                    FROM wsusuario
+                    WHERE ID_WS = w.ID_WS
+                )
+                AND r.ID_REPA IN (1, 4)";
+                $result4 = $datos_base->query($sql4);
+                $row4 = $result4->fetch_assoc();
+                $repaBD = $row4['ID_REPA'];
+                /* 
+                Usuarios
+                277 -> SIN ASIGNAR HP 725
+                310 -> SIN ASIGNAR HP 607
+
+                Inventario
+                100 -> SIN ASIGNAR HP 725
+                101 -> SIN ASIGNAR HP 607
+                */
+                if($repaBD == 1){/* 725 */
+                    $sinAsignar = 100;/* 725 */
+                }elseif($repaBD == 4){/* 607 */
+                    $sinAsignar = 101;/* 607 */
                 }
-            
-            
-                mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg', ID_MARCA = '$marca', SERIE = '$serie', OBSERVACION = '$obs', FACTURA = '$factura', ID_AREA = '$area', ID_USUARIO = '$usu', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
-            /* HAY QUE CONSULTAR AL USUARIO NUEVAMENTE POR TABLA INTERMEDIA */
-                header("Location: abmotros.php?ok");
+                /* --------------------------------------------------------------------- */
+                if($estado == 1 AND $estadoBD == $estado){/* BASE DE DATOS Y FORMULARIO: ACTIVO */
+                    if($equipoBD != $equipo){/*  SI CAMBIA DE EQUIPO */
+                        /* -INSERT DE DESVINCULACION DEL EQUIPO ACTUAL(tabla equipo_periferico) */
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipoBD', '$sinAsignar', '0000-00-00', '$fechaActual', '$estado')");
+                        /* -INSERT DE DESVINCULACION DEL PERIFERICO (tabla equipo_periferico) */
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', '$estado')");
+                        /* -INSERT DE VINCULACION DEL NUEVO EQUIPO CON ESTE PERIFERICO (tabla equipo_periferico) */
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', '$estado')");
+                        
+                        
+                        /* -UPDATE DE LOS DATOS DEL FORM (tabla periferico) */
+                        mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg', SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
+
+                        /* -INSERT DEL NUEVO EQUIPO Y ESPECIFICAR IMPRESORA (tabla agregados) */
+                        $descripcion = "SERIE: " . $serie . " - EQUIPO: " . $equipoBD;/* trae ID_WS */
+                        mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'OTRO PERIFÉRICO', 'MODIFICADO', '$equipo', '$descripcion', '$fechaActual', '$horaActual', '$resolutorActivo')");
+                    }else{/* SI SIGUE CON EL MISMO EQUIPO */
+                        /* -UPDATE DE LOS DEMAS DATOS (tabla perifericos) */
+                        mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg',  SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
+                    }
+                
+                } elseif ($estadoBD == 1 AND $estado != $estadoBD){ /* BASE DE DATO: ACTIVO || FORMULARIO: BAJA O STOCK */
+                    /* -INSERT DE DESVINCULACION DEL EQUIPO (tabla equipo_periferico) */
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$sinAsignar', '0000-00-00', '$fechaActual', '$estado')");
+                    /* -INSERT DE DESVINCULACION DEL PERIFERICO (tabla equipo_periferico) */
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', '$estado')");
+
+                    /* -UPDATE PARA DAR DE BAJA AL PERIFERICO Y DEMAS DATOS (tabla periferico) */
+                    mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg',  SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
+
+                    /* -INSERT DEL NUEVO ESTADO Y ESPECIFICAR IMPRESORA (tabla agregados) */
+                    $descripcion = "SERIE: " . $serie . " - ESTADO: " . $estado;
+                    mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'OTRO PERIFÉRICO', 'MODIFICADO', '$estadoBD', '$descripcion', '$fechaActual', '$horaActual', '$resolutorActivo')");
+                } elseif ($estadoBD != 1 AND $estado == 1) {/*  BASE DE DATOS: BAJA O STOCK || FORMULARIO: ACTIVO */
+                    /* -INSERT DE VINCULACION DEL PERIFERICO Y EQUIPO (tabla equipo_periferico) */
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', '$estado')");
+
+                    /* -UPDATE DE LOS DATOS DEL FORM (tabla periferico) */
+                    mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg', SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
+
+                    /* -INSERT DEL NUEVO ESTADO Y ESPECIFICAR IMPRESORA (tabla agregados) */
+                    $descripcion = "SERIE: " . $serie . " - ESTADO: " . $estado;
+                    mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'OTRO PERIFÉRICO', 'MODIFICADO', '$estadoBD', '$descripcion', '$fechaActual', '$horaActual', '$resolutorActivo')");
+                }   
+                header("Location: ../consulta/otrosp?okMod");
                 exit;
             }
             break;
@@ -1768,7 +1879,7 @@ if (isset($_POST['accion'])) {
                     if ($estadoBD==2 || $estadoBD==3) {
                     //Se agrega el nuevo usuaario
                         if(!mysqli_query($datos_base, "INSERT INTO lineacelular VALUES (DEFAULT, '$id', 0, '$usuario', '$fechaActual')")) $errorML = true;
-                }
+                    }
                 }
 
                 

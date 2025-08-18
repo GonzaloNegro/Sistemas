@@ -21,6 +21,7 @@ $row = $resultado->fetch_assoc();
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymus"></script>
     <script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
@@ -33,6 +34,68 @@ $row = $resultado->fetch_assoc();
 	</style>
 </head>
 <body>
+    <script>
+        function okMod() {
+            Swal.fire({
+                title: "Periférico modificado correctamente.",
+                icon: "success",
+                showConfirmButton: true,
+                confirmButtonText: 'Aceptar',
+                confirmButtonColor: '#198754',
+                customClass: {
+                    actions: 'reverse-button'
+                }
+            });
+        }
+
+
+        function noMod() {
+            Swal.fire({
+                title: "No se ha podido modificar el periférico. El periférico ya se encuentra registrado",
+                icon: "error",
+                showConfirmButton: true,
+                confirmButtonColor: '#d33', // Color rojo
+                confirmButtonText: 'Cerrar',
+                customClass: {
+                    actions: 'reverse-button'
+                }
+            });
+        }
+
+        function ok() {
+            Swal.fire({
+                title: "Periférico cargado correctamente.",
+                icon: "success",
+                showConfirmButton: true,
+                confirmButtonText: 'Aceptar',
+                confirmButtonColor: '#198754',
+                customClass: {
+                    actions: 'reverse-button'
+                }
+            });
+        }
+
+        function no() {
+            Swal.fire({
+                title: "No se ha podido agregar el periférico. El periférico ya se encuentra registrado",
+                icon: "error",
+                showConfirmButton: true,
+                confirmButtonColor: '#d33', // Color rojo
+                confirmButtonText: 'Cerrar',
+                customClass: {
+                    actions: 'reverse-button'
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Inicializa todos los popovers
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                return new bootstrap.Popover(popoverTriggerEl);
+            });
+        });
+    </script>
 <script>
                 //Funcion que va mostrando que filtros se van utilizando
                 function mostrarFiltros(){
@@ -528,6 +591,31 @@ $row = $resultado->fetch_assoc();
         <form id="formu" action="../exportar/ExcelOtrosPeri.php" method="POST">
             <input type="text" id="excel" name="sql" class="valorPeque" readonly="readonly" value="<?php echo $query;?>">
         </form>
+        <?php
+            if(isset($_GET['okMod'])){
+                ?>
+                <script>okMod();</script>
+                <?php			
+            }
+
+            if(isset($_GET['noMod'])){
+                ?>
+                <script>noMod();</script>
+                <?php			
+            }
+
+            if(isset($_GET['ok'])){
+                ?>
+                <script>ok();</script>
+                <?php			
+            }
+
+            if(isset($_GET['no'])){
+                ?>
+                <script>no();</script>
+                <?php			
+            }
+        ?>
 	</section>
 	<footer id="footer_pag"><div class="pagination justify-content-center mt-3" id="paginador"></div></footer>
     <!-- MODALES -->
