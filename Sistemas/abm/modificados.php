@@ -85,10 +85,10 @@ if (isset($_POST['accion'])) {
             $pis = $_POST['piso'];
             } */
             if($act == "400"){
-            $sqla = "SELECT ACTIVO FROM usuarios WHERE ID_USUARIO = '$id'";
+            $sqla = "SELECT ID_ESTADOUSUARIO FROM usuarios WHERE ID_USUARIO = '$id'";
             $result = $datos_base->query($sqla);
             $row = $result->fetch_assoc();
-            $act = $row['ACTIVO'];
+            $act = $row['ID_ESTADOUSUARIO'];
             }/* else{
             $act = $_POST['act'];
             } */
@@ -104,54 +104,145 @@ if (isset($_POST['accion'])) {
             $row2 = $result2->fetch_assoc();
             $tur = $row2['ID_TURNO'];
             }
-            
-            
-            /* 
-            -OBTENER EL ESTADO ACTUAL, COMPARAR CON EL NUEVO ESTADO.
-            -SI EL ESTADO ES IGUAL{
-            -UPDATE EN TABLA USUARIOS
-            }-SI EL NUEVO ESTADO ES ACTIVO{
-                HACER UPDATE EN TABLA usuarios
-                HACER UN INSERT EN LA TABLA WSUSUARIO PARA EL USUARIO SOLAMENTE, MOSTRANDOLO ACTIVO
-            }-SI EL NUEVO ESTADO ES INACTIVO{
-                -HACER UNA CONSULTA DE EQUIPO ASIGNADO
-                -SI EL USUARIO TIENE UN EQUIPO ASIGNADO{
-                -HACER UNA CONSULTA SI ESA MAQUINA TIENE PERIFERICOS ASIGNADOS (TABLA EQUIPO_PERIFERICO)
-                -PREGUNTAR SI ESTA SEGURO QUE DESEA DESACTIVAR EL USUARIO, QUE LA MAQUINA ASIGNADA SE PONDRA EN STOCK Y SUS PERIFERICOS TAMBIEN
-            
-                -HACER UN UPDATE EN TABLA INVENTARIO PARA CAMBIAR EL ESTADO DEL EQUIPO A S/A - STOCK
-                -HACER UN INSERT EN LA TABLA WSUSUARIO PARA MOVER EL USUARIO A DESVINCULACION
-                -HACER UN INSERT EN LA TABLA WSUSUARIO PARA MOVER EL EQUIPO A DESVINCULACION
-            
-                -HACER UN UPDATE EN TABLA PERIFERICO PARA CAMBIAR EL ESTADO DEL PERIFERICO A S/A - STOCK
-                -HACER UN INSERT EN LA TABLA EQUIPO_PERIFERICO PARA MOVER EL EQUIPO A DESVINCULACION
-                -HACER UN INSERT EN LA TABLA EQUIPO_PERIFERICO PARA MOVER EL PERIFERICO A DESVINCULACION
-                }ELSE{
-                HACER UN UPDATE EN LA TABLA usuarios
-                HACER UN INSERT EN LA TABLA WSUSUARIO PARA EL USUARIO SOLAMENTE PARA REGISTRARLO (SIN EQUIPO)
-                }
-            }
-            */
-            
-             
+
+
             /* SI UNO DE LOS CAMPOS ESTA REPETIDO */
             $sql = "SELECT * FROM usuarios WHERE (CUIL ='$cuil' AND ID_USUARIO != '$id')";
             $resultado = $datos_base->query($sql);
             $row = $resultado->fetch_assoc();
             $cui = $row['CUIL'];
             
-            if($cuil == $cui)
-            {
-                header("Location: abmusuario.php?no");
+            if($cuil == $cui){
+                header("Location: ../consulta/consultausuario.php?noMod");
+                exit;
+            }else{
+                /* CAMPOS ACTUALES */
+                $sql = "SELECT ID_USUARIO, ID_ESTADOUSUARIO, NOMBRE, CUIL, ID_AREA FROM usuarios WHERE ID_USUARIO = '$id'";
+                $resultado = $datos_base->query($sql);
+                $row = $resultado->fetch_assoc();
+                $estadoBD = $row['ID_ESTADOUSUARIO'];
+                $nombreBD = $row['NOMBRE'];
+                $cuilBD = $row['CUIL'];
+                $areaBD = $row['ID_AREA'];
+
+                /* 
+                    CONSIDERAR EN TODOS LOS CASOS
+                    HACER UN INSERT EN LA TABLA AGREGADOS
+                    PARA CONTROLAR QUIEN HIZO QUE CAMBIO
+                */
+                if($act == $estadoBD){/* NO CAMBIA EL ESTADO */
+                    /* -SI EL ESTADO ES IGUAL{
+                    -UPDATE EN TABLA USUARIOS */
+                    mysqli_query($datos_base, "UPDATE usuarios SET NOMBRE = '$nombre', CUIL = '$cuil', ID_AREA = '$are', PISO = '$pis', INTERNO = '$int', CORREO = '$cor', CORREO_PERSONAL = '$corp', TELEFONO_PERSONAL = '$tel', ID_TURNO = '$tur', ID_ESTADOUSUARIO = '$act', OBSERVACION = '$obs' WHERE ID_USUARIO = '$id'");
+                    /* HACER UN INSERT EN LA TABLA AGREGADOS SI MODIFICAN EL NOMBRE O EL CUIL PARA MOSTRAR QUE CAMBIOS SE LE HIZO A QUE NOMBRE DE USUARIO*/
+                    if($nombreBD != $nombre || $cuilBD != $cuil){
+                        $descripcionNueva = "NOMBRE: " . $nombre . " - CUIL: " . $cuil;
+                        $descripcionVieja = "NOMBRE: " . $nombreBD . " - CUIL: " . $cuilBD;
+                        mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'USUARIO', 'MODIFICADO', '$descripcionNueva', '$descripcionVieja', '$fechaActual', '$horaActual', '$resolutorActivo')");
+                    }
+                }elseif($act == 1 AND $estadoBD != 1){/*  INACTIVO PASA A ACTIVO */
+                    /* HACER UPDATE EN TABLA usuarios*/
+                    mysqli_query($datos_base, "UPDATE usuarios SET NOMBRE = '$nombre', CUIL = '$cuil', ID_AREA = '$are', PISO = '$pis', INTERNO = '$int', CORREO = '$cor', CORREO_PERSONAL = '$corp', TELEFONO_PERSONAL = '$tel', ID_TURNO = '$tur', ID_ESTADOUSUARIO = '$act', OBSERVACION = '$obs' WHERE ID_USUARIO = '$id'");
+                    /*HACER UN INSERT EN LA TABLA AGREGADOS PARA EL CAMBIO DE ESTADO Y EL NOMBRE DEL USUARIO*/
+                    $descripcionNueva = "NOMBRE: " . $nombre . " - ESTADO: " . $act;
+                    $descripcionVieja = "NOMBRE: " . $nombreBD . " - ESTADO: " . $estadoBD;
+
+                    mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'USUARIO', 'MODIFICADO', '$descripcionNueva', '$descripcionVieja', '$fechaActual', '$horaActual', '$resolutorActivo')");
+
+                }elseif ($act == 2 AND $estadoBD != 2) {/* ACTIVO PASA A INACTIVO */
+
+                    $sqli = "SELECT ID_REPA FROM area WHERE AREA = '$areaBD'";
+                    $resultado2 = $datos_base->query($sqli);
+                    $row2 = $resultado2->fetch_assoc();
+                    $repaBD = $row2['ID_REPA'];
+
+                    /* BUSCAR LA REPARTICIÓN DE DICHA AREA */
+                    /* SI ES  1 -> HP 725 O SI ES 4 -> HP 607 */
+                    if($repa == 1){
+                        /* SI ES DE 725 VA AL AREA 100 */
+                        $nuevaArea = 100;
+                        $equipoSinAsignar = 476;
+                        $usuarioSinAsignar = 277;
+                    }elseif ($repa == 4) {
+                        /* SI ES DE 607 VA AL AREA 101 */
+                        $nuevaArea = 101;
+                        $equipoSinAsignar = 477;
+                        $usuarioSinAsignar = 310;
+                    }
+
+                    /* -HACER UNA CONSULTA DE EQUIPOS ASIGNADOS QUE ESTEN EN USO */
+                    $sent= "SELECT ws.ID_WS, i.ID_ESTADOWS
+                    FROM wsusuario ws
+                    INNER JOIN inventario i ON i.ID_WS = ws.ID_WS
+                    WHERE ws.ID_USUARIO = $id AND i.ID_ESTADOWS = 1
+                    ORDER BY ws.ID_WSUSU DESC";
+                    $resultado = $datos_base->query($sent);
+
+                    $equiposAsignados = [];
+                    if ($resultado && $resultado->num_rows > 0) {
+                        while ($row = $resultado->fetch_assoc()) {
+                            $equiposAsignados[] = $row['ID_WS'];
+                        }
+                    }
+
+                    foreach ($equiposAsignados as $equipo) {
+                        /* VERIFICAR SI EL EQUIPO ES DIFERENTE A SIN ASIGNAR */
+                        if ($equipo != $equipoSinAsignar) {
+                            /* -HACER UNA CONSULTA SI ESA MAQUINA TIENE PERIFERICOS ASIGNADOS (TABLA EQUIPO_PERIFERICO) */
+                            $sent = "SELECT ep.ID_PERI
+                                    FROM equipo_periferico ep
+                                    INNER JOIN periferico p ON ep.ID_PERI = p.ID_PERI
+                                    WHERE ep.ID_WS = $equipo
+                                    AND p.ID_ESTADOWS = 1";  // solo periféricos activos
+
+                            $res = $datos_base->query($sent);
+
+                            
+                            $perifericosDelEquipo = [];
+                            if ($res && $res->num_rows > 0) {
+                                while ($row = $res->fetch_assoc()) {
+                                    $perifericosDelEquipo[] = $row['ID_PERI'];
+                                }
+                            }
+                            
+                            
+                            if (!empty($perifericosDelEquipo)) {
+                                foreach ($perifericosDelEquipo as $peri) {
+                                    // Insertar desvinculación del periférico
+                                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipoSinAsignar', '$peri', '0000-00-00', '$fechaActual', 2)");
+                                    
+                                    // Insertar desvinculación del equipo
+                                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', 0, '0000-00-00', '$fechaActual', 2)");
+
+                                    /* CAMBIO DE ESTADO EL EQUIPO A SIN ASIGNAR */
+                                    mysqli_query($datos_base, "UPDATE periferico SET ID_ESTADOWS = 3 WHERE ID_PERI = '$peri'");
+                                }
+                            }
+                        /*-HACER UN INSERT EN LA TABLA WSUSUARIO PARA MOVER EL UNICO USUARIO A DESVINCULACION QUE PUEDE TENER VARIOS EQUIPOS*/
+                            mysqli_query($datos_base, "INSERT INTO wsusuario  VALUES (DEFAULT, '$equipoSinAsignar', '$id', '0000-00-00', '$fechaActual', 2)");
+                        /*-HACER UN INSERT EN LA TABLA WSUSUARIO PARA MOVER EL O LOS EQUIPOS A DESVINCULACION*/
+                            mysqli_query($datos_base, "INSERT INTO wsusuario  VALUES (DEFAULT, '$equipo', '$usuarioSinAsignar', '0000-00-00', '$fechaActual', 2)");
+
+
+                        /* CAMBIO DE ESTADO EL EQUIPO A SIN ASIGNAR */
+                        mysqli_query($datos_base, "UPDATE inventario SET ID_ESTADOWS = 3 WHERE ID_WS = '$equipo'");
+                        }
+                    }
+
+                    /*-HACER UN UPDATE EN TABLA INVENTARIO PARA CAMBIAR EL ESTADO DEL EQUIPO A S/A - STOCK Y CAMBIAR EL ÁREA A SIN ASIGNAR DEPENDIENDO DE QUE REPARTICIÓN ESTABA. PARA ESTO CONSULTAR LA REPA QUE TENIA ANTES */
+                    mysqli_query($datos_base, "UPDATE usuarios SET NOMBRE = '$nombre', CUIL = '$cuil', ID_AREA = '$nuevaArea', PISO = '$pis', INTERNO = '$int', CORREO = '$cor', CORREO_PERSONAL = '$corp', TELEFONO_PERSONAL = '$tel', ID_TURNO = '$tur', ACTIVO = 2, OBSERVACION = '$obs' WHERE ID_USUARIO = '$id'");
+
+                    /*HACER UN INSERT EN LA TABLA AGREGADOS PARA EL CAMBIO DE ESTADO A INACTIVO Y EL NOMBRE DEL USUARIO*/
+                    $descripcionNueva = "NOMBRE: " . $nombre . " - ESTADO: " . $act;
+                    $descripcionVieja = "NOMBRE: " . $nombreBD . " - ESTADO: " . $estadoBD;
+
+                    mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'USUARIO', 'MODIFICADO', '$descripcionNueva', '$descripcionVieja', '$fechaActual', '$horaActual', '$resolutorActivo')");
+
+                }
+                header("Location: ../consulta/consultausuario.php?okMod");
                 exit;
             }
-            else
-            {
-                mysqli_query($datos_base, "UPDATE usuarios SET NOMBRE = '$nombre', CUIL = '$cuil', ID_AREA = '$are', PISO = '$pis', INTERNO = '$int', CORREO = '$cor', CORREO_PERSONAL = '$corp', TELEFONO_PERSONAL = '$tel', ID_TURNO = '$tur', ACTIVO = '$act', OBSERVACION = '$obs' WHERE ID_USUARIO = '$id'");
-                header("Location: abmusuario.php?ok");
-                exit;
-            }
-            break;
+        break;
 
         /* ------------------ MODIFICAR ÁREA: modarea.php------------------------ */
         case 'modArea':
@@ -177,31 +268,47 @@ if (isset($_POST['accion'])) {
                 $est = $ro4['ACTIVO'];
             }
         
-            /* SI EL ÁREA PASA A INACTIVA, HACER QUE TODOS LOS USUARIOS DE DICHA ÁREA PASEN A SIN ASIGNAR*/
-            
-            /* SI EL ÁREA CAMBIA DE NOMBRE, INFORMAR QUE LOS USUARIOS ASIGNADOS AL ÁREA ANTERIOR AHORA FORMARAN PARTE DE LA NUEVA ÁREA RENOMBRADA */
-        
             /*SI AMBOS CAMPOS ESTAN REPETIDOS*/
             $sqli = "SELECT * FROM area WHERE AREA = '$area' AND ID_REPA ='$repa' AND ID_AREA != '$id'";
             $resultado2 = $datos_base->query($sqli);
             $row2 = $resultado2->fetch_assoc();
-            $are = $row2['AREA'];
+            $areaReferencia = $row2['AREA'];
+            $repReferencia = $row2['ID_REPA'];
+
+            /* TRAER DATOS DE LA BD PARA VERIFICAR CAMBIOS */
+            $sqli = "SELECT * FROM area WHERE ID_AREA = '$id'";
+            $resultado2 = $datos_base->query($sqli);
+            $row2 = $resultado2->fetch_assoc();
+            $areaBD = $row2['AREA'];
             $rep = $row2['ID_REPA'];
             $estadoBD = $row2['ACTIVO'];
-            
-            if($area == $are AND $repa == $rep){ 
-                header("Location: abmarea.php?no");
+
+            if($area == $areaReferencia AND $repa == $repReferencia){ 
+                header("Location: abmarea.php?noMod");
             }
             else{
                 if($estadoBD <> $est){
-                    mysqli_query($datos_base, "UPDATE area SET AREA = '$area', ID_REPA = '$repa', ACTIVO = '$est', OBSERVACION = '$obs' WHERE ID_AREA = '$id'");
-                    header("Location: abmarea.php?ok");
-                    exit;
-                }else{
-                    mysqli_query($datos_base, "UPDATE area SET AREA = '$area', ID_REPA = '$repa', OBSERVACION = '$obs' WHERE ID_AREA = '$id'");
-                    header("Location: abmarea.php?ok");
-                    exit;
+                    if($est == 2){/*  */
+                        /* BUSCAR LA REPARTICIÓN DE DICHA AREA */
+                        /* SI ES  1 -> HP 725 O SI ES 4 -> HP 607 */
+                        if($repa == 1){
+                            /* SI ES DE 725 VA AL AREA 100 */
+                            mysqli_query($datos_base, "UPDATE usuarios SET AREA = 100 WHERE ID_AREA = '$id'");
+                        }elseif ($repa == 4) {
+                            /* SI ES DE 607 VA AL AREA 101 */
+                            mysqli_query($datos_base, "UPDATE usuarios SET AREA = 101 WHERE ID_AREA = '$id'");
+                        }
+                    }                    
                 }
+
+                mysqli_query($datos_base, "UPDATE area SET AREA = '$area', ID_REPA = '$repa', ID_ESTADOUSUARIO = '$est', OBSERVACION = '$obs' WHERE ID_AREA = '$id'");
+
+                /*HACER UN INSERT EN LA TABLA AGREGADOS PARA EL CAMBIO DE ESTADO Y EL NOMBRE DEL ÁREA*/
+                $descripcionNueva = "ÁREA: " . $area . " - ESTADO: " . $est;
+                $descripcionVieja = "ÁREA: " . $areaBD . " - ESTADO: " . $estadoBD;
+
+                mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'ÁREA', 'MODIFICADO', '$descripcionNueva', '$descripcionVieja', '$fechaActual', '$horaActual', '$resolutorActivo')"); 
+                header("Location: abmarea.php?okMod");
             }
             break;
 
@@ -223,14 +330,27 @@ if (isset($_POST['accion'])) {
             }
             
             if($contador > 0){
-                header("Location: abmtipificacion.php?no");
+                header("Location: abmtipificacion.php?noMod");
                 exit;
             }
             else{
                 mysqli_query($datos_base, "UPDATE tipificacion SET TIPIFICACION = '$tipi' WHERE ID_TIPIFICACION = '$id'"); 
-                header("Location: abmtipificacion.php?ok");
+                header("Location: abmtipificacion.php?okMod");
                 exit;
+
+                $sqli = "SELECT ID_TIPIFICACION, TIPIFICACION FROM tipificacion WHERE ID_TIPIFIACION = '$tipi' AND ID_TIPIFICACION != '$id'";
+                $resultado2 = $datos_base->query($sqli);
+                $row2 = $resultado2->fetch_assoc();
+                $tipiBD = $row2['TIPIFICACION'];
+
+                /*HACER UN INSERT EN LA TABLA AGREGADOS*/
+                $descripcionNueva = "TIPIFICACIÓN: " . $tipi . "";
+                $descripcionVieja = "TIPIFICACIÓN: " . $tipiBD . "";
+
+                mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'TIPIFICACIÓN', 'MODIFICADO', '$descripcionNueva', '$descripcionVieja', '$fechaActual', '$horaActual', '$resolutorActivo')"); 
+                header("Location: abmarea.php?okMod");
             }
+
             break;
 
         /* ------------------ MODIFICAR RESOLUTOR: modresolutor.php ------------------------ */
@@ -258,20 +378,53 @@ if (isset($_POST['accion'])) {
             }
             
             /* SI UNO DE LOS CAMPOS ESTA REPETIDO */
-            $sql = "SELECT RESOLUTOR, CUIL FROM resolutor WHERE RESOLUTOR = '$resolutor' OR CUIL='$cuil' AND ID_RESOLUTOR != '$id'";
+            $sql = "SELECT * FROM resolutor WHERE RESOLUTOR = '$resolutor' OR CUIL='$cuil' AND ID_RESOLUTOR != '$id'";
             $resultado = $datos_base->query($sql);
             $row = $resultado->fetch_assoc();
-            $res = $row['RESOLUTOR'];
-            $cui = $row['CUIL'];
+            $cuilReferencia = $row['CUIL'];
+
+            /* TRAER DATOS DE LA BD PARA VERIFICAR CAMBIOS */
+            $sql = "SELECT * FROM resolutor WHERE ID_RESOLUTOR = '$id'";
+            $resultado = $datos_base->query($sql);
+            $row = $resultado->fetch_assoc();
+            $resBD = $row['RESOLUTOR'];
+            $cuilBD = $row['CUIL'];
+            $correoBD = $row['CORREO'];
+            $telefonoBD = $row['TELEFONO'];
+            $perfilBD = $row['ID_PERFIL'];
+            $tipoBD = $row['ID_TIPO_RESOLUTOR'];
             
-            if($cuil == $cui){
-                header("Location: abmresolutor.php?no");
+            if($cuil == $cuilReferencia){
+                header("Location: abmresolutor.php?noMod");
                 exit;
                 }
             else{
                 mysqli_query($datos_base, "UPDATE resolutor SET RESOLUTOR = '$nom', ID_TIPO_RESOLUTOR = '$tipo', CUIL = '$cuil', CORREO = '$cor', TELEFONO = '$tel', ID_PERFIL = '$perfil' WHERE ID_RESOLUTOR = '$id'");
-                header("Location: abmresolutor.php?ok");
+                header("Location: abmresolutor.php?okMod");
                 exit;
+
+                // --- SIEMPRE mostramos RESOLUTOR ---
+                $descripcionNueva = "RESOLUTOR: " . $nom;
+                $descripcionVieja = "RESOLUTOR: " . $resBD;
+
+                // Array de campos a verificar dinámicamente
+                $campos = [
+                    "CUIL"           => [$cuilBD,     $cuil],
+                    "CORREO"         => [$correoBD,   $cor],
+                    "TELEFONO"       => [$telefonoBD, $tel],
+                    "TIPO RESOLUTOR" => [$tipoBD,     $tipo],
+                    "PERFIL"         => [$perfilBD,   $perfil]
+                ];
+
+                // Recorremos y concatenamos solo los que cambiaron
+                foreach ($campos as $label => [$viejo, $nuevo]) {
+                    if ($viejo !== $nuevo) {
+                        $descripcionVieja .= " - $label: $viejo";
+                        $descripcionNueva .= " - $label: $nuevo";
+                    }
+                }
+
+                mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'RESOLUTOR', 'MODIFICADO', '$descripcionNueva', '$descripcionVieja', '$fechaActual', '$horaActual', '$resolutorActivo')"); 
             }
             break;
 
@@ -284,16 +437,28 @@ if (isset($_POST['accion'])) {
             $sql = "SELECT * FROM marcas WHERE MARCA = '$marca' AND ID_MARCA != '$id'";
             $resultado = $datos_base->query($sql);
             $row = $resultado->fetch_assoc();
-            $ma = $row['MARCA'];
-                
-            
-            if($marca == $ma){
-                header("Location: abmmarcas.php?no");
+            $marcaReferencia = $row['MARCA'];
+
+            /* TRAER DATOS DE LA BD PARA VERIFICAR CAMBIOS */
+            $sql = "SELECT * FROM marcas WHERE ID_MARCA = '$id'";
+            $resultado = $datos_base->query($sql);
+            $row = $resultado->fetch_assoc();
+            $marcaBD = $row['MARCA'];
+
+            if($marca == $marcaReferencia){
+                header("Location: abmmarcas.php?noMod");
                 exit;
             }
             else{
                 mysqli_query($datos_base, "UPDATE marcas SET MARCA = '$marca' WHERE ID_MARCA = '$id'"); 
-                header("Location: abmmarcas.php?ok");
+
+                /*HACER UN INSERT EN LA TABLA AGREGADOS*/
+                $descripcionNueva = "MARCA: " . $marca . "";
+                $descripcionVieja = "MARCA: " . $marcaBD . "";
+
+                mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'MARCA', 'MODIFICADO', '$descripcionNueva', '$descripcionVieja', '$fechaActual', '$horaActual', '$resolutorActivo')"); 
+
+                header("Location: abmmarcas.php?okMod");
                 exit;
             }
             break;
@@ -317,27 +482,42 @@ if (isset($_POST['accion'])) {
             $sql = "SELECT * FROM micro WHERE MICRO = '$micro' AND ID_MICRO != '$id'";
             $resultado = $datos_base->query($sql);
             $row = $resultado->fetch_assoc();
-            $mi = $row['MICRO'];
+            $microReferencia = $row['MICRO'];
+            $marcaReferencia = $row2['ID_MARCA'];
             
-            $sqli = "SELECT * FROM micro WHERE MICRO = '$micro' AND ID_MARCA ='$marca' AND ID_MICRO != '$id'";
+            /* TRAER DATOS DE LA BD PARA VERIFICAR CAMBIOS */
+            $sqli = "SELECT * FROM micro WHERE ID_MICRO = '$id'";
             $resultado2 = $datos_base->query($sqli);
             $row2 = $resultado2->fetch_assoc();
-            $mic = $row2['MICRO'];
-            $mar = $row2['ID_MARCA'];
+            $microBD = $row2['MICRO'];
+            $marcaBD = $row2['ID_MARCA'];
+
             /*SI AMBOS CAMPOS ESTAN REPETIDOS*/
-            
-            /*CONTROL FINAL*/
-            if($micro == $mic AND $marca == $mar){ 
-                header("Location: abmmicro.php?no");
+            if($micro == $microReferencia AND $marca == $marcaReferencia){ 
+                header("Location: abmmicro.php?noMod");
             }
-            elseif($micro == $mi){
+            elseif($micro == $microReferencia){
                 mysqli_query($datos_base, "UPDATE micro SET MICRO = '$micro', ID_MARCA = '$marca' WHERE ID_MICRO = '$id'"); 
+
+                /*HACER UN INSERT EN LA TABLA AGREGADOS*/
+                $descripcionNueva = "MICRO: " . $micro . " - MARCA: " . $marca;
+                $descripcionVieja = "MICRO: " . $microBD . " - MARCA: " . $marcaBD;
+
+                mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'MICRO', 'MODIFICADO', '$descripcionNueva', '$descripcionVieja', '$fechaActual', '$horaActual', '$resolutorActivo')"); 
+
                 header("Location: abmmicro.php?repeat");
                 exit;
             }
             else{
                 mysqli_query($datos_base, "UPDATE micro SET MICRO = '$micro', ID_MARCA = '$marca' WHERE ID_MICRO = '$id'"); 
-                header("Location: abmmicro.php?ok");
+
+                /*HACER UN INSERT EN LA TABLA AGREGADOS*/
+                $descripcionNueva = "MICRO: " . $micro . " - MARCA: " . $marca;
+                $descripcionVieja = "MICRO: " . $microBD . " - MARCA: " . $marcaBD;
+
+                mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'MICRO', 'MODIFICADO', '$descripcionNueva', '$descripcionVieja', '$fechaActual', '$horaActual', '$resolutorActivo')"); 
+
+                header("Location: abmmicro.php?okMod");
                 exit;
             }
             break;
@@ -367,32 +547,48 @@ if (isset($_POST['accion'])) {
             }
             /*TRAIGO VALORES DE LOS CMB*/
             
-            /* SI UNO DE LOS CAMPOS ESTA REPETIDO */
-            $sql = "SELECT * FROM modelo WHERE MODELO = '$modelo' AND ID_MODELO != '$id'";
-            $resultado = $datos_base->query($sql);
-            $row = $resultado->fetch_assoc();
-            $mo = $row['MODELO'];
-            
+            /* SI UNO DE LOS CAMPOS ESTA REPETIDO */            
             $sqli = "SELECT * FROM modelo WHERE MODELO = '$modelo' AND ID_MARCA ='$marca' AND ID_MODELO != '$id'";
             $resultado2 = $datos_base->query($sqli);
             $row2 = $resultado2->fetch_assoc();
-            $mod = $row2['MODELO'];
-            $mar = $row2['ID_MARCA'];
+            $modeloReferencia = $row2['MODELO'];
+
+            /* TRAER DATOS DE LA BD PARA VERIFICAR CAMBIOS */
+            $sqli = "SELECT * FROM modelo WHERE ID_MODELO = '$id'";
+            $resultado2 = $datos_base->query($sqli);
+            $row2 = $resultado2->fetch_assoc();
+            $modeloBD = $row2['MODELO'];
+            $marcaBD = $row2['ID_MARCA'];
+            $tipoBD = $row2['ID_TIPOP'];
+
+
             /*SI AMBOS CAMPOS ESTAN REPETIDOS*/
-            
-            /*CONTROL FINAL*/
-            if($modelo == $mod AND $marca == $mar){ 
+            if($modelo == $modeloBD AND $marca == $marcaBD){ 
                 header("Location: abmmodelos.php?no");
                 exit;
             }
-            elseif($modelo == $mo){
+            elseif($modelo == $modeloReferencia){
                 mysqli_query($datos_base, "UPDATE modelo SET MODELO = '$modelo', ID_TIPOP = '$tipo', ID_MARCA = '$marca' WHERE ID_MODELO = '$id'"); 
+
+                /*HACER UN INSERT EN LA TABLA AGREGADOS*/
+                $descripcionNueva = "MODELO: " . $modelo . " - MARCA: " . $marca . " - TIPOP: " . $tipo;
+                $descripcionVieja = "MODELO: " . $modeloBD . " - MARCA: " . $marcaBD . " - TIPOP: " . $tipoBD;
+
+                mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'MODELO', 'MODIFICADO', '$descripcionNueva', '$descripcionVieja', '$fechaActual', '$horaActual', '$resolutorActivo')"); 
+
                 header("Location: abmmodelos.php?repeat");
                 exit;
             }
             else{
                 mysqli_query($datos_base, "UPDATE modelo SET MODELO ='$modelo', ID_TIPOP = '$tipo', ID_MARCA = '$marca' WHERE ID_MODELO = '$id'"); 
-                header("Location: abmmodelos.php?ok");
+
+                /*HACER UN INSERT EN LA TABLA AGREGADOS*/
+                $descripcionNueva = "MODELO: " . $modelo . " - MARCA: " . $marca . " - TIPOP: " . $tipo;
+                $descripcionVieja = "MODELO: " . $modeloBD . " - MARCA: " . $marcaBD . " - TIPOP: " . $tipoBD;
+
+                mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'MODELO', 'MODIFICADO', '$descripcionNueva', '$descripcionVieja', '$fechaActual', '$horaActual', '$resolutorActivo')"); 
+
+                header("Location: abmmodelos.php?okMod");
                 exit;
             }
             break;
@@ -431,13 +627,28 @@ if (isset($_POST['accion'])) {
             $resultado2 = $datos_base->query($sqli);
             $row2 = $resultado2->fetch_assoc();
             $placavreg = $row2['ID_PVIDEO'];
+
+            /* TRAER DATOS DE LA BD PARA VERIFICAR CAMBIOS */
+            $sqli = "SELECT * FROM pvideo WHERE ID_PVIDEO = '$id'";
+            $resultado2 = $datos_base->query($sqli);
+            $row2 = $resultado2->fetch_assoc();
+            $memoriaBD = $row2['ID_MEMORIA'];
+            $modeloBD = $row2['ID_MODELO'];
+            $tipoBD = $row2['ID_TIPOMEM'];
             
             if(isset($placavreg)){
-                header("Location: abmplacav.php?no");
+                header("Location: abmplacav.php?noMod");
                 exit;
             }else{
                 mysqli_query($datos_base, "UPDATE pvideo SET ID_MEMORIA = '$memoria', ID_MODELO ='$modelo', ID_TIPOMEM = '$tipo' WHERE ID_PVIDEO = '$id'");
-                header("Location: abmplacav.php?mod");
+
+                /*HACER UN INSERT EN LA TABLA AGREGADOS*/
+                $descripcionNueva = "MODELO: " . $modelo . " - MEMORIA: " . $memoria . " - TIPOMEM: " . $tipo;
+                $descripcionVieja = "MODELO: " . $modeloBD . " - MEMORIA: " . $memoriaBD . " - TIPOMEM: " . $tipoBD;
+
+                mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'PLACA VIDEO', 'MODIFICADO', '$descripcionNueva', '$descripcionVieja', '$fechaActual', '$horaActual', '$resolutorActivo')"); 
+
+                header("Location: abmplacav.php?okMod");
                 exit;
             }
             break;
@@ -469,20 +680,40 @@ if (isset($_POST['accion'])) {
             $row2 = $resultado2->fetch_assoc();
             $pcm = $row2['PLACAM'];
             $mar = $row2['ID_MARCA'];
+
+            /* TRAER DATOS DE LA BD PARA VERIFICAR CAMBIOS */
+            $sqli = "SELECT * FROM placam WHERE ID_PLACAM = '$id'";
+            $resultado2 = $datos_base->query($sqli);
+            $row2 = $resultado2->fetch_assoc();
+            $pcmBD = $row2['PLACAM'];
+            $marBD = $row2['ID_MARCA'];
+
             /*SI AMBOS CAMPOS ESTAN REPETIDOS*/
-            
-            /*CONTROL FINAL*/
             if($placam == $pcm AND $marca == $mar){ 
-                header("Location: abmplacamadre.php?no");
+                header("Location: abmplacamadre.php?noMod");
             }
             elseif($placam == $pm){
                 mysqli_query($datos_base, "UPDATE placam SET PLACAM = '$placam', ID_MARCA = '$marca' WHERE ID_PLACAM = '$id'"); 
+
+                /*HACER UN INSERT EN LA TABLA AGREGADOS*/
+                $descripcionNueva = "PLACAM: " . $placam . " - MARCA: " . $marca;
+                $descripcionVieja = "PLACAM: " . $pcmBD . " - MARCA: " . $marBD;
+
+                mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'PLACA MADRE', 'MODIFICADO', '$descripcionNueva', '$descripcionVieja', '$fechaActual', '$horaActual', '$resolutorActivo')"); 
+
                 header("Location: abmplacamadre.php?repeat");
                 exit;
             }
             else{
                 mysqli_query($datos_base, "UPDATE placam SET PLACAM = '$placam', ID_MARCA = '$marca' WHERE ID_PLACAM = '$id'");  
-                header("Location: abmplacamadre.php?ok");
+
+                /*HACER UN INSERT EN LA TABLA AGREGADOS*/
+                $descripcionNueva = "PLACAM: " . $placam . " - MARCA: " . $marca;
+                $descripcionVieja = "PLACAM: " . $pcmBD . " - MARCA: " . $marBD;
+
+                mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'PLACA MADRE', 'MODIFICADO', '$descripcionNueva', '$descripcionVieja', '$fechaActual', '$horaActual', '$resolutorActivo')"); 
+                
+                header("Location: abmplacamadre.php?okMod");
                 exit;
             }
             break;
@@ -589,20 +820,20 @@ if (isset($_POST['accion'])) {
                 101 -> SIN ASIGNAR HP 607
                 */
                 if($repaBD == 1){/* 725 */
-                    $sinAsignar = 100;/* 725 */
+                    $sinAsignar = 476;/* 725 */
                 }elseif($repaBD == 4){/* 607 */
-                    $sinAsignar = 101;/* 607 */
+                    $sinAsignar = 477;/* 607 */
                 }
                 /* --------------------------------------------------------------------- */
 
                 if($estado == 1 AND $estadoBD == $estado){/* BASE DE DATOS Y FORMULARIO: ACTIVO */
                     if($equipoBD != $equipo){/*  SI CAMBIA DE EQUIPO */
                         /* -INSERT DE DESVINCULACION DEL EQUIPO ACTUAL(tabla equipo_periferico) */
-                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipoBD', '$sinAsignar', '0000-00-00', '$fechaActual', '$estado')");
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipoBD', 0, '0000-00-00', '$fechaActual', 2)");
                         /* -INSERT DE DESVINCULACION DEL PERIFERICO (tabla equipo_periferico) */
-                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', '$estado')");
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', 2)");
                         /* -INSERT DE VINCULACION DEL NUEVO EQUIPO CON ESTE PERIFERICO (tabla equipo_periferico) */
-                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', '$estado')");
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', 1)");
                         
                         
                         /* -UPDATE DE LOS DATOS DEL FORM (tabla periferico) */
@@ -618,9 +849,9 @@ if (isset($_POST['accion'])) {
                 
                 } elseif ($estadoBD == 1 AND $estado != $estadoBD){ /* BASE DE DATO: ACTIVO || FORMULARIO: BAJA O STOCK */
                     /* -INSERT DE DESVINCULACION DEL EQUIPO (tabla equipo_periferico) */
-                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$sinAsignar', '0000-00-00', '$fechaActual', '$estado')");
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$sinAsignar', '0000-00-00', '$fechaActual', 2)");
                     /* -INSERT DE DESVINCULACION DEL PERIFERICO (tabla equipo_periferico) */
-                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', '$estado')");
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', 2)");
 
                     /* -UPDATE PARA DAR DE BAJA AL PERIFERICO Y DEMAS DATOS (tabla periferico) */
                     mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg',  SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
@@ -630,7 +861,7 @@ if (isset($_POST['accion'])) {
                     mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'IMPRESORA', 'MODIFICADO', '$estadoBD', '$descripcion', '$fechaActual', '$horaActual', '$resolutorActivo')");
                 } elseif ($estadoBD != 1 AND $estado == 1) {/*  BASE DE DATOS: BAJA O STOCK || FORMULARIO: ACTIVO */
                     /* -INSERT DE VINCULACION DEL PERIFERICO Y EQUIPO (tabla equipo_periferico) */
-                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', '$estado')");
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', 1)");
 
                     /* -UPDATE DE LOS DATOS DEL FORM (tabla periferico) */
                     mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg', SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia',  ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
@@ -753,19 +984,19 @@ if (isset($_POST['accion'])) {
                 101 -> SIN ASIGNAR HP 607
                 */
                 if($repaBD == 1){/* 725 */
-                    $sinAsignar = 100;/* 725 */
+                    $sinAsignar = 476;/* 725 */
                 }elseif($repaBD == 4){/* 607 */
-                    $sinAsignar = 101;/* 607 */
+                    $sinAsignar = 477;/* 607 */
                 }
                 /* --------------------------------------------------------------------- */
                 if($estado == 1 AND $estadoBD == $estado){/* BASE DE DATOS Y FORMULARIO: ACTIVO */
                     if($equipoBD != $equipo){/*  SI CAMBIA DE EQUIPO */
                         /* -INSERT DE DESVINCULACION DEL EQUIPO ACTUAL(tabla equipo_periferico) */
-                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipoBD', '$sinAsignar', '0000-00-00', '$fechaActual', '$estado')");
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipoBD', 0, '0000-00-00', '$fechaActual', 2)");
                         /* -INSERT DE DESVINCULACION DEL PERIFERICO (tabla equipo_periferico) */
-                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', '$estado')");
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', 2)");
                         /* -INSERT DE VINCULACION DEL NUEVO EQUIPO CON ESTE PERIFERICO (tabla equipo_periferico) */
-                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', '$estado')");
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', 1)");
                         
                         
                         /* -UPDATE DE LOS DATOS DEL FORM (tabla periferico) */
@@ -781,9 +1012,9 @@ if (isset($_POST['accion'])) {
                 
                 } elseif ($estadoBD == 1 AND $estado != $estadoBD){ /* BASE DE DATO: ACTIVO || FORMULARIO: BAJA O STOCK */
                     /* -INSERT DE DESVINCULACION DEL EQUIPO (tabla equipo_periferico) */
-                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$sinAsignar', '0000-00-00', '$fechaActual', '$estado')");
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$sinAsignar', '0000-00-00', '$fechaActual', 2)");
                     /* -INSERT DE DESVINCULACION DEL PERIFERICO (tabla equipo_periferico) */
-                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', '$estado')");
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', 2)");
 
                     /* -UPDATE PARA DAR DE BAJA AL PERIFERICO Y DEMAS DATOS (tabla periferico) */
                     mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg',  SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
@@ -793,7 +1024,7 @@ if (isset($_POST['accion'])) {
                     mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'MONITOR', 'MODIFICADO', '$estadoBD', '$descripcion', '$fechaActual', '$horaActual', '$resolutorActivo')");
                 } elseif ($estadoBD != 1 AND $estado == 1) {/*  BASE DE DATOS: BAJA O STOCK || FORMULARIO: ACTIVO */
                     /* -INSERT DE VINCULACION DEL PERIFERICO Y EQUIPO (tabla equipo_periferico) */
-                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', '$estado')");
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', 1)");
 
                     /* -UPDATE DE LOS DATOS DEL FORM (tabla periferico) */
                     mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg', SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
@@ -918,19 +1149,19 @@ if (isset($_POST['accion'])) {
                 101 -> SIN ASIGNAR HP 607
                 */
                 if($repaBD == 1){/* 725 */
-                    $sinAsignar = 100;/* 725 */
+                    $sinAsignar = 476;/* 725 */
                 }elseif($repaBD == 4){/* 607 */
-                    $sinAsignar = 101;/* 607 */
+                    $sinAsignar = 477;/* 607 */
                 }
                 /* --------------------------------------------------------------------- */
                 if($estado == 1 AND $estadoBD == $estado){/* BASE DE DATOS Y FORMULARIO: ACTIVO */
                     if($equipoBD != $equipo){/*  SI CAMBIA DE EQUIPO */
                         /* -INSERT DE DESVINCULACION DEL EQUIPO ACTUAL(tabla equipo_periferico) */
-                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipoBD', '$sinAsignar', '0000-00-00', '$fechaActual', '$estado')");
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipoBD', 0, '0000-00-00', '$fechaActual', 2)");
                         /* -INSERT DE DESVINCULACION DEL PERIFERICO (tabla equipo_periferico) */
-                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', '$estado')");
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', 2)");
                         /* -INSERT DE VINCULACION DEL NUEVO EQUIPO CON ESTE PERIFERICO (tabla equipo_periferico) */
-                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', '$estado')");
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', 1)");
                         
                         
                         /* -UPDATE DE LOS DATOS DEL FORM (tabla periferico) */
@@ -946,9 +1177,9 @@ if (isset($_POST['accion'])) {
                 
                 } elseif ($estadoBD == 1 AND $estado != $estadoBD){ /* BASE DE DATO: ACTIVO || FORMULARIO: BAJA O STOCK */
                     /* -INSERT DE DESVINCULACION DEL EQUIPO (tabla equipo_periferico) */
-                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$sinAsignar', '0000-00-00', '$fechaActual', '$estado')");
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', 0, '0000-00-00', '$fechaActual', 2)");
                     /* -INSERT DE DESVINCULACION DEL PERIFERICO (tabla equipo_periferico) */
-                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', '$estado')");
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', 2)");
 
                     /* -UPDATE PARA DAR DE BAJA AL PERIFERICO Y DEMAS DATOS (tabla periferico) */
                     mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg',  SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
@@ -958,7 +1189,7 @@ if (isset($_POST['accion'])) {
                     mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'OTRO PERIFÉRICO', 'MODIFICADO', '$estadoBD', '$descripcion', '$fechaActual', '$horaActual', '$resolutorActivo')");
                 } elseif ($estadoBD != 1 AND $estado == 1) {/*  BASE DE DATOS: BAJA O STOCK || FORMULARIO: ACTIVO */
                     /* -INSERT DE VINCULACION DEL PERIFERICO Y EQUIPO (tabla equipo_periferico) */
-                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', '$estado')");
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', 1)");
 
                     /* -UPDATE DE LOS DATOS DEL FORM (tabla periferico) */
                     mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg', SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");

@@ -29,26 +29,14 @@ $row = $resultado->fetch_assoc();
 						icon: "success",
 						showConfirmButton: true,
 						showCancelButton: false,
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='abmarea.php';
-						}
-						}
-						);
+						});
 			}	
 			</script>
 <script type="text/javascript">
 			function no(){
-				swal(  {title: "La área ingresada ya está registrada",
+				swal(  {title: "El área ya está registrada",
 						icon: "error",
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='abmarea.php';
-						}
-						}
-						);
+						});
 			}	
 			</script>
     <section id="inicio">
@@ -97,13 +85,17 @@ $row = $resultado->fetch_assoc();
 								ORDER BY r.REPA ASC, a.AREA ASC");
 								while($listar = mysqli_fetch_array($consulta))
 								{
-
+									if($listar['ESTADO'] == "ACTIVO"){
+										$color = "green";
+									}else{
+										$color = "red";
+									}
 									echo
 									" 
 										<tr>
 										<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['AREA']."</h4 ></td>
 										<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['REPA']."</h4 ></td>
-										<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['ESTADO']."</h4 ></td>";
+										<td><h4 style='font-size:14px;text-align:left;padding:5px;color:".$color.";font-weight: bold;'>".$listar['ESTADO']."</h4 ></td>";
 										if ($row['ID_PERFIL'] != 5) {
 											echo"<td class='text-center text-nowrap'><a href=modarea.php?no=".$listar['ID_AREA']."><i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i></a></td>
 										</tr>
@@ -119,12 +111,17 @@ $row = $resultado->fetch_assoc();
 							");
 								while($listar = mysqli_fetch_array($consulta)) 
 								{
+									if($listar['ESTADO'] == "ACTIVO"){
+										$color = "green";
+									}else{
+										$color = "red";
+									}
 									echo
 									" 
 										<tr>
 										<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['AREA']."</h4 ></td>
 										<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['REPA']."</h4 ></td>
-										<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['ESTADO']."</h4 ></td>";
+										<td><h4 style='font-size:14px;text-align:left;padding:5px;color:".$color.";font-weight: bold;'>".$listar['ESTADO']."</h4 ></td>";
 										if ($row['ID_PERFIL'] != 5) {
 											echo"<td class='text-center text-nowrap'><a href=modarea.php?no=".$listar['ID_AREA']."><i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i></a></td>
 											</tr>
@@ -136,12 +133,12 @@ $row = $resultado->fetch_assoc();
 							echo "</table>";
 								?>
 								<?php
-								if(isset($_GET['ok'])){
+								if(isset($_GET['okMod'])){
 									?>
 									<script>ok();</script>
 									<?php			
 								}
-								if(isset($_GET['no'])){
+								if(isset($_GET['noMod'])){
 									?>
 									<script>no();</script>
 									<?php			

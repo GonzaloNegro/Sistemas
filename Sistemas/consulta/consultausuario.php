@@ -48,6 +48,7 @@ if(!isset($_SESSION['cuil']))
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css">
 	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--BUSCADOR SELECT-->
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -55,11 +56,6 @@ if(!isset($_SESSION['cuil']))
 	<!--Estilo bootstrap para select2-->
 	<link rel="stylesheet" href="/path/to/select2.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
     <!-- Script para inicializar el Popover -->
     <script>
@@ -71,51 +67,74 @@ if(!isset($_SESSION['cuil']))
             });
         });
     </script>
-<script type="text/javascript">
-			function done(){
-				// swal(  {title: "Se han cargado sus incidentes correctamente",
-				// 		icon: "success",
-				// 		showConfirmButton: true,
-				// 		showCancelButton: false,
-				// 		})
-				// 		.then((confirmar) => {
-				// 		if (confirmar) {
-				// 			window.location.href='../consulta/consulta.php';
-				// 		}
-				// 		}
-				// 		);
+    <script type="text/javascript">
+			function ok(){
 				Swal.fire({
-                        title: "Se han cargado el usuario correctamente!!",
+                        title: "Usuario cargado correctamente.",
                         icon: "success",
                         showConfirmButton: true,
-                        showCancelButton: false,
-              confirmButtonColor: '#198754',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: "Cancelar",
-                reverseButtons: true,
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor: '#198754',
+                        customClass: {
+                            actions: 'reverse-button'
+                        }
+                    })
+			}	
+
+			function repeat(){
+				Swal.fire({
+                        title: "Usuario cargado correctamente. Verifique el nombre del usuario, ya que existe este nombre registrado previamente!",
+                        icon: "info",
+                        showConfirmButton: true,
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor: '#198754',
+                        customClass: {
+                            actions: 'reverse-button'
+                        }
+                    })
+			}	
+
+			function no(){
+				Swal.fire({
+                        title: "El Usuario ya está registrado",
+                        icon: "error",
+                        showConfirmButton: false,
+                        showCancelButton: true,
+                        cancelButtonColor: '#d33',
+                        cancelButtonText: "Cerrar",
+                        reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
                     })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href='../consulta/consultausuario.php';
+			}	
 
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
+			function okMod(){
+				Swal.fire({
+                        title: "Usuario modificado correctamente.",
+                        icon: "success",
+                        showConfirmButton: true,
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor: '#198754',
+                        customClass: {
+                            actions: 'reverse-button'
                         }
                     })
 			}	
-			</script>
-            <script type="text/javascript">
-			function accept_auth(){
+
+            function noMod(){
 				Swal.fire({
-                    icon: "success",
-                    title: "Bienvenido!",
-                    confirmButtonColor: '#3085d6',
-                    });
+                        title: "No se ha podido modificar el usuario. El usuario ya se encuentra registrado",
+                        icon: "error",
+                        showConfirmButton: false,
+                        showCancelButton: true,
+                        cancelButtonColor: '#d33',
+                        cancelButtonText: "Cerrar",
+                        reverseButtons: true,
+                        customClass:{
+                            actions: 'reverse-button'
+                        }
+                    })
 			}	
 			</script>
             <script>
@@ -539,6 +558,33 @@ if(!isset($_SESSION['cuil']))
         <form id="formu" action="../exportar/ExcelUsuarios.php" method="POST">
             <input type="text" id="excel" name="sql" class="valorPeque" readonly="readonly" value="">
         </form>
+            <?php
+				if(isset($_GET['ok'])){
+					?>
+					<script>ok();</script>
+					<?php			
+				}
+				if(isset($_GET['repeat'])){
+					?>
+					<script>repeat();</script>
+					<?php			
+				}
+				if(isset($_GET['no'])){
+					?>
+					<script>no();</script>
+					<?php			
+				}
+				if(isset($_GET['okMod'])){
+					?>
+					<script>okMod();</script>
+					<?php			
+				}
+				if(isset($_GET['noMod'])){
+					?>
+					<script>noMod();</script>
+					<?php			
+				}
+			?>
 	</section>
 	<footer id="footer_pag"><div class="pagination justify-content-center mt-3" id="paginador"></div></footer>
          <!-- MODALES -->

@@ -26,15 +26,16 @@ function obtenerValor($conexion, $query, $campo) {
     return $res[$campo] ?? '-';
 }
 
-function obtenerMarcaModelo($conexion, $idModelo, $idMarca) {
+function obtenerMarcaModelo($conexion, $idModelo) {
     $query = "
-        SELECT ma.MARCA, mo.MODELO 
-        FROM modelo mo 
-        JOIN marcas ma ON ma.ID_MARCA = '$idMarca'
+        SELECT ma.MARCA, mo.MODELO
+        FROM modelo mo
+        INNER JOIN marcas ma ON ma.ID_MARCA = mo.ID_MARCA
         WHERE mo.ID_MODELO = '$idModelo'
     ";
     return mysqli_fetch_assoc(mysqli_query($conexion, $query));
 }
+
 
     $result = mysqli_query($datos_base, "
         SELECT p.*, u.ID_AREA, u.ID_USUARIO 
@@ -56,7 +57,8 @@ function obtenerMarcaModelo($conexion, $idModelo, $idMarca) {
         $tipoP        = obtenerValor($datos_base, "SELECT TIPO FROM tipop WHERE ID_TIPOP='{$data['ID_TIPOP']}'", 'TIPO');
         $procedencia  = obtenerValor($datos_base, "SELECT PROCEDENCIA FROM procedencia WHERE ID_PROCEDENCIA='{$data['ID_PROCEDENCIA']}'", 'PROCEDENCIA');
         $proveedor    = obtenerValor($datos_base, "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR='{$data['ID_PROVEEDOR']}'", 'PROVEEDOR');
-        $marcaModelo  = obtenerMarcaModelo($datos_base, $data['ID_MODELO'], $data['ID_MARCA']);
+$marcaModelo = obtenerMarcaModelo($datos_base, $data['ID_MODELO']);
+
 
         $color = 'blue';
         if ($estadoWs === 'EN USO') {
@@ -95,7 +97,7 @@ function obtenerMarcaModelo($conexion, $idModelo, $idMarca) {
     }
 
     $result = mysqli_query($datos_base, "
-        SELECT e.FECHA_ASIGNACION, u.NOMBRE, a.AREA, s.ESTADO 
+        SELECT e.FECHA_ASIGNACION, u.NOMBRE, a.AREA, s.ESTADO , e.FECHA_DESVINCULACION, e.ID_ESTADOWS
         FROM equipo_periferico e
         LEFT JOIN wsusuario w ON e.ID_WS=w.ID_WS
         LEFT JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO
@@ -120,7 +122,12 @@ function obtenerMarcaModelo($conexion, $idModelo, $idMarca) {
                 </thead>";
 
         while ($row = mysqli_fetch_array($result)) {
-            $fecha = date("d-m-Y", strtotime($row['FECHA_ASIGNACION']));
+
+            if($row['ID_ESTADOWS'] == 1){
+                $fecha = date("d-m-Y", strtotime($row['FECHA_ASIGNACION']));
+            }elseif ($row['ID_ESTADOWS'] == 2) {
+                $fecha = date("d-m-Y", strtotime($row['FECHA_DESVINCULACION']));
+            }
 
             $color = 'blue';
             if ($row['ESTADO'] === 'EN USO') {

@@ -87,7 +87,13 @@ if ($consulta = mysqli_fetch_assoc($consultaPeri)) {
             <?php
             $consultaMovs = mysqli_query($datos_base, "SELECT * FROM equipo_periferico WHERE ID_PERI = '$idPeri'");
             while ($mov = mysqli_fetch_assoc($consultaMovs)) {
-                $fecha = valorPorDefecto(date("d-m-Y", strtotime($mov['FECHA_ASIGNACION'])));
+
+                if($mov['ID_ESTADOWS'] == 1){
+                    $fecha = valorPorDefecto(date("d-m-Y", strtotime($mov['FECHA_ASIGNACION'])));
+                }elseif ($mov['ID_ESTADOWS'] == 2) {
+                    $fecha = valorPorDefecto(date("d-m-Y", strtotime($mov['FECHA_DESVINCULACION'])));
+                }
+
                 $area  = obtenerValor($datos_base, "SELECT a.AREA FROM wsusuario w 
                             LEFT JOIN usuarios u ON w.ID_USUARIO=u.ID_USUARIO
                             LEFT JOIN area a ON a.ID_AREA=u.ID_AREA
