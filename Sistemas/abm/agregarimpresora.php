@@ -35,17 +35,6 @@ $perfil=$row['ID_PERFIL'];
 <body>
 <script type="text/javascript">
 			function ok(){
-				// swal(  {title: "Impresora cargada correctamente",
-				// 		icon: "success",
-				// 		showConfirmButton: true,
-				// 		showCancelButton: false,
-				// 		})
-				// 		.then((confirmar) => {
-				// 		if (confirmar) {
-				// 			window.location.href='abmimpresoras.php';
-				// 		}
-				// 		}
-				// 		);
                 Swal.fire({
                         title: "Impresora cargada correctamente.",
                         icon: "success",
@@ -74,15 +63,6 @@ $perfil=$row['ID_PERFIL'];
 
 <script type="text/javascript">
 			function no(){
-				// swal(  {title: "La impresora ingresada ya está registrada",
-				// 		icon: "error",
-				// 		})
-				// 		.then((confirmar) => {
-				// 		if (confirmar) {
-				// 			window.location.href='agregarimpresora.php';
-				// 		}
-				// 		}
-				// 		);
                 Swal.fire({
                         title: "La impresora ya está registrada",
                         icon: "error",

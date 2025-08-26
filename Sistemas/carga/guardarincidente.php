@@ -79,15 +79,15 @@ $date2 = date('Y-m-d'); */
 			$row = $resultado->fetch_assoc();
 			$ws = $row['ID_WS'];
 		} */
-		if($equipo == 0 OR $equipo == ""){
-			$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
+		if($ws == 0 OR $ws == ""){
+			$sql = "SELECT i.ID_WS FROM inventario i INNER JOIN wsusuario w ON i.ID_WS=w.ID_WS WHERE w.ID_USUARIO = '$usuario'";
 			$resultado = $datos_base->query($sql);
 			$row = $resultado->fetch_assoc();
 			$ws = $row['ID_WS'];
 		}
 
 
-		mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion', '$idusu', '$usuario', DEFAULT, '$tipificacion', '$prioridad', '$estado', DEFAULT, DEFAULT, '$original','$renv', '$ws', '$hora')");
+		mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion'), '$idusu', '$usuario', DEFAULT, '$tipificacion', '$prioridad', '$estado', DEFAULT, DEFAULT, '$original','$renv', '$ws', '$hora')");
 
 		mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, '$estado', '$motivo', '$date', '$original', '$hora')");
 
@@ -147,19 +147,18 @@ $date2 = date('Y-m-d'); */
 			$row = $resultado->fetch_assoc();
 			$ws = $row['ID_WS'];
 		} */
-		if($equipo == 0 OR $equipo == ""){
-/* 			$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
+		if($ws == 0 OR $ws == ""){
+ 			$sql = "SELECT i.ID_WS FROM inventario i INNER JOIN wsusuario w ON i.ID_WS=w.ID_WS WHERE w.ID_USUARIO = '$usuario'";
 			$resultado = $datos_base->query($sql);
 			$row = $resultado->fetch_assoc();
-			$ws = $row['ID_WS']; */
-			$ws = 0;
+			$ws = $row['ID_WS'];
 		}
 
 			/* SI ESTA CERRADO */
 		if($estado == "2" OR $estado == "5"){
-			mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion', '$idusu', '$usuario', DEFAULT,'$tipificacion', '$prioridad', '$estado', DEFAULT, '$date2', '$original','$renu', '$ws', '$hora')"); 
+			mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion'), '$idusu', '$usuario', DEFAULT,'$tipificacion', '$prioridad', '$estado', DEFAULT, '$date2', '$original','$renu', '$ws', '$hora')"); 
 
-			mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, '$estado', '$motivo', '$date', '$original', '$hora')");
+			mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, '$estado', UPPER('$motivo'), '$date', '$original', '$hora')");
 			/*MAIL GENERADO PARA EL USUARIO LOGUEADO*/
 	
 			$tic=mysqli_query($datos_base, "SELECT MAX(ID_TICKET) AS id FROM ticket");
@@ -176,9 +175,9 @@ $date2 = date('Y-m-d'); */
 		else{
 			$motivo = $_POST['motivo'];
 		/* FIN SI ESTA CERRADO */
-		mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion', '$idusu', '$usuario', DEFAULT,'$tipificacion', '$prioridad', '$estado', DEFAULT, DEFAULT, '$original','$renu', '$ws', '$hora')"); 
+		mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion'), '$idusu', '$usuario', DEFAULT,'$tipificacion', '$prioridad', '$estado', DEFAULT, DEFAULT, '$original','$renu', '$ws', '$hora')"); 
 
-		mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, '$estado', '$motivo', '$date', '$original', '$hora')");
+		mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, '$estado', UPPER('$motivo'), '$date', '$original', '$hora')");
 		/*MAIL GENERADO PARA EL USUARIO LOGUEADO*/
 
 		$tic=mysqli_query($datos_base, "SELECT MAX(ID_TICKET) AS id FROM ticket");

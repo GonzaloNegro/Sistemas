@@ -206,7 +206,7 @@ $cu = $row['CUIL'];
 
                             let fechaSolucion = (fila.FECHA_SOLUCION === "00-00-0000") ? "-" : fila.FECHA_SOLUCION;
 
-                            let boton = fila.ESTADO == "SOLUCIONADO"
+                            let boton = (fila.ESTADO == "SOLUCIONADO" || fila.ESTADO == "ANULADO")
                                 ? `<td><span style='display: inline-flex; padding: 3px;margin-left:10px;'>
                                         <a style='padding: 3px; cursor: pointer;'
                                         data-bs-toggle='modal'
@@ -605,7 +605,7 @@ $cu = $row['CUIL'];
             data: parametros,
             url: "./consultarDatosIncidentes.php",
             type: "POST",
-            //TRAE DE FORMA ASINCRONA, CONSUME EL SERVIDOR DE NOVEDADES Y MUESTRA EN EL DIV MOSTRAR_MENSAJE TODAS LAS NOVEDADES RELACIONADAS////
+            //TRAE DE FORMA ASINCRONA, CONSUME EL SERVIDOR DE INCIDENTES Y MUESTRA EN EL DIV MOSTRAR_MENSAJE TODAS LOS DATOS RELACIONADAS////
             beforesend: function() {
                 $("#contenidoInfo").html("Mensaje antes de Enviar");
             },

@@ -49,17 +49,6 @@ $row = $resultado->fetch_assoc();
 <body>
 <script type="text/javascript">
 			function ok(){
-				// swal(  {title: "Equipo cargado correctamente",
-				// 		icon: "success",
-				// 		showConfirmButton: true,
-				// 		showCancelButton: false,
-				// 		})
-				// 		.then((confirmar) => {
-				// 		if (confirmar) {
-				// 			window.location.href='abmequipos.php';
-				// 		}
-				// 		}
-				// 		);
         Swal.fire({
                         title: "Equipo cargado correctamente.",
                         icon: "success",
@@ -87,15 +76,6 @@ $row = $resultado->fetch_assoc();
 			</script>
 <script type="text/javascript">
 			function no(){
-				// swal(  {title: "El equipo ya está registrado",
-				// 		icon: "error",
-				// 		})
-				// 		.then((confirmar) => {
-				// 		if (confirmar) {
-				// 			window.location.href='agregarequipo.php';
-				// 		}
-				// 		}
-				// 		);
         Swal.fire({
                         title: "El equipo ya está registrado",
                         icon: "error",
@@ -129,6 +109,7 @@ function validar_formulario() {
   var fieldsToValidate = [
     { selector: "#slcest", errorMessage: "No seleccionó estado." },
     { selector: "#nrows", errorMessage: "El campo Número de WS está vacío." },
+    { selector: "#serial", errorMessage: "El campo Número de Serie está vacío." },
     { selector: "#slcmarca", errorMessage: "No seleccionó marca." },
     { selector: "#slcso", errorMessage: "No seleccionó Sistema Operativo." },
     { selector: "#slctipopc", errorMessage: "No seleccionó el tipo de pc." },
@@ -234,12 +215,12 @@ function validar_formulario() {
                             <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                             <?php
                             include("../particular/conexion.php");
-                            $consulta= "SELECT * FROM area  ORDER BY AREA ASC";
+                            $consulta= "SELECT a.ID_AREA, a.AREA, r.REPA FROM area a inner join reparticion r on a.ID_REPA=r.ID_REPA ORDER BY AREA ASC";
                             $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                             ?>
                             <?php foreach ($ejecutar as $opciones): ?> 
-                            <option value= <?php echo $opciones['ID_AREA'] ?>><?php echo $opciones['AREA']?></option>
-                            <?php endforeach?>
+                                <option value="<?php echo $opciones['ID_AREA']?>"><?php echo $opciones['AREA']?> - <?php echo $opciones['REPA']?></option>
+                                <?php endforeach ?>
                             </select>
                         </div>
 

@@ -34,6 +34,7 @@ if(isset($_POST['fechaini'])){
 }
 
 $usuario = $_POST['usuario'];
+$ws = $_POST['equipo'];
 /* $equipo = $_POST['equipo']; AUN NO EN USO */
 
 $tipificacion1 = $_POST['tipificacion1'];
@@ -57,15 +58,15 @@ if(isset($tipificacion1) AND isset($descripcion1)){
 	$r = $result->fetch_assoc();
 	$idusu = $r['NOMBRE'];/* USUARIO ATENDIDO */
 
-	if($equipo == 0 OR $equipo == ""){
-		$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
+	if($ws == 0 OR $ws == ""){
+		$sql = "SELECT i.ID_WS FROM inventario i INNER JOIN wsusuario w ON i.ID_WS=w.ID_WS WHERE w.ID_USUARIO = '$usuario'";
 		$resultado = $datos_base->query($sql);
 		$row = $resultado->fetch_assoc();
 		$ws = $row['ID_WS'];
 	}
 
     /* TICKET */
-	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion1', '$idusu', '$usuario', DEFAULT, '$tipificacion1', 2, 2, DEFAULT, '$date', '$original', 1, '$ws', '$hora')");
+	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion1'), '$idusu', '$usuario', DEFAULT, '$tipificacion1', 2, 2, DEFAULT, '$date', '$original', 1, '$ws', '$hora')");
 
     /* INSERTO LA FECHA DEL MOVIMIENTO */
 	mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, 2, DEFAULT, '$date', '$original', '$hora')");
@@ -94,15 +95,15 @@ if(isset($tipificacion2) AND isset($descripcion2)){
 	$r = $result->fetch_assoc();
 	$idusu = $r['NOMBRE'];/* USUARIO ATENDIDO */
 
-	if($equipo == 0 OR $equipo == ""){
-		$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
+	if($ws == 0 OR $ws == ""){
+		$sql = "SELECT i.ID_WS FROM inventario i INNER JOIN wsusuario w ON i.ID_WS=w.ID_WS WHERE w.ID_USUARIO = '$usuario'";
 		$resultado = $datos_base->query($sql);
 		$row = $resultado->fetch_assoc();
 		$ws = $row['ID_WS'];
 	}
 
     /* TICKET */
-	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion2', '$idusu', '$usuario', DEFAULT, '$tipificacion2', 2, 2, DEFAULT, '$date', '$original', 1, '$ws', '$hora')");
+	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion2'), '$idusu', '$usuario', DEFAULT, '$tipificacion2', 2, 2, DEFAULT, '$date', '$original', 1, '$ws', '$hora')");
 
     /* INSERTO LA FECHA DEL MOVIMIENTO */
 	mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, 2, DEFAULT, '$date', '$original', '$hora')");
@@ -129,15 +130,15 @@ if(isset($tipificacion2) AND isset($descripcion2)){
 	$r = $result->fetch_assoc();
 	$idusu = $r['NOMBRE'];/* USUARIO ATENDIDO */
 
-	if($equipo == 0 OR $equipo == ""){
-		$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario'";
+	if($ws == 0 OR $ws == ""){
+		$sql = "SELECT i.ID_WS FROM inventario i INNER JOIN wsusuario w ON i.ID_WS=w.ID_WS WHERE w.ID_USUARIO = '$usuario'";
 		$resultado = $datos_base->query($sql);
 		$row = $resultado->fetch_assoc();
 		$ws = $row['ID_WS'];
 	}
 
     /* TICKET */
-	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion3', '$idusu', '$usuario', DEFAULT, '$tipificacion3', 2, 2, DEFAULT, '$date', '$original', 1, '$ws', '$hora')");
+	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion3'), '$idusu', '$usuario', DEFAULT, '$tipificacion3', 2, 2, DEFAULT, '$date', '$original', 1, '$ws', '$hora')");
 
     /* INSERTO LA FECHA DEL MOVIMIENTO */
 	mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, 2, DEFAULT, '$date', '$original', '$hora')");

@@ -79,6 +79,12 @@ if ($num_rows > 0) {
             $reparticion = $row['REPA'];
         }
 
+        if ($estado === "SOLUCIONADO") {
+            $color = "green";
+        } elseif ($estado === "ANULADO") {
+            $color = "red";
+        }
+
         // Mostrar datos del ticket
         $camposTicket = [
             "N° Incidente" => '#'.$idTicket,
@@ -89,7 +95,7 @@ if ($num_rows > 0) {
             "Repartición" => $reparticion,
             "Equipo" => $ws,
             "Descripción" => $desc,
-            "Estado" => "<span style='color:green;'>$estado</span>",
+            "Estado" => "<span style='color:$color;'>$estado</span>",
             "Fecha Solución" => $fechaSolucion,
             "Resolutor" => $resolutor
         ];

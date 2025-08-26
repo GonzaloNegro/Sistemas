@@ -63,14 +63,14 @@ if(isset($usuario1)){
 	$usunom1 = $r['NOMBRE'];/* USUARIO ATENDIDO */
 
 	if($equipo == 0 OR $equipo == ""){
-		$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario1'";
+		$sql = "SELECT i.ID_WS FROM inventario i INNER JOIN wsusuario w ON i.ID_WS=w.ID_WS WHERE w.ID_USUARIO = '$usuario1'";
 		$resultado = $datos_base->query($sql);
 		$row = $resultado->fetch_assoc();
 		$equipo = $row['ID_WS'];
 	}
 
     /* TICKET */
-	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion1', '$usunom1', '$usuario1', DEFAULT, '$tipificacion', 2, 2, DEFAULT, '$date', '$original', 1, '$equipo', '$hora')");
+	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion1'), '$usunom1', '$usuario1', DEFAULT, '$tipificacion', 2, 2, DEFAULT, '$date', '$original', 1, '$equipo', '$hora')");
 
     /* INSERTO LA FECHA DEL MOVIMIENTO */
 	mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, 2, DEFAULT, '$date', '$original', '$hora')");
@@ -100,14 +100,14 @@ if(isset($usuario2)){
 	$usunom2 = $r['NOMBRE'];/* USUARIO ATENDIDO */
 
 	if($equipo2 == 0 OR $equipo2 == ""){
-		$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario2'";
+		$sql = "SELECT i.ID_WS FROM inventario i INNER JOIN wsusuario w ON i.ID_WS=w.ID_WS WHERE w.ID_USUARIO = '$usuario'";
 		$resultado = $datos_base->query($sql);
 		$row = $resultado->fetch_assoc();
 		$equipo2 = $row['ID_WS'];
 	}
 
     /* TICKET */
-	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion2', '$usunom2', '$usuario2', DEFAULT, '$tipificacion', 2, 2, DEFAULT, '$date', '$original', 1, '$equipo2', '$hora')");
+	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion2'), '$usunom2', '$usuario2', DEFAULT, '$tipificacion', 2, 2, DEFAULT, '$date', '$original', 1, '$equipo2', '$hora')");
 
     /* INSERTO LA FECHA DEL MOVIMIENTO */
 	mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, 2, DEFAULT, '$date', '$original', '$hora')");
@@ -137,14 +137,14 @@ if(isset($usuario3)){
 	$usunom3 = $r['NOMBRE'];/* USUARIO ATENDIDO */
 
 	if($equipo3 == 0 OR $equipo3 == ""){
-		$sql = "SELECT ID_WS FROM inventario WHERE ID_USUARIO = '$usuario3'";
+		$sql = "SELECT i.ID_WS FROM inventario i INNER JOIN wsusuario w ON i.ID_WS=w.ID_WS WHERE w.ID_USUARIO = '$usuario3'";
 		$resultado = $datos_base->query($sql);
 		$row = $resultado->fetch_assoc();
 		$equipo3 = $row['ID_WS'];
 	}
 
     /* TICKET */
-	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', '$descripcion3', '$usunom3', '$usuario3', DEFAULT, '$tipificacion', 2, 2, DEFAULT, '$date', '$original', 1, '$equipo3', '$hora')");
+	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion3'), '$usunom3', '$usuario3', DEFAULT, '$tipificacion', 2, 2, DEFAULT, '$date', '$original', 1, '$equipo3', '$hora')");
 
     /* INSERTO LA FECHA DEL MOVIMIENTO */
 	mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, 2, DEFAULT, '$date', '$original', '$hora')");

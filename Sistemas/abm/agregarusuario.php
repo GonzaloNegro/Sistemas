@@ -25,87 +25,7 @@ $row = $resultado->fetch_assoc();
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
 </head>
 <body>
-<script type="text/javascript">
-			function done(){
-				Swal.fire({
-                        title: "Usuario cargado correctamente.",
-                        icon: "success",
-                        showConfirmButton: true,
-                        showCancelButton: false,
-              confirmButtonColor: '#198754',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: "Cancelar",
-                reverseButtons: true,
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href='abmusuario.php';
 
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
-			}	
-			</script>
-<script type="text/javascript">
-			function repeat(){
-				Swal.fire({
-                        title: "Usuario cargado correctamente. Verifique el nombre del usuario, ya que existe este nombre registrado previamente!",
-                        icon: "info",
-                        showConfirmButton: true,
-                        showCancelButton: false,
-              confirmButtonColor: '#198754',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: "Cancelar",
-                reverseButtons: true,
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href='abmusuario.php';
-
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
-			}	
-			</script>
-<script type="text/javascript">
-			function no(){
-				Swal.fire({
-                        title: "El Usuario ya está registrado",
-                        icon: "error",
-                        showConfirmButton: true,
-                        showCancelButton: false,
-              confirmButtonColor: '#198754',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: "Cancelar",
-                reverseButtons: true,
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href='agregarusuario.php';
-
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
-			}	
-			</script>
 			<script>
         function validar_formulario(){
 			
@@ -285,29 +205,12 @@ $row = $resultado->fetch_assoc();
                 <?php 
                 if ($row['ID_PERFIL'] != 5) {
                     echo '<div class="row justify-content-end" >
-                            <input onClick="enviar_formulario_usuario(this.form, \'agregarUsuario\')"class="btn btn-success" name="agregarUsuario" style="width: 20%;" type="button" value="GUARDAR" >
+                            <input onClick="enviar_formulario(this.form, \'agregarUsuario\')"class="btn btn-success" name="agregarUsuario" style="width: 20%;" type="button" value="GUARDAR" >
                             </div>';
                 }
             ?>
                 
         </form>
-					<?php
-				if(isset($_GET['ok'])){
-					?>
-					<script>done();</script>
-					<?php			
-				}
-				if(isset($_GET['repeat'])){
-					?>
-					<script>repeat();</script>
-					<?php			
-				}
-				if(isset($_GET['no'])){
-					?>
-					<script>no();</script>
-					<?php			
-				}
-			?>
 		</div>
 	</section>
 	<footer>

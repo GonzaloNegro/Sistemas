@@ -25,9 +25,9 @@ function ConsultarIncidente($no_tic)
 	];
 }
 
-if($consulta[4] != 3 AND $consulta[4] != 4){
-	header("location: consultadetalle.php?no=$consulta[0]");
-}
+// if($consulta[4] != 3 AND $consulta[4] != 4){
+// 	header("location: consultadetalle.php?no=$consulta[0]");
+// }
 ?>
 <!DOCTYPE html>
 <html>
@@ -40,12 +40,83 @@ if($consulta[4] != 3 AND $consulta[4] != 4){
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estilomodificacion.css">
+	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
+	<!--BUSCADOR SELECT-->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<!--FIN BUSCADOR SELECT-->
 	<style>
 			body{
 			background-color: #edf0f5;
 			}
 	</style>
 </head>
+<script>
+	function notificar_seleccion_equipo(){
+		Swal.fire({
+            title: "Ha cambiado de usuario, por favor seleccione un equipo.",
+            icon: "warning",
+            showConfirmButton: true,
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: "Cancelar",
+            customClass:{
+                actions: 'reverse-button'
+            	}
+			})
+	}
+</script>
+<script>
+	function notificar_cambio_resolutor(){
+		Swal.fire({
+            title: "Ha cambiado a estado derivado. Por favor seleccione un nuevo resolutor. Caso contrario usted seguirá siendo el resolutor asignado.",
+            icon: "warning",
+            showConfirmButton: true,
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: "Cancelar",
+            customClass:{
+                actions: 'reverse-button'
+            	}
+			})
+	}
+</script>
+<!--Select dinamico para notificar que al derivar se debe seleccionar resolutor-->
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		$('#estado').change(function(){
+			notificar_cambio_resolutor();
+		});
+	})
+</script>
+<!--Select dinamico para actualizar el select de equipo a partir del usuario seleccionado-->
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		$('#buscador').change(function(){
+			recargarLista();
+			notificar_seleccion_equipo();
+		});
+	})
+</script>
+<script type="text/javascript">
+	function recargarLista(){
+		$.ajax({
+			type:"POST",
+			url:"../particular/datos.php",
+			data:"usuario=" + $('#buscador').val(),
+			success:function(r){
+				$('#equipo').html(r);
+			}
+		});
+	}
+</script>
 <body>
 	<div id="reporteEst" style="width: 97%; margin-left: 20px;">   
 		<div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
@@ -77,6 +148,13 @@ if($consulta[4] != 3 AND $consulta[4] != 4){
             $row = $resultado->fetch_assoc();
             $usu = $row['NOMBRE'];
 			?>
+			<?php 
+            include("../particular/conexion.php");
+            $sent= "SELECT i.SERIEG FROM inventario i where i.ID_WS = $consulta[5]";
+            $resultado = $datos_base->query($sent);
+            $row = $resultado->fetch_assoc();
+            $equi = $row['SERIEG'];
+			?>
 		<?php
 		$des = $consulta[3];
 		/*FECHAS*/
@@ -101,7 +179,7 @@ if($consulta[4] != 3 AND $consulta[4] != 4){
 				<!--/////////////////////////////////////USUARIO///////////////////////////////////////////-->
 				<div class="form-group row" >
 				    <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
-				    <select class="form-control col-xl col-lg" style="text-transform:uppercase"  name="usuario">
+				    <select class="form-control col-xl col-lg" style="text-transform:uppercase" id="buscador" name="usuario">
 					<option selected value="150"><?php echo $usu?></option>
 					<?php
 					include("../particular/conexion.php");
@@ -113,12 +191,19 @@ if($consulta[4] != 3 AND $consulta[4] != 4){
 					<?php endforeach ?>
 					</select>
 				</div>
+				<!--/////////////////////////////////////EQUIPO///////////////////////////////////////////-->
+				<div class="form-group row" id="select2lista">
+								<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label> 
+			                    <select id='equipo' name='equipo' class='form-control col-xl col-lg' required>
+									<option selected value="200"><?php echo $equi?></option>
+								</select>
+							</div>
 
 				<!--/////////////////////////////////////FECHA SOLUCION///////////////////////////////////////////-->
 				<!--/////////////////////////////////////FECHA SOLUCION///////////////////////////////////////////-->
 				<div class="form-group row" >
 				    <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO: </label>
-				    <select name="estado" class="form-control col-xl col-lg" style="text-transform:uppercase">
+				    <select name="estado" id="estado" class="form-control col-xl col-lg" style="text-transform:uppercase">
 					<option selected value ="50"><?php echo $est?></option>
 					<?php
 					include("../particular/conexion.php");
@@ -239,5 +324,7 @@ if($consulta[4] != 3 AND $consulta[4] != 4){
 		</div>
 	</section>
 	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

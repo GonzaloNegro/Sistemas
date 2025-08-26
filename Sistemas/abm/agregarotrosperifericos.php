@@ -264,11 +264,15 @@ $perfil=$row['ID_PERFIL'];
                             <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                             <?php
                             include("../particular/conexion.php");
-                            $consulta= "SELECT * FROM modelo ORDER BY MODELO ASC";
+                            $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA
+                            FROM modelo m
+                            INNER JOIN marcas ma ON ma.ID_MARCA = m.ID_MARCA
+                            INNER JOIN tipop t ON t.ID_TIPOP = m.ID_TIPOP
+                            WHERE m.ID_TIPOP IN ( 5, 6, 9, 11, 12) ORDER BY MODELO ASC";
                             $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                             ?>
                             <?php foreach ($ejecutar as $opciones): ?> 
-                            <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']?></option>
+                            <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA']?></option>
                             <?php endforeach?>
                             </select>
                         </div> 

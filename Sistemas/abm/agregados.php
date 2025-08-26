@@ -153,22 +153,22 @@ if (isset($_POST['accion'])) {
             */
             
             if($cuil == $cui){
-                header("Location: agregarusuario.php?no");
+                header("Location: ../consulta/consultausuario.php?no");
             }
             else if($nombre == $nom){
-                mysqli_query($datos_base, "INSERT INTO usuarios VALUES (DEFAULT, '$nombre', '$cuil', '$area', '$piso', '$int', '$correo', '$correop', '$tel', '$turno', '$act', '$obs')"); 
+                mysqli_query($datos_base, "INSERT INTO usuarios VALUES (DEFAULT, UPPER('$nombre'), '$cuil', '$area', '$piso', '$int', '$correo', '$correop', '$tel', '$turno', '$act', UPPER('$obs'))"); 
 
-                mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'USUARIO', 'AGREGADO', '$nombre', '', '$fechaActual', '$horaActual', '$resolutorActivo')");
+                mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'USUARIO', 'AGREGADO', UPPER('$nombre'), '', '$fechaActual', '$horaActual', '$resolutorActivo')");
 
-                header("Location: agregarusuario.php?repeat");
+                header("Location: ../consulta/consultausuario.php?repeat");
                 exit;
             }
             else{
-                mysqli_query($datos_base, "INSERT INTO usuarios VALUES (DEFAULT, '$nombre', '$cuil', '$area', '$piso', '$int', '$correo', '$correop', '$tel', '$turno', '$act', '$obs')"); 
+                mysqli_query($datos_base, "INSERT INTO usuarios VALUES (DEFAULT, UPPER('$nombre'), '$cuil', '$area', '$piso', '$int', '$correo', '$correop', '$tel', '$turno', '$act', UPPER('$obs'))"); 
 
-                mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'USUARIO', 'AGREGADO', '$nombre', '', '$fechaActual', '$horaActual', '$resolutorActivo')");
+                mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'USUARIO', 'AGREGADO', UPPER('$nombre'), '', '$fechaActual', '$horaActual', '$resolutorActivo')");
 
-                header("Location: agregarusuario.php?ok");
+                header("Location: ../consulta/consultausuario.php?ok");
                 exit;
             }
             break;
@@ -437,7 +437,7 @@ if (isset($_POST['accion'])) {
                     exit;
                 }
                 else{
-                    mysqli_query($datos_base, "INSERT INTO periferico VALUES (DEFAULT, '$tipop', DEFAULT, '$serieg', '$serie', '$proc', '$obs', 'IMPRESORA', '$mac', '$reserva', '$ip', '$prov', '$fac', '$gar', '$est', '$modelo')");
+                    mysqli_query($datos_base, "INSERT INTO periferico VALUES (DEFAULT, '$tipop', DEFAULT, '$serieg', '$serie', '$proc', UPPER('$obs'), 'IMPRESORA', '$mac', '$reserva', '$ip', '$prov', '$fac', '$gar', '$est', '$modelo')");
 
                     /* GUARDANDO PARA LOS MOVIMIENTOS */
                     $pe=mysqli_query($datos_base, "SELECT MAX(ID_PERI) AS id FROM periferico");
@@ -498,7 +498,7 @@ if (isset($_POST['accion'])) {
                 exit;
             }
             else{
-                mysqli_query($datos_base, "INSERT INTO periferico VALUES (DEFAULT, '$tipop', DEFAULT, '$serieg', '$serie', '$proc', '$obs', 'MONITOR', '$mac', '$reserva', '$ip', '$prov', '$fac', '$gar', '$est', '$modelo')");
+                mysqli_query($datos_base, "INSERT INTO periferico VALUES (DEFAULT, '$tipop', DEFAULT, '$serieg', '$serie', '$proc', UPPER('$obs'), 'MONITOR', '$mac', '$reserva', '$ip', '$prov', '$fac', '$gar', '$est', '$modelo')");
 
 
                 /* GUARDANDO PARA LOS MOVIMIENTOS */
@@ -570,12 +570,12 @@ if (isset($_POST['accion'])) {
                     $tip = 'TELÉFONO IP';
                 }
                 
-                if($serieg == $serg OR $serie == $ser){ 
+                if($serie == $ser){ 
                     header("Location: agregarotrosperifericos.php?no");
                     exit;
                 }
                 else{
-                    mysqli_query($datos_base, "INSERT INTO periferico VALUES (DEFAULT, '$tipop', DEFAULT, '$serieg', '$serie', '$proc', '$obs', '$tip', '$mac', '$reserva', '$ip', '$prov', '$fac', '$gar', '$est', '$modelo')");
+                    mysqli_query($datos_base, "INSERT INTO periferico VALUES (DEFAULT, '$tipop', DEFAULT, '$serieg', '$serie', '$proc', UPPER('$obs'), '$tip', '$mac', '$reserva', '$ip', '$prov', '$fac', '$gar', '$est', '$modelo')");
                 
                     /* GUARDANDO PARA LOS MOVIMIENTOS */
                     $pe=mysqli_query($datos_base, "SELECT MAX(ID_PERI) AS id FROM periferico");
@@ -772,7 +772,7 @@ if (isset($_POST['accion'])) {
                     header("Location: ../consulta/inventario.php?no");
                 }
                 else{
-                    mysqli_query($datos_base, "INSERT INTO inventario VALUES (DEFAULT, '$area', '$serialn', '$serieg', '$marca', '$so', '$est', '$obs', '$prov', '$fac', '$masterizacion', '$mac', '$reserva', '$ip', '$red', '$tippc', '$gar', '$procedencia')");
+                    mysqli_query($datos_base, "INSERT INTO inventario VALUES (DEFAULT, '$area', '$serialn', '$serieg', '$marca', '$so', '$est', UPPER('$obs'), '$prov', '$fac', '$masterizacion', '$mac', '$reserva', '$ip', '$red', '$tippc', '$gar', '$procedencia')");
                     /* FALTA ACOMODAR LA PARTE DE USUARIO, NO ESTA MAS */
                 
                     $tic=mysqli_query($datos_base, "SELECT MAX(ID_WS) FROM inventario");
@@ -810,7 +810,7 @@ if (isset($_POST['accion'])) {
                     mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem4', '$tmem4', '$prov4', '$fact4', '$fec4', '$marc4', '$gar4', 4, '$pvel4')");
                 
                 
-                    mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, '$idws', '$usu', '$fechaActual', '0000-00-00')");
+                    mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, '$idws', '$usu', '$fechaActual', '0000-00-00', 0)");
                 
                     /* GUARDANDO PARA LOS MOVIMIENTOS */
                     mysqli_query($datos_base, "INSERT INTO movimientos VALUES (DEFAULT, '$fechaActual', '$idws', '$usu', '$area', '$est', '$marca', '$so', '$masterizacion', '$mac', '$reserva', '$ip', '$red')");

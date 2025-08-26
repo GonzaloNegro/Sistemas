@@ -45,7 +45,7 @@ $perfil=$row['ID_PERFIL'];
                     })
                     .then((result) => {
                         if (result.isConfirmed) {
-                            window.location.href='../consulta/amonitores.php';
+                            window.location.href='../consulta/monitores.php';
 
 
                         } else if (result.isDenied) {
