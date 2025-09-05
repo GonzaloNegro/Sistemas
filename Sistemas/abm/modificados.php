@@ -192,12 +192,12 @@ if (isset($_POST['accion'])) {
                     if($repa == 1){
                         /* SI ES DE 725 VA AL AREA 100 */
                         $nuevaArea = 100;
-                        $equipoSinAsignar = 476;
+                        $equipoSinAsignar = 522;
                         $usuarioSinAsignar = 277;
                     }elseif ($repa == 4) {
                         /* SI ES DE 607 VA AL AREA 101 */
                         $nuevaArea = 101;
-                        $equipoSinAsignar = 477;
+                        $equipoSinAsignar = 523;
                         $usuarioSinAsignar = 310;
                     }
 
@@ -862,9 +862,9 @@ if (isset($_POST['accion'])) {
                 101 -> SIN ASIGNAR HP 607
                 */
                 if($repaBD == 1){/* 725 */
-                    $sinAsignar = 476;/* 725 */
+                    $sinAsignar = 522;/* 725 */
                 }elseif($repaBD == 4){/* 607 */
-                    $sinAsignar = 477;/* 607 */
+                    $sinAsignar = 523;/* 607 */
                 }
                 /* --------------------------------------------------------------------- */
 
@@ -1042,9 +1042,9 @@ if (isset($_POST['accion'])) {
                 101 -> SIN ASIGNAR HP 607
                 */
                 if($repaBD == 1){/* 725 */
-                    $sinAsignar = 476;/* 725 */
+                    $sinAsignar = 522;/* 725 */
                 }elseif($repaBD == 4){/* 607 */
-                    $sinAsignar = 477;/* 607 */
+                    $sinAsignar = 523;/* 607 */
                 }
                 /* --------------------------------------------------------------------- */
                 if($estado == 1 AND $estadoBD == $estado){/* BASE DE DATOS Y FORMULARIO: ACTIVO */
@@ -1223,9 +1223,9 @@ if (isset($_POST['accion'])) {
                 101 -> SIN ASIGNAR HP 607
                 */
                 if($repaBD == 1){/* 725 */
-                    $sinAsignar = 476;/* 725 */
+                    $sinAsignar = 522;/* 725 */
                 }elseif($repaBD == 4){/* 607 */
-                    $sinAsignar = 477;/* 607 */
+                    $sinAsignar = 523;/* 607 */
                 }
                 /* --------------------------------------------------------------------- */
                 if($estado == 1 AND $estadoBD == $estado){/* BASE DE DATOS Y FORMULARIO: ACTIVO */
@@ -1885,10 +1885,10 @@ if (isset($_POST['accion'])) {
                 $repaBD = $row4['ID_REPA'];
 
                 if($repaBD == 1){/* 725 */
-                    $equipoSinAsignar = 476;/* 725 */
+                    $equipoSinAsignar = 522;/* 725 */
                     $usuarioSinAsignar = 277;/* 725 */
                 }elseif($repaBD == 4){/* 607 */
-                    $equipoSinAsignar = 477;/* 607 */
+                    $equipoSinAsignar = 523;/* 607 */
                     $usuarioSinAsignar = 310;/* 607 */
                 }
                 

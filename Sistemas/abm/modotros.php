@@ -232,7 +232,7 @@ function ConsultarIncidente($no_tic)
                     </div>
 
                     <?php
-                        if($ws != 476 AND $ws != 477){
+                        if($ws != 522 AND $ws != 523){
                         echo"
                             <div class='form-group row'>
                                 <p style='color:green;font-size:14px;' class='col-form-label col-xl col-lg'>PERIFÉRICO ACTUALMENTE ASIGNADO AL EQUIPO:</u> ".$equip."</p>

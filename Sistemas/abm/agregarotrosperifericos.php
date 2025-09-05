@@ -215,20 +215,20 @@ $perfil=$row['ID_PERFIL'];
                             //FILTRA PARA QUE DEPENDIENDO DE LA REPARTICION DEL RESOLUTOR SOLAMENTE SE PUEDA VISUALIZAR Y SELECCIONAR EL EQUIPO SIN ASIGNAR DE SU EDIFICIOV
                             $where="";
                             if($perfil==1 || $perfil==2){
-                                $where.="AND ( w.ID_USUARIO <> 310 OR (w.ID_USUARIO = 310 AND w.ID_WS = 477) ) 
-                                AND ( w.ID_USUARIO <> 277 OR (w.ID_USUARIO = 277 AND w.ID_WS = 476) )";
+                                $where.="AND ( w.ID_USUARIO <> 310 OR (w.ID_USUARIO = 310 AND w.ID_WS = 523) ) 
+                                AND ( w.ID_USUARIO <> 277 OR (w.ID_USUARIO = 277 AND w.ID_WS = 522) )";
                             }
                             else{
                                     if($reparticion == 4){
                                         $usuario1=310;
                                         $usuario2=277;
-                                        $id_ws=477;
+                                        $id_ws=523;
                                         $repa="r.ID_REPA=4 ";
                                     }
                                     else {
                                         $usuario1=277;
                                         $usuario2=310;
-                                        $id_ws=476;
+                                        $id_ws=522;
                                         $repa="r.ID_REPA=1 OR r.ID_REPA=2 OR r.ID_REPA=3 ";
                                     }
                                     $where.="AND w.ID_USUARIO <> $usuario2

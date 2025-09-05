@@ -233,7 +233,7 @@ function enviar_formulario(formulario, accion) {
                     <input type="text" class="id" name="id" value="<?php echo $consulta['ID_PERI']?>" style="background-color:transparent;" readonly>
                 </div>
                     <?php
-                        if($ws != 476 AND $ws != 477){
+                        if($ws != 522 AND $ws != 523){
                         echo"
                             <div class='form-group row'>
                                 <p style='color:green;font-size:14px;' class='col-form-label col-xl col-lg'>MONITOR ACTUALMENTE ASIGNADO AL EQUIPO:</u> ".$equip."</p>
