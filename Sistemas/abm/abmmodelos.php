@@ -18,62 +18,16 @@ $row = $resultado->fetch_assoc();
 	<link rel="icon" href="../imagenes/logoInfraestructura.png">
 	
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloallabm.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
 <?php
      if (!isset($_POST['buscar'])){$_POST['buscar'] = '';}
      if (!isset($_POST["tipo"])){$_POST["tipo"] = '';}
 ?>
-<script type="text/javascript">
-			function ok(){
-				swal(  {title: "Modelo modificado correctamente",
-						icon: "success",
-						showConfirmButton: true,
-						showCancelButton: false,
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='abmmodelos.php';
-						}
-						}
-						);
-			}	
-			</script>
-<script type="text/javascript">
-			function repeat(){
-				swal(  {title: "Modelo modificado correctamente. Verifique el nombre del modelo, ya que existe este nombre registrado previamente!",
-						icon: "info",
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='abmmodelos.php';
-						}
-						}
-						);
-			}	
-			</script>
-<script type="text/javascript">
-			function no(){
-				swal(  {title: "El modelo ingresado ya está registrado",
-						icon: "error",
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='abmmodelos.php';
-						}
-						}
-						);
-			}	
-			</script>
     <section id="inicio">
 		 <div id="reporteEst">   
             <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
@@ -221,26 +175,34 @@ $row = $resultado->fetch_assoc();
 												
 											}
 									echo "
-									</table>";
-										?>
-		<?php
-				if(isset($_GET['ok'])){
-					?>
-					<script>ok();</script>
-					<?php			
-				}
-				if(isset($_GET['repeat'])){
-					?>
-					<script>repeat();</script>
-					<?php			
-				}
-				if(isset($_GET['no'])){
-					?>
-					<script>no();</script>
-					<?php			
-				}
-			?>
+									</table>";?>
     </section>
 	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
+	<script src="../js/confirmacionForm.js"></script>
+	<script>
+		const urlParams = new URLSearchParams(window.location.search);
+
+		["ok","okMod","no","noMod", "repeat"].forEach(param => {
+			if (urlParams.has(param)) {
+				switch(param) {
+					case "ok":
+						showAlert("Modelo agregado correctamente.", "success");
+						break;
+					case "okMod":
+						showAlert("Modelo modificado correctamente.", "success");
+						break;
+					case "no":
+						showAlert("El modelo ingresado ya está registrado.", "error");
+						break;
+					case "noMod":
+						showAlert("No se ha podido modificar el modelo. Ya se encuentra registrado.", "error");
+						break;
+					case "repeat":
+						showAlert("Modelo modificado correctamente. Verifique el nombre del modelo, ya que existe este nombre registrado previamente.", "warning");
+						break;
+				}
+			}
+		});
+	</script>
 </body>
 </html>

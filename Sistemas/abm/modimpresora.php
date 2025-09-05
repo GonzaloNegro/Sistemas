@@ -239,7 +239,7 @@ function ConsultarIncidente($no_tic)
                     </div>
 
                     <?php
-                        if(isset($equip)){
+                        if($ws != 476 AND $ws != 477){
                         echo"
                             <div class='form-group row'>
                                 <p style='color:green;font-size:14px;' class='col-form-label col-xl col-lg'>IMPRESORA ACTUALMENTE ASIGNADA AL EQUIPO:</u> ".$equip."</p>
@@ -389,10 +389,10 @@ function ConsultarIncidente($no_tic)
                         }
                         $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
                         FROM inventario i 
-                        LEFT JOIN area AS a ON i.ID_AREA = a.ID_AREA
-                        LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
                         LEFT JOIN wsusuario AS w ON i.ID_WS = w.ID_WS
                         LEFT JOIN usuarios as u on w.ID_USUARIO = u.ID_USUARIO
+                        LEFT JOIN area AS a ON u.ID_AREA = a.ID_AREA
+                        LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
                         $whereEq
                         ORDER BY u.NOMBRE ASC";
                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));

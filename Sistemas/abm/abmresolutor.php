@@ -18,44 +18,11 @@ $row = $resultado->fetch_assoc();
 	<link rel="icon" href="../imagenes/logoInfraestructura.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloallabm.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
-<script type="text/javascript">
-			function ok(){
-				swal(  {title: "Resolutor modificado correctamente",
-						icon: "success",
-						showConfirmButton: true,
-						showCancelButton: false,
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='abmresolutor.php';
-						}
-						}
-						);
-			}	
-			</script>
-<script type="text/javascript">
-			function no(){
-				swal(  {title: "El resolutor ingresado ya está registrado",
-						icon: "error",
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='abmresolutor.php';
-						}
-						}
-						);
-			}	
-			</script>
     <section id="inicio">
 		<div id="reporteEst">   
             <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
@@ -86,6 +53,8 @@ $row = $resultado->fetch_assoc();
                                 <th><p style='text-align:right;padding:5px;'>CUIL</p></th>
                                 <th><p style='text-align:left;padding:5px;'>TIPO</p></th>
                                 <th><p style='text-align:left;padding:5px;'>CORREO</p></th>
+                                <th><p style='text-align:left;padding:5px;'>PERFIL</p></th>
+                                <th><p style='text-align:left;padding:5px;'>REPARTICIÓN</p></th>
                                 <th><p>MODIFICAR</p></th>
 							</tr>
 						</thead>
@@ -97,10 +66,12 @@ $row = $resultado->fetch_assoc();
 					if(isset($_POST['btn2']))
 					{
 						$doc = $_POST['buscar'];
-						$consulta=mysqli_query($datos_base, "SELECT r.ID_RESOLUTOR, r.RESOLUTOR, r.CUIL, t.TIPO_RESOLUTOR, r.CORREO
+						$consulta=mysqli_query($datos_base, "SELECT r.ID_RESOLUTOR, r.RESOLUTOR, r.CUIL, t.TIPO_RESOLUTOR, r.CORREO, p.PERFILES, rp.REPA
 						FROM resolutor r
                         LEFT JOIN tipo_resolutor t ON  r.ID_TIPO_RESOLUTOR = t.ID_TIPO_RESOLUTOR
-						WHERE r.RESOLUTOR LIKE '%$doc%' OR r.CUIL LIKE '%$doc%' OR t.TIPO_RESOLUTOR LIKE '%$doc%' OR r.CORREO LIKE '%$doc%' 
+						LEFT JOIN perfiles p ON p.ID_PERFIL = r.ID_PERFIL
+						LEFT JOIN reparticion rp ON rp.ID_REPA = r.ID_REPARTICION
+						WHERE r.RESOLUTOR LIKE '%$doc%' OR r.CUIL LIKE '%$doc%' OR t.TIPO_RESOLUTOR LIKE '%$doc%' OR r.CORREO LIKE '%$doc%' OR p.PERFILES LIKE '%$doc%' OR rp.REPA LIKE '%$doc%' 
                         ORDER BY r.RESOLUTOR ASC");
 						while($listar = mysqli_fetch_array($consulta)) 
 						{
@@ -111,15 +82,19 @@ $row = $resultado->fetch_assoc();
                                 <td><h4 style='font-size:14px;text-align:right;padding:5px;'>".mostrarValor($listar['CUIL'])."</h4 ></td>
                             	<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".mostrarValor($listar['TIPO_RESOLUTOR'])."</h4 ></td>
                                 <td><h4 style='font-size:14px;text-align:left;padding:5px;'>".mostrarValor($listar['CORREO'])."</h4 ></td>
+                                <td><h4 style='font-size:14px;text-align:left;padding:5px;'>".mostrarValor($listar['PERFILES'])."</h4 ></td>
+                                <td><h4 style='font-size:14px;text-align:left;padding:5px;'>".mostrarValor($listar['REPA'])."</h4 ></td>
 								<td class='text-center text-nowrap'><a href=modresolutor.php?no=".$listar['ID_RESOLUTOR']."><i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i></a></td>
 								</tr>";
 						}
 					}				
 					else
 					{						
-						$consulta=mysqli_query($datos_base, "SELECT r.ID_RESOLUTOR, r.RESOLUTOR, r.CUIL, t.TIPO_RESOLUTOR, r.CORREO
+						$consulta=mysqli_query($datos_base, "SELECT r.ID_RESOLUTOR, r.RESOLUTOR, r.CUIL, t.TIPO_RESOLUTOR, r.CORREO, p.PERFILES, rp.REPA
 						FROM resolutor r
                         LEFT JOIN tipo_resolutor t ON  r.ID_TIPO_RESOLUTOR = t.ID_TIPO_RESOLUTOR 
+						LEFT JOIN perfiles p ON p.ID_PERFIL = r.ID_PERFIL
+						LEFT JOIN reparticion rp ON rp.ID_REPA = r.ID_REPARTICION
                         ORDER BY r.RESOLUTOR ASC");
 						while($listar = mysqli_fetch_array($consulta)) 
 						{
@@ -130,25 +105,37 @@ $row = $resultado->fetch_assoc();
                                 <td><h4 style='font-size:14px;text-align:right;padding:5px;'>".mostrarValor($listar['CUIL'])."</h4 ></td>
                                 <td><h4 style='font-size:14px;text-align:left;padding:5px;'>".mostrarValor($listar['TIPO_RESOLUTOR'])."</h4 ></td>
                                 <td><h4 style='font-size:14px;text-align:left;padding:5px;'>".mostrarValor($listar['CORREO'])."</h4 ></td>
+                                <td><h4 style='font-size:14px;text-align:left;padding:5px;'>".mostrarValor($listar['PERFILES'])."</h4 ></td>
+                                <td><h4 style='font-size:14px;text-align:left;padding:5px;'>".mostrarValor($listar['REPA'])."</h4 ></td>
 								<td class='text-center text-nowrap'><a href=modresolutor.php?no=".$listar['ID_RESOLUTOR']."><i style='color: #198754' class='fa-solid fa-pen-to-square fa-2xl'></i></a></td>
 								</tr>";
 						}
 					}
-					echo "</table>";
-					?>
-						<?php
-				if(isset($_GET['ok'])){
-					?>
-					<script>ok();</script>
-					<?php			
-				}
-				if(isset($_GET['no'])){
-					?>
-					<script>no();</script>
-					<?php			
-				}
-			?>
+					echo "</table>";?>
     </section>
 	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
+	<script src="../js/confirmacionForm.js"></script>
+	<script>
+		const urlParams = new URLSearchParams(window.location.search);
+
+		["ok","okMod","no","noMod"].forEach(param => {
+			if (urlParams.has(param)) {
+				switch(param) {
+					case "ok":
+						showAlert("Resolutor agregado correctamente.", "success");
+						break;
+					case "okMod":
+						showAlert("Resolutor modificado correctamente.", "success");
+						break;
+					case "no":
+						showAlert("El resolutor ingresado ya está registrado.", "error");
+						break;
+					case "noMod":
+						showAlert("No se ha podido modificar el resolutor. Ya se encuentra registrado.", "error");
+						break;
+				}
+			}
+		});
+	</script>
 </body>
 </html>

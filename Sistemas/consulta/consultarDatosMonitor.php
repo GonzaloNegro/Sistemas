@@ -125,7 +125,7 @@ $marcaModelo = obtenerMarcaModelo($datos_base, $data['ID_MODELO']);
 
             if($row['ID_ESTADOWS'] == 1){
                 $fecha = date("d-m-Y", strtotime($row['FECHA_ASIGNACION']));
-            }elseif ($row['ID_ESTADOWS'] == 2) {
+            }elseif ($row['ID_ESTADOWS'] == 2 || $row['ID_ESTADOWS'] == 3) {
                 $fecha = date("d-m-Y", strtotime($row['FECHA_DESVINCULACION']));
             }
 

@@ -90,7 +90,7 @@ if ($consulta = mysqli_fetch_assoc($consultaPeri)) {
 
                 if($mov['ID_ESTADOWS'] == 1){
                     $fecha = valorPorDefecto(date("d-m-Y", strtotime($mov['FECHA_ASIGNACION'])));
-                }elseif ($mov['ID_ESTADOWS'] == 2) {
+                }elseif ($mov['ID_ESTADOWS'] == 2 || $mov['ID_ESTADOWS'] == 3) {
                     $fecha = valorPorDefecto(date("d-m-Y", strtotime($mov['FECHA_DESVINCULACION'])));
                 }
                 

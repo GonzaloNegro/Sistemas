@@ -1,5 +1,5 @@
 <?php 
-error_reporting(0);
+
 session_start();
 include('../particular/conexion.php');
 
@@ -233,7 +233,7 @@ function enviar_formulario(formulario, accion) {
                     <input type="text" class="id" name="id" value="<?php echo $consulta['ID_PERI']?>" style="background-color:transparent;" readonly>
                 </div>
                     <?php
-                        if(isset($equip)){
+                        if($ws != 476 AND $ws != 477){
                         echo"
                             <div class='form-group row'>
                                 <p style='color:green;font-size:14px;' class='col-form-label col-xl col-lg'>MONITOR ACTUALMENTE ASIGNADO AL EQUIPO:</u> ".$equip."</p>
@@ -340,7 +340,7 @@ function enviar_formulario(formulario, accion) {
                     <select name="equip" style="margin-top: 5px; text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" id="equipo">
                     <option selected value="600"><?php 
                         if($usu == null || $usu == 0){
-                            echo "";                        
+                            echo "";
                         }else{
                             echo $usu." - ".$equip;
                         }
@@ -365,10 +365,10 @@ function enviar_formulario(formulario, accion) {
                         }
                         $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
                         FROM inventario i 
-                        LEFT JOIN area AS a ON i.ID_AREA = a.ID_AREA
-                        LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
                         LEFT JOIN wsusuario AS w ON i.ID_WS = w.ID_WS
                         LEFT JOIN usuarios as u on w.ID_USUARIO = u.ID_USUARIO
+                        LEFT JOIN area AS a ON u.ID_AREA = a.ID_AREA
+                        LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
                         $whereEq
                         ORDER BY u.NOMBRE ASC";
                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
@@ -378,6 +378,7 @@ function enviar_formulario(formulario, accion) {
                     <?php endforeach?>
                     </select>
                 </div>
+                
                 <input type="hidden" id="accion" name="accion" value="modMonitores">
                 <div class="form-group row justify-content-end">
                     <input onclick="enviar_formulario(this.form, 'modMonitores')" style="width:20%"class="btn btn-success" type="button" name="modMonitores" value="MODIFICAR" class="button">

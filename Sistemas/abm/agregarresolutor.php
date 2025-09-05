@@ -33,112 +33,54 @@ $row = $resultado->fetch_assoc();
 <body>
 <script type="text/javascript">
 			function ok(){
-				// swal(  {title: "Resolutor cargado correctamente",
-				// 		icon: "success",
-				// 		showConfirmButton: true,
-				// 		showCancelButton: false,
-				// 		})
-				// 		.then((confirmar) => {
-				// 		if (confirmar) {
-				// 			window.location.href='abmresolutor.php';
-				// 		}
-				// 		}
-				// 		);
-				// 		}
 						Swal.fire({
                         title: "Resolutor cargado correctamente.",
                         icon: "success",
                         showConfirmButton: true,
                         showCancelButton: false,
-              confirmButtonColor: '#198754',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: "Cancelar",
-                reverseButtons: true,
+						confirmButtonColor: '#198754',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Confirmar',
+						cancelButtonText: "Cancelar",
+						reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href='abmresolutor.php';
-
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
+                    });
 			}	
 			</script>
 <script type="text/javascript">
 			function repeat(){
-				// swal(  {title: "Resolutor cargado correctamente. Verifique el nombre del resolutor, ya que existe este nombre registrado previamente!",
-				// 		icon: "info",
-				// 		})
-				// 		.then((confirmar) => {
-				// 		if (confirmar) {
-				// 			window.location.href='abmresolutor.php';
-				// 		}
-				// 		}
-				// 		);
 						Swal.fire({
                         title: "Resolutor cargado correctamente. Verifique el nombre del resolutor, ya que existe este nombre registrado previamente!",
                         icon: "info",
                         showConfirmButton: true,
                         showCancelButton: false,
-              confirmButtonColor: '#198754',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: "Cancelar",
-                reverseButtons: true,
+						confirmButtonColor: '#198754',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Confirmar',
+						cancelButtonText: "Cancelar",
+						reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href='abmresolutor.php';
-
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
-				
+                    })				
 			}	
 			</script>
 <script type="text/javascript">
 			function no(){
-				// swal(  {title: "El resolutor ya está registrado",
-				// 		icon: "error",
-				// 		})
-				// 		.then((confirmar) => {
-				// 		if (confirmar) {
-				// 			window.location.href='agregarresolutor.php';
-				// 		}
-				// 		}
-				// 		);
 						Swal.fire({
                         title: "El resolutor ya está registrado",
                         icon: "error",
                         showConfirmButton: true,
                         showCancelButton: false,
-              confirmButtonColor: '#198754',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: "Cancelar",
-                reverseButtons: true,
+						confirmButtonColor: '#198754',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Confirmar',
+						cancelButtonText: "Cancelar",
+						reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href='agregarresolutor.php';
-
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
                         }
                     })
 			}	
@@ -162,6 +104,10 @@ $row = $resultado->fetch_assoc();
                     {
                         selector: "#perfil",
                         errorMessage: "No seleccionó perfil."
+                    },
+                    {
+                        selector: "#repa",
+                        errorMessage: "No seleccionó repartición."
                     }
                 ];
 
@@ -207,6 +153,7 @@ $row = $resultado->fetch_assoc();
                     { id: 'telefono', label: 'Teléfono' },
                     { id: 'tipo', label: 'Tipo', esSelect: true },
                     { id: 'perfil', label: 'Perfil', esSelect: true},
+                    { id: 'repa', label: 'Repartición', esSelect: true},
                     ];
 
 				confirmarEnvioFormulario(
@@ -283,6 +230,20 @@ $row = $resultado->fetch_assoc();
 								?>
 								<?php foreach ($ejecutar as $opciones): ?> 
 									<option value="<?php echo $opciones['ID_PERFIL']?>"><?php echo $opciones['PERFILES']?></option>
+								<?php endforeach ?>
+								</select>
+						</div>  
+                        <div class="form-group row">
+                            <label id="lblForm"class="col-form-label col-xl col-lg">REPARTICIÓN:<span style="color:red;">*</span></label>
+								<select id="repa" name="repa" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+								<option selected disabled="perfil">-SELECCIONE UNA-</option>
+								<?php
+								include("../particular/conexion.php");
+								$consulta= "SELECT * FROM reparticion ORDER BY REPA ASC";
+								$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+								?>
+								<?php foreach ($ejecutar as $opciones): ?> 
+									<option value="<?php echo $opciones['ID_REPA']?>"><?php echo $opciones['REPA']?></option>
 								<?php endforeach ?>
 								</select>
 						</div>  

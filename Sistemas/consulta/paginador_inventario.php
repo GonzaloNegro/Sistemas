@@ -111,10 +111,10 @@ $whereClause = !empty($where) ? 'WHERE ' . implode(' AND ', $where) : '';
 
 // Consultar el total de registros
 $sqlTotal = "SELECT COUNT(*) as total FROM inventario i 
-LEFT JOIN area AS a ON i.ID_AREA = a.ID_AREA
-LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
 LEFT JOIN wsusuario AS ws ON i.ID_WS = ws.ID_WS
 LEFT JOIN usuarios as u on ws.ID_USUARIO = u.ID_USUARIO
+LEFT JOIN area AS a ON u.ID_AREA = a.ID_AREA
+LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
 LEFT JOIN tipows AS t ON t.ID_TIPOWS = i.ID_TIPOWS
 LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
 LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
@@ -131,10 +131,10 @@ $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 //query para obtener los equipos
        $query ="SELECT i.ID_WS, a.AREA, r.REPA, u.NOMBRE, t.TIPOWS, i.SERIEG, s.SIST_OP, m.MICRO, i.OBSERVACION, e.ESTADO
         FROM inventario i 
-        LEFT JOIN area AS a ON i.ID_AREA = a.ID_AREA
-        LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
         LEFT JOIN wsusuario AS ws ON i.ID_WS = ws.ID_WS
         LEFT JOIN usuarios as u on ws.ID_USUARIO = u.ID_USUARIO
+        LEFT JOIN area AS a ON u.ID_AREA = a.ID_AREA
+        LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
         LEFT JOIN tipows AS t ON t.ID_TIPOWS = i.ID_TIPOWS
         LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
         LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
@@ -145,10 +145,10 @@ $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 
         $query_excel ="SELECT i.ID_WS, a.AREA, r.REPA, u.NOMBRE, t.TIPOWS, i.SERIEG, s.SIST_OP, m.MICRO, i.OBSERVACION, e.ESTADO
         FROM inventario i 
-        LEFT JOIN area AS a ON i.ID_AREA = a.ID_AREA
-        LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
         LEFT JOIN wsusuario AS ws ON i.ID_WS = ws.ID_WS
         LEFT JOIN usuarios as u on ws.ID_USUARIO = u.ID_USUARIO
+        LEFT JOIN area AS a ON u.ID_AREA = a.ID_AREA
+        LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
         LEFT JOIN tipows AS t ON t.ID_TIPOWS = i.ID_TIPOWS
         LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
         LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO

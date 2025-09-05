@@ -182,6 +182,7 @@ if (isset($_POST['accion'])) {
                 $telefono = $_POST['telefono'] ?? '';
                 $tipo = $_POST['tipo'] ?? 0;
                 $perfil = $_POST['perfil'] ?? 0;
+                $repa = $_POST['repa'] ?? 0;
 
                 /* SI UNO DE LOS CAMPOS ESTA REPETIDO */
                 $sql = "SELECT RESOLUTOR, CUIL FROM resolutor WHERE RESOLUTOR = '$resolutor' OR CUIL='$cuil'";
@@ -197,7 +198,7 @@ if (isset($_POST['accion'])) {
                 }
                 else if($resolutor == $res)
                 {
-                    mysqli_query($datos_base, "INSERT INTO resolutor VALUES (DEFAULT, '$resolutor', '$tipo', '$cuil', '$correo', '$telefono', 1234,'$perfil')");
+                    mysqli_query($datos_base, "INSERT INTO resolutor VALUES (DEFAULT, '$resolutor', '$tipo', '$cuil', '$correo', '$telefono', 1234,'$perfil', '$repa')");
                     
                     mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'RESOLUTOR', 'AGREGADO', '$resolutor', '', '$fechaActual', '$horaActual', '$resolutorActivo')");
 
@@ -206,7 +207,7 @@ if (isset($_POST['accion'])) {
                 }
                 else
                 {
-                    mysqli_query($datos_base, "INSERT INTO resolutor VALUES (DEFAULT, '$resolutor', '$tipo', '$cuil', '$correo', '$telefono', 1234,'$perfil')"); 
+                    mysqli_query($datos_base, "INSERT INTO resolutor VALUES (DEFAULT, '$resolutor', '$tipo', '$cuil', '$correo', '$telefono', 1234,'$perfil', '$repa')"); 
 
                     mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'RESOLUTOR', 'AGREGADO',  '$resolutor', '', '$fechaActual', '$horaActual', '$resolutorActivo')");
 

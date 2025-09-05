@@ -35,28 +35,165 @@ function ConsultarIncidente($no_tic)
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
-  
-
-  <script>
-	$(document).ready(function(){
-    $("#slcusu").change(function(){
-        
-		if ($("#slcusu").val() == '277') {
-			$("#slcarea").prop('disabled', false);
-		}
-		if ($("#slcusu").val() != '277') {
-			$("#slcarea").prop('disabled', true);
-		}
-    });
-    });
-</script>
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
+    <script>
+        function validar_formulario(){
+			
+			var fieldsToValidate = [
+                    {
+                        selector: "#slcusu",
+                        errorMessage: "No seleccionó usuario."
+                    },
+                    {
+                        selector: "#nrogob",
+                        errorMessage: "No ingresó número de gobierno."
+                    },
+                    {
+                        selector: "#estado",
+                        errorMessage: "No seleccionó estado."
+                    },
+                    {
+                        selector: "#nroserie",
+                        errorMessage: "No ingresó número de serie."
+                    },
+                    {
+                        selector: "#marca",
+                        errorMessage: "No seleccionó marca."
+                    },
+                    {
+                        selector: "#so",
+                        errorMessage: "No ingresó sistema operativo."
+                    },
+                    {
+                        selector: "#tipopc",
+                        errorMessage: "No seleccionó tipo de pc."
+                    },
+                    {
+                        selector: "#masterizacion",
+                        errorMessage: "No seleccionó masterización."
+                    },
+                    {
+                        selector: "#rip",
+                        errorMessage: "No seleccionó reserva de IP."
+                    },
+                    {
+                        selector: "#red",
+                        errorMessage: "No seleccionó red."
+                    },
+                    {
+                        selector: "#procedencia",
+                        errorMessage: "No seleccionó procedencia."
+                    },
+                    {
+                        selector: "#placam",
+                        errorMessage: "No seleccionó placa madre."
+                    },
+                    {
+                        selector: "#micro",
+                        errorMessage: "No seleccionó micriprocesador."
+                    }
+                ];
+
+                var isValid = true;
+
+				$.each(fieldsToValidate, function(index, field) {
+                    var element = $(field.selector);
+                    if (element.val()== "" || element.val()== null) {
+                      Swal.fire({
+                      title: field.errorMessage,
+                      icon: "warning",
+                      showConfirmButton: true,
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Aceptar',
+                      cancelButtonText: "Cancelar",
+                      customClass:{
+                      actions: 'reverse-button'
+                        }
+                      })
+                        isValid = false;
+                        return false;
+                    }
+                });
+
+				if (isValid ==true) {
+								
+								return true;
+							}
+							else{
+								return false;
+							}
+		};
+function enviar_formulario(formulario, accion) {
+    // Asigna el valor de la acción al campo oculto "accion"
+    formulario.querySelector('#accion').value = accion;
+    if (validar_formulario()) {
+        const estadoActual = "<?php echo $consulta['ID_ESTADOWS']; ?>";
+        const estadoSeleccionado = document.getElementById("estado").value;
+
+        const campos = [
+            { id: 'nrogob', label: 'Número de ws' },
+            { id: 'nroserie', label: 'Número de serie' },
+            { id: 'slcusu', label: 'Usuario', esSelect: true },
+            { id: 'tipopc', label: 'Tipo PC', esSelect: true },
+            { id: 'estado', label: 'Estado', esSelect: true },
+            { id: 'marca', label: 'Marca', esSelect: true },
+            { id: 'so', label: 'Sistema Operativo', esSelect: true },
+            { id: 'masterizacion', label: 'Estado', esSelect: true },
+            { id: 'red', label: 'Red', esSelect: true },
+            { id: 'procedencia', label: 'Procedencia', esSelect: true },
+            { id: 'rip', label: 'Reserva IP', esSelect: true },
+            { id: 'placam', label: 'Placa Madre', esSelect: true },
+            { id: 'micro', label: 'Microprocesador', esSelect: true }
+        ];
+
+        let mensajeHtml = "<ul style='text-align:left;'>"; 
+
+        campos.forEach(campo => {
+            const elemento = document.getElementById(campo.id);
+            let valor = campo.esSelect
+                ? elemento.options[elemento.selectedIndex].text
+                : elemento.value;
+
+            if (valor.trim() !== "") {
+                mensajeHtml += `<li><strong>${campo.label}:</strong> ${valor.toUpperCase()}</li>`;
+            }
+        });
+
+        mensajeHtml += "</ul>";
+
+        if (estadoActual === "1" && (estadoSeleccionado === "2" || estadoSeleccionado === "3")) {
+            mensajeHtml += `<br>
+                <strong style="color:red;">Recuerde que cambiar el estado del equipo a S/A-STOCK/BAJA afectará su funcionamiento.
+                <br>Los periféricos asignados a este equipo dejarán de tener un equipo asignado.</strong>`;
+        }
+
+        mensajeHtml += '<br><strong>¿Está seguro de modificar esta área?</strong><br><br>';
+
+        Swal.fire({
+            title: "Datos modificados del equipo",
+            icon: "warning",
+            html: mensajeHtml,
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonColor: '#198754',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: "Cancelar",
+            reverseButtons: true,
+            customClass: {
+                actions: 'reverse-button'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                formulario.submit();
+            }
+        });
+    }
+}
+    </script>
 <main>
     <div id="reporteEst">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
@@ -81,34 +218,35 @@ function ConsultarIncidente($no_tic)
                     $row = $resultado->fetch_assoc();
                     $usu = $row['NOMBRE'];
 
-                  function obtenerValor($conexion, $tabla, $columna, $id, $esString = false) {
+                  function obtenerValor($conexion, $tabla, $columnaMostrar, $columnaID, $id, $esString = false) {
                       // Sanitizar el valor
                       $id = mysqli_real_escape_string($conexion, $id);
-                  
-                      // Si el valor es un string, se agregan las comillas en la consulta
+
+                      // Si el valor es un string, se agregan comillas
                       if ($esString) {
                           $id = "'$id'";
                       }
-                  
+
                       // Ejecutar la consulta
-                      $sentencia = "SELECT $columna FROM $tabla WHERE $columna = $id";
+                      $sentencia = "SELECT $columnaMostrar FROM $tabla WHERE $columnaID = $id LIMIT 1";
                       $resultado = $conexion->query($sentencia);
-                  
+
                       if ($resultado && $row = $resultado->fetch_assoc()) {
-                          return $row[$columna];
+                          return $row[$columnaMostrar];
                       } else {
-                          return null;  // o valor por defecto si no existe
+                          return null;  // o valor por defecto
                       }
                   }
 
-                  $red = obtenerValor($datos_base, 'red', 'RED', $consulta['ID_RED']);
-                  $so = obtenerValor($datos_base, 'so', 'SIST_OP', $consulta['ID_SO']);
-                  $est = obtenerValor($datos_base, 'estado_ws', 'ESTADO', $consulta['ID_ESTADOWS']);
-                  $pro = obtenerValor($datos_base, 'proveedor', 'PROVEEDOR', $consulta['ID_PROVEEDOR']);
-                  $tip = obtenerValor($datos_base, 'tipows', 'TIPOWS', $consulta['ID_TIPOWS']);
-                  $mar = obtenerValor($datos_base, 'marcas', 'MARCA', $consulta['ID_MARCA']);
-                  $area = obtenerValor($datos_base, 'area', 'AREA', $consulta['ID_AREA']);
-                  $procedencia = obtenerValor($datos_base, 'procedencia', 'PROCEDENCIA', $consulta['ID_PROCEDENCIA']);  // si es un string pongo una coma y true
+
+                  $red = obtenerValor($datos_base, 'red', 'RED', 'ID_RED', $consulta['ID_RED']);
+                  $so = obtenerValor($datos_base, 'so', 'SIST_OP', 'ID_SO', $consulta['ID_SO']);
+                  $est = obtenerValor($datos_base, 'estado_ws', 'ESTADO', 'ID_ESTADOWS', $consulta['ID_ESTADOWS']);
+                  $pro = obtenerValor($datos_base, 'proveedor', 'PROVEEDOR', 'ID_PROVEEDOR', $consulta['ID_PROVEEDOR']);
+                  $tip = obtenerValor($datos_base, 'tipows', 'TIPOWS', 'ID_TIPOWS', $consulta['ID_TIPOWS']);
+                  $mar = obtenerValor($datos_base, 'marcas', 'MARCA', 'ID_MARCA', $consulta['ID_MARCA']);
+                  $procedencia = obtenerValor($datos_base, 'procedencia', 'PROCEDENCIA', 'ID_PROCEDENCIA', $consulta['ID_PROCEDENCIA']);
+
 
                 ?>
 
@@ -440,13 +578,13 @@ function ConsultarIncidente($no_tic)
                     </div>
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">N° GOBIERNO: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serieg" value="<?php echo $consulta['SERIEG']?>">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">N° GOBIERNO:<span style="color:red;">*</span></label>
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" id="nrogob" name="serieg" value="<?php echo $consulta['SERIEG']?>">
                     </div>
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE: </label>
-                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serialn" value="<?php echo $consulta['SERIALN']?>">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE:<span style="color:red;">*</span></label>
+                        <input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="serialn" id="nroserie" value="<?php echo $consulta['SERIALN']?>">
                     </div>
 
                     <div class="form-group row">
@@ -476,8 +614,8 @@ function ConsultarIncidente($no_tic)
                     </div>
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">MASTERIZACIÓN: </label>
-                        <select style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" name="masterizacion">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">MASTERIZACIÓN:<span style="color:red;">*</span></label>
+                        <select style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" id="masterizacion" name="masterizacion">
                         <option selected value="100"><?php echo $consulta['MASTERIZADA']?></option>
                         <option value="SI">SI</option>
                             <option value ="NO">NO</option>
@@ -486,8 +624,8 @@ function ConsultarIncidente($no_tic)
 
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">RIP: </label>
-                        <select style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" name="reserva">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">RIP:<span style="color:red;">*</span></label>
+                        <select style="margin-top: 5px"class="form-control col-form-label col-xl col-lg" id="rip" name="reserva">
                         <option selected value="200"><?php echo $consulta['RIP']?></option>
                             <option value ="NO">NO</option>
                             <option value="SI">SI</option>
@@ -495,8 +633,8 @@ function ConsultarIncidente($no_tic)
                     </div>
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">RED: </label>
-                        <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="red">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">RED:<span style="color:red;">*</span></label>
+                        <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="red" id="red">
                         <option selected value="300"><?php echo $red?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -510,8 +648,8 @@ function ConsultarIncidente($no_tic)
                     </div>
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">SISTEMA OPERATIVO: </label>
-                        <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="so">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">SISTEMA OPERATIVO:<span style="color:red;">*</span></label>
+                        <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="so" name="so">
                         <option selected value="500"><?php echo $so?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -525,8 +663,8 @@ function ConsultarIncidente($no_tic)
                     </div>
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO: </label>
-                        <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="est">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:<span style="color:red;">*</span></label>
+                        <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="est" id="estado">
                         <option selected value="700"><?php echo $est?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -541,7 +679,7 @@ function ConsultarIncidente($no_tic)
 
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR: </label>
+                        <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:</label>
                         <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="prov">
                         <option selected value="800"><?php echo $pro?></option>
                         <?php
@@ -556,8 +694,8 @@ function ConsultarIncidente($no_tic)
                     </div>
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DE EQUIPO: </label>
-                        <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="tippc">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DE EQUIPO:<span style="color:red;">*</span></label>
+                        <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="tippc" id="tipopc">
                         <option selected value="900"><?php echo $tip?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -572,7 +710,7 @@ function ConsultarIncidente($no_tic)
 
 
                     <div class="form-group row">            
-                        <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO: </label>
+                        <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:<span style="color:red;">*</span></label>
                         <select id="slcusu" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="usu">
                         <option selected value="1000"><?php echo $usu?></option>
                         <?php
@@ -586,25 +724,9 @@ function ConsultarIncidente($no_tic)
                         </select>
                     </div>
 
-                    <div class="form-group row">
-                        <label id="lblArea" class="col-form-label col-xl col-lg">AREA: </label>
-                        <select id="slcarea" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="area" disabled>
-                        <!-- falta verificar bien eñ value-->
-                        <option selected value="1100"><?php echo $area?></option>
-                        <?php
-                        include("../particular/conexion.php");
-                        $consulta= "SELECT * FROM area ORDER BY AREA ASC";
-                        $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                        ?>
-                        <?php foreach ($ejecutar as $opciones): ?> 
-                        <option value= <?php echo $opciones['ID_AREA'] ?>><?php echo $opciones['AREA']?></option>
-                        <?php endforeach?>
-                        </select>
-                    </div>
-
                     <div class="form-group row">            
-                        <label id="lblForm"class="col-form-label col-xl col-lg">PROCEDENCIA:</label>
-                        <select name="procedencia" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                        <label id="lblForm"class="col-form-label col-xl col-lg">PROCEDENCIA:<span style="color:red;">*</span></label>
+                        <select name="procedencia" id="procedencia" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                         <option selected value="2400"><?php echo $procedencia?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -618,8 +740,8 @@ function ConsultarIncidente($no_tic)
                     </div>
 
                     <div class="form-group row">
-                        <label id="lblForm"class="col-form-label col-xl col-lg">MARCA: </label>
-                        <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="marca">
+                        <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:<span style="color:red;">*</span></label>
+                        <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="marca" id="marca">
                         <option selected value="1100"><?php echo $mar?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -645,8 +767,8 @@ function ConsultarIncidente($no_tic)
     <div id="flush-collapsepm" class="accordion-collapse collapse" aria-labelledby="flush-headingpm" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">PLACA:</label> 
-							    <select name="placam" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="col-form-label col-xl col-lg">PLACA:<span style="color:red;">*</span></label> 
+							    <select name="placam" id="placam" style="text-transform:uppercase" class="form-control col-xl col-lg">
                       <option selected value="2000"><?php echo $placam?></option>
                       <?php
                       include("../particular/conexion.php");
@@ -715,8 +837,8 @@ function ConsultarIncidente($no_tic)
     <div id="flush-collapsemi" class="accordion-collapse collapse" aria-labelledby="flush-headingmi" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MICRO:</label> 
-							    <select name="micro" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="col-form-label col-xl col-lg">MICRO:<span style="color:red;">*</span></label> 
+							    <select name="micro" id="micro" style="text-transform:uppercase" class="form-control col-xl col-lg">
                     <option selected value="2100"><?php echo $micro?></option>
                     <?php
                     include("../particular/conexion.php");
@@ -1566,10 +1688,13 @@ function ConsultarIncidente($no_tic)
   </div>
 </div>
 
-                    <div class="form-group row justify-content-end">
-					    <input style="width:20%" onClick="enviarFormulario(this.form)"class="btn btn-success" type="button" name="modEquipo" value="MODIFICAR" class="button">
+
+              <input type="hidden" id="accion" name="accion" value="modEquipo">
+              <div class="form-group row justify-content-end">
+                <input onclick="enviar_formulario(this.form, 'modEquipo')" style="width:20%" type="button" value="MODIFICAR" name="modEquipo" class="btn btn-success">
+              </div>	
 				    </div>
-                </form>
+          </form>
 	    </div>
 	</section>
     </main>
@@ -1582,40 +1707,9 @@ function ConsultarIncidente($no_tic)
 			</div>
 		</div>
     </footer>
-  <script>
-      function enviarFormulario(formulario){
-        // var formulario = document.getElementById('form_carga');
-        Swal.fire({
-                        title: "Esta seguro de modificar este equipo?",
-                        icon: "warning",
-                        showConfirmButton: true,
-                        showCancelButton: true,
-              confirmButtonColor: '#198754',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: "Cancelar",
-                reverseButtons: true,
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            formulario.submit();
-                            
-
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
-      }
-    </script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init();
-    </script>
-        <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
+    <script>AOS.init();</script>
+    <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>

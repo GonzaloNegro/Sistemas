@@ -109,7 +109,7 @@ LEFT JOIN area AS a ON a.ID_AREA = u.ID_AREA
 INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
 LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS
 LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA  
-INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA $whereClause";
+INNER JOIN marcas AS m ON m.ID_MARCA = mo.  ID_MARCA $whereClause";
 $resultTotal = $datos_base->query($sqlTotal);
 $totalRegistros = $resultTotal->fetch_assoc()['total'];
 $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
@@ -119,7 +119,7 @@ $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 
 <?php 
 //query para obtener los equipos
-       $query ="SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, a.AREA, e.ESTADO, r.REPA			
+/*        $query ="SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, a.AREA, e.ESTADO, r.REPA			
        FROM periferico p
        LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
         LEFT JOIN equipo_periferico ep ON p.ID_PERI=ep.ID_PERI
@@ -132,21 +132,81 @@ $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
        LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA  
        INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA   
                 $whereClause $order 
-                LIMIT $inicio, $registrosPorPagina";
+                LIMIT $inicio, $registrosPorPagina"; */
+
+$query = "SELECT 
+    p.ID_PERI,
+    u.NOMBRE,
+    mo.MODELO,
+    t.TIPO,
+    m.MARCA,
+    a.AREA,
+    e.ESTADO,
+    r.REPA 
+FROM periferico p
+LEFT JOIN modelo mo ON mo.ID_MODELO = p.ID_MODELO
+LEFT JOIN marcas m ON m.ID_MARCA = mo.ID_MARCA
+LEFT JOIN estado_ws e ON e.ID_ESTADOWS = p.ID_ESTADOWS
+LEFT JOIN tipop t ON t.ID_TIPOP = p.ID_TIPOP
+
+LEFT JOIN (
+    SELECT ep1.*
+    FROM equipo_periferico ep1
+    INNER JOIN (
+        SELECT ID_PERI, MAX(ID_EQUIPO_PERIFERICO) AS max_ep
+        FROM equipo_periferico
+        GROUP BY ID_PERI
+    ) ult 
+    ON ep1.ID_PERI = ult.ID_PERI 
+   AND ep1.ID_EQUIPO_PERIFERICO = ult.max_ep
+) ep ON ep.ID_PERI = p.ID_PERI
+
+LEFT JOIN inventario i ON ep.ID_WS = i.ID_WS
+LEFT JOIN wsusuario ws ON i.ID_WS = ws.ID_WS
+LEFT JOIN usuarios u ON ws.ID_USUARIO = u.ID_USUARIO
+LEFT JOIN area a ON a.ID_AREA = u.ID_AREA
+LEFT JOIN reparticion r ON a.ID_REPA = r.ID_REPA
+
+$whereClause
+$order
+LIMIT $inicio, $registrosPorPagina";
+
 //query que se enviara a excelimpresoras
-        $query_excel ="SELECT p.ID_PERI, u.NOMBRE, mo.MODELO, t.TIPO, m.MARCA, a.AREA, e.ESTADO, r.REPA			
-        FROM periferico p
-        LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO  
-        LEFT JOIN equipo_periferico ep ON p.ID_PERI=ep.ID_PERI
-        LEFT JOIN inventario i ON ep.ID_WS=i.ID_WS
-        LEFT JOIN wsusuario ws ON i.ID_WS=ws.ID_WS
-        LEFT JOIN usuarios u ON ws.ID_USUARIO=u.ID_USUARIO
-        LEFT JOIN area AS a ON a.ID_AREA = u.ID_AREA
-        INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
-        LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS
-        LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA  
-        INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA 
-        $whereClause $order ";
+        $query_excel ="SELECT 
+    p.ID_PERI,
+    u.NOMBRE,
+    mo.MODELO,
+    t.TIPO,
+    m.MARCA,
+    a.AREA,
+    e.ESTADO,
+    r.REPA 
+FROM periferico p
+LEFT JOIN modelo mo ON mo.ID_MODELO = p.ID_MODELO
+LEFT JOIN marcas m ON m.ID_MARCA = mo.ID_MARCA
+LEFT JOIN estado_ws e ON e.ID_ESTADOWS = p.ID_ESTADOWS
+LEFT JOIN tipop t ON t.ID_TIPOP = p.ID_TIPOP
+
+LEFT JOIN (
+    SELECT ep1.*
+    FROM equipo_periferico ep1
+    INNER JOIN (
+        SELECT ID_PERI, MAX(ID_EQUIPO_PERIFERICO) AS max_ep
+        FROM equipo_periferico
+        GROUP BY ID_PERI
+    ) ult 
+    ON ep1.ID_PERI = ult.ID_PERI 
+   AND ep1.ID_EQUIPO_PERIFERICO = ult.max_ep
+) ep ON ep.ID_PERI = p.ID_PERI
+
+LEFT JOIN inventario i ON ep.ID_WS = i.ID_WS
+LEFT JOIN wsusuario ws ON i.ID_WS = ws.ID_WS
+LEFT JOIN usuarios u ON ws.ID_USUARIO = u.ID_USUARIO
+LEFT JOIN area a ON a.ID_AREA = u.ID_AREA
+LEFT JOIN reparticion r ON a.ID_REPA = r.ID_REPA
+
+$whereClause
+$order ";
 
 
 //Se agregan todas las filas a un array que se enviara en formato json junto con el total dde paginas, pagina actual, el total de incidentes y la sentencia query que se utilizara para generar el excel        

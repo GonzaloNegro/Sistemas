@@ -202,8 +202,9 @@ function ConsultarIncidente($no_tic)
                 </div>
                 <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
                 <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
+                <input type="hidden" id="accion" name="accion" value="modModelo">
                 <div class="row justify-content-end">
-                    <input onclick="enviar_formulario(this.form)" style="width: 20%;" class="btn btn-success" type="button" name="modModelo" value="MODIFICAR">
+                    <input onclick="enviar_formulario(this.form, 'modMarca')" style="width: 20%;" class="btn btn-success" type="button" name="modModelo" value="MODIFICAR">
                 </div>
             </form>
 	    </div>

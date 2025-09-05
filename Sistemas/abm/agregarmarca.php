@@ -33,60 +33,6 @@ $row = $resultado->fetch_assoc();
 </head>
 <body>
 <script type="text/javascript">
-			function ok(){
-				Swal.fire({
-                        title: "Marca cargada correctamente.",
-                        icon: "success",
-                        showConfirmButton: true,
-                        showCancelButton: false,
-              confirmButtonColor: '#198754',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: "Cancelar",
-                reverseButtons: true,
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href='abmmarcas.php';
-
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
-			}	
-			</script>
-<script type="text/javascript">
-			function no(){
-				Swal.fire({
-                        title: "El resolutor ya está registrado",
-                        icon: "error",
-                        showConfirmButton: true,
-                        showCancelButton: false,
-              confirmButtonColor: '#198754',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: "Cancelar",
-                reverseButtons: true,
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href='agregarmarca.php';
-
-
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
-			}	
-			</script>
-			<script>
         function validar_formulario(){
 			
 			var fieldsToValidate = [
@@ -165,17 +111,27 @@ $row = $resultado->fetch_assoc();
                 <input onclick="enviar_formulario(this.form, 'agregarMarca')" style="width:20%" class="btn btn-success" type="button" value="GUARDAR" name="agregarMarca" class="button">
             </div>	
 		</form>
-			<?php
-				if(isset($_GET['ok'])){
-					?>
-					<script>ok();</script>
-					<?php			
-				}
-				if(isset($_GET['no'])){
-					?>
-					<script>no();</script>
-					<?php			
-				}
+		        			<?php
+						if(isset($_GET['ok'])){
+							?>
+							<script>ok();</script>
+							<?php			
+						}
+						if(isset($_GET['no'])){
+							?>
+							<script>no();</script>
+							<?php			
+						}
+						if(isset($_GET['okMod'])){
+							?>
+							<script>okMod();</script>
+							<?php			
+						}
+						if(isset($_GET['noMod'])){
+							?>
+							<script>noMod();</script>
+							<?php			
+						}
 			?>
 		</div>
 	</section>

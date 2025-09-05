@@ -25,54 +25,10 @@ if($row['ID_PERFIL'] == 3 OR $row['ID_PERFIL'] == 4){
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloallabm.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
-<script type="text/javascript">
-			function ok(){
-				swal(  {title: "Plan agregado correctamente",
-						icon: "success",
-						showConfirmButton: true,
-						showCancelButton: false,
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='./abmPlanesCelulares.php';
-						}
-						}
-						);
-			}
-			function no(){
-				swal(  {title: "El plan ingresado ya está registrado",
-						icon: "error",
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='./abmPlanesCelulares.php';
-						}
-						}
-						);
-			}	
-			function mod(){
-				swal(  {title: "Plan modificado correctamente",
-						icon: "success",
-						showConfirmButton: true,
-						showCancelButton: false,
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='./abmPlanesCelulares.php';
-						}
-						}
-						);
-			}	
-			</script>
     <section id="inicio">
         <div id="reporteEst">   
             <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
@@ -172,26 +128,31 @@ if($row['ID_PERFIL'] == 3 OR $row['ID_PERFIL'] == 4){
 											";
 									}
 								}
-								echo "</table>";
-									?>
-		        			<?php
-						if(isset($_GET['ok'])){
-							?>
-							<script>ok();</script>
-							<?php			
-						}
-						if(isset($_GET['no'])){
-							?>
-							<script>no();</script>
-							<?php			
-						}
-						if(isset($_GET['mod'])){
-							?>
-							<script>mod();</script>
-							<?php			
-						}
-			?>
+								echo "</table>";?>
     </section>
 	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
+	<script src="../js/confirmacionForm.js"></script>
+	<script>
+		const urlParams = new URLSearchParams(window.location.search);
+
+		["ok","okMod","no","noMod"].forEach(param => {
+			if (urlParams.has(param)) {
+				switch(param) {
+					case "ok":
+						showAlert("Plan agregado correctamente.", "success");
+						break;
+					case "okMod":
+						showAlert("Plan modificado correctamente.", "success");
+						break;
+					case "no":
+						showAlert("El plan ingresado ya está registrada.", "error");
+						break;
+					case "noMod":
+						showAlert("No se ha podido modificar el plan. Ya se encuentra registrado.", "error");
+						break;
+				}
+			}
+		});
+	</script>
 </body>
 </html>

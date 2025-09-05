@@ -17,45 +17,12 @@ $row = $resultado->fetch_assoc();
 	<title>ABM MARCAS</title><meta charset="utf-8">
 	<link rel="icon" href="../imagenes/logoInfraestructura.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloallabm.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
-<script type="text/javascript">
-			function ok(){
-				swal(  {title: "Marca modificada correctamente",
-						icon: "success",
-						showConfirmButton: true,
-						showCancelButton: false,
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='abmmarcas.php';
-						}
-						}
-						);
-			}	
-			</script>
-<script type="text/javascript">
-			function no(){
-				swal(  {title: "La marca ingresada ya está registrada",
-						icon: "error",
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='abmmarcas.php';
-						}
-						}
-						);
-			}	
-			</script>
     <section id="inicio">
 		 <div id="reporteEst">   
             <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
@@ -116,21 +83,31 @@ $row = $resultado->fetch_assoc();
 									";
 								}  
 						}
-						echo "</table>";
-							?>
-        			<?php
-						if(isset($_GET['ok'])){
-							?>
-							<script>ok();</script>
-							<?php			
-						}
-						if(isset($_GET['no'])){
-							?>
-							<script>no();</script>
-							<?php			
-						}
-			?>
+						echo "</table>";?>
     </section>
 	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
+	<script src="../js/confirmacionForm.js"></script>
+	<script>
+		const urlParams = new URLSearchParams(window.location.search);
+
+		["ok","okMod","no","noMod"].forEach(param => {
+			if (urlParams.has(param)) {
+				switch(param) {
+					case "ok":
+						showAlert("Marca agregada correctamente.", "success");
+						break;
+					case "okMod":
+						showAlert("Marca modificada correctamente.", "success");
+						break;
+					case "no":
+						showAlert("La marca ingresada ya está registrada.", "error");
+						break;
+					case "noMod":
+						showAlert("No se ha podido modificar la marca. Ya se encuentra registrada.", "error");
+						break;
+				}
+			}
+		});
+	</script>
 </body>
 </html>

@@ -14,23 +14,22 @@ function ConsultarIncidente($no_tic)
 	$filas = mysqli_fetch_assoc($resultado);
 	return [
 		$filas['ID_WS'],/*0*/
-		$filas['ID_AREA'],/*1*/
-		$filas['SERIALN'],/*2*/
-        $filas['SERIEG'],/*3*/
-        $filas['ID_MARCA'],/*4*/
-		$filas['ID_SO'],/*5*/
-		$filas['ID_ESTADOWS'],/*6*/
-        $filas['OBSERVACION'],/*7*/
-		$filas['ID_PROVEEDOR'],/*8*/
-        $filas['FACTURA'],/*9*/
-		$filas['MASTERIZADA'],/*10*/
-        $filas['MAC'],/*11*/
-        $filas['RIP'],/*12*/
-        $filas['IP'],/*13*/
-        $filas['ID_RED'],/*14*/
-		$filas['ID_TIPOWS'],/*15*/
-		$filas['GARANTIA'],/*16*/
-        $filas['ID_PROCEDENCIA']/*17*/
+		$filas['SERIALN'],/*1*/
+        $filas['SERIEG'],/*2*/
+        $filas['ID_MARCA'],/*3*/
+		$filas['ID_SO'],/*4*/
+		$filas['ID_ESTADOWS'],/*5*/
+        $filas['OBSERVACION'],/*6*/
+		$filas['ID_PROVEEDOR'],/*7*/
+        $filas['FACTURA'],/*8*/
+		$filas['MASTERIZADA'],/*9*/
+        $filas['MAC'],/*10*/
+        $filas['RIP'],/*11*/
+        $filas['IP'],/*12*/
+        $filas['ID_RED'],/*13*/
+		$filas['ID_TIPOWS'],/*14*/
+		$filas['GARANTIA'],/*15*/
+        $filas['ID_PROCEDENCIA']/*16*/
 	];
 }
 
@@ -84,27 +83,34 @@ function ConsultarIncidente($no_tic)
                     $row = $resultado->fetch_assoc();
                     $nom = $row['NOMBRE'];
                     /*/////////////////////AREA//////////////////////*/
-                    $sql = "SELECT a.AREA FROM inventario i INNER JOIN area a ON a.ID_AREA = i.ID_AREA WHERE i.ID_AREA='$consulta[1]'";
+                    $sql = "SELECT a.AREA
+                    FROM inventario i 
+                    INNER JOIN wsusuario w ON w.ID_WS = i.ID_WS
+                    INNER JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO
+                    INNER JOIN area a ON a.ID_AREA = u.ID_AREA 
+                    WHERE w.ID_WS ='$consulta[0]'
+                    ORDER BY w.ID_WSUSU DESC
+                    LIMIT 1";
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
                     $are = $row['AREA'];
                     /*/////////////////////ESTADO//////////////////////*/
-                    $sql = "SELECT e.ESTADO FROM inventario i INNER JOIN estado_ws e ON e.ID_ESTADOWS = i.ID_ESTADOWS WHERE i.ID_ESTADOWS='$consulta[6]'";
+                    $sql = "SELECT e.ESTADO FROM inventario i INNER JOIN estado_ws e ON e.ID_ESTADOWS = i.ID_ESTADOWS WHERE i.ID_ESTADOWS='$consulta[5]'";
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
                     $est = $row['ESTADO'];
                     /*/////////////////////TIPO//////////////////////*/
-                    $sql = "SELECT t.TIPOWS FROM inventario i LEFT JOIN tipows t ON t.ID_TIPOWS = i.ID_TIPOWS WHERE i.ID_TIPOWS='$consulta[15]'";
+                    $sql = "SELECT t.TIPOWS FROM inventario i LEFT JOIN tipows t ON t.ID_TIPOWS = i.ID_TIPOWS WHERE i.ID_TIPOWS='$consulta[14]'";
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
                     $tip = $row['TIPOWS'];
                     /*/////////////////////MARCA//////////////////////*/
-                    $sql = "SELECT m.MARCA FROM inventario i INNER JOIN marcas m ON m.ID_MARCA = i.ID_MARCA WHERE i.ID_MARCA='$consulta[4]'";
+                    $sql = "SELECT m.MARCA FROM inventario i INNER JOIN marcas m ON m.ID_MARCA = i.ID_MARCA WHERE i.ID_MARCA='$consulta[3]'";
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
                     $mar = $row['MARCA'];
                     /*/////////////////////SO//////////////////////*/
-                    $sql = "SELECT s.SIST_OP FROM inventario i INNER JOIN so s ON s.ID_SO = i.ID_SO WHERE i.        ID_SO='$consulta[5]'";
+                    $sql = "SELECT s.SIST_OP FROM inventario i INNER JOIN so s ON s.ID_SO = i.ID_SO WHERE i.        ID_SO='$consulta[4]'";
                     $resultado = $datos_base->query($sql);
                     $row = $resultado->fetch_assoc();
                     $so = $row['SIST_OP'];
@@ -840,17 +846,17 @@ function ConsultarIncidente($no_tic)
 
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>SERIALN:</u></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[2]?></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[1]?></h4>
                     </div>
 
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MASTERIZACIÓN:</u></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[10]?></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[9]?></h4>
                     </div>
 
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>OBSERVACIÓN:</u></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[7]?></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[6]?></h4>
                     </div>
                     
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
@@ -859,11 +865,11 @@ function ConsultarIncidente($no_tic)
                     </div>
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>NRO MAC:</u></h4> 
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[11]?></h4> 
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[10]?></h4> 
                     </div>
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>RESERVA DE IP:</u></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[12]?></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[11]?></h4>
                     </div>
 
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
@@ -872,11 +878,11 @@ function ConsultarIncidente($no_tic)
                         </div>
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[9]?></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[8]?></h4>
                     </div>
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u></h4>
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[17]?></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[16]?></h4>
                     </div>
             </div>
 	</section>

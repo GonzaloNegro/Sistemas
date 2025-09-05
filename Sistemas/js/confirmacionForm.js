@@ -53,3 +53,26 @@ function confirmarEnvioFormulario(formulario, campos, titulo, mensajeConfirmacio
 		}
 	});
 }
+
+// Función genérica de alerta
+function showAlert(title, type = "success", confirmText = "Aceptar", confirmColor = null) {
+    // colores por defecto según tipo si no se pasan
+    const defaultColors = {
+        success: "#198754",
+        error: "#d33",
+        warning: "#f0ad4e",
+        info: "#0dcaf0"
+    };
+
+    Swal.fire({
+        title: title,
+        icon: type,
+        showConfirmButton: true,
+        confirmButtonText: confirmText,
+        confirmButtonColor: confirmColor || defaultColors[type] || "#198754",
+        customClass: {
+            actions: 'reverse-button'
+        }
+    });
+}
+

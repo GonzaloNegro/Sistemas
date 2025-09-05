@@ -18,57 +18,12 @@ $row = $resultado->fetch_assoc();
 	<link rel="icon" href="../imagenes/logoInfraestructura.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloallabm.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
-<script type="text/javascript">
-			function ok(){
-				swal(  {title: "Placa madre modificada correctamente",
-						icon: "success",
-						showConfirmButton: true,
-						showCancelButton: false,
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='abmplacamadre.php';
-						}
-						}
-						);
-			}	
-			</script>
-<script type="text/javascript">
-			function repeat(){
-				swal(  {title: "Placa madre modificada correctamente. Verifique el nombre de la marca, ya que existe este nombre registrado previamente!",
-						icon: "info",
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='abmplacamadre.php';
-						}
-						}
-						);
-			}	
-			</script>
-<script type="text/javascript">
-			function no(){
-				swal(  {title: "La placa madre de la marca ingresada ya está registrado",
-						icon: "error",
-						})
-						.then((confirmar) => {
-						if (confirmar) {
-							window.location.href='abmplacamadre.php';
-						}
-						}
-						);
-			}	
-			</script>
     <section id="inicio">
 		 <div id="reporteEst">   
             <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
@@ -136,26 +91,34 @@ $row = $resultado->fetch_assoc();
 											</tr>";
 						}
 					}
-					echo "</table>";
-					?>
-				<?php
-				if(isset($_GET['ok'])){
-					?>
-					<script>ok();</script>
-					<?php			
-				}
-				if(isset($_GET['repeat'])){
-					?>
-					<script>repeat();</script>
-					<?php			
-				}
-				if(isset($_GET['no'])){
-					?>
-					<script>no();</script>
-					<?php			
-				}
-			?>
+					echo "</table>";?>
     </section>
 	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
+	<script src="../js/confirmacionForm.js"></script>
+	<script>
+		const urlParams = new URLSearchParams(window.location.search);
+
+		["ok","okMod","no","noMod", "repeat"].forEach(param => {
+			if (urlParams.has(param)) {
+				switch(param) {
+					case "ok":
+						showAlert("Placa madre modificada correctamente.", "success");
+						break;
+					case "okMod":
+						showAlert("Placa madre modificada correctamente.", "success");
+						break;
+					case "no":
+						showAlert("La placa madre de la marca ingresada ya está registrado.", "error");
+						break;
+					case "noMod":
+						showAlert("No se ha podido modificar la placa madre. Ya se encuentra registrada.", "error");
+						break;
+					case "repeat":
+						showAlert("Placa madre modificada correctamente. Verifique el nombre de la marca, ya que existe este nombre registrado previamente.", "warning");
+						break;
+				}
+			}
+		});
+	</script>
 </body>
 </html>

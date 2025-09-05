@@ -71,6 +71,10 @@ function ConsultarIncidente($no_tic)
                     {
                         selector: "#perfil",
                         errorMessage: "No seleccionó perfil."
+                    },
+                    {
+                        selector: "#repa",
+                        errorMessage: "No seleccionó repartición."
                     }
                 ];
 
@@ -134,6 +138,7 @@ function enviar_formulario(formulario, accion) {
             { id: 'telefono', label: 'Teléfono' },
             { id: 'tipo', label: 'Tipo', esSelect: true },
             { id: 'perfil', label: 'Perfil', esSelect: true},
+            { id: 'repa', label: 'Repartición', esSelect: true},
         ];
 
         // Validación de los campos
@@ -222,11 +227,25 @@ function enviar_formulario(formulario, accion) {
             }
 
             try {
+                $sent = "SELECT REPA FROM reparticion WHERE ID_REPA = '" . $consulta['ID_REPARTICION'] . "'";
+                $resultado = $datos_base->query($sent);
+            
+                if (!$resultado) {
+                    throw new Exception("Error al obtener la repartición del resolutor: " . $datos_base->error);
+                }
+            
+                $row = $resultado->fetch_assoc();
+                $rp = $row['REPA'];
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+
+            try {
                 $sent= "SELECT * FROM perfiles WHERE id_perfil= '".$consulta['ID_PERFIL']."'";
                 $resultado = $datos_base->query($sent);
             
                 if (!$resultado) {
-                    throw new Exception("Error al obtener el tipo de resolutor: " . $datos_base->error);
+                    throw new Exception("Error al obtener el perfil del resolutor: " . $datos_base->error);
                 }
             
                 $row = $resultado->fetch_assoc();
@@ -244,11 +263,11 @@ function enviar_formulario(formulario, accion) {
                 </div>
 
                 <div class="form-group row">
-                    <label id="lblForm" class="col-form-label col-xl col-lg">NOMBRE: </label>
+                    <label id="lblForm" class="col-form-label col-xl col-lg">NOMBRE:<span style="color:red;">*</span></label>
                     <input id="nombre_resolutor" class="form-control col-xl col-lg" style="text-transform:uppercase;" type="text" name="nom" value="<?php echo $consulta['RESOLUTOR']?>" required>
                 </div>
                 <div class="form-group row">
-                    <label id="lblForm" class="col-form-label col-xl col-lg">CUIL: </label>
+                    <label id="lblForm" class="col-form-label col-xl col-lg">CUIL:<span style="color:red;">*</span></label>
                     <input id="cuil" class="form-control col-xl col-lg" type="text" name="cuil" value="<?php echo $consulta['CUIL']?>" required>
                 </div>
 
@@ -262,7 +281,7 @@ function enviar_formulario(formulario, accion) {
                 </div>
 
                 <div class="form-group row">
-                    <label id="lblForm" class="col-form-label col-xl col-lg">TIPO DE RESOLUTOR:</label>
+                    <label id="lblForm" class="col-form-label col-xl col-lg">TIPO DE RESOLUTOR:<span style="color:red;">*</span></label>
                     <select id="tipo" name="tipo" class="form-control col-xl col-lg" style="text-transform:uppercase" required>
                                     <option selected value="100"><?php echo $tr?></option>
                                     <?php
@@ -276,7 +295,7 @@ function enviar_formulario(formulario, accion) {
                     </select>
                 </div>
                 <div class="form-group row">
-                    <label class="col-form-label col-xl col-lg">PERFIL:</label>
+                    <label class="col-form-label col-xl col-lg">PERFIL:<span style="color:red;">*</span></label>
                             <select id="perfil" name="perfil" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                             <option selected value="101"><?php echo $tp?></option>
                             <?php
@@ -286,6 +305,20 @@ function enviar_formulario(formulario, accion) {
                             ?>
                             <?php foreach ($ejecutar as $opciones): ?> 
                                 <option value="<?php echo $opciones['ID_PERFIL']?>"><?php echo $opciones['PERFILES']?></option>
+                            <?php endforeach ?>
+                            </select>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-xl col-lg">REPARTICIÓN:<span style="color:red;">*</span></label>
+                            <select id="repa" name="repa" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <option selected value="102"><?php echo $rp?></option>
+                            <?php
+                            include("../particular/conexion.php");
+                            $consulta= "SELECT * FROM reparticion ORDER BY REPA ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                                <option value="<?php echo $opciones['ID_REPA']?>"><?php echo $opciones['REPA']?></option>
                             <?php endforeach ?>
                             </select>
                 </div>

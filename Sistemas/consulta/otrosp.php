@@ -221,7 +221,7 @@ $row = $resultado->fetch_assoc();
 
                             tabla.append(`<tr>
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.MODELO)}</h4></td>
-                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(usuario)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;;'>${mostrarValor(usuario)}</h4></td>
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.AREA)}</h4></td>
                             <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.REPA)}</h4></td>
                             <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.SERIEG)}</h4></td>
