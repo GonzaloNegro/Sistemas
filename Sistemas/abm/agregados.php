@@ -346,7 +346,7 @@ if (isset($_POST['accion'])) {
                     mysqli_query($datos_base, "INSERT INTO pvideo VALUES (DEFAULT, '$memoria', '$modelo', '$tipo')"); 
 
                     /* BUSCO EL MODELO PARA AGREGAR A agregados.php */
-                    $sqli = "SELECT MODELO FROM modelo WHERE ID_MODELO = '$modelo' AND ID_MODELO ='$modelo'";
+                    $sqli = "SELECT MODELO FROM modelo WHERE ID_MODELO = '$modelo'";
                     $resultado2 = $datos_base->query($sqli);
                     $row2 = $resultado2->fetch_assoc();
                     $modeloParaAgregado = $row2['MODELO'];
@@ -449,7 +449,7 @@ if (isset($_POST['accion'])) {
                     // mysqli_query($datos_base, "INSERT INTO movimientosperi VALUES (DEFAULT, '$fechaActual', '$per', '$area', '$usu', '$est')");/* EL USUARIO HAY QUE TRAERLO DESDE LA TABLA INTERMEDIA A TRAVES DELE QUIPO */
                     mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equip', '$per', '$fechaActual', '', '$est')");
                     /* BUSCO EL MODELO PARA AGREGAR A agregados.php */
-                    $sqli = "SELECT MODELO FROM modelo WHERE ID_MODELO = '$modelo' AND ID_MODELO ='$modelo'";
+                    $sqli = "SELECT MODELO FROM modelo WHERE ID_MODELO = '$modelo'";
                     $resultado2 = $datos_base->query($sqli);
                     $row2 = $resultado2->fetch_assoc();
                     $modeloParaAgregado = $row2['MODELO'];
@@ -511,7 +511,7 @@ if (isset($_POST['accion'])) {
                 // mysqli_query($datos_base, "INSERT INTO movimientosperi VALUES (DEFAULT, '$fechaActual', '$per', '$area', '$usu', '$est')");/* EL INSERT NO VA A FUNCIONAR PORQUE $usu NO LO TRAIGO MAS, TRAIGO EL EQUIPO */
                 mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equip', '$per', '$fechaActual', '', '$est')");
                 /* BUSCO EL MODELO PARA AGREGAR A agregados.php */
-                $sqli = "SELECT MODELO FROM modelo WHERE ID_MODELO = '$modelo' AND ID_MODELO ='$modelo'";
+                $sqli = "SELECT MODELO FROM modelo WHERE ID_MODELO = '$modelo'";
                 $resultado2 = $datos_base->query($sqli);
                 $row2 = $resultado2->fetch_assoc();
                 $modeloParaAgregado = $row2['MODELO'];
@@ -588,7 +588,7 @@ if (isset($_POST['accion'])) {
                     mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equip', '$per', '$fechaActual', '', '$est')");
                 
                     /* BUSCO EL MODELO PARA AGREGAR A agregados.php */
-                    $sqli = "SELECT MODELO FROM modelo WHERE ID_MODELO = '$modelo' AND ID_MODELO ='$modelo'";
+                    $sqli = "SELECT MODELO FROM modelo WHERE ID_MODELO = '$modelo'";
                     $resultado2 = $datos_base->query($sqli);
                     $row2 = $resultado2->fetch_assoc();
                     $modeloParaAgregado = $row2['MODELO'];

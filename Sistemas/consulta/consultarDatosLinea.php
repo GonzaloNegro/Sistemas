@@ -20,7 +20,7 @@
     left join roaming r on r.ID_ROAMING=l.ID_ROAMING 
     left join estado_ws e on e.ID_ESTADOWS=l.ID_ESTADOWS 
     where l.ID_LINEA=$id_linea
-    ORDER BY m.ID_MOVILINEA DESC
+    ORDER BY lc.ID_LINEACELULAR DESC
     LIMIT 1");
     $num_rows= mysqli_num_rows($resultados);
     // echo"<h1>".$celular."</h1>";

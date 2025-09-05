@@ -226,7 +226,7 @@ $nrocelular = $consulta['NRO'];
 			$row = $resultado->fetch_assoc();
 			$observaciones = $row['OBSERVACION'];
 		?>
-					<form method="POST" action="../abm/modificados.php">
+					<form method="POST" action="../abm/modificados2.php">
 						<div class="form-group row">
 							<label id="lblForm"class="col-form-label col-xl col-lg">ID: </label>
 							<input type="text" class="id" name="id" value="<?php echo $id?>" style="background-color:transparent;" readonly>
@@ -238,7 +238,7 @@ $nrocelular = $consulta['NRO'];
 						</div>
 						<div class="form-group row">
 							<label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
-								<select name="usuario" id="usuario" style="text-transform:uppercase" onchange="cargarLineas(this.value); verificarDesactivacionCampos();" class="form-control col-xl col-lg" required>
+								<select name="usuario" id="usuario" style="text-transform:uppercase" onchange="cargarLineas(this.value); verificarDesactivacionCampos('usuario');" class="form-control col-xl col-lg" required>
 								<option selected value="100"><?php echo $usuario;?></option>
 								<?php
 								include("../particular/conexion.php");
@@ -279,7 +279,7 @@ $nrocelular = $consulta['NRO'];
 
                         <div class="form-group row">
 							<label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
-                            <select name="estado" id="estado" style="text-transform:uppercase" class="form-control col-xl col-lg" onchange="verificarDesactivacionCampos()" required>
+                            <select name="estado" id="estado" style="text-transform:uppercase" class="form-control col-xl col-lg" onchange="verificarDesactivacionCampos('estado')" required>
 							<option selected value="200"><?php echo $estado;?></option>
 							<?php
                             include("../particular/conexion.php");
@@ -380,31 +380,70 @@ $nrocelular = $consulta['NRO'];
 			</div>
 		</div>
     </footer>
-	<script>
-/* 	$(document).ready(function(){
-    $("#usuario").change(function(){
-		$("#checklinea").prop('checked', false);
-		$("#lineasusuario").hide(0);
-        $("#divlineas").show(1300);
-    });
+    <script>
+    function inicializarFormulario() {
+        const usuarioSelect = document.getElementById('usuario');
+        const lineaSelect = document.getElementById('lineas');
+        const estadoSelect = document.getElementById('estado');
+        const estado = estadoSelect.options[estadoSelect.selectedIndex].text;
+        // const estado = estadoSelect.value;
+        const id_usuario = usuarioSelect.value;
 
-	$("#checklinea").change(function(){
-        $("#lineasusuario").show(1300);
-    });
-    }); */
-	// function cargarLineas() {
-    //     var usuario = document.getElementById("usuario").value;
-	// 	// alert(usuario)
-    //     var xhr = new XMLHttpRequest();
-    //     xhr.open("GET", "obtener_lineas.php?usuario=" + usuario, true);
-    //     xhr.onreadystatechange = function () {
-    //         if (xhr.readyState === 4 && xhr.status === 200) {
-    //             document.getElementById("lineas").innerHTML = xhr.responseText;
-    //         }
-    //     };
-    //     xhr.send();
-    // }
+        // Si está en STOCK → bloquear usuario hasta que se cambie de estado
+        if (estado === "S/A - STOCK") { // STOCK
+            usuarioSelect.disabled = true;
+            lineaSelect.disabled = true;
+            // verificarDesactivacionCampos("estado");
+
+        // Si está en BAJA → solo permitir usuarios especiales (277 / 310)
+        } else if (estado === "BAJA") { // BAJA
+            // guardo el valor actualmente seleccionado
+            const usuarioActual = usuarioSelect.value;
+            const usuarioTexto = usuarioSelect.options[usuarioSelect.selectedIndex].text;
+
+            // limpio y vuelvo a poner el usuario actual como "selected"
+            usuarioSelect.innerHTML = `
+                <option selected value="${usuarioActual}">${usuarioTexto}</option>
+                <option value="277">SIN ASIGNAR HP 725</option>
+                <option value="310">SIN ASIGNAR HP 607</option>
+            `;
+
+            usuarioSelect.disabled = false;
+            lineaSelect.innerHTML = '<option value="0">NO DISPONIBLE</option>';
+            lineaSelect.disabled = true;
+
+            // Listener para quitar la opción inicial de usuario si se selecciona otra
+            usuarioInicial = usuarioSelect.value;
+            usuarioSelect.addEventListener("change", function () {
+            const seleccionado = this.value;
+
+            // si se selecciona diferente al inicial y es una de las especiales → eliminar la opción inicial
+            if ((seleccionado === "277" || seleccionado === "310") && usuarioInicial !== seleccionado) {
+                const opcionInicial = this.querySelector(`option[value="${usuarioInicial}"]`);
+                if (opcionInicial) {
+                    opcionInicial.remove();
+                }
+            }
+            });
+
+
+        } else {
+            usuarioSelect.disabled = false;
+            lineaSelect.disabled = false;
+            // cargarUsuarios();
+            // cargarLineas(id_usuario);
+        }
+        }
+
+        // 👉 Ejecutar esta función cuando ya se cargó todo (HTML, CSS y AJAX)
+        window.addEventListener("load", function() {
+            // esperamos un poquito por si AJAX demora en llenar selects
+            setTimeout(() => {
+                inicializarFormulario();
+            }, 400);
+        });
 </script>
+
 <!--FUNCIONALIDAD EN JQUERY QUE PETICIONA A consultarLineasDisponibles.php las lineas sin celular asignado-->
 <script>
     function cargarLineas(id_usuario, idcelular) {
@@ -428,34 +467,63 @@ $nrocelular = $consulta['NRO'];
         });
     };
 
-    function verificarDesactivacionCampos() {
-        const usuarioSelect = document.getElementById('usuario');
-        const lineaSelect = document.getElementById('lineas');
-        const estado = document.getElementById('estado').value;
-        const id_usuario = usuarioSelect.value;
+    function verificarDesactivacionCampos(origen = null) {
+    const usuarioSelect = document.getElementById('usuario');
+    const lineaSelect = document.getElementById('lineas');
+    const estadoSelect = document.getElementById('estado');
 
-        const estadoInvalido = (estado === "2" || estado === "3");
-        const usuarioInvalido = (id_usuario === "277");
+    const estado = estadoSelect.value;
+    const id_usuario = usuarioSelect.value;
 
+    const estadoInvalido = (estado === "2" || estado === "3"); // BAJA o STOCK
+    const usuarioInvalido = (id_usuario === "277" || id_usuario === "310"); // SIN ASIGNAR
+
+    // 👉 Si el cambio vino del select de ESTADO
+    if (origen === "estado") {
         if (estadoInvalido) {
-            usuarioSelect.innerHTML = '<option value="">NO DISPONIBLE</option>';
-            usuarioSelect.disabled = true;
+            // solo permito usuarios 277 y 310
+            usuarioSelect.innerHTML = `
+                <option value="277">SIN ASIGNAR HP 725</option>
+                <option value="310">SIN ASIGNAR HP 607</option>
+            `;
+            usuarioSelect.disabled = false;
 
-            lineaSelect.innerHTML = '<option value="">NO DISPONIBLE</option>';
+            lineaSelect.innerHTML = '<option value="0">NO DISPONIBLE</option>';
             lineaSelect.disabled = true;
         } else {
             usuarioSelect.disabled = false;
-            cargarUsuarios(); // 👉 Recargamos el select de usuarios
-
-            if (usuarioInvalido) {
-                lineaSelect.innerHTML = '<option value="">NO DISPONIBLE</option>';
-                lineaSelect.disabled = true;
-            } else {
-                lineaSelect.disabled = false;
-                cargarLineas(id_usuario);
-            }
+            cargarUsuarios();
+            lineaSelect.disabled = false;
+            cargarLineas(id_usuario);
         }
     }
+
+    // 👉 Si el cambio vino del select de USUARIO
+    if (origen === "usuario") {
+        if (usuarioInvalido) {
+            const estadoActual = estadoSelect.value; // 👈 guardo selección actual
+
+            estadoSelect.innerHTML = `
+                <option value="2">BAJA</option>
+                <option value="3">S/A - STOCK</option>
+            `;
+            estadoSelect.disabled = false;
+
+            // 👇 restaurar selección si sigue siendo válida
+            if (estadoActual === "2" || estadoActual === "3") {
+                estadoSelect.value = estadoActual;
+            }
+
+            lineaSelect.innerHTML = '<option value="0">NO DISPONIBLE</option>';
+            lineaSelect.disabled = true;
+        } else {
+            lineaSelect.disabled = false;
+            cargarLineas(id_usuario);
+        }
+    }
+}
+
+
 
 
     function cargarUsuarios() {

@@ -121,17 +121,16 @@
 
             //SERVIDOR QUE MUESTRA UNA TABLA CON LAS NOVEDADES DE UN CASO DETERMINADO
         $id_celular = $_POST['idCelular'];
-        $resultados=mysqli_query($datos_base, "SELECT lc.ID_LINEA, m.ID_MOVICEL, m.ID_CELULAR, e.ESTADO, u.NOMBRE, pr.PROVEEDOR, p.PROCEDENCIA, m.FECHA, l.NRO
+        $resultados=mysqli_query($datos_base, "SELECT lc.ID_LINEACELULAR, lc.ID_LINEA, e.ESTADO, u.NOMBRE, pr.PROVEEDOR, p.PROCEDENCIA, l.NRO, lc.ID_ESTADOWS, lc.FECHA
         FROM lineacelular lc 
         LEFT JOIN celular c ON c.ID_CELULAR = lc.ID_CELULAR 
         LEFT JOIN linea l ON lc.ID_LINEA = l.ID_LINEA
-        LEFT JOIN movicelular m ON m.ID_CELULAR=c.ID_CELULAR 
         LEFT JOIN usuarios u ON lc.ID_USUARIO=u.ID_USUARIO
         LEFT JOIN proveedor pr ON pr.ID_PROVEEDOR=c.ID_PROVEEDOR 
         LEFT JOIN procedencia p ON p.ID_PROCEDENCIA = c.ID_PROCEDENCIA
-        LEFT JOIN estado_ws e ON e.ID_ESTADOWS=c.ID_ESTADOWS 
+        LEFT JOIN estado_ws e ON e.ID_ESTADOWS=lc.ID_ESTADOWS 
         WHERE c.ID_CELULAR = $id_celular
-        ORDER BY m.ID_MOVICEL DESC");
+        ORDER BY lc.ID_LINEACELULAR ASC");
         $num_rows= mysqli_num_rows($resultados);
         // echo"<h1>".$celular."</h1>";
         if ($num_rows>0) {
@@ -154,6 +153,13 @@
         } elseif ($estado === 'BAJA') {
             $color = 'red';
         }
+        elseif ($estado === 'S/A - STOCK') {
+            $color = 'blue';
+        }
+        // elseif ($estado === null) {
+        //     $color = 'orange';
+        // }
+
 
         echo"
         <tr>

@@ -2,6 +2,20 @@
 session_start();
 include('../particular/conexion.php');
 
+/* -------------DATOS GENERALES------------- */
+date_default_timezone_set('America/Argentina/Buenos_Aires'); // Configura la zona horaria de Argentina
+$horaActual = date("H:i:s"); // Formato de hora: HH:mm:ss
+$fechaActual = date('Y-m-d');
+
+/*BUSCO EL RESOLUTOR PARA agregados*/
+$cuil = $_SESSION['cuil'];
+
+$sqli = "SELECT ID_RESOLUTOR FROM resolutor WHERE CUIL = '$cuil'";
+$resultado2 = $datos_base->query($sqli);
+$row2 = $resultado2->fetch_assoc();
+$resolutorActivo = $row2['ID_RESOLUTOR'];
+/* ------------------------------- */
+
 /* -----------------CELULAR: agregarCelular.php----------------- */
 if(isset($_POST['agregarCelular'])){
     $imei = $_POST['imei'];
@@ -36,7 +50,7 @@ if(isset($_POST['agregarCelular'])){
     }
     else{
         //SI EL CELULAR ESTA ASIGNADO A UNA LINEA O NO
-        if($linea = ''){//CELULAR SIN ASIGNAR A UNA LINEA
+        if($linea == '' || $linea == 0){//CELULAR SIN ASIGNAR A UNA LINEA
             //INSERTAR EN TABLA celular
             mysqli_query($datos_base, "INSERT INTO celular VALUES (DEFAULT, '$imei', '$usuario', '$estado', '$proveedor', '$modelo', '$procedencia')");
 
@@ -46,10 +60,18 @@ if(isset($_POST['agregarCelular'])){
                 $tic1 = trim($row[0]);
                 }
     
-            mysqli_query($datos_base, "INSERT INTO movicelular VALUES(DEFAULT, '$tic1','$estado', '$usuario', '$fechaActual','$obs')");
+            mysqli_query($datos_base, "INSERT INTO movicelular VALUES(DEFAULT, '$tic1','$estado', '$usuario', '$fechaActual',UPPER('$obs'))");
 
             //INSERTAR EN TABLA lineacelular
-            mysqli_query($datos_base, "INSERT INTO lineacelular VALUES(DEFAULT, 0, '$tic1', '$usuario', '$fechaActual')");
+            mysqli_query($datos_base, "INSERT INTO lineacelular VALUES(DEFAULT, 0, '$tic1', '$usuario', '$fechaActual', '$estado')");
+
+            /* BUSCO EL MODELO PARA AGREGAR A agregados.php */
+            $sqli = "SELECT MODELO FROM modelo WHERE ID_MODELO = '$modelo'";
+            $resultado2 = $datos_base->query($sqli);
+            $row2 = $resultado2->fetch_assoc();
+            $modeloParaAgregado = $row2['MODELO'];
+
+            mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'CELULAR', 'AGREGADO',  '$modeloParaAgregado', '', '$fechaActual', '$horaActual', '$resolutorActivo')");
 
         }else{//CELULAR ASIGNADO A UNA LINEA
             //INSERTAR EN TABLA celular
@@ -61,13 +83,21 @@ if(isset($_POST['agregarCelular'])){
                 $tic1 = trim($row[0]);
                 }
     
-            mysqli_query($datos_base, "INSERT INTO movicelular VALUES(DEFAULT, '$tic1','$estado', '$usuario', '$fechaActual','$obs')");
+            mysqli_query($datos_base, "INSERT INTO movicelular VALUES(DEFAULT, '$tic1','$estado', '$usuario', '$fechaActual',UPPER('$obs'))");
 
             //INSERTAR EN TABLA lineacelular            
-            mysqli_query($datos_base, "INSERT INTO lineacelular VALUES(DEFAULT, '$linea', '$tic1', '$usuario', '$fechaActual')");
+            mysqli_query($datos_base, "INSERT INTO lineacelular VALUES(DEFAULT, '$linea', '$tic1', '$usuario', '$fechaActual', '$estado')");
+
+            /* BUSCO EL MODELO PARA AGREGAR A agregados.php */
+            $sqli = "SELECT MODELO FROM modelo WHERE ID_MODELO = '$modelo'";
+            $resultado2 = $datos_base->query($sqli);
+            $row2 = $resultado2->fetch_assoc();
+            $modeloParaAgregado = $row2['MODELO'];
+
+            mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'CELULAR', 'AGREGADO',  '$modeloParaAgregado', '', '$fechaActual', '$horaActual', '$resolutorActivo')");
         }
 
-        header("Location: agregarCelular.php?ok");
+        header("Location: celulares.php?ok");
     }
     mysqli_close($datos_base);
 }
@@ -78,7 +108,7 @@ if(isset($_POST['agregarCelular'])){
 /* --------------------------------------------------------- */
 
 // if(isset($_POST['agregarLinea'])){
-if(isset($_POST['text'])){
+if(isset($_POST['agregarLinea'])){
     $numero = $_POST['text'];
     $usuario = $_POST['usuario'];
     $celular = $_POST['celular'];
@@ -101,7 +131,19 @@ if(isset($_POST['text'])){
     $numeroRegistrado = $row['NRO'];
 
     /* SI EL USUARIO YA TIENE UN REGISTRO */
-    $sql = "SELECT COUNT(*) AS TOTAL FROM movilinea WHERE ID_USUARIO = '$usuario' AND ID_ESTADOWS = 1";
+    $sql = "SELECT COUNT(*) AS TOTAL
+        FROM (
+            SELECT m.ID_LINEA
+            FROM movilinea m
+            INNER JOIN (
+                SELECT ID_LINEA, MAX(ID_MOVILINEA) AS ultima
+                FROM movilinea
+                GROUP BY ID_LINEA
+            ) t ON m.ID_LINEA = t.ID_LINEA AND m.ID_MOVILINEA = t.ultima
+            WHERE m.ID_USUARIO = '$usuario'
+            AND m.ID_ESTADOWS = 1
+        ) AS actuales;
+        ";
     $resultado = $datos_base->query($sql);
     $row = $resultado->fetch_assoc();
     $usuarioRegistrado = $row['TOTAL'];
@@ -130,7 +172,7 @@ if(isset($_POST['text'])){
         $monto_total = $monto_total + $extras;
 
         //SI  LA LINEA ESTA ASIGNADA A UN CELULAR O NO
-        if($celular = ''){//LINEA SIN ASIGNAR A UN CELULAR
+        if($celular == ''){//LINEA SIN ASIGNAR A UN CELULAR
             //INSERTAR EN TABLA linea
             mysqli_query($datos_base, "INSERT INTO linea VALUES (DEFAULT, '$numero', '$usuario', '$estado', '$descuento', '$fechaDesc', '$nombrePlan', '$roaming')");
 
@@ -139,10 +181,12 @@ if(isset($_POST['text'])){
             if ($row = mysqli_fetch_row($tic)) {
                 $tic1 = trim($row[0]);
                 }
-                mysqli_query($datos_base, "INSERT INTO movilinea VALUES(DEFAULT, '$tic1', '$usuario','$estado', '$nombrePlan', '$montoDelPlan', '$fechaDesc','$roaming', '$descuento', '$extras', '$monto_total', '$obs', '$fechaActual')");
+                mysqli_query($datos_base, "INSERT INTO movilinea VALUES(DEFAULT, '$tic1', '$usuario','$estado', '$nombrePlan', '$montoDelPlan', '$fechaDesc','$roaming', '$descuento', '$extras', '$monto_total', UPPER('$obs'), '$fechaActual')");
 
             //INSERTAR EN TABLA lineacelular
-            mysqli_query($datos_base, "INSERT INTO lineacelular VALUES(DEFAULT, '$tic1', 0, '$usuario', '$fechaActual')");
+            mysqli_query($datos_base, "INSERT INTO lineacelular VALUES(DEFAULT, '$tic1', 0, '$usuario', '$fechaActual', '$estado')");
+
+            mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'LÍNEA', 'AGREGADO',  '$numero', '', '$fechaActual', '$horaActual', '$resolutorActivo')");
 
         }else{//CELULAR ASIGNADO A UNA LINEA
             //INSERTAR EN TABLA linea
@@ -153,10 +197,12 @@ if(isset($_POST['text'])){
             if ($row = mysqli_fetch_row($tic)) {
                 $tic1 = trim($row[0]);
                 }
-                mysqli_query($datos_base, "INSERT INTO movilinea VALUES(DEFAULT, '$tic1', '$usuario','$estado', '$nombrePlan',  '$montoDelPlan', '$fechaDesc', '$roaming','$descuento', '$extras', '$monto_total', '$obs', '$fechaActual')");
+                mysqli_query($datos_base, "INSERT INTO movilinea VALUES(DEFAULT, '$tic1', '$usuario','$estado', '$nombrePlan',  '$montoDelPlan', '$fechaDesc', '$roaming','$descuento', '$extras', '$monto_total', UPPER('$obs'), '$fechaActual')");
 
             //INSERTAR EN TABLA lineacelular
-            mysqli_query($datos_base, "INSERT INTO lineacelular VALUES(DEFAULT, '$tic1', '$celular', '$usuario', '$fechaActual')");
+            mysqli_query($datos_base, "INSERT INTO lineacelular VALUES(DEFAULT, '$tic1', '$celular', '$usuario', '$fechaActual', '$estado')");
+
+            mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'LÍNEA', 'AGREGADO',  '$numero', '', '$fechaActual', '$horaActual', '$resolutorActivo')");
 
         }
 

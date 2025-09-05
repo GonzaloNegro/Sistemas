@@ -67,6 +67,33 @@ $row = $resultado->fetch_assoc();
                     })
 			}	
 			</script>
+			<script>
+			function repeat(){
+				Swal.fire({
+                        title: "El usuario ya tiene asignadas tres líneas.",
+                        icon: "warning",
+                        showConfirmButton: true,
+                        showCancelButton: false,
+						confirmButtonColor: '#198754',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Confirmar',
+						cancelButtonText: "Cancelar",
+						reverseButtons: true,
+                        customClass:{
+                            actions: 'reverse-button'
+                        }
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href='./agregarLinea.php';
+
+
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
+			}	
+			</script>
 <script type="text/javascript">
 			function no(){
 				// swal(  {title: "La linea ya esta registrada",
@@ -133,7 +160,7 @@ $row = $resultado->fetch_assoc();
 
 				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:<span style="color:red;">*</span></label>
-					<select name="usuario" id="usuario" style="text-transform:uppercase" onchange="cargarLineas()" class="form-control col-xl col-lg" required>
+					<select name="usuario" id="usuario" style="text-transform:uppercase" onchange="cargarCelulares()" class="form-control col-xl col-lg" required>
 					<option selected disabled="">-SELECCIONE UNA-</option>
 					<?php
 					include("../particular/conexion.php");
@@ -246,6 +273,7 @@ $row = $resultado->fetch_assoc();
 				<div class="form-group row">
 					<label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓN:</label> 
 					<textarea class="form-control col-xl col-lg" name="obs" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3" ></textarea>
+					<input type="hidden" name="agregarLinea" value="Guardar">
 				</div> 
 				<?php 
 					if ($row['ID_PERFIL'] != 5) {
@@ -262,7 +290,7 @@ $row = $resultado->fetch_assoc();
 					<script>ok();</script>
 					<?php			
 				}
-				if(isset($_GET['repeat'])){
+				if(isset($_GET['reg'])){
 					?>
 					<script>repeat();</script>
 					<?php			
@@ -297,7 +325,7 @@ $row = $resultado->fetch_assoc();
         $("#celularesusuario").show(1300);
     });
     }); */
-	function cargarLineas() {
+	function cargarCelulares() {
         var usuario = document.getElementById("usuario").value;
 		// alert(usuario)
         var xhr = new XMLHttpRequest();
@@ -398,7 +426,7 @@ $row = $resultado->fetch_assoc();
                     })
                     .then((result) => {
                         if (result.isConfirmed) {
-                            formulario.submit()
+                            formulario.submit();
 
 
                         } else if (result.isDenied) {

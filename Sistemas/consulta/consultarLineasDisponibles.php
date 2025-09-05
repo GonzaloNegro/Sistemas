@@ -1,4 +1,5 @@
 <?php
+    //Trae la linea actual que tiene asignado el celular y las lineas disponibles
 	session_start();
     include('../particular/conexion.php');
     if(!isset($_SESSION['cuil'])) 
@@ -13,7 +14,18 @@
             if ($id_celular==0 || $id_celular==null) {
                 # code...
             }else {
-                $sentencia =  "SELECT l.ID_LINEA, l.NRO FROM celular c left join lineacelular lc on c.ID_CELULAR=lc.ID_CELULAR left join linea l on lc.ID_LINEA=l.ID_LINEA WHERE c.ID_CELULAR=$id_celular";
+                $sentencia =  "SELECT l.ID_LINEA, l.NRO
+                    FROM celular c
+                    LEFT JOIN lineacelular lc 
+                        ON c.ID_CELULAR = lc.ID_CELULAR
+                    LEFT JOIN linea l 
+                        ON lc.ID_LINEA = l.ID_LINEA
+                    WHERE c.ID_CELULAR = $id_celular
+                    AND lc.ID_LINEACELULAR = (
+                            SELECT MAX(lc2.ID_LINEACELULAR)
+                            FROM lineacelular lc2
+                            WHERE lc2.ID_CELULAR = c.ID_CELULAR
+                        )";
                 $resultado = mysqli_query($datos_base, $sentencia);
                 $filas = mysqli_fetch_assoc($resultado);
                 $id_linea=$filas['ID_LINEA'];/*7*/
@@ -32,8 +44,17 @@
         }
 
         
-
-        $consulta= "SELECT lc.ID_LINEA, l.NRO FROM lineacelular lc left join linea l on lc.ID_LINEA=l.ID_LINEA WHERE lc.ID_USUARIO=$id_usuario and lc.ID_CELULAR=0";
+        //OBTIENE LAS LINEAS DISPONIBLES DE UN USUARIO
+        $consulta= "SELECT lc.ID_LINEA, l.NRO
+            FROM lineacelular lc
+            JOIN linea l ON lc.ID_LINEA = l.ID_LINEA
+            JOIN (
+                SELECT ID_LINEA, MAX(ID_LINEACELULAR) AS ultima
+                FROM lineacelular
+                GROUP BY ID_LINEA
+            ) t ON lc.ID_LINEA = t.ID_LINEA AND lc.ID_LINEACELULAR = t.ultima
+            WHERE lc.ID_USUARIO = $id_usuario
+            AND lc.ID_CELULAR = 0;";
         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
         
         

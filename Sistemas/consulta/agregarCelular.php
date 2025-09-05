@@ -18,7 +18,7 @@ $row = $resultado->fetch_assoc();
 	<title>AGREGAR CELULAR</title><meta charset="utf-8">
 	<link rel="icon" href="../imagenes/logoInfraestructura.png">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
@@ -74,7 +74,7 @@ $row = $resultado->fetch_assoc();
 						<form method="POST" action="agregados.php">
 						<div class="form-group row">
 							<label id="lblForm"class="col-form-label col-xl col-lg">IMEI:<span style="color:red;">*</span></label>
-							<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="imei" placeholder="IMEI" required>
+							<input style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="imei" id="imei" placeholder="IMEI" required>
 						</div>	
 
 						<div class="form-group row" >
@@ -119,7 +119,7 @@ $row = $resultado->fetch_assoc();
 
 							 <div class="form-group row" >
                             <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:<span style="color:red;">*</span></label>
-                            <select name="estado" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <select name="estado" id="estado" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                             <option selected disabled="">-SELECCIONE UNA-</option>
                             <?php
                             include("../particular/conexion.php");
@@ -134,7 +134,7 @@ $row = $resultado->fetch_assoc();
 
 						<div class="form-group row" >
                             <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:<span style="color:red;">*</span></label>
-                            <select name="proveedor" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <select name="proveedor" id="proveedor" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                             <option selected disabled="">-SELECCIONE UNA-</option>
                             <?php
                             include("../particular/conexion.php");
@@ -149,7 +149,7 @@ $row = $resultado->fetch_assoc();
 
 						<div class="form-group row" >
 							<label id="lblForm"class="col-form-label col-xl col-lg">MODELO:<span style="color:red;">*</span></label>
-                            <select name="modelo" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <select name="modelo" id="modelo" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                             <option selected disabled="">-SELECCIONE UNA-</option>
                             <?php
                             include("../particular/conexion.php");
@@ -168,7 +168,7 @@ $row = $resultado->fetch_assoc();
 
 						<div class="form-group row" >
                             <label id="lblForm"class="col-form-label col-xl col-lg">PROCEDENCIA:<span style="color:red;">*</span></label>
-                            <select name="procedencia" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <select name="procedencia" id="procedencia" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
                             <option selected disabled="">-SELECCIONE UNA-</option>
                             <?php
                             include("../particular/conexion.php");
@@ -184,11 +184,12 @@ $row = $resultado->fetch_assoc();
 						<div class="form-group row">
 							<label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓN:</label>
                             <textarea class="form-control col-xl col-lg" name="obs" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3" ></textarea>
+							<input type="hidden" name="agregarCelular" value="GUARDAR">
 						</div>
 						<?php 
 								if ($row['ID_PERFIL'] != 5) {
 								echo '<div class="form-group row justify-content-end">
-								<input style="width:20%" class="btn btn-success" type="submit" name="agregarCelular" value="GUARDAR" class="button">
+								<input style="width:20%" class="btn btn-success" onClick="enviar_formulario(this.form)" type="button" name="agregarCelular" value="GUARDAR" class="button">
 							</div>';
 								}
 							?>
@@ -223,6 +224,101 @@ $row = $resultado->fetch_assoc();
 			</div>
 		</div>
 	</footer>
+	<script>
+        function validar_formulario(){
+			
+			var fieldsToValidate = [
+                    {
+                        selector: "#imei",
+                        errorMessage: "No ingresó el nro. de IMEI."
+                    },
+                    {
+                        selector: "#usuario",
+                        errorMessage: "No seleccionó usuario."
+                    },
+                    {
+                        selector: "#lineas",
+                        errorMessage: "No seleccionó Línea asignada."
+                    },
+                    {
+                        selector: "#estado",
+                        errorMessage: "No ingresó el estado."
+                    },
+                    {
+                        selector: "#proveedor",
+                        errorMessage: "No seleccionó proveedor."
+                    },
+                    {
+                        selector: "#modelo",
+                        errorMessage: "No seleccionó modelo."
+                    },
+                    {
+                        selector: "#procedencia",
+                        errorMessage: "No seleccionó procedencia."
+                    }
+                ];
+
+                var isValid = true;
+
+				$.each(fieldsToValidate, function(index, field) {
+                    var element = $(field.selector);
+                    if (element.val()== "" || element.val()== null) {
+                      Swal.fire({
+                      title: field.errorMessage,
+                      icon: "warning",
+                      showConfirmButton: true,
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Aceptar',
+                      cancelButtonText: "Cancelar",
+                      customClass:{
+                      actions: 'reverse-button'
+                        }
+                      })
+                        isValid = false;
+                        return false;
+                    }
+                });
+
+				if (isValid ==true) {
+								
+								return true;
+							}
+							else{
+								return false;
+							}
+		};
+		function enviar_formulario(formulario){
+        	if (validar_formulario()) {
+				// alert("Todo OK");
+				Swal.fire({
+                        title: "Esta seguro de guardar esta línea?",
+                        icon: "warning",
+                        showConfirmButton: true,
+                        showCancelButton: true,
+              confirmButtonColor: '#198754',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                reverseButtons: true,
+                        customClass:{
+                            actions: 'reverse-button'
+                        }
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            formulario.submit();
+
+
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
+			}
+		}
+				
+		</script>
 	<script>
 /* 	$(document).ready(function(){
     $("#usuario").change(function(){
