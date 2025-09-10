@@ -1,5 +1,5 @@
 <?php 
-/* error_reporting(0); */
+error_reporting(0);
 session_start();
 include('../particular/conexion.php');
 
@@ -44,12 +44,6 @@ function ConsultarIncidente($no_tic)
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
-
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
 <script>

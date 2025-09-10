@@ -1,3 +1,4 @@
+
 <?php session_start(); ?>
 <!DOCTYPE html>
 <html>
@@ -8,55 +9,58 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../estilos/estilocontraseña.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
+
 </head>
 <body>
-    <div class="titulob">
-        <h1 style="text-decoration: underline; color: #F0AD4E">NOVEDADES</h1>
-    </div>
-    <div class="bienvenida" data-aos="zoom-in-up">
-        <div class="fecha">    
-            <?php  $fechaActual = date('d-m-Y');?>
-            <p class="h5"><u>NOVEDADES AL DÍA</u>: <?php echo $fechaActual ?></p>
-        </div>
-        <hr style='display: block; height: 2px;'>
-        <div class="info">
-            <ul class="list-unstyled">
-                <li>
-                    <ul>
-                        <li>SE HAN AGREGADO MÁS VALIDACIONES EN ABM</li>
-                        <li>SE HA ACTUALIZADO LOGO DE GOBIERNO Y MINISTERIO</li>
-    <!--                       <li>SE INCORPORÓ LA PANTALLA DE "CONSULTAS PARA ALTAS"</li>
-                     <li>SE AGREGARON LAS OPCIONES DE VER "MOVIMIENTOS" Y "MEJORAS" EN: INVENTARIO -> MAS DETALLES -> "MOVIMIENTOS" O "MEJORAS"</li>                             
-                         <li>Se agregó la columna de "USUARIOS ACTIVOS" en su respectivo ABM</li>
-                        <li>Se agregaron los campos para filtrar incidentes por fechas</li> -->
+    <main>
+        <section>
+
+            <div id="reporteEst">   
+                <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
+                    <a id="vlv"  href="../consulta/consulta.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
+                </div>					
+            </div>
+            <div class="titulob">
+                <h1 style="text-decoration: underline; color: #004582">NOVEDADES</h1>
+            </div>
+            <div class="bienvenida" data-aos="zoom-in-up">
+                <div class="fecha">    
+                    <?php  $fechaActual = date('d-m-Y');?>
+                    <p class="h5"><u>NOVEDADES AL DÍA</u>: <?php echo $fechaActual ?></p>
+                </div>
+                <hr style='display: block; height: 2px;'>
+                <div class="info">
+                    <ul class="list-unstyled">
+                        <li>
+                            <ul>
+                                <li>SE HA ACTUALIZADO EL SISTEMA A UNA VERSIÓN 2.0</li>
+                                <!--                       <li>SE INCORPORÓ LA PANTALLA DE "CONSULTAS PARA ALTAS"</li>
+                                <li>SE AGREGARON LAS OPCIONES DE VER "MOVIMIENTOS" Y "MEJORAS" EN: INVENTARIO -> MAS DETALLES -> "MOVIMIENTOS" O "MEJORAS"</li>                             
+                                <li>Se agregó la columna de "USUARIOS ACTIVOS" en su respectivo ABM</li>
+                                <li>Se agregaron los campos para filtrar incidentes por fechas</li> -->
+                            </ul>
+                        </li>
                     </ul>
-                </li>
-            </ul>
-        </div>
-        <div class="btn">
-            <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-                <a id="vlv"  href="../consulta/consulta.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">CERRAR</a>
-            </div>	
-        </div>
-    </div>
+                </div>
+            </div>
+        </section>
+    </main>
     <footer>
-		<div class="footer">
-			<div class="container-fluid">
-				<div class="row">
-					<img src="../imagenes/cba-logo.png" class="img-fluid">
-				</div>
-			</div>
-		</div>
-	</footer>
+        <div class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <img src="../imagenes/cba-logo.png" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </footer>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init();
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
+</body>
+</html>
 </body>
 </html>

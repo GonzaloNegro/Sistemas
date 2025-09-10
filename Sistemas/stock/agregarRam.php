@@ -89,7 +89,7 @@ $row = $resultado->fetch_assoc();
                 </div>
 
                 <div class="row justify-content-end" style="margin: 10px; padding:10px;">
-                    <input style="width: 20%;"class="col-3 button" type="submit" value="GUARDAR" >
+                    <input style="width: 20%;"class="btn btn-success" type="submit" value="GUARDAR" >
                 </div>
             </form>
 		</div>

@@ -226,7 +226,7 @@ $nrocelular = $consulta['NRO'];
 			$row = $resultado->fetch_assoc();
 			$observaciones = $row['OBSERVACION'];
 		?>
-					<form method="POST" action="../abm/modificados2.php">
+					<form method="POST" action="../abm/modificados.php">
 						<div class="form-group row">
 							<label id="lblForm"class="col-form-label col-xl col-lg">ID: </label>
 							<input type="text" class="id" name="id" value="<?php echo $id?>" style="background-color:transparent;" readonly>

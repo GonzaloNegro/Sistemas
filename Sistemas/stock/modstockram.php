@@ -40,16 +40,11 @@ function ConsultarIncidente($no_tic)
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
 	<div id="reporteEst" style="width: 97%; margin-left: 20px;">   
         <div class="form-group row justify-content-between" style="margin: 10px; padding:10px;">
-            <a id="vlv"  href="./stockRam.php" class="col-3 btn btn-primary " type="button"  value="VOLVER">VOLVER</a>
+            <a id="vlv"  href="./stockRam.php" type="button" class="btn btn-info" value="VOLVER"><i class="fa-solid fa-arrow-left"></i></a>
         </div>					
 	</div>
     <section id="Inicio">
@@ -80,7 +75,7 @@ function ConsultarIncidente($no_tic)
             ?>
             <form method="POST" action="./guardarmodstockram.php">
                 <label>ID: </label>
-                <input type="text" class="id" name="id" value="<?php echo $consulta[0]?>">
+                <input type="text" class="id" name="id" value="<?php echo $consulta[0]?>" style="background-color:transparent;" readonly>
                 <div class="form-group row" style="margin: 10px; padding:10px;">
                     <label id="lblForm"class="col-form-label col-xl col-lg">CAPACIDAD:</label>
                     <select name="mem" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
@@ -129,7 +124,7 @@ function ConsultarIncidente($no_tic)
                 </div>
 
                 <div class="row justify-content-end" style="margin: 10px; padding:10px;">
-                    <input style="width: 20%;"class="col-3 button" type="submit" value="GUARDAR" >
+                    <input style="width: 20%;" class="btn btn-success" type="submit" value="MODIFICAR" >
                 </div>
             </form>
 		</div>
@@ -138,5 +133,6 @@ function ConsultarIncidente($no_tic)
     <script>
         AOS.init();
     </script>
+    <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
 </body>
 </html>

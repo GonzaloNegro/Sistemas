@@ -168,8 +168,7 @@ input{
 	margin-bottom: 100px;
 
 	border-radius: 10px;
-	border: 2px solid #F0AD4E;
-	background-color: #edf0f5;
+	border: 2px solid #004582;
 }
 
 .fecha{
@@ -183,6 +182,7 @@ input{
 	width: auto;
 	height: 300px;
 	margin-top: 20px;
+	font-weight: bold;
 }
 
 .btn{

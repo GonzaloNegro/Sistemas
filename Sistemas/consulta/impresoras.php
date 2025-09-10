@@ -191,7 +191,7 @@ $row = $resultado->fetch_assoc();
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.SERIEG)}</h4></td>
                             <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.TIPO)}</h4></td>
                             <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.MARCA)}</h4></td>
-                            <td><h4 style='color:${color};font-size:14px;text-align:left;margin-left: 5px;'>${flecha} ${mostrarValor(fila.ESTADO)}</h4></td>
+                            <td><h4 style='color:${color};font-size:14px;text-align:left;margin-left: 5px;min-width:75px;'>${flecha} ${mostrarValor(fila.ESTADO)}</h4></td>
                                 <td class='text-center text-nowrap'>
 
                                         <span style="display: inline-flex;padding:3px;">
