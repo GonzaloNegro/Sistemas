@@ -77,49 +77,65 @@ if (!empty($_GET['estado'])) {
     
 }
 //Se construye el segmiento del orden de las filas de la consulta
-$order="";
-$tipo_orden=$_GET["orden"];
+$order=" ORDER BY e.ESTADO DESC ";
+$tipo_orden=isset($_GET["orden"]) ? $_GET["orden"] : null;
 if ($tipo_orden == '1' ){
-    $order .= " ORDER BY u.NOMBRE ASC ";
+    $order = " ORDER BY u.NOMBRE ASC ";
 }
 
 if ($tipo_orden == '2' ){
-$order .= " ORDER BY a.AREA ASC ";
+$order = " ORDER BY a.AREA ASC ";
 }
 
 if ($tipo_orden == '3' ){
-$order .= "  ORDER BY r.REPA ASC ";
+$order = "  ORDER BY r.REPA ASC ";
 }
 if ($tipo_orden == '4' ){
-$order .= " ORDER BY s.SIST_OP ASC ";
+$order = " ORDER BY s.SIST_OP ASC ";
 }
 
 if ($tipo_orden == '5' ){
-$order .= " ORDER BY m.MICRO ASC ";
+$order = " ORDER BY m.MICRO ASC ";
 }
 
 if ($tipo_orden == '6' ){
-$order .= "  ORDER BY t.TIPOWS ASC ";
+$order = "  ORDER BY t.TIPOWS ASC ";
 }
 
 if ($tipo_orden == '7' ){
-$order .= "  ORDER BY e.ESTADO ASC ";
+$order = "  ORDER BY e.ESTADO ASC ";
 }
 
 // Construir consulta WHERE
 $whereClause = !empty($where) ? 'WHERE ' . implode(' AND ', $where) : '';
 
 // Consultar el total de registros
-$sqlTotal = "SELECT COUNT(*) as total FROM inventario i 
-LEFT JOIN wsusuario AS ws ON i.ID_WS = ws.ID_WS
-LEFT JOIN usuarios as u on ws.ID_USUARIO = u.ID_USUARIO
-LEFT JOIN area AS a ON u.ID_AREA = a.ID_AREA
-LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-LEFT JOIN tipows AS t ON t.ID_TIPOWS = i.ID_TIPOWS
-LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-LEFT JOIN so AS s ON s.ID_SO = i.ID_SO
-LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = i.ID_ESTADOWS  $whereClause";
+$sqlTotal = "SELECT COUNT(*) as total 
+FROM inventario i
+LEFT JOIN wsusuario ws 
+    ON i.ID_WS = ws.ID_WS
+    AND ws.ID_WSUSU = (
+        SELECT MAX(wsu.ID_WSUSU)
+        FROM wsusuario wsu
+        WHERE wsu.ID_WS = i.ID_WS
+    )
+LEFT JOIN usuarios u 
+    ON ws.ID_USUARIO = u.ID_USUARIO
+LEFT JOIN area a 
+    ON u.ID_AREA = a.ID_AREA
+LEFT JOIN reparticion r 
+    ON r.ID_REPA = a.ID_REPA
+LEFT JOIN tipows t 
+    ON t.ID_TIPOWS = i.ID_TIPOWS
+LEFT JOIN microws mw 
+    ON mw.ID_WS = i.ID_WS
+LEFT JOIN micro m 
+    ON m.ID_MICRO = mw.ID_MICRO
+LEFT JOIN so s 
+    ON s.ID_SO = i.ID_SO
+LEFT JOIN estado_ws e 
+    ON e.ID_ESTADOWS = i.ID_ESTADOWS
+$whereClause";
 $resultTotal = $datos_base->query($sqlTotal);
 $totalRegistros = $resultTotal->fetch_assoc()['total'];
 $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
@@ -129,31 +145,79 @@ $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 
 <?php 
 //query para obtener los equipos
-       $query ="SELECT i.ID_WS, a.AREA, r.REPA, u.NOMBRE, t.TIPOWS, i.SERIEG, s.SIST_OP, m.MICRO, i.OBSERVACION, e.ESTADO
-        FROM inventario i 
-        LEFT JOIN wsusuario AS ws ON i.ID_WS = ws.ID_WS
-        LEFT JOIN usuarios as u on ws.ID_USUARIO = u.ID_USUARIO
-        LEFT JOIN area AS a ON u.ID_AREA = a.ID_AREA
-        LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-        LEFT JOIN tipows AS t ON t.ID_TIPOWS = i.ID_TIPOWS
-        LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-        LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-        LEFT JOIN so AS s ON s.ID_SO = i.ID_SO
-        LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = i.ID_ESTADOWS 
+        $query ="SELECT 
+            i.ID_WS, 
+            a.AREA, 
+            r.REPA, 
+            u.NOMBRE, 
+            t.TIPOWS, 
+            i.SERIEG, 
+            s.SIST_OP, 
+            m.MICRO, 
+            i.OBSERVACION, 
+            e.ESTADO
+        FROM inventario i
+        LEFT JOIN wsusuario ws 
+            ON i.ID_WS = ws.ID_WS
+            AND ws.ID_WSUSU = (
+                SELECT MAX(wsu.ID_WSUSU)
+                FROM wsusuario wsu
+                WHERE wsu.ID_WS = i.ID_WS
+            )
+        LEFT JOIN usuarios u 
+            ON ws.ID_USUARIO = u.ID_USUARIO
+        LEFT JOIN area a 
+            ON u.ID_AREA = a.ID_AREA
+        LEFT JOIN reparticion r 
+            ON r.ID_REPA = a.ID_REPA
+        LEFT JOIN tipows t 
+            ON t.ID_TIPOWS = i.ID_TIPOWS
+        LEFT JOIN microws mw 
+            ON mw.ID_WS = i.ID_WS
+        LEFT JOIN micro m 
+            ON m.ID_MICRO = mw.ID_MICRO
+        LEFT JOIN so s 
+            ON s.ID_SO = i.ID_SO
+        LEFT JOIN estado_ws e 
+            ON e.ID_ESTADOWS = i.ID_ESTADOWS 
                 $whereClause $order 
                 LIMIT $inicio, $registrosPorPagina";
 
-        $query_excel ="SELECT i.ID_WS, a.AREA, r.REPA, u.NOMBRE, t.TIPOWS, i.SERIEG, s.SIST_OP, m.MICRO, i.OBSERVACION, e.ESTADO
-        FROM inventario i 
-        LEFT JOIN wsusuario AS ws ON i.ID_WS = ws.ID_WS
-        LEFT JOIN usuarios as u on ws.ID_USUARIO = u.ID_USUARIO
-        LEFT JOIN area AS a ON u.ID_AREA = a.ID_AREA
-        LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-        LEFT JOIN tipows AS t ON t.ID_TIPOWS = i.ID_TIPOWS
-        LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-        LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-        LEFT JOIN so AS s ON s.ID_SO = i.ID_SO
-        LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = i.ID_ESTADOWS
+        $query_excel ="SELECT 
+                i.ID_WS, 
+                a.AREA, 
+                r.REPA, 
+                u.NOMBRE, 
+                t.TIPOWS, 
+                i.SERIEG, 
+                s.SIST_OP, 
+                m.MICRO, 
+                i.OBSERVACION, 
+                e.ESTADO
+            FROM inventario i
+            LEFT JOIN wsusuario ws 
+                ON i.ID_WS = ws.ID_WS
+                AND ws.ID_WSUSU = (
+                    SELECT MAX(wsu.ID_WSUSU)
+                    FROM wsusuario wsu
+                    WHERE wsu.ID_WS = i.ID_WS
+                )
+            LEFT JOIN usuarios u 
+                ON ws.ID_USUARIO = u.ID_USUARIO
+            LEFT JOIN area a 
+                ON u.ID_AREA = a.ID_AREA
+            LEFT JOIN reparticion r 
+                ON r.ID_REPA = a.ID_REPA
+            LEFT JOIN tipows t 
+                ON t.ID_TIPOWS = i.ID_TIPOWS
+            LEFT JOIN microws mw 
+                ON mw.ID_WS = i.ID_WS
+            LEFT JOIN micro m 
+                ON m.ID_MICRO = mw.ID_MICRO
+            LEFT JOIN so s 
+                ON s.ID_SO = i.ID_SO
+            LEFT JOIN estado_ws e 
+                ON e.ID_ESTADOWS = i.ID_ESTADOWS
                 $whereClause $order ";
 
 
