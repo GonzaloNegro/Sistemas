@@ -773,7 +773,7 @@ if (isset($_POST['accion'])) {
                     header("Location: ../consulta/inventario.php?no");
                 }
                 else{
-                    mysqli_query($datos_base, "INSERT INTO inventario VALUES (DEFAULT, '$area', '$serialn', '$serieg', '$marca', '$so', '$est', UPPER('$obs'), '$prov', '$fac', '$masterizacion', '$mac', '$reserva', '$ip', '$red', '$tippc', '$gar', '$procedencia')");
+                    mysqli_query($datos_base, "INSERT INTO inventario VALUES (DEFAULT, '$serialn', '$serieg', '$marca', '$so', '$est', UPPER('$obs'), '$prov', '$fac', '$masterizacion', '$mac', '$reserva', '$ip', '$red', '$tippc', '$gar', '$procedencia')");
                     /* FALTA ACOMODAR LA PARTE DE USUARIO, NO ESTA MAS */
                 
                     $tic=mysqli_query($datos_base, "SELECT MAX(ID_WS) FROM inventario");
@@ -811,7 +811,7 @@ if (isset($_POST['accion'])) {
                     mysqli_query($datos_base, "INSERT INTO wsmem VALUES ('$idws', '$mem4', '$tmem4', '$prov4', '$fact4', '$fec4', '$marc4', '$gar4', 4, '$pvel4')");
                 
                 
-                    mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, '$idws', '$usu', '$fechaActual', '0000-00-00', 0)");
+                    mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, '$idws', '$usu', '$fechaActual', '0000-00-00', 1)");
                 
                     /* GUARDANDO PARA LOS MOVIMIENTOS */
                     mysqli_query($datos_base, "INSERT INTO movimientos VALUES (DEFAULT, '$fechaActual', '$idws', '$usu', '$area', '$est', '$marca', '$so', '$masterizacion', '$mac', '$reserva', '$ip', '$red')");

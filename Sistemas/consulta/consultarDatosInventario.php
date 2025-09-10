@@ -35,7 +35,6 @@
 							<tr>
                                 <th><p class=g>FECHA</p></th>
 								<th><p class=g style='text-align:left;'>USUARIO</p></th>
-								<th><p class=g style='text-align:left;'>ÁREA</p></th>
 								<th><p class=g style='text-align:left;'>ESTADO</p></th>
                                 <th><p class=g style='text-align:left;'>MARCA</p></th>
                                 <th><p class=g style='text-align:left;'>S.O.</p></th>
@@ -47,10 +46,9 @@
 							</tr>
 						</thead>";
         //SERVIDOR QUE MUESTRA UNA TABLA CON LAS NOVEDADES DE UN CASO DETERMINADO
-        $consultar=mysqli_query($datos_base, "SELECT m.ID_WS, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
+        $consultar=mysqli_query($datos_base, "SELECT m.ID_WS, m.FECHA, u.NOMBRE, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
         FROM movimientos m 
         LEFT JOIN usuarios AS u ON u.ID_USUARIO = m.ID_USUARIO
-        LEFT JOIN area AS a ON a.ID_AREA = m.ID_AREA
         LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = m.ID_ESTADOWS
         LEFT JOIN marcas AS ma ON ma.ID_MARCA = m.ID_MARCA
         LEFT JOIN so AS s ON s.ID_SO = m.ID_SO
@@ -78,8 +76,6 @@
 
 
                     <td><h4 style='font-size:12px;text-align:left;'><font color=".colorear($nom, $listar['NOMBRE'], $colornom)."'>".$listar['NOMBRE']."</font></h4></td>
-
-                    <td><h4 style='font-size:12px;text-align:left;'><font color=".colorear($are, $listar['AREA'], $colorare)."'>".$listar['AREA']."</font></h4></td>
 
                     <td><h4 style='font-size:12px;text-align:left;'><font color=".colorear($est, $listar['ESTADO'], $colorest)."'>".$listar['ESTADO']."</font></h4></td>
 

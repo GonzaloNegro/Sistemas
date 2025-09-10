@@ -1887,9 +1887,15 @@ if (isset($_POST['accion'])) {
                 if($repaBD == 1){/* 725 */
                     $equipoSinAsignar = 522;/* 725 */
                     $usuarioSinAsignar = 277;/* 725 */
+                    if($est == 2 || $est==3){
+                        $usu = 277;/* 725 */
+                    }
                 }elseif($repaBD == 4){/* 607 */
                     $equipoSinAsignar = 523;/* 607 */
                     $usuarioSinAsignar = 310;/* 607 */
+                    if($est == 2 || $est==3){
+                        $usu = 310;/* 607 */
+                    }
                 }
                 
                 /* GUARDANDO PARA LAS MEJORAS */
@@ -2031,7 +2037,6 @@ if (isset($_POST['accion'])) {
                 LIMIT 1";
                 $resultado2 = $datos_base->query($sqli);
                 $row2 = $resultado2->fetch_assoc();
-                $a = $row2['ID_AREA'];
                 $u = $row2['ID_USUARIO'];
                 $e = $row2['ID_ESTADOWS'];
                 $mr = $row2['ID_MARCA'];
@@ -2041,8 +2046,11 @@ if (isset($_POST['accion'])) {
                 $r = $row2['RIP'];
                 $i = $row2['IP'];
                 $rd = $row2['ID_RED'];
-                if($a != $area || $u != $usu || $e != $est || $mr != $marca || $s != $so || $ma != $masterizacion || $mc != $mac || $r != $reserva || $i != $ip || $rd != $red){
-                    mysqli_query($datos_base, "INSERT INTO movimientos VALUES (DEFAULT, '$fechaActual', '$id', '$usu', '$area', '$est', '$marca', '$so', '$masterizacion', '$mac', '$reserva', '$ip', '$red')");
+
+                
+
+                if($u != $usu || $e != $est || $mr != $marca || $s != $so || $ma != $masterizacion || $mc != $mac || $r != $reserva || $i != $ip || $rd != $red){
+                    mysqli_query($datos_base, "INSERT INTO movimientos VALUES (DEFAULT, '$fechaActual', '$id', '$usu', '$est', '$marca', '$so', '$masterizacion', '$mac', '$reserva', '$ip', '$red')");
                 }
                 
                 /* MEJORAS */
@@ -2429,7 +2437,7 @@ if (isset($_POST['accion'])) {
                 $usuSA = 310;
             }
             else {
-                $usuSA= 277;
+                $usuSA = 277;
             }
 
 

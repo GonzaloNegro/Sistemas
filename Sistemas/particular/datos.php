@@ -23,7 +23,7 @@ $usuario=$_POST['usuario'];
 	$cadena="<option value='0'>-SELECCIONE UNA-</OPTION>";
 
 	while ($ver=mysqli_fetch_row($result)) {
-		$cadena=$cadena.'<option value='.$ver[0].'>'.utf8_encode($ver[3]).'</option>';
+		$cadena=$cadena.'<option value='.$ver[0].'>'.utf8_encode($ver[2]).'</option>';
 	}
 
 	echo  $cadena;
