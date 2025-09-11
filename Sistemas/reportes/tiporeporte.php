@@ -2,6 +2,7 @@
 <!--la pagina trae la tabla de incidentes original, se agrego lnk de inconos de bootstrap"-->
 <!--SE CAMBIO EL TIPO DE REPORTES, SOLO ESTA HECHO PARA RESOLUTOR Y TIPIFICACION-->
 <?php 
+error_reporting(0);
 session_start();
 include('../particular/conexion.php');
 if(!isset($_SESSION['cuil'])) 

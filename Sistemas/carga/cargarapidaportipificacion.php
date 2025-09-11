@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 session_start();
 include('../particular/conexion.php');
 if(!isset($_SESSION['cuil']))

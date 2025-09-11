@@ -18,11 +18,31 @@
             $notificacionUsuario = "Usuarios: Hay ".$cantidadUsu." usuarios con área N/A.";
         }
 
-        $cantTotal = $cantidad + $conteoNotificacionUsuario;
+        $añoActual = date('Y');
+        $mesActual = date('n');
+        $sqla = "SELECT SUM(CASE WHEN n.ID_PROVEEDOR = 34 THEN 1 ELSE 0 END) AS PERSONAL, SUM(CASE WHEN n.ID_PROVEEDOR = 35 THEN 1 ELSE 0 END) AS CLARO 
+        FROM movilinea m
+        INNER JOIN linea l ON m.ID_LINEA = l.ID_LINEA
+        INNER JOIN nombreplan n ON l.ID_NOMBREPLAN = n.ID_NOMBREPLAN
+        WHERE YEAR(FECHA) = $añoActual AND MONTH(FECHA) = $mesActual";
+        $resultado = $datos_base->query($sqla);
+        $row_ = $resultado->fetch_assoc();
+        $claro = $row_['CLARO'];
+        $personal = $row_['PERSONAL'];
+        $contenidoMontoslineas = 0;
+        if($claro > 0 && $personal > 0){
+        }else{
+            $contenidoMontoslineas = 1;
+        }
+
+
+        /* RECUENTO DE NOTIFICACIONES */
+        $cantTotal = $cantidad + $conteoNotificacionUsuario + $contenidoMontoslineas;
         /* $fechaActual = date('m'); */
         if($cantTotal > 0){
             echo $cantTotal;
         }
+
         ?> </button>
     <div class="notifications" id="notificationPanel">
         <ul>
@@ -44,6 +64,13 @@
                 echo "<li><a href='http://localhost/Sistemas/Sistemas/consulta/consultausuario.php'>&#128308; ".$notificacionUsuario."</a></li>";
                 
                 /* echo "<li><a href='http://ws43575/Sistemas/consulta/consultausuario.php'>&#128308; ".$notificacionUsuario."</a></li>"; */
+            }
+
+            if($claro > 0 && $personal > 0){
+            }else{
+                echo "<li><a href='http://localhost/Sistemas/Sistemas/consulta/montosLineas.php'>&#128308; Se deben actualizar los Montos de las líneas.</a></li>";
+                
+                /* echo "<li><a href='http://ws43575/Sistemas/consulta/montosLineas.php'>&#128308; ".$notificacionUsuario."</a></li>"; */
             }
             ?>
         </ul>

@@ -41,7 +41,7 @@
 				<form method="POST" action="validar.php">
 					<h3>Iniciar Sesión</h3>
 					<input type="number" name="cuil" placeholder="Cuil" oninput="if(this.value.length > 11) this.value = this.value.slice(0, 11)">
-					<input type="password" name="clave" placeholder="Calve" required>
+					<input type="password" name="clave" placeholder="Clave" required>
 					<input type="submit" value="Ingresar" class="btn btn-success button">
 				</form>
 				<div id="resetpwd">
