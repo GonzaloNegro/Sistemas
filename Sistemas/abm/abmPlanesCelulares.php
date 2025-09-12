@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('../particular/conexion.php');
+include('../particular/auth.php');
 if(!isset($_SESSION['cuil']))
     {
         header('Location: ../particular/Inicio.php'); 
@@ -11,11 +12,8 @@ $sql = "SELECT ID_RESOLUTOR, CUIL, RESOLUTOR, ID_PERFIL FROM resolutor WHERE CUI
 $resultado = $datos_base->query($sql);
 $row = $resultado->fetch_assoc();
 
-if($row['ID_PERFIL'] == 3 OR $row['ID_PERFIL'] == 4){
-    header("location: ../consulta/consulta.php");
-}else{
-   /*  header("location: abmtipificacion.php"); */
-}
+//PERMISOS DE ACCESO A LA PAGINA O REDIRECCIÓN
+verificarPerfil($row, [1, 2, 4]);
 ?>
 <!DOCTYPE html>
 <html>

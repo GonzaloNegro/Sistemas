@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('../particular/conexion.php');
+include('../particular/auth.php');
 if(!isset($_SESSION['cuil']))
     {
         header('Location: ../particular/Inicio.php'); 
@@ -11,11 +12,8 @@ $sql = "SELECT ID_RESOLUTOR, CUIL, RESOLUTOR, ID_PERFIL FROM resolutor WHERE CUI
 $resultado = $datos_base->query($sql);
 $row = $resultado->fetch_assoc();
 
-if($row['ID_PERFIL'] != 1 ){
-    header("location: ../consulta/consulta.php");
-}else{
-   /*  header("location: abmtipificacion.php"); */
-}
+//PERMISOS DE ACCESO A LA PAGINA O REDIRECCIÓN
+verificarPerfil($row, [1, 2]);
 ?>
 <!DOCTYPE html>
 <html>
@@ -27,11 +25,6 @@ if($row['ID_PERFIL'] != 1 ){
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloallabm.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
     <section id="inicio">

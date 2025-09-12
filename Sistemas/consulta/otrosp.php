@@ -28,67 +28,9 @@ $row = $resultado->fetch_assoc();
     <script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
     <script>
-        function okMod() {
-            Swal.fire({
-                title: "Periférico modificado correctamente.",
-                icon: "success",
-                showConfirmButton: true,
-                confirmButtonText: 'Aceptar',
-                confirmButtonColor: '#198754',
-                customClass: {
-                    actions: 'reverse-button'
-                }
-            });
-        }
-
-
-        function noMod() {
-            Swal.fire({
-                title: "No se ha podido modificar el periférico. El periférico ya se encuentra registrado",
-                icon: "error",
-                showConfirmButton: true,
-                confirmButtonColor: '#d33', // Color rojo
-                confirmButtonText: 'Cerrar',
-                customClass: {
-                    actions: 'reverse-button'
-                }
-            });
-        }
-
-        function ok() {
-            Swal.fire({
-                title: "Periférico cargado correctamente.",
-                icon: "success",
-                showConfirmButton: true,
-                confirmButtonText: 'Aceptar',
-                confirmButtonColor: '#198754',
-                customClass: {
-                    actions: 'reverse-button'
-                }
-            });
-        }
-
-        function no() {
-            Swal.fire({
-                title: "No se ha podido agregar el periférico. El periférico ya se encuentra registrado",
-                icon: "error",
-                showConfirmButton: true,
-                confirmButtonColor: '#d33', // Color rojo
-                confirmButtonText: 'Cerrar',
-                customClass: {
-                    actions: 'reverse-button'
-                }
-            });
-        }
-
         document.addEventListener('DOMContentLoaded', function () {
             // Inicializa todos los popovers
             var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
@@ -592,31 +534,6 @@ $row = $resultado->fetch_assoc();
         <form id="formu" action="../exportar/ExcelOtrosPeri.php" method="POST">
             <input type="text" id="excel" name="sql" class="valorPeque" readonly="readonly" value="<?php echo $query;?>">
         </form>
-        <?php
-            if(isset($_GET['okMod'])){
-                ?>
-                <script>okMod();</script>
-                <?php			
-            }
-
-            if(isset($_GET['noMod'])){
-                ?>
-                <script>noMod();</script>
-                <?php			
-            }
-
-            if(isset($_GET['ok'])){
-                ?>
-                <script>ok();</script>
-                <?php			
-            }
-
-            if(isset($_GET['no'])){
-                ?>
-                <script>no();</script>
-                <?php			
-            }
-        ?>
 	</section>
 	<footer id="footer_pag"><div class="pagination justify-content-center mt-3" id="paginador"></div></footer>
     <!-- MODALES -->
@@ -743,5 +660,28 @@ $row = $resultado->fetch_assoc();
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 	</script>
     <script src="../js/script.js"></script>
+	<script src="../js/confirmacionForm.js"></script>
+	<script>
+		const urlParams = new URLSearchParams(window.location.search);
+
+		["ok","okMod","no","noMod"].forEach(param => {
+			if (urlParams.has(param)) {
+				switch(param) {
+					case "ok":
+						showAlert("Periférico cargado correctamente.", "success");
+						break;
+					case "okMod":
+						showAlert("Periférico modificado correctamente.", "success");
+						break;
+					case "no":
+						showAlert("No se ha podido agregar el periférico. El periférico ya se encuentra registrado.", "error");
+						break;
+					case "noMod":
+						showAlert("No se ha podido modificar el periférico. El periférico ya se encuentra registrado.", "error");
+						break;
+				}
+			}
+		});
+	</script>
 </body>
 </html>

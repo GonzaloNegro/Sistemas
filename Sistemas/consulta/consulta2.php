@@ -39,6 +39,11 @@ $cu = $row['CUIL'];
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 
     <link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css">
+	<style>
+			body{
+			background-color: #edf0f5;
+			}
+	</style>
 </head>
 <body>
     <!-- Script para inicializar el Popover -->

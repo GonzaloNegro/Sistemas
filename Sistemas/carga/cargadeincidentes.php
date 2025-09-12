@@ -35,21 +35,6 @@ $row = $resultado->fetch_assoc();
 	<link rel="stylesheet" href="/path/to/select2.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 	<link rel="stylesheet" type="text/css" href="../estilos/estilocarga.css">
-<!--  	<script>
-		$(function (){
-			$("#txtfechainicio").datepicker() ({
-				dateformat: "yyyy-mm-dd"
-			});
-		});
-	</script>
-		<script>
-		$(function (){
-			$("#txtfechafin").datepicker() ({
-				dateformat: "yyyy-mm-dd"
-			});
-		});
-	</script> -->
-
 		<script>
 	$(document).ready(function(){
     $("#slctestado").change(function(){
@@ -92,12 +77,6 @@ $row = $resultado->fetch_assoc();
     });
     });
 </script>
-
-	<style>
-			body{
-				background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
 	<script type="text/javascript">

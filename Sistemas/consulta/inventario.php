@@ -47,55 +47,6 @@ $row = $resultado->fetch_assoc();
         });
     </script>
     <script>
-    function ok() {
-        Swal.fire({
-            title: "Equipo cargado correctamente.",
-            icon: "success",
-            showConfirmButton: true,
-            confirmButtonText: 'Aceptar',
-            confirmButtonColor: '#198754',
-            customClass: {
-                actions: 'reverse-button'
-            }
-        });
-    }
-
-
-    function no() {
-    Swal.fire({
-        title: "El equipo ya está registrado",
-        icon: "error",
-        showConfirmButton: true,
-        confirmButtonColor: '#d33', // Color rojo
-        confirmButtonText: 'Cerrar',
-        customClass: {
-            actions: 'reverse-button'
-        }
-    });
-}
-
-
-    function okMod(){
-        Swal.fire(  {title: "Equipo modificado correctamente",
-                icon: "success",
-                showConfirmButton: true,
-                confirmButtonText: 'Aceptar',
-                confirmButtonColor: '#198754',
-                });
-        }
-        function noMod() {
-            Swal.fire({
-                title: "El equipo ingresado ya está registrado",
-                icon: "error",
-                showConfirmButton: false,
-                showCancelButton: true,
-                cancelButtonColor: '#d33', // Color rojo
-                cancelButtonText: 'Cerrar',
-            });
-        }
-
-
-
     //Funcion que va mostrando que filtros se van utilizando
     function mostrarFiltros(){
         const busqueda = $("#buscar");
@@ -617,31 +568,6 @@ $row = $resultado->fetch_assoc();
         <form id="formu" action="../exportar/ExcelInventario.php" method="POST">
             <input type="text" id="excel" name="sql" class="valorPeque" readonly="readonly" value="">
         </form>
-        <?php
-            if(isset($_GET['okMod'])){
-                ?>
-                <script>okMod();</script>
-                <?php			
-            }
-
-            if(isset($_GET['noMod'])){
-                ?>
-                <script>noMod();</script>
-                <?php			
-            }
-
-            if(isset($_GET['ok'])){
-                ?>
-                <script>ok();</script>
-                <?php			
-            }
-
-            if(isset($_GET['no'])){
-                ?>
-                <script>no();</script>
-                <?php			
-            }
-        ?>
 	</section>
 	<footer id="footer_pag"><div class="pagination justify-content-center mt-3" id="paginador"></div></footer>
     
@@ -844,6 +770,28 @@ $row = $resultado->fetch_assoc();
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 	</script>
-	
+	<script src="../js/confirmacionForm.js"></script>
+	<script>
+		const urlParams = new URLSearchParams(window.location.search);
+
+		["ok","okMod","no","noMod"].forEach(param => {
+			if (urlParams.has(param)) {
+				switch(param) {
+					case "ok":
+						showAlert("Equipo cargado correctamente.", "success");
+						break;
+					case "okMod":
+						showAlert("Equipo modificado correctamente.", "success");
+						break;
+					case "no":
+						showAlert("No se ha podido agregar el equipo. El equipo ya se encuentra registrado.", "error");
+						break;
+					case "noMod":
+						showAlert("No se ha podido modificar el equipo. El equipo ya se encuentra registrado.", "error");
+						break;
+				}
+			}
+		});
+	</script>
 </body>
 </html>

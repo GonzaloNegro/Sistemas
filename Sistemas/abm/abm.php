@@ -40,34 +40,26 @@ $row = $resultado->fetch_assoc();
         <section id="Inicio">
             <div id="principal1">
             
-                <?php if($row['ID_PERFIL'] == 1 OR $row['ID_PERFIL'] == 2){
-                            echo'
-                            
-                        <a href=abmarea.php><button type="submit" class="boton_fondo_corredizo_izquierda">-ÁREAS-</button></a>
+                <?php 
+                if($row['ID_PERFIL'] == 1 OR $row['ID_PERFIL'] == 2 OR $row['ID_PERFIL'] == 3){
+                    echo '<a href=abmarea.php><button type="submit" class="boton_fondo_corredizo_izquierda">-ÁREAS-</button></a>';
+                }
+                
+                if($row['ID_PERFIL'] == 1 OR $row['ID_PERFIL'] == 2){
+                    echo'
                         <a href=abmtipificacion.php><button type="submit" class="boton_fondo_corredizo_izquierda">-TIPIFICACIÓN-</button></a>
                         <a href=abmresolutor.php><button type="submit" class="boton_fondo_corredizo_izquierda">-RESOLUTOR-</button></a>
-                        <a href="abmPlanesCelulares.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-PLANES CELULARES-</button></a>
-                    ';
-                        } ?>
-                        <!-- <a href="abmequipos.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-EQUIPOS-</button></a> -->
-                        
-    <!--                     <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" title="Mensaje en cartel" data-bs-placement="top">Tooltip on right</button> -->
-
-                        <!-- <a href="abmimpresoras.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-IMPRESORAS-</button></a> -->
-                        <!-- <a href="abmmonitores.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-MONITORES-</button></a> -->                    
-
-                    <?php if($row['ID_PERFIL'] == 1 OR $row['ID_PERFIL'] == 2){
-                            echo'
                         <a href="abmmarcas.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-MARCAS-</button></a>
                         <a href="abmmicro.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-MICROS-</button></a>
                         <a href="abmmodelos.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-MODELOS-</button></a>
                         <a href="abmplacamadre.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-PLACA MADRE-</button></a>
-                        <a href="abmplacav.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-PLACA DE VIDEO-</button></a>
-                        ';
-                        } ?>
-                        <!-- <a href="abmusuario.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-USUARIOS-</button></a> -->
-                    <!--  <a href="abmotros.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-OTROS PERIFÉRICOS-</button></a> -->
-        
+                        <a href="abmplacav.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-PLACA DE VIDEO-</button></a>';
+                } 
+                
+                if($row['ID_PERFIL'] == 1 OR $row['ID_PERFIL'] == 2 OR $row['ID_PERFIL'] == 4){
+                    echo '<a href="abmPlanesCelulares.php"><button type="submit" class="boton_fondo_corredizo_izquierda">-PLANES CELULARES-</button></a>';
+                }
+                ?>        
             </div>
         </section>
     </main> <!-- Cierra div contenido -->

@@ -32,11 +32,6 @@ $row = $resultado->fetch_assoc();
 	<!--Estilo bootstrap para select2-->
 	<link rel="stylesheet" href="/path/to/select2.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
 <?php include('../layout/inventario.php'); ?>
@@ -556,6 +551,7 @@ $row = $resultado->fetch_assoc();
         <form id="formu" action="../exportar/ExcelImpresoras.php" method="POST">
             <input type="text" id="excel" name="sql" class="valorPeque" readonly="readonly" value="<?php echo $query;?>">
         </form>
+
 	</section>
 	<footer id="footer_pag"><div class="pagination justify-content-center mt-3" id="paginador"></div></footer>
 

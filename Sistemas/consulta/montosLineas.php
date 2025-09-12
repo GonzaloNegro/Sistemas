@@ -30,55 +30,6 @@ $row = $resultado->fetch_assoc();
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css">
 </head>
 <body>
-<script type="text/javascript">
-			function ok(){
-				Swal.fire(  {title: "Monto/Linea Actualizada Correctamente!!",
-						icon: "success",
-						showConfirmButton: true,
-						showCancelButton: false,
-						});
-			}	
-			</script>
-<script type="text/javascript">
-			function error(){
-				Swal.fire(  {title: "Ya hay líneas actualizadas este mes para Personal o Claro.",
-						icon: "error",
-						});
-			}	
-			</script>
-<script type="text/javascript">
-			function errorp(){
-				Swal.fire(  {title: "Ya hay líneas actualizadas este mes para el operador seleccionado.",
-						icon: "error",
-						});
-			}	
-			</script>
-<script>
-    function okMod(){
-        Swal.fire(  {title: "Línea modificada correctamente",
-                icon: "success",
-                showConfirmButton: true,
-                confirmButtonText: 'Aceptar',
-                confirmButtonColor: '#198754',
-                customClass: {
-                    actions: 'reverse-button'
-                }
-            });
-        }
-        function noMod() {
-            Swal.fire({
-                title: "La línea ingresada ya está registrada",
-                icon: "error",
-                showConfirmButton: false,
-                showCancelButton: true,
-                cancelButtonColor: '#d33', // Color rojo
-                cancelButtonText: 'Cerrar',
-                customClass: {
-                    actions: 'reverse-button'
-                }
-            });
-        }
-</script>
     <script>
         function actualizar_montos(form){
             var formulario = form;
@@ -696,34 +647,6 @@ $row = $resultado->fetch_assoc();
         <form id="formu" action="../exportar/ExcelMontosLineas.php" method="POST">
             <input type="text" id="excel" name="sql" class="valorPeque" readonly="readonly" value="<?php echo $query;?>">
         </form>
-        <?php
-				if(isset($_GET['ok'])){
-					?>
-					<script>ok();</script>
-					<?php			
-				}
-				if(isset($_GET['error'])){
-					?>
-					<script>error();</script>
-					<?php			
-				}
-                if(isset($_GET['errorp'])){
-					?>
-					<script>errorp();</script>
-					<?php			
-				}
-                if(isset($_GET['okMod'])){
-                ?>
-                <script>okMod();</script>
-                <?php			
-            }
-
-            if(isset($_GET['noMod'])){
-                ?>
-                <script>noMod();</script>
-                <?php			
-            }
-			?> 
 	</section>
 	<footer id="footer_pag"><div class="pagination justify-content-center mt-3" id="paginador"></div></footer>
 
@@ -987,6 +910,31 @@ $row = $resultado->fetch_assoc();
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 	</script>
-	
+	<script src="../js/confirmacionForm.js"></script>
+	<script>
+		const urlParams = new URLSearchParams(window.location.search);
+
+		["ok","okMod","error","noMod", "errorp"].forEach(param => {
+			if (urlParams.has(param)) {
+				switch(param) {
+					case "ok":
+						showAlert("Monto/Linea cargada correctamente.", "success");
+						break;
+					case "okMod":
+						showAlert("Monto/Linea modificada correctamente.", "success");
+						break;
+					case "error":
+						showAlert("Ya hay líneas actualizadas este mes para Personal o Claro.", "error");
+						break;
+					case "errorp":
+						showAlert("Ya hay líneas actualizadas este mes para el operador seleccionado.", "error");
+						break;
+					case "noMod":
+						showAlert("No se ha podido modificar la linea. La linea ya se encuentra registrada.", "error");
+						break;
+				}
+			}
+		});
+	</script>
 </body>
 </html>

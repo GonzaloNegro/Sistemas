@@ -1,15 +1,19 @@
 <?php 
 session_start();
 include('../particular/conexion.php');
+include('../particular/auth.php');
 if(!isset($_SESSION['cuil'])) 
     {       
         header('Location: ../particular/Inicio.php'); 
         exit();
     };
 $iduser = $_SESSION['cuil'];
-$sql = "SELECT CUIL, RESOLUTOR FROM resolutor WHERE CUIL='$iduser'";
+$sql = "SELECT CUIL, RESOLUTOR, ID_PERFIL FROM resolutor WHERE CUIL='$iduser'";
 $resultado = $datos_base->query($sql);
 $row = $resultado->fetch_assoc();
+
+//PERMISOS DE ACCESO A LA PAGINA O REDIRECCIÓN
+verificarPerfil($row, [1, 2]);
 ?>
 <!DOCTYPE html>
 <html>
