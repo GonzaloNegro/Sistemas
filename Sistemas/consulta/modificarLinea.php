@@ -112,9 +112,75 @@ $idRoaming = $consulta['ID_ROAMING'];
 							}
 		};
 
+        function validar_baja_a_uso(){
+            var estado = $("#estado").val();
+            var roaming = $("#roaming option:selected").text();
+            var nombrePlan = $("#nombrePlan option:selected").text();
+            var usuario = $("#usuario option:selected").text();
+            isValid = true;
+            if (estado == 1 && (usuario!=277 && usuario !=310)) {
+                if (roaming == "") {
+                    isValid = false;
+                    Swal.fire({
+                      title: "Seleccione Roaming!",
+                      icon: "warning",
+                      showConfirmButton: true,
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Aceptar',
+                      cancelButtonText: "Cancelar",
+                      customClass:{
+                      actions: 'reverse-button'
+                        }
+                      })
+                }
+                if (nombrePlan == " -  - ") {
+                    isValid = false;
+                    Swal.fire({
+                      title: "Seleccione Plan de Telefonía!",
+                      icon: "warning",
+                      showConfirmButton: true,
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Aceptar',
+                      cancelButtonText: "Cancelar",
+                      customClass:{
+                      actions: 'reverse-button'
+                        }
+                      })
+                }
+                
+            }
+            if (estado == 1 && (usuario=="SIN ASIGNAR HP 607" || usuario =="SIN ASIGNAR HP 725")){
+                isValid = false;
+                    Swal.fire({
+                      title: "Seleccione un Usuario!",
+                      icon: "warning",
+                      showConfirmButton: true,
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Aceptar',
+                      cancelButtonText: "Cancelar",
+                      customClass:{
+                      actions: 'reverse-button'
+                        }
+                      })
+            }
+            if (isValid==false) {
+                return false;
+            }
+            else{
+                return true;
+            }
+
+        }
+
     function enviar_formulario(formulario, accion) {
         // Asigna el valor de la acción al campo oculto "accion"
-        if (validar_formulario()) {
+        if (validar_formulario() && validar_baja_a_uso()) {
 
         const campos = [
             { id: 'cardnumber', label: 'Número' },
@@ -240,7 +306,7 @@ $idRoaming = $consulta['ID_ROAMING'];
 
 				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
-						<select name="usuario" id="usuario" style="text-transform:uppercase" onchange="cargarCelulares(this.value)" class="form-control col-xl col-lg" required>
+						<select name="usuario" id="usuario" style="text-transform:uppercase" onchange="cargarCelulares(this.value); verificarDesactivacionCampos('usuario');" class="form-control col-xl col-lg" required>
 						<option selected value="100"><?php echo $usuario;?></option>
 						<?php
 						include("../particular/conexion.php");
@@ -269,7 +335,7 @@ $idRoaming = $consulta['ID_ROAMING'];
 				
 				<div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:</label>
-					<select name="estado" id="estado" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+					<select name="estado" id="estado" style="text-transform:uppercase" onchange="verificarDesactivacionCampos('estado')" class="form-control col-xl col-lg" required>
 					<option selected value="200"><?php echo $estado;?></option>
 					<?php
 					include("../particular/conexion.php");
@@ -374,31 +440,70 @@ $idRoaming = $consulta['ID_ROAMING'];
 			</div>
 		</div>
     </footer>
-	<script>
-/* 	$(document).ready(function(){
-    $("#usuario").change(function(){
-		$("#checkCelular").prop('checked', false);
-		$("#celularesusuario").hide(0);
-        $("#divCelulares").show(1300);
-    });
+    <script>
+    function inicializarFormulario() {
+        const usuarioSelect = document.getElementById('usuario');
+        const celularSelect = document.getElementById('celulares');
+        const estadoSelect = document.getElementById('estado');
+        const estado = estadoSelect.options[estadoSelect.selectedIndex].text;
+        // const estado = estadoSelect.value;
+        const id_usuario = usuarioSelect.value;
 
-	$("#checkCelular").change(function(){
-        $("#celularesusuario").show(1300);
-    });
-    }); */
-	// function cargarLineas() {
-    //     var usuario = document.getElementById("usuario").value;
-	// 	// alert(usuario)
-    //     var xhr = new XMLHttpRequest();
-    //     xhr.open("GET", "obtener_celulares.php?usuario=" + usuario, true);
-    //     xhr.onreadystatechange = function () {
-    //         if (xhr.readyState === 4 && xhr.status === 200) {
-    //             document.getElementById("celulares").innerHTML = xhr.responseText;
-    //         }
-    //     };
-    //     xhr.send();
-    // }
+        // Si está en STOCK → bloquear usuario hasta que se cambie de estado
+        if (estado === "S/A - STOCK") { // STOCK
+            usuarioSelect.disabled = true;
+            celularSelect.disabled = true;
+            // verificarDesactivacionCampos("estado");
+
+        // Si está en BAJA → solo permitir usuarios especiales (277 / 310)
+        } else if (estado === "BAJA") { // BAJA
+            // guardo el valor actualmente seleccionado
+            const usuarioActual = usuarioSelect.value;
+            const usuarioTexto = usuarioSelect.options[usuarioSelect.selectedIndex].text;
+
+            // limpio y vuelvo a poner el usuario actual como "selected"
+            usuarioSelect.innerHTML = `
+                <option selected value="${usuarioActual}">${usuarioTexto}</option>
+                <option value="277">SIN ASIGNAR HP 725</option>
+                <option value="310">SIN ASIGNAR HP 607</option>
+            `;
+
+            usuarioSelect.disabled = false;
+            celularSelect.innerHTML = '<option value="0">NO DISPONIBLE</option>';
+            celularSelect.disabled = true;
+
+            // Listener para quitar la opción inicial de usuario si se selecciona otra
+            usuarioInicial = usuarioSelect.value;
+            usuarioSelect.addEventListener("change", function () {
+            const seleccionado = this.value;
+
+            // si se selecciona diferente al inicial y es una de las especiales → eliminar la opción inicial
+            if ((seleccionado === "277" || seleccionado === "310") && usuarioInicial !== seleccionado) {
+                const opcionInicial = this.querySelector(`option[value="${usuarioInicial}"]`);
+                if (opcionInicial) {
+                    opcionInicial.remove();
+                }
+            }
+            });
+
+
+        } else {
+            usuarioSelect.disabled = false;
+            celularSelect.disabled = false;
+            // cargarUsuarios();
+            // cargarLineas(id_usuario);
+        }
+        }
+
+        // 👉 Ejecutar esta función cuando ya se cargó todo (HTML, CSS y AJAX)
+        window.addEventListener("load", function() {
+            // esperamos un poquito por si AJAX demora en llenar selects
+            setTimeout(() => {
+                inicializarFormulario();
+            }, 400);
+        });
 </script>
+
 <!--FUNCIONALIDAD EN JQUERY QUE PETICIONA A consultarDatosLinea.php los detalles de la linea-->
 <script>
     function cargarCelulares(id_usuario, idlinea) {
@@ -422,6 +527,87 @@ $idRoaming = $consulta['ID_ROAMING'];
             }
         });
     };
+
+    function verificarDesactivacionCampos(origen = null) {
+        const usuarioSelect = document.getElementById('usuario');
+        const celularSelect = document.getElementById('celulares');
+        const estadoSelect = document.getElementById('estado');
+
+        const estado = estadoSelect.value;
+        const id_usuario = usuarioSelect.value;
+
+        const estadoInvalido = (estado === "2" || estado === "3"); // BAJA o STOCK
+        const usuarioInvalido = (id_usuario === "277" || id_usuario === "310"); // SIN ASIGNAR
+
+        // 👉 Si el cambio vino del select de ESTADO
+        if (origen === "estado") {
+            if (estadoInvalido) {
+                // solo permito usuarios 277 y 310
+                usuarioSelect.innerHTML = `
+                    <option value="277">SIN ASIGNAR HP 725</option>
+                    <option value="310">SIN ASIGNAR HP 607</option>
+                `;
+                usuarioSelect.disabled = false;
+
+                celularSelect.innerHTML = '<option value="0">NO DISPONIBLE</option>';
+                celularSelect.disabled = true;
+            } else {
+                usuarioSelect.disabled = false;
+                cargarUsuarios();
+                celularSelect.disabled = false;
+                cargarCelulares(id_usuario);
+            }
+        }
+
+        // 👉 Si el cambio vino del select de USUARIO
+        if (origen === "usuario") {
+            if (usuarioInvalido) {
+                const estadoActual = estadoSelect.value; // 👈 guardo selección actual
+
+                estadoSelect.innerHTML = `
+                    <option value="2">BAJA</option>
+                    <option value="3">S/A - STOCK</option>
+                `;
+                estadoSelect.disabled = false;
+
+                // 👇 restaurar selección si sigue siendo válida
+                if (estadoActual === "2" || estadoActual === "3") {
+                    estadoSelect.value = estadoActual;
+                }
+
+                celularSelect.innerHTML = '<option value="0">NO DISPONIBLE</option>';
+                celularSelect.disabled = true;
+            } else {
+                celularSelect.disabled = false;
+                cargarCelulares(id_usuario);
+            }
+        }
+}
+
+
+
+
+    function cargarUsuarios() {
+        const usuarioSelect = document.getElementById("usuario");
+        const usuarioSeleccionado = usuarioSelect.value; // Guardar valor actual
+
+        $.ajax({
+            url: "../consulta/consultarUsuariosDisponibles.php",
+            type: "GET",
+            success: function(data) {
+                usuarioSelect.innerHTML = data;
+
+                // Restaurar valor si aún existe en las nuevas opciones
+                const opcion = usuarioSelect.querySelector(`option[value="${usuarioSeleccionado}"]`);
+                if (opcion) {
+                    usuarioSelect.value = usuarioSeleccionado;
+                }
+            },
+            error: function() {
+                alert("Error al cargar usuarios.");
+            }
+        });
+    }
     
     </script> 
 	<script>cargarCelulares(<?php echo $idUsuario;?>,<?php echo $idLinea;?>);</script>

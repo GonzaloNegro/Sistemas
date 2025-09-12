@@ -13,7 +13,20 @@
             if ($id_linea==0 || $id_linea==null) {
                 # code...
             }else {
-                $sentencia =  "SELECT * FROM celular l INNER JOIN lineacelular c ON c.ID_CELULAR=l.ID_CELULAR INNER JOIN modelo m ON l.ID_MODELO=m.ID_MODELO WHERE c.ID_USUARIO=$id_usuario AND c.ID_LINEA=$id_linea";
+                $sentencia =  "SELECT l.*, c.*, m.*
+                FROM celular l
+                INNER JOIN lineacelular c 
+                    ON c.ID_CELULAR = l.ID_CELULAR
+                    AND c.ID_LINEACELULAR = (
+                        SELECT MAX(c2.ID_LINEACELULAR)
+                        FROM lineacelular c2
+                        WHERE c2.ID_CELULAR = l.ID_CELULAR
+                    )
+                INNER JOIN modelo m 
+                    ON l.ID_MODELO = m.ID_MODELO
+                WHERE c.ID_USUARIO = $id_usuario
+                AND c.ID_LINEA = $id_linea;
+                ";
                 $resultado = mysqli_query($datos_base, $sentencia);
                 $filas = mysqli_fetch_assoc($resultado);
                 $id_celular=$filas['ID_CELULAR'];
@@ -34,7 +47,19 @@
 
 
 
-        $consulta = "SELECT * FROM celular l INNER JOIN lineacelular c ON c.ID_CELULAR=l.ID_CELULAR INNER JOIN modelo m ON l.ID_MODELO=m.ID_MODELO WHERE c.ID_USUARIO=$id_usuario AND c.ID_LINEA=0";
+        $consulta = "SELECT l.*, c.*, m.*
+        FROM celular l
+        INNER JOIN lineacelular c 
+            ON c.ID_CELULAR = l.ID_CELULAR
+            AND c.ID_LINEACELULAR = (
+                SELECT MAX(c2.ID_LINEACELULAR)
+                FROM lineacelular c2
+                WHERE c2.ID_CELULAR = l.ID_CELULAR
+            )
+        INNER JOIN modelo m ON l.ID_MODELO = m.ID_MODELO
+        WHERE c.ID_USUARIO = $id_usuario
+        AND c.ID_LINEA = 0;
+";
 $ejecutar = mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
 
 

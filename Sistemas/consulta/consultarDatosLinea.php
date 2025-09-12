@@ -9,19 +9,33 @@
 
         //SERVIDOR QUE MUESTRA UNA TABLA CON LAS NOVEDADES DE UN CASO DETERMINADO
     $id_linea = $_POST['idLinea'];
-    $resultados=mysqli_query($datos_base, "select lc.ID_CELULAR, l.NRO, u.NOMBRE, p.PLAN, pr.PROVEEDOR, r.ROAMING, l.DESCUENTO, n.NOMBREPLAN, l.FECHADESCUENTO, m.MONTO, m.EXTRAS, m.MONTOTOTAL, e.ESTADO
-    from lineacelular lc 
-    left join linea l on lc.ID_LINEA=l.ID_LINEA 
-    left join movilinea m on m.ID_LINEA=l.ID_LINEA 
-    left join usuarios u on lc.ID_USUARIO=u.ID_USUARIO 
-    left join nombreplan n on n.ID_NOMBREPLAN=l.ID_NOMBREPLAN 
-    left join plan p on p.ID_PLAN = n.ID_PLAN 
-    left join proveedor pr on pr.ID_PROVEEDOR=n.ID_PROVEEDOR 
-    left join roaming r on r.ID_ROAMING=l.ID_ROAMING 
-    left join estado_ws e on e.ID_ESTADOWS=l.ID_ESTADOWS 
-    where l.ID_LINEA=$id_linea
+    $resultados=mysqli_query($datos_base, "SELECT 
+    lc.ID_CELULAR, l.NRO, u.NOMBRE, p.PLAN, pr.PROVEEDOR, r.ROAMING, l.DESCUENTO, n.NOMBREPLAN, l.FECHADESCUENTO, m.MONTO, m.EXTRAS, m.MONTOTOTAL, e.ESTADO 
+    FROM lineacelular lc 
+    LEFT JOIN linea l 
+        ON lc.ID_LINEA = l.ID_LINEA 
+    LEFT JOIN movilinea m 
+        ON m.ID_LINEA = l.ID_LINEA
+        AND m.ID_MOVILINEA = (
+            SELECT MAX(mm.ID_MOVILINEA) 
+            FROM movilinea mm 
+            WHERE mm.ID_LINEA = l.ID_LINEA
+        )
+    LEFT JOIN usuarios u 
+        ON lc.ID_USUARIO = u.ID_USUARIO 
+    LEFT JOIN nombreplan n 
+        ON n.ID_NOMBREPLAN = l.ID_NOMBREPLAN 
+    LEFT JOIN plan p 
+        ON p.ID_PLAN = n.ID_PLAN 
+    LEFT JOIN proveedor pr 
+        ON pr.ID_PROVEEDOR = n.ID_PROVEEDOR 
+    LEFT JOIN roaming r 
+        ON r.ID_ROAMING = l.ID_ROAMING 
+    LEFT JOIN estado_ws e 
+        ON e.ID_ESTADOWS = l.ID_ESTADOWS 
+    WHERE l.ID_LINEA = $id_linea
     ORDER BY lc.ID_LINEACELULAR DESC
-    LIMIT 1");
+    LIMIT 1;");
     $num_rows= mysqli_num_rows($resultados);
     // echo"<h1>".$celular."</h1>";
     if ($num_rows>0) {

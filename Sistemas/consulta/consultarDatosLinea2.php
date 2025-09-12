@@ -20,7 +20,7 @@
     left join roaming r on r.ID_ROAMING=l.ID_ROAMING 
     left join estado_ws e on e.ID_ESTADOWS=l.ID_ESTADOWS 
     where l.ID_LINEA = $id_linea
-    ORDER BY m.FECHA DESC");
+    ORDER BY m.ID_MOVILINEA DESC");
     $num_rows= mysqli_num_rows($resultados);
     // echo"<h1>".$celular."</h1>";
     if ($num_rows>0) {
@@ -70,7 +70,7 @@
             $nombre=$consulta['NOMBRE'];
             $plan=$consulta['PLAN'];
             $nombrePlan=$consulta['NOMBREPLAN'];
-            $proveedor=$consulta['PROVEEDOR'];
+            // $proveedor=$consulta['PROVEEDOR'];
             $roaming=$consulta['ROAMING'];
             $monto=$consulta['MONTO'];
             $extras=$consulta['EXTRAS'];

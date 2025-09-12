@@ -634,7 +634,7 @@ function enviar_formulario(formulario, accion) {
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">RED:<span style="color:red;">*</span></label>
-                        <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="red" id="red">
+                        <select style="margin-top: 5px; text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="red" id="red">
                         <option selected value="300"><?php echo $red?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -649,7 +649,7 @@ function enviar_formulario(formulario, accion) {
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">SISTEMA OPERATIVO:<span style="color:red;">*</span></label>
-                        <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="so" name="so">
+                        <select style="margin-top: 5px; text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="so" name="so">
                         <option selected value="500"><?php echo $so?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -664,7 +664,7 @@ function enviar_formulario(formulario, accion) {
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">ESTADO:<span style="color:red;">*</span></label>
-                        <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="est" id="estado">
+                        <select style="margin-top: 5px; text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="est" id="estado">
                         <option selected value="700"><?php echo $est?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -680,7 +680,7 @@ function enviar_formulario(formulario, accion) {
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:</label>
-                        <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="prov">
+                        <select style="margin-top: 5px; text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="prov">
                         <option selected value="800"><?php echo $pro?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -695,7 +695,7 @@ function enviar_formulario(formulario, accion) {
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DE EQUIPO:<span style="color:red;">*</span></label>
-                        <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="tippc" id="tipopc">
+                        <select style="margin-top: 5px; text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="tippc" id="tipopc">
                         <option selected value="900"><?php echo $tip?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -711,7 +711,7 @@ function enviar_formulario(formulario, accion) {
 
                     <div class="form-group row">            
                         <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:<span style="color:red;">*</span></label>
-                        <select id="slcusu" style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="usu">
+                        <select id="slcusu" style="margin-top: 5px; text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="usu">
                         <option selected value="1000"><?php echo $usu?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -741,7 +741,7 @@ function enviar_formulario(formulario, accion) {
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">MARCA:<span style="color:red;">*</span></label>
-                        <select style="margin-top: 5px text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="marca" id="marca">
+                        <select style="margin-top: 5px; text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="marca" id="marca">
                         <option selected value="1100"><?php echo $mar?></option>
                         <?php
                         include("../particular/conexion.php");
