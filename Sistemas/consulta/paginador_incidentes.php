@@ -145,6 +145,7 @@ $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 $sql = $datos_base->query($query);
 $datos = [];
 while ($fila = $sql->fetch_assoc()) {
+    $fila['DESCRIPCION'] = htmlspecialchars($fila['DESCRIPCION'], ENT_QUOTES, 'UTF-8');
     $datos[] = $fila;
 }
 

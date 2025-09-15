@@ -39,12 +39,16 @@ $ws = $_POST['equipo'];
 
 $tipificacion1 = $_POST['tipificacion1'];
 $descripcion1 = $_POST['descripcion1'];
+$descripcion1 = mysqli_real_escape_string($datos_base, $descripcion1);
+
 
 $tipificacion2 = $_POST['tipificacion2'];
 $descripcion2 = $_POST['descripcion2'];
+$descripcion2 = mysqli_real_escape_string($datos_base, $descripcion2);
 
 $tipificacion3 = $_POST['tipificacion3'];
 $descripcion3 = $_POST['descripcion3'];
+$descripcion3 = mysqli_real_escape_string($datos_base, $descripcion3);
 
 /* ////////////// */
 

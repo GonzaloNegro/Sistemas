@@ -27,6 +27,7 @@ include('../particular/conexion.php');
 /*$area = $_POST['area'];*/
 /*$fecha1 = $_POST['fecha_inicio'];*/
 $descripcion = $_POST['descripcion'];
+$descripcion = mysqli_real_escape_string($datos_base, $descripcion);
 $usuario = $_POST['usuario'];
 $tipificacion = $_POST['tipificacion'];
 $estado = $_POST['estado'];
@@ -63,6 +64,9 @@ $date2 = date('Y-m-d'); */
 		$idusu = $r['NOMBRE'];
 
 		$motivo = $_POST['motivo'];
+
+		// Escaparlo antes de usarlo en la query
+		$motivo = mysqli_real_escape_string($datos_base, $motivo);
 		$derivado = $_POST['derivado'];/* RESOLUTOR A QUIEN SE DERIVA */
 
 		$sql = "SELECT ID_TIPO_RESOLUTOR from resolutor WHERE ID_RESOLUTOR = '$derivado'";
@@ -130,6 +134,9 @@ $date2 = date('Y-m-d'); */
 	else{
 		$motivo = $_POST['motivo'];
 
+		// Escaparlo antes de usarlo en la query
+		$motivo = mysqli_real_escape_string($datos_base, $motivo);
+
 		$sqla = "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = '$usuario'";
 		$result = $datos_base->query($sqla);
 		$r = $result->fetch_assoc();
@@ -173,7 +180,10 @@ $date2 = date('Y-m-d'); */
 			mysqli_query($datos_base, "INSERT INTO fecha_ticket VALUES(DEFAULT, '$tic1','$fec1')");
 		}
 		else{
-			$motivo = $_POST['motivo'];
+		$motivo = $_POST['motivo'];
+
+		// Escaparlo antes de usarlo en la query
+		$motivo = mysqli_real_escape_string($datos_base, $motivo);
 		/* FIN SI ESTA CERRADO */
 		mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion'), '$idusu', '$usuario', DEFAULT,'$tipificacion', '$prioridad', '$estado', DEFAULT, DEFAULT, '$original','$renu', '$ws', '$hora')"); 
 

@@ -27,7 +27,7 @@ if ($num_rows > 0) {
     while ($consulta = mysqli_fetch_array($resultados)) {
         $fechaInicio = date("d-m-Y", strtotime($consulta['FECHA_INICIO']));
         $hora = $consulta['HORA'];
-        $desc = $consulta['DESCRIPCION'];
+        $desc = nl2br(htmlspecialchars($consulta['DESCRIPCION'], ENT_QUOTES, 'UTF-8'));
         $idEstado = $consulta['ID_ESTADO'];
         $idResolutor = $consulta['ID_RESOLUTOR'];
         $idUsuario = $consulta['ID_USUARIO'];
@@ -131,7 +131,8 @@ if ($num_rows > 0) {
         while ($listar = mysqli_fetch_array($consulta)) {
             $fecord = date("d-m-Y", strtotime($listar['FECHA_HORA']));
             $hora = $listar['HORA'];
-            $motivo = strtoupper($listar['MOTIVO']);
+            $motivo = htmlspecialchars($listar['MOTIVO'], ENT_QUOTES, 'UTF-8'); // escapado
+            $motivo = strtoupper($motivo); // mayúsculas
 
             // Obtener estado
             $estado = "-";

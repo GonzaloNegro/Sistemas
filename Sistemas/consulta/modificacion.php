@@ -46,11 +46,6 @@ function ConsultarIncidente($no_tic)
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	<!--FIN BUSCADOR SELECT-->
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <script>
 	function notificar_seleccion_equipo(){
@@ -156,7 +151,8 @@ function ConsultarIncidente($no_tic)
             $equi = $row['SERIEG'];
 			?>
 		<?php
-		$des = $consulta[3];
+		$des = htmlspecialchars($consulta[3], ENT_QUOTES, 'UTF-8');
+
 		/*FECHAS*/
 		$fecin = date("d-m-Y", strtotime($consulta[1]));
 		?>
@@ -310,13 +306,17 @@ function ConsultarIncidente($no_tic)
 
 								$fecord = date("d-m-Y", strtotime($listar['FECHA_HORA']));
 
+								$motivo = htmlspecialchars($listar['MOTIVO'], ENT_QUOTES, 'UTF-8');
+								$motivo = strtoupper($motivo); // opcional, si querés mayúsculas
+
+
 							echo "
 								<tr>
 									<td><h5 style='font-size:14px;text-align: center;'>".$fecord."</h5></td>
 									<td><h5 style='font-size:14px;text-align: center;'>".$listar['HORA']."</h5></td>
 									<td><h5 style='font-size:14px;text-align: left;margin-left:5px;'>".$nom."</h5></td>
 									<td><h5 style='font-size:14px;text-align: left;margin-left:5px;'>".$est."</h5></td>
-									<td><h5 style='font-size:14px;text-align: left;margin-left:5px;text-transform:uppercase;'>".$listar['MOTIVO']."</h5></td>
+									<td><h5 style='font-size:14px;text-align: left;margin-left:5px;text-transform:uppercase;'>".$motivo."</h5></td>
 								</tr>";
 						}}
 					echo "</table>";
