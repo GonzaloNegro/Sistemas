@@ -679,5 +679,6 @@ $row = $resultado->fetch_assoc();
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 	</script>
 	<script src="../js/script.js"></script>
+	<script src="../js/shortcutKeys.js"></script>
 </body>
 </html>

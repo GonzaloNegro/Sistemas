@@ -42,8 +42,8 @@ verificarPerfil($row, [1, 2, 3]);
 						<input type="text" style="text-transform:uppercase;" name="buscar"  placeholder="Buscar" class="form-control largo">
 					</div>        
 					<div>
-						<input class="btn btn-success" type="submit" name="btn2" value="BUSCAR"></input>
-						<input class="btn btn-danger"  type="submit" name="btn1" value="LIMPIAR"></input>
+						<input class="btn btn-success" type="submit" name="btn2" value="BUSCAR" id="btnForm"></input>
+						<input class="btn btn-danger"  type="submit" name="btn1" value="LIMPIAR" id="btnLimpiar"></input>
 					</div>
 			</form>
 		</div>
@@ -144,5 +144,6 @@ verificarPerfil($row, [1, 2, 3]);
 			}
 		});
 	</script>
+	<script src="../js/shortcutKeys.js"></script>
 </body>
 </html>

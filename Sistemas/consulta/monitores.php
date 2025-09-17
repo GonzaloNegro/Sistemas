@@ -661,5 +661,6 @@ $row = $resultado->fetch_assoc();
 			}
 		});
 	</script>
+	<script src="../js/shortcutKeys.js"></script>
 </body>
 </html>

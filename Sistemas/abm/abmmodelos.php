@@ -69,9 +69,9 @@ verificarPerfil($row, [1, 2]);
 			</div>
 
 			<!-- Fila 3: Botones -->
-			<div class="fila">
-				<input class="btn btn-success" type="submit" name="btn2" value="BUSCAR">
-				<input class="btn btn-danger" type="submit" name="btn1" value="LIMPIAR">
+			<div>
+				<input class="btn btn-success" type="submit" name="btn2" value="BUSCAR" id="btnForm"></input>
+				<input class="btn btn-danger"  type="submit" name="btn1" value="LIMPIAR" id="btnLimpiar"></input>
 			</div>
 
 		</form>
@@ -208,5 +208,6 @@ verificarPerfil($row, [1, 2]);
 			}
 		});
 	</script>
+	<script src="../js/shortcutKeys.js"></script>
 </body>
 </html>
