@@ -129,7 +129,7 @@ $row = $resultado->fetch_assoc();
 						left join wsusuario ws on ws.ID_WS=i.ID_WS
 						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
 						LEFT JOIN estado_ws e on i.ID_ESTADOWS=E.ID_ESTADOWS
-                        left join area a on i.ID_AREA=a.ID_AREA 
+                        left join area a on u.ID_AREA=a.ID_AREA 
 						LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA  
 						LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
 	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
@@ -247,15 +247,18 @@ $row = $resultado->fetch_assoc();
 					else {
 						#Consultas SQL 
 						#Total de PC
-						$contPC=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA  from inventario i left join area a on i.ID_AREA=a.ID_AREA left join reparticion r on
+						$contPC=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA  from inventario i left join wsusuario ws ON ws.ID_WS=i.ID_WS
+						left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA left join reparticion r on
 						a.ID_REPA=r.ID_REPA where a.ID_REPA=$reparticion and i.ID_SO=$so AND i.ID_TIPOWS=1");
 						$totalPC = mysqli_fetch_array($contPC);
 						#Total de Notebook	
-						$contNB=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA  from inventario i left join area a on i.ID_AREA=a.ID_AREA left join reparticion r on
+						$contNB=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA  from inventario i left join wsusuario ws ON ws.ID_WS=i.ID_WS
+						left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA left join reparticion r on
 						a.ID_REPA=r.ID_REPA where a.ID_REPA=$reparticion and i.ID_SO=$so AND i.ID_TIPOWS=2");
 						$totalNB = mysqli_fetch_array($contNB);
 						#total de equipos en el area,
-						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA  from inventario i left join area a on i.ID_AREA=a.ID_AREA left join reparticion r on
+						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA  from inventario i left join wsusuario ws ON ws.ID_WS=i.ID_WS
+						left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA left join reparticion r on
 						a.ID_REPA=r.ID_REPA where a.ID_REPA=$reparticion and i.ID_SO=$so");
 			            $total = mysqli_fetch_array($conttotal);
 						$fecha = date("Y-m-d");
@@ -281,8 +284,10 @@ $row = $resultado->fetch_assoc();
 						<th class='cabecera'><p>N°WS</p></th>
 						<th class='cabecera'><p>USUARIO</p></th>
 						<th class='cabecera'><p>MICRO</p></th>
-						<th class='cabecera'><p>MEMORIA</p></th>
+						<th class='cabecera'><p>MEMORIA RAM</p></th>
 						<th class='cabecera'><p>TIPO MEMORIA</p></th>
+						<th class='cabecera'><p>DISCO DURO</p></th>
+						<th class='cabecera'><p>TIPO DISCO</p></th>
                         <th class='cabecera'><p>ESTADO</p></th>
                         <th class='cabecera'><p>AREA</p></th>
 						<!--<th id='cabeceraacc' class='cabecera' width=65px><p>ACCIÓN</p></th>-->
@@ -293,11 +298,12 @@ $row = $resultado->fetch_assoc();
 						from inventario i 
 						left join wsusuario ws on ws.ID_WS=i.ID_WS
 						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
-						LEFT JOIN estado_ws e on i.ID_ESTADOWS=E.ID_ESTADOWS
-                        left join area a on i.ID_AREA=a.ID_AREA 
-						LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA  
-						LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
+                        left join area a on a.ID_AREA=u.ID_AREA
+                        left join reparticion r on a.ID_REPA=r.ID_REPA
+						left join so s on s.ID_SO=i.ID_SO 
+						left join estado_ws e on e.ID_ESTADOWS=i.ID_ESTADOWS
+                        LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
+	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO 
 						where i.ID_SO=$so and r.ID_REPA=$reparticion");
 						#Ciclo while para extraer del arreglo cada fila de la tabla obtenida de la consulta
 									while($listar = mysqli_fetch_array($consultar))

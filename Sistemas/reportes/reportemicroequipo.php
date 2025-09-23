@@ -252,16 +252,25 @@ $row = $resultado->fetch_assoc();
                     #MISMO FUNCIONAMIENTO QUE CODIGO ANTERIOR PERO SE FILTRA POR REPARTICION
 					else {
 						$contPC=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO  left join area a on i.ID_AREA=a.ID_AREA left join reparticion r on
+                       LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO            
+                       left join wsusuario ws ON ws.ID_WS=i.ID_WS
+                       left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO 
+                       left join area a on a.ID_AREA=u.ID_AREA left join reparticion r on
 						a.ID_REPA=r.ID_REPA where mi.ID_MICRO =$micro AND i.ID_TIPOWS=1");
 						$totalPC = mysqli_fetch_array($contPC);
 						$contNB=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO  left join area a on i.ID_AREA=a.ID_AREA left join reparticion r on
+                       LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO            
+                       left join wsusuario ws ON ws.ID_WS=i.ID_WS
+                       left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO 
+                       left join area a on a.ID_AREA=u.ID_AREA left join reparticion r on
 						a.ID_REPA=r.ID_REPA where mi.ID_MICRO = $micro and a.ID_REPA=$reparticion AND i.ID_TIPOWS=2");
 						$totalNB = mysqli_fetch_array($contNB);
 
 						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO  left join area a on i.ID_AREA=a.ID_AREA left join reparticion r on
+                       LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO            
+                       left join wsusuario ws ON ws.ID_WS=i.ID_WS
+                       left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO 
+                       left join area a on a.ID_AREA=u.ID_AREA left join reparticion r on
 						a.ID_REPA=r.ID_REPA where mi.ID_MICRO =$micro and a.ID_REPA=$reparticion");
 			            $total = mysqli_fetch_array($conttotal);
 						$fecha = date("Y-m-d");
@@ -297,7 +306,7 @@ $row = $resultado->fetch_assoc();
 						left join wsusuario ws on ws.ID_WS=i.ID_WS
 						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO
 						LEFT JOIN estado_ws e on i.ID_ESTADOWS=E.ID_ESTADOWS
-                        left join area a on i.ID_AREA=a.ID_AREA 
+                        left join area a on u.ID_AREA=a.ID_AREA 
 						left join so s on i.ID_SO=s.ID_SO LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA 
 						LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
 	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO

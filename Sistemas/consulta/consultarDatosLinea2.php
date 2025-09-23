@@ -8,17 +8,17 @@
         };
 
 
-        //SERVIDOR QUE MUESTRA UNA TABLA CON LAS NOVEDADES DE UN CASO DETERMINADO
+        //SERVIDOR QUE MUESTRA UNA TABLA CON LOS MOVIMIENTOS DE UNA LÍNEA DETERMINADA
     $id_linea = $_POST['idLinea'];
-    $resultados=mysqli_query($datos_base, "SELECT l.NRO, u.NOMBRE, p.PLAN, pr.PROVEEDOR, r.ROAMING, l.DESCUENTO, n.NOMBREPLAN, l.FECHADESCUENTO, m.MONTO, m.EXTRAS, m.MONTOTOTAL, e.ESTADO, m.FECHA, m.OBSERVACION
+    $resultados=mysqli_query($datos_base, "SELECT l.NRO, u.NOMBRE, p.PLAN, pr.PROVEEDOR, r.ROAMING, m.DESCUENTO, n.NOMBREPLAN, l.FECHADESCUENTO, m.MONTO, m.EXTRAS, m.MONTOTOTAL, e.ESTADO, m.FECHA, m.OBSERVACION
     from movilinea m 
     left join linea l on l.ID_LINEA=m.ID_LINEA 
     left join usuarios u on u.ID_USUARIO=m.ID_USUARIO 
-    left join nombreplan n on n.ID_NOMBREPLAN=l.ID_NOMBREPLAN 
+    left join nombreplan n on n.ID_NOMBREPLAN=m.ID_NOMBREPLAN 
     left join plan p on p.ID_PLAN = n.ID_PLAN 
     left join proveedor pr on pr.ID_PROVEEDOR=n.ID_PROVEEDOR 
-    left join roaming r on r.ID_ROAMING=l.ID_ROAMING 
-    left join estado_ws e on e.ID_ESTADOWS=l.ID_ESTADOWS 
+    left join roaming r on r.ID_ROAMING=m.ID_ROAMING 
+    left join estado_ws e on e.ID_ESTADOWS=m.ID_ESTADOWS 
     where l.ID_LINEA = $id_linea
     ORDER BY m.ID_MOVILINEA DESC");
     $num_rows= mysqli_num_rows($resultados);

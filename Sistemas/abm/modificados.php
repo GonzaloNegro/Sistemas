@@ -261,7 +261,7 @@ if (isset($_POST['accion'])) {
                     }
 
                     /*-HACER UN UPDATE EN TABLA INVENTARIO PARA CAMBIAR EL ESTADO DEL EQUIPO A S/A - STOCK Y CAMBIAR EL ÁREA A SIN ASIGNAR DEPENDIENDO DE QUE REPARTICIÓN ESTABA. PARA ESTO CONSULTAR LA REPA QUE TENIA ANTES */
-                    mysqli_query($datos_base, "UPDATE usuarios SET NOMBRE = '$nombre', CUIL = '$cuil', ID_AREA = '$nuevaArea', PISO = '$pis', INTERNO = '$int', CORREO = '$cor', CORREO_PERSONAL = '$corp', TELEFONO_PERSONAL = '$tel', ID_TURNO = '$tur', ACTIVO = 2, OBSERVACION = '$obs' WHERE ID_USUARIO = '$id'");
+                    mysqli_query($datos_base, "UPDATE usuarios SET NOMBRE = '$nombre', CUIL = '$cuil', ID_AREA = '$nuevaArea', PISO = '$pis', INTERNO = '$int', CORREO = '$cor', CORREO_PERSONAL = '$corp', TELEFONO_PERSONAL = '$tel', ID_TURNO = '$tur', ID_ESTADOUSUARIO = 2, OBSERVACION = '$obs' WHERE ID_USUARIO = '$id'");
 
                     /*HACER UN INSERT EN LA TABLA AGREGADOS PARA EL CAMBIO DE ESTADO A INACTIVO Y EL NOMBRE DEL USUARIO*/
                     $descripcionNueva = "NOMBRE: " . $nombre . " - ESTADO: " . $act;
@@ -2231,7 +2231,7 @@ if (isset($_POST['accion'])) {
 
             $errorML = false;
         #Tabla LineaCelular ID_LINEA_CELULAR ID_LINEA ID_CELULAR ID_USUARIO FECHA ID_ESTADOWS
-            if ($estado == 1 && $estadoBD==$estado) { #Estado Activo y no se cambia
+            if ($estado == 1 && $estadoBD==$estado) { #Estado Activo y no se cambia 
                 #Controlamos Si se cambio el usuario
                 if ($usuarioAsignado!=$usuario) {#Cambiamos de Usuario
                     #Desvinculamos usuario y celular de linea
@@ -2464,7 +2464,7 @@ if (isset($_POST['accion'])) {
             } 
             if ($estadoBD == 1 AND $estado != $estadoBD){/* BASE DE DATO: ACTIVO || FORMULARIO: BAJA O STOCK */
                 /*  SE DA DE BAJA EL CELULAR, SE ROMPE EL VINCULO CON USUARIO Y LINEA */
-                /* tabla celular UPDATE de datos */
+                /* tabla celular UPDATE de datos */ 
                 if(!mysqli_query($datos_base, "UPDATE celular SET IMEI = '$imei', ID_USUARIO = '$usuario', ID_ESTADOWS = '$estado', ID_PROVEEDOR = '$proveedor', ID_MODELO = '$modelo', ID_PROCEDENCIA = '$procedencia' WHERE ID_CELULAR = '$id'")) $error = true;
                 /* tabla movicelular INSERT. Cambia usuario y estado */
                 if(!mysqli_query($datos_base, "INSERT INTO movicelular VALUES (DEFAULT, '$id', '$estado', '$usuario', '$fechaActual', '$obs')")) $error = true;   
