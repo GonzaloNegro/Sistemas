@@ -843,12 +843,12 @@ if (isset($_POST['accion'])) {
                 JOIN area a ON u.ID_AREA = a.ID_AREA
                 JOIN reparticion r ON a.ID_REPA = r.ID_REPA
                 WHERE w.ID_WS = '$equipoBD'
-                AND w.FECHA_ASIGNACION = (
-                    SELECT MAX(FECHA_ASIGNACION)
-                    FROM wsusuario
-                    WHERE ID_WS = w.ID_WS
+                AND w.ID_WSUSU = (
+                    SELECT MAX(wt.ID_WSUSU)
+                    FROM wsusuario wt
+                    WHERE wt.ID_WS = w.ID_WS
                 )
-                AND r.ID_REPA IN (1, 4)";
+                AND r.ID_REPA IN (1,2,3,4)";
                 $result4 = $datos_base->query($sql4);
                 $row4 = $result4->fetch_assoc();
                 $repaBD = $row4['ID_REPA'];
@@ -861,7 +861,7 @@ if (isset($_POST['accion'])) {
                 100 -> SIN ASIGNAR HP 725
                 101 -> SIN ASIGNAR HP 607
                 */
-                if($repaBD == 1){/* 725 */
+                if($repaBD == 1 || $repaBD == 2 || $repaBD == 3){/* 725 */
                     $sinAsignar = 522;/* 725 */
                 }elseif($repaBD == 4){/* 607 */
                     $sinAsignar = 523;/* 607 */
@@ -1023,12 +1023,12 @@ if (isset($_POST['accion'])) {
                 JOIN area a ON u.ID_AREA = a.ID_AREA
                 JOIN reparticion r ON a.ID_REPA = r.ID_REPA
                 WHERE w.ID_WS = '$equipoBD'
-                AND w.FECHA_ASIGNACION = (
-                    SELECT MAX(FECHA_ASIGNACION)
-                    FROM wsusuario
-                    WHERE ID_WS = w.ID_WS
+                AND w.ID_WSUSU = (
+                    SELECT MAX(wt.ID_WSUSU)
+                    FROM wsusuario wt
+                    WHERE wt.ID_WS = w.ID_WS
                 )
-                AND r.ID_REPA IN (1, 4)";
+                AND r.ID_REPA IN (1,2,3,4)";
                 $result4 = $datos_base->query($sql4);
                 $row4 = $result4->fetch_assoc();
                 $repaBD = $row4['ID_REPA'];
@@ -1041,7 +1041,7 @@ if (isset($_POST['accion'])) {
                 100 -> SIN ASIGNAR HP 725
                 101 -> SIN ASIGNAR HP 607
                 */
-                if($repaBD == 1){/* 725 */
+                if($repaBD == 1 || $repaBD == 2 || $repaBD == 3){/* 725 */
                     $sinAsignar = 522;/* 725 */
                 }elseif($repaBD == 4){/* 607 */
                     $sinAsignar = 523;/* 607 */
@@ -1204,12 +1204,12 @@ if (isset($_POST['accion'])) {
                 JOIN area a ON u.ID_AREA = a.ID_AREA
                 JOIN reparticion r ON a.ID_REPA = r.ID_REPA
                 WHERE w.ID_WS = '$equipoBD'
-                AND w.FECHA_ASIGNACION = (
-                    SELECT MAX(FECHA_ASIGNACION)
-                    FROM wsusuario
-                    WHERE ID_WS = w.ID_WS
+                AND w.ID_WSUSU = (
+                    SELECT MAX(wt.ID_WSUSU)
+                    FROM wsusuario wt
+                    WHERE wt.ID_WS = w.ID_WS
                 )
-                AND r.ID_REPA IN (1, 4)";
+                AND r.ID_REPA IN (1,2,3,4)";
                 $result4 = $datos_base->query($sql4);
                 $row4 = $result4->fetch_assoc();
                 $repaBD = $row4['ID_REPA'];
@@ -1222,7 +1222,7 @@ if (isset($_POST['accion'])) {
                 100 -> SIN ASIGNAR HP 725
                 101 -> SIN ASIGNAR HP 607
                 */
-                if($repaBD == 1){/* 725 */
+                if($repaBD == 1 || $repaBD == 2 || $repaBD == 3){/* 725 */
                     $sinAsignar = 522;/* 725 */
                 }elseif($repaBD == 4){/* 607 */
                     $sinAsignar = 523;/* 607 */
@@ -1878,13 +1878,13 @@ if (isset($_POST['accion'])) {
                     FROM wsusuario
                     WHERE ID_WS = w.ID_WS
                 )
-                AND r.ID_REPA IN (1, 4)";
+                AND r.ID_REPA IN (1, 2, 3, 4)";
                 $result4 = $datos_base->query($sql4);
                 $row4 = $result4->fetch_assoc();
                 $usuarioBD = $row4['ID_USUARIO'];
                 $repaBD = $row4['ID_REPA'];
 
-                if($repaBD == 1){/* 725 */
+                if($repaBD == 1 || $repaBD == 2 || $repaBD == 3){/* 725 */
                     $equipoSinAsignar = 522;/* 725 */
                     $usuarioSinAsignar = 277;/* 725 */
                     if($est == 2 || $est==3){
@@ -2062,7 +2062,7 @@ if (isset($_POST['accion'])) {
                 if($est == 1 AND $estadoBD == $est){/* BASE DE DATOS Y FORMULARIO: ACTIVO */
                     if($usuarioBD != $usu){/*  SI CAMBIA DE USUARIO */
                         /* -INSERT DE DESVINCULACION DEL USUARIO ACTUAL(tabla wsusuario) */
-                        mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, '$equipoSinAsignar', '$usuarioBD', '0000-00-00', '$fechaActual', 3)");
+                        mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, 0, '$usuarioBD', '0000-00-00', '$fechaActual', 3)");
                         /* -INSERT DE DESVINCULACION DEL EQUIPO (tabla wsusuario) */
                         mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, '$equipoBD', '$usuarioSinAsignar', '0000-00-00', '$fechaActual', 3)");
 
@@ -2098,7 +2098,7 @@ if (isset($_POST['accion'])) {
                     }                 
                 } elseif ($estadoBD == 1 AND $est != $estadoBD){ /* BASE DE DATO: ACTIVO || FORMULARIO: BAJA O STOCK */
                     /* -INSERT DE DESVINCULACION DEL USUARIO (tabla wsusuario) */
-                    mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, '$equipoSinAsignar', '$usuarioBD', '0000-00-00', '$fechaActual', 3)");
+                    mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, 0, '$usuarioBD', '0000-00-00', '$fechaActual', 3)");
                     /* -INSERT DE DESVINCULACION DEL EQUIPO (tabla equipo_periferico) */
                     mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, '$equipoBD', '$usuarioSinAsignar', '0000-00-00', '$fechaActual', 3)");
 

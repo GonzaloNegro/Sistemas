@@ -114,18 +114,35 @@ if (!empty($order)) {
 $whereClause = !empty($where) ? 'WHERE ' . implode(' AND ', $where) : '';
 
 // Consultar el total de registros
-$sqlTotal = "SELECT COUNT(*) as total 
-                FROM equipo_periferico ep
-                LEFT JOIN periferico p ON p.ID_PERI = ep.ID_PERI
-                LEFT JOIN modelo mo ON mo.ID_MODELO = p.ID_MODELO
-                            LEFT JOIN inventario i ON ep.ID_WS = i.ID_WS
-                            LEFT JOIN wsusuario ws ON i.ID_WS = ws.ID_WS
-                            LEFT JOIN usuarios u ON ws.ID_USUARIO = u.ID_USUARIO
-                            LEFT JOIN area a ON a.ID_AREA = u.ID_AREA
-                            LEFT JOIN marcas m ON m.ID_MARCA = mo.ID_MARCA
-                            LEFT JOIN estado_ws e ON e.ID_ESTADOWS = p.ID_ESTADOWS
-                            LEFT JOIN tipop t ON t.ID_TIPOP = p.ID_TIPOP
-                            LEFT JOIN reparticion r ON a.ID_REPA = r.ID_REPA $whereClause";
+$sqlTotal = "SELECT COUNT(*) as total FROM periferico p
+LEFT JOIN modelo mo  ON mo.ID_MODELO = p.ID_MODELO
+LEFT JOIN marcas m   ON m.ID_MARCA   = mo.ID_MARCA
+LEFT JOIN estado_ws e ON e.ID_ESTADOWS = p.ID_ESTADOWS
+LEFT JOIN tipop t    ON t.ID_TIPOP   = p.ID_TIPOP
+LEFT JOIN (
+    SELECT ep1.*
+    FROM equipo_periferico ep1
+    INNER JOIN (
+        SELECT ID_PERI, MAX(ID_EQUIPO_PERIFERICO) AS max_ep
+        FROM equipo_periferico
+        GROUP BY ID_PERI
+    ) ult ON ult.ID_PERI = ep1.ID_PERI AND ult.max_ep = ep1.ID_EQUIPO_PERIFERICO
+) ep ON ep.ID_PERI = p.ID_PERI
+
+LEFT JOIN inventario i ON ep.ID_WS = i.ID_WS
+LEFT JOIN (
+    SELECT w1.*
+    FROM wsusuario w1
+    INNER JOIN (
+        SELECT ID_WS, MAX(ID_WSUSU) AS max_wsusu
+        FROM wsusuario
+        GROUP BY ID_WS
+    ) uw ON uw.ID_WS = w1.ID_WS AND uw.max_wsusu = w1.ID_WSUSU
+) ws ON i.ID_WS = ws.ID_WS
+
+LEFT JOIN usuarios u  ON ws.ID_USUARIO = u.ID_USUARIO
+LEFT JOIN area a      ON a.ID_AREA = u.ID_AREA
+LEFT JOIN reparticion r ON a.ID_REPA = r.ID_REPA $whereClause";
 $resultTotal = $datos_base->query($sqlTotal);
 $totalRegistros = $resultTotal->fetch_assoc()['total'];
 $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
@@ -143,17 +160,13 @@ $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
     mo.MODELO,
     t.TIPO,
     m.MARCA,
-    p.TIPOP,
     e.ESTADO,
-    r.REPA,
-    ep.ID_EQUIPO_PERIFERICO
+    r.REPA
 FROM periferico p
-LEFT JOIN modelo mo ON mo.ID_MODELO = p.ID_MODELO
-LEFT JOIN marcas m ON m.ID_MARCA = mo.ID_MARCA
+LEFT JOIN modelo mo  ON mo.ID_MODELO = p.ID_MODELO
+LEFT JOIN marcas m   ON m.ID_MARCA   = mo.ID_MARCA
 LEFT JOIN estado_ws e ON e.ID_ESTADOWS = p.ID_ESTADOWS
-LEFT JOIN tipop t ON t.ID_TIPOP = p.ID_TIPOP
-
--- 🔑 Subquery: último equipo_periferico por cada periférico
+LEFT JOIN tipop t    ON t.ID_TIPOP   = p.ID_TIPOP
 LEFT JOIN (
     SELECT ep1.*
     FROM equipo_periferico ep1
@@ -161,16 +174,22 @@ LEFT JOIN (
         SELECT ID_PERI, MAX(ID_EQUIPO_PERIFERICO) AS max_ep
         FROM equipo_periferico
         GROUP BY ID_PERI
-    ) ult 
-    ON ep1.ID_PERI = ult.ID_PERI 
-   AND ep1.ID_EQUIPO_PERIFERICO = ult.max_ep
+    ) ult ON ult.ID_PERI = ep1.ID_PERI AND ult.max_ep = ep1.ID_EQUIPO_PERIFERICO
 ) ep ON ep.ID_PERI = p.ID_PERI
 
--- engancho la máquina y el usuario desde la última asignación
 LEFT JOIN inventario i ON ep.ID_WS = i.ID_WS
-LEFT JOIN wsusuario ws ON i.ID_WS = ws.ID_WS
-LEFT JOIN usuarios u ON ws.ID_USUARIO = u.ID_USUARIO
-LEFT JOIN area a ON a.ID_AREA = u.ID_AREA
+LEFT JOIN (
+    SELECT w1.*
+    FROM wsusuario w1
+    INNER JOIN (
+        SELECT ID_WS, MAX(ID_WSUSU) AS max_wsusu
+        FROM wsusuario
+        GROUP BY ID_WS
+    ) uw ON uw.ID_WS = w1.ID_WS AND uw.max_wsusu = w1.ID_WSUSU
+) ws ON i.ID_WS = ws.ID_WS
+
+LEFT JOIN usuarios u  ON ws.ID_USUARIO = u.ID_USUARIO
+LEFT JOIN area a      ON a.ID_AREA = u.ID_AREA
 LEFT JOIN reparticion r ON a.ID_REPA = r.ID_REPA
 
 $whereClause
@@ -186,17 +205,13 @@ LIMIT $inicio, $registrosPorPagina";
     mo.MODELO,
     t.TIPO,
     m.MARCA,
-    p.TIPOP,
     e.ESTADO,
-    r.REPA,
-    ep.ID_EQUIPO_PERIFERICO
+    r.REPA
 FROM periferico p
-LEFT JOIN modelo mo ON mo.ID_MODELO = p.ID_MODELO
-LEFT JOIN marcas m ON m.ID_MARCA = mo.ID_MARCA
+LEFT JOIN modelo mo  ON mo.ID_MODELO = p.ID_MODELO
+LEFT JOIN marcas m   ON m.ID_MARCA   = mo.ID_MARCA
 LEFT JOIN estado_ws e ON e.ID_ESTADOWS = p.ID_ESTADOWS
-LEFT JOIN tipop t ON t.ID_TIPOP = p.ID_TIPOP
-
--- 🔑 Subquery: último equipo_periferico por cada periférico
+LEFT JOIN tipop t    ON t.ID_TIPOP   = p.ID_TIPOP
 LEFT JOIN (
     SELECT ep1.*
     FROM equipo_periferico ep1
@@ -204,16 +219,22 @@ LEFT JOIN (
         SELECT ID_PERI, MAX(ID_EQUIPO_PERIFERICO) AS max_ep
         FROM equipo_periferico
         GROUP BY ID_PERI
-    ) ult 
-    ON ep1.ID_PERI = ult.ID_PERI 
-   AND ep1.ID_EQUIPO_PERIFERICO = ult.max_ep
+    ) ult ON ult.ID_PERI = ep1.ID_PERI AND ult.max_ep = ep1.ID_EQUIPO_PERIFERICO
 ) ep ON ep.ID_PERI = p.ID_PERI
 
--- engancho la máquina y el usuario desde la última asignación
 LEFT JOIN inventario i ON ep.ID_WS = i.ID_WS
-LEFT JOIN wsusuario ws ON i.ID_WS = ws.ID_WS
-LEFT JOIN usuarios u ON ws.ID_USUARIO = u.ID_USUARIO
-LEFT JOIN area a ON a.ID_AREA = u.ID_AREA
+LEFT JOIN (
+    SELECT w1.*
+    FROM wsusuario w1
+    INNER JOIN (
+        SELECT ID_WS, MAX(ID_WSUSU) AS max_wsusu
+        FROM wsusuario
+        GROUP BY ID_WS
+    ) uw ON uw.ID_WS = w1.ID_WS AND uw.max_wsusu = w1.ID_WSUSU
+) ws ON i.ID_WS = ws.ID_WS
+
+LEFT JOIN usuarios u  ON ws.ID_USUARIO = u.ID_USUARIO
+LEFT JOIN area a      ON a.ID_AREA = u.ID_AREA
 LEFT JOIN reparticion r ON a.ID_REPA = r.ID_REPA
 
 $whereClause

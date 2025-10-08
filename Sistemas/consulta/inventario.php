@@ -521,6 +521,12 @@ $row = $resultado->fetch_assoc();
                 $row6 = $result6->fetch_assoc();
                 $inactivos = $row6['total'];
             ?>
+            <?php 
+                $sql6 = "SELECT COUNT(*) AS total FROM inventario WHERE ID_ESTADOWS = 3";
+                $result6 = $datos_base->query($sql6);
+                $row6 = $result6->fetch_assoc();
+                $enStock = $row6['total'];
+            ?>
 <!--             <div class="col-md-3">
                 <div class="card-counter danger">
                     <div class="card-pri">
@@ -535,6 +541,7 @@ $row = $resultado->fetch_assoc();
             <p>Equipos Registrados: <?php echo $total; ?></p>
             <p>Equipos Activos: <?php echo $activo; ?></p>
             <p>Equipos Inactivos: <?php echo $inactivos; ?></p>
+            <p>Equipos Stock: <?php echo $enStock; ?></p>
         </div>
         <?php
         echo"<div class=filtrado>

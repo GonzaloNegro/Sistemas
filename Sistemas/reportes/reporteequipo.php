@@ -296,16 +296,30 @@ $whereClause = !empty($where) ? 'WHERE ' . implode(' AND ', $where) : '';
 //pOR DEFECTO SI NO SE SELECCIONO NINGUN FILTRO (PRIMERA VEZ QUE SE ENTRA A LA PAGINA O SE PRESIONA EL BOTON LIMPIAR ) SE REALIZA LA CONSULTA SQL SIN NINGUN FILTRO
 
 $consultar=mysqli_query($datos_base, "SELECT i.ID_WS, t.TIPOWS, e.ESTADO, a.AREA, r.REPA, u.NOMBRE, i.SERIEG, s.SIST_OP, m.MICRO
-FROM inventario i 
-        LEFT JOIN area AS a ON i.ID_AREA = a.ID_AREA
-        LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-        LEFT JOIN wsusuario AS ws ON i.ID_WS = ws.ID_WS
-        LEFT JOIN usuarios as u on ws.ID_USUARIO = u.ID_USUARIO
-        LEFT JOIN tipows AS t ON t.ID_TIPOWS = i.ID_TIPOWS
-        LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-        LEFT JOIN micro AS m ON m.ID_MICRO = mw.ID_MICRO
-        LEFT JOIN so AS s ON s.ID_SO = i.ID_SO
-        LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = i.ID_ESTADOWS
+FROM inventario i
+        LEFT JOIN wsusuario ws 
+            ON i.ID_WS = ws.ID_WS
+            AND ws.ID_WSUSU = (
+                SELECT MAX(wsu.ID_WSUSU)
+                FROM wsusuario wsu
+                WHERE wsu.ID_WS = i.ID_WS
+            )
+        LEFT JOIN usuarios u 
+            ON ws.ID_USUARIO = u.ID_USUARIO
+        LEFT JOIN area a 
+            ON u.ID_AREA = a.ID_AREA
+        LEFT JOIN reparticion r 
+            ON r.ID_REPA = a.ID_REPA
+        LEFT JOIN tipows t 
+            ON t.ID_TIPOWS = i.ID_TIPOWS
+        LEFT JOIN microws mw 
+            ON mw.ID_WS = i.ID_WS
+        LEFT JOIN micro m 
+            ON m.ID_MICRO = mw.ID_MICRO
+        LEFT JOIN so s 
+            ON s.ID_SO = i.ID_SO
+        LEFT JOIN estado_ws e 
+            ON e.ID_ESTADOWS = i.ID_ESTADOWS 
         $whereClause 
         ORDER BY r.REPA ASC, a.AREA ASC, u.NOMBRE ASC");
 	

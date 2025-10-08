@@ -475,9 +475,17 @@ $row = $resultado->fetch_assoc();
                     </div>
                 </div>
             </div> -->
+            <?php 
+                $sql6 = "SELECT COUNT(*) AS total FROM periferico WHERE (ID_TIPOP = 7 OR ID_TIPOP = 8) AND ID_ESTADOWS = 3";
+                $result6 = $datos_base->query($sql6);
+                $row6 = $result6->fetch_assoc();
+                $enStock = $row6['total'];
+            ?>
+
             <p>Monitores Registrados: <?php echo $total; ?></p>
             <p>Monitores Activos: <?php echo $activo; ?></p>
             <p>Monitores Inactivos: <?php echo $inactivos; ?></p>
+            <p>Monitores Stock: <?php echo $enStock; ?></p>
         </div>
 
         <?php

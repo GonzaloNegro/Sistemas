@@ -517,9 +517,16 @@ $row = $resultado->fetch_assoc();
                     </div>
                 </div>
             </div> -->
+            <?php 
+                $sql6 = "SELECT COUNT(*) AS total FROM periferico WHERE (ID_TIPOP =  1 OR ID_TIPOP =  2 OR ID_TIPOP =  3 OR ID_TIPOP =  4 OR ID_TIPOP =  10 OR ID_TIPOP = 13) AND ID_ESTADOWS = 3";
+                $result6 = $datos_base->query($sql6);
+                $row6 = $result6->fetch_assoc();
+                $enStock = $row6['total'];
+            ?>
             <p>Impresoras Registradas: <?php echo $total; ?></p>
             <p>Impresoras Activos: <?php echo $activo; ?></p>
             <p>Impresoras Inactivos: <?php echo $inactivos; ?></p>
+            <p>Impresoras Stock: <?php echo $enStock; ?></p>
         </div>
         <?php
         echo"<div class=filtrado>
