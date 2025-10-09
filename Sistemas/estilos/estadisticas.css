@@ -326,6 +326,75 @@ footer{
 	border: none;
 }
 
+.grillasEstadistica{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    gap: 40px;
+    margin-bottom: 20px;
+
+    height: auto;
+    width: 100%;
+}
+
+.grillasEstadistica--mensuales{
+  width: 100%;
+
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: row;
+  
+  gap: 10px;
+}
+
+
+table {
+	text-align: left;
+	margin-left: 5px;
+	background-color: white;
+	border-collapse: collapse; /* NECESARIO para sticky estable */
+
+	box-shadow: none;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* <<< Sombra un poco más fuerte */
+	border-radius: 15px; /* Si querés bordes redondeados */
+}
+
+thead {
+	background-color: white;
+	border-bottom: 2px solid black; /* Línea divisoria más gruesa */
+}
+
+.table_id{
+  width: 300px;
+}
+
+.table_id thead th {
+	position: sticky;
+	top: 0;
+	background-color: white;
+	z-index: 2; /* Un poco más alto para evitar superposición */
+}
+
+
+tr {
+	border-bottom: 1px solid #e0e0e0; /* Línea tenue entre registros */
+}
+
+tr:hover td {
+	background-color: #f5f5f5;
+}
+
+th, td {
+	padding: 8px 12px;
+	transition: background-color 0.2s ease-in-out;
+}
+
+th p{
+	color: #004582;
+}
+
 .contenedor, .contenedor1{
     display: flex;
     justify-content: space-evenly;
@@ -462,7 +531,7 @@ footer{
 }
 /* PORCENTAJE */
 
-.cards-bajo{
+/* .cards-bajo{
   width: 1200px;
   height: auto;
   margin-top: 40px;
@@ -488,7 +557,7 @@ footer{
   display: flex;
   justify-content: center;
   align-items: center;
-}
+} */
 
 .cabecerafiltro{
 	display: flex;

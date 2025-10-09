@@ -32,6 +32,7 @@ if ($num_rows > 0) {
         $idResolutor = $consulta['ID_RESOLUTOR'];
         $idUsuario = $consulta['ID_USUARIO'];
         $idWs = $consulta['ID_WS'];
+        $idTipi = $consulta['ID_TIPIFICACION'];
         $fechaSolucion = date("d-m-Y", strtotime($consulta['FECHA_SOLUCION']));
 
         // Obtener estado
@@ -40,6 +41,14 @@ if ($num_rows > 0) {
         $resultado = $datos_base->query($sent);
         if ($row = $resultado->fetch_assoc()) {
             $estado = $row['ESTADO'];
+        }
+
+        // Obtener tipificacion
+        $tipificacion = "-";
+        $sent = "SELECT TIPIFICACION FROM tipificacion WHERE ID_TIPIFICACION = $idTipi";
+        $resultado = $datos_base->query($sent);
+        if ($row = $resultado->fetch_assoc()) {
+            $tipificacion = $row['TIPIFICACION'];
         }
 
         // Obtener estado
@@ -94,6 +103,7 @@ if ($num_rows > 0) {
             "Área" => $area,
             "Repartición" => $reparticion,
             "Equipo" => $ws,
+            "Tipificacion" => $tipificacion,
             "Descripción" => $desc,
             "Estado" => "<span style='color:$color;'>$estado</span>",
             "Fecha Solución" => $fechaSolucion,
