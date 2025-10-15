@@ -156,7 +156,7 @@ if (isset($_POST['accion'])) {
                 header("Location: ../consulta/consultausuario.php?no");
             }
             else if($nombre == $nom){
-                mysqli_query($datos_base, "INSERT INTO usuarios VALUES (DEFAULT, UPPER('$nombre'), '$cuil', '$area', '$piso', '$int', '$correo', '$correop', '$tel', '$turno', '$act', UPPER('$obs'))"); 
+                mysqli_query($datos_base, "INSERT INTO usuarios VALUES (DEFAULT, UPPER('$nombre'), '$cuil', '$area', '$piso', '$int', '$correo', '$correop', '$tel', '$turno', '$estadoUsuario', UPPER('$obs'))"); 
 
                 mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'USUARIO', 'AGREGADO', UPPER('$nombre'), '', '$fechaActual', '$horaActual', '$resolutorActivo')");
 
@@ -164,7 +164,7 @@ if (isset($_POST['accion'])) {
                 exit;
             }
             else{
-                mysqli_query($datos_base, "INSERT INTO usuarios VALUES (DEFAULT, UPPER('$nombre'), '$cuil', '$area', '$piso', '$int', '$correo', '$correop', '$tel', '$turno', '$act', UPPER('$obs'))"); 
+                mysqli_query($datos_base, "INSERT INTO usuarios VALUES (DEFAULT, UPPER('$nombre'), '$cuil', '$area', '$piso', '$int', '$correo', '$correop', '$tel', '$turno', '$estadoUsuario', UPPER('$obs'))"); 
 
                 mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'USUARIO', 'AGREGADO', UPPER('$nombre'), '', '$fechaActual', '$horaActual', '$resolutorActivo')");
 

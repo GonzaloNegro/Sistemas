@@ -342,14 +342,19 @@ function enviar_formulario(formulario, accion) {
                     <div class="form-group row">
                         <label id="lblForm" class="col-form-label col-xl col-lg">ÁREA:<span style="color:red;">*</span></label>
                         <select  class="form-control col-xl col-lg" id="are" name="are" style="text-transform:uppercase" required>
-                        <option selected value="200"><?php echo $ar?> - <?php echo $repa?></option>
+                        <?php   $equipoBD = "$ar - $repa"; ?>
+                        <option selected value="200"><?php echo $equipoBD?></option>
                         <?php
                         include("../particular/conexion.php");
                         $consulta= "SELECT a.ID_AREA, a.AREA, r.REPA FROM area a inner join reparticion r on a.ID_REPA=r.ID_REPA ORDER BY AREA ASC";
                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                         ?>
+                        <?php 
+                        $areaNueva=$opciones['AREA'];
+                        $repaNueva=$opciones['REPA'];
+                        $equipoNuevo="$areaNueva - $repaNueva";?>
                         <?php foreach ($ejecutar as $opciones): 
-                            if ($opciones['AREA'] == $ar) continue;?> 
+                            if ($equipoNuevo == $equipoBD) continue;?> 
                         <option value= <?php echo $opciones['ID_AREA'] ?>><?php echo $opciones['AREA']?> - <?php echo $opciones['REPA']?></option>
                         <?php endforeach?>
                         </select>

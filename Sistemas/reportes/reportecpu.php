@@ -65,10 +65,10 @@ $row = $resultado->fetch_assoc();
 						
                         <select id='slcrepart' name='selectorrepart' class='form-control col-xl col-lg'  onChange='window.location.href=this.value' required>
                           <option value='0' selected disabled>-TODOS-</option>
-                          <option value='reportecpu.php?repa=1&opc=$opc'>MINISTERIO HUMBERTO PRIMO 725</option>
+                          <option value='reportecpu.php?repa=1&opc=$opc'>HUMBERTO PRIMO 725</option>
                           <option value='reportecpu.php?repa=2&opc=$opc'>ARQUITECTURA</option>
                           <option value='reportecpu.php?repa=3&opc=$opc'>VIVIENDA</option>
-                          <option value='reportecpu.php?repa=4&opc=$opc'>MINISTERIO HUMBERTO PRIMO 607</option>
+                          <option value='reportecpu.php?repa=4&opc=$opc'>HUMBERTO PRIMO 607</option>
                           </select>
                 </div>
 				
@@ -180,7 +180,8 @@ if($reparticion==0) {
                 </thead>
 		";
         //CONSULTA SQL PARA OBTENER EL TOTAL DE EQUIPOS POR AREA
-		$consultar=mysqli_query($datos_base, "SELECT a.AREA, i.ID_AREA, count(*) as TOTAL from inventario i left join area a on i.ID_AREA=a.ID_AREA
+		$consultar=mysqli_query($datos_base, "SELECT a.AREA, a.ID_AREA, count(*) as TOTAL from inventario i left join wsusuario ws ON ws.ID_WS=i.ID_WS
+        left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA
 		group by a.AREA");
                     //AGREGAMOS LOS VALORES DE LA TABLA SQL A LAS FILAS DE LA TABLA HTML
 					while($listar = mysqli_fetch_array($consultar))
@@ -454,19 +455,19 @@ if($reparticion==0) {
                         }
                         //SE REALIZA UNA CONSULTA PARA OBTENER EL TOTAL DE EQUIPOS, TOTAL DE CPU Y DE NOTEBOOKS POR REPARTICION
                         if ($reparticion>=1){ 
-                        $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA from inventario i left
-                        join area a on i.ID_AREA=a.ID_AREA left join reparticion r on a.ID_REPA=r.ID_REPA where
-                        a.ID_REPA=$reparticion");
+                        $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA from inventario i left join wsusuario ws ON ws.ID_WS=i.ID_WS
+                        left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA left join reparticion r on a.ID_REPA=r.ID_REPA 
+                        where a.ID_REPA=$reparticion");
                         $total = mysqli_fetch_array($conttotal);
                         $fecha = date("Y-m-d");
                         $nomrepa=$total['REPA'];
-                        $contPC=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA from inventario i left
-                        join area a on i.ID_AREA=a.ID_AREA left join reparticion r on a.ID_REPA=r.ID_REPA where
-                        a.ID_REPA=$reparticion and i.ID_TIPOWS=1");
+                        $contPC=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA from inventario i left join wsusuario ws ON ws.ID_WS=i.ID_WS
+                        left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA left join reparticion r on a.ID_REPA=r.ID_REPA
+                        where a.ID_REPA=$reparticion and i.ID_TIPOWS=1");
 	                    $totalPC = mysqli_fetch_array($contPC);
-	                    $contNB=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA from inventario i left
-                        join area a on i.ID_AREA=a.ID_AREA left join reparticion r on a.ID_REPA=r.ID_REPA where
-                        a.ID_REPA=$reparticion and i.ID_TIPOWS=2");
+	                    $contNB=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA from inventario i left join wsusuario ws ON ws.ID_WS=i.ID_WS
+                        left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA left join reparticion r on a.ID_REPA=r.ID_REPA 
+                        where a.ID_REPA=$reparticion and i.ID_TIPOWS=2");
 	                    $totalNB = mysqli_fetch_array($contNB);
 
                         // si la opcion elegida es area  SE GENERA LA CABECERA DE LA TABLA DE EQUIPOS POR AREA Y REPARTICION  Y SE MUESTRA EL TOTAL DE EQUIPOS Y POR TIPO
@@ -497,10 +498,11 @@ if($reparticion==0) {
                                     </th>
                                 </tr>
                             </thead>";
-                            //CONSULTA SQL PARA OBTENER EL TOTAL DE EQUIPOS POR AREA Y FISTRADO POR REPARTICION
-                            $consultar=mysqli_query($datos_base, "SELECT a.AREA, i.ID_AREA, a.ID_REPA, r.REPA, count(*)
-                            as TOTAL from inventario i left join area a on i.ID_AREA=a.ID_AREA left join reparticion r
-                            on a.ID_REPA=r.ID_REPA where a.ID_REPA=$reparticion
+                            //CONSULTA SQL PARA OBTENER EL TOTAL DE EQUIPOS POR AREA Y FILTRADO POR REPARTICION
+                            $consultar=mysqli_query($datos_base, "SELECT a.AREA, a.ID_AREA, a.ID_REPA, r.REPA, count(*)
+                            as TOTAL from inventario i left join wsusuario ws ON ws.ID_WS=i.ID_WS
+                            left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA
+                            left join reparticion r on r.ID_REPA=a.ID_REPA where a.ID_REPA=$reparticion
                             group by a.AREA");
                             //AGREGAMOS LOS VALORES DE LA TABLA SQL A LAS FILAS DE LA TABLA HTML
                             while($listar = mysqli_fetch_array($consultar))
@@ -560,7 +562,8 @@ if($reparticion==0) {
                                         //CONSULTA SQL PARA OBTENER EL TOTAL DE EQUIPOS POR ESTADO
                                         $consultar=mysqli_query($datos_base, "SELECT e.ESTADO, I.ID_ESTADOWS, count(*)
                                         as TOTAL from inventario i LEFT JOIN estado_ws e on i.ID_ESTADOWS=e.ID_ESTADOWS
-                                        left join area a on i.ID_AREA=a.ID_AREA left join reparticion r on
+                                        left join wsusuario ws ON ws.ID_WS=i.ID_WS
+                                        left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA left join reparticion r on
                                         a.ID_REPA=r.ID_REPA where a.ID_REPA=$reparticion
                                         group by e.ESTADO");
                                         //AGREGAMOS LOS VALORES DE LA TABLA SQL A LAS FILAS DE LA TABLA HTML
@@ -620,7 +623,8 @@ if($reparticion==0) {
                                             </thead>";
                                             //CONSULTA SQL PARA OBTENER EL TOTAL DE EQUIPOS POR S.O
                             $consultar=mysqli_query($datos_base, "SELECT s.SIST_OP, i.ID_SO, count(*) as TOTAL from
-							inventario i left join so s on i.ID_SO=s.ID_SO left join area a on i.ID_AREA=a.ID_AREA left join reparticion r on a.ID_REPA=r.ID_REPA where a.ID_REPA=$reparticion
+							inventario i left join so s on i.ID_SO=s.ID_SO left join wsusuario ws ON ws.ID_WS=i.ID_WS
+                            left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA left join reparticion r on a.ID_REPA=r.ID_REPA where a.ID_REPA=$reparticion
                              group by s.SIST_OP");
                              //AGREGAMOS LOS VALORES DE LA TABLA SQL A LAS FILAS DE LA TABLA HTML
                             while($listar = mysqli_fetch_array($consultar))
@@ -677,10 +681,12 @@ if($reparticion==0) {
                     //CONSULTA SQL PARA OBTENER EL TOTAL DE EQUIPOS POR MICRO
 			$consultar=mysqli_query($datos_base, "SELECT mi.ID_MICRO, mi.MICRO, count(*) as TOTAL
             from inventario i 
-           left join area a on i.ID_AREA=a.ID_AREA left join reparticion r on
-           a.ID_REPA=r.ID_REPA 
-           LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-   LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
+           left join wsusuario ws ON ws.ID_WS=i.ID_WS
+            left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO 
+            left join area a on a.ID_AREA=u.ID_AREA
+            left join reparticion r on a.ID_REPA=r.ID_REPA 
+            LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
+            LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
             where a.ID_REPA=$reparticion
 			group by mi.MICRO ORDER BY TOTAL DESC");
             //AGREGAMOS LOS VALORES DE LA TABLA SQL A LAS FILAS DE LA TABLA HTML

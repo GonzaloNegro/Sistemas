@@ -86,13 +86,16 @@ $row = $resultado->fetch_assoc();
 					#Consultas SQL 
 					#total de equipos en el area,
 					    $area = $_GET['Area'];
-                        $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i where i.ID_AREA=$area");
+                        $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i left join wsusuario ws ON ws.ID_WS=i.ID_WS
+						left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA where u.ID_AREA=$area");
 			            $total = mysqli_fetch_array($conttotal);
 					#Total de PC
-						$contPC=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i where i.ID_AREA=$area AND i.ID_TIPOWS=1");
+						$contPC=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i left join wsusuario ws ON ws.ID_WS=i.ID_WS
+						left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA where u.ID_AREA=$area AND i.ID_TIPOWS=1");
 			            $totalPC = mysqli_fetch_array($contPC);
 					#Total de Notebook	
-						$contNB=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i where i.ID_AREA=$area AND i.ID_TIPOWS=2");
+						$contNB=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i left join wsusuario ws ON ws.ID_WS=i.ID_WS
+						left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA where u.ID_AREA=$area AND i.ID_TIPOWS=2");
 			            $totalNB = mysqli_fetch_array($contNB);
 						$fecha = date("Y-m-d");
 						#COnsulta para obtener nombre de area
@@ -134,7 +137,7 @@ $row = $resultado->fetch_assoc();
 						left join estado_ws e on e.ID_ESTADOWS=i.ID_ESTADOWS
                         LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
 	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO 
-						where i.ID_AREA = $area ");
+						where u.ID_AREA = $area ");
 						#Ciclo while para extraer del arreglo cada fila de la tabla obtenida de la consulta
 									while($listar = mysqli_fetch_array($consultar))
 									{

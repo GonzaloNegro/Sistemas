@@ -133,7 +133,7 @@ $row = $resultado->fetch_assoc();
 						left join wsusuario ws on ws.ID_WS=i.ID_WS
 						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
 						left join so s on i.ID_SO=s.ID_SO
-						left join area a on i.ID_AREA=a.ID_AREA LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA 
+						left join area a on u.ID_AREA=a.ID_AREA LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA
 						LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
 	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
 						 where i.ID_ESTADOWS=$estado");
@@ -249,14 +249,15 @@ $row = $resultado->fetch_assoc();
 						}
 
 					    else {
-						$contPC=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA  from inventario i left join area a on i.ID_AREA=a.ID_AREA left join reparticion r on
-						a.ID_REPA=r.ID_REPA where a.ID_REPA=$reparticion and i.ID_ESTADOWS=$estado AND i.ID_TIPOWS=1");
+						$contPC=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA  from inventario i left join wsusuario ws ON ws.ID_WS=i.ID_WS
+						left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA left join reparticion r on a.ID_REPA=r.ID_REPA where a.ID_REPA=$reparticion and i.ID_ESTADOWS=$estado AND i.ID_TIPOWS=1");
 						$totalPC = mysqli_fetch_array($contPC);
-						$contNB=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA  from inventario i left join area a on i.ID_AREA=a.ID_AREA left join reparticion r on
-						a.ID_REPA=r.ID_REPA where a.ID_REPA=$reparticion and i.ID_ESTADOWS=$estado AND i.ID_TIPOWS=2");
+						$contNB=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA  from inventario i left join wsusuario ws ON ws.ID_WS=i.ID_WS
+						left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA left join reparticion r on a.ID_REPA=r.ID_REPA where a.ID_REPA=$reparticion and i.ID_ESTADOWS=$estado AND i.ID_TIPOWS=2");
 						$totalNB = mysqli_fetch_array($contNB);
-						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA  from inventario i left join area a on i.ID_AREA=a.ID_AREA left join reparticion r on
-							a.ID_REPA=r.ID_REPA where a.ID_REPA=$reparticion and i.ID_ESTADOWS=$estado");
+						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL, r.REPA  from inventario i left join wsusuario ws ON ws.ID_WS=i.ID_WS
+						left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA left join reparticion r on a.ID_REPA=r.ID_REPA 
+						where a.ID_REPA=$reparticion and i.ID_ESTADOWS=$estado");
 			            $total = mysqli_fetch_array($conttotal);
 						$fecha = date("Y-m-d");
 						$consularea=mysqli_query($datos_base, "select a.ESTADO from estado_ws a where a.ID_ESTADOWS=$estado");
@@ -291,7 +292,7 @@ $row = $resultado->fetch_assoc();
 						left join wsusuario ws on ws.ID_WS=i.ID_WS
 						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO
 						left join so s on i.ID_SO=s.ID_SO
-						left join area a on i.ID_AREA=a.ID_AREA LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA 
+						left join area a on u.ID_AREA=a.ID_AREA LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA 
 						LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
 	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
 						where i.ID_ESTADOWS=$estado and r.ID_REPA=$reparticion");

@@ -262,7 +262,7 @@ if (isset($_POST['accion'])) {
                     }
 
                     /*-HACER UN UPDATE EN TABLA INVENTARIO PARA CAMBIAR EL ESTADO DEL EQUIPO A S/A - STOCK Y CAMBIAR EL ÁREA A SIN ASIGNAR DEPENDIENDO DE QUE REPARTICIÓN ESTABA. PARA ESTO CONSULTAR LA REPA QUE TENIA ANTES */
-                    mysqli_query($datos_base, "UPDATE usuarios SET NOMBRE = '$nombre', CUIL = '$cuil', ID_AREA = '$nuevaArea', PISO = '$pis', INTERNO = '$int', CORREO = '$cor', CORREO_PERSONAL = '$corp', TELEFONO_PERSONAL = '$tel', ID_TURNO = '$tur', ACTIVO = 2, OBSERVACION = '$obs' WHERE ID_USUARIO = '$id'");
+                    mysqli_query($datos_base, "UPDATE usuarios SET NOMBRE = '$nombre', CUIL = '$cuil', ID_AREA = '$nuevaArea', PISO = '$pis', INTERNO = '$int', CORREO = '$cor', CORREO_PERSONAL = '$corp', TELEFONO_PERSONAL = '$tel', ID_TURNO = '$tur', ID_ESTADOUSUARIO = 2, OBSERVACION = '$obs' WHERE ID_USUARIO = '$id'");
 
                     /*HACER UN INSERT EN LA TABLA AGREGADOS PARA EL CAMBIO DE ESTADO A INACTIVO Y EL NOMBRE DEL USUARIO*/
                     $descripcionNueva = "NOMBRE: " . $nombre . " - ESTADO: " . $act;
@@ -844,12 +844,12 @@ if (isset($_POST['accion'])) {
                 JOIN area a ON u.ID_AREA = a.ID_AREA
                 JOIN reparticion r ON a.ID_REPA = r.ID_REPA
                 WHERE w.ID_WS = '$equipoBD'
-                AND w.FECHA_ASIGNACION = (
-                    SELECT MAX(FECHA_ASIGNACION)
-                    FROM wsusuario
-                    WHERE ID_WS = w.ID_WS
+                AND w.ID_WSUSU = (
+                    SELECT MAX(wt.ID_WSUSU)
+                    FROM wsusuario wt
+                    WHERE wt.ID_WS = w.ID_WS
                 )
-                AND r.ID_REPA IN (1, 4)";
+                AND r.ID_REPA IN (1,2,3,4)";
                 $result4 = $datos_base->query($sql4);
                 $row4 = $result4->fetch_assoc();
                 $repaBD = $row4['ID_REPA'];
@@ -862,7 +862,7 @@ if (isset($_POST['accion'])) {
                 100 -> SIN ASIGNAR HP 725
                 101 -> SIN ASIGNAR HP 607
                 */
-                if($repaBD == 1){/* 725 */
+                if($repaBD == 1 || $repaBD == 2 || $repaBD == 3){/* 725 */
                     $sinAsignar = 522;/* 725 */
                 }elseif($repaBD == 4){/* 607 */
                     $sinAsignar = 523;/* 607 */
@@ -1024,12 +1024,12 @@ if (isset($_POST['accion'])) {
                 JOIN area a ON u.ID_AREA = a.ID_AREA
                 JOIN reparticion r ON a.ID_REPA = r.ID_REPA
                 WHERE w.ID_WS = '$equipoBD'
-                AND w.FECHA_ASIGNACION = (
-                    SELECT MAX(FECHA_ASIGNACION)
-                    FROM wsusuario
-                    WHERE ID_WS = w.ID_WS
+                AND w.ID_WSUSU = (
+                    SELECT MAX(wt.ID_WSUSU)
+                    FROM wsusuario wt
+                    WHERE wt.ID_WS = w.ID_WS
                 )
-                AND r.ID_REPA IN (1, 4)";
+                AND r.ID_REPA IN (1,2,3,4)";
                 $result4 = $datos_base->query($sql4);
                 $row4 = $result4->fetch_assoc();
                 $repaBD = $row4['ID_REPA'];
@@ -1042,7 +1042,7 @@ if (isset($_POST['accion'])) {
                 100 -> SIN ASIGNAR HP 725
                 101 -> SIN ASIGNAR HP 607
                 */
-                if($repaBD == 1){/* 725 */
+                if($repaBD == 1 || $repaBD == 2 || $repaBD == 3){/* 725 */
                     $sinAsignar = 522;/* 725 */
                 }elseif($repaBD == 4){/* 607 */
                     $sinAsignar = 523;/* 607 */
@@ -1205,12 +1205,12 @@ if (isset($_POST['accion'])) {
                 JOIN area a ON u.ID_AREA = a.ID_AREA
                 JOIN reparticion r ON a.ID_REPA = r.ID_REPA
                 WHERE w.ID_WS = '$equipoBD'
-                AND w.FECHA_ASIGNACION = (
-                    SELECT MAX(FECHA_ASIGNACION)
-                    FROM wsusuario
-                    WHERE ID_WS = w.ID_WS
+                AND w.ID_WSUSU = (
+                    SELECT MAX(wt.ID_WSUSU)
+                    FROM wsusuario wt
+                    WHERE wt.ID_WS = w.ID_WS
                 )
-                AND r.ID_REPA IN (1, 4)";
+                AND r.ID_REPA IN (1,2,3,4)";
                 $result4 = $datos_base->query($sql4);
                 $row4 = $result4->fetch_assoc();
                 $repaBD = $row4['ID_REPA'];
@@ -1223,7 +1223,7 @@ if (isset($_POST['accion'])) {
                 100 -> SIN ASIGNAR HP 725
                 101 -> SIN ASIGNAR HP 607
                 */
-                if($repaBD == 1){/* 725 */
+                if($repaBD == 1 || $repaBD == 2 || $repaBD == 3){/* 725 */
                     $sinAsignar = 522;/* 725 */
                 }elseif($repaBD == 4){/* 607 */
                     $sinAsignar = 523;/* 607 */
@@ -1879,13 +1879,13 @@ if (isset($_POST['accion'])) {
                     FROM wsusuario
                     WHERE ID_WS = w.ID_WS
                 )
-                AND r.ID_REPA IN (1, 4)";
+                AND r.ID_REPA IN (1, 2, 3, 4)";
                 $result4 = $datos_base->query($sql4);
                 $row4 = $result4->fetch_assoc();
                 $usuarioBD = $row4['ID_USUARIO'];
                 $repaBD = $row4['ID_REPA'];
 
-                if($repaBD == 1){/* 725 */
+                if($repaBD == 1 || $repaBD == 2 || $repaBD == 3){/* 725 */
                     $equipoSinAsignar = 522;/* 725 */
                     $usuarioSinAsignar = 277;/* 725 */
                     if($est == 2 || $est==3){
@@ -2063,7 +2063,7 @@ if (isset($_POST['accion'])) {
                 if($est == 1 AND $estadoBD == $est){/* BASE DE DATOS Y FORMULARIO: ACTIVO */
                     if($usuarioBD != $usu){/*  SI CAMBIA DE USUARIO */
                         /* -INSERT DE DESVINCULACION DEL USUARIO ACTUAL(tabla wsusuario) */
-                        mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, '$equipoSinAsignar', '$usuarioBD', '0000-00-00', '$fechaActual', 3)");
+                        mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, 0, '$usuarioBD', '0000-00-00', '$fechaActual', 3)");
                         /* -INSERT DE DESVINCULACION DEL EQUIPO (tabla wsusuario) */
                         mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, '$equipoBD', '$usuarioSinAsignar', '0000-00-00', '$fechaActual', 3)");
 
@@ -2099,7 +2099,7 @@ if (isset($_POST['accion'])) {
                     }                 
                 } elseif ($estadoBD == 1 AND $est != $estadoBD){ /* BASE DE DATO: ACTIVO || FORMULARIO: BAJA O STOCK */
                     /* -INSERT DE DESVINCULACION DEL USUARIO (tabla wsusuario) */
-                    mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, '$equipoSinAsignar', '$usuarioBD', '0000-00-00', '$fechaActual', 3)");
+                    mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, 0, '$usuarioBD', '0000-00-00', '$fechaActual', 3)");
                     /* -INSERT DE DESVINCULACION DEL EQUIPO (tabla equipo_periferico) */
                     mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, '$equipoBD', '$usuarioSinAsignar', '0000-00-00', '$fechaActual', 3)");
 
@@ -2232,7 +2232,7 @@ if (isset($_POST['accion'])) {
 
             $errorML = false;
         #Tabla LineaCelular ID_LINEA_CELULAR ID_LINEA ID_CELULAR ID_USUARIO FECHA ID_ESTADOWS
-            if ($estado == 1 && $estadoBD==$estado) { #Estado Activo y no se cambia
+            if ($estado == 1 && $estadoBD==$estado) { #Estado Activo y no se cambia 
                 #Controlamos Si se cambio el usuario
                 if ($usuarioAsignado!=$usuario) {#Cambiamos de Usuario
                     #Desvinculamos usuario y celular de linea
@@ -2465,7 +2465,7 @@ if (isset($_POST['accion'])) {
             } 
             if ($estadoBD == 1 AND $estado != $estadoBD){/* BASE DE DATO: ACTIVO || FORMULARIO: BAJA O STOCK */
                 /*  SE DA DE BAJA EL CELULAR, SE ROMPE EL VINCULO CON USUARIO Y LINEA */
-                /* tabla celular UPDATE de datos */
+                /* tabla celular UPDATE de datos */ 
                 if(!mysqli_query($datos_base, "UPDATE celular SET IMEI = '$imei', ID_USUARIO = '$usuario', ID_ESTADOWS = '$estado', ID_PROVEEDOR = '$proveedor', ID_MODELO = '$modelo', ID_PROCEDENCIA = '$procedencia' WHERE ID_CELULAR = '$id'")) $error = true;
                 /* tabla movicelular INSERT. Cambia usuario y estado */
                 if(!mysqli_query($datos_base, "INSERT INTO movicelular VALUES (DEFAULT, '$id', '$estado', '$usuario', '$fechaActual', '$obs')")) $error = true;   
