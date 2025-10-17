@@ -181,6 +181,7 @@ $row = $resultado->fetch_assoc();
                             tabla.append(
                             `<tr>
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.MODELO)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.SERIE)}</h4></td>
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(usuario)}</h4></td>
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.AREA)}</h4></td>
                             <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.REPA)}</h4></td>
@@ -309,7 +310,7 @@ $row = $resultado->fetch_assoc();
             <div class="filtros">
                 <div class="filtros-listado">
                     <div>
-                        <label class="form-label">Usuario/Serieg</label>
+                        <label class="form-label">Usuario/Serie</label>
                         <input type="text" style="text-transform:uppercase;" id="buscar" name="buscar"  placeholder="Buscar" class="form-control largo">
                     </div>
                     <div>
@@ -361,7 +362,7 @@ $row = $resultado->fetch_assoc();
                     </div>
                     <div>
                         <label class="form-label">Impresora</label>
-                        <select id="impresora" name="impresora" class="form-control largo">
+                        <select id="impresora" name="impresora" style="text-transform:uppercase;" class="form-control largo">
                             <option value="">TODOS</option>
                             <?php 
                             $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 
@@ -388,7 +389,7 @@ $row = $resultado->fetch_assoc();
                                 <option value="<?php echo $_POST["orden"]; ?>">
                                     <?php 
                             if ($_POST["orden"] == '1'){echo 'ORDENAR POR USUARIO';} 
-                            if ($_POST["orden"] == '2'){echo 'ORDENAR POR SERIEG';} 
+                            if ($_POST["orden"] == '2'){echo 'ORDENAR POR SERIE';} 
                             if ($_POST["orden"] == '3'){echo 'ORDENAR POR AREA';}
                             if ($_POST["orden"] == '4'){echo 'ORDENAR POR IMPRESORA';} 
                             if ($_POST["orden"] == '5'){echo 'ORDENAR POR MARCA';}
@@ -399,7 +400,7 @@ $row = $resultado->fetch_assoc();
                             <?php } ?>
                             <option value="">SIN ORDEN</option>
                             <option value="1">ORDENAR POR USUARIO</option>
-                            <option value="2">ORDENAR POR SERIEG</option>
+                            <option value="2">ORDENAR POR SERIE</option>
                             <option value="3">ORDENAR POR AREA</option>
                             <option value="4">ORDENAR POR IMPRESORA</option>
                             <option value="5">ORDENAR POR MARCA</option>
@@ -541,6 +542,7 @@ $row = $resultado->fetch_assoc();
         <thead>
             <tr>
                 <th><p style="text-align:left; margin-left: 5px;">IMPRESORA</p></th>
+                <th><p style="text-align:left; margin-left: 5px;">SERIE</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">USUARIO</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">ÁREA</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">REPARTICIÓN</p></th>

@@ -339,7 +339,7 @@ $row = $resultado->fetch_assoc();
                     </div>
                     <div>
                         <label class="form-label">Periférico</label>
-                        <select id="modelo" name="modelo" class="form-control largo">
+                        <select id="modelo" name="modelo" style="text-transform:uppercase;" class="form-control largo">
                             <option value="">TODOS</option>
                             <?php 
                             $consulta= "SELECT m.ID_MODELO, m.MODELO, ma.MARCA 

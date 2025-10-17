@@ -289,12 +289,17 @@ $perfil=$row['ID_PERFIL'];
                     WHERE u.ID_ESTADOUSUARIO = 1 
                     AND w.ID_WS <> 0 
                     $where
-                    AND i.ID_TIPOWS = 1 /* PC */
                     ORDER BY u.NOMBRE ASC";
                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                     ?>
-                    <?php foreach ($ejecutar as $opciones): ?> 
-                    <option value= <?php echo $opciones['ID_WS'] ?>><?php echo $opciones['NOMBRE']." - ".$opciones['SERIEG']?></option>
+                    <?php foreach ($ejecutar as $opciones): 
+                        if ($opciones['ID_TIPOWS'] == 1) {
+                            $tipoEquipo = "(PC)";
+                        }else{
+                            $tipoEquipo = "(NOTEBOOK)";
+                        }
+                    ?> 
+                    <option value= <?php echo $opciones['ID_WS'] ?>><?php echo $opciones['NOMBRE']." - ".$tipoEquipo." - ".$opciones['SERIEG']?></option>
                     <?php endforeach?>
                     </select>
                 </div> 

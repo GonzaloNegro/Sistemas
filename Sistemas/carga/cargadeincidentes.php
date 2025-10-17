@@ -502,10 +502,6 @@ $row = $resultado->fetch_assoc();
 							<!--//////////////////////////////////////////////////////////////////-->
 							<!--//////////////////////////////////////////////////////////////////-->
 							<div class="form-group row">
-								<label class="col-form-label col-xl" id="lblfechaFin" style="display:none;">FECHA SOLUCIÓN: </label>
-								<input type="date" name="fecha_solucion" id="txtfechafin" style="display:none;"class="form-control col-xl derecha">
-							</div>
-							<div class="form-group row">
 								<label class="col-form-label col-xl">ESTADO INCIDENTE: </label>
 								<select id="slctestado" name="estado" required class="form-control col-xl derecha" >
 									<option value='' selected disabled="estado">-SELECCIONE UNA-</option>
@@ -518,12 +514,10 @@ $row = $resultado->fetch_assoc();
 										<option value="<?php echo $opciones['ID_ESTADO']?>"><?php echo $opciones['ESTADO']?></option>
 									<?php endforeach ?>
 								</select>
-							<!--//////////////////////////////////////////////////////////////////-->
-							<!--//////////////////////////////////////////////////////////////////-->
-							<!-- <label class="col-form-label col-xl">ADJUNTAR ARCHIVOS: </label>
-							<input type="file" name="imagen" class="form-control col-xl archivo" > -->
-							<!--//////////////////////////////////////////////////////////////////-->
-							<!--//////////////////////////////////////////////////////////////////-->
+							</div>
+							<div class="form-group row">
+								<label class="col-form-label col-xl" id="lblfechaFin" style="display:none;">FECHA SOLUCIÓN: </label>
+								<input type="date" name="fecha_solucion" id="txtfechafin" style="display:none;"class="form-control col-xl derecha">
 							</div>
 							<div class="form-group row">
 								<label class="col-form-label col-xl" id="resoderi" style="display: none;">RESOLUTOR DERIVADO: </label>

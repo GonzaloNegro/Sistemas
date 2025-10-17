@@ -198,7 +198,7 @@ function enviar_formulario(formulario, accion) {
             $row = $resultado->fetch_assoc();
             $tip = $row['TIPO'];
             
-            $sent= "SELECT ep.ID_WS, i.SERIEG
+            $sent= "SELECT ep.ID_WS, i.SERIEG, i.ID_TIPOWS
             FROM equipo_periferico ep
             LEFT JOIN inventario i ON i.ID_WS = ep.ID_WS
             WHERE ep.ID_PERI = $consulta[ID_PERI]
@@ -208,6 +208,7 @@ function enviar_formulario(formulario, accion) {
             $row = $resultado->fetch_assoc();
             $ws = $row['ID_WS'];
             $equip = $row['SERIEG'];
+            $tipoEquipo = $row['ID_TIPOWS'];
 
             if($ws == 0 || $ws == null){
                 $ws = 0;
@@ -348,11 +349,10 @@ function enviar_formulario(formulario, accion) {
                     <?php
                     //Se agrega clausula para filtrar por reparticion de resolutor, si tiene rol 1 o 2 puede ver a todos s usuarios de ambos edificios
                     //en agregar impresoras, monitores hay otra forma de hacerlo que da un poco mas de equipos
-                        $whereEq = "WHERE u.ID_ESTADOUSUARIO = 1 
+/*                         $whereEq = "WHERE u.ID_ESTADOUSUARIO = 1 
                         AND w.ID_WS <> 0 
                         AND w.ID_USUARIO <> 277
                         AND w.ID_USUARIO <> 310
-                        AND i.ID_TIPOWS = 1
                         ";
                         if ($perfil == 1 || $perfil == 2) {
                         }else{
@@ -362,19 +362,57 @@ function enviar_formulario(formulario, accion) {
                             else{
                                 $whereEq.="AND r.ID_REPA=$repa";
                             }
+                        } */
+
+
+                        //FILTRA PARA QUE DEPENDIENDO DE LA REPARTICION DEL RESOLUTOR SOLAMENTE SE PUEDA VISUALIZAR Y SELECCIONAR EL EQUIPO SIN ASIGNAR DE SU EDIFICIOV
+                        $where="";
+                        //se muestran ambos equipos S/A o el que corresponda al resolutor por edificio dependiendo del rol
+                        if($perfil==1 || $perfil==2){
+                            $where.="AND ( w.ID_USUARIO <> 310 OR (w.ID_USUARIO = 310 AND w.ID_WS = 523) ) 
+                            AND ( w.ID_USUARIO <> 277 OR (w.ID_USUARIO = 277 AND w.ID_WS = 522) )";
                         }
+                        else{
+                                if($reparticion == 4){
+                                    $usuario1=310;
+                                    $usuario2=277;
+                                    $id_ws=523;
+                                    $repa="r.ID_REPA=4 ";
+                                }
+                                else {
+                                    $usuario1=277;
+                                    $usuario2=310;
+                                    $id_ws=522;
+                                    $repa="r.ID_REPA=1 OR r.ID_REPA=2 OR r.ID_REPA=3 ";
+                                }
+                                $where.="AND w.ID_USUARIO <> $usuario2
+                                    AND (
+                                        w.ID_USUARIO <> $usuario1
+                                        OR (w.ID_USUARIO = $usuario1 AND w.ID_WS = $id_ws)
+                                    )
+                                    AND $repa";
+                        }
+
                         $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
-                        FROM inventario i 
-                        LEFT JOIN wsusuario AS w ON i.ID_WS = w.ID_WS
-                        LEFT JOIN usuarios as u on w.ID_USUARIO = u.ID_USUARIO
-                        LEFT JOIN area AS a ON u.ID_AREA = a.ID_AREA
-                        LEFT JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
-                        $whereEq
+                        FROM wsusuario w 
+                        INNER JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO
+                        INNER JOIN inventario i ON i.ID_WS = w.ID_WS
+                        INNER JOIN area AS a ON u.ID_AREA = a.ID_AREA
+                        INNER JOIN reparticion AS r ON r.ID_REPA = a.ID_REPA
+                        WHERE u.ID_ESTADOUSUARIO = 1 
+                        AND w.ID_WS <> 0 
+                        $where
                         ORDER BY u.NOMBRE ASC";
                     $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                     ?>
-                    <?php foreach ($ejecutar as $opciones): ?> 
-                        <option value= <?php echo $opciones['ID_WS'] ?>><?php echo $opciones['NOMBRE']." - ".$opciones['SERIEG']?></option>
+                    <?php foreach ($ejecutar as $opciones): 
+                        if ($opciones['ID_TIPOWS'] == 1) {
+                            $tipoEquipo = "(PC)";
+                        }else{
+                            $tipoEquipo = "(NOTEBOOK)";
+                        }
+                        ?> 
+                        <option value= <?php echo $opciones['ID_WS'] ?>><?php echo $opciones['NOMBRE']." - ".$tipoEquipo." - ".$opciones['SERIEG']?></option>
                     <?php endforeach?>
                     </select>
                 </div>
@@ -400,9 +438,11 @@ function enviar_formulario(formulario, accion) {
         // Estos valores vienen del backend
         const equipoAnteriorID = "<?php echo $ws; ?>";
         const equipoAnteriorTexto = "<?php echo $usu . ' - ' . $equip; ?>";
+        const tipoEquipoTexto = "<?php echo $tipoEquipo;?>";
+
 
         // Llamada a la función cuando se requiera (por ejemplo, al cargar o al cambiar estado)
-        cargarEquipos(equipoAnteriorID, equipoAnteriorTexto);
+        cargarEquipos(equipoAnteriorID, tipoEquipoTexto, equipoAnteriorTexto);
 
         function verificarDisponibilidadEquipo() {
             const estado = document.getElementById('estado').value;
@@ -416,12 +456,12 @@ function enviar_formulario(formulario, accion) {
                 equipoSelect.disabled = true;
             } else {
                 equipoSelect.disabled = false;
-                cargarEquipos(equipoAnteriorID, equipoAnteriorTexto);
+                cargarEquipos(equipoAnteriorID, tipoEquipoTexto, equipoAnteriorTexto);
             }
         }
 
 
-        function cargarEquipos(equipoAnteriorID = "", equipoAnteriorTexto = "") {
+        function cargarEquipos(equipoAnteriorID = "", tipoEquipoTexto = "", equipoAnteriorTexto = "") {
             const equipoSelect = document.getElementById("equipo");
 
             $.ajax({
@@ -429,7 +469,8 @@ function enviar_formulario(formulario, accion) {
                 type: "GET",
                 data: {
                     equipoAnteriorID: equipoAnteriorID,
-                    equipoAnteriorTexto: equipoAnteriorTexto
+                    equipoAnteriorTexto: equipoAnteriorTexto,
+                    tipoEquipoTexto: tipoEquipoTexto
                 },
                 success: function(data) {
                     equipoSelect.innerHTML = data;

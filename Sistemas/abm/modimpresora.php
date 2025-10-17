@@ -434,13 +434,15 @@ function ConsultarIncidente($no_tic)
 			</div>
 		</div>
     </footer>
-        <script>
+    <script>
         // Estos valores vienen del backend
         const equipoAnteriorID = "<?php echo $ws; ?>";
         const equipoAnteriorTexto = "<?php echo $usu . ' - ' . $equip; ?>";
+        const tipoEquipoTexto = "<?php echo $tipoEquipo;?>";
+
 
         // Llamada a la función cuando se requiera (por ejemplo, al cargar o al cambiar estado)
-        cargarEquipos(equipoAnteriorID, equipoAnteriorTexto);
+        cargarEquipos(equipoAnteriorID, tipoEquipoTexto, equipoAnteriorTexto);
 
         function verificarDisponibilidadEquipo() {
             const estado = document.getElementById('estado').value;
@@ -454,12 +456,12 @@ function ConsultarIncidente($no_tic)
                 equipoSelect.disabled = true;
             } else {
                 equipoSelect.disabled = false;
-                cargarEquipos(equipoAnteriorID, equipoAnteriorTexto);
+                cargarEquipos(equipoAnteriorID, tipoEquipoTexto, equipoAnteriorTexto);
             }
         }
 
 
-        function cargarEquipos(equipoAnteriorID = "", equipoAnteriorTexto = "") {
+        function cargarEquipos(equipoAnteriorID = "", tipoEquipoTexto = "", equipoAnteriorTexto = "") {
             const equipoSelect = document.getElementById("equipo");
 
             $.ajax({
@@ -467,7 +469,8 @@ function ConsultarIncidente($no_tic)
                 type: "GET",
                 data: {
                     equipoAnteriorID: equipoAnteriorID,
-                    equipoAnteriorTexto: equipoAnteriorTexto
+                    equipoAnteriorTexto: equipoAnteriorTexto,
+                    tipoEquipoTexto: tipoEquipoTexto
                 },
                 success: function(data) {
                     equipoSelect.innerHTML = data;

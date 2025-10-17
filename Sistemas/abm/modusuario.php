@@ -346,7 +346,11 @@ function enviar_formulario(formulario, accion) {
                         <option selected value="200"><?php echo $equipoBD?></option>
                         <?php
                         include("../particular/conexion.php");
-                        $consulta= "SELECT a.ID_AREA, a.AREA, r.REPA FROM area a inner join reparticion r on a.ID_REPA=r.ID_REPA ORDER BY AREA ASC";
+                        $consulta= "SELECT a.ID_AREA, a.AREA, r.REPA 
+                        FROM area a 
+                        INNER JOIN reparticion r ON a.ID_REPA=r.ID_REPA 
+                        WHERE a.ID_ESTADOUSUARIO = 1
+                        ORDER BY AREA ASC";
                         $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                         ?>
                         <?php 

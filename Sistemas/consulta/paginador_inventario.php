@@ -41,15 +41,19 @@ $where = [];
 
 if (!empty($_GET['busqueda'])) {
     $aKeyword = explode(" ", $_GET['busqueda']);
-    // $usuario = intval($_GET['usuario']);
-    $where[] = " (u.NOMBRE LIKE LOWER('%".$aKeyword[0]."%') OR i.SERIEG LIKE LOWER('%".$aKeyword[0]."%') OR i.OBSERVACION LIKE LOWER('%".$aKeyword[0]."%')) ";
-
-    for($i = 1; $i < count($aKeyword); $i++) {
-    if(!empty($aKeyword[$i])) {
-        $where[] = " OR u.NOMBRE LIKE '%" . $aKeyword[$i] . "%' OR i.SERIEG LIKE '%" . $aKeyword[$i] . "%' OR i.OBSERVACION LIKE '%" . $aKeyword[$i] . "%' ";
+    $busqueda_sql = [];
+    foreach ($aKeyword as $k) {
+        $k = trim($k);
+        if ($k !== '') {
+            $busqueda_sql[] = "(u.NOMBRE LIKE '%$k%' OR i.SERIEG LIKE '%$k%' OR i.OBSERVACION LIKE '%$k%')";
+        }
     }
+    if (!empty($busqueda_sql)) {
+        $where[] = '(' . implode(' AND ', $busqueda_sql) . ')'; // o ' OR ' según lo que quieras
     }
 }
+
+
 if (!empty($_GET['reparticion'])) {
     $reparticion = intval($_GET['reparticion']);
     $where[] = "a.ID_REPA = $reparticion";
@@ -74,8 +78,12 @@ if (!empty($_GET['tipows'])) {
 if (!empty($_GET['estado'])) {
     $estado = intval($_GET['estado']);
     $where[] = "e.ID_ESTADOWS = $estado ";
-    
 }
+
+// Excluir i.ID_WS 522 y 523
+$where[] = "i.ID_WS NOT IN (522, 523)"; // NUEVO
+
+
 //Se construye el segmiento del orden de las filas de la consulta
 $order=" ORDER BY e.ESTADO DESC ";
 $tipo_orden=isset($_GET["orden"]) ? $_GET["orden"] : null;

@@ -70,6 +70,9 @@ if (!empty($_GET['reparticion'])) {
     
 }
 
+// Excluir SIN ASIGNAR
+$where[] = "u.ID_USUARIO NOT IN (277, 310)"; // NUEVO
+
 //Se construye el segmiento del orden de las filas de la consulta
 $order="";
 if ($_GET["orden"] == '1' ){

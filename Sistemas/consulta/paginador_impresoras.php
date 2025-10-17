@@ -42,11 +42,11 @@ $where[] = " p.TIPOP = 'IMPRESORA' ";
 
 if (!empty($_GET['busqueda'])) {
     $aKeyword = explode(" ", $_GET['busqueda']);
-    $whereBuscar = "(LOWER(u.NOMBRE) LIKE LOWER('%".$aKeyword[0]."%') OR LOWER(p.SERIEG) LIKE LOWER('%".$aKeyword[0]."%'))";
+    $whereBuscar = "(LOWER(u.NOMBRE) LIKE LOWER('%".$aKeyword[0]."%') OR LOWER(p.SERIE) LIKE LOWER('%".$aKeyword[0]."%'))";
 
     for($i = 1; $i < count($aKeyword); $i++) {
         if(!empty($aKeyword[$i])) {
-            $whereBuscar .= " AND (LOWER(u.NOMBRE) LIKE LOWER('%".$aKeyword[$i]."%') OR LOWER(p.SERIEG) LIKE LOWER('%".$aKeyword[$i]."%'))";
+            $whereBuscar .= " AND (LOWER(u.NOMBRE) LIKE LOWER('%".$aKeyword[$i]."%') OR LOWER(p.SERIE) LIKE LOWER('%".$aKeyword[$i]."%'))";
         }
     }
 
@@ -91,7 +91,7 @@ if ($_GET["orden"] == '1' ){
  }
 
  if ($_GET["orden"] == '2' ){
-    $order .= " ORDER BY p.SERIEG ASC ";
+    $order .= " ORDER BY p.SERIE ASC ";
  }
 
  if ($_GET["orden"] == '3' ){
@@ -154,27 +154,11 @@ $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 
 
 <?php 
-//query para obtener los equipos
-/*        $query ="SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, mo.MODELO, t.TIPO, m.MARCA, e.ESTADO, r.REPA			
-       FROM periferico p 
-       LEFT JOIN modelo AS mo ON mo.ID_MODELO = p.ID_MODELO 
-        LEFT JOIN equipo_periferico ep ON p.ID_PERI=ep.ID_PERI
-        LEFT JOIN inventario i ON ep.ID_WS=i.ID_WS
-        LEFT JOIN wsusuario ws ON i.ID_WS=ws.ID_WS
-        LEFT JOIN usuarios u ON ws.ID_USUARIO=u.ID_USUARIO
-        LEFT JOIN area AS a ON a.ID_AREA = u.ID_AREA
-        LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA  
-        INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA 
-        INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP
-        LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = p.ID_ESTADOWS
-                $whereClause $order 
-                LIMIT $inicio, $registrosPorPagina"; */
-
 $query = "SELECT 
     p.ID_PERI,
     a.AREA,
     u.NOMBRE,
-    p.SERIEG,
+    p.SERIE,
     mo.MODELO,
     t.TIPO,
     m.MARCA,
@@ -222,7 +206,7 @@ LIMIT $inicio, $registrosPorPagina";
     p.ID_PERI,
     a.AREA,
     u.NOMBRE,
-    p.SERIEG,
+    p.SERIE,
     mo.MODELO,
     t.TIPO,
     m.MARCA,
