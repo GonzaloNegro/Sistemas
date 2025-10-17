@@ -165,6 +165,26 @@ if (isset($_POST['accion'])) {
                 if($act == $estadoBD){/* NO CAMBIA EL ESTADO */
                     /* -SI EL ESTADO ES IGUAL{
                     -UPDATE EN TABLA USUARIOS */
+
+                    $sqli = "SELECT ID_REPA FROM area WHERE ID_AREA = '$areaBD'";
+                    $resultado2 = $datos_base->query($sqli);
+                    $row2 = $resultado2->fetch_assoc();
+                    $repaBD = $row2['ID_REPA'];
+
+                    /* BUSCAR LA REPARTICIÓN DE DICHA AREA */
+                    /* SI ES  1 -> HP 725 O SI ES 4 -> HP 607 */
+                    if($repaBD == 1){
+                        /* SI ES DE 725 VA AL AREA 100 */
+                        if($are == 0 || $are == null || $are == ''){
+                            $are = 100;
+                        }
+                    }elseif ($repaBD == 4) {
+                        /* SI ES DE 607 VA AL AREA 101 */
+                        if($are == 0 || $are == null || $are == ''){
+                            $are = 101;
+                        }
+                    }
+
                     mysqli_query($datos_base, "UPDATE usuarios SET NOMBRE = '$nombre', CUIL = '$cuil', ID_AREA = '$are', PISO = '$pis', INTERNO = '$int', CORREO = '$cor', CORREO_PERSONAL = '$corp', TELEFONO_PERSONAL = '$tel', ID_TURNO = '$tur', ID_ESTADOUSUARIO = '$act', OBSERVACION = '$obs' WHERE ID_USUARIO = '$id'");
                     /* HACER UN INSERT EN LA TABLA AGREGADOS SI MODIFICAN EL NOMBRE O EL CUIL PARA MOSTRAR QUE CAMBIOS SE LE HIZO A QUE NOMBRE DE USUARIO*/
                     if($nombreBD != $nombre || $cuilBD != $cuil){
@@ -183,19 +203,19 @@ if (isset($_POST['accion'])) {
 
                 }elseif ($act == 2 AND $estadoBD != 2) {/* ACTIVO PASA A INACTIVO */
 
-                    $sqli = "SELECT ID_REPA FROM area WHERE AREA = '$areaBD'";
+                    $sqli = "SELECT ID_REPA FROM area WHERE ID_AREA = '$areaBD'";
                     $resultado2 = $datos_base->query($sqli);
                     $row2 = $resultado2->fetch_assoc();
                     $repaBD = $row2['ID_REPA'];
 
                     /* BUSCAR LA REPARTICIÓN DE DICHA AREA */
                     /* SI ES  1 -> HP 725 O SI ES 4 -> HP 607 */
-                    if($repa == 1){
+                    if($repaBD == 1){
                         /* SI ES DE 725 VA AL AREA 100 */
                         $nuevaArea = 100;
                         $equipoSinAsignar = 522;
                         $usuarioSinAsignar = 277;
-                    }elseif ($repa == 4) {
+                    }elseif ($repaBD == 4) {
                         /* SI ES DE 607 VA AL AREA 101 */
                         $nuevaArea = 101;
                         $equipoSinAsignar = 523;
@@ -297,7 +317,7 @@ if (isset($_POST['accion'])) {
                 $sql = "SELECT ID_ESTADOUSUARIO FROM area WHERE ID_AREA = '$id'";
                 $result = $datos_base->query($sql);
                 $row = $result->fetch_assoc();
-                $est = $ro4['ID_ESTADOUSUARIO'];
+                $est = $row['ID_ESTADOUSUARIO'];
             }
         
             /*SI AMBOS CAMPOS ESTAN REPETIDOS*/

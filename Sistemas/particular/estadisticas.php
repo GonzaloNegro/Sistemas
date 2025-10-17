@@ -107,6 +107,113 @@ $row = $resultado->fetch_assoc();
             $fechaInicio = date("Y-m-01", strtotime("-5 months", strtotime($fechaHoy))); 
         ?>
         <div class="grillasEstadistica--mensuales">
+            <?php
+            $anioActual = date("Y");
+
+            // Array de meses en español
+            $meses = [
+                1 => "Enero", 2 => "Febrero", 3 => "Marzo", 4 => "Abril",
+                5 => "Mayo", 6 => "Junio", 7 => "Julio", 8 => "Agosto",
+                9 => "Septiembre", 10 => "Octubre", 11 => "Noviembre", 12 => "Diciembre"
+            ];
+
+            // 1) Total de tickets del año
+            $sqlTotalAnio = "
+                SELECT COUNT(ID_TICKET) AS total_anio
+                FROM ticket
+                WHERE YEAR(FECHA_SOLUCION) = $anioActual
+            ";
+            $resultTotalAnio = $datos_base->query($sqlTotalAnio);
+            $rowTotalAnio = $resultTotalAnio->fetch_assoc();
+            $totalAnio = $rowTotalAnio['total_anio'];
+
+            // 2) Mes con más tickets del año
+            $sqlMesTop = "
+                SELECT MONTH(FECHA_SOLUCION) AS mes, COUNT(ID_TICKET) AS total
+                FROM ticket
+                WHERE YEAR(FECHA_SOLUCION) = $anioActual
+                GROUP BY MONTH(FECHA_SOLUCION)
+                ORDER BY total DESC
+                LIMIT 1
+            ";
+            $resultMesTop = $datos_base->query($sqlMesTop);
+            $rowMesTop = $resultMesTop->fetch_assoc();
+            $mesTop = $rowMesTop['mes'];
+            $totalTicketsMes = $rowMesTop['total'];
+
+            // 3) Resolutor con más tickets del año
+            $sqlResolutor = "
+                SELECT r.RESOLUTOR, COUNT(t.ID_TICKET) AS cantidad
+                FROM ticket t
+                INNER JOIN resolutor r ON t.ID_RESOLUTOR = r.ID_RESOLUTOR
+                WHERE YEAR(t.FECHA_SOLUCION) = $anioActual
+                GROUP BY r.ID_RESOLUTOR
+                ORDER BY cantidad DESC
+                LIMIT 1
+            ";
+            $resultResolutor = $datos_base->query($sqlResolutor);
+            $rowResolutor = $resultResolutor->fetch_assoc();
+
+            // 4) Tipificación más solicitada del año
+            $sqlTipificacion = "
+                SELECT tip.TIPIFICACION, COUNT(t.ID_TICKET) AS cantidad
+                FROM ticket t
+                INNER JOIN tipificacion tip ON t.ID_TIPIFICACION = tip.ID_TIPIFICACION
+                WHERE YEAR(t.FECHA_SOLUCION) = $anioActual
+                GROUP BY tip.ID_TIPIFICACION
+                ORDER BY cantidad DESC
+                LIMIT 1
+            ";
+            $resultTipificacion = $datos_base->query($sqlTipificacion);
+            $rowTipificacion = $resultTipificacion->fetch_assoc();
+            ?>
+
+            <div style="border:1px solid #ccc; padding:15px; width:auto; margin:0 auto; border-radius:5px;">
+                <h2 style="color:#00519C;font-size:18px;font-weight:bold;text-align:center;">
+                    RESUMEN INCIDENTES - AÑO <?php echo $anioActual; ?>
+                </h2>
+
+                <div>
+                    <p style="text-align:left;">
+                        <strong>Total de incidentes del año:</strong>
+                        <span style="display:inline-block; margin-left:10px; font-size:1em; color: black;">
+                            <?php echo $totalAnio; ?>
+                        </span>
+                    </p>
+                </div>
+
+                <hr style="border-top:2px solid #ccc;">
+
+                <p style="text-align:left;">
+                    <strong>Mes con más tickets:</strong>
+                    <span style="display:inline-block; margin-left:10px; font-size:1em; color: black;"><?php echo $meses[$mesTop] . " -  Cantidad: " . $totalTicketsMes; ?></span>
+                </p>
+
+                <p style="text-align:left;">
+                    <strong>Resolutor top del año:</strong>
+                    <span style="display:inline-block; margin-left:10px; font-size:1em; color: black;"><?php echo $rowResolutor['RESOLUTOR']; ?></span>
+                </p>
+
+                <p style="text-align:left;">
+                    <strong>Cantidad tickets del resolutor:</strong>
+                    <span style="display:inline-block; margin-left:10px; font-size:1em; color: black;"><?php echo $rowResolutor['cantidad']; ?></span>
+                </p>
+
+                <p style="text-align:left;">
+                    <strong>Tipificación más solicitada del año:</strong>
+                    <span style="display:inline-block; margin-left:10px; font-size:0.9em; color: black;"><?php echo $rowTipificacion['TIPIFICACION']; ?></span>
+                </p>
+
+                <p style="text-align:left;">
+                    <strong>Cantidad tickets de la tipificación:</strong>
+                    <span style="display:inline-block; margin-left:10px; font-size:1em; color: black;"><?php echo $rowTipificacion['cantidad']; ?></span>
+                </p>
+            </div>
+        </div>
+
+
+
+        <div class="grillasEstadistica--mensuales">
             <div>
                 <?php
                 $sql = "
@@ -150,120 +257,64 @@ $row = $resultado->fetch_assoc();
                     </table>
                 </div>
             </div>
+           <div>
+                <div>
+                    <div>
+                        <?php
+                        // Mes y año actuales
+                        $anioActual = date('Y');
+                        $mesActual = date('m');
 
+                        // Consulta: cantidad de tickets por resolutor en el mes corriente (máximo 6)
+                        $sql = "
+                            SELECT 
+                                r.RESOLUTOR,
+                                COUNT(t.ID_TICKET) AS cantidad
+                            FROM ticket t
+                            INNER JOIN resolutor r ON t.ID_RESOLUTOR = r.ID_RESOLUTOR
+                            WHERE YEAR(t.FECHA_SOLUCION) = '$anioActual'
+                            AND MONTH(t.FECHA_SOLUCION) = '$mesActual'
+                            GROUP BY r.RESOLUTOR
+                            ORDER BY cantidad DESC
+                            LIMIT 6
+                        ";
 
+                        $result = $datos_base->query($sql);
+                        ?>
 
-<div>
-<?php
-$anioActual = date("Y");
+                        <div>
+                            <h2 style="color:#00519C;font-size:20px;font-weight:bold;text-align:left;">
+                                INCIDENTES POR RESOLUTOR (6) - MES CORRIENTE
+                            </h2>
 
-// Array de meses en español
-$meses = [
-    1 => "Enero", 2 => "Febrero", 3 => "Marzo", 4 => "Abril",
-    5 => "Mayo", 6 => "Junio", 7 => "Julio", 8 => "Agosto",
-    9 => "Septiembre", 10 => "Octubre", 11 => "Noviembre", 12 => "Diciembre"
-];
-
-// 1) Total de tickets del año
-$sqlTotalAnio = "
-    SELECT COUNT(ID_TICKET) AS total_anio
-    FROM ticket
-    WHERE YEAR(FECHA_SOLUCION) = $anioActual
-";
-$resultTotalAnio = $datos_base->query($sqlTotalAnio);
-$rowTotalAnio = $resultTotalAnio->fetch_assoc();
-$totalAnio = $rowTotalAnio['total_anio'];
-
-// 2) Mes con más tickets del año
-$sqlMesTop = "
-    SELECT MONTH(FECHA_SOLUCION) AS mes, COUNT(ID_TICKET) AS total
-    FROM ticket
-    WHERE YEAR(FECHA_SOLUCION) = $anioActual
-    GROUP BY MONTH(FECHA_SOLUCION)
-    ORDER BY total DESC
-    LIMIT 1
-";
-$resultMesTop = $datos_base->query($sqlMesTop);
-$rowMesTop = $resultMesTop->fetch_assoc();
-$mesTop = $rowMesTop['mes'];
-$totalTicketsMes = $rowMesTop['total'];
-
-// 3) Resolutor con más tickets del año
-$sqlResolutor = "
-    SELECT r.RESOLUTOR, COUNT(t.ID_TICKET) AS cantidad
-    FROM ticket t
-    INNER JOIN resolutor r ON t.ID_RESOLUTOR = r.ID_RESOLUTOR
-    WHERE YEAR(t.FECHA_SOLUCION) = $anioActual
-    GROUP BY r.ID_RESOLUTOR
-    ORDER BY cantidad DESC
-    LIMIT 1
-";
-$resultResolutor = $datos_base->query($sqlResolutor);
-$rowResolutor = $resultResolutor->fetch_assoc();
-
-// 4) Tipificación más solicitada del año
-$sqlTipificacion = "
-    SELECT tip.TIPIFICACION, COUNT(t.ID_TICKET) AS cantidad
-    FROM ticket t
-    INNER JOIN tipificacion tip ON t.ID_TIPIFICACION = tip.ID_TIPIFICACION
-    WHERE YEAR(t.FECHA_SOLUCION) = $anioActual
-    GROUP BY tip.ID_TIPIFICACION
-    ORDER BY cantidad DESC
-    LIMIT 1
-";
-$resultTipificacion = $datos_base->query($sqlTipificacion);
-$rowTipificacion = $resultTipificacion->fetch_assoc();
-?>
-
-<div style="border:1px solid #ccc; padding:15px; width:auto; margin:0 auto; border-radius:5px;">
-    <h2 style="color:#00519C;font-size:18px;font-weight:bold;text-align:center;">
-        RESUMEN INCIDENTES - AÑO <?php echo $anioActual; ?>
-    </h2>
-
-    <div>
-        <p style="text-align:left;">
-            <strong>Total de incidentes del año:</strong>
-            <span style="display:inline-block; margin-left:10px; font-size:1em; color: black;">
-                <?php echo $totalAnio; ?>
-            </span>
-        </p>
-    </div>
-
-    <hr style="border-top:2px solid #ccc;">
-
-    <p style="text-align:left;">
-        <strong>Mes con más tickets:</strong>
-        <span style="display:inline-block; margin-left:10px; font-size:1em; color: black;"><?php echo $meses[$mesTop] . " -  Cantidad: " . $totalTicketsMes; ?></span>
-    </p>
-
-    <p style="text-align:left;">
-        <strong>Resolutor top del año:</strong>
-        <span style="display:inline-block; margin-left:10px; font-size:1em; color: black;"><?php echo $rowResolutor['RESOLUTOR']; ?></span>
-    </p>
-
-    <p style="text-align:left;">
-        <strong>Cantidad tickets del resolutor:</strong>
-        <span style="display:inline-block; margin-left:10px; font-size:1em; color: black;"><?php echo $rowResolutor['cantidad']; ?></span>
-    </p>
-
-    <p style="text-align:left;">
-        <strong>Tipificación más solicitada del año:</strong>
-        <span style="display:inline-block; margin-left:10px; font-size:0.9em; color: black;"><?php echo $rowTipificacion['TIPIFICACION']; ?></span>
-    </p>
-
-    <p style="text-align:left;">
-        <strong>Cantidad tickets de la tipificación:</strong>
-        <span style="display:inline-block; margin-left:10px; font-size:1em; color: black;"><?php echo $rowTipificacion['cantidad']; ?></span>
-    </p>
-</div>
-</div>
-
-
-
-
-
-
-
+                            <table class="table_id" style="width: 98%; margin: 0 auto;">
+                                <thead>
+                                    <tr>
+                                        <th><p style="text-align:left;padding:5px;">RESOLUTOR</p></th>
+                                        <th><p style="text-align:right;padding:5px;">CANTIDAD</p></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla-datos">
+                                    <?php if($result->num_rows > 0): ?>
+                                        <?php while($row = $result->fetch_assoc()): ?>
+                                            <tr>
+                                                <td><h4 style="text-align:left;padding:5px;"><?php echo $row['RESOLUTOR']; ?></h4></td>
+                                                <td><h4 style="text-align:center;"><?php echo $row['cantidad']; ?></h4></td>
+                                            </tr>
+                                        <?php endwhile; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="2" style="text-align:center;padding:10px;">
+                                                <em>Aún no hay datos registrados en el corriente mes</em>
+                                            </td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
