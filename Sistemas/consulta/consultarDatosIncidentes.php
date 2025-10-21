@@ -33,6 +33,7 @@ if ($num_rows > 0) {
         $idUsuario = $consulta['ID_USUARIO'];
         $idWs = $consulta['ID_WS'];
         $idTipi = $consulta['ID_TIPIFICACION'];
+        $idPrioridad = $consulta['ID_PRIORIDAD'];
         $fechaSolucion = date("d-m-Y", strtotime($consulta['FECHA_SOLUCION']));
 
         // Obtener estado
@@ -49,6 +50,14 @@ if ($num_rows > 0) {
         $resultado = $datos_base->query($sent);
         if ($row = $resultado->fetch_assoc()) {
             $tipificacion = $row['TIPIFICACION'];
+        }
+
+        // Obtener prioridad
+        $prioridad = "-";
+        $sent = "SELECT PRIORIDAD FROM prioridad WHERE ID_PRIORIDAD = $idPrioridad";
+        $resultado = $datos_base->query($sent);
+        if ($row = $resultado->fetch_assoc()) {
+            $prioridad = $row['PRIORIDAD'];
         }
 
         // Obtener estado
@@ -94,6 +103,15 @@ if ($num_rows > 0) {
             $color = "red";
         }
 
+        if ($prioridad === "ALTA") {
+            $colorP = "red";
+        } elseif ($prioridad === "MEDIA") {
+            $colorP = "orange";
+        } else{
+            $colorP = "green";
+        }
+
+
         // Mostrar datos del ticket
         $camposTicket = [
             "N° Incidente" => '#'.$idTicket,
@@ -104,6 +122,7 @@ if ($num_rows > 0) {
             "Repartición" => $reparticion,
             "Equipo" => $ws,
             "Tipificacion" => $tipificacion,
+            "Prioridad" => "<span style='color:$colorP;'>$prioridad</span>",
             "Descripción" => $desc,
             "Estado" => "<span style='color:$color;'>$estado</span>",
             "Fecha Solución" => $fechaSolucion,

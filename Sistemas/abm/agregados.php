@@ -780,6 +780,29 @@ if (isset($_POST['accion'])) {
                         if ($row = mysqli_fetch_row($tic)) {
                             $idws = trim($row[0]);
                             }
+
+                    /* FECHAS */
+                    function normalizarFecha($fecha, $fechaActual) {
+                        return empty($fecha) ? '2020-01-01' : $fecha;
+                    }
+
+                    $dfec1 = normalizarFecha($dfec1, $fechaActual);
+                    $dfec2 = normalizarFecha($dfec2, $fechaActual);
+                    $dfec3 = normalizarFecha($dfec3, $fechaActual);
+                    $dfec4 = normalizarFecha($dfec4, $fechaActual);
+
+                    $fec1  = normalizarFecha($fec1, $fechaActual);
+                    $fec2  = normalizarFecha($fec2, $fechaActual);
+                    $fec3  = normalizarFecha($fec3, $fechaActual);
+                    $fec4  = normalizarFecha($fec4, $fechaActual);
+
+                    $fpla  = normalizarFecha($fpla, $fechaActual);
+                    $fmic  = normalizarFecha($fmic, $fechaActual);
+                    
+                    $pvfec = normalizarFecha($pvfec, $fechaActual);
+                    $pvfec1 = normalizarFecha($pvfec1, $fechaActual);
+
+
                     /* PLACA MADRE */
                     mysqli_query($datos_base, "INSERT INTO placamws VALUES ('$idws', '$ppla', '$prpla', '$gpla', '$fapla', '$fpla', '$nropla')");
                 

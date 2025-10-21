@@ -34,7 +34,7 @@ if(isset($_POST['fechaini'])){
 }
 
 $tipificacion = $_POST['tipificacion'];
-
+$prioridad = $_POST['prioridad'];
 
 
 $usuario1 = $_POST['usuario1'];
@@ -73,7 +73,7 @@ if(isset($usuario1)){
 	}
 
     /* TICKET */
-	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion1'), '$usunom1', '$usuario1', DEFAULT, '$tipificacion', 2, 2, DEFAULT, '$date', '$original', 1, '$equipo', '$hora')");
+	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion1'), '$usunom1', '$usuario1', DEFAULT, '$tipificacion', '$prioridad', 2, DEFAULT, '$date', '$original', 1, '$equipo', '$hora')");
 
     /* INSERTO LA FECHA DEL MOVIMIENTO */
 	mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, 2, DEFAULT, '$date', '$original', '$hora')");
@@ -110,7 +110,7 @@ if(isset($usuario2)){
 	}
 
     /* TICKET */
-	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion2'), '$usunom2', '$usuario2', DEFAULT, '$tipificacion', 2, 2, DEFAULT, '$date', '$original', 1, '$equipo2', '$hora')");
+	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion2'), '$usunom2', '$usuario2', DEFAULT, '$tipificacion', '$prioridad', 2, DEFAULT, '$date', '$original', 1, '$equipo2', '$hora')");
 
     /* INSERTO LA FECHA DEL MOVIMIENTO */
 	mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, 2, DEFAULT, '$date', '$original', '$hora')");
@@ -147,7 +147,7 @@ if(isset($usuario3)){
 	}
 
     /* TICKET */
-	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion3'), '$usunom3', '$usuario3', DEFAULT, '$tipificacion', 2, 2, DEFAULT, '$date', '$original', 1, '$equipo3', '$hora')");
+	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion3'), '$usunom3', '$usuario3', DEFAULT, '$tipificacion', '$prioridad', 2, DEFAULT, '$date', '$original', 1, '$equipo3', '$hora')");
 
     /* INSERTO LA FECHA DEL MOVIMIENTO */
 	mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, 2, DEFAULT, '$date', '$original', '$hora')");

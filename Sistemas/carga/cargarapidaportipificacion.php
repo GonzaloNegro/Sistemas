@@ -35,27 +35,10 @@ $row = $resultado->fetch_assoc();
 	<link rel="stylesheet" href="/path/to/select2.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 	<link rel="stylesheet" type="text/css" href="../estilos/estilocarga.css">
-
-	<style>
-			body{
-				background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
 	<script type="text/javascript">
 			function done(){
-				// swal(  {title: "Se ha cargado su incidente correctamente",
-				// 		icon: "success",
-				// 		showConfirmButton: true,
-				// 		showCancelButton: false,
-				// 		})
-				// 		.then((confirmar) => {
-				// 		if (confirmar) {
-				// 			window.location.href='../consulta/consulta.php';
-				// 		}
-				// 		}
-				// 		);
 				Swal.fire({
                         title: "Incidente cargado correctamente.",
                         icon: "success",
@@ -159,6 +142,10 @@ $row = $resultado->fetch_assoc();
                     {
                         selector: "#tip",
                         errorMessage: "No seleccionó tipificación."
+                    },
+                    {
+                        selector: "#prioridad",
+                        errorMessage: "No seleccionó prioridad."
                     }
                 ];
 
@@ -373,6 +360,20 @@ $row = $resultado->fetch_assoc();
 						<?php endforeach ?>
 					</select>
 			</div>
+			<div class="form-group row">
+				<label class="col-form-label col-xl">PRIORIDAD: </label>
+					<select name="prioridad" id="prioridad" class="form-control col-xl">
+					<option value="" selected disabled="prioridad">-SELECCIONE UNA-</option>
+					<?php
+					include("../particular/conexion.php");
+					$consulta= "SELECT * FROM prioridad ORDER BY PRIORIDAD ASC";
+					$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+					?>
+					<?php foreach ($ejecutar as $opciones): ?> 
+					<option value="<?php echo $opciones['ID_PRIORIDAD']?>"><?php echo $opciones['PRIORIDAD']?></option>
+					<?php endforeach ?>
+					</select>
+			</div>
 
 			<div class="form-group row">
 				<div class="accordion accordion-flush" id="accordionFlushExample">
@@ -551,8 +552,7 @@ $row = $resultado->fetch_assoc();
 				</div>';
 					}
 	?>
-
-
+	<span style="color:red;">*Los incidentes cargados se guardaran automáticamente con estado </span><span style="color:red;font-weight:bold;">solucionado.</span>
     </form>
     <?php
         if(isset($_GET['ok'])){

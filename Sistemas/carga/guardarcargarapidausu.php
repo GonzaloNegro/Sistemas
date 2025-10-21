@@ -35,6 +35,7 @@ if(isset($_POST['fechaini'])){
 
 $usuario = $_POST['usuario'];
 $ws = $_POST['equipo'];
+$prioridad = $_POST['prioridad'];
 /* $equipo = $_POST['equipo']; AUN NO EN USO */
 
 $tipificacion1 = $_POST['tipificacion1'];
@@ -70,7 +71,7 @@ if(isset($tipificacion1) AND isset($descripcion1)){
 	}
 
     /* TICKET */
-	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion1'), '$idusu', '$usuario', DEFAULT, '$tipificacion1', 2, 2, DEFAULT, '$date', '$original', 1, '$ws', '$hora')");
+	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion1'), '$idusu', '$usuario', DEFAULT, '$tipificacion1', '$prioridad', 2, DEFAULT, '$date', '$original', 1, '$ws', '$hora')");
 
     /* INSERTO LA FECHA DEL MOVIMIENTO */
 	mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, 2, DEFAULT, '$date', '$original', '$hora')");
@@ -107,7 +108,7 @@ if(isset($tipificacion2) AND isset($descripcion2)){
 	}
 
     /* TICKET */
-	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion2'), '$idusu', '$usuario', DEFAULT, '$tipificacion2', 2, 2, DEFAULT, '$date', '$original', 1, '$ws', '$hora')");
+	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion2'), '$idusu', '$usuario', DEFAULT, '$tipificacion2', '$prioridad', 2, DEFAULT, '$date', '$original', 1, '$ws', '$hora')");
 
     /* INSERTO LA FECHA DEL MOVIMIENTO */
 	mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, 2, DEFAULT, '$date', '$original', '$hora')");
@@ -142,7 +143,7 @@ if(isset($tipificacion2) AND isset($descripcion2)){
 	}
 
     /* TICKET */
-	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion3'), '$idusu', '$usuario', DEFAULT, '$tipificacion3', 2, 2, DEFAULT, '$date', '$original', 1, '$ws', '$hora')");
+	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion3'), '$idusu', '$usuario', DEFAULT, '$tipificacion3', '$prioridad', 2, DEFAULT, '$date', '$original', 1, '$ws', '$hora')");
 
     /* INSERTO LA FECHA DEL MOVIMIENTO */
 	mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, 2, DEFAULT, '$date', '$original', '$hora')");

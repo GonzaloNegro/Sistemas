@@ -12,11 +12,18 @@ $est = $_POST['estado'];
 $res = $_POST['resolutor'];
 $mot = $_POST['motivo'];
 $ws = $_POST['equipo'];
+$prioridad = $_POST['prioridad'];
 
 // Obteniendo la fecha actual del sistema con PHP
 $fechaActual = date('Y-m-d');
 
 /* VERIFICO SI LOS VALORES SON LOS ACTUALES */
+if($prioridad == "250"){
+  $sql = "SELECT ID_PRIORIDAD from ticket WHERE ID_TICKET = '$id'";
+  $result = $datos_base->query($sql);
+  $row = $result->fetch_assoc();
+  $prioridad = $row['ID_PRIORIDAD'];
+}
 if($ws == "200"){
   $sql = "SELECT ID_WS from ticket WHERE ID_TICKET = '$id'";
   $result = $datos_base->query($sql);
@@ -71,7 +78,7 @@ if(isset($_POST['btnmod'])){
 
   mysqli_query($datos_base, "INSERT INTO fecha_ticket VALUES(DEFAULT, '$id', '$fec1')");
 
-  mysqli_query($datos_base, "UPDATE ticket SET ID_ESTADO = '$est', ID_RESOLUTOR = '$res', ID_USUARIO = '$usu', DESCRIPCION = UPPER('$desc'), ID_WS = '$ws' WHERE ID_TICKET = '$id'");
+  mysqli_query($datos_base, "UPDATE ticket SET ID_ESTADO = '$est', ID_RESOLUTOR = '$res', ID_USUARIO = '$usu', ID_PRIORIDAD = '$prioridad',DESCRIPCION = UPPER('$desc'), ID_WS = '$ws' WHERE ID_TICKET = '$id'");
       
   } else if($est == 3){/* DERIVADO */
   /* SI EL ESTADO ES DERIVADO, SE GUARDAN 2 MOVIMIENTOS.
@@ -105,7 +112,7 @@ if(isset($_POST['btnmod'])){
 
   mysqli_query($datos_base, "INSERT INTO fecha_ticket VALUES(DEFAULT, '$id', '$fec1')");
 
-  mysqli_query($datos_base, "UPDATE ticket SET ID_ESTADO = 4, ID_RESOLUTOR = '$res', ID_USUARIO = '$usu', DESCRIPCION = UPPER('$desc'), ID_WS = '$ws' WHERE ID_TICKET = '$id'");
+  mysqli_query($datos_base, "UPDATE ticket SET ID_ESTADO = 4, ID_RESOLUTOR = '$res', ID_USUARIO = '$usu', ID_PRIORIDAD = '$prioridad', DESCRIPCION = UPPER('$desc'), ID_WS = '$ws' WHERE ID_TICKET = '$id'");
   }
 
   header("Location: cambio.php?mod");

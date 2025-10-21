@@ -21,7 +21,8 @@ function ConsultarIncidente($no_tic)
 		$filas['FECHA_SOLUCION'],/*6*/
 		$filas['ID_RESOLUTOR'],/*7*/
 		$filas['ID_TIPIFICACION'],/*8*/
-		$filas['ID_USUARIO']/*9*/
+		$filas['ID_USUARIO'],/*9*/
+		$filas['ID_PRIORIDAD']/*10*/
 	];
 }
 
@@ -123,32 +124,30 @@ function ConsultarIncidente($no_tic)
 			<h1>MODIFICAR INCIDENTE</h1>
 		</div>
 		<?php 
-            include("../particular/conexion.php");
             $sent= "SELECT ESTADO FROM estado WHERE ID_ESTADO = $consulta[4]";
             $resultado = $datos_base->query($sent);
             $row = $resultado->fetch_assoc();
             $est = $row['ESTADO'];
-			?>
-			<?php 
-            include("../particular/conexion.php");
+
             $sent= "SELECT RESOLUTOR FROM resolutor WHERE ID_RESOLUTOR = $consulta[7]";
             $resultado = $datos_base->query($sent);
             $row = $resultado->fetch_assoc();
             $nom = $row['RESOLUTOR'];
-			?>
-			<?php 
-            include("../particular/conexion.php");
+
             $sent= "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = $consulta[9]";
             $resultado = $datos_base->query($sent);
             $row = $resultado->fetch_assoc();
             $usu = $row['NOMBRE'];
-			?>
-			<?php 
-            include("../particular/conexion.php");
+
             $sent= "SELECT i.SERIEG FROM inventario i where i.ID_WS = $consulta[5]";
             $resultado = $datos_base->query($sent);
             $row = $resultado->fetch_assoc();
             $equi = $row['SERIEG'];
+
+            $sent= "SELECT PRIORIDAD FROM prioridad WHERE ID_PRIORIDAD = $consulta[10]";
+            $resultado = $datos_base->query($sent);
+            $row = $resultado->fetch_assoc();
+            $prioridad = $row['PRIORIDAD'];
 			?>
 		<?php
 		$des = htmlspecialchars($consulta[3], ENT_QUOTES, 'UTF-8');
@@ -208,6 +207,21 @@ function ConsultarIncidente($no_tic)
 					?>
 					<?php foreach ($ejecutar as $opciones): ?> 
 						<option value="<?php echo $opciones['ID_ESTADO']?>"><?php echo $opciones['ESTADO']?></option>
+					<?php endforeach ?>
+					</select>
+				</div>
+
+				<div class="form-group row" >
+				    <label id="lblForm"class="col-form-label col-xl col-lg">PRIORIDAD: </label>
+				    <select name="prioridad" id="prioridad" class="form-control col-xl col-lg" style="text-transform:uppercase">
+					<option selected value ="250"><?php echo $prioridad?></option>
+					<?php
+					include("../particular/conexion.php");
+					$consulta= "SELECT * FROM prioridad ORDER BY PRIORIDAD ASC";
+					$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+					?>
+					<?php foreach ($ejecutar as $opciones): ?> 
+						<option value="<?php echo $opciones['ID_PRIORIDAD']?>"><?php echo $opciones['PRIORIDAD']?></option>
 					<?php endforeach ?>
 					</select>
 				</div>

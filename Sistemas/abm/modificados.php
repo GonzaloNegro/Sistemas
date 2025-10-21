@@ -2014,6 +2014,26 @@ if (isset($_POST['accion'])) {
                  ID_PROCEDENCIA = '$procedencia' 
                 WHERE ID_WS = '$id'");
             
+                /* FECHAS */
+                function normalizarFecha($fecha, $fechaActual) {
+                    return empty($fecha) ? $fechaActual : $fecha;
+                }
+
+                $dfec1 = normalizarFecha($dfec1, $fechaActual);
+                $dfec2 = normalizarFecha($dfec2, $fechaActual);
+                $dfec3 = normalizarFecha($dfec3, $fechaActual);
+                $dfec4 = normalizarFecha($dfec4, $fechaActual);
+
+                $fec1  = normalizarFecha($fec1, $fechaActual);
+                $fec2  = normalizarFecha($fec2, $fechaActual);
+                $fec3  = normalizarFecha($fec3, $fechaActual);
+                $fec4  = normalizarFecha($fec4, $fechaActual);
+
+                $fpla  = normalizarFecha($fpla, $fechaActual);
+                $fmic  = normalizarFecha($fmic, $fechaActual);
+                
+                $pvfec = normalizarFecha($pvfec, $fechaActual);
+                $pvfec1 = normalizarFecha($pvfec1, $fechaActual);
             
                 /* PLACA MADRE */
                 mysqli_query($datos_base, "UPDATE placamws SET ID_PLACAM = '$placam', ID_PROVEEDOR = '$placamprov', GARANTIA = '$placamgar', FACTURA = '$placamfact', FECHA = '$placamfecha', NSERIE = '$planro' WHERE ID_WS = '$id'");
