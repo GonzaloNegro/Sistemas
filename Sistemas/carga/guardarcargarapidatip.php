@@ -53,6 +53,16 @@ $usuario3 = $_POST['usuario3'];
 $equipo3 = $_POST ['equipo3'];
 $descripcion3 = $_POST['descripcion3'];
 $descripcion3 = mysqli_real_escape_string($datos_base, $descripcion3);
+
+$usuario4 = $_POST['usuario4'];
+$equipo4 = $_POST ['equipo4'];
+$descripcion4 = $_POST['descripcion4'];
+$descripcion4 = mysqli_real_escape_string($datos_base, $descripcion4);
+
+$usuario5 = $_POST['usuario5'];
+$equipo5 = $_POST ['equipo5'];
+$descripcion5 = $_POST['descripcion5'];
+$descripcion5 = mysqli_real_escape_string($datos_base, $descripcion5);
 /* ////////////// */
 
 
@@ -148,6 +158,80 @@ if(isset($usuario3)){
 
     /* TICKET */
 	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion3'), '$usunom3', '$usuario3', DEFAULT, '$tipificacion', '$prioridad', 2, DEFAULT, '$date', '$original', 1, '$equipo3', '$hora')");
+
+    /* INSERTO LA FECHA DEL MOVIMIENTO */
+	mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, 2, DEFAULT, '$date', '$original', '$hora')");
+
+    /* TRAIGO EL NRO DEL TICKET */
+	$tic=mysqli_query($datos_base, "SELECT MAX(ID_TICKET) AS id FROM ticket");
+	if ($row = mysqli_fetch_row($tic)) {
+		$tic1 = trim($row[0]);
+		}
+
+    /* TRAIGO EL ULTIMO ID FECHA */
+	$fec=mysqli_query($datos_base, "SELECT MAX(ID_FECHA) AS id FROM fecha");
+	if ($row = mysqli_fetch_row($fec)) {
+		$fec1 = trim($row[0]);
+		}
+
+    /* INSERTO EN FECHA_TICKET EL MOVIMIENTO */
+	mysqli_query($datos_base, "INSERT INTO fecha_ticket VALUES(DEFAULT, '$tic1','$fec1')");
+    }
+
+
+/* GUARDO EL TICKET EQUIPO N°4*/
+if(isset($usuario4)){
+	$sqla = "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = '$usuario4'";
+	$result = $datos_base->query($sqla);
+	$r = $result->fetch_assoc();
+	$usunom4 = $r['NOMBRE'];/* USUARIO ATENDIDO */
+
+	if($equipo4 == 0 OR $equipo4 == ""){
+		$sql = "SELECT i.ID_WS FROM inventario i INNER JOIN wsusuario w ON i.ID_WS=w.ID_WS WHERE w.ID_USUARIO = '$usuario4'";
+		$resultado = $datos_base->query($sql);
+		$row = $resultado->fetch_assoc();
+		$equipo4 = $row['ID_WS'];
+	}
+
+    /* TICKET */
+	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion4'), '$usunom4', '$usuario4', DEFAULT, '$tipificacion', '$prioridad', 2, DEFAULT, '$date', '$original', 1, '$equipo4', '$hora')");
+
+    /* INSERTO LA FECHA DEL MOVIMIENTO */
+	mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, 2, DEFAULT, '$date', '$original', '$hora')");
+
+    /* TRAIGO EL NRO DEL TICKET */
+	$tic=mysqli_query($datos_base, "SELECT MAX(ID_TICKET) AS id FROM ticket");
+	if ($row = mysqli_fetch_row($tic)) {
+		$tic1 = trim($row[0]);
+		}
+
+    /* TRAIGO EL ULTIMO ID FECHA */
+	$fec=mysqli_query($datos_base, "SELECT MAX(ID_FECHA) AS id FROM fecha");
+	if ($row = mysqli_fetch_row($fec)) {
+		$fec1 = trim($row[0]);
+		}
+
+    /* INSERTO EN FECHA_TICKET EL MOVIMIENTO */
+	mysqli_query($datos_base, "INSERT INTO fecha_ticket VALUES(DEFAULT, '$tic1','$fec1')");
+    }
+
+
+/* GUARDO EL TICKET EQUIPO N°5*/
+if(isset($usuario5)){
+	$sqla = "SELECT NOMBRE FROM usuarios WHERE ID_USUARIO = '$usuario5'";
+	$result = $datos_base->query($sqla);
+	$r = $result->fetch_assoc();
+	$usunom5 = $r['NOMBRE'];/* USUARIO ATENDIDO */
+
+	if($equipo5 == 0 OR $equipo5 == ""){
+		$sql = "SELECT i.ID_WS FROM inventario i INNER JOIN wsusuario w ON i.ID_WS=w.ID_WS WHERE w.ID_USUARIO = '$usuario5'";
+		$resultado = $datos_base->query($sql);
+		$row = $resultado->fetch_assoc();
+		$equipo5 = $row['ID_WS'];
+	}
+
+    /* TICKET */
+	mysqli_query($datos_base, "INSERT INTO ticket VALUES (DEFAULT, '$date', UPPER('$descripcion5'), '$usunom5', '$usuario5', DEFAULT, '$tipificacion', '$prioridad', 2, DEFAULT, '$date', '$original', 1, '$equipo5', '$hora')");
 
     /* INSERTO LA FECHA DEL MOVIMIENTO */
 	mysqli_query($datos_base, "INSERT INTO fecha VALUES(DEFAULT, 2, DEFAULT, '$date', '$original', '$hora')");

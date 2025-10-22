@@ -131,6 +131,50 @@ $row = $resultado->fetch_assoc();
 		});
 	}
 </script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#buscador4').val(1);
+		recargarLista4();
+
+		$('#buscador4').change(function(){
+			recargarLista4();
+		});
+	})
+</script>
+<script type="text/javascript">
+	function recargarLista4(){
+		$.ajax({
+			type:"POST",
+			url:"../particular/datos.php",
+			data:"usuario=" + $('#buscador4').val(),
+			success:function(r){
+				$('#equipo4').html(r);
+			}
+		});
+	}
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#buscador5').val(1);
+		recargarLista5();
+
+		$('#buscador5').change(function(){
+			recargarLista5();
+		});
+	})
+</script>
+<script type="text/javascript">
+	function recargarLista5(){
+		$.ajax({
+			type:"POST",
+			url:"../particular/datos.php",
+			data:"usuario=" + $('#buscador5').val(),
+			success:function(r){
+				$('#equipo5').html(r);
+			}
+		});
+	}
+</script>
 <script>
         function validar_formulario(){
 
@@ -224,10 +268,14 @@ $row = $resultado->fetch_assoc();
 			var user1=$('#buscador1').val();
 			var user2=$('#buscador2').val();
 			var user3=$('#buscador3').val();
+			var user4=$('#buscador4').val();
+			var user5=$('#buscador5').val();
 			//obtenemos el valor de las descripciones
 			var descrip1=$('#descripcion1').val();
 			var descrip2=$('#descripcion2').val();
 			var descrip3=$('#descripcion3').val();
+			var descrip4=$('#descripcion4').val();
+			var descrip5=$('#descripcion5').val();
 
 			//En el caso que ambos esten vacios o llenos (user y descripcion) los campos de cada incidente devuelve true y permite el envio del formulario
 			//En el caso en que ambos sean distintos (uno vacio y otro no) envía false y no permite el envío hasta solucionar
@@ -268,6 +316,16 @@ $row = $resultado->fetch_assoc();
 				nombreIncidente="Incidente 3";
 			}
 
+			if ((user4==null || descrip4=="") && !(user4==null && descrip4=="")) {
+				isValid=false;
+				nombreIncidente="Incidente 4";
+			}
+
+			if ((user5==null || descrip5=="") && !(user5==null && descrip5=="")) {
+				isValid=false;
+				nombreIncidente="Incidente 5";
+			}
+
 			//MEnsaje de alerta
 
 			Swal.fire({
@@ -304,11 +362,11 @@ $row = $resultado->fetch_assoc();
                         icon: "warning",
                         showConfirmButton: true,
                         showCancelButton: true,
-              confirmButtonColor: '#198754',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: "Cancelar",
-                reverseButtons: true,
+						confirmButtonColor: '#198754',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Confirmar',
+						cancelButtonText: "Cancelar",
+						reverseButtons: true,
                         customClass:{
                             actions: 'reverse-button'
                         }
@@ -431,17 +489,17 @@ $row = $resultado->fetch_assoc();
 					</div>
 				</div>
 			</div>
-	<div class="accordion-item">
-		<h2 class="accordion-header" id="flush-headingTwo">
-		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-		INCIDENTE N°2:
-		</button>
-		</h2>
-		<div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-		<div class="accordion-body">
-		<div class="accordion-body">
-			<div class="form-group row">
-            <label class="col-form-label col-xl col-lg">USUARIO:</label>
+			<div class="accordion-item">
+				<h2 class="accordion-header" id="flush-headingTwo">
+				<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+				INCIDENTE N°2:
+				</button>
+				</h2>
+				<div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+					<div class="accordion-body">
+						<div class="accordion-body">
+							<div class="form-group row">
+								<label class="col-form-label col-xl col-lg">USUARIO:</label>
 								<select name="usuario2" id="buscador2" class="form-control col-xl col-lg">
 								<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
 								<?php
@@ -473,95 +531,202 @@ $row = $resultado->fetch_assoc();
 											})
 										})
 									</script>
-			</div>
-			<div class="form-group row">
-				<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label>
-				<select id='equipo2' name='equipo2' class='form-control col-xl col-lg'></select>
-			</div>
-			<div class="form-group row">
-				<label class="col-form-label col-xl">DESCRIPCIÓN: </label>
-				<textarea name="descripcion2" id="descripcion2" style="text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°2" rows="3" ></textarea>
-			</div>
-		</div>
+							</div>
+							<div class="form-group row">
+								<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label>
+								<select id='equipo2' name='equipo2' class='form-control col-xl col-lg'></select>
+							</div>
+							<div class="form-group row">
+								<label class="col-form-label col-xl">DESCRIPCIÓN: </label>
+								<textarea name="descripcion2" id="descripcion2" style="text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°2" rows="3" ></textarea>
+							</div>
+						</div>
 
-	</div>
-	</div>
-
-	<div class="accordion-item">
-		<h2 class="accordion-header" id="flush-headingThree">
-		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-		INCIDENTE N°3:
-		</button>
-		</h2>
-		<div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-		<div class="accordion-body">
-            <div class="accordion-body">
-                <div class="form-group row">
-                    <label class="col-form-label col-xl col-lg">USUARIO:</label>
-                    <select name="usuario3" id="buscador3" class="form-control col-xl col-lg">
-                    <option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
-                    <?php
-                    include("../particular/conexion.php");
-					$consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 AND ID_USUARIO <> 277 ORDER BY NOMBRE ASC";
-                    $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));?>
-                    <?php foreach ($ejecutar as $opciones): ?>
-                    <option value="<?php echo $opciones['ID_USUARIO']?>"><?php echo $opciones['NOMBRE']?></option>
-                    <?php endforeach ?>
-                    </select>
-                    <!--BUSCADOR-->
-                    <script>
-                        $('#buscador3').select2();
-                    </script>
-                    <script>
-                        $(document).ready(function(){
-                            $('#buscador3').change(function(){
-                                    buscador2='b='+$('#buscador3').val();
-                                    $.ajax({
-                                        type: 'post',
-                                        url: 'Controladores/session.php',
-                                        data: buscador,
-                                        success: function(r){
-                                            $('#tabla').load('Componentes/Tabla.php');
-                                    }
-                                })
-                            })
-                        })
-                    </script>
+					</div>
 				</div>
-                <div class="form-group row">
-					<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label>
-					<select id='equipo3' name='equipo3' class='form-control col-xl col-lg'></select>
+			</div>
+
+			<div class="accordion-item">
+				<h2 class="accordion-header" id="flush-headingThree">
+				<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+				INCIDENTE N°3:
+				</button>
+				</h2>
+				<div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+					<div class="accordion-body">
+						<div class="accordion-body">
+							<div class="form-group row">
+								<label class="col-form-label col-xl col-lg">USUARIO:</label>
+								<select name="usuario3" id="buscador3" class="form-control col-xl col-lg">
+								<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
+								<?php
+								include("../particular/conexion.php");
+								$consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 AND ID_USUARIO <> 277 ORDER BY NOMBRE ASC";
+								$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));?>
+								<?php foreach ($ejecutar as $opciones): ?>
+								<option value="<?php echo $opciones['ID_USUARIO']?>"><?php echo $opciones['NOMBRE']?></option>
+								<?php endforeach ?>
+								</select>
+								<!--BUSCADOR-->
+								<script>
+									$('#buscador3').select2();
+								</script>
+								<script>
+									$(document).ready(function(){
+										$('#buscador3').change(function(){
+												buscador2='b='+$('#buscador3').val();
+												$.ajax({
+													type: 'post',
+													url: 'Controladores/session.php',
+													data: buscador,
+													success: function(r){
+														$('#tabla').load('Componentes/Tabla.php');
+												}
+											})
+										})
+									})
+								</script>
+							</div>
+							<div class="form-group row">
+								<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label>
+								<select id='equipo3' name='equipo3' class='form-control col-xl col-lg'></select>
+							</div>
+							<div class="form-group row">
+								<label class="col-form-label col-xl">DESCRIPCIÓN: </label>
+								<textarea id="descripcion3" name="descripcion3" style="text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°3" rows="3"></textarea>
+							</div>
+						</div>
+					</div>
 				</div>
-                <div class="form-group row">
-					<label class="col-form-label col-xl">DESCRIPCIÓN: </label>
-                    <textarea id="descripcion3" name="descripcion3" style="text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°3" rows="3"></textarea>
-                </div>
-            </div>
-		</div>
-	</div>
+			</div>
 
-	</div>
-</div>
+			<div class="accordion-item">
+				<h2 class="accordion-header" id="flush-headingFour">
+				<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+				INCIDENTE N°4:
+				</button>
+				</h2>
+				<div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+					<div class="accordion-body">
+						<div class="accordion-body">
+							<div class="form-group row">
+								<label class="col-form-label col-xl col-lg">USUARIO:</label>
+								<select name="usuario4" id="buscador4" class="form-control col-xl col-lg">
+								<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
+								<?php
+								include("../particular/conexion.php");
+								$consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 AND ID_USUARIO <> 277 ORDER BY NOMBRE ASC";
+								$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));?>
+								<?php foreach ($ejecutar as $opciones): ?>
+								<option value="<?php echo $opciones['ID_USUARIO']?>"><?php echo $opciones['NOMBRE']?></option>
+								<?php endforeach ?>
+								</select>
+								<!--BUSCADOR-->
+								<script>
+									$('#buscador4').select2();
+								</script>
+								<script>
+									$(document).ready(function(){
+										$('#buscador4').change(function(){
+												buscador2='b='+$('#buscador4').val();
+												$.ajax({
+													type: 'post',
+													url: 'Controladores/session.php',
+													data: buscador,
+													success: function(r){
+														$('#tabla').load('Componentes/Tabla.php');
+												}
+											})
+										})
+									})
+								</script>
+							</div>
+							<div class="form-group row">
+								<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label>
+								<select id='equipo4' name='equipo4' class='form-control col-xl col-lg'></select>
+							</div>
+							<div class="form-group row">
+								<label class="col-form-label col-xl">DESCRIPCIÓN: </label>
+								<textarea id="descripcion4" name="descripcion4" style="text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°4" rows="3"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-    <!--//////////////////////////////////////////////////////////////////-->
-    <!--//////////////////////////////////////////////////////////////////-->
-	<?php
-		if ($row['ID_PERFIL'] != 5) {
-			echo ' <div class="form-group row justify-content-end">
-					<input id="btnform" type="button" onClick="enviar_formulario(this.form)" value="GUARDAR" onClick="validar_formulario(this.form)" style="width:20%" name="g1" class="btn btn-success">
-				</div>';
-					}
-	?>
-	<span style="color:red;">*Los incidentes cargados se guardaran automáticamente con estado </span><span style="color:red;font-weight:bold;">solucionado.</span>
-    </form>
-    <?php
-        if(isset($_GET['ok'])){
-        /*echo "<h3>Incidente cargado</h3>";*/?>
-        <script>done();</script>
-        <?php
-    }
-			?>
-		</div>
+			<div class="accordion-item">
+				<h2 class="accordion-header" id="flush-headingFive">
+				<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+				INCIDENTE N°5:
+				</button>
+				</h2>
+				<div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample">
+					<div class="accordion-body">
+						<div class="accordion-body">
+							<div class="form-group row">
+								<label class="col-form-label col-xl col-lg">USUARIO:</label>
+								<select name="usuario5" id="buscador5" class="form-control col-xl col-lg">
+								<option value="" selected disabled="usuario">-SELECCIONE UNA-</option>
+								<?php
+								include("../particular/conexion.php");
+								$consulta= "SELECT * FROM usuarios WHERE ID_ESTADOUSUARIO = 1 AND ID_USUARIO <> 277 ORDER BY NOMBRE ASC";
+								$ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));?>
+								<?php foreach ($ejecutar as $opciones): ?>
+								<option value="<?php echo $opciones['ID_USUARIO']?>"><?php echo $opciones['NOMBRE']?></option>
+								<?php endforeach ?>
+								</select>
+								<!--BUSCADOR-->
+								<script>
+									$('#buscador5').select2();
+								</script>
+								<script>
+									$(document).ready(function(){
+										$('#buscador5').change(function(){
+												buscador2='b='+$('#buscador5').val();
+												$.ajax({
+													type: 'post',
+													url: 'Controladores/session.php',
+													data: buscador,
+													success: function(r){
+														$('#tabla').load('Componentes/Tabla.php');
+												}
+											})
+										})
+									})
+								</script>
+							</div>
+							<div class="form-group row">
+								<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label>
+								<select id='equipo5' name='equipo5' class='form-control col-xl col-lg'></select>
+							</div>
+							<div class="form-group row">
+								<label class="col-form-label col-xl">DESCRIPCIÓN: </label>
+								<textarea id="descripcion5" name="descripcion5" style="text-transform:uppercase;" class="form-control col" placeholder="DESCRIPCIÓN DEL INCIDENTE N°5" rows="3"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+		<!--//////////////////////////////////////////////////////////////////-->
+		<!--//////////////////////////////////////////////////////////////////-->
+		<?php
+			if ($row['ID_PERFIL'] != 5) {
+				echo ' <div class="form-group row justify-content-end">
+						<input id="btnform" type="button" onClick="enviar_formulario(this.form)" value="GUARDAR" onClick="validar_formulario(this.form)" style="width:20%" name="g1" class="btn btn-success">
+					</div>';
+						}
+		?>
+		<span style="color:red;">*Los incidentes cargados se guardaran automáticamente con estado </span><span style="color:red;font-weight:bold;">solucionado.</span>
+		</form>
+		<?php
+			if(isset($_GET['ok'])){
+			/*echo "<h3>Incidente cargado</h3>";*/?>
+			<script>done();</script>
+			<?php
+		}
+				?>
 	</section>
 </main>
 	<footer>

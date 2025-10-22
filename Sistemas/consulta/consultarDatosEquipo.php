@@ -70,8 +70,6 @@ function ConsultarIncidente($no_tic)
     }
     </style>
 
-	<section id="ingreso">
-            <div id="detalles" class="container-fluid">
                 <?php
                     /*/////////////////////NOMBRE//////////////////////*/
                     $sql = "SELECT u.NOMBRE FROM wsusuario w 
@@ -614,25 +612,48 @@ function ConsultarIncidente($no_tic)
                     }
 
                 ?>  
+
+<section id="ingreso">
+    <div class="container-fluid">
+        <!-- NAV DE SOLAPAS -->
+        <ul class="nav nav-tabs" id="infoTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="equipo-tab" data-bs-toggle="tab" data-bs-target="#equipo" type="button" role="tab" aria-controls="equipo" aria-selected="true">
+                    DATOS DEL EQUIPO
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="perifericos-tab" data-bs-toggle="tab" data-bs-target="#perifericos" type="button" role="tab" aria-controls="perifericos" aria-selected="false">
+                    PERIFÉRICOS ASIGNADOS
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="infoTabsContent">
+            <!-- TAB EQUIPO -->
+            <div class="tab-pane fade show active" id="equipo" role="tabpanel" aria-labelledby="equipo-tab">
+
+                <div id="detalles" class="container-fluid">
+                    <h2 style="color:#00519C;font-size: 20px;font-weight: bold;">Datos del equipo</h2>
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>EQUIPO</u>:</h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Equipo</u>:</h4>
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[3]?></h4>
                     </div>
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>USUARIO</u>:</h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Usuario</u>:</h4>
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $nom ?></h4>
                     </div>
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>ÁREA DE UBICACIÓN</u>:</h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Área de ubicación</u>:</h4>
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $are ?></h4>
                     </div>
                     
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>TIPO</u>:</h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Tipo</u>:</h4>
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $tip?></h4>
                     </div>
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MARCA</u>:</h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Marca</u>:</h4>
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $mar?></h4>
                         <?php 
                         if($est == 'EN USO'){
@@ -645,88 +666,89 @@ function ConsultarIncidente($no_tic)
                         ?>
                     </div>
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-                        <h4 id="lblForm" class="col-form-label col-xl col-lg"><u>ESTADO DEL EQUIPO:</u></h4>
+                        <h4 id="lblForm" class="col-form-label col-xl col-lg"><u>Estado del equipo:</u></h4>
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"style="color: <?php echo $color; ?>"><?php echo $est?></h4>
                     </div>
 
                     <hr style='display: block; height: 3px;'>
 
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>SISTEMA OPERATIVO:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Sistema Operativo:</u></h4>
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $so?></h4>
                     </div>
 
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PROCESADOR:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Procesador:</u></h4>
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $micro?></h4>
                     </div>
 
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PLACA MADRE:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Placa Madre:</u></h4>
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $placam." - ".$placammarca;?></h4>
                     </div>
 
-                <div class="acordeonSeparacion">
+
+            <div class="acordeonSeparacion">
                     <div class="form-group row acord" style="padding:10px;">
 
                         <div class="accordion accordion-flush" id="accordionFlushExample">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingOne">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                    <u>1°&nbspMEMORIA</u>: <?php echo $mem1." - ".$tmem1;?>
+                                    <u>1°&nbspMemoria</u>: <?php echo $mem1." - ".$tmem1;?>
                                 </button>
                                 </h2>
                                 <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PROVEEDOR:</u>&nbsp &nbsp &nbsp<?php echo $pmem1?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u>&nbsp &nbsp &nbsp<?php echo $famem1?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA:</u>&nbsp &nbsp &nbsp
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Proveedor:</u>&nbsp &nbsp &nbsp<?php echo $pmem1?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Factura:</u>&nbsp &nbsp &nbsp<?php echo $famem1?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Fecha:</u>&nbsp &nbsp &nbsp
                                         <?php 
                                         $f1= fecha($fmem1); 
                                         echo $f1;
                                         ?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MARCA:</u>&nbsp &nbsp &nbsp<?php echo $mmem1?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $gmem1?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Marca:</u>&nbsp &nbsp &nbsp<?php echo $mmem1?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Garantía:</u>&nbsp &nbsp &nbsp<?php echo $gmem1?></h4>
                                 </div>
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingTwo">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                                <u>2°&nbspMEMORIA</u>: <?php echo $mem2." - ".$tmem2;?>
+                                <u>2°&nbspMemoria</u>: <?php echo $mem2." - ".$tmem2;?>
                                 </button>
                                 </h2>
                                 <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PROVEEDOR:</u>&nbsp &nbsp &nbsp<?php echo $pmem2?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u>&nbsp &nbsp &nbsp<?php echo $famem2?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA:</u>&nbsp &nbsp &nbsp
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Proveedor:</u>&nbsp &nbsp &nbsp<?php echo $pmem2?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Factura:</u>&nbsp &nbsp &nbsp<?php echo $famem2?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Fecha:</u>&nbsp &nbsp &nbsp
                                         <?php 
                                         $f1= fecha($fmem2); 
                                         echo $f1;
                                         ?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MARCA:</u>&nbsp &nbsp &nbsp<?php echo $mmem2?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $gmem2?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Marca:</u>&nbsp &nbsp &nbsp<?php echo $mmem2?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Garantía:</u>&nbsp &nbsp &nbsp<?php echo $gmem2?></h4>
                                 </div>
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingThree">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                                <u>3°&nbspMEMORIA</u>: <?php echo $mem3." - ".$tmem3;?>
+                                <u>3°&nbspMemoria</u>: <?php echo $mem3." - ".$tmem3;?>
                                 </button>
                                 </h2>
                                 <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PROVEEDOR:</u>&nbsp &nbsp &nbsp<?php echo $pmem3?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u>&nbsp &nbsp &nbsp<?php echo $famem3?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA:</u>&nbsp &nbsp &nbsp
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Proveedor:</u>&nbsp &nbsp &nbsp<?php echo $pmem3?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Factura:</u>&nbsp &nbsp &nbsp<?php echo $famem3?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Fecha:</u>&nbsp &nbsp &nbsp
                                         <?php 
                                         $f1= fecha($fmem3); 
                                         echo $f1;
                                         ?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MARCA:</u>&nbsp &nbsp &nbsp<?php echo $mmem3?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $gmem3?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Marca:</u>&nbsp &nbsp &nbsp<?php echo $mmem3?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Garantía:</u>&nbsp &nbsp &nbsp<?php echo $gmem3?></h4>
                                 </div>
                                 </div>
                             </div>
@@ -738,15 +760,15 @@ function ConsultarIncidente($no_tic)
                                 </h2>
                                 <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PROVEEDOR:</u>&nbsp &nbsp &nbsp<?php echo $pmem4?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u>&nbsp &nbsp &nbsp<?php echo $famem4?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA:</u>&nbsp &nbsp &nbsp
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Proveedor:</u>&nbsp &nbsp &nbsp<?php echo $pmem4?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Factura:</u>&nbsp &nbsp &nbsp<?php echo $famem4?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Fecha:</u>&nbsp &nbsp &nbsp
                                         <?php 
                                         $f1= fecha($fmem4); 
                                         echo $f1;
                                         ?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MARCA:</u>&nbsp &nbsp &nbsp<?php echo $mmem4?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $gmem4?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Marca:</u>&nbsp &nbsp &nbsp<?php echo $mmem4?></h4>
+                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Garantía:</u>&nbsp &nbsp &nbsp<?php echo $gmem4?></h4>
                                 </div>
                                 </div>
                             </div>
@@ -762,77 +784,80 @@ function ConsultarIncidente($no_tic)
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingOn">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOn" aria-expanded="false" aria-controls="flush-collapseOn">
-                                    <u>1°&nbspDISCO</u>: <?php echo $disc1." - ".$tdisc1;?>
+                                    <u>1°&nbspDisco</u>: <?php echo $disc1." - ".$tdisc1;?>
                                 </button>
                                 </h2>
                                 <div id="flush-collapseOn" class="accordion-collapse collapse" aria-labelledby="flush-headingOn" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
-                                <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PROVEEDOR:</u>&nbsp &nbsp &nbsp<?php echo $pdisc1?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u>&nbsp &nbsp &nbsp<?php echo $fadisc1?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA:</u>&nbsp &nbsp &nbsp
-                                        <?php 
-                                        $f1= fecha($fdisc1); 
-                                        echo $f1;
-                                        ?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MARCA:</u>&nbsp &nbsp &nbsp<?php echo $mdisc1?></h4>
-                                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $gdisc1?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Proveedor:</u>&nbsp &nbsp &nbsp<?php echo $pdisc1?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Factura:</u>&nbsp &nbsp &nbsp<?php echo $fadisc1?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Fecha:</u>&nbsp &nbsp &nbsp
+                                    <?php 
+                                    $f1= fecha($fdisc1); 
+                                    echo $f1;
+                                    ?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Marca:</u>&nbsp &nbsp &nbsp<?php echo $mdisc1?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Garantía:</u>&nbsp &nbsp &nbsp<?php echo $gdisc1?></h4>
                                 </div>
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingTw">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTw" aria-expanded="false" aria-controls="flush-collapseTw">
-                                    <u>2°&nbspDISCO</u>: <?php echo $disc2." - ".$tdisc2;?>
+                                    <u>2°&nbspDisco</u>: <?php echo $disc2." - ".$tdisc2;?>
                                 </button>
                                 </h2>
                                 <div id="flush-collapseTw" class="accordion-collapse collapse" aria-labelledby="flush-headingTw" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
-                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u>&nbsp &nbsp &nbsp<?php echo $fadisc2?></h4>
-                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA:</u>&nbsp &nbsp &nbsp
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Proveedor:</u>&nbsp &nbsp &nbsp<?php echo $pdisc2?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Factura:</u>&nbsp &nbsp &nbsp<?php echo $fadisc2?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Fecha:</u>&nbsp &nbsp &nbsp
                                     <?php 
                                     $f1= fecha($fdisc2); 
                                     echo $f1;
                                     ?></h4>
-                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MARCA:</u>&nbsp &nbsp &nbsp<?php echo $mdisc2?></h4>
-                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $gdisc2?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Marca:</u>&nbsp &nbsp &nbsp<?php echo $mdisc2?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Garantía:</u>&nbsp &nbsp &nbsp<?php echo $gdisc2?></h4>
                                 </div>
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingThre">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThre" aria-expanded="false" aria-controls="flush-collapseThre">
-                                    <u>3°&nbspDISCO</u>: <?php echo $disc3." - ".$tdisc3;?>
+                                    <u>3°&nbspDisco</u>: <?php echo $disc3." - ".$tdisc3;?>
                                 </button>
                                 </h2>
                                 <div id="flush-collapseThre" class="accordion-collapse collapse" aria-labelledby="flush-headingThre" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
-                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u>&nbsp &nbsp &nbsp<?php echo $fadisc3?></h4>
-                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA:</u>&nbsp &nbsp &nbsp
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Proveedor:</u>&nbsp &nbsp &nbsp<?php echo $pdisc3?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Factura:</u>&nbsp &nbsp &nbsp<?php echo $fadisc3?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Fecha:</u>&nbsp &nbsp &nbsp
                                     <?php 
                                     $f1= fecha($fdisc3); 
                                     echo $f1;
                                     ?></h4>
-                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MARCA:</u>&nbsp &nbsp &nbsp<?php echo $mdisc3?></h4>
-                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $gdisc3?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Marca:</u>&nbsp &nbsp &nbsp<?php echo $mdisc3?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Garantía:</u>&nbsp &nbsp &nbsp<?php echo $gdisc3?></h4>
                                 </div>
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingFou">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFou" aria-expanded="false" aria-controls="flush-collapseFou">
-                                    <u>4°&nbspDISCO</u>: <?php echo $disc4." - ".$tdisc4;?>
+                                    <u>4°&nbspDisco</u>: <?php echo $disc4." - ".$tdisc4;?>
                                 </button>
                                 </h2>
                                 <div id="flush-collapseFou" class="accordion-collapse collapse" aria-labelledby="flush-headingFou" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
-                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u>&nbsp &nbsp &nbsp<?php echo $fadisc4?></h4>
-                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FECHA:</u>&nbsp &nbsp &nbsp
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Proveedor:</u>&nbsp &nbsp &nbsp<?php echo $pdisc4?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Factura:</u>&nbsp &nbsp &nbsp<?php echo $fadisc4?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Fecha:</u>&nbsp &nbsp &nbsp
                                     <?php 
                                     $f1= fecha($fdisc4); 
                                     echo $f1;
                                     ?></h4>
-                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MARCA:</u>&nbsp &nbsp &nbsp<?php echo $mdisc4?></h4>
-                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u>&nbsp &nbsp &nbsp<?php echo $gdisc4?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Marca:</u>&nbsp &nbsp &nbsp<?php echo $mdisc4?></h4>
+                                    <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Garantía:</u>&nbsp &nbsp &nbsp<?php echo $gdisc4?></h4>
                                 </div>
                                 </div>
                             </div>
@@ -840,49 +865,96 @@ function ConsultarIncidente($no_tic)
                     </div>
                 </div>
 
-
-
                     <hr style='display: block; height: 3px;'>
 
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>SERIALN:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Serialn:</u></h4>
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[1]?></h4>
                     </div>
 
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>MASTERIZACIÓN:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Masterización:</u></h4>
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[9]?></h4>
                     </div>
 
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>OBSERVACIÓN:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Observación:</u></h4>
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[6]?></h4>
                     </div>
                     
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>RED:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Red:</u></h4>
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $red?></h4>
                     </div>
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>NRO MAC:</u></h4> 
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Nro MAC:</u></h4> 
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[10]?></h4> 
                     </div>
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>RESERVA DE IP:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Reserva de IP:</u></h4>
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[11]?></h4>
                     </div>
 
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>PROVEEDOR:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Proveedor:</u></h4>
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $prov?></h4>
-                        </div>
+                    </div>
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>FACTURA:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Factura:</u></h4>
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[8]?></h4>
                     </div>
                     <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
-                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>GARANTIA:</u></h4>
+                        <h4 id="lblForm"class="col-form-label col-xl col-lg"><u>Garantía:</u></h4>
                         <h4 id="lblForm"class="col-form-label col-xl col-lg"><?php echo $consulta[16]?></h4>
                     </div>
+                </div>
             </div>
-	</section>
+
+            <!-- TAB PERIFÉRICOS -->
+            <div class="tab-pane fade" id="perifericos" role="tabpanel" aria-labelledby="perifericos-tab">
+                <div id="detalles" class="container-fluid">
+                    <h2 style="color:#00519C;font-size: 20px;font-weight: bold;">Periféricos asignados</h2>
+                    <?php
+                    $id_ws = mysqli_real_escape_string($datos_base, $consulta[0]); // Sanitiza el valor
+
+                    $sql = "
+                        SELECT 
+                            p.TIPOP AS tipoperi,
+                            t.TIPO AS tipo,
+                            mar.MARCA AS marca,
+                            mo.MODELO AS modelo,
+                            p.SERIE AS serie
+                        FROM equipo_periferico ep
+                        INNER JOIN periferico p ON ep.ID_PERI = p.ID_PERI
+                        INNER JOIN modelo mo ON p.ID_MODELO = mo.ID_MODELO
+                        INNER JOIN marcas mar ON mo.ID_MARCA = mar.ID_MARCA
+                        INNER JOIN tipop t ON p.ID_TIPOP = t.ID_TIPOP
+                        WHERE ep.ID_WS = '$id_ws'
+                        AND ep.ID_ESTADOWS = 1
+                        ORDER BY t.TIPO ASC
+                    ";
+
+                    $resultado = mysqli_query($datos_base, $sql);
+
+                    $estilo_general = 'color:#00519C; font-size:14px; font-weight:bold;';
+                    $estilo_normal = 'font-weight:normal;';
+
+                    if ($resultado && mysqli_num_rows($resultado) > 0) {
+                        echo '<div class="listado-perifericos" style="' . $estilo_general . '">';
+                        while ($row = mysqli_fetch_assoc($resultado)) {
+                            echo '• ' 
+                                . htmlspecialchars($row['tipoperi'] . ' ' . $row['tipo']) 
+                                . ' -> <span style="' . $estilo_normal . '">'
+                                . htmlspecialchars($row['marca'] . ' - ' . $row['modelo'] . ' | SERIE: ' . $row['serie'])
+                                . '</span><br>';
+                        }
+                        echo '</div>';
+                    } else {
+                        echo '<div class="listado-perifericos" style="' . $estilo_general . '">• SIN PERIFÉRICOS ASIGNADOS</div>';
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
