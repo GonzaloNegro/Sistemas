@@ -164,6 +164,7 @@ $row = $resultado->fetch_assoc();
 
                             tabla.append(`<tr>
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.MODELO)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.SERIE)}</h4></td>
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;;'>${mostrarValor(usuario)}</h4></td>
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.AREA)}</h4></td>
                             <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.REPA)}</h4></td>
@@ -308,7 +309,7 @@ $row = $resultado->fetch_assoc();
             <div class="filtros">
                 <div class="filtros-listado">
                     <div>
-                        <label class="form-label">Usu/Mod/Serieg</label>
+                        <label class="form-label">Usu/Mod/Serie</label>
                         <input id="buscar" type="text" style="text-transform:uppercase;" name="buscar"  placeholder="Buscar" class="form-control largo">
                     </div>
                     <div>
@@ -518,6 +519,7 @@ $row = $resultado->fetch_assoc();
         <thead>
             <tr>
                 <th><p style="text-align:left; margin-left: 5px;">MODELO</p></th>
+                <th><p style="text-align:left; margin-left: 5px;">SERIE</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">USUARIO</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">ÁREA</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">REPARTICIÓN</p></th>

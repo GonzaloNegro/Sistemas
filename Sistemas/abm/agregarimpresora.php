@@ -287,6 +287,7 @@ $perfil=$row['ID_PERFIL'];
                     INNER JOIN area a ON u.ID_AREA=a.ID_AREA
                     INNER JOIN reparticion r ON r.ID_REPA=a.ID_REPA
                     WHERE u.ID_ESTADOUSUARIO = 1 
+                    AND w.ID_ESTADOWS = 1
                     AND w.ID_WS <> 0 
                     $where
                     ORDER BY u.NOMBRE ASC";

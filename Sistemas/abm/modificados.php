@@ -261,7 +261,7 @@ if (isset($_POST['accion'])) {
                             if (!empty($perifericosDelEquipo)) {
                                 foreach ($perifericosDelEquipo as $peri) {
                                     // Insertar desvinculación del periférico
-                                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipoSinAsignar', '$peri', '0000-00-00', '$fechaActual', 3)");
+                                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, 0, '$peri', '0000-00-00', '$fechaActual', 3)");
                                     
                                     // Insertar desvinculación del equipo
                                     mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', 0, '0000-00-00', '$fechaActual', 3)");
@@ -894,7 +894,7 @@ if (isset($_POST['accion'])) {
                         /* -INSERT DE DESVINCULACION DEL EQUIPO ACTUAL(tabla equipo_periferico) */
                         mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipoBD', 0, '0000-00-00', '$fechaActual', 3)");
                         /* -INSERT DE DESVINCULACION DEL PERIFERICO (tabla equipo_periferico) */
-                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', 3)");
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, 0, '$id', '0000-00-00', '$fechaActual', 3)");
                         /* -INSERT DE VINCULACION DEL NUEVO EQUIPO CON ESTE PERIFERICO (tabla equipo_periferico) */
                         mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', 1)");
                         
@@ -915,7 +915,7 @@ if (isset($_POST['accion'])) {
                     /* -INSERT DE DESVINCULACION DEL EQUIPO (tabla equipo_periferico) */
                     mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$sinAsignar', '0000-00-00', '$fechaActual', 3)");
                     /* -INSERT DE DESVINCULACION DEL PERIFERICO (tabla equipo_periferico) */
-                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', 3)");
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, 0, '$id', '0000-00-00', '$fechaActual', 3)");
 
                     /* -UPDATE PARA DAR DE BAJA AL PERIFERICO Y DEMAS DATOS (tabla periferico) */
                     mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg',  SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
@@ -937,7 +937,7 @@ if (isset($_POST['accion'])) {
                     mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'IMPRESORA', 'MODIFICADO', '$descripcionNueva', '$descripcionVieja', '$fechaActual', '$horaActual', '$resolutorActivo')");
                 } elseif ($estadoBD != 1 AND $estado != 1 AND $estadoBD != $estado){
                     /* ESTADO BAJA O STOCK Y CAMBIA ENTRE ELLOS */
-                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', '$estado')");
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, 0, '$id', '0000-00-00', '$fechaActual', '$estado')");
 
                     /* -UPDATE DE LOS DATOS DEL FORM (tabla periferico) */
                     mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg', SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
@@ -1073,7 +1073,7 @@ if (isset($_POST['accion'])) {
                         /* -INSERT DE DESVINCULACION DEL EQUIPO ACTUAL(tabla equipo_periferico) */
                         mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipoBD', 0, '0000-00-00', '$fechaActual', 3)");
                         /* -INSERT DE DESVINCULACION DEL PERIFERICO (tabla equipo_periferico) */
-                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', 3)");
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, 0, '$id', '0000-00-00', '$fechaActual', 3)");
                         /* -INSERT DE VINCULACION DEL NUEVO EQUIPO CON ESTE PERIFERICO (tabla equipo_periferico) */
                         mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', 1)");
                         
@@ -1094,7 +1094,7 @@ if (isset($_POST['accion'])) {
                     /* -INSERT DE DESVINCULACION DEL EQUIPO (tabla equipo_periferico) */
                     mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$sinAsignar', '0000-00-00', '$fechaActual', 3)");
                     /* -INSERT DE DESVINCULACION DEL PERIFERICO (tabla equipo_periferico) */
-                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', 3)");
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, 0, '$id', '0000-00-00', '$fechaActual', 3)");
 
                     /* -UPDATE PARA DAR DE BAJA AL PERIFERICO Y DEMAS DATOS (tabla periferico) */
                     mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg',  SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
@@ -1116,7 +1116,7 @@ if (isset($_POST['accion'])) {
                     mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'MONITOR', 'MODIFICADO', '$descripcionNueva', '$descripcionVieja', '$fechaActual', '$horaActual', '$resolutorActivo')");
                 } elseif ($estadoBD != 1 AND $estado != 1 AND $estadoBD != $estado){
                     /* ESTADO BAJA O STOCK Y CAMBIA ENTRE ELLOS */
-                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', '$estado')");
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, 0, '$id', '0000-00-00', '$fechaActual', '$estado')");
 
                     /* -UPDATE DE LOS DATOS DEL FORM (tabla periferico) */
                     mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg', SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
@@ -1254,7 +1254,7 @@ if (isset($_POST['accion'])) {
                         /* -INSERT DE DESVINCULACION DEL EQUIPO ACTUAL(tabla equipo_periferico) */
                         mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipoBD', 0, '0000-00-00', '$fechaActual', 3)");
                         /* -INSERT DE DESVINCULACION DEL PERIFERICO (tabla equipo_periferico) */
-                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', 3)");
+                        mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, 0, '$id', '0000-00-00', '$fechaActual', 3)");
                         /* -INSERT DE VINCULACION DEL NUEVO EQUIPO CON ESTE PERIFERICO (tabla equipo_periferico) */
                         mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', 1)");
                         
@@ -1275,7 +1275,7 @@ if (isset($_POST['accion'])) {
                     /* -INSERT DE DESVINCULACION DEL EQUIPO (tabla equipo_periferico) */
                     mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$equipo', 0, '0000-00-00', '$fechaActual', 3)");
                     /* -INSERT DE DESVINCULACION DEL PERIFERICO (tabla equipo_periferico) */
-                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', 3)");
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, 0, '$id', '0000-00-00', '$fechaActual', 3)");
 
                     /* -UPDATE PARA DAR DE BAJA AL PERIFERICO Y DEMAS DATOS (tabla periferico) */
                     mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg',  SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
@@ -1297,7 +1297,7 @@ if (isset($_POST['accion'])) {
                     mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'OTRO PERIFÉRICO', 'MODIFICADO', '$descripcionNueva', '$descripcionVieja', '$fechaActual', '$horaActual', '$resolutorActivo')");
                 } elseif ($estadoBD != 1 AND $estado != 1 AND $estadoBD != $estado){
                     /* ESTADO BAJA O STOCK Y CAMBIA ENTRE ELLOS */
-                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, '$sinAsignar', '$id', '0000-00-00', '$fechaActual', '$estado')");
+                    mysqli_query($datos_base, "INSERT INTO equipo_periferico VALUES (DEFAULT, 0, '$id', '0000-00-00', '$fechaActual', '$estado')");
 
                     /* -UPDATE DE LOS DATOS DEL FORM (tabla periferico) */
                     mysqli_query($datos_base, "UPDATE periferico SET ID_TIPOP = '$tipop', SERIEG = '$serieg', SERIE = '$serie', ID_PROCEDENCIA = '$proc', OBSERVACION = '$obs', MAC = '$mac', RIP = '$rip', IP = '$ip', ID_PROVEEDOR = '$prov', FACTURA = '$factura', GARANTIA = '$garantia', ID_ESTADOWS = '$estado', ID_MODELO = '$modelo' WHERE ID_PERI = '$id'");
@@ -2119,7 +2119,7 @@ if (isset($_POST['accion'])) {
 
                             // PERIFERICO DESVINCULADO DE EQUIPO
                             mysqli_query($datos_base, "INSERT INTO equipo_periferico 
-                                VALUES (DEFAULT, '$equipoSinAsignar', '$idPeri','0000-00-00', '$fechaActual', 3)");
+                                VALUES (DEFAULT, 0, '$idPeri','0000-00-00', '$fechaActual', 3)");
 
                             //EQUIPO DESVINCULADO DE PERIFERICO
                             mysqli_query($datos_base, "INSERT INTO equipo_periferico 
@@ -2156,7 +2156,7 @@ if (isset($_POST['accion'])) {
 
                         // PERIFERICO DESVINCULADO DE EQUIPO
                         mysqli_query($datos_base, "INSERT INTO equipo_periferico 
-                            VALUES (DEFAULT, '$equipoSinAsignar', '$idPeri', '0000-00-00', '$fechaActual', 3)");
+                            VALUES (DEFAULT, 0, '$idPeri', '0000-00-00', '$fechaActual', 3)");
 
                         //EQUIPO DESVINCULADO DE PERIFERICO
                         mysqli_query($datos_base, "INSERT INTO equipo_periferico 

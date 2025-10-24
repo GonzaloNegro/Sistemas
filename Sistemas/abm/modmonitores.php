@@ -234,7 +234,7 @@ function enviar_formulario(formulario, accion) {
                     <input type="text" class="id" name="id" value="<?php echo $consulta['ID_PERI']?>" style="background-color:transparent;" readonly>
                 </div>
                     <?php
-                        if($ws != 522 AND $ws != 523){
+                            if($ws != 522 && $ws != 523 && $ws != 0 ){
                         echo"
                             <div class='form-group row'>
                                 <p style='color:green;font-size:14px;' class='col-form-label col-xl col-lg'>MONITOR ACTUALMENTE ASIGNADO AL EQUIPO:</u> ".$equip."</p>
@@ -339,35 +339,15 @@ function enviar_formulario(formulario, accion) {
                 <div class="form-group row">
                     <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL CUÁL ESTÁ ASIGNADO:</label>
                     <select name="equip" style="margin-top: 5px; text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" id="equipo">
-                    <option selected value="600"><?php 
+<!--                     <option selected value="600"><?php 
                         if($usu == null || $usu == 0){
                             echo "";
                         }else{
                             echo $usu." - ".$equip;
                         }
-                    ?></option>
-                    <?php
-                    //Se agrega clausula para filtrar por reparticion de resolutor, si tiene rol 1 o 2 puede ver a todos s usuarios de ambos edificios
-                    //en agregar impresoras, monitores hay otra forma de hacerlo que da un poco mas de equipos
-/*                         $whereEq = "WHERE u.ID_ESTADOUSUARIO = 1 
-                        AND w.ID_WS <> 0 
-                        AND w.ID_USUARIO <> 277
-                        AND w.ID_USUARIO <> 310
-                        ";
-                        if ($perfil == 1 || $perfil == 2) {
-                        }else{
-                            if ($repa==1) { 
-                                $whereEq.="AND r.ID_REPA IN (1, 2, 3)";
-                            }
-                            else{
-                                $whereEq.="AND r.ID_REPA=$repa";
-                            }
-                        } */
-
-
-                        //FILTRA PARA QUE DEPENDIENDO DE LA REPARTICION DEL RESOLUTOR SOLAMENTE SE PUEDA VISUALIZAR Y SELECCIONAR EL EQUIPO SIN ASIGNAR DE SU EDIFICIOV
-                        $where="";
-                        //se muestran ambos equipos S/A o el que corresponda al resolutor por edificio dependiendo del rol
+                    ?></option> -->
+                   <?php
+                        /*$where="";
                         if($perfil==1 || $perfil==2){
                             $where.="AND ( w.ID_USUARIO <> 310 OR (w.ID_USUARIO = 310 AND w.ID_WS = 523) ) 
                             AND ( w.ID_USUARIO <> 277 OR (w.ID_USUARIO = 277 AND w.ID_WS = 522) )";
@@ -413,7 +393,8 @@ function enviar_formulario(formulario, accion) {
                         }
                         ?> 
                         <option value= <?php echo $opciones['ID_WS'] ?>><?php echo $opciones['NOMBRE']." - ".$tipoEquipo." - ".$opciones['SERIEG']?></option>
-                    <?php endforeach?>
+                    <?php endforeach*/
+                    ?>
                     </select>
                 </div>
                 
@@ -434,6 +415,14 @@ function enviar_formulario(formulario, accion) {
 			</div>
 		</div>
     </footer>
+    <?php
+        if ($ws == 0 || $ws == null) {
+            $ws = 0;
+            $equip = "SIN ASIGNAR";
+            $usu = "";
+            $tipoEquipo = "";
+        }
+    ?>
     <script>
         // Estos valores vienen del backend
         const equipoAnteriorID = "<?php echo $ws; ?>";

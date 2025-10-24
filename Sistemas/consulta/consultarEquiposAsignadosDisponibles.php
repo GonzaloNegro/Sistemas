@@ -12,11 +12,15 @@
         $tipoEquipoTexto = $_GET['tipoEquipoTexto'] ?? null;
         
         // Si hay equipo anterior, mostrarlo como opción seleccionada
-        if ($equipoAnteriorID && $equipoAnteriorTexto) {
+        if ($equipoAnteriorID == 0) {
+            echo "<option selected value='0'>SIN ASIGNAR</option>";
+        }
+        elseif ($equipoAnteriorID && $equipoAnteriorTexto) {
             $textoLimpio = htmlspecialchars($equipoAnteriorTexto);
             $idLimpio = htmlspecialchars($equipoAnteriorID);
             echo "<option selected value='$idLimpio'>$textoLimpio</option>";
         }
+
         
         // Consultar equipos disponibles
         $consulta = "
@@ -27,6 +31,7 @@
             WHERE u.ID_ESTADOUSUARIO = 1 
             AND w.ID_WS <> 0 
             AND w.ID_USUARIO <> 277
+            AND w.ID_ESTADOWS = 1
             ORDER BY u.NOMBRE ASC
         ";
         
@@ -42,15 +47,13 @@
             $id_ws = $opciones['ID_WS'];
             $nombre = htmlspecialchars($opciones['NOMBRE']);
             $serieg = htmlspecialchars($opciones['SERIEG']);
-            if ($opciones['ID_TIPOWS'] == 1) {
-                $tipoEquipo = "(PC)";
-            }else{
-                $tipoEquipo = "(NOTEBOOK)";
-            }
+            $tipoEquipo = ($opciones['ID_TIPOWS'] == 1) ? "(PC)" : "(NOTEBOOK)";
         
-            // Evitar repetir el equipo anterior
-            if ($id_ws == $equipoAnteriorID) continue;
+            // Evitar duplicar la opción del equipo actual
+            if ($equipoAnteriorID && $id_ws == $equipoAnteriorID) {
+                continue;
+            }
         
             echo "<option value='$id_ws'>$nombre - $tipoEquipo - $serieg</option>";
         }
-        ?>
+?>

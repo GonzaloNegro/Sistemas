@@ -20,6 +20,7 @@ $row = $resultado->fetch_assoc();
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymus"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css">
@@ -166,9 +167,9 @@ $row = $resultado->fetch_assoc();
                                 flecha = "<i class='fa-solid fa-arrow-down' style='color:red'></i>";
                             }
                             
-                            if(fila.SERIEG === "" || fila.SERIEG === "0"){
+                            /* if(fila.SERIEG === "" || fila.SERIEG === "0"){
                                 fila.SERIEG = "-"
-                            }
+                            } */
                             let usuario = fila.NOMBRE;
                             if(!usuario){
                                 usuario = "NO ASIGNADO";
@@ -185,7 +186,7 @@ $row = $resultado->fetch_assoc();
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(usuario)}</h4></td>
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.AREA)}</h4></td>
                             <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.REPA)}</h4></td>
-                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.SERIEG)}</h4></td>
+                            
                             <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.TIPO)}</h4></td>
                             <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.MARCA)}</h4></td>
                             <td><h4 style='color:${color};font-size:14px;text-align:left;margin-left: 5px;min-width:75px;'>${flecha} ${mostrarValor(fila.ESTADO)}</h4></td>
@@ -546,7 +547,6 @@ $row = $resultado->fetch_assoc();
                 <th><p style="text-align:left; margin-left: 5px;">USUARIO</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">ÁREA</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">REPARTICIÓN</p></th>
-                <th><p style="text-align:left; margin-left: 5px;">SERIEG</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">TIPO</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">MARCA</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">ESTADO</p></th>
@@ -682,12 +682,34 @@ $row = $resultado->fetch_assoc();
   		AOS.init();
 	</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 	</script>
 	<script src="../js/script.js"></script>
 	<script src="../js/shortcutKeys.js"></script>
+	<script src="../js/confirmacionForm.js"></script>
+	<script>
+		const urlParams = new URLSearchParams(window.location.search);
+
+		["ok","okMod","no","noMod"].forEach(param => {
+			if (urlParams.has(param)) {
+				switch(param) {
+					case "ok":
+						showAlert("Impresora cargada correctamente.", "success");
+						break;
+					case "okMod":
+						showAlert("Impresora modificada correctamente.", "success");
+						break;
+					case "no":
+						showAlert("No se ha podido agregar la impresora. La impresora ya se encuentra registrada.", "error");
+						break;
+					case "noMod":
+						showAlert("No se ha podido modificar la impresora. La impresora ya se encuentra registrada.", "error");
+						break;
+				}
+			}
+		});
+	</script>
 </body>
 </html>

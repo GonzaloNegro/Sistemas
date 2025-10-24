@@ -41,7 +41,7 @@ $where = [];
 $where[] = " p.ID_TIPOP IN (5, 6, 9, 11, 12)";
 
 
-if (!empty($_GET['buscar'])) {
+/* if (!empty($_GET['buscar'])) {
     $aKeyword = explode(" ", $_GET['buscar']);
     // $usuario = intval($_GET['usuario']);
     $where[] = " (LOWER(u.NOMBRE) LIKE LOWER('%".$aKeyword[0]."%') OR LOWER(mo.MODELO) LIKE LOWER('%".$aKeyword[0]."%')) ";
@@ -51,7 +51,31 @@ if (!empty($_GET['buscar'])) {
         $where[] = " OR u.NOMBRE LIKE '%" . $aKeyword[$i] . "%' OR mo.MODELO LIKE '%" . $aKeyword[$i] . "%' ";
     }
     }
+} */
+
+if (!empty($_GET['buscar'])) {
+    $aKeyword = explode(" ", $_GET['buscar']);
+    // $usuario = intval($_GET['usuario']);
+
+    // Primera palabra clave
+    $where[] = "(
+        LOWER(u.NOMBRE) LIKE LOWER('%".$aKeyword[0]."%')
+        OR LOWER(mo.MODELO) LIKE LOWER('%".$aKeyword[0]."%')
+        OR LOWER(p.SERIE) LIKE LOWER('%".$aKeyword[0]."%')
+    )";
+
+    // Palabras siguientes
+    for ($i = 1; $i < count($aKeyword); $i++) {
+        if (!empty($aKeyword[$i])) {
+            $where[] = " OR
+                LOWER(u.NOMBRE) LIKE LOWER('%" . $aKeyword[$i] . "%')
+                OR LOWER(mo.MODELO) LIKE LOWER('%" . $aKeyword[$i] . "%')
+                OR LOWER(p.SERIE) LIKE LOWER('%" . $aKeyword[$i] . "%')
+            ";
+        }
+    }
 }
+
 if (!empty($_GET['reparticion'])) {
     $reparticion = intval($_GET['reparticion']);
     $where[] = "r.ID_REPA = $reparticion";

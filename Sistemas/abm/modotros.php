@@ -232,7 +232,7 @@ function ConsultarIncidente($no_tic)
                     </div>
 
                     <?php
-                        if($ws != 522 AND $ws != 523){
+                            if($ws != 522 && $ws != 523 && $ws != 0 ){
                         echo"
                             <div class='form-group row'>
                                 <p style='color:green;font-size:14px;' class='col-form-label col-xl col-lg'>PERIFÉRICO ACTUALMENTE ASIGNADO AL EQUIPO:</u> ".$equip."</p>
@@ -332,17 +332,15 @@ function ConsultarIncidente($no_tic)
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">EQUIPO AL CUÁL ESTÁ ASIGNADO:</label>
                         <select name="equip" style="margin-top: 5px; text-transform:uppercase;" class="form-control col-form-label col-xl col-lg" id="equipo">
-                        <option selected value="600"><?php 
+                        <!-- <option selected value="600"><?php 
                         if($usu == null || $usu == 0){
                             echo "";                        
                         }else{
                             echo $usu." - ".$equip;
                         }
-                        ?></option>
+                        ?></option> -->
                         <?php
-                        //Se agrega clausula para filtrar por reparticion de resolutor, si tiene rol 1 o 2 puede ver a todos los usuarios de ambos edificios
-                        //en agregar impresoras, monitores hay otra forma de hacerlo que da un poco mas de equipos
-                        $whereEq = "WHERE u.ID_ESTADOUSUARIO = 1 
+                        /*$whereEq = "WHERE u.ID_ESTADOUSUARIO = 1 
                         AND w.ID_WS <> 0 
                         AND w.ID_USUARIO <> 277
                         AND w.ID_USUARIO <> 310
@@ -370,7 +368,8 @@ function ConsultarIncidente($no_tic)
                         ?>
                         <?php foreach ($ejecutar as $opciones): ?> 
                         <option value= <?php echo $opciones['ID_WS'] ?>><?php echo $opciones['NOMBRE']." - ".$opciones['SERIEG']?></option>
-                        <?php endforeach?>
+                        <?php endforeach*/
+                        ?>
                         </select>
                     </div>
                     <input type="hidden" id="accion" name="accion" value="modOtros">
@@ -390,6 +389,14 @@ function ConsultarIncidente($no_tic)
 			</div>
 		</div>
     </footer>
+    <?php
+        if ($ws == 0 || $ws == null) {
+            $ws = 0;
+            $equip = "SIN ASIGNAR";
+            $usu = "";
+            $tipoEquipo = "";
+        }
+    ?>
     <script>
         // Estos valores vienen del backend
         const equipoAnteriorID = "<?php echo $ws; ?>";
