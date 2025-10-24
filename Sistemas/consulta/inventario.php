@@ -479,7 +479,7 @@ $row = $resultado->fetch_assoc();
    
         <div class="principal-info">
             <?php 
-                $sql6 = "SELECT COUNT(*) AS total FROM inventario";
+                $sql6 = "SELECT COUNT(*) AS total FROM inventario i where i.ID_WS NOT IN (522, 523)";
                 $result6 = $datos_base->query($sql6);
                 $row6 = $result6->fetch_assoc();
                 $total = $row6['total'];
@@ -497,7 +497,7 @@ $row = $resultado->fetch_assoc();
             </div> -->
 
             <?php 
-                $sql6 = "SELECT COUNT(*) AS total FROM inventario WHERE ID_ESTADOWS = 1";
+                $sql6 = "SELECT COUNT(*) AS total FROM inventario i WHERE i.ID_ESTADOWS = 1 and i.ID_WS NOT IN (522, 523)";
                 $result6 = $datos_base->query($sql6);
                 $row6 = $result6->fetch_assoc();
                 $activo = $row6['total'];
@@ -516,13 +516,13 @@ $row = $resultado->fetch_assoc();
 
 
             <?php 
-                $sql6 = "SELECT COUNT(*) AS total FROM inventario WHERE ID_ESTADOWS = 2";
+                $sql6 = "SELECT COUNT(*) AS total FROM inventario i WHERE i.ID_ESTADOWS = 2 and i.ID_WS NOT IN (522, 523)";
                 $result6 = $datos_base->query($sql6);
                 $row6 = $result6->fetch_assoc();
                 $inactivos = $row6['total'];
             ?>
             <?php 
-                $sql6 = "SELECT COUNT(*) AS total FROM inventario WHERE ID_ESTADOWS = 3";
+                $sql6 = "SELECT COUNT(*) AS total FROM inventario i WHERE i.ID_ESTADOWS = 3 and i.ID_WS NOT IN (522, 523)";
                 $result6 = $datos_base->query($sql6);
                 $row6 = $result6->fetch_assoc();
                 $enStock = $row6['total'];

@@ -84,18 +84,25 @@ $row = $resultado->fetch_assoc();
 			        <?php
 					#Recibe por metodo GET el area de reportecpu.php
 					#Consultas SQL 
+					$consultaP="SELECT count(*) as TOTAL from inventario i LEFT JOIN wsusuario ws 
+					ON i.ID_WS = ws.ID_WS
+					AND ws.ID_WSUSU = (
+						SELECT MAX(wsu.ID_WSUSU)
+						FROM wsusuario wsu
+						WHERE wsu.ID_WS = i.ID_WS
+					)
+						left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA
+						left join reparticion r on a.ID_REPA=r.ID_REPA 
+						where i.ID_WS NOT IN (522, 523) and u.ID_AREA";
 					#total de equipos en el area,
 					    $area = $_GET['Area'];
-                        $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i left join wsusuario ws ON ws.ID_WS=i.ID_WS
-						left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA where u.ID_AREA=$area");
+                        $conttotal=mysqli_query($datos_base, "$consultaP=$area");
 			            $total = mysqli_fetch_array($conttotal);
 					#Total de PC
-						$contPC=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i left join wsusuario ws ON ws.ID_WS=i.ID_WS
-						left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA where u.ID_AREA=$area AND i.ID_TIPOWS=1");
+						$contPC=mysqli_query($datos_base, "$consultaP=$area AND i.ID_TIPOWS=1");
 			            $totalPC = mysqli_fetch_array($contPC);
 					#Total de Notebook	
-						$contNB=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i left join wsusuario ws ON ws.ID_WS=i.ID_WS
-						left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA where u.ID_AREA=$area AND i.ID_TIPOWS=2");
+						$contNB=mysqli_query($datos_base, "$consultaP=$area AND i.ID_TIPOWS=2");
 			            $totalNB = mysqli_fetch_array($contNB);
 						$fecha = date("Y-m-d");
 						#COnsulta para obtener nombre de area
@@ -130,14 +137,20 @@ $row = $resultado->fetch_assoc();
 						</tr>
 						</thead>";
 						#Consulta SQL para obtener los equipos filtrados por area seleccionada
-						$consultar=mysqli_query($datos_base, "select i.SERIEG, i.ID_WS, mi.MICRO, u.NOMBRE, s.SIST_OP, e.ESTADO from inventario i 
-						left join wsusuario ws on ws.ID_WS=i.ID_WS
-						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
+						$consultar=mysqli_query($datos_base, "SELECT i.SERIEG, i.ID_WS, mi.MICRO, u.NOMBRE, s.SIST_OP, e.ESTADO from inventario i LEFT JOIN wsusuario ws 
+						ON i.ID_WS = ws.ID_WS
+						AND ws.ID_WSUSU = (
+						SELECT MAX(wsu.ID_WSUSU)
+						FROM wsusuario wsu
+						WHERE wsu.ID_WS = i.ID_WS
+						)
+						left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA
+						left join reparticion r on a.ID_REPA=r.ID_REPA 
 						left join so s on s.ID_SO=i.ID_SO 
 						left join estado_ws e on e.ID_ESTADOWS=i.ID_ESTADOWS
-                        LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO 
-						where u.ID_AREA = $area ");
+						LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
+						LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
+						where i.ID_WS NOT IN (522, 523) and u.ID_AREA = $area ");
 						#Ciclo while para extraer del arreglo cada fila de la tabla obtenida de la consulta
 									while($listar = mysqli_fetch_array($consultar))
 									{

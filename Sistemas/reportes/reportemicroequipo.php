@@ -89,19 +89,19 @@ $row = $resultado->fetch_assoc();
                         if ($reparticion==0) {
 							#Total de PC
 						$contPC=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO where mi.ID_MICRO =$micro AND i.ID_TIPOWS=1");
+	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO where mi.ID_MICRO =$micro AND i.ID_TIPOWS=1 and i.ID_WS NOT IN (522, 523)");
 						$totalPC = mysqli_fetch_array($contPC);
 						#Total de Notebook	
 						$contNB=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO where mi.ID_MICRO =$micro AND i.ID_TIPOWS=2");
+	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO where mi.ID_MICRO =$micro AND i.ID_TIPOWS=2 and i.ID_WS NOT IN (522, 523)");
 						$totalNB = mysqli_fetch_array($contNB);
-						#Total de equipos en el area
+						#Total de equipos en el micro
 						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO where mi.ID_MICRO =$micro");
+	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO where mi.ID_MICRO =$micro and i.ID_WS NOT IN (522, 523)");
 			            $total = mysqli_fetch_array($conttotal);
 						$fecha = date("Y-m-d");
 						//$consularea=mysqli_query($datos_base, "select a.SIST_OP from so a where a.ID_SO=$so");
-						#COnsulta para obtener nombre de area
+						#COnsulta para obtener nombre de micro
 						$contit= mysqli_query($datos_base, "SELECT MICRO from micro where ID_MICRO=$micro");
 						$consultit=mysqli_fetch_array($contit);
 						#Codigo HTML donde se muestran en un encabezado los datos obtenidos sobre conteo 
@@ -130,16 +130,21 @@ $row = $resultado->fetch_assoc();
 						</tr>
 						</thead>";
 						#Consulta SQL para obtener los equipos filtrados por area seleccionada
-						$consultar=mysqli_query($datos_base, "select i.SERIEG as N°WS, i.ID_WS, u.NOMBRE, mi.MICRO, s.SIST_OP, e.ESTADO, a.AREA, r.REPA 
-						from inventario i 
-						left join wsusuario ws on ws.ID_WS=i.ID_WS
-						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO  
-						LEFT JOIN estado_ws e on i.ID_ESTADOWS=E.ID_ESTADOWS
-                        left join area a on i.ID_AREA=a.ID_AREA 
-						left join so s on i.ID_SO=s.ID_SO LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA 
+						$consultar=mysqli_query($datos_base, "SELECT i.SERIEG as N°WS, i.ID_WS, u.NOMBRE, mi.MICRO, s.SIST_OP, e.ESTADO, a.AREA, r.REPA
+						from inventario i LEFT JOIN wsusuario ws 
+						ON i.ID_WS = ws.ID_WS
+						AND ws.ID_WSUSU = (
+						SELECT MAX(wsu.ID_WSUSU)
+						FROM wsusuario wsu
+						WHERE wsu.ID_WS = i.ID_WS
+						)
+						left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA
+						left join reparticion r on a.ID_REPA=r.ID_REPA 
+						left join so s on s.ID_SO=i.ID_SO 
+						left join estado_ws e on e.ID_ESTADOWS=i.ID_ESTADOWS
 						LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
-						where mi.ID_MICRO = $micro");
+						LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
+						where i.ID_WS NOT IN (522, 523) and mi.ID_MICRO = $micro");
 						#Ciclo while para extraer del arreglo cada fila de la tabla obtenida de la consulta
 									while($listar = mysqli_fetch_array($consultar))
 									{
@@ -251,35 +256,35 @@ $row = $resultado->fetch_assoc();
 
                     #MISMO FUNCIONAMIENTO QUE CODIGO ANTERIOR PERO SE FILTRA POR REPARTICION
 					else {
-						$contPC=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO            
-                       left join wsusuario ws ON ws.ID_WS=i.ID_WS
-                       left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO 
-                       left join area a on a.ID_AREA=u.ID_AREA left join reparticion r on
-						a.ID_REPA=r.ID_REPA where mi.ID_MICRO =$micro AND i.ID_TIPOWS=1");
+						$consultaP="SELECT count(*) as TOTAL, r.REPA from inventario i LEFT JOIN wsusuario ws 
+						ON i.ID_WS = ws.ID_WS
+						AND ws.ID_WSUSU = (
+							SELECT MAX(wsu.ID_WSUSU)
+							FROM wsusuario wsu
+							WHERE wsu.ID_WS = i.ID_WS
+						)
+						left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA
+						left join reparticion r on a.ID_REPA=r.ID_REPA 
+                        LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
+                        LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
+						where i.ID_WS NOT IN (522, 523) and ";
+
+						$contPC=mysqli_query($datos_base, "$consultaP mi.ID_MICRO =$micro AND i.ID_TIPOWS=1");
 						$totalPC = mysqli_fetch_array($contPC);
-						$contNB=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO            
-                       left join wsusuario ws ON ws.ID_WS=i.ID_WS
-                       left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO 
-                       left join area a on a.ID_AREA=u.ID_AREA left join reparticion r on
-						a.ID_REPA=r.ID_REPA where mi.ID_MICRO = $micro and a.ID_REPA=$reparticion AND i.ID_TIPOWS=2");
+						$contNB=mysqli_query($datos_base, "$consultaP mi.ID_MICRO = $micro and a.ID_REPA=$reparticion AND i.ID_TIPOWS=2");
 						$totalNB = mysqli_fetch_array($contNB);
 
-						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO            
-                       left join wsusuario ws ON ws.ID_WS=i.ID_WS
-                       left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO 
-                       left join area a on a.ID_AREA=u.ID_AREA left join reparticion r on
-						a.ID_REPA=r.ID_REPA where mi.ID_MICRO =$micro and a.ID_REPA=$reparticion");
+						$conttotal=mysqli_query($datos_base, "$consultaP mi.ID_MICRO =$micro and a.ID_REPA=$reparticion");
 			            $total = mysqli_fetch_array($conttotal);
 						$fecha = date("Y-m-d");
 						//$consularea=mysqli_query($datos_base, "select a.SIST_OP from so a where a.ID_SO=$so");
-						$consultit=$micro;
+						#COnsulta para obtener nombre de micro
+						$contit= mysqli_query($datos_base, "SELECT MICRO from micro where ID_MICRO=$micro");
+						$consultit=mysqli_fetch_array($contit);
 						$consultrepa=mysqli_query($datos_base, "select r.REPA from reparticion r where r.ID_REPA=$reparticion");
 						$repa= mysqli_fetch_array($consultrepa);
 						echo "
-						<h1 id='titulo'>REPORTE DE EQUIPOS POR MP:".$consultit."</h1>
+						<h1 id='titulo'>REPORTE DE EQUIPOS POR MP:".$consultit['MICRO']."</h1>
                         <hr style='display: block; margin-top:60px;'>
 						<h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>REPARTICION: ".$repa['REPA']."</h4>
 				        <h4 id='ind' class='indicadores' style='margin-top: 20px; margin-bottom: 20px;'>NRO. DE PC DE ESCRITORIO: ".$totalPC['TOTAL']."</h4>
@@ -301,16 +306,21 @@ $row = $resultado->fetch_assoc();
 						<!--<th id='cabeceraacc' class='cabecera' width=65px><p>ACCIÓN</p></th>-->
 						</tr>
 						</thead>";
-						$consultar=mysqli_query($datos_base, "select i.SERIEG as N°WS, i.ID_WS, u.NOMBRE, mi.MICRO, s.SIST_OP, e.ESTADO, a.AREA, r.REPA 
-						from inventario i 
-						left join wsusuario ws on ws.ID_WS=i.ID_WS
-						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO
-						LEFT JOIN estado_ws e on i.ID_ESTADOWS=E.ID_ESTADOWS
-                        left join area a on u.ID_AREA=a.ID_AREA 
-						left join so s on i.ID_SO=s.ID_SO LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA 
+						$consultar=mysqli_query($datos_base, "SELECT i.SERIEG as N°WS, i.ID_WS, u.NOMBRE, mi.MICRO, s.SIST_OP, e.ESTADO, a.AREA, r.REPA
+						from inventario i LEFT JOIN wsusuario ws 
+						ON i.ID_WS = ws.ID_WS
+						AND ws.ID_WSUSU = (
+						SELECT MAX(wsu.ID_WSUSU)
+						FROM wsusuario wsu
+						WHERE wsu.ID_WS = i.ID_WS
+						)
+						left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA
+						left join reparticion r on a.ID_REPA=r.ID_REPA 
+						left join so s on s.ID_SO=i.ID_SO 
+						left join estado_ws e on e.ID_ESTADOWS=i.ID_ESTADOWS
 						LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
-						where mi.ID_MICRO = $micro and r.ID_REPA=$reparticion");
+						LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
+						where i.ID_WS NOT IN (522, 523) and mi.ID_MICRO = $micro and r.ID_REPA=$reparticion");
 									while($listar = mysqli_fetch_array($consultar))
 									{
 										$nWS=$listar['ID_WS'];

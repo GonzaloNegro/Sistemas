@@ -79,13 +79,13 @@ $row = $resultado->fetch_assoc();
 					#se obtriene el id del proveedor
 					    $proveedor = $_GET['Proveedor'];
 						#SE OBTIENE EL TOTAL DE EQUIPOS
-                        $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i where i.ID_PROVEEDOR=$proveedor");
+                        $conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i where i.ID_PROVEEDOR=$proveedor AND i.ID_WS NOT IN (522, 523)");
 			            $total = mysqli_fetch_array($conttotal);
 						#TOTAL DE PC
-						$contPC=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i where i.ID_PROVEEDOR=$proveedor AND i.ID_TIPOWS=1");
+						$contPC=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i where i.ID_PROVEEDOR=$proveedor AND i.ID_TIPOWS=1 AND i.ID_WS NOT IN (522, 523)");
 						$totalPC = mysqli_fetch_array($contPC);
 						#TOTAL DE NOTEBOOKS
-						$contNB=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i where i.ID_PROVEEDOR=$proveedor AND i.ID_TIPOWS=2");
+						$contNB=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from inventario i where i.ID_PROVEEDOR=$proveedor AND i.ID_TIPOWS=2 AND i.ID_WS NOT IN (522, 523)");
 						$totalNB = mysqli_fetch_array($contNB);
 						
 						#SE OBTIENE EL NOMBRE DEL PROVEEDOR
@@ -118,17 +118,21 @@ $row = $resultado->fetch_assoc();
 						</tr>
 						</thead>";
 						#SE REALIZA LA CONSULTA SQL PARA OBTENER LOS EQUIPOS FILTRADOS POR PROVEEDOR
-						$consultar=mysqli_query($datos_base, "select i.SERIEG as N°WS, i.ID_WS, u.NOMBRE, mi.MICRO, s.SIST_OP, e.ESTADO, a.AREA, r.REPA 
-						from inventario i 
-						left join wsusuario ws on ws.ID_WS=i.ID_WS
-						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
-						left join so s on i.ID_SO=s.ID_SO 
-						left join area a on u.ID_AREA=a.ID_AREA 
-						LEFT JOIN estado_ws e on i.ID_ESTADOWS=E.ID_ESTADOWS 
-						LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA 
+						$consultar=mysqli_query($datos_base, "SELECT i.SERIEG as N°WS, i.ID_WS, u.NOMBRE, mi.MICRO, s.SIST_OP, e.ESTADO, a.AREA, r.REPA 
+						from inventario i LEFT JOIN wsusuario ws 
+						ON i.ID_WS = ws.ID_WS
+						AND ws.ID_WSUSU = (
+						SELECT MAX(wsu.ID_WSUSU)
+						FROM wsusuario wsu
+						WHERE wsu.ID_WS = i.ID_WS
+						)
+						left join usuarios u ON u.ID_USUARIO=ws.ID_USUARIO left join area a on a.ID_AREA=u.ID_AREA
+						left join reparticion r on a.ID_REPA=r.ID_REPA 
+						left join so s on s.ID_SO=i.ID_SO 
+						left join estado_ws e on e.ID_ESTADOWS=i.ID_ESTADOWS
 						LEFT JOIN microws AS mw ON mw.ID_WS = i.ID_WS
-	                    LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
-						where i.ID_PROVEEDOR=$proveedor");
+						LEFT JOIN micro AS mi ON mi.ID_MICRO = mw.ID_MICRO
+						where i.ID_WS NOT IN (522, 523) and i.ID_PROVEEDOR=$proveedor");
 						#SE EXTRAEN LOS EWUIPOS DE LA VARIABLE DONDE SE ALMACENO EL RESULTADO DE LA CONSULTA
 									while($listar = mysqli_fetch_array($consultar))
 									{

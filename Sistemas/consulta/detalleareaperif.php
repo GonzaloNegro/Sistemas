@@ -113,13 +113,30 @@ $row = $resultado->fetch_assoc();
 						#CONDICIONAL PARA DETERMINAR TIPO DE PERIFERICOS
                         if ($tipo=='otros') {
 						#CONSULTA SQL PARA OBTENER EL NUMERO DE PERFIFERICOS EXCLUYENDO A MONITORES, IMPRESORAWS Y SCANNERS
-						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p
-						left join equipo_periferico e on p.ID_PERI=e.ID_PERI 
-						left join inventario i on e.ID_WS=i.ID_WS 
-						left join wsusuario ws on ws.ID_WS=i.ID_WS 
-						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
-						left join area a on u.ID_AREA=a.ID_AREA  
-						WHERE p.TIPOP!='MONITOR' and p.TIPOP!='IMPRESORA' AND p.TIPOP!='SCANNER' and a.ID_AREA=$area");
+						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL
+							FROM periferico p 
+							LEFT JOIN tipop t ON t.ID_TIPOP = p.ID_TIPOP 
+							LEFT JOIN ( 
+								SELECT ep1.* 
+								FROM equipo_periferico ep1 
+								INNER JOIN ( SELECT ID_PERI, MAX(ID_EQUIPO_PERIFERICO) AS max_ep 
+											FROM equipo_periferico 
+											GROUP BY ID_PERI 
+										) ult ON ult.ID_PERI = ep1.ID_PERI AND ult.max_ep = ep1.ID_EQUIPO_PERIFERICO 
+							) ep ON ep.ID_PERI = p.ID_PERI 
+							LEFT JOIN inventario i ON ep.ID_WS = i.ID_WS 
+							LEFT JOIN ( 
+								SELECT w1.* 
+								FROM wsusuario w1 
+								INNER JOIN ( 
+									SELECT ID_WS, MAX(ID_WSUSU) AS max_wsusu 
+									FROM wsusuario GROUP BY ID_WS 
+								) uw ON uw.ID_WS = w1.ID_WS AND uw.max_wsusu = w1.ID_WSUSU 
+							) ws ON i.ID_WS = ws.ID_WS 
+							LEFT JOIN usuarios u ON ws.ID_USUARIO = u.ID_USUARIO 
+							LEFT JOIN area a ON a.ID_AREA = u.ID_AREA 
+							LEFT JOIN reparticion r ON a.ID_REPA = r.ID_REPA 
+							WHERE p.TIPOP!='MONITOR' and p.TIPOP!='IMPRESORA' AND p.TIPOP!='SCANNER' and a.ID_AREA=$area");
 			            $total = mysqli_fetch_array($conttotal);
 						$fecha = date("Y-m-d");
 						#SE OBTIENE EL UNMERO DE REPARTICION
@@ -141,21 +158,36 @@ $row = $resultado->fetch_assoc();
 								<th style='text-align:center; color: #f7fbfd'><p>TIPO</p></th>
 								<th style='text-align:center; color: #f7fbfd'><p>USUARIO</p></th>
 								<th style='text-align:center; color: #f7fbfd'><p>ÁREA</p></th>
-                                <th style='text-align:center; color: #f7fbfd'><p>N° WS</p></th>
+                                <th style='text-align:center; color: #f7fbfd'><p>N° OBLEA</p></th>
 								<!--<th class='cabecera' id='cabeceraacc'><p>ACCIÓN</p></th>-->
 							</tr>
 						</thead>";
-						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO		
-                        FROM periferico p 
-                        left join equipo_periferico e on p.ID_PERI=e.ID_PERI 
-						left join inventario i on e.ID_WS=i.ID_WS 
-						left join wsusuario ws on ws.ID_WS=i.ID_WS 
-						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
-						left join area a on u.ID_AREA=a.ID_AREA 
-                        INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
+						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO 
+							FROM periferico p 
+							LEFT JOIN tipop t ON t.ID_TIPOP = p.ID_TIPOP 
+							LEFT JOIN ( 
+								SELECT ep1.* 
+								FROM equipo_periferico ep1 
+								INNER JOIN ( SELECT ID_PERI, MAX(ID_EQUIPO_PERIFERICO) AS max_ep 
+											FROM equipo_periferico 
+											GROUP BY ID_PERI 
+										) ult ON ult.ID_PERI = ep1.ID_PERI AND ult.max_ep = ep1.ID_EQUIPO_PERIFERICO 
+							) ep ON ep.ID_PERI = p.ID_PERI 
+							LEFT JOIN inventario i ON ep.ID_WS = i.ID_WS 
+							LEFT JOIN ( 
+								SELECT w1.* 
+								FROM wsusuario w1 
+								INNER JOIN ( 
+									SELECT ID_WS, MAX(ID_WSUSU) AS max_wsusu 
+									FROM wsusuario GROUP BY ID_WS 
+								) uw ON uw.ID_WS = w1.ID_WS AND uw.max_wsusu = w1.ID_WSUSU 
+							) ws ON i.ID_WS = ws.ID_WS 
+							LEFT JOIN usuarios u ON ws.ID_USUARIO = u.ID_USUARIO 
+							LEFT JOIN area a ON a.ID_AREA = u.ID_AREA 
+							LEFT JOIN reparticion r ON a.ID_REPA = r.ID_REPA 
 						left join modelo mo on p.ID_MODELO=mo.ID_MODELO
                         INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA 
-                        WHERE p.TIPOP!='MONITOR' and p.TIPOP!='IMPRESORA' AND p.TIPOP!='SCANNER' and u.ID_AREA=$area
+							WHERE p.TIPOP!='MONITOR' and p.TIPOP!='IMPRESORA' AND p.TIPOP!='SCANNER' and u.ID_AREA=$area
                         ORDER BY u.NOMBRE ASC");
 									while($listar = mysqli_fetch_array($consultar))
 									{
@@ -183,11 +215,30 @@ $row = $resultado->fetch_assoc();
 					else {
 						#CONSULTA SQL PARA OBTENER EL NRO DE PERIFERICOS DEL TIPO SELECCIONADO
 
-						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL from periferico p left join equipo_periferico e on p.ID_PERI=e.ID_PERI 
-						left join inventario i on e.ID_WS=i.ID_WS 
-						left join wsusuario ws on ws.ID_WS=i.ID_WS 
-						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
-						left join area a on u.ID_AREA=a.ID_AREA where p.TIPOP='$tipo' and u.ID_AREA=$area");
+						$conttotal=mysqli_query($datos_base, "SELECT COUNT(*) as TOTAL
+							FROM periferico p 
+							LEFT JOIN tipop t ON t.ID_TIPOP = p.ID_TIPOP 
+							LEFT JOIN ( 
+								SELECT ep1.* 
+								FROM equipo_periferico ep1 
+								INNER JOIN ( SELECT ID_PERI, MAX(ID_EQUIPO_PERIFERICO) AS max_ep 
+											FROM equipo_periferico 
+											GROUP BY ID_PERI 
+										) ult ON ult.ID_PERI = ep1.ID_PERI AND ult.max_ep = ep1.ID_EQUIPO_PERIFERICO 
+							) ep ON ep.ID_PERI = p.ID_PERI 
+							LEFT JOIN inventario i ON ep.ID_WS = i.ID_WS 
+							LEFT JOIN ( 
+								SELECT w1.* 
+								FROM wsusuario w1 
+								INNER JOIN ( 
+									SELECT ID_WS, MAX(ID_WSUSU) AS max_wsusu 
+									FROM wsusuario GROUP BY ID_WS 
+								) uw ON uw.ID_WS = w1.ID_WS AND uw.max_wsusu = w1.ID_WSUSU 
+							) ws ON i.ID_WS = ws.ID_WS 
+							LEFT JOIN usuarios u ON ws.ID_USUARIO = u.ID_USUARIO 
+							LEFT JOIN area a ON a.ID_AREA = u.ID_AREA 
+							LEFT JOIN reparticion r ON a.ID_REPA = r.ID_REPA 
+							where p.TIPOP='$tipo' and u.ID_AREA=$area");
 			            $total = mysqli_fetch_array($conttotal);
 						$fecha = date("Y-m-d");
 						#OBTIENE NOMBRE DFE REPARTICION
@@ -196,6 +247,13 @@ $row = $resultado->fetch_assoc();
 						$repa=$reparticion['REPA'];
 						if ($reparticion['REPA']==null || $reparticion['REPA']=="") {
 							$repa="";
+						}
+						$nombreCol="N° WS";
+						if ($tipo=='impresora') {
+							$nombreCol="N° PR";
+						}
+						if ($tipo=='monitor') {
+							$nombreCol="N° OBLEA";
 						}
 						#SE VISUALIZA EN HTML Y SE AGREGA LA CABECERA DE LA TABLA
 						echo "
@@ -212,19 +270,34 @@ $row = $resultado->fetch_assoc();
 								<th style='text-align:center; color: #f7fbfd'><p>TIPO</p></th>
 								<th style='text-align:center; color: #f7fbfd'><p>USUARIO</p></th>
 								<th style='text-align:center; color: #f7fbfd'><p>ÁREA</p></th>
-                                <th style='text-align:center; color: #f7fbfd'><p>N° WS</p></th>
+                                <th style='text-align:center; color: #f7fbfd'><p>$nombreCol</p></th>
 								<!--<th class='cabecera' id='cabeceraacc'><p>ACCIÓN</p></th>-->
 							</tr>
 						</thead>";
 						#COINSULTA SQL POARA OBTENER TODOS LOS PERIFERICOS DE EL AREA SELECCIONADA Y POR TIPO 
-						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO		
-                        FROM periferico p 
-                        left join equipo_periferico e on p.ID_PERI=e.ID_PERI 
-						left join inventario i on e.ID_WS=i.ID_WS 
-						left join wsusuario ws on ws.ID_WS=i.ID_WS 
-						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
-						left join area a on u.ID_AREA=a.ID_AREA 
-                        INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
+						$consultar=mysqli_query($datos_base, "SELECT p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, mo.MODELO 
+							FROM periferico p 
+							LEFT JOIN tipop t ON t.ID_TIPOP = p.ID_TIPOP 
+							LEFT JOIN ( 
+								SELECT ep1.* 
+								FROM equipo_periferico ep1 
+								INNER JOIN ( SELECT ID_PERI, MAX(ID_EQUIPO_PERIFERICO) AS max_ep 
+											FROM equipo_periferico 
+											GROUP BY ID_PERI 
+										) ult ON ult.ID_PERI = ep1.ID_PERI AND ult.max_ep = ep1.ID_EQUIPO_PERIFERICO 
+							) ep ON ep.ID_PERI = p.ID_PERI 
+							LEFT JOIN inventario i ON ep.ID_WS = i.ID_WS 
+							LEFT JOIN ( 
+								SELECT w1.* 
+								FROM wsusuario w1 
+								INNER JOIN ( 
+									SELECT ID_WS, MAX(ID_WSUSU) AS max_wsusu 
+									FROM wsusuario GROUP BY ID_WS 
+								) uw ON uw.ID_WS = w1.ID_WS AND uw.max_wsusu = w1.ID_WSUSU 
+							) ws ON i.ID_WS = ws.ID_WS 
+							LEFT JOIN usuarios u ON ws.ID_USUARIO = u.ID_USUARIO 
+							LEFT JOIN area a ON a.ID_AREA = u.ID_AREA 
+							LEFT JOIN reparticion r ON a.ID_REPA = r.ID_REPA 
 						left join modelo mo on p.ID_MODELO=mo.ID_MODELO
                         INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA 
                         WHERE p.TIPOP='$tipo' and u.ID_AREA=$area

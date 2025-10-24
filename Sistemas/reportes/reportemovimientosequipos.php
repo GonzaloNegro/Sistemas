@@ -157,15 +157,16 @@ $row = $resultado->fetch_assoc();
                     $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
                     LEFT JOIN usuarios AS u ON u.ID_USUARIO = m.ID_USUARIO
-                    LEFT JOIN area AS a ON a.ID_AREA = m.ID_AREA
+                    LEFT JOIN area AS a ON a.ID_AREA = u.ID_AREA
                     LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = m.ID_ESTADOWS
                     LEFT JOIN marcas AS ma ON ma.ID_MARCA = m.ID_MARCA
                     LEFT JOIN so AS s ON s.ID_SO = m.ID_SO
                     LEFT JOIN red AS r ON r.ID_RED = m.ID_RED
                     INNER JOIN inventario i on i.ID_WS=m.ID_WS
-                    where 
-                            m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientos mv
-                                where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY a.ID_AREA desc");
+                    where u.ID_AREA != ( select AVG(uv.ID_AREA) from movimientos mv
+                                LEFT JOIN usuarios AS uv ON uv.ID_USUARIO = mv.ID_USUARIO
+                                LEFT JOIN area AS av ON av.ID_AREA = uv.ID_AREA
+                                and m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY a.ID_AREA desc");
                 }
                 #USUARIO
                 if ($mov==2) {
@@ -174,7 +175,7 @@ $row = $resultado->fetch_assoc();
                     $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
                     LEFT JOIN usuarios AS u ON u.ID_USUARIO = m.ID_USUARIO
-                    LEFT JOIN area AS a ON a.ID_AREA = m.ID_AREA
+                    LEFT JOIN area AS a ON a.ID_AREA = u.ID_AREA
                     LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = m.ID_ESTADOWS
                     LEFT JOIN marcas AS ma ON ma.ID_MARCA = m.ID_MARCA
                     LEFT JOIN so AS s ON s.ID_SO = m.ID_SO
@@ -190,7 +191,7 @@ $row = $resultado->fetch_assoc();
                     $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
                     LEFT JOIN usuarios AS u ON u.ID_USUARIO = m.ID_USUARIO
-                    LEFT JOIN area AS a ON a.ID_AREA = m.ID_AREA
+                    LEFT JOIN area AS a ON a.ID_AREA = u.ID_AREA
                     LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = m.ID_ESTADOWS
                     LEFT JOIN marcas AS ma ON ma.ID_MARCA = m.ID_MARCA
                     LEFT JOIN so AS s ON s.ID_SO = m.ID_SO
@@ -215,14 +216,16 @@ $row = $resultado->fetch_assoc();
                     $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
                     LEFT JOIN usuarios AS u ON u.ID_USUARIO = m.ID_USUARIO
-                    LEFT JOIN area AS a ON a.ID_AREA = m.ID_AREA
+                    LEFT JOIN area AS a ON a.ID_AREA = u.ID_AREA
                     LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = m.ID_ESTADOWS
                     LEFT JOIN marcas AS ma ON ma.ID_MARCA = m.ID_MARCA
                     LEFT JOIN so AS s ON s.ID_SO = m.ID_SO
                     LEFT JOIN red AS r ON r.ID_RED = m.ID_RED
                     INNER JOIN inventario i on i.ID_WS=m.ID_WS
                     where 
-                            m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientos mv
+                            u.ID_AREA != ( select AVG(uv.ID_AREA) from movimientos mv
+                                LEFT JOIN usuarios AS uv ON uv.ID_USUARIO = mv.ID_USUARIO
+                                LEFT JOIN area AS av ON av.ID_AREA = uv.ID_AREA
                                 where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) 
                             and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta'
                     ORDER BY a.ID_AREA desc");
@@ -232,7 +235,7 @@ $row = $resultado->fetch_assoc();
                     $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
                     LEFT JOIN usuarios AS u ON u.ID_USUARIO = m.ID_USUARIO
-                    LEFT JOIN area AS a ON a.ID_AREA = m.ID_AREA
+                    LEFT JOIN area AS a ON a.ID_AREA = u.ID_AREA
                     LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = m.ID_ESTADOWS
                     LEFT JOIN marcas AS ma ON ma.ID_MARCA = m.ID_MARCA
                     LEFT JOIN so AS s ON s.ID_SO = m.ID_SO
@@ -249,7 +252,7 @@ $row = $resultado->fetch_assoc();
                     $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
                     FROM movimientos m 
                     LEFT JOIN usuarios AS u ON u.ID_USUARIO = m.ID_USUARIO
-                    LEFT JOIN area AS a ON a.ID_AREA = m.ID_AREA
+                    LEFT JOIN area AS a ON a.ID_AREA = u.ID_AREA
                     LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = m.ID_ESTADOWS
                     LEFT JOIN marcas AS ma ON ma.ID_MARCA = m.ID_MARCA
                     LEFT JOIN so AS s ON s.ID_SO = m.ID_SO
@@ -274,13 +277,15 @@ $row = $resultado->fetch_assoc();
         $consultarMovimientos=mysqli_query($datos_base, "SELECT i.SERIEG, m.FECHA, u.NOMBRE, a.AREA, e.ESTADO, ma.MARCA, s.SIST_OP, m.MASTERIZADA, m.MAC, m.RIP, m.IP, r.RED
         FROM movimientos m 
         LEFT JOIN usuarios AS u ON u.ID_USUARIO = m.ID_USUARIO
-        LEFT JOIN area AS a ON a.ID_AREA = m.ID_AREA
+        LEFT JOIN area AS a ON a.ID_AREA = u.ID_AREA
         LEFT JOIN estado_ws AS e ON e.ID_ESTADOWS = m.ID_ESTADOWS
         LEFT JOIN marcas AS ma ON ma.ID_MARCA = m.ID_MARCA
         LEFT JOIN so AS s ON s.ID_SO = m.ID_SO
         LEFT JOIN red AS r ON r.ID_RED = m.ID_RED
         LEFT JOIN inventario i on m.ID_WS=i.ID_WS
-        where m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientos mv
+        where u.ID_AREA != ( select AVG(av.ID_AREA) from movimientos mv
+                                LEFT JOIN usuarios AS uv ON uv.ID_USUARIO = mv.ID_USUARIO
+                                LEFT JOIN area AS av ON av.ID_AREA = uv.ID_AREA
                                 where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
         or m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientos mv
                                 where m.ID_WS=mv.ID_WS and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)

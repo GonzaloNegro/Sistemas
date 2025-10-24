@@ -107,7 +107,13 @@ $row = $resultado->fetch_assoc();
 						$fecha = date("Y-m-d");
 						
 						
-						
+						$nombreCol="N° WS";
+						if ($tipo=='impresora') {
+							$nombreCol="N° PR";
+						}
+						if ($tipo=='monitor') {
+							$nombreCol="N° OBLEA";
+						}
 						echo "
 						<h1 id='titulo'>REPORTE DE PERIFERICOS POR PROVEEDOR: $tit</h1>
                         <hr style='display: block;'>
@@ -120,7 +126,7 @@ $row = $resultado->fetch_assoc();
                                 <th style='text-align:center; color: #f7fbfd'><p>MARCA</p></th>
 								<th style='text-align:center; color: #f7fbfd'><p>TIPO</p></th>
 								<th style='text-align:center; color: #f7fbfd'><p>USUARIO</p></th>
-                                <th style='text-align:center; color: #f7fbfd'><p>N° WS</p></th>
+                                <th style='text-align:center; color: #f7fbfd'><p>$nombreCol</p></th>
 								<th style='text-align:center; color: #f7fbfd'><p>ÁREA</p></th>
 								<th style='text-align:center; color: #f7fbfd'><p>REPARTICION</p></th>
 								<!--<th class='cabecera' id='cabeceraacc'><p>ACCIÓN</p></th>-->
@@ -128,14 +134,29 @@ $row = $resultado->fetch_assoc();
 						</thead>";
 						$consultar=mysqli_query($datos_base, "SELECT mo.MODELO, p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, r.REPA			
                         FROM periferico p 
-                        left join equipo_periferico e on p.ID_PERI=e.ID_PERI 
-						left join inventario i on e.ID_WS=i.ID_WS 
-						left join wsusuario ws on ws.ID_WS=i.ID_WS 
-						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
-						left join area a on u.ID_AREA=a.ID_AREA 
+							LEFT JOIN tipop t ON t.ID_TIPOP = p.ID_TIPOP 
+							LEFT JOIN ( 
+								SELECT ep1.* 
+								FROM equipo_periferico ep1 
+								INNER JOIN ( SELECT ID_PERI, MAX(ID_EQUIPO_PERIFERICO) AS max_ep 
+											FROM equipo_periferico 
+											GROUP BY ID_PERI 
+										) ult ON ult.ID_PERI = ep1.ID_PERI AND ult.max_ep = ep1.ID_EQUIPO_PERIFERICO 
+							) ep ON ep.ID_PERI = p.ID_PERI 
+							LEFT JOIN inventario i ON ep.ID_WS = i.ID_WS 
+							LEFT JOIN ( 
+								SELECT w1.* 
+								FROM wsusuario w1 
+								INNER JOIN ( 
+									SELECT ID_WS, MAX(ID_WSUSU) AS max_wsusu 
+									FROM wsusuario GROUP BY ID_WS 
+								) uw ON uw.ID_WS = w1.ID_WS AND uw.max_wsusu = w1.ID_WSUSU 
+							) ws ON i.ID_WS = ws.ID_WS 
+							LEFT JOIN usuarios u ON ws.ID_USUARIO = u.ID_USUARIO 
+							LEFT JOIN area a ON a.ID_AREA = u.ID_AREA 
+							LEFT JOIN reparticion r ON a.ID_REPA = r.ID_REPA 
 						left join modelo mo on p.ID_MODELO=mo.ID_MODELO
-                        INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA  
-                        INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA 
+                        INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA 
 						WHERE p.TIPOP!='MONITOR' and p.TIPOP!='IMPRESORA' AND p.TIPOP!='SCANNER' and p.ID_PROVEEDOR=$proveedor
                         ORDER BY u.NOMBRE ASC");
 									while($listar = mysqli_fetch_array($consultar))
@@ -170,7 +191,13 @@ $row = $resultado->fetch_assoc();
 						$fecha = date("Y-m-d");
 						
 						
-						
+						$nombreCol="N° WS";
+						if ($tipo=='impresora') {
+							$nombreCol="N° PR";
+						}
+						if ($tipo=='monitor') {
+							$nombreCol="N° OBLEA";
+						}
 						echo "
 						<h1 id='titulo'>REPORTE DE $perif POR PROVEEDOR: $tit</h1>
                         <hr style='display: block;'>
@@ -183,23 +210,37 @@ $row = $resultado->fetch_assoc();
                                 <th style='text-align:center; color: #f7fbfd'><p>MARCA</p></th>
 								<th style='text-align:center; color: #f7fbfd'><p>TIPO</p></th>
 								<th style='text-align:center; color: #f7fbfd'><p>USUARIO</p></th>
-                                <th style='text-align:center; color: #f7fbfd'><p>N° WS</p></th>
+                                <th style='text-align:center; color: #f7fbfd'><p>$nombreCol</p></th>
 								<th style='text-align:center; color: #f7fbfd'><p>ÁREA</p></th>
 								<th style='text-align:center; color: #f7fbfd'><p>REPARTICION</p></th>
 								<!--<th class='cabecera' id='cabeceraacc'><p>ACCIÓN</p></th>-->
 							</tr>
 						</thead>";
 						$consultar=mysqli_query($datos_base, "SELECT mo.MODELO, p.ID_PERI, a.AREA, u.NOMBRE, p.SERIEG, p.NOMBREP, t.TIPO, m.MARCA, r.REPA			
-                        FROM periferico p
-						left join equipo_periferico e on p.ID_PERI=e.ID_PERI 
-						left join inventario i on e.ID_WS=i.ID_WS 
-						left join wsusuario ws on ws.ID_WS=i.ID_WS 
-						left join usuarios u on ws.ID_USUARIO = u.ID_USUARIO 
-						left join area a on u.ID_AREA=a.ID_AREA 
-                        INNER JOIN tipop AS t ON t.ID_TIPOP = p.ID_TIPOP 
-						LEFT JOIN reparticion r on a.ID_REPA=r.ID_REPA 
+                        FROM periferico p 
+							LEFT JOIN tipop t ON t.ID_TIPOP = p.ID_TIPOP 
+							LEFT JOIN ( 
+								SELECT ep1.* 
+								FROM equipo_periferico ep1 
+								INNER JOIN ( SELECT ID_PERI, MAX(ID_EQUIPO_PERIFERICO) AS max_ep 
+											FROM equipo_periferico 
+											GROUP BY ID_PERI 
+										) ult ON ult.ID_PERI = ep1.ID_PERI AND ult.max_ep = ep1.ID_EQUIPO_PERIFERICO 
+							) ep ON ep.ID_PERI = p.ID_PERI 
+							LEFT JOIN inventario i ON ep.ID_WS = i.ID_WS 
+							LEFT JOIN ( 
+								SELECT w1.* 
+								FROM wsusuario w1 
+								INNER JOIN ( 
+									SELECT ID_WS, MAX(ID_WSUSU) AS max_wsusu 
+									FROM wsusuario GROUP BY ID_WS 
+								) uw ON uw.ID_WS = w1.ID_WS AND uw.max_wsusu = w1.ID_WSUSU 
+							) ws ON i.ID_WS = ws.ID_WS 
+							LEFT JOIN usuarios u ON ws.ID_USUARIO = u.ID_USUARIO 
+							LEFT JOIN area a ON a.ID_AREA = u.ID_AREA 
+							LEFT JOIN reparticion r ON a.ID_REPA = r.ID_REPA 
 						left join modelo mo on p.ID_MODELO=mo.ID_MODELO
-                        INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA 
+                        INNER JOIN marcas AS m ON m.ID_MARCA = mo.ID_MARCA  
 						WHERE p.TIPOP='$tipo' and p.ID_PROVEEDOR=$proveedor
                         ORDER BY u.NOMBRE ASC");
 									while($listar = mysqli_fetch_array($consultar))
