@@ -28,6 +28,30 @@ function obtenerValor($conexion, $query, $campo) {
 
 $idPeri = $_POST['idPeri'];
 
+$sql = "SELECT i.SERIEG
+FROM equipo_periferico ep
+INNER JOIN inventario i ON ep.ID_WS = i.ID_WS
+WHERE ep.ID_PERI = '$idPeri'
+AND ep.ID_EQUIPO_PERIFERICO = (
+    SELECT MAX(ep2.ID_EQUIPO_PERIFERICO)
+    FROM equipo_periferico ep2
+    WHERE ep2.ID_PERI = ep.ID_PERI
+)
+AND ep.ID_ESTADOWS = 1";
+$resultado = $datos_base->query($sql);
+if ($resultado && $resultado->num_rows > 0) {
+    $row = $resultado->fetch_assoc();
+    $equipoAsignado = $row['SERIEG'];
+} else {
+    $equipoAsignado = "SIN EQUIPO ASIGNADO";
+}
+
+if ($equipoAsignado === "SIN EQUIPO ASIGNADO") {
+    $colorEquipo = 'red';
+} else {
+    $colorEquipo = 'green';
+}
+
 // Obtener datos del periférico (una sola vez)
 $consultaPeri = mysqli_query($datos_base, "SELECT * FROM periferico WHERE ID_PERI = '$idPeri'");
 if ($consulta = mysqli_fetch_assoc($consultaPeri)) {
@@ -49,6 +73,7 @@ if ($consulta = mysqli_fetch_assoc($consultaPeri)) {
     $estadoFormateado = "<span style='color: $color;'>$estadoWs</span>";
 
     $campos = [
+        "<span style='font-weight:bold;'>Periférico asignado al equipo</span>" => "<span style='color: $colorEquipo; font-weight: bold;'>$equipoAsignado</span>",
         "Tipo Periférico" => valorPorDefecto($consulta['TIPOP']) . ' - ' . $tipoperi,
         "Marca y Modelo" => $marca . ' - ' . $modelo,
         "Estado" => $estadoFormateado,
@@ -64,8 +89,15 @@ if ($consulta = mysqli_fetch_assoc($consultaPeri)) {
         "Observación" => valorPorDefecto($consulta['OBSERVACION'])
     ];
 
+    $contador = 0;
     foreach ($campos as $label => $valor) {
         echo generarBloqueHTML($label, $valor);
+        
+        // Después del primer campo, agregamos la línea divisoria
+        if ($contador === 0) {
+            echo "<hr style='display: block; height: 1px;'>";
+        }
+        $contador++;
     }
 
     echo '<hr style="display: block; height: 3px;">';

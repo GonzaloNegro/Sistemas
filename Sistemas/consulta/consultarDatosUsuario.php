@@ -1,5 +1,6 @@
 <?php
 	session_start();
+    error_reporting(0);
     include('../particular/conexion.php');
     if(!isset($_SESSION['cuil'])) 
         {       
@@ -47,9 +48,34 @@
                 $color = 'red';
             }
 
+$sql = "SELECT i.SERIEG
+        FROM wsusuario wu
+        INNER JOIN inventario i ON wu.ID_WS = i.ID_WS
+        WHERE wu.ID_USUARIO = '$id_usuario'";
+
+$resultado = $datos_base->query($sql);
+
+$equipos = '';
+
+if ($resultado && $resultado->num_rows > 0) {
+    $contador = 1;
+    while ($row = $resultado->fetch_assoc()) {
+        // SERIEG en verde
+        $equipos .= "<div>{$contador}°: <span style='color:green;'>{$row['SERIEG']}</span></div>";
+        $contador++;
+    }
+} else {
+    // Mensaje en rojo si no hay equipos
+    $equipos = "<div><span style='color:red;'>SIN EQUIPO ASIGNADO</span></div>";
+}
+
 
             echo'
-            
+        <div style="width:100%;display:flex;justify-content:space-between;align-items:flex-start;">
+            <label style="color:black;">Equipo/s asignado/s:</label>
+            <label style="color:black;">'.$equipos.'</label>
+        </div>
+            <hr style="display: block; height: 1px;">
         <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
             <label style="color:black;">Usuario:</label>
             <label style="color:black;">'.$nombre.'</label>

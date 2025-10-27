@@ -2161,6 +2161,9 @@ if (isset($_POST['accion'])) {
                         //EQUIPO DESVINCULADO DE PERIFERICO
                         mysqli_query($datos_base, "INSERT INTO equipo_periferico 
                             VALUES (DEFAULT, '$id', 0,'0000-00-00', '$fechaActual', 3)");
+
+                        //CAMBIAR ESTADO DE PERIFERICO
+                        mysqli_query($datos_base, "UPDATE periferico SET ID_ESTADOWS = 3 WHERE ID_PERI = '$idPeri'");
                     }
 
                     /* -INSERT DEL NUEVO ESTADO Y ESPECIFICAR EQUIPO (tabla agregados) */
