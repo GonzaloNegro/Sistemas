@@ -37,6 +37,8 @@ function obtenerMarcaModelo($conexion, $idModelo) {
 }
 
 
+
+
     $result = mysqli_query($datos_base, "
         SELECT p.*, u.ID_AREA, u.ID_USUARIO 
         FROM periferico p 
@@ -46,6 +48,39 @@ function obtenerMarcaModelo($conexion, $idModelo) {
         LEFT JOIN usuarios u ON ws.ID_USUARIO = u.ID_USUARIO
         WHERE p.ID_PERI = '$idPeri'
     ");
+
+        $sql = "SELECT i.SERIEG
+        FROM equipo_periferico ep
+        INNER JOIN inventario i ON ep.ID_WS = i.ID_WS
+        WHERE ep.ID_PERI = '$idPeri'
+        AND ep.ID_EQUIPO_PERIFERICO = (
+            SELECT MAX(ep2.ID_EQUIPO_PERIFERICO)
+            FROM equipo_periferico ep2
+            WHERE ep2.ID_PERI = ep.ID_PERI
+        )
+        AND ep.ID_ESTADOWS = 1";
+        $resultado = $datos_base->query($sql);
+        if ($resultado && $resultado->num_rows > 0) {
+            $row = $resultado->fetch_assoc();
+            $equipoAsignado = $row['SERIEG'];
+        } else {
+            $equipoAsignado = "SIN EQUIPO ASIGNADO";
+        }
+
+        if ($equipoAsignado === "SIN EQUIPO ASIGNADO") {
+            $colorEquipo = 'red';
+        } else {
+            $colorEquipo = 'green';
+        }
+
+        // 🔹 Bloque especial “Periférico asignado al equipo” con hr de 1px
+        echo "
+            <div style='width:100%; display:flex; justify-content:space-between; align-items:flex-start;'>
+                <label style='color:black;font-weight:bold;'>Periférico asignado al equipo:</label>
+                <label style='color:$colorEquipo; font-weight:bold;'>$equipoAsignado</label>
+            </div>
+            <hr style='display:block; height:1px;'>
+        ";
 
     if (mysqli_num_rows($result) > 0) {
         $data = mysqli_fetch_array($result);
@@ -57,7 +92,7 @@ function obtenerMarcaModelo($conexion, $idModelo) {
         $tipoP        = obtenerValor($datos_base, "SELECT TIPO FROM tipop WHERE ID_TIPOP='{$data['ID_TIPOP']}'", 'TIPO');
         $procedencia  = obtenerValor($datos_base, "SELECT PROCEDENCIA FROM procedencia WHERE ID_PROCEDENCIA='{$data['ID_PROCEDENCIA']}'", 'PROCEDENCIA');
         $proveedor    = obtenerValor($datos_base, "SELECT PROVEEDOR FROM proveedor WHERE ID_PROVEEDOR='{$data['ID_PROVEEDOR']}'", 'PROVEEDOR');
-$marcaModelo = obtenerMarcaModelo($datos_base, $data['ID_MODELO']);
+        $marcaModelo = obtenerMarcaModelo($datos_base, $data['ID_MODELO']);
 
 
         $color = 'blue';
@@ -77,7 +112,6 @@ $marcaModelo = obtenerMarcaModelo($datos_base, $data['ID_MODELO']);
             ['Procedencia', valorPorDefecto($procedencia)],
             ['Tipo Monitor', valorPorDefecto($tipoP)],
             ['Estado', valorPorDefecto($estadoFormateado)],
-            /* ['__SEPARADOR__'], */
             ['Usuario Responsable', valorPorDefecto($usuario)],
             ['Área', valorPorDefecto($area)],
             ['Repartición', valorPorDefecto($reparticion)],
