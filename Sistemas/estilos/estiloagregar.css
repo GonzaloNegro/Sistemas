@@ -229,6 +229,10 @@ select{
     width: 385px !important; /* O cualquier otro tamaño que desees */
 	padding: 0px !important;
 }
+
+/* el contenedor que crea Select2 aparece justo después del <select> */
+.slcequipo + .select2-container { width: 159px !important; }
+
 .txt{
 	margin-top: 10px;
 	margin-left: 10px;
@@ -499,4 +503,11 @@ footer{
 .footer{
 	margin: 0 auto;
 	width: 400px;
+}
+
+.lblsForm{
+	width:145px !important;
+	max-width:145px !important;
+	flex:0 0 145px !important;   /* clave: pisa el flex de .col-* */
+	display:block; 
 }

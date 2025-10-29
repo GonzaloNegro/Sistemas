@@ -28,6 +28,13 @@ $row = $resultado->fetch_assoc();
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css">
+    <!--BUSCADOR SELECT-->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<!--FIN BUSCADOR SELECT-->
+    <!--Estilo bootstrap para select2-->
+	<link rel="stylesheet" href="/path/to/select2.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 </head>
 <body>
     <script>
@@ -390,7 +397,7 @@ $row = $resultado->fetch_assoc();
 			<h1>MONTOS LÍNEAS</h1>
 		</div>
         <div class="botonAgregar" style="display:flex;gap:10px;">
-            <?php if($row['ID_PERFIL'] == 1 || $row['ID_PERFIL'] == 2 || $row['ID_PERFIL'] == 6){
+            <?php if($row['ID_PERFIL'] == 1 || $row['ID_PERFIL'] == 2 || $row['ID_PERFIL'] == 4){
                 echo '<div>
                         <button class="btn btn-success" style="font-size: 20px;"><a href="./agregarLinea.php" style="text-decoration:none !important;color:white;" target="_blank">Agregar Línea</a></button>
                     </div>';
@@ -423,6 +430,29 @@ $row = $resultado->fetch_assoc();
                                 <option value="<?php echo $opciones['ID_NOMBREPLAN']?>"><?php echo $opciones['NOMBREPLAN']." - ".$opciones['PLAN']?> - <?php echo $opciones['PROVEEDOR']?></option>
                                 <?php endforeach ?>
                         </select>
+                        
+                        <!--BUSCADOR-->
+                            <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                            <script>
+                                $('#nombreplan').select2({theme: 'bootstrap4',});
+                            </script>
+                            <!--BUSCADOR-->
+                            <script>
+                                $(document).ready(function(){
+                                    $('#nombreplan').change(function(){
+                                        buscador='b='+$('#nombreplan').val();
+                                        $.ajax({
+                                            type: 'post',
+                                            url: 'Controladores/session.php',
+                                            data: buscador,
+                                            success: function(r){
+                                                $('#tabla').load('Componentes/Tabla.php');
+                                            }
+                                        })
+                                    })
+                                })
+                            </script>
+                            <!--///////////////////////////////////////////////////////////-->
                     </div>
                     <div>
                         <label class="form-label">Proveedor</label>

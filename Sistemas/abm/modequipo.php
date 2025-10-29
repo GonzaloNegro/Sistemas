@@ -35,6 +35,13 @@ function ConsultarIncidente($no_tic)
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
+    <!--BUSCADOR SELECT-->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<!--FIN BUSCADOR SELECT-->
+    <!--Estilo bootstrap para select2-->
+	<link rel="stylesheet" href="/path/to/select2.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 </head>
 <body>
     <script>
@@ -680,7 +687,7 @@ function enviar_formulario(formulario, accion) {
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR:</label>
-                        <select style="margin-top: 5px; text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="prov">
+                        <select style="margin-top: 5px; text-transform:uppercase" class="form-control col-form-label col-xl col-lg" name="prov" id="slcprov">
                         <option selected value="800"><?php echo $pro?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -691,6 +698,28 @@ function enviar_formulario(formulario, accion) {
                         <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                         <?php endforeach?>
                         </select>
+                        <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#slcprov').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#slcprov').change(function(){
+                              buscador='b='+$('#slcprov').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
                     </div>
 
                     <div class="form-group row">
@@ -722,6 +751,28 @@ function enviar_formulario(formulario, accion) {
                         <option value= <?php echo $opciones['ID_USUARIO'] ?>><?php echo $opciones['NOMBRE']?></option>
                         <?php endforeach?>
                         </select>
+                        <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#slcusu').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#slcusu').change(function(){
+                              buscador='b='+$('#slcusu').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
                     </div>
 
                     <div class="form-group row">            
@@ -752,6 +803,28 @@ function enviar_formulario(formulario, accion) {
                         <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                         <?php endforeach?>
                         </select>
+                        <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#marca').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#marca').change(function(){
+                              buscador='b='+$('#marca').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
                     </div>
 
 
@@ -767,8 +840,8 @@ function enviar_formulario(formulario, accion) {
     <div id="flush-collapsepm" class="accordion-collapse collapse" aria-labelledby="flush-headingpm" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">PLACA:<span style="color:red;">*</span></label> 
-							    <select name="placam" id="placam" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PLACA:<span style="color:red;">*</span></label> 
+							    <select name="placam" id="placam" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                       <option selected value="2000"><?php echo $placam?></option>
                       <?php
                       include("../particular/conexion.php");
@@ -782,8 +855,30 @@ function enviar_formulario(formulario, accion) {
                       <option value= <?php echo $opciones['ID_PLACAM'] ?>><?php echo $opciones['PLACAM'].' - '.$opciones['MARCA']?></option>
                       <?php endforeach?>
                   </select>
-          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="placamprov" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                  <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#placam').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#placam').change(function(){
+                                      buscador='b='+$('#placam').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                        <!--///////////////////////////////////////////////////////////-->
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="placamprov" id="placamprov" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                       <option selected value="2001"><?php echo $placamprov?></option>
                       <?php
                       include("../particular/conexion.php");
@@ -794,6 +889,28 @@ function enviar_formulario(formulario, accion) {
                       <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                       <?php endforeach?>
                   </select>
+                  <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#placamprov').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#placamprov').change(function(){
+                                      buscador='b='+$('#placamprov').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                        <!--///////////////////////////////////////////////////////////-->
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
@@ -837,8 +954,8 @@ function enviar_formulario(formulario, accion) {
     <div id="flush-collapsemi" class="accordion-collapse collapse" aria-labelledby="flush-headingmi" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MICRO:<span style="color:red;">*</span></label> 
-							    <select name="micro" id="micro" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">MICRO:<span style="color:red;">*</span></label> 
+							    <select name="micro" id="micro" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                     <option selected value="2100"><?php echo $micro?></option>
                     <?php
                     include("../particular/conexion.php");
@@ -852,8 +969,30 @@ function enviar_formulario(formulario, accion) {
                     <option value= <?php echo $opciones['ID_MICRO'] ?>><?php echo $opciones['MICRO'].' - '.$opciones['MARCA']?></option>
                     <?php endforeach?>
                   </select>
-          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="microprov" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                  <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#micro').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#micro').change(function(){
+                                      buscador='b='+$('#micro').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                        <!--///////////////////////////////////////////////////////////-->
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="microprov" id="microprov" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                     <option selected value="2101"><?php echo $microprov?></option>
                     <?php
                     include("../particular/conexion.php");
@@ -864,6 +1003,28 @@ function enviar_formulario(formulario, accion) {
                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                     <?php endforeach?>
                   </select>
+                  <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#microprov').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#microprov').change(function(){
+                                      buscador='b='+$('#microprov').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                        <!--///////////////////////////////////////////////////////////-->
         </div>
 
      
@@ -915,8 +1076,8 @@ function enviar_formulario(formulario, accion) {
               <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="pvgar" value="<?php echo $pvgar?>">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">PLACA:</label> 
-							    <select name="pvmem" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PLACA:</label> 
+							    <select name="pvmem" id="pvmem" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                   <option selected value="2200"><?php echo $pvmem?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -934,8 +1095,30 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_PVIDEO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MEMORIA']." - ".$opciones['TIPOMEM']?></option>
                                     <?php endforeach?>
                                 </select>
-          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="pvprov" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#pvmem').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#pvmem').change(function(){
+                                      buscador='b='+$('#pvmem').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="pvprov" id="pvprov" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                   <option selected value="2201"><?php echo $pvprov?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -946,6 +1129,28 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                  <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#pvprov').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#pvprov').change(function(){
+                              buscador='b='+$('#pvprov').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
         </div>
       </div>
     </div>
@@ -971,8 +1176,8 @@ function enviar_formulario(formulario, accion) {
           <input type="text" class="form-control col-xl col-lg" style="text-transform:uppercase;" name="pvgar1" value="<?php echo $pvgar1?>">
       </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">PLACA:</label> 
-							    <select name="pvmem1" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PLACA:</label> 
+							    <select name="pvmem1" id="pvmem1" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                   <option selected value="2300"><?php echo $pvmem1?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -990,8 +1195,30 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_PVIDEO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MEMORIA']." - ".$opciones['TIPOMEM']?></option>
                                     <?php endforeach?>
                                 </select>
-          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="pvprov1" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#pvmem1').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#pvmem1').change(function(){
+                                      buscador='b='+$('#pvmem1').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                        <!--///////////////////////////////////////////////////////////-->
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="pvprov1" id="pvprov1" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                   <option selected value="2301"><?php echo $pvprov1?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1002,6 +1229,28 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                  <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#pvprov1').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#pvprov1').change(function(){
+                                      buscador='b='+$('#pvprov1').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                        <!--///////////////////////////////////////////////////////////-->
       </div>
         </div>
       </div>
@@ -1059,8 +1308,8 @@ function enviar_formulario(formulario, accion) {
                                 </select>
      </div>
      <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="prov1" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="prov1" id="prov1" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option selected value="1202"><?php echo $prov1?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1071,12 +1320,34 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#prov1').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#prov1').change(function(){
+                              buscador='b='+$('#prov1').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact1" value="<?php echo $fact1?>">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
-							    <select name="marc1" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="marc1" id="marc1" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option selected value="1203"><?php echo $marc1?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1087,6 +1358,28 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#marc1').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#marc1').change(function(){
+                              buscador='b='+$('#marc1').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
               <input type="date" class="form-control col-xl col-lg" name="fec1" value="<?php echo $fec1?>">
         </div>
@@ -1144,8 +1437,8 @@ function enviar_formulario(formulario, accion) {
                                 </select>
                         </div>
                         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="prov2" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="prov2" id="prov2" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option selected value="1302"><?php echo $prov2?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1156,12 +1449,34 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#prov2').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#prov2').change(function(){
+                              buscador='b='+$('#prov2').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact2" value="<?php echo $fact2?>">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
-							    <select name="marc2" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="marc2" id="marc2" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option selected value="1303"><?php echo $marc2?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1172,6 +1487,28 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#marc2').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#marc2').change(function(){
+                              buscador='b='+$('#marc2').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
               <input type="date" class="form-control col-xl col-lg" name="fec2" value="<?php echo $fec2?>">
         </div>
@@ -1229,8 +1566,8 @@ function enviar_formulario(formulario, accion) {
                                 </select>
                         </div>
                         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="prov3" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="prov3" id="prov3" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option selected value="1402"><?php echo $prov3?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1241,12 +1578,34 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#prov3').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#prov3').change(function(){
+                              buscador='b='+$('#prov3').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact3" value="<?php echo $fact3?>">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
-							    <select name="marc3" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="marc3" id="marc3" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option selected value="1403"><?php echo $marc3?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1257,6 +1616,28 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#marc3').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#marc3').change(function(){
+                              buscador='b='+$('#marc3').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
               <input type="date" class="form-control col-xl col-lg" name="fec3" value="<?php echo $fec3?>">
         </div>
@@ -1314,8 +1695,8 @@ function enviar_formulario(formulario, accion) {
                                 </select>
                         </div>
                         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="prov4" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="prov4" id="prov4" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option selected value="1502"><?php echo $prov4?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1326,12 +1707,34 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#prov4').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#prov4').change(function(){
+                                      buscador='b='+$('#prov4').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact4" value="<?php echo $fact4?>">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
-							    <select name="marc4" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="marc4" id="marc4" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option selected value="1503"><?php echo $marc4?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1342,6 +1745,28 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#marc4').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#marc4').change(function(){
+                              buscador='b='+$('#marc4').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
               <input type="date" class="form-control col-xl col-lg" name="fec4" value="<?php echo $fec4?>">
         </div>
@@ -1388,7 +1813,7 @@ function enviar_formulario(formulario, accion) {
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">SLOT DISCO 1:</label>
-                            <select name="disc1" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                            <select name="disc1" id="disc1" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                             <option selected value="1600"><?php echo $disc1?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1399,6 +1824,28 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_DISCO'] ?>><?php echo $opciones['DISCO']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#disc1').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#disc1').change(function(){
+                                      buscador='b='+$('#disc1').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
                             <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DISCO 1:</label>
                             <select name="tdisc1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                             <option selected value="1601"><?php echo $tdisc1?></option>
@@ -1413,8 +1860,8 @@ function enviar_formulario(formulario, accion) {
                                 </select>
                         </div>
                         <div class="form-group row" style="margin: 10px; padding:10px;">
-            <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="dprov1" style="text-transform:uppercase" class="form-control col-xl col-lg">
+            <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="dprov1" id="dprov1" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option selected value="1602"><?php echo $dprov1?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1425,12 +1872,34 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#dprov1').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#dprov1').change(function(){
+                              buscador='b='+$('#dprov1').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact1" value="<?php echo $dfact1?>">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MODELO:</label> 
-							    <select name="dmod1" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">MODELO:</label> 
+							    <select name="dmod1" id="dmod1" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option selected value="1603"><?php echo $dmod1?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1445,6 +1914,28 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#dmod1').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#dmod1').change(function(){
+                                      buscador='b='+$('#dmod1').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
                                 <label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
               <input type="date" class="form-control col-xl col-lg" name="dfec1" value="<?php echo $dfec1?>">
         </div>
@@ -1465,7 +1956,7 @@ function enviar_formulario(formulario, accion) {
       <div class="accordion-body" style="color: #53AAE0;">
       <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">SLOT DISCO 2:</label>
-                            <select name="disc2" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                            <select name="disc2" id="disc2" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                             <option selected value="1700"><?php echo $disc2?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1475,7 +1966,28 @@ function enviar_formulario(formulario, accion) {
                                     <?php foreach ($ejecutar as $opciones): ?> 
                                     <option value= <?php echo $opciones['ID_DISCO'] ?>><?php echo $opciones['DISCO']?></option>
                                     <?php endforeach?>
-                                </select>
+                                </select><!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#disc2').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#disc2').change(function(){
+                                      buscador='b='+$('#disc2').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
                             <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DISCO 2:</label>
                             <select name="tdisc2" style="text-transform:uppercase" class="form-control col-xl col-lg">
                             <option selected value="1701"><?php echo $tdisc2?></option>
@@ -1490,8 +2002,8 @@ function enviar_formulario(formulario, accion) {
                                 </select>
                         </div>
                         <div class="form-group row" style="margin: 10px; padding:10px;">
-            <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="dprov2" style="text-transform:uppercase" class="form-control col-xl col-lg">
+            <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="dprov2" id="dprov2" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option selected value="1702"><?php echo $dprov2?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1502,12 +2014,34 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#dprov2').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#dprov2').change(function(){
+                                      buscador='b='+$('#dprov2').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact2" value="<?php echo $dfact2?>">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MODELO:</label> 
-							    <select name="dmod2" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">MODELO:</label> 
+							    <select name="dmod2" id="dmod2" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option selected value="1703"><?php echo $dmod2?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1522,6 +2056,28 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#dmod2').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#dmod2').change(function(){
+                                      buscador='b='+$('#dmod2').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
                                 <label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
               <input type="date" class="form-control col-xl col-lg" name="dfec2" value="<?php echo $dfec2?>">
         </div>
@@ -1542,7 +2098,7 @@ function enviar_formulario(formulario, accion) {
       <div class="accordion-body" style="color: #53AAE0;">
       <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">SLOT DISCO 3:</label>
-                            <select name="disc3" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                            <select name="disc3" id="disc3" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                             <option selected value="1800"><?php echo $disc3?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1553,6 +2109,28 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_DISCO'] ?>><?php echo $opciones['DISCO']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#disc3').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#disc3').change(function(){
+                                      buscador='b='+$('#disc3').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
                             <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DISCO 3:</label>
                             <select name="tdisc3" style="text-transform:uppercase" class="form-control col-xl col-lg">
                             <option selected value="1801"><?php echo $tdisc4?></option>
@@ -1567,8 +2145,8 @@ function enviar_formulario(formulario, accion) {
                                 </select>
                         </div>
                         <div class="form-group row" style="margin: 10px; padding:10px;">
-            <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="dprov3" style="text-transform:uppercase" class="form-control col-xl col-lg">
+            <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="dprov3" id="dprov3" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option selected value="1802"><?php echo $dprov3?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1579,12 +2157,34 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#dprov3').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#dprov3').change(function(){
+                                      buscador='b='+$('#dprov3').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact3" value="<?php echo $dfact3?>">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MODELO:</label> 
-							    <select name="dmod3" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">MODELO:</label> 
+							    <select name="dmod3" id="dmod3" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option selected value="1803"><?php echo $dmod3?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1599,6 +2199,28 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#dmod3').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#dmod3').change(function(){
+                                      buscador='b='+$('#dmod3').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
                                 <label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
               <input type="date" class="form-control col-xl col-lg" name="dfec3" value="<?php echo $dfec3?>">
         </div>
@@ -1619,7 +2241,7 @@ function enviar_formulario(formulario, accion) {
       <div class="accordion-body" style="color: #53AAE0;">
       <div class="form-group row" style="margin: 10px; padding:10px;">
 			<label id="lblForm"class="col-form-label col-xl col-lg">SLOT DISCO 4:</label>
-                            <select name="disc4" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                            <select name="disc4" id="disc4" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                             <option selected value="1900"><?php echo $disc4?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1630,6 +2252,29 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_DISCO'] ?>><?php echo $opciones['DISCO']?></option>
                                     <?php endforeach?>
                                 </select>
+                                </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#disc4').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#disc4').change(function(){
+                                      buscador='b='+$('#disc4').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
                             <label id="lblForm"class="col-form-label col-xl col-lg">TIPO DISCO 4:</label>
                             <select name="tdisc4" style="text-transform:uppercase" class="form-control col-xl col-lg">
                             <option selected value="1901"><?php echo $tdisc4?></option>
@@ -1644,8 +2289,8 @@ function enviar_formulario(formulario, accion) {
                                 </select>
                         </div>
                         <div class="form-group row" style="margin: 10px; padding:10px;">
-            <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="dprov4" style="text-transform:uppercase" class="form-control col-xl col-lg">
+            <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="dprov4" id="dprov4" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                   <option selected value="1902"><?php echo $dprov4?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1656,12 +2301,34 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#dprov4').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#dprov4').change(function(){
+                                      buscador='b='+$('#dprov4').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact4" value="<?php echo $dfact4?>">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MODELO:</label> 
-							    <select name="dmod4" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">MODELO:</label> 
+							    <select name="dmod4" id="dmod4" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option selected value="1903"><?php echo $dmod4?></option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1676,6 +2343,28 @@ function enviar_formulario(formulario, accion) {
                                     <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#dmod4').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#dmod4').change(function(){
+                                      buscador='b='+$('#dmod4').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
                                 <label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
               <input type="date" class="form-control col-xl col-lg" name="dfec4" value="<?php echo $dfec4?>">
         </div>

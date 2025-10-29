@@ -28,6 +28,13 @@ $row = $resultado->fetch_assoc();
     <script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloconsulta.css">
+    <!--BUSCADOR SELECT-->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<!--FIN BUSCADOR SELECT-->
+    <!--Estilo bootstrap para select2-->
+	<link rel="stylesheet" href="/path/to/select2.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 </head>
 <body>
     <script>
@@ -337,6 +344,28 @@ $row = $resultado->fetch_assoc();
                                 <option value="<?php echo $opciones['ID_AREA']?>"><?php echo $opciones['AREA']?> - <?php echo $opciones['REPA']?></option>
                                 <?php endforeach ?>
                         </select>
+                    <!--BUSCADOR-->
+						<!--Agregar {theme: 'bootstrap4',} dentro de select-->
+						<script>
+							$('#area').select2({theme: 'bootstrap4',});
+						</script>
+                        <!--BUSCADOR-->
+                        <script>
+							$(document).ready(function(){
+								$('#area').change(function(){
+									buscador='b='+$('#area').val();
+									$.ajax({
+										type: 'post',
+										url: 'Controladores/session.php',
+										data: buscador,
+										success: function(r){
+											$('#tabla').load('Componentes/Tabla.php');
+										}
+									})
+								})
+							})
+						</script>
+                        <!--///////////////////////////////////////////////////////////-->
                     </div>
                     <div>
                         <label class="form-label">Periférico</label>
@@ -354,6 +383,28 @@ $row = $resultado->fetch_assoc();
                                 <option value="<?php echo $opciones['ID_MODELO']?>"><?php echo $opciones['MODELO']?> - <?php echo $opciones['MARCA']?></option>
                                 <?php endforeach ?>
                         </select>
+                    <!--BUSCADOR-->
+						<!--Agregar {theme: 'bootstrap4',} dentro de select-->
+						<script>
+							$('#modelo').select2({theme: 'bootstrap4',});
+						</script>
+                        <!--BUSCADOR-->
+                        <script>
+							$(document).ready(function(){
+								$('#modelo').change(function(){
+									buscador='b='+$('#modelo').val();
+									$.ajax({
+										type: 'post',
+										url: 'Controladores/session.php',
+										data: buscador,
+										success: function(r){
+											$('#tabla').load('Componentes/Tabla.php');
+										}
+									})
+								})
+							})
+						</script>
+                        <!--///////////////////////////////////////////////////////////-->
                     </div>
   
                 </div>

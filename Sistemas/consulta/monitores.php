@@ -399,6 +399,28 @@ $row = $resultado->fetch_assoc();
                                 <option value="<?php echo $opciones['ID_MARCA']?>"><?php echo $opciones['MARCA']?></option>
                                 <?php endforeach ?>
                         </select>
+                        <!--BUSCADOR-->
+						<!--Agregar {theme: 'bootstrap4',} dentro de select-->
+						<script>
+							$('#marca').select2({theme: 'bootstrap4',});
+						</script>
+                        <!--BUSCADOR-->
+                        <script>
+							$(document).ready(function(){
+								$('#marca').change(function(){
+									buscador='b='+$('#marca').val();
+									$.ajax({
+										type: 'post',
+										url: 'Controladores/session.php',
+										data: buscador,
+										success: function(r){
+											$('#tabla').load('Componentes/Tabla.php');
+										}
+									})
+								})
+							})
+						</script>
+                        <!--///////////////////////////////////////////////////////////-->
                     </div>
                     <div>
                         <label class="form-label">Estado</label>

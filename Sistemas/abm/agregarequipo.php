@@ -24,6 +24,13 @@ $row = $resultado->fetch_assoc();
     <script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
+    <!--BUSCADOR SELECT-->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<!--FIN BUSCADOR SELECT-->
+    <!--Estilo bootstrap para select2-->
+	<link rel="stylesheet" href="/path/to/select2.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 
 <script>
 	$(document).ready(function(){
@@ -207,6 +214,28 @@ function validar_formulario() {
                             <option value= <?php echo $opciones['ID_USUARIO'] ?>><?php echo $opciones['NOMBRE']?></option>
                             <?php endforeach?>
                             </select>
+                        <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#slcusu').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#slcusu').change(function(){
+                              buscador='b='+$('#slcusu').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
                         </div>
 
                         <div class="form-group row">
@@ -263,6 +292,29 @@ function validar_formulario() {
                             <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                             <?php endforeach?>
                             </select>
+                            
+                        <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#slcmarca').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#slcmarca').change(function(){
+                              buscador='b='+$('#slcmarca').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
                         </div>    
 
 
@@ -342,6 +394,29 @@ function validar_formulario() {
                             <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                             <?php endforeach?>
                             </select>
+                            
+                        <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#slcprov').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#slcprov').change(function(){
+                              buscador='b='+$('#slcprov').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
                         </div>
 
                         <div class="form-group row">
@@ -409,8 +484,8 @@ function validar_formulario() {
     <div id="flush-collapsepm" class="accordion-collapse collapse" aria-labelledby="flush-headingpm" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">PLACA:<span style="color:red;">*</span></label> 
-							    <select name="ppla" id="ppla" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PLACA:<span style="color:red;">*</span></label> 
+							    <select name="ppla" id="ppla" data-width="style" class="slcequipo form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -424,8 +499,30 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_PLACAM']?>><?php echo $opciones['PLACAM']." - ".$opciones['MARCA'] ?></option>
                                     <?php endforeach?>
                                 </select>
-          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="prpla" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#ppla').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#ppla').change(function(){
+                                      buscador='b='+$('#ppla').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                        <!--///////////////////////////////////////////////////////////-->
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="prpla" id="prpla" style="text-transform:uppercase;" data-width="style" class="slcequipo form-control col-xl col-lg">
                   <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -436,6 +533,28 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#prpla').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#prpla').change(function(){
+                                      buscador='b='+$('#prpla').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                        <!--///////////////////////////////////////////////////////////-->
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
@@ -481,8 +600,8 @@ function validar_formulario() {
     <div id="flush-collapsemi" class="accordion-collapse collapse" aria-labelledby="flush-headingmi" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MICRO:<span style="color:red;">*</span></label> 
-							    <select name="mmic" id="mmic" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">MICRO:<span style="color:red;">*</span></label> 
+							    <select name="mmic" id="mmic" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg" required>
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -496,8 +615,30 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_MICRO'] ?>><?php echo $opciones['MICRO']." - ".$opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
-          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="pmic" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#mmic').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#mmic').change(function(){
+                                      buscador='b='+$('#mmic').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                        <!--///////////////////////////////////////////////////////////-->
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="pmic" id="pmic" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                   <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -508,6 +649,28 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#pmic').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#pmic').change(function(){
+                                      buscador='b='+$('#pmic').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                        <!--///////////////////////////////////////////////////////////-->
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
@@ -557,8 +720,8 @@ function validar_formulario() {
     <div id="flush-collapsepl" class="accordion-collapse collapse" aria-labelledby="flush-headingpl" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">PLACA:</label> 
-							    <select name="pvmem" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PLACA:</label> 
+							    <select name="pvmem" id="pvmem" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -576,8 +739,31 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_PVIDEO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MEMORIA']." - ".$opciones['TIPOMEM']?></option>
                                     <?php endforeach?>
                                 </select>
-          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="pvprov" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                                
+                        <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#pvmem').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#pvmem').change(function(){
+                              buscador='b='+$('#pvmem').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="pvprov" id="pvprov" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -588,6 +774,29 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                
+                        <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#pvprov').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#pvprov').change(function(){
+                              buscador='b='+$('#pvprov').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
@@ -613,8 +822,8 @@ function validar_formulario() {
     <div id="flush-collapsepl1" class="accordion-collapse collapse" aria-labelledby="flush-headingpl1" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">PLACA:</label> 
-            <select name="pvmem1" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PLACA:</label> 
+            <select name="pvmem1" id="pvmem1" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -632,8 +841,30 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_PVIDEO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MEMORIA']." - ".$opciones['TIPOMEM']?></option>
                                     <?php endforeach?>
                                 </select>
-          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="pvprov1" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#pvmem1').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#pvmem1').change(function(){
+                                      buscador='b='+$('#pvmem1').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                        <!--///////////////////////////////////////////////////////////-->
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="pvprov1" id="pvprov1" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -644,6 +875,28 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#pvprov1').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#pvprov1').change(function(){
+                                      buscador='b='+$('#pvprov1').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                        <!--///////////////////////////////////////////////////////////-->
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
@@ -730,8 +983,8 @@ function validar_formulario() {
                                 </select>
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="prov1" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="prov1" id="prov1" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -742,12 +995,35 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                
+                        <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#prov1').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#prov1').change(function(){
+                              buscador='b='+$('#prov1').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact1" placeholder="N° FACTURA">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
-							    <select name="marc1" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="marc1" id="marc1" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -758,6 +1034,29 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
+                                
+                        <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#marc1').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#marc1').change(function(){
+                              buscador='b='+$('#marc1').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
               <input type="date" class="form-control col-xl col-lg" name="fec1">
         </div>
@@ -815,8 +1114,8 @@ function validar_formulario() {
                                 </select>
                         </div>
                         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="prov2" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="prov2" id="prov2" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -827,12 +1126,35 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                
+                        <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#prov2').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#prov2').change(function(){
+                              buscador='b='+$('#prov2').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact2" placeholder="N° FACTURA">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
-							    <select name="marc2" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="marc2" id="marc2" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -843,6 +1165,29 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
+                                
+                        <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#marc2').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#marc2').change(function(){
+                              buscador='b='+$('#marc2').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
               <input type="date" class="form-control col-xl col-lg" name="fec2" placeholder="N° FACTURA">
         </div>
@@ -900,8 +1245,8 @@ function validar_formulario() {
                                 </select>
             </div> 
             <div class="form-group row" style="margin: 10px; padding:10px;">
-                  <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="prov3" style="text-transform:uppercase" class="form-control col-xl col-lg">
+                  <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="prov3" id="prov3" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -912,12 +1257,35 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                
+                        <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#prov3').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#prov3').change(function(){
+                              buscador='b='+$('#prov3').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact3" placeholder="N° FACTURA">
           </div>
           <div class="form-group row" style="margin: 10px; padding:10px;">
-            <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
-							    <select name="marc3" style="text-transform:uppercase" class="form-control col-xl col-lg">
+            <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="marc3" id="marc3" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -928,6 +1296,29 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
+                                
+                        <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#marc3').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#marc3').change(function(){
+                              buscador='b='+$('#marc3').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
               <input type="date" class="form-control col-xl col-lg" name="fec3" placeholder="N° FACTURA">
         </div>
@@ -985,8 +1376,8 @@ function validar_formulario() {
                                 </select>
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-            <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="prov4" style="text-transform:uppercase" class="form-control col-xl col-lg">
+            <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="prov4" id="prov4" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -997,12 +1388,35 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                
+                        <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#prov4').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#prov4').change(function(){
+                              buscador='b='+$('#prov4').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="fact4" placeholder="N° FACTURA">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MARCA:</label> 
-							    <select name="marc4" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">MARCA:</label> 
+							    <select name="marc4" id="marc4" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1013,6 +1427,29 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
+                                
+                        <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#marc4').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#marc4').change(function(){
+                              buscador='b='+$('#marc4').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
               <input type="date" class="form-control col-xl col-lg" name="fec4" placeholder="N° FACTURA">
         </div>
@@ -1055,8 +1492,8 @@ function validar_formulario() {
     <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-			    <label id="lblForm"class="col-form-label col-xl col-lg">CAPACIDAD:</label>
-                            <select name="disc1" style="text-transform:uppercase" class="form-control col-xl col-lg">
+			    <label id="lblForm"class="lblsForm col-form-label col-xl col-lg">CAPACIDAD:</label>
+                            <select name="disc1" id="disc1" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1067,6 +1504,29 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_DISCO'] ?>><?php echo $opciones['DISCO']?></option>
                                     <?php endforeach?>
                                 </select>
+                                
+                        <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#disc1').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#disc1').change(function(){
+                              buscador='b='+$('#disc1').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
                             <label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
                             <select name="tdisc1" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
@@ -1081,8 +1541,8 @@ function validar_formulario() {
                                 </select>
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-            <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="dprov1" style="text-transform:uppercase" class="form-control col-xl col-lg">
+            <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="dprov1" id="dprov1" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1093,12 +1553,35 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                
+                        <!--BUSCADOR-->
+                        <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                        <script>
+                          $('#dprov1').select2({theme: 'bootstrap4',});
+                        </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                          $(document).ready(function(){
+                            $('#dprov1').change(function(){
+                              buscador='b='+$('#dprov1').val();
+                              $.ajax({
+                                type: 'post',
+                                url: 'Controladores/session.php',
+                                data: buscador,
+                                success: function(r){
+                                  $('#tabla').load('Componentes/Tabla.php');
+                                }
+                              })
+                            })
+                          })
+                        </script>
+                        <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact1" placeholder="N° FACTURA">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MODELO:</label> 
-							    <select name="dmod1" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">MODELO:</label> 
+							    <select name="dmod1" id="dmod1" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1113,6 +1596,28 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#dmod1').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#dmod1').change(function(){
+                                      buscador='b='+$('#dmod1').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
               <input type="date" class="form-control col-xl col-lg" name="dfec1" placeholder="N° FACTURA">
         </div>
@@ -1132,8 +1637,8 @@ function validar_formulario() {
     <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-			    <label id="lblForm"class="col-form-label col-xl col-lg">CAPACIDAD:</label>
-                            <select name="disc2" style="text-transform:uppercase" class="form-control col-xl col-lg">
+			    <label id="lblForm"class="lblsForm col-form-label col-xl col-lg">CAPACIDAD:</label>
+                            <select name="disc2" id="disc2" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1144,6 +1649,28 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_DISCO'] ?>><?php echo $opciones['DISCO']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#disc2').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#disc2').change(function(){
+                                      buscador='b='+$('#disc2').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
                             <label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
                             <select name="tdisc2" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
@@ -1158,8 +1685,8 @@ function validar_formulario() {
                                 </select>
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-            <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="dprov2" style="text-transform:uppercase" class="form-control col-xl col-lg">
+            <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="dprov2" id="dprov2" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1170,12 +1697,34 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#dprov2').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#dprov2').change(function(){
+                                      buscador='b='+$('#dprov2').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact2" placeholder="N° FACTURA">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MODELO:</label> 
-							    <select name="dmod2" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">MODELO:</label> 
+							    <select name="dmod2" id="dmod2" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1190,6 +1739,28 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#dmod2').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#dmod2').change(function(){
+                                      buscador='b='+$('#dmod2').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
               <input type="date" class="form-control col-xl col-lg" name="dfec2">
         </div>
@@ -1209,8 +1780,8 @@ function validar_formulario() {
     <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-			<label id="lblForm"class="col-form-label col-xl col-lg">CAPACIDAD:</label>
-                            <select name="disc3" style="text-transform:uppercase" class="form-control col-xl col-lg">
+			<label id="lblForm"class="lblsForm col-form-label col-xl col-lg">CAPACIDAD:</label>
+                            <select name="disc3" id="disc3" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1221,6 +1792,28 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_DISCO'] ?>><?php echo $opciones['DISCO']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#disc3').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#disc3').change(function(){
+                                      buscador='b='+$('#disc3').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
                             <label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
                             <select name="tdisc3" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
@@ -1235,8 +1828,8 @@ function validar_formulario() {
                                 </select>
           </div>
           <div class="form-group row" style="margin: 10px; padding:10px;">
-            <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="dprov3" style="text-transform:uppercase" class="form-control col-xl col-lg">
+            <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="dprov3" id="dprov3" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1247,12 +1840,34 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#dprov3').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#dprov3').change(function(){
+                                      buscador='b='+$('#dprov3').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact3" placeholder="N° FACTURA">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;">
-          <label id="lblForm" class="col-form-label col-xl col-lg">MODELO:</label> 
-							    <select name="dmod3" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">MODELO:</label> 
+							    <select name="dmod3" id="dmod3" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1267,6 +1882,28 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#dmod3').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#dmod3').change(function(){
+                                      buscador='b='+$('#dmod3').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
               <input type="date" class="form-control col-xl col-lg" name="dfec3">
         </div>
@@ -1286,8 +1923,8 @@ function validar_formulario() {
     <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body" style="color: #53AAE0;">
         <div class="form-group row" style="margin: 10px; padding:10px;">
-			<label id="lblForm"class="col-form-label col-xl col-lg">CAPACIDAD:</label>
-                            <select name="disc4" style="text-transform:uppercase" class="form-control col-xl col-lg">
+			<label id="lblForm"class="lblsForm col-form-label col-xl col-lg">CAPACIDAD:</label>
+                            <select name="disc4" id="disc4" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1298,6 +1935,28 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_DISCO'] ?>><?php echo $opciones['DISCO']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#disc4').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#disc4').change(function(){
+                                      buscador='b='+$('#disc4').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
                             <label id="lblForm"class="col-form-label col-xl col-lg">TIPO:</label>
                             <select name="tdisc4" style="text-transform:uppercase" class="form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
@@ -1312,8 +1971,8 @@ function validar_formulario() {
                                 </select>
           </div>
           <div class="form-group row" style="margin: 10px; padding:10px;">
-            <label id="lblForm" class="col-form-label col-xl col-lg">PROVEEDOR:</label> 
-							    <select name="dprov4" style="text-transform:uppercase" class="form-control col-xl col-lg">
+            <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">PROVEEDOR:</label> 
+							    <select name="dprov4" id="dprov4" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1324,12 +1983,34 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#dprov4').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#dprov4').change(function(){
+                                      buscador='b='+$('#dprov4').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FACTURA:</label>
               <input class="form-control col-xl col-lg" type="text" style="text-transform:uppercase;" name="dfact4" placeholder="N° FACTURA">
         </div>
         <div class="form-group row" style="margin: 10px; padding:10px;"> 
-          <label id="lblForm" class="col-form-label col-xl col-lg">MODELO:</label> 
-							    <select name="dmod4" style="text-transform:uppercase" class="form-control col-xl col-lg">
+          <label id="lblForm" class="lblsForm col-form-label col-xl col-lg">MODELO:</label> 
+							    <select name="dmod4" id="dmod4" style="text-transform:uppercase" class="slcequipo form-control col-xl col-lg">
                                     <option  value="" selected disabled="">-SELECCIONE UNA-</option>
                                     <?php
                                     include("../particular/conexion.php");
@@ -1344,6 +2025,28 @@ function validar_formulario() {
                                     <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA']?></option>
                                     <?php endforeach?>
                                 </select>
+                                <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                  $('#dmod4').select2({theme: 'bootstrap4',});
+                                </script>
+                                            <!--BUSCADOR-->
+                                            <script>
+                                  $(document).ready(function(){
+                                    $('#dmod4').change(function(){
+                                      buscador='b='+$('#dmod4').val();
+                                      $.ajax({
+                                        type: 'post',
+                                        url: 'Controladores/session.php',
+                                        data: buscador,
+                                        success: function(r){
+                                          $('#tabla').load('Componentes/Tabla.php');
+                                        }
+                                      })
+                                    })
+                                  })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
 							<label id="lblForm"class="col-form-label col-xl col-lg">FECHA:</label>
               <input type="date" class="form-control col-xl col-lg" name="dfec4">
         </div>

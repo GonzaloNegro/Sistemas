@@ -25,6 +25,13 @@ $perfil=$row['ID_PERFIL'];
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
+    <!--BUSCADOR SELECT-->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<!--FIN BUSCADOR SELECT-->
+    <!--Estilo bootstrap para select2-->
+	<link rel="stylesheet" href="/path/to/select2.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 </head>
 <body>
 <script type="text/javascript">
@@ -262,6 +269,28 @@ $perfil=$row['ID_PERFIL'];
                             <option value= <?php echo $opciones['ID_WS'] ?>><?php echo $opciones['NOMBRE']." - ".$tipoEquipo." - ".$opciones['SERIEG']?></option>
                             <?php endforeach?>
                             </select>
+                    <!--BUSCADOR-->
+						<!--Agregar {theme: 'bootstrap4',} dentro de select-->
+						<script>
+							$('#equip').select2({theme: 'bootstrap4',});
+						</script>
+                        <!--BUSCADOR-->
+                        <script>
+							$(document).ready(function(){
+								$('#equip').change(function(){
+									buscador='b='+$('#equip').val();
+									$.ajax({
+										type: 'post',
+										url: 'Controladores/session.php',
+										data: buscador,
+										success: function(r){
+											$('#tabla').load('Componentes/Tabla.php');
+										}
+									})
+								})
+							})
+						</script>
+                        <!--///////////////////////////////////////////////////////////-->
                         </div>
 
                         <div class="form-group row">
@@ -281,6 +310,28 @@ $perfil=$row['ID_PERFIL'];
                             <option value= <?php echo $opciones['ID_MODELO'] ?>><?php echo $opciones['MODELO']." - ".$opciones['MARCA']?></option>
                             <?php endforeach?>
                             </select>
+                    <!--BUSCADOR-->
+						<!--Agregar {theme: 'bootstrap4',} dentro de select-->
+						<script>
+							$('#mod').select2({theme: 'bootstrap4',});
+						</script>
+                        <!--BUSCADOR-->
+                        <script>
+							$(document).ready(function(){
+								$('#mod').change(function(){
+									buscador='b='+$('#mod').val();
+									$.ajax({
+										type: 'post',
+										url: 'Controladores/session.php',
+										data: buscador,
+										success: function(r){
+											$('#tabla').load('Componentes/Tabla.php');
+										}
+									})
+								})
+							})
+						</script>
+                        <!--///////////////////////////////////////////////////////////-->
                         </div> 
 
                         <div class="form-group row">
@@ -322,6 +373,28 @@ $perfil=$row['ID_PERFIL'];
                             <option value= <?php echo $opciones['ID_PROVEEDOR'] ?>><?php echo $opciones['PROVEEDOR']?></option>
                             <?php endforeach?>
                             </select>
+                    <!--BUSCADOR-->
+						<!--Agregar {theme: 'bootstrap4',} dentro de select-->
+						<script>
+							$('#prov').select2({theme: 'bootstrap4',});
+						</script>
+                        <!--BUSCADOR-->
+                        <script>
+							$(document).ready(function(){
+								$('#prov').change(function(){
+									buscador='b='+$('#prov').val();
+									$.ajax({
+										type: 'post',
+										url: 'Controladores/session.php',
+										data: buscador,
+										success: function(r){
+											$('#tabla').load('Componentes/Tabla.php');
+										}
+									})
+								})
+							})
+						</script>
+                        <!--///////////////////////////////////////////////////////////-->
                         </div> 
 
                         <div class="form-group row">

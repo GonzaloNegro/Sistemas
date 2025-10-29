@@ -378,6 +378,28 @@ $row = $resultado->fetch_assoc();
                                 <option value="<?php echo $opciones['ID_MODELO']?>"><?php echo $opciones['MODELO']?> - <?php echo $opciones['MARCA']?></option>
                                 <?php endforeach ?>
                         </select>
+                        <!--BUSCADOR-->
+						<!--Agregar {theme: 'bootstrap4',} dentro de select-->
+						<script>
+							$('#impresora').select2({theme: 'bootstrap4',});
+						</script>
+                        <!--BUSCADOR-->
+                        <script>
+							$(document).ready(function(){
+								$('#impresora').change(function(){
+									buscador='b='+$('#impresora').val();
+									$.ajax({
+										type: 'post',
+										url: 'Controladores/session.php',
+										data: buscador,
+										success: function(r){
+											$('#tabla').load('Componentes/Tabla.php');
+										}
+									})
+								})
+							})
+						</script>
+                        <!--///////////////////////////////////////////////////////////-->
                     </div>
     
                 </div>

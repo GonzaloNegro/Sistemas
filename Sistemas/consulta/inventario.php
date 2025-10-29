@@ -411,6 +411,28 @@ $row = $resultado->fetch_assoc();
                                 <option value="<?php echo $opciones['ID_MICRO']?>"><?php echo $opciones['MICRO']?></option>
                                 <?php endforeach ?>
                         </select>
+                        <!--BUSCADOR-->
+						<!--Agregar {theme: 'bootstrap4',} dentro de select-->
+						<script>
+							$('#micro').select2({theme: 'bootstrap4',});
+						</script>
+                        <!--BUSCADOR-->
+                        <script>
+							$(document).ready(function(){
+								$('#micro').change(function(){
+									buscador='b='+$('#micro').val();
+									$.ajax({
+										type: 'post',
+										url: 'Controladores/session.php',
+										data: buscador,
+										success: function(r){
+											$('#tabla').load('Componentes/Tabla.php');
+										}
+									})
+								})
+							})
+						</script>
+                        <!--///////////////////////////////////////////////////////////-->
                     </div>
                     <div>
                         <label class="form-label">Tipo</label>

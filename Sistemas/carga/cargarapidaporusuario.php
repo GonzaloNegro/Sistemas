@@ -380,6 +380,27 @@ $row = $resultado->fetch_assoc();
 										<option value="<?php echo $opciones['ID_TIPIFICACION']?>"><?php echo $opciones['TIPIFICACION']?></option>
 										<?php endforeach ?>
 										</select>
+										<!--BUSCADOR-->
+										<!--Agregar {theme: 'bootstrap4',} dentro de select-->
+										<script>
+											$('#tipificacion1').select2({theme: 'bootstrap4',});
+										</script>
+										<script>
+											$(document).ready(function(){
+												$('#tipificacion1').change(function(){
+													buscador='b='+$('#tipificacion1').val();
+													$.ajax({
+														type: 'post',
+														url: 'Controladores/session.php',
+														data: buscador,
+														success: function(r){
+															$('#tabla').load('Componentes/Tabla.php');
+														}
+													})
+												})
+											})
+										</script>
+										<!--//////////////////////////////////////////////////////////////////-->
 								</div>
 								<div class="form-group row">
 									<label class="col-form-label col-xl">DESCRIPCIÓN: </label>
@@ -409,7 +430,27 @@ $row = $resultado->fetch_assoc();
 										<option value="<?php echo $opciones['ID_TIPIFICACION']?>"><?php echo $opciones['TIPIFICACION']?></option>
 										<?php endforeach ?>
 										</select>
-
+											<!--BUSCADOR-->
+										<!--Agregar {theme: 'bootstrap4',} dentro de select-->
+										<script>
+											$('#tipificacion2').select2({theme: 'bootstrap4',});
+										</script>
+										<script>
+											$(document).ready(function(){
+												$('#tipificacion2').change(function(){
+													buscador='b='+$('#tipificacion2').val();
+													$.ajax({
+														type: 'post',
+														url: 'Controladores/session.php',
+														data: buscador,
+														success: function(r){
+															$('#tabla').load('Componentes/Tabla.php');
+														}
+													})
+												})
+											})
+										</script>
+										<!--//////////////////////////////////////////////////////////////////-->
 								</div>
 								<div class="form-group row">
 									<label class="col-form-label col-xl">DESCRIPCIÓN: </label>
@@ -439,6 +480,27 @@ $row = $resultado->fetch_assoc();
 										<option value="<?php echo $opciones['ID_TIPIFICACION']?>"><?php echo $opciones['TIPIFICACION']?></option>
 										<?php endforeach ?>
 										</select>
+										<!--BUSCADOR-->
+										<!--Agregar {theme: 'bootstrap4',} dentro de select-->
+										<script>
+											$('#tipificacion3').select2({theme: 'bootstrap4',});
+										</script>
+										<script>
+											$(document).ready(function(){
+												$('#tipificacion3').change(function(){
+													buscador='b='+$('#tipificacion3').val();
+													$.ajax({
+														type: 'post',
+														url: 'Controladores/session.php',
+														data: buscador,
+														success: function(r){
+															$('#tabla').load('Componentes/Tabla.php');
+														}
+													})
+												})
+											})
+										</script>
+										<!--//////////////////////////////////////////////////////////////////-->
 								</div>
 								<div class="form-group row">
 									<label class="col-form-label col-xl">DESCRIPCIÓN: </label>

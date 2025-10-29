@@ -20,10 +20,13 @@ $row = $resultado->fetch_assoc();
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
-	<!--BUSCADOR SELECT-->
+    <!--BUSCADOR SELECT-->
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	<!--FIN BUSCADOR SELECT-->
+    <!--Estilo bootstrap para select2-->
+	<link rel="stylesheet" href="/path/to/select2.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="../estilos/estiloreporte.css">
 	<style>
 			body{
@@ -198,9 +201,20 @@ $row = $resultado->fetch_assoc();
                 inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
                 inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
                 inner join inventario i on m.ID_WS=i.ID_WS
+                LEFT JOIN wsusuario ws 
+                    ON i.ID_WS = ws.ID_WS
+                    AND ws.ID_WSUSU = (
+                        SELECT MAX(wsu.ID_WSUSU)
+                        FROM wsusuario wsu
+                        WHERE wsu.ID_WS = i.ID_WS
+                    )
+                LEFT JOIN usuarios u 
+                    ON ws.ID_USUARIO = u.ID_USUARIO
+                LEFT JOIN area a 
+                    ON u.ID_AREA = a.ID_AREA
                 where me.ORDEN_MEMORIA>(SELECT max(me2.ORDEN_MEMORIA) from mejoras ms INNER JOIN
                                 memoria me2 on ms.MEMORIA1=me2.ID_MEMORIA where m.ID_WS=ms.ID_WS and m.ID_MEJORA>ms.ID_MEJORA)
-                                and i.ID_AREA=$area GROUP BY m.ID_MEJORA DESC");
+                                and a.ID_AREA=$area GROUP BY m.ID_MEJORA DESC");
                 }
                 if ($mej==2) {
                 
@@ -215,12 +229,23 @@ $row = $resultado->fetch_assoc();
                 inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
                 inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
                 inner join inventario i on m.ID_WS=i.ID_WS
+                LEFT JOIN wsusuario ws 
+                    ON i.ID_WS = ws.ID_WS
+                    AND ws.ID_WSUSU = (
+                        SELECT MAX(wsu.ID_WSUSU)
+                        FROM wsusuario wsu
+                        WHERE wsu.ID_WS = i.ID_WS
+                    )
+                LEFT JOIN usuarios u 
+                    ON ws.ID_USUARIO = u.ID_USUARIO
+                LEFT JOIN area a 
+                    ON u.ID_AREA = a.ID_AREA
                 where d.ORDEN_DISCO>(SELECT max(di.ORDEN_DISCO) from mejoras mem INNER JOIN
                                 disco di on mem.DISCO1=di.ID_DISCO where m.ID_WS=mem.ID_WS and m.ID_MEJORA>mem.ID_MEJORA)
                                     or td.RANKING_TIPOD>(select td2.RANKING_TIPOD  from mejoras me2
                                     inner join discows dw on me2.ID_WS=dw.ID_WS
                                     inner join tipodisco td2 on dw.ID_TIPOD=td2.ID_TIPOD
-                                    where m.ID_WS=me2.ID_WS limit 1) and i.ID_AREA=$area
+                                    where m.ID_WS=me2.ID_WS limit 1) and a.ID_AREA=$area
                         GROUP BY m.ID_MEJORA DESC");
                 }
             }
@@ -289,9 +314,20 @@ $row = $resultado->fetch_assoc();
                 inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
                 inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
                 INNER JOIN inventario i on i.ID_WS=m.ID_WS
+                LEFT JOIN wsusuario ws 
+                    ON i.ID_WS = ws.ID_WS
+                    AND ws.ID_WSUSU = (
+                        SELECT MAX(wsu.ID_WSUSU)
+                        FROM wsusuario wsu
+                        WHERE wsu.ID_WS = i.ID_WS
+                    )
+                LEFT JOIN usuarios u 
+                    ON ws.ID_USUARIO = u.ID_USUARIO
+                LEFT JOIN area a 
+                    ON u.ID_AREA = a.ID_AREA
                 where me.ORDEN_MEMORIA>(SELECT max(me2.ORDEN_MEMORIA) from mejoras ms INNER JOIN
                                 memoria me2 on ms.MEMORIA1=me2.ID_MEMORIA where m.ID_WS=ms.ID_WS and m.ID_MEJORA>ms.ID_MEJORA)
-                                and i.ID_AREA=$area and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta' GROUP BY m.ID_MEJORA DESC");
+                                and a.ID_AREA=$area and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta' GROUP BY m.ID_MEJORA DESC");
                 }
                 if ($mej==2) {
                 
@@ -306,12 +342,23 @@ $row = $resultado->fetch_assoc();
                 inner join tipodisco td on ds.ID_TIPOD=td.ID_TIPOD
                 inner JOIN placam p on p.ID_PLACAM=m.ID_PLACAM
                 inner join inventario i on m.ID_WS=i.ID_WS
+                LEFT JOIN wsusuario ws 
+                    ON i.ID_WS = ws.ID_WS
+                    AND ws.ID_WSUSU = (
+                        SELECT MAX(wsu.ID_WSUSU)
+                        FROM wsusuario wsu
+                        WHERE wsu.ID_WS = i.ID_WS
+                    )
+                LEFT JOIN usuarios u 
+                    ON ws.ID_USUARIO = u.ID_USUARIO
+                LEFT JOIN area a 
+                    ON u.ID_AREA = a.ID_AREA
                 where d.ORDEN_DISCO>(SELECT max(di.ORDEN_DISCO) from mejoras mem INNER JOIN
                                 disco di on mem.DISCO1=di.ID_DISCO where m.ID_WS=mem.ID_WS and m.ID_MEJORA>mem.ID_MEJORA)
                                     or td.RANKING_TIPOD>(select td2.RANKING_TIPOD  from mejoras me2
                                     inner join discows dw on me2.ID_WS=dw.ID_WS
                                     inner join tipodisco td2 on dw.ID_TIPOD=td2.ID_TIPOD
-                                    where m.ID_WS=me2.ID_WS limit 1) and i.ID_AREA=$area and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta'
+                                    where m.ID_WS=me2.ID_WS limit 1) and a.ID_AREA=$area and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta'
                         GROUP BY m.ID_MEJORA DESC");
                 }
             }

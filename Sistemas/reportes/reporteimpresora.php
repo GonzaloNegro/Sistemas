@@ -54,13 +54,16 @@ $row = $resultado->fetch_assoc();
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript" src="jquery/1/jquery-3.6.0.min.js"></script>
-	<script type="text/javascript" src="jquery/1/jquery-ui.js"></script>
+	<script type="text/javascript" src="../jquery/1/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<!--BUSCADOR SELECT-->
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloallabm.css">
 	<!--FIN BUSCADOR SELECT-->
+    <!--Estilo bootstrap para select2-->
+	<link rel="stylesheet" href="/path/to/select2.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 	<style>
 			body{
 			background-color: #edf0f5;
@@ -114,24 +117,29 @@ $row = $resultado->fetch_assoc();
                                 <option value="<?php echo $opciones['ID_AREA']?>"><?php echo $opciones['AREA']?> - <?php echo $opciones['REPA']?></option>
                                 <?php endforeach ?>
                         </select>
-								<script>
-										$('#slcarea').select2();
-								</script>
-								<script>
-										$(document).ready(function(){
-											$('#slcarea').change(function(){
-												buscador='b='+$('#buscador').val();
-												$.ajax({
-													type: 'post',
-													url: 'Controladores/session.php',
-													data: buscador,
-													success: function(r){
-														$('#tabla').load('Componentes/Tabla.php');
-													}
-												})
-											})
-										})
-									</script>
+								
+                    <!--BUSCADOR-->
+						<!--Agregar {theme: 'bootstrap4',} dentro de select-->
+						<script>
+							$('#slcarea').select2({theme: 'bootstrap4',});
+						</script>
+                        <!--BUSCADOR-->
+                        <script>
+							$(document).ready(function(){
+								$('#slcarea').change(function(){
+									buscador='b='+$('#slcarea').val();
+									$.ajax({
+										type: 'post',
+										url: 'Controladores/session.php',
+										data: buscador,
+										success: function(r){
+											$('#tabla').load('Componentes/Tabla.php');
+										}
+									})
+								})
+							})
+						</script>
+                        <!--///////////////////////////////////////////////////////////-->
 
 								<label id="lblForm"class="col-form-label col-xl col-lg" style="color: black;">ESTADO:</label>
                 				<select name="slcestado" class="form-control col-xl col-lg">

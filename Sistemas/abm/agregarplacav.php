@@ -23,7 +23,13 @@ $row = $resultado->fetch_assoc();
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
-	<style>
+    <!--BUSCADOR SELECT-->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<!--FIN BUSCADOR SELECT-->
+    <!--Estilo bootstrap para select2-->
+	<link rel="stylesheet" href="/path/to/select2.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 	<style>
 			body{
 				background-color: #edf0f5;
@@ -141,6 +147,28 @@ $row = $resultado->fetch_assoc();
                             <option value="<?php echo $opciones['ID_MODELO']?>"><?php echo $opciones['MODELO']?></option>						
                     <?php endforeach ?>
                 </select>
+                <!--BUSCADOR-->
+						<!--Agregar {theme: 'bootstrap4',} dentro de select-->
+						<script>
+							$('#modelo').select2({theme: 'bootstrap4',});
+						</script>
+                        <!--BUSCADOR-->
+                        <script>
+							$(document).ready(function(){
+								$('#modelo').change(function(){
+									buscador='b='+$('#modelo').val();
+									$.ajax({
+										type: 'post',
+										url: 'Controladores/session.php',
+										data: buscador,
+										success: function(r){
+											$('#tabla').load('Componentes/Tabla.php');
+										}
+									})
+								})
+							})
+						</script>
+                        <!--///////////////////////////////////////////////////////////-->
             </div>
 
             <div class="form-group row">

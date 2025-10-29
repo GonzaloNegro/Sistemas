@@ -31,6 +31,13 @@ function ConsultarIncidente($no_tic)
 	<script type="text/javascript" src="../jquery/1/jquery-ui.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
+    <!--BUSCADOR SELECT-->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<!--FIN BUSCADOR SELECT-->
+    <!--Estilo bootstrap para select2-->
+	<link rel="stylesheet" href="/path/to/select2.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 </head>
 <body>
     <script>
@@ -183,7 +190,28 @@ function ConsultarIncidente($no_tic)
                     <?php foreach ($ejecutar as $opciones): ?> 
                     <option value= <?php echo $opciones['ID_MARCA'] ?>><?php echo $opciones['MARCA']?></option>
                     <?php endforeach?>
-                    </select>
+                    </select><!--BUSCADOR-->
+						<!--Agregar {theme: 'bootstrap4',} dentro de select-->
+						<script>
+							$('#marca').select2({theme: 'bootstrap4',});
+						</script>
+                        <!--BUSCADOR-->
+                        <script>
+							$(document).ready(function(){
+								$('#marca').change(function(){
+									buscador='b='+$('#marca').val();
+									$.ajax({
+										type: 'post',
+										url: 'Controladores/session.php',
+										data: buscador,
+										success: function(r){
+											$('#tabla').load('Componentes/Tabla.php');
+										}
+									})
+								})
+							})
+						</script>
+                        <!--///////////////////////////////////////////////////////////-->
                 </div>
 
                 <div class="form-group row">
@@ -199,6 +227,28 @@ function ConsultarIncidente($no_tic)
                     <option value= <?php echo $opciones['ID_TIPOP'] ?>><?php echo $opciones['TIPO']?></option>
                     <?php endforeach?>
                     </select>
+                    <!--BUSCADOR-->
+						<!--Agregar {theme: 'bootstrap4',} dentro de select-->
+						<script>
+							$('#tipo').select2({theme: 'bootstrap4',});
+						</script>
+                        <!--BUSCADOR-->
+                        <script>
+							$(document).ready(function(){
+								$('#tipo').change(function(){
+									buscador='b='+$('#tipo').val();
+									$.ajax({
+										type: 'post',
+										url: 'Controladores/session.php',
+										data: buscador,
+										success: function(r){
+											$('#tabla').load('Componentes/Tabla.php');
+										}
+									})
+								})
+							})
+						</script>
+                        <!--///////////////////////////////////////////////////////////-->
                 </div>
                 <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->
                 <!--/////////////////////////////////////MOTIVO///////////////////////////////////////////-->

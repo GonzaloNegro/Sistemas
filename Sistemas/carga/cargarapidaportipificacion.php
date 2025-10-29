@@ -417,6 +417,27 @@ $row = $resultado->fetch_assoc();
 							<option value="<?php echo $opciones['ID_TIPIFICACION']?>"><?php echo $opciones['TIPIFICACION']?></option>
 						<?php endforeach ?>
 					</select>
+					<!--BUSCADOR-->
+					<!--Agregar {theme: 'bootstrap4',} dentro de select-->
+					<script>
+						$('#tip').select2({theme: 'bootstrap4',});
+					</script>
+					<script>
+						$(document).ready(function(){
+							$('#tip').change(function(){
+								buscador='b='+$('#tip').val();
+								$.ajax({
+										type: 'post',
+										url: 'Controladores/session.php',
+										data: buscador,
+										success: function(r){
+											$('#tabla').load('Componentes/Tabla.php');
+														}
+											})
+										})
+							})
+					</script>
+					<!--//////////////////////////////////////////////////////////////////-->					
 			</div>
 			<div class="form-group row">
 				<label class="col-form-label col-xl">PRIORIDAD: </label>

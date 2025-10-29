@@ -47,6 +47,13 @@ $nrocelular = $consulta['NRO'];
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloagregar.css">
+    <!--BUSCADOR SELECT-->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<!--FIN BUSCADOR SELECT-->
+    <!--Estilo bootstrap para select2-->
+	<link rel="stylesheet" href="/path/to/select2.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 </head>
 <body>
 <script>
@@ -249,6 +256,28 @@ $nrocelular = $consulta['NRO'];
 									<option value="<?php echo $opciones['ID_USUARIO']?>"><?php echo $opciones['NOMBRE']?></option>
 								<?php endforeach ?>
 								</select>
+                                <!--BUSCADOR-->
+                                    <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                    <script>
+                                        $('#usuario').select2({theme: 'bootstrap4',});
+                                    </script>
+                                    <!--BUSCADOR-->
+                                    <script>
+                                        $(document).ready(function(){
+                                            $('#usuario').change(function(){
+                                                buscador='b='+$('#usuario').val();
+                                                $.ajax({
+                                                    type: 'post',
+                                                    url: 'Controladores/session.php',
+                                                    data: buscador,
+                                                    success: function(r){
+                                                        $('#tabla').load('Componentes/Tabla.php');
+                                                    }
+                                                })
+                                            })
+                                        })
+                                    </script>
+                                    <!--///////////////////////////////////////////////////////////-->
                         </div>
 
 						<div  class="form-group row">
@@ -324,6 +353,28 @@ $nrocelular = $consulta['NRO'];
                                 <option value="<?php echo $opciones['ID_MODELO']?>"><?php echo $opciones['MARCA']." - ".$opciones['MODELO']?></option>
                             <?php endforeach ?>
                             </select>
+                            <!--BUSCADOR-->
+                                <!--Agregar {theme: 'bootstrap4',} dentro de select-->
+                                <script>
+                                    $('#mod').select2({theme: 'bootstrap4',});
+                                </script>
+                                <!--BUSCADOR-->
+                                <script>
+                                    $(document).ready(function(){
+                                        $('#mod').change(function(){
+                                            buscador='b='+$('#mod').val();
+                                            $.ajax({
+                                                type: 'post',
+                                                url: 'Controladores/session.php',
+                                                data: buscador,
+                                                success: function(r){
+                                                    $('#tabla').load('Componentes/Tabla.php');
+                                                }
+                                            })
+                                        })
+                                    })
+                                </script>
+                                <!--///////////////////////////////////////////////////////////-->
 						</div>
 
 						<div class="form-group row">
