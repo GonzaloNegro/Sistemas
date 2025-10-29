@@ -60,7 +60,7 @@
         <div class="dropdown text-end">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle link" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"><h5 style="color: white;"><i class="bi bi-person rounded-circle" style="color: white;"></i> <?php echo utf8_decode($row['RESOLUTOR']);?></h5></a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-		  	<?php if($row['ID_RESOLUTOR'] == 6)
+		  	<?php if($row['ID_PERFIL'] == 1)
             { echo '
 		  	<li><a class="dropdown-item" href="../particular/agregados.php">CAMBIOS AGREGADOS</a></li>
             <li><hr class="dropdown-divider"></li>';}?>

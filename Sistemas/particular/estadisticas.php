@@ -50,7 +50,7 @@ $row = $resultado->fetch_assoc();
         $sql = "SELECT FECHA_SOLUCION FROM ticket ORDER BY FECHA_SOLUCION DESC LIMIT 1,1";
         $resultado = $datos_base->query($sql);
         $row = $resultado->fetch_assoc();
-        $finFecha = $row['FECHA_SOLUCION'];
+        $finFecha = $row['FECHA_SOLUCION']; 
 
         date_default_timezone_set('UTC');
         date_default_timezone_set("America/Buenos_Aires");
@@ -168,7 +168,7 @@ $row = $resultado->fetch_assoc();
             $rowTipificacion = $resultTipificacion->fetch_assoc();
             ?>
 
-            <div style="border:1px solid #ccc; padding:15px; width:auto; margin:0 auto; border-radius:5px;">
+            <div style="border:1px solid #ccc; padding:15px; width:auto; border-radius:5px;">
                 <h2 style="color:#00519C;font-size:18px;font-weight:bold;text-align:center;">
                     RESUMEN INCIDENTES - AÑO <?php echo $anioActual; ?>
                 </h2>
@@ -209,7 +209,104 @@ $row = $resultado->fetch_assoc();
                     <span style="display:inline-block; margin-left:10px; font-size:1em; color: black;"><?php echo $rowTipificacion['cantidad']; ?></span>
                 </p>
             </div>
-        </div>
+<div>
+    <h2 style="color:#00519C; font-size:20px; font-weight:bold; text-align:left;">
+        INCIDENTES POR RESOLUTOR (AÑO CORRIENTE)
+    </h2>
+
+    <table class="table_id" style="width: 98%; margin: 0 auto; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th style="text-align:left; padding:5px;">RESOLUTOR</th>
+                <th style="text-align:right; padding:5px;">TOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        $anioActual = date('Y');
+        $meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+        $sql = "
+            SELECT r.RESOLUTOR, COUNT(t.ID_TICKET) AS cantidad, r.ID_RESOLUTOR
+            FROM ticket t
+            INNER JOIN resolutor r ON t.ID_RESOLUTOR = r.ID_RESOLUTOR
+            WHERE YEAR(t.FECHA_SOLUCION) = '$anioActual'
+            GROUP BY r.RESOLUTOR
+            ORDER BY cantidad DESC
+            LIMIT 5
+        ";
+        $result = $datos_base->query($sql);
+
+        if($result->num_rows > 0):
+            while($row = $result->fetch_assoc()):
+                $idRes = $row['ID_RESOLUTOR'];
+
+                $sqlMes = "
+                    SELECT MONTH(t.FECHA_SOLUCION) AS mes, COUNT(*) AS cant
+                    FROM ticket t
+                    WHERE t.ID_RESOLUTOR = '$idRes' AND YEAR(t.FECHA_SOLUCION) = '$anioActual'
+                    GROUP BY MONTH(t.FECHA_SOLUCION)
+                    ORDER BY MONTH(t.FECHA_SOLUCION) DESC
+                ";
+                $resMes = $datos_base->query($sqlMes);
+
+                $tablaMeses = '<table style="width:98%; border-collapse: collapse; box-sizing:border-box;">';
+                $tablaMeses .= '<tr><th style="border-bottom:1px solid #ccc; padding:5px;">Mes</th><th style="border-bottom:1px solid #ccc; padding:5px;">Cantidad</th></tr>';
+
+                if($resMes->num_rows > 0){
+                    while($m = $resMes->fetch_assoc()){
+                        $tablaMeses .= '<tr>';
+                        $tablaMeses .= '<td style="padding:5px;">'.$meses[$m['mes']-1].'</td>';
+                        $tablaMeses .= '<td style="text-align:center; padding:5px;">'.$m['cant'].'</td>';
+                        $tablaMeses .= '</tr>';
+                    }
+                } else {
+                    $tablaMeses .= '<tr><td colspan="2" style="text-align:center; padding:5px;">No hay tickets registrados por mes</td></tr>';
+                }
+                $tablaMeses .= '</table>';
+        ?>
+            <tr>
+                <td>
+                    <button class="swal-btn" data-html='<?php echo $tablaMeses; ?>' style="width:100%; text-align:left; padding:5px; border:none; background:none; cursor:pointer;">
+                        <?php echo $row['RESOLUTOR']; ?>
+                    </button>
+                </td>
+                <td style="text-align:center;"><?php echo $row['cantidad']; ?></td>
+            </tr>
+        <?php
+            endwhile;
+        else:
+        ?>
+            <tr>
+                <td colspan="2" style="text-align:center; padding:10px;">
+                    <em>No hay datos registrados</em>
+                </td>
+            </tr>
+        <?php endif; ?>
+        </tbody>
+    </table>
+</div>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.querySelectorAll('.swal-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const htmlContent = btn.getAttribute('data-html');
+        Swal.fire({
+            title: 'Tickets por mes',
+            html: htmlContent,
+            width: 500,
+            showCloseButton: true,    // Solo cruz arriba
+            showConfirmButton: false, // Sin botón "Cerrar"
+            focusConfirm: false,
+            scrollbarPadding: false
+        });
+    });
+});
+</script>
+
+            </div>
 
 
 
@@ -258,60 +355,58 @@ $row = $resultado->fetch_assoc();
                 </div>
             </div>
            <div>
-                <div>
+                <div>       
+                    <?php
+                    // Mes y año actuales
+                    $anioActual = date('Y');
+                    $mesActual = date('m');
+
+                    // Consulta: cantidad de tickets por resolutor en el mes corriente (máximo 6)
+                    $sql = "
+                        SELECT 
+                            r.RESOLUTOR,
+                            COUNT(t.ID_TICKET) AS cantidad
+                        FROM ticket t
+                        INNER JOIN resolutor r ON t.ID_RESOLUTOR = r.ID_RESOLUTOR
+                        WHERE YEAR(t.FECHA_SOLUCION) = '$anioActual'
+                        AND MONTH(t.FECHA_SOLUCION) = '$mesActual'
+                        GROUP BY r.RESOLUTOR
+                        ORDER BY cantidad DESC
+                        LIMIT 6
+                    ";
+
+                    $result = $datos_base->query($sql);
+                    ?>
+
                     <div>
-                        <?php
-                        // Mes y año actuales
-                        $anioActual = date('Y');
-                        $mesActual = date('m');
+                        <h2 style="color:#00519C;font-size:20px;font-weight:bold;text-align:left;">
+                            INCIDENTES POR RESOLUTOR (6) - MES CORRIENTE
+                        </h2>
 
-                        // Consulta: cantidad de tickets por resolutor en el mes corriente (máximo 6)
-                        $sql = "
-                            SELECT 
-                                r.RESOLUTOR,
-                                COUNT(t.ID_TICKET) AS cantidad
-                            FROM ticket t
-                            INNER JOIN resolutor r ON t.ID_RESOLUTOR = r.ID_RESOLUTOR
-                            WHERE YEAR(t.FECHA_SOLUCION) = '$anioActual'
-                            AND MONTH(t.FECHA_SOLUCION) = '$mesActual'
-                            GROUP BY r.RESOLUTOR
-                            ORDER BY cantidad DESC
-                            LIMIT 6
-                        ";
-
-                        $result = $datos_base->query($sql);
-                        ?>
-
-                        <div>
-                            <h2 style="color:#00519C;font-size:20px;font-weight:bold;text-align:left;">
-                                INCIDENTES POR RESOLUTOR (6) - MES CORRIENTE
-                            </h2>
-
-                            <table class="table_id" style="width: 98%; margin: 0 auto;">
-                                <thead>
-                                    <tr>
-                                        <th><p style="text-align:left;padding:5px;">RESOLUTOR</p></th>
-                                        <th><p style="text-align:right;padding:5px;">CANTIDAD</p></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tabla-datos">
-                                    <?php if($result->num_rows > 0): ?>
-                                        <?php while($row = $result->fetch_assoc()): ?>
-                                            <tr>
-                                                <td><h4 style="text-align:left;padding:5px;"><?php echo $row['RESOLUTOR']; ?></h4></td>
-                                                <td><h4 style="text-align:center;"><?php echo $row['cantidad']; ?></h4></td>
-                                            </tr>
-                                        <?php endwhile; ?>
-                                    <?php else: ?>
+                        <table class="table_id" style="width: 98%; margin: 0 auto;">
+                            <thead>
+                                <tr>
+                                    <th><p style="text-align:left;padding:5px;">RESOLUTOR</p></th>
+                                    <th><p style="text-align:right;padding:5px;">CANTIDAD</p></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-datos">
+                                <?php if($result->num_rows > 0): ?>
+                                    <?php while($row = $result->fetch_assoc()): ?>
                                         <tr>
-                                            <td colspan="2" style="text-align:center;padding:10px;">
-                                                <em>Aún no hay datos registrados en el corriente mes</em>
-                                            </td>
+                                            <td><h4 style="text-align:left;padding:5px;"><?php echo $row['RESOLUTOR']; ?></h4></td>
+                                            <td><h4 style="text-align:center;"><?php echo $row['cantidad']; ?></h4></td>
                                         </tr>
-                                    <?php endif; ?>
-                                </tbody>
-                            </table>
-                        </div>
+                                    <?php endwhile; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="2" style="text-align:center;padding:10px;">
+                                            <em>Aún no hay datos registrados en el corriente mes</em>
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

@@ -21,11 +21,6 @@ $row = $resultado->fetch_assoc();
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="../estilos/estiloallabm.css">
-	<style>
-			body{
-			background-color: #edf0f5;
-			}
-	</style>
 </head>
 <body>
     <section id="inicio">
@@ -54,11 +49,11 @@ $row = $resultado->fetch_assoc();
 		</div>
 
         <?php
-				echo "<table width=100%>
+				echo "<table class='table_id tablaLineas' id='tabla_lineas'>
 						<thead>
 							<tr>
-								<th><p>PLACA MADRE</p></th>
-								<th><p>MARCA</p></th>
+								<th><p style='text-align:left;padding:5px;'>PLACA MADRE</p></th>
+								<th><p style='text-align:left;padding:5px;'>MARCA</p></th>
 							</tr>
 						</thead>
 					";
@@ -75,8 +70,8 @@ $row = $resultado->fetch_assoc();
 										echo
 										" 
 											<tr>
-												<td><h4 style='font-size:16px;'>".$listar['PLACAM']."</h4></td>
-												<td><h4 style='font-size:16px;'>".$listar['MARCA']."</h4></td>
+												<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['PLACAM']."</h4></td>
+												<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['MARCA']."</h4></td>
 											</tr>";
 						}
 					}
@@ -92,14 +87,14 @@ $row = $resultado->fetch_assoc();
 										echo
 										" 
 											<tr>
-												<td><h4 style='font-size:16px;'>".$listar['PLACAM']."</h4></td>
-												<td><h4 style='font-size:16px;'>".$listar['MARCA']."</h4></td>
+												<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['PLACAM']."</h4></td>
+												<td><h4 style='font-size:14px;text-align:left;padding:5px;'>".$listar['MARCA']."</h4></td>
 											</tr>";
 						}
 					}
-					echo "</table>";
-					?>
+					echo "</table>";?>
     </section>
 	<script src="https://kit.fontawesome.com/ebb188da7c.js" crossorigin="anonymous"></script>
+	<script src="../js/shortcutKeys.js"></script>
 </body>
 </html>
