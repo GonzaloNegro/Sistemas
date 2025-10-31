@@ -292,6 +292,8 @@ $row = $resultado->fetch_assoc();
 	$micro = $_POST['micro'];
 	$where[]="m.ID_MICRO = $micro";
 	}
+
+	$where[] = "i.ID_WS NOT IN (522, 523)";
 	
 // Construir consulta WHERE
 $whereClause = !empty($where) ? 'WHERE ' . implode(' AND ', $where) : '';

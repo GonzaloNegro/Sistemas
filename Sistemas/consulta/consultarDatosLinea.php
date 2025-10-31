@@ -10,7 +10,7 @@
         //SERVIDOR QUE MUESTRA UNA TABLA CON LAS NOVEDADES DE UN CASO DETERMINADO
     $id_linea = $_POST['idLinea'];
     $resultados=mysqli_query($datos_base, "SELECT 
-    lc.ID_CELULAR, l.NRO, u.NOMBRE, p.PLAN, pr.PROVEEDOR, r.ROAMING, l.DESCUENTO, n.NOMBREPLAN, l.FECHADESCUENTO, m.MONTO, m.EXTRAS, m.MONTOTOTAL, e.ESTADO 
+    lc.ID_CELULAR, l.NRO, u.NOMBRE, p.PLAN, pr.PROVEEDOR, r.ROAMING, l.DESCUENTO, n.NOMBREPLAN, l.FECHADESCUENTO, m.MONTO, m.EXTRAS, m.MONTOTOTAL, e.ESTADO, pt.DIA_RENOVACION_DATOS 
     FROM lineacelular lc 
     LEFT JOIN linea l 
         ON lc.ID_LINEA = l.ID_LINEA 
@@ -33,6 +33,8 @@
         ON r.ID_ROAMING = l.ID_ROAMING 
     LEFT JOIN estado_ws e 
         ON e.ID_ESTADOWS = l.ID_ESTADOWS 
+    LEFT JOIN proveedor_telefonia pt
+        ON pr.ID_PROVEEDOR = pt.ID_PROVEEDOR
     WHERE l.ID_LINEA = $id_linea
     ORDER BY lc.ID_LINEACELULAR DESC
     LIMIT 1;");
@@ -67,6 +69,27 @@
             $montoTotal=$consulta['MONTOTOTAL'];
             $descuento=$consulta['DESCUENTO'];
             $estado=$consulta['ESTADO'];
+            $dia_renovacion=$consulta['DIA_RENOVACION_DATOS'];
+            $proximaRenovacion = "-";
+            if (!empty($dia_renovacion)) {
+                $diaInt = (int)$dia_renovacion;
+                if ($diaInt >= 1 && $diaInt <= 31) {
+                    $hoy = new DateTime('today');
+                    $año = (int)$hoy->format('Y');
+                    $mes = (int)$hoy->format('n');
+                    $nextRenewal = clone $hoy;
+                    $diasMes = (int)$hoy->format('t');
+                    $diaAsignado = min($diaInt, $diasMes);
+                    $nextRenewal->setDate($año, $mes, $diaAsignado);
+                    if ((int)$hoy->format('j') > $diaAsignado) {
+                        $nextRenewal->modify('first day of next month');
+                        $diasMes = (int)$nextRenewal->format('t');
+                        $diaAsignado = min($diaInt, $diasMes);
+                        $nextRenewal->setDate((int)$nextRenewal->format('Y'), (int)$nextRenewal->format('n'), $diaAsignado);
+                    }
+                    $proximaRenovacion = $nextRenewal->format('d-m-Y');
+                }
+            }
             // $nombreplan=$consulta['NOMBREPLAN'];
             // $modelo=$consulta['MODELO'];
             // $marca=$consulta['MARCA'];
@@ -115,6 +138,10 @@
         <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
             <label style="color:black;">Descuento:</label>
             <label style="color:black;">'.$descuento.'%</label>
+        </div>
+        <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
+            <label style="color:black;">Próxima Renovación Datos:</label>
+            <label style="color:black;">'.$proximaRenovacion.'</label>
         </div>
         <div style="width:100%;display:flex;justify-content:space-between;align-items: flex-start;">
             <label style="color:black;">Fecha Descuento:</label>
