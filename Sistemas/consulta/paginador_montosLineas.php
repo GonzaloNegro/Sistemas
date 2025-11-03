@@ -116,7 +116,7 @@ $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 
 <?php 
 //query para obtener los equipos
-       $query ="SELECT m.ID_MOVILINEA, m.ID_LINEA, m.EXTRAS, l.NRO, e.ESTADO, p.PLAN, n.NOMBREPLAN, n.MONTO, u.NOMBRE, l.DESCUENTO, l.FECHADESCUENTO, pr.PROVEEDOR, m.MONTOTOTAL, re.REPA
+       $query ="SELECT m.ID_MOVILINEA, m.ID_LINEA, m.EXTRAS, l.NRO, e.ESTADO, p.PLAN, n.NOMBREPLAN, n.MONTO, u.NOMBRE, l.DESCUENTO, l.FECHADESCUENTO, pr.PROVEEDOR, m.MONTOTOTAL, re.REPA, a.AREA
                 FROM movilinea m
                 INNER JOIN (
                     SELECT ID_LINEA, MAX(ID_MOVILINEA) AS UltimoID
@@ -134,7 +134,7 @@ $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
                 $whereClause $order 
                 LIMIT $inicio, $registrosPorPagina";
 //query que se enviara a excelimpresoras
-        $query_excel ="SELECT m.ID_MOVILINEA, m.ID_LINEA, m.EXTRAS, l.NRO, e.ESTADO, p.PLAN, n.NOMBREPLAN, n.MONTO, u.NOMBRE, l.DESCUENTO, l.FECHADESCUENTO, pr.PROVEEDOR, m.MONTOTOTAL, re.REPA
+        $query_excel ="SELECT m.ID_MOVILINEA, m.ID_LINEA, m.EXTRAS, l.NRO, e.ESTADO, p.PLAN, n.NOMBREPLAN, n.MONTO, u.NOMBRE, l.DESCUENTO, l.FECHADESCUENTO, pr.PROVEEDOR, m.MONTOTOTAL, re.REPA, a.AREA
                 FROM movilinea m
                 INNER JOIN (
                     SELECT ID_LINEA, MAX(ID_MOVILINEA) AS UltimoID

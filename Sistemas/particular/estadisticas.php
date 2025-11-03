@@ -95,16 +95,10 @@ $row = $resultado->fetch_assoc();
 
     <section class="grillasEstadistica">
         <?php
-            // Forzar meses en español
-            $meses = [
-                1 => "Enero", 2 => "Febrero", 3 => "Marzo", 4 => "Abril",
-                5 => "Mayo", 6 => "Junio", 7 => "Julio", 8 => "Agosto",
-                9 => "Septiembre", 10 => "Octubre", 11 => "Noviembre", 12 => "Diciembre"
-            ];
-            
             // Últimos 6 meses dinámicos
-            $fechaHoy = date("Y-m-01"); 
+            $fechaHoy = date("Y-m-d"); 
             $fechaInicio = date("Y-m-01", strtotime("-5 months", strtotime($fechaHoy))); 
+
         ?>
         <div class="grillasEstadistica--mensuales">
             <?php
@@ -224,7 +218,6 @@ $row = $resultado->fetch_assoc();
         <tbody>
         <?php
         $anioActual = date('Y');
-        $meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
         $sql = "
             SELECT r.RESOLUTOR, COUNT(t.ID_TICKET) AS cantidad, r.ID_RESOLUTOR
@@ -357,6 +350,7 @@ document.querySelectorAll('.swal-btn').forEach(btn => {
            <div>
                 <div>       
                     <?php
+                    
                     // Mes y año actuales
                     $anioActual = date('Y');
                     $mesActual = date('m');
@@ -504,6 +498,7 @@ document.querySelectorAll('.swal-btn').forEach(btn => {
                         </thead>
                         <tbody id="tabla-datos">
                             <?php while($row = $result->fetch_assoc()): ?>
+                                
                                 <tr>
                                     <td><h4 style="text-align:left;padding:5px;"><?php echo $row['TIPIFICACION']; ?></h4></td>
                                     <td><h4 style="text-align:left;padding:5px;"><?php echo $meses[$row['mes']]; ?></h4></td>

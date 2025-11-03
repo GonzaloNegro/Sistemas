@@ -91,6 +91,35 @@ $row = $resultado->fetch_assoc();
         filtros.show();
     }
     </script>
+    <script>
+    async function verificarPDF(url) {
+        try {
+            const response = await fetch(url, { method: 'GET' });
+
+            if (response.ok) {
+                window.open(url, '_blank');
+            } else {
+                mostrarSwal('El archivo PDF no existe o no está disponible.', 'warning');
+            }
+        } catch (error) {
+            mostrarSwal('Error al verificar el archivo PDF.', 'error');
+        }
+    }
+
+    function mostrarSwal(texto, tipo = 'info') {
+        Swal.fire({
+            icon: tipo,
+            title: 'Sin datos',
+            text: texto,
+            confirmButtonColor: '#0d6efd',
+            confirmButtonText: 'Entendido',
+            background: '#f8f9fa',
+            color: '#212529'
+        });
+    }
+    </script>
+
+
              <script>
                 //Cargar datos en la tabla
         $(document).ready(function () {
@@ -211,20 +240,16 @@ $row = $resultado->fetch_assoc();
                                             <i class="fa-solid fa-arrow-down-wide-short fa-2xl" style="color: #fd7e14;"></i>
                                         </a>
                                     </span>
-
-
                                     <span style="display: inline-flex; padding: 3px;">
-                                        <a href="../equipos/${fila.SERIEG}.pdf" 
-                                        target="_blank" 
-                                        data-bs-toggle="popover" 
-                                        data-bs-trigger="hover" 
-                                        data-bs-placement="top" 
-                                        data-bs-content="Abrir PDF">
-                                            <i style="color: #dc3545" 
-                                            class="fa-solid fa-file-pdf fa-2xl"></i>
+                                        <a href="#"
+                                            onclick="verificarPDF('../equipos/${fila.SERIEG}.pdf'); return false;"
+                                            data-bs-toggle="popover"
+                                            data-bs-trigger="hover"
+                                            data-bs-placement="top"
+                                            data-bs-content="Abrir PDF">
+                                            <i style="color: #dc3545" class="fa-solid fa-file-pdf fa-2xl"></i>
                                         </a>
                                     </span>
-
                                 </td>
                             </tr>`);
                         });

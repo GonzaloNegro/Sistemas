@@ -129,6 +129,7 @@ $row = $resultado->fetch_assoc();
                 const orden = $("#orden").val(); 
                 const estado = $("#estado").val();
                 const proveedor = $("#proveedor").val();
+                const area = $("#area").val();
                 //Obtener los datos de la tabla de usuarios
                 $.ajax({
                     url: "paginador_montosLineas.php", // Archivo PHP
@@ -230,6 +231,7 @@ $row = $resultado->fetch_assoc();
                             tabla.append(`<tr>
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.NRO)}</h4></td>
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(usuario)}</h4></td>
+                            <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.AREA)}</h4></td>
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.REPA)}</h4></td>
                             <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${mostrarPlan(fila.NOMBREPLAN, fila.PLAN)}</h4></td>
                             <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.PROVEEDOR)}</h4></td>
@@ -659,6 +661,7 @@ $row = $resultado->fetch_assoc();
             <tr>
                 <th><p style='text-align:right; margin-right: 5px;'>NÚMERO</p></th>
                 <th><p style='text-align:left; margin-left: 5px;'>USUARIO</p></th>
+                <th><p style='text-align:left; margin-left: 5px;'>ÁREA</p></th>
                 <th><p style="text-align:left; margin-left: 5px;">REPARTICIÓN</p></th>
                 <th><p style='text-align:left; margin-left: 5px;'>PLAN</p></th>
                 <th><p style='text-align:left; margin-left: 5px;'>PROVEEDOR</p></th>

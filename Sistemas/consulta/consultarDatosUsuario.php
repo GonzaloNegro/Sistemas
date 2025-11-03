@@ -51,7 +51,10 @@
 $sql = "SELECT i.SERIEG
         FROM wsusuario wu
         INNER JOIN inventario i ON wu.ID_WS = i.ID_WS
-        WHERE wu.ID_USUARIO = '$id_usuario'";
+        WHERE wu.ID_USUARIO = '$id_usuario'
+          AND i.ID_ESTADOWS = 1
+          AND i.ID_WS NOT IN (522, 523)";
+;
 
 $resultado = $datos_base->query($sql);
 
