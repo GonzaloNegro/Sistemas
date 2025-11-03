@@ -24,14 +24,23 @@
         
         // Consultar equipos disponibles
         $consulta = "
-            SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS
-            FROM wsusuario w
-            INNER JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO
-            INNER JOIN inventario i ON i.ID_WS = w.ID_WS
-            WHERE u.ID_ESTADOUSUARIO = 1 
-            AND w.ID_WS <> 0 
-            AND w.ID_USUARIO <> 277
-            AND w.ID_ESTADOWS = 1
+            SELECT u.NOMBRE, i.SERIEG, ws.ID_WS, i.ID_TIPOWS
+                    FROM inventario i
+                    LEFT JOIN wsusuario ws 
+                        ON i.ID_WS = ws.ID_WS
+                        AND ws.ID_WSUSU = (
+                            SELECT MAX(wsu.ID_WSUSU)
+                            FROM wsusuario wsu
+                            WHERE wsu.ID_WS = i.ID_WS
+                        )
+                        INNER JOIN usuarios u ON u.ID_USUARIO = ws.ID_USUARIO
+                        INNER JOIN area a ON u.ID_AREA=a.ID_AREA
+                        INNER JOIN reparticion r ON r.ID_REPA=a.ID_REPA
+                    WHERE u.ID_ESTADOUSUARIO = 1 
+                    AND ws.ID_ESTADOWS = 1
+                    AND ws.ID_WS <> 0 
+            AND ws.ID_USUARIO <> 277
+            AND ws.ID_USUARIO <> 310
             ORDER BY u.NOMBRE ASC
         ";
         

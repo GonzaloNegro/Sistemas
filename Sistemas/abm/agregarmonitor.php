@@ -231,8 +231,8 @@ $perfil=$row['ID_PERFIL'];
                             $where="";
                             //se muestran ambos equipos S/A o el que corresponda al resolutor por edificio dependiendo del rol
                             if($perfil==1 || $perfil==2){
-                                $where.="AND ( w.ID_USUARIO <> 310 OR (w.ID_USUARIO = 310 AND w.ID_WS = 523) ) 
-                                AND ( w.ID_USUARIO <> 277 OR (w.ID_USUARIO = 277 AND w.ID_WS = 522) )";
+                                $where.="AND ( ws.ID_USUARIO <> 310 OR (ws.ID_USUARIO = 310 AND ws.ID_WS = 523) ) 
+                                AND ( ws.ID_USUARIO <> 277 OR (ws.ID_USUARIO = 277 AND ws.ID_WS = 522) )";
                             }
                             else{
                                     if($reparticion == 4){
@@ -247,22 +247,28 @@ $perfil=$row['ID_PERFIL'];
                                         $id_ws=522;
                                         $repa="r.ID_REPA=1 OR r.ID_REPA=2 OR r.ID_REPA=3 ";
                                     }
-                                    $where.="AND w.ID_USUARIO <> $usuario2
+                                    $where.="AND ws.ID_USUARIO <> $usuario2
                                         AND (
-                                            w.ID_USUARIO <> $usuario1
-                                            OR (w.ID_USUARIO = $usuario1 AND w.ID_WS = $id_ws)
+                                            ws.ID_USUARIO <> $usuario1
+                                            OR (ws.ID_USUARIO = $usuario1 AND ws.ID_WS = $id_ws)
                                         )
                                         AND $repa";
                             }
-                            $consulta= "SELECT u.NOMBRE, i.SERIEG, w.ID_WS, i.ID_TIPOWS, r.ID_REPA
-                            FROM wsusuario w
-                            INNER JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO
-                            INNER JOIN inventario i ON i.ID_WS = w.ID_WS
-                            INNER JOIN area a ON u.ID_AREA=a.ID_AREA
-                            INNER JOIN reparticion r ON r.ID_REPA=a.ID_REPA
-                            WHERE u.ID_ESTADOUSUARIO = 1 
-                            AND w.ID_ESTADOWS = 1
-                            AND w.ID_WS <> 0 
+                            $consulta= "SELECT u.NOMBRE, i.SERIEG, ws.ID_WS, i.ID_TIPOWS
+                                FROM inventario i
+                                LEFT JOIN wsusuario ws 
+                                    ON i.ID_WS = ws.ID_WS
+                                    AND ws.ID_WSUSU = (
+                                        SELECT MAX(wsu.ID_WSUSU)
+                                        FROM wsusuario wsu
+                                        WHERE wsu.ID_WS = i.ID_WS
+                                    )
+                                    INNER JOIN usuarios u ON u.ID_USUARIO = ws.ID_USUARIO
+                                    INNER JOIN area a ON u.ID_AREA=a.ID_AREA
+                                    INNER JOIN reparticion r ON r.ID_REPA=a.ID_REPA
+                                WHERE u.ID_ESTADOUSUARIO = 1 
+                                AND ws.ID_ESTADOWS = 1
+                                AND ws.ID_WS <> 0 
                             $where
                             ORDER BY u.NOMBRE ASC";
                             $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
