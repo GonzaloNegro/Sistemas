@@ -14,12 +14,9 @@ function confirmarEnvioFormulario(formulario, campos, titulo, mensajeConfirmacio
 		} else {
 			valor = el.value?.trim();
 			if (formatoFecha && valor) {
-				const fecha = new Date(valor);
-				valor = fecha.toLocaleDateString('es-AR', {
-					day: '2-digit',
-					month: '2-digit',
-					year: 'numeric'
-				});
+				// 🔧 Evita conversión UTC → local
+				const [year, month, day] = valor.split("-");
+				valor = `${day.padStart(2, "0")}/${month.padStart(2, "0")}/${year}`;
 			}
 		}
 

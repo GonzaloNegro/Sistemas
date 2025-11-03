@@ -32,7 +32,7 @@
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="../consulta/otrosp.php">OTROS PERIFÉRICOS</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="../consulta/celulares.php">CELULARES</a></li>
+                    <li><a class="dropdown-item" href="../consulta/celulares.php">EQUIPOS/CELULARES</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="../consulta/montosLineas.php">MONTOS/LÍNEAS</a></li>
                 </ul>

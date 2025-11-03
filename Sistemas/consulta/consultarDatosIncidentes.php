@@ -114,7 +114,7 @@ if ($num_rows > 0) {
 
         // Mostrar datos del ticket
         $camposTicket = [
-            "N° Incidente" => '#'.$idTicket,
+            "<span style='font-weight:bold;'>N° Incidente</span>" => "<span style='font-weight: bold;'>#$idTicket</span>",
             "Fecha Inicio" => $fechaInicio,
             "Hora Creación" => $hora,
             "Usuario" => $usuario,
@@ -129,11 +129,20 @@ if ($num_rows > 0) {
             "Resolutor" => $resolutor
         ];
 
+        $contador = 0;
         foreach ($camposTicket as $label => $valor) {
             echo generarBloqueHTML($label, $valor);
+
+            // Después del primer campo, agregamos la línea divisoria
+            if ($contador === 0) {
+                echo "<hr style='display: block; height: 1px;'>";
+            }
+
+            $contador++;
         }
 
         echo '<hr style="display: block; height: 3px;">';
+
     }
 }
 ?>

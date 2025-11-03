@@ -70,14 +70,26 @@ $row = $resultado->fetch_assoc();
 						while($listar = mysqli_fetch_array($consulta)) 
 						{
 						$fecha = date("d-m-Y", strtotime($listar['FECHA']));
+
+						// Colorear según tipo
+						$tipo = strtoupper(trim($listar['TIPO']));
+						$colorTipo = '';
+						if ($tipo === 'AGREGADO') {
+							$colorTipo = '#28a745'; // Verde
+						} elseif ($tipo === 'MODIFICADO') {
+							$colorTipo = 'orange'; // Amarillo/Naranja
+						} else {
+							$colorTipo = '#6c757d'; // Gris (por si hay otro tipo)
+						}
+
 						echo
 						" 
 						<tr>
-						<td><h4 style='font-size:14px;text-align:left;margin-left:5px;'>".mostrarValor($listar['ABM'])."</h4 ></td>
-                        <td><h4 style='font-size:14px;text-align:left;margin-left:5px;font-weight: bold;'>".mostrarValor($listar['TIPO'])."</h4 ></td>
+						<td><h4 style='font-size:14px;text-align:left;margin-left:5px;font-weight: bold;'>".mostrarValor($listar['ABM'])."</h4 ></td>
+						<td><h4 style='font-size:14px;text-align:left;margin-left:5px;font-weight:bold;color:$colorTipo;'>".mostrarValor($listar['TIPO'])."</h4></td>
                         <td><h4 style='font-size:14px;text-align:left;margin-left:5px;'>".mostrarValor($listar['CONTENIDO_NUEVO'])."</h4 ></td>
                         <td><h4 style='font-size:14px;text-align:left;margin-left:5px;'>".mostrarValor($listar['CONTENIDO_ANTERIOR'])."</h4 ></td>
-						<td><h4 style='font-size:14px;'>".mostrarValor($fecha)."</h4 ></td>
+						<td><h4 style='font-size:14px;min-width:100px;'>".mostrarValor($fecha)."</h4 ></td>
 						<td><h4 style='font-size:14px;'>".mostrarValor($listar['HORA'])."</h4 ></td>
 						<td><h4 style='font-size:14px;text-align:left;margin-left:5px;font-weight: bold;'>".mostrarValor($listar['RESOLUTOR'])."</h4></td>
 						";
