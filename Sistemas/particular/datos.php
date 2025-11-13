@@ -14,16 +14,20 @@ $row = $resultado->fetch_assoc();
 
 $usuario=$_POST['usuario'];
 
-	$consulta="SELECT i.ID_WS, i.SERIEG
-        FROM inventario i
-        LEFT JOIN wsusuario ws 
-            ON i.ID_WS = ws.ID_WS
-            AND ws.ID_WSUSU = (
-                SELECT MAX(wsu.ID_WSUSU)
-                FROM wsusuario wsu
-                WHERE wsu.ID_WS = i.ID_WS
-            )
-	where ws.ID_USUARIO=$usuario AND i.ID_ESTADOWS=1";
+	$consulta="SELECT i.*
+	FROM inventario i
+	INNER JOIN (
+		SELECT w1.ID_WS, w1.ID_USUARIO
+		FROM wsusuario w1
+		INNER JOIN (
+			SELECT ID_WS, MAX(ID_WSUSU) AS UltimoMov
+			FROM wsusuario
+			GROUP BY ID_WS
+		) w2 ON w1.ID_WS = w2.ID_WS AND w1.ID_WSUSU = w2.UltimoMov
+	) ult
+		ON i.ID_WS = ult.ID_WS
+	WHERE ult.ID_USUARIO = $usuario
+	AND i.ID_ESTADOWS = 1;";
 
 	$result=mysqli_query($datos_base,$consulta) or die(mysqli_error($datos_base));
     

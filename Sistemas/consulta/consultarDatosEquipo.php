@@ -917,22 +917,28 @@ function ConsultarIncidente($no_tic)
                     <?php
                     $id_ws = mysqli_real_escape_string($datos_base, $consulta[0]); // Sanitiza el valor
 
-                    $sql = "
-                        SELECT 
-                            p.TIPOP AS tipoperi,
-                            t.TIPO AS tipo,
-                            mar.MARCA AS marca,
-                            mo.MODELO AS modelo,
-                            p.SERIE AS serie
-                        FROM equipo_periferico ep
-                        INNER JOIN periferico p ON ep.ID_PERI = p.ID_PERI
-                        INNER JOIN modelo mo ON p.ID_MODELO = mo.ID_MODELO
-                        INNER JOIN marcas mar ON mo.ID_MARCA = mar.ID_MARCA
-                        INNER JOIN tipop t ON p.ID_TIPOP = t.ID_TIPOP
-                        WHERE ep.ID_WS = '$id_ws'
-                        AND ep.ID_ESTADOWS = 1
-                        ORDER BY t.TIPO ASC
-                    ";
+                $sql = "
+                SELECT 
+                    p.TIPOP AS tipoperi,
+                    t.TIPO AS tipo,
+                    mar.MARCA AS marca,
+                    mo.MODELO AS modelo,
+                    p.SERIE AS serie
+                FROM equipo_periferico ep
+                INNER JOIN (
+                    SELECT ID_PERI, MAX(ID_EQUIPO_PERIFERICO) AS UltimoMov
+                    FROM equipo_periferico
+                    GROUP BY ID_PERI
+                ) ult ON ep.ID_PERI = ult.ID_PERI AND ep.ID_EQUIPO_PERIFERICO = ult.UltimoMov
+                INNER JOIN periferico p ON ep.ID_PERI = p.ID_PERI
+                INNER JOIN modelo mo ON p.ID_MODELO = mo.ID_MODELO
+                INNER JOIN marcas mar ON mo.ID_MARCA = mar.ID_MARCA
+                INNER JOIN tipop t ON p.ID_TIPOP = t.ID_TIPOP
+                WHERE ep.ID_WS = '$id_ws'
+                AND ep.ID_ESTADOWS = 1
+                ORDER BY t.TIPO ASC;
+                ";
+
 
                     $resultado = mysqli_query($datos_base, $sql);
 

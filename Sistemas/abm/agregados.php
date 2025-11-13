@@ -605,8 +605,8 @@ if (isset($_POST['accion'])) {
             case 'agregarEquipo':
                 $usu = $_POST['usu'];
                 $marca = $_POST['marca'];
-                $serieg = $_POST['serieg'];
-                $serialn = $_POST['serialn'];
+                $serieg = str_replace(' ', '', trim($_POST['serieg']));
+                $serialn = str_replace(' ', '', trim($_POST['serialn']));
                 $tippc = $_POST['tippc'];
                 $est = $_POST['est'];
                 $so = $_POST['so'];
@@ -773,7 +773,7 @@ if (isset($_POST['accion'])) {
                     header("Location: ../consulta/inventario.php?no");
                 }
                 else{
-                    mysqli_query($datos_base, "INSERT INTO inventario VALUES (DEFAULT, '$serialn', '$serieg', '$marca', '$so', '$est', UPPER('$obs'), '$prov', '$fac', '$masterizacion', '$mac', '$reserva', '$ip', '$red', '$tippc', '$gar', '$procedencia')");
+                    mysqli_query($datos_base, "INSERT INTO inventario VALUES (DEFAULT, UPPER('$serialn'), UPPER('$serieg'), '$marca', '$so', '$est', UPPER('$obs'), '$prov', '$fac', '$masterizacion', UPPER('$mac'), '$reserva', '$ip', '$red', '$tippc', '$gar', '$procedencia')");
                     /* FALTA ACOMODAR LA PARTE DE USUARIO, NO ESTA MAS */
                 
                     $tic=mysqli_query($datos_base, "SELECT MAX(ID_WS) FROM inventario");
@@ -837,12 +837,12 @@ if (isset($_POST['accion'])) {
                     mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, '$idws', '$usu', '$fechaActual', '0000-00-00', 1)");
                 
                     /* GUARDANDO PARA LOS MOVIMIENTOS */
-                    mysqli_query($datos_base, "INSERT INTO movimientos VALUES (DEFAULT, '$fechaActual', '$idws', '$usu', '$area', '$est', '$marca', '$so', '$masterizacion', '$mac', '$reserva', '$ip', '$red')");
+                    mysqli_query($datos_base, "INSERT INTO movimientos VALUES (DEFAULT, '$fechaActual', '$idws', '$usu', '$est', '$marca', '$so', '$masterizacion', '$mac', '$reserva', '$ip', '$red')");
                 
                     /* GUARDANDO PARA LAS MEJORAS */
                     mysqli_query($datos_base, "INSERT INTO mejoras VALUES (DEFAULT, '$fechaActual', '$idws', '$ppla', '$mmic', '$pvmem', '$pvmem1', '$mem1', '$tmem1', '$pvel1', '$mem2', '$tmem2', '$pvel2', '$mem3', '$tmem3', '$pvel3', '$mem4', '$tmem4', '$pvel4', '$disc1', '$tdisc1', '$disc2', '$tdisc2', '$disc3', '$tdisc3', '$disc4', '$tdisc4')");
 
-                    mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'EQUIPO', 'AGREGADO',  '$serieg', '', '$fechaActual', '$horaActual', '$resolutorActivo')");
+                    mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'EQUIPO', 'AGREGADO',  UPPER('$serieg'), '', '$fechaActual', '$horaActual', '$resolutorActivo')");
                 
                     header("Location: ../consulta/inventario.php?ok");
                     exit;
