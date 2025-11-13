@@ -156,33 +156,211 @@ $row = $resultado->fetch_assoc();
 				if ($mov==1) {
 				
 				#AREA
-				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
-				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
-						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
-						INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
-						where 
-						m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientosperi mv
-							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
+				// $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
+				// inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
+				// 		INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
+				// 		INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
+				// 		where 
+				// 		m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientosperi mv
+				// 			where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
+				$consultarMovimientos=mysqli_query($datos_base, "WITH ws_area AS (
+					SELECT
+						w1.ID_WS,
+						u.ID_USUARIO,
+						u.NOMBRE,
+						a.ID_AREA,
+						a.AREA
+					FROM wsusuario w1
+					JOIN (
+						SELECT ID_WS, MAX(ID_WSUSU) AS max_wsusu
+						FROM wsusuario
+						GROUP BY ID_WS
+					) ult ON ult.ID_WS = w1.ID_WS AND ult.max_wsusu = w1.ID_WSUSU
+					JOIN usuarios u ON u.ID_USUARIO = w1.ID_USUARIO
+					JOIN area     a ON a.ID_AREA    = u.ID_AREA
+					),
+					ep_enriq AS (
+					SELECT
+						ep.ID_EQUIPO_PERIFERICO,
+						ep.ID_PERI,
+						ep.ID_WS,               -- puede ser 0 → sin equipo
+						wa.ID_AREA,             -- NULL si no hay usuario/área para ese WS
+						wa.AREA,
+						wa.NOMBRE,
+						p.TIPOP,
+						e.ESTADO,
+						ep.FECHA_ASIGNACION
+					FROM equipo_periferico ep
+					LEFT JOIN ws_area wa ON wa.ID_WS = ep.ID_WS  -- unimos directo al EP 
+					INNER JOIN periferico p ON p.ID_PERI=ep.ID_PERI
+					INNER JOIN estado_ws e ON ep.ID_ESTADOWS=e.ID_ESTADOWS
+					where ep.ID_PERI!=0
+					)
+					SELECT *
+					FROM (
+					SELECT
+						ee.ID_EQUIPO_PERIFERICO,
+						ee.ID_PERI,
+						ee.ID_WS, /* si ID_WS=0, forzar NULLs o S/A */
+                          CASE WHEN ee.ID_WS = 0 THEN 'S/A' ELSE ee.ID_AREA  END AS ID_AREA,
+                          CASE WHEN ee.ID_WS = 0 THEN 'S/A' ELSE ee.AREA     END AS AREA,
+                          CASE WHEN ee.ID_WS = 0 THEN 'S/A' ELSE ee.NOMBRE   END AS NOMBRE,
+						ee.TIPOP,
+						ee.ESTADO,
+						ee.FECHA_ASIGNACION,
+						LAG(ee.ID_AREA) OVER (
+							PARTITION BY ee.ID_PERI
+							ORDER BY ee.ID_EQUIPO_PERIFERICO
+						) AS PREV_ID_AREA
+					FROM ep_enriq ee
+					) x
+					-- NOT <=> es comparación NULL-safe en MySQL
+					WHERE NOT (x.PREV_ID_AREA <=> x.ID_AREA)
+					AND x.PREV_ID_AREA IS NOT NULL            -- exige “fila anterior” existente
+					ORDER BY x.ID_EQUIPO_PERIFERICO DESC;");
 				}
 				if ($mov==2) {
-				#USUARIO
-				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
-				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
-						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
-						INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
-						where 
-						m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientosperi mv
-							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
+				// #USUARIO
+				// $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
+				// inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
+				// 		INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
+				// 		INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
+				// 		where 
+				// 		m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientosperi mv
+				// 			where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
+				$consultarMovimientos=mysqli_query($datos_base, "WITH ws_user AS (
+				SELECT
+					w1.ID_WS,
+					u.ID_USUARIO,
+					u.NOMBRE,
+					a.ID_AREA,
+					a.AREA
+				FROM wsusuario w1
+				JOIN (
+					SELECT ID_WS, MAX(ID_WSUSU) AS max_wsusu
+					FROM wsusuario
+					GROUP BY ID_WS
+				) ult ON ult.ID_WS = w1.ID_WS AND ult.max_wsusu = w1.ID_WSUSU
+				JOIN usuarios u ON u.ID_USUARIO = w1.ID_USUARIO
+				JOIN area     a ON a.ID_AREA    = u.ID_AREA
+				),
+				ep_enriq AS (
+				SELECT
+					ep.ID_EQUIPO_PERIFERICO,
+					ep.ID_PERI,
+					ep.ID_WS,
+					wa.ID_USUARIO,
+					wa.NOMBRE,
+					wa.ID_AREA,
+					wa.AREA,
+					p.TIPOP,
+					e.ESTADO,
+					ep.FECHA_ASIGNACION
+				FROM equipo_periferico ep
+				LEFT JOIN ws_user wa ON wa.ID_WS = ep.ID_WS
+				INNER JOIN periferico p ON p.ID_PERI = ep.ID_PERI
+				INNER JOIN estado_ws e ON ep.ID_ESTADOWS = e.ID_ESTADOWS
+				WHERE ep.ID_PERI <> 0
+				)
+				SELECT *
+				FROM (
+				SELECT
+					ee.ID_EQUIPO_PERIFERICO,
+					ee.ID_PERI,
+					ee.ID_WS,
+					CASE WHEN ee.ID_WS = 0 THEN 'S/A' ELSE ee.ID_USUARIO END AS ID_USUARIO,
+					CASE WHEN ee.ID_WS = 0 THEN 'S/A' ELSE ee.NOMBRE      END AS NOMBRE,
+                    CASE WHEN ee.AREA = 0 THEN 'S/A' ELSE ee.AREA      END AS AREA,
+					ee.TIPOP,
+					ee.ESTADO,
+					ee.FECHA_ASIGNACION,
+					LAG(ee.ID_USUARIO) OVER (
+						PARTITION BY ee.ID_PERI
+						ORDER BY ee.ID_EQUIPO_PERIFERICO
+					) AS PREV_ID_USUARIO
+				FROM ep_enriq ee
+				) x
+				WHERE NOT (x.PREV_ID_USUARIO <=> x.ID_USUARIO)  -- cambio de usuario (NULL-safe)
+				AND x.PREV_ID_USUARIO IS NOT NULL
+				ORDER BY x.ID_EQUIPO_PERIFERICO DESC;");
 				}
 				if ($mov==3) {
 					#ESTADO
-				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
-				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
-						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
-						INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
-						where 
-						m.ID_ESTADOWS != ( select AVG(mv.ID_ESTADOWS) from movimientosperi mv
-							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
+				// $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
+				// inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
+				// 		INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
+				// 		INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
+				// 		where 
+				// 		m.ID_ESTADOWS != ( select AVG(mv.ID_ESTADOWS) from movimientosperi mv
+				// 			where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO) ORDER BY M.ID_MOVIMIENTO DESC");
+				$consultarMovimientos=mysqli_query($datos_base, "WITH ws_user AS (
+					SELECT
+						w1.ID_WS,
+						u.ID_USUARIO,
+						u.NOMBRE,
+						a.ID_AREA,
+						a.AREA
+					FROM wsusuario w1
+					JOIN (
+						SELECT ID_WS, MAX(ID_WSUSU) AS max_wsusu
+						FROM wsusuario
+						GROUP BY ID_WS
+					) ult ON ult.ID_WS = w1.ID_WS AND ult.max_wsusu = w1.ID_WSUSU
+					JOIN usuarios u ON u.ID_USUARIO = w1.ID_USUARIO
+					JOIN area     a ON a.ID_AREA    = u.ID_AREA
+					),
+					ep_marked AS (
+					SELECT
+						ep.ID_EQUIPO_PERIFERICO,
+						ep.ID_PERI,
+						ep.ID_WS,
+						ep.ID_ESTADOWS,
+						e.ESTADO,
+						p.TIPOP,
+						ep.FECHA_ASIGNACION,
+						MAX(ep.ID_EQUIPO_PERIFERICO) OVER (PARTITION BY ep.ID_PERI) AS LAST_EP
+					FROM equipo_periferico ep
+					JOIN periferico p ON p.ID_PERI = ep.ID_PERI
+					JOIN estado_ws e  ON e.ID_ESTADOWS = ep.ID_ESTADOWS
+					WHERE ep.ID_PERI <> 0
+					),
+					-- quitar transiciones intermedias: ID_WS=0 y estado=3 (STOCK) si NO es la última fila del periférico
+					ep_clean AS (
+					SELECT *
+					FROM ep_marked
+					WHERE NOT (ID_WS = 0 AND ID_ESTADOWS = 3 AND ID_EQUIPO_PERIFERICO < LAST_EP)
+					),
+					ep_enriq AS (
+					SELECT
+						ec.ID_EQUIPO_PERIFERICO,
+						ec.ID_PERI,
+						ec.ID_WS,
+						ec.ID_ESTADOWS,
+						ec.ESTADO,
+						ec.TIPOP,
+						ec.FECHA_ASIGNACION,
+						-- si ID_WS=0, dejamos NULLs (sin asignar)
+						CASE WHEN ec.ID_WS = 0 THEN 'S/A' ELSE wu.ID_USUARIO END AS ID_USUARIO,
+						CASE WHEN ec.ID_WS = 0 THEN 'S/A' ELSE wu.NOMBRE     END AS NOMBRE,
+						CASE WHEN ec.ID_WS = 0 THEN 'S/A' ELSE wu.ID_AREA     END AS ID_AREA,
+						CASE WHEN ec.ID_WS = 0 THEN 'S/A' ELSE wu.AREA        END AS AREA
+					FROM ep_clean ec
+					LEFT JOIN ws_user wu
+							ON wu.ID_WS = ec.ID_WS
+					)
+					-- si querés TODAS las filas limpias con usuario/área, hacé SELECT * FROM ep_enriq ORDER BY ID_EQUIPO_PERIFERICO;
+					-- si querés SOLO los cambios (estado / usuario / área), usá el bloque de abajo:
+					SELECT *
+					FROM (
+					SELECT
+						ee.*,
+						LAG(ee.ID_USUARIO)  OVER (PARTITION BY ee.ID_PERI ORDER BY ee.ID_EQUIPO_PERIFERICO) AS PREV_ID_USUARIO
+					FROM ep_enriq ee
+					) x
+					WHERE
+					-- dejá uno o varios según lo que quieras detectar
+					NOT (x.PREV_ID_USUARIO <=> x.ID_USUARIO) -- cambio de usuario
+					ORDER BY x.ID_EQUIPO_PERIFERICO DESC;");
 				}
 			}
 			else {
@@ -195,39 +373,220 @@ $row = $resultado->fetch_assoc();
 
 				if ($mov==1) {
 					#AREA
-				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
-				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
-						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
-						INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
-						where 
-						m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientosperi mv
-							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
-							and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta'
-							 ORDER BY M.ID_MOVIMIENTO DESC");
+				// $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
+				// inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
+				// 		INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
+				// 		INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
+				// 		where 
+				// 		m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientosperi mv
+				// 			where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
+				// 			and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta'
+				// 			 ORDER BY M.ID_MOVIMIENTO DESC");
+				$consultarMovimientos=mysqli_query($datos_base, "WITH ws_area AS (
+					SELECT
+						w1.ID_WS,
+						u.ID_USUARIO,
+						u.NOMBRE,
+						a.ID_AREA,
+						a.AREA
+					FROM wsusuario w1
+					JOIN (
+						SELECT ID_WS, MAX(ID_WSUSU) AS max_wsusu
+						FROM wsusuario
+						GROUP BY ID_WS
+					) ult ON ult.ID_WS = w1.ID_WS AND ult.max_wsusu = w1.ID_WSUSU
+					JOIN usuarios u ON u.ID_USUARIO = w1.ID_USUARIO
+					JOIN area     a ON a.ID_AREA    = u.ID_AREA
+					),
+					ep_enriq AS (
+					SELECT
+						ep.ID_EQUIPO_PERIFERICO,
+						ep.ID_PERI,
+						ep.ID_WS,               -- puede ser 0 → sin equipo
+						wa.ID_AREA,             -- NULL si no hay usuario/área para ese WS
+						wa.AREA,
+						wa.NOMBRE,
+						p.TIPOP,
+						e.ESTADO,
+						ep.FECHA_ASIGNACION
+					FROM equipo_periferico ep
+					LEFT JOIN ws_area wa ON wa.ID_WS = ep.ID_WS  -- unimos directo al EP 
+					INNER JOIN periferico p ON p.ID_PERI=ep.ID_PERI
+					INNER JOIN estado_ws e ON ep.ID_ESTADOWS=e.ID_ESTADOWS
+					where ep.ID_PERI!=0
+					)
+					SELECT *
+					FROM (
+					SELECT
+						ee.ID_EQUIPO_PERIFERICO,
+						ee.ID_PERI,
+						ee.ID_WS, /* si ID_WS=0, forzar NULLs o S/A */
+                          CASE WHEN ee.ID_WS = 0 THEN 'S/A' ELSE ee.ID_AREA  END AS ID_AREA,
+                          CASE WHEN ee.ID_WS = 0 THEN 'S/A' ELSE ee.AREA     END AS AREA,
+                          CASE WHEN ee.ID_WS = 0 THEN 'S/A' ELSE ee.NOMBRE   END AS NOMBRE,
+						ee.TIPOP,
+						ee.ESTADO,
+						ee.FECHA_ASIGNACION,
+						LAG(ee.ID_AREA) OVER (
+							PARTITION BY ee.ID_PERI
+							ORDER BY ee.ID_EQUIPO_PERIFERICO
+						) AS PREV_ID_AREA
+					FROM ep_enriq ee
+					) x
+					-- NOT <=> es comparación NULL-safe en MySQL
+					WHERE NOT (x.PREV_ID_AREA <=> x.ID_AREA)
+					AND x.PREV_ID_AREA IS NOT NULL            -- exige “fila anterior” existente
+                    AND x.FECHA_ASIGNACION BETWEEN '$fechadesde' AND '$fechahasta'
+					ORDER BY x.ID_EQUIPO_PERIFERICO DESC");
 				}
 				if ($mov==2) {
 					#USUARIO
-				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
-				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
-						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
-						INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
-						where 
-						m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientosperi mv
-							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
-							and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta'
-							 ORDER BY M.ID_MOVIMIENTO DESC");
+				// $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
+				// inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
+				// 		INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
+				// 		INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
+				// 		where 
+				// 		m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientosperi mv
+				// 			where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
+				// 			and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta'
+				// 			 ORDER BY M.ID_MOVIMIENTO DESC");
+				$consultarMovimientos=mysqli_query($datos_base, "WITH ws_user AS (
+				SELECT
+					w1.ID_WS,
+					u.ID_USUARIO,
+					u.NOMBRE,
+					a.ID_AREA,
+					a.AREA
+				FROM wsusuario w1
+				JOIN (
+					SELECT ID_WS, MAX(ID_WSUSU) AS max_wsusu
+					FROM wsusuario
+					GROUP BY ID_WS
+				) ult ON ult.ID_WS = w1.ID_WS AND ult.max_wsusu = w1.ID_WSUSU
+				JOIN usuarios u ON u.ID_USUARIO = w1.ID_USUARIO
+				JOIN area     a ON a.ID_AREA    = u.ID_AREA
+				),
+				ep_enriq AS (
+				SELECT
+					ep.ID_EQUIPO_PERIFERICO,
+					ep.ID_PERI,
+					ep.ID_WS,
+					wa.ID_USUARIO,
+					wa.NOMBRE,
+					wa.ID_AREA,
+					wa.AREA,
+					p.TIPOP,
+					e.ESTADO,
+					ep.FECHA_ASIGNACION
+				FROM equipo_periferico ep
+				LEFT JOIN ws_user wa ON wa.ID_WS = ep.ID_WS
+				INNER JOIN periferico p ON p.ID_PERI = ep.ID_PERI
+				INNER JOIN estado_ws e ON ep.ID_ESTADOWS = e.ID_ESTADOWS
+				WHERE ep.ID_PERI <> 0
+				)
+				SELECT *
+				FROM (
+				SELECT
+					ee.ID_EQUIPO_PERIFERICO,
+					ee.ID_PERI,
+					ee.ID_WS,
+					CASE WHEN ee.ID_WS = 0 THEN 'S/A' ELSE ee.ID_USUARIO END AS ID_USUARIO,
+					CASE WHEN ee.ID_WS = 0 THEN 'S/A' ELSE ee.NOMBRE      END AS NOMBRE,
+                    CASE WHEN ee.AREA = 0 THEN 'S/A' ELSE ee.AREA      END AS AREA,
+					ee.TIPOP,
+					ee.ESTADO,
+					ee.FECHA_ASIGNACION,
+					LAG(ee.ID_USUARIO) OVER (
+						PARTITION BY ee.ID_PERI
+						ORDER BY ee.ID_EQUIPO_PERIFERICO
+					) AS PREV_ID_USUARIO
+				FROM ep_enriq ee
+				) x
+				WHERE NOT (x.PREV_ID_USUARIO <=> x.ID_USUARIO)  -- cambio de usuario (NULL-safe)
+				AND x.PREV_ID_USUARIO IS NOT NULL
+				AND x.FECHA_ASIGNACION BETWEEN '$fechadesde' AND '$fechahasta'
+				ORDER BY x.ID_EQUIPO_PERIFERICO DESC;");
 				}
 				if ($mov==3) {
 					#ESTADO
-				$consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
-				inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
-						INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
-						INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
-						where 
-						m.ID_ESTADOWS != ( select AVG(mv.ID_ESTADOWS) from movimientosperi mv
-							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
-							and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta'
-							 ORDER BY M.ID_MOVIMIENTO DESC");
+				// $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m
+				// inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
+				// 		INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
+				// 		INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP
+				// 		where 
+				// 		m.ID_ESTADOWS != ( select AVG(mv.ID_ESTADOWS) from movimientosperi mv
+				// 			where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
+				// 			and M.FECHA BETWEEN '$fechadesde' AND '$fechahasta'
+				// 			 ORDER BY M.ID_MOVIMIENTO DESC");
+				$consultarMovimientos=mysqli_query($datos_base, "WITH ws_user AS (
+					SELECT
+						w1.ID_WS,
+						u.ID_USUARIO,
+						u.NOMBRE,
+						a.ID_AREA,
+						a.AREA
+					FROM wsusuario w1
+					JOIN (
+						SELECT ID_WS, MAX(ID_WSUSU) AS max_wsusu
+						FROM wsusuario
+						GROUP BY ID_WS
+					) ult ON ult.ID_WS = w1.ID_WS AND ult.max_wsusu = w1.ID_WSUSU
+					JOIN usuarios u ON u.ID_USUARIO = w1.ID_USUARIO
+					JOIN area     a ON a.ID_AREA    = u.ID_AREA
+					),
+					ep_marked AS (
+					SELECT
+						ep.ID_EQUIPO_PERIFERICO,
+						ep.ID_PERI,
+						ep.ID_WS,
+						ep.ID_ESTADOWS,
+						e.ESTADO,
+						p.TIPOP,
+						ep.FECHA_ASIGNACION,
+						MAX(ep.ID_EQUIPO_PERIFERICO) OVER (PARTITION BY ep.ID_PERI) AS LAST_EP
+					FROM equipo_periferico ep
+					JOIN periferico p ON p.ID_PERI = ep.ID_PERI
+					JOIN estado_ws e  ON e.ID_ESTADOWS = ep.ID_ESTADOWS
+					WHERE ep.ID_PERI <> 0
+					),
+					-- quitar transiciones intermedias: ID_WS=0 y estado=3 (STOCK) si NO es la última fila del periférico
+					ep_clean AS (
+					SELECT *
+					FROM ep_marked
+					WHERE NOT (ID_WS = 0 AND ID_ESTADOWS = 3 AND ID_EQUIPO_PERIFERICO < LAST_EP)
+					),
+					ep_enriq AS (
+					SELECT
+						ec.ID_EQUIPO_PERIFERICO,
+						ec.ID_PERI,
+						ec.ID_WS,
+						ec.ID_ESTADOWS,
+						ec.ESTADO,
+						ec.TIPOP,
+						ec.FECHA_ASIGNACION,
+						-- si ID_WS=0, dejamos NULLs (sin asignar)
+						CASE WHEN ec.ID_WS = 0 THEN 'S/A' ELSE wu.ID_USUARIO END AS ID_USUARIO,
+						CASE WHEN ec.ID_WS = 0 THEN 'S/A' ELSE wu.NOMBRE     END AS NOMBRE,
+						CASE WHEN ec.ID_WS = 0 THEN 'S/A' ELSE wu.ID_AREA     END AS ID_AREA,
+						CASE WHEN ec.ID_WS = 0 THEN 'S/A' ELSE wu.AREA        END AS AREA
+					FROM ep_clean ec
+					LEFT JOIN ws_user wu
+							ON wu.ID_WS = ec.ID_WS
+					)
+					-- si querés TODAS las filas limpias con usuario/área, hacé SELECT * FROM ep_enriq ORDER BY ID_EQUIPO_PERIFERICO;
+					-- si querés SOLO los cambios (estado / usuario / área), usá el bloque de abajo:
+					SELECT *
+					FROM (
+					SELECT
+						ee.*,
+						LAG(ee.ID_USUARIO)  OVER (PARTITION BY ee.ID_PERI ORDER BY ee.ID_EQUIPO_PERIFERICO) AS PREV_ID_USUARIO
+					FROM ep_enriq ee
+					) x
+					WHERE
+					-- dejá uno o varios según lo que quieras detectar
+					NOT (x.PREV_ID_USUARIO <=> x.ID_USUARIO) -- cambio de usuario
+                    AND x.FECHA_ASIGNACION BETWEEN '$fechadesde' AND '$fechahasta'
+					ORDER BY x.ID_EQUIPO_PERIFERICO DESC;");
 				}
 			}
 		}
@@ -236,18 +595,118 @@ $row = $resultado->fetch_assoc();
         $fecha = date("Y-m-d");
 		echo"<h4 id='ind' class='indicadores' style='margin-bottom: 10px;'>FECHA: $fecha</h4>";
         
-        
-        $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m 
-        inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
-        INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
-        INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP 
-		where m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientosperi mv
-							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
-		or m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientosperi mv
-							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
-		or m.ID_ESTADOWS != ( select AVG(mv.ID_ESTADOWS) from movimientosperi mv
-							where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
-		ORDER BY M.ID_MOVIMIENTO DESC");}?>
+        // $consultarMovimientos=mysqli_query($datos_base, "SELECT m.ID_MOVIMIENTO, m.ID_PERI, p.TIPOP, t.TIPO, m.FECHA, a.AREA, u.NOMBRE, e.ESTADO from movimientosperi m 
+        // inner join area a on m.ID_AREA=a.ID_AREA INNER JOIN usuarios u ON u.ID_USUARIO=m.ID_USUARIO 
+        // INNER JOIN estado_ws e ON m.ID_ESTADOWS=e.ID_ESTADOWS INNER JOIN periferico p ON p.ID_PERI=m.ID_PERI 
+        // INNER JOIN tipop t ON p.ID_TIPOP=t.ID_TIPOP 
+		// where m.ID_AREA != ( select AVG(mv.ID_AREA) from movimientosperi mv
+		// 					where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
+		// or m.ID_USUARIO != ( select AVG(mv.ID_USUARIO) from movimientosperi mv
+		// 					where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
+		// or m.ID_ESTADOWS != ( select AVG(mv.ID_ESTADOWS) from movimientosperi mv
+		// 					where m.ID_PERI=mv.ID_PERI and m.ID_MOVIMIENTO!=mv.ID_MOVIMIENTO)
+		// ORDER BY M.ID_MOVIMIENTO DESC");
+        $consultarMovimientos=mysqli_query($datos_base, "WITH ws_user AS (
+			/* Último usuario/área por equipo (WS) */
+			SELECT
+				w1.ID_WS,
+				u.ID_USUARIO,
+				u.NOMBRE,
+				a.ID_AREA,
+				a.AREA
+			FROM wsusuario w1
+			JOIN (
+				SELECT ID_WS, MAX(ID_WSUSU) AS max_wsusu
+				FROM wsusuario
+				GROUP BY ID_WS
+			) ult ON ult.ID_WS = w1.ID_WS AND ult.max_wsusu = w1.ID_WSUSU
+			JOIN usuarios u ON u.ID_USUARIO = w1.ID_USUARIO
+			JOIN area     a ON a.ID_AREA    = u.ID_AREA
+			),
+			ep_marked AS (
+			/* Marcamos última fila por periférico */
+			SELECT
+				ep.ID_EQUIPO_PERIFERICO,
+				ep.ID_PERI,
+				ep.ID_WS,
+				ep.ID_ESTADOWS,
+				e.ESTADO,
+				p.TIPOP,
+				ep.FECHA_ASIGNACION,
+				MAX(ep.ID_EQUIPO_PERIFERICO) OVER (PARTITION BY ep.ID_PERI) AS LAST_EP
+			FROM equipo_periferico ep
+			JOIN periferico p ON p.ID_PERI = ep.ID_PERI
+			JOIN estado_ws  e ON e.ID_ESTADOWS = ep.ID_ESTADOWS
+			WHERE ep.ID_PERI <> 0
+			),
+			/* Quitamos transiciones intermedias: WS=0 & estado=3 si NO es la última fila del periférico */
+			ep_clean AS (
+			SELECT *
+			FROM ep_marked
+			WHERE NOT (ID_WS = 0 AND ID_ESTADOWS = 3 AND ID_EQUIPO_PERIFERICO < LAST_EP)
+			),
+			/* Enriquecemos con usuario/área actuales del WS (NULL si WS=0) */
+			ep_enriq AS (
+			SELECT
+				ec.ID_EQUIPO_PERIFERICO,
+				ec.ID_PERI,
+				ec.ID_WS,
+				ec.ID_ESTADOWS,
+				ec.ESTADO AS ESTADO_ACTUAL,
+				ec.TIPOP,
+				ec.FECHA_ASIGNACION,
+				CASE WHEN ec.ID_WS = 0 THEN 'S/A' ELSE wu.ID_USUARIO END AS ID_USUARIO,
+				CASE WHEN ec.ID_WS = 0 THEN 'S/A' ELSE wu.NOMBRE     END AS NOMBRE,
+				CASE WHEN ec.ID_WS = 0 THEN 'S/A' ELSE wu.ID_AREA     END AS ID_AREA,
+				CASE WHEN ec.ID_WS = 0 THEN 'S/A' ELSE wu.AREA        END AS AREA
+			FROM ep_clean ec
+			LEFT JOIN ws_user wu ON wu.ID_WS = ec.ID_WS
+			)
+			SELECT
+				x.ID_EQUIPO_PERIFERICO,
+				x.ID_PERI,
+				x.ID_WS,
+				x.TIPOP,
+				x.FECHA_ASIGNACION,
+
+				/* Estado (nuevo y anterior) */
+				x.ID_ESTADOWS         AS ESTADO_NUEVO_ID,
+				x.ESTADO_ACTUAL       AS ESTADO,
+				x.PREV_ID_ESTADO      AS ESTADO_ANTERIOR_ID,
+				x.PREV_ESTADO         AS ESTADO_ANTERIOR,
+
+				/* Usuario (nuevo y anterior) */
+				x.ID_USUARIO          AS USUARIO_NUEVO_ID,
+				x.NOMBRE              AS NOMBRE,
+				x.PREV_ID_USUARIO     AS USUARIO_ANTERIOR_ID,
+				x.PREV_NOMBRE         AS USUARIO_ANTERIOR,
+
+				/* Área (nueva y anterior) */
+				x.ID_AREA             AS AREA_NUEVA_ID,
+				x.AREA                AS AREA,
+				x.PREV_ID_AREA        AS AREA_ANTERIOR_ID,
+				x.PREV_AREA           AS AREA_ANTERIOR
+
+			FROM (
+			SELECT
+				ee.*,
+				LAG(ee.ID_ESTADOWS)  OVER (PARTITION BY ee.ID_PERI ORDER BY ee.ID_EQUIPO_PERIFERICO) AS PREV_ID_ESTADO,
+				LAG(ee.ESTADO_ACTUAL)OVER (PARTITION BY ee.ID_PERI ORDER BY ee.ID_EQUIPO_PERIFERICO) AS PREV_ESTADO,
+
+				LAG(ee.ID_USUARIO)   OVER (PARTITION BY ee.ID_PERI ORDER BY ee.ID_EQUIPO_PERIFERICO) AS PREV_ID_USUARIO,
+				LAG(ee.NOMBRE)       OVER (PARTITION BY ee.ID_PERI ORDER BY ee.ID_EQUIPO_PERIFERICO) AS PREV_NOMBRE,
+
+				LAG(ee.ID_AREA)      OVER (PARTITION BY ee.ID_PERI ORDER BY ee.ID_EQUIPO_PERIFERICO) AS PREV_ID_AREA,
+				LAG(ee.AREA)         OVER (PARTITION BY ee.ID_PERI ORDER BY ee.ID_EQUIPO_PERIFERICO) AS PREV_AREA
+			FROM ep_enriq ee
+			) x
+			/* Mostrar filas donde cambió al menos uno: estado, usuario o área (comparación NULL-safe) */
+			WHERE (NOT (x.PREV_ID_ESTADO  <=> x.ID_ESTADOWS))
+			OR (NOT (x.PREV_ID_USUARIO <=> x.ID_USUARIO))
+			OR (NOT (x.PREV_ID_AREA    <=> x.ID_AREA))
+			ORDER BY x.ID_EQUIPO_PERIFERICO DESC;
+			;
+			");}?>
 	<!--SE ARMA CABECERA DE TABLA-->
         <?php echo "<table width=100%>
         <thead>
@@ -271,11 +730,10 @@ $row = $resultado->fetch_assoc();
 		echo
 		" 
 			<tr>
-				<!--<td><h4 style='font-size:16px;'>".$listar['ID_MOVIMIENTO']."</h4></td>-->
-				<td><h4 style='font-size:16px;'>".$listar['FECHA']."</h4></td>
+				<!--<td><h4 style='font-size:16px;'>".$listar['ID_EQUIPO_PERIFERICO']."</h4></td>-->
+				<td><h4 style='font-size:16px;'>".$listar['FECHA_ASIGNACION']."</h4></td>
 				<td><h4 style='font-size:16px;'>".$listar['ID_PERI']."</h4></td>
 				<td><h4 style='font-size:16px;'>".$listar['TIPOP']."</h4></td>
-				<!--<td><h4 style='font-size:16px;'>".$listar['TIPO']."</h4></td>-->
 				<td><h4 style='font-size:16px;'>".$listar['AREA']."</h4></td>
 				<td><h4 style='font-size:16px;'>".$listar['NOMBRE']."</h4></td>
                 <td><h4 style='font-size:16px;'>".$listar['ESTADO']."</h4></td>

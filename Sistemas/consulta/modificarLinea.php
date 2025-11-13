@@ -270,7 +270,7 @@ $idRoaming = $consulta['ID_ROAMING'];
                 $row = $resultado->fetch_assoc();
                 $estado = $row['ESTADO'];
 
-				$sent= "SELECT n.NOMBREPLAN, p.PLAN, l.ID_LINEA, pr.PROVEEDOR
+				$sent= "SELECT n.NOMBREPLAN, p.PLAN, l.ID_LINEA, pr.PROVEEDOR, pr.ID_PROVEEDOR
 				FROM linea l
 				INNER JOIN nombreplan n ON n.ID_NOMBREPLAN = l.ID_NOMBREPLAN
 				INNER JOIN plan p ON p.ID_PLAN = n.ID_PLAN
@@ -281,6 +281,7 @@ $idRoaming = $consulta['ID_ROAMING'];
                 $nombrePlan = $row['NOMBREPLAN'];
                 $plan = $row['PLAN'];
 				$prove = $row['PROVEEDOR'];
+                $id_prov = $row['ID_PROVEEDOR'];
 
 				$sent= "SELECT ROAMING FROM roaming WHERE ID_ROAMING = $idRoaming";
                 $resultado = $datos_base->query($sent);
@@ -453,11 +454,36 @@ $idRoaming = $consulta['ID_ROAMING'];
 					<label id="lblForm" class="col-form-label col-xl col-lg">OBSERVACIÓN:</label> 
 					<textarea class="form-control col-xl col-lg" id="obs" name="obs" placeholder="OBSERVACIÓN" style="text-transform:uppercase" rows="3" ><?php echo $observaciones;?></textarea>
 				</div> 
-				<!-- Campo oculto para la acción -->
-				<input type="hidden" id="accion" name="accion" value="modificarLinea">
-				<div class="form-group row justify-content-end">
-					<input style="width:20%" onclick="enviar_formulario(this.form, 'modificarLinea')" class="btn btn-success" type="button" name="modificarLinea" value="MODIFICAR" class="button">
-				</div>	
+                <?php 
+					$añoActual = date('Y');
+					$mesActual = date('n');
+					// $sqla = "SELECT ID_MOVILINEA AS id, YEAR(FECHA) AS AÑO, MONTH(FECHA) AS MES FROM movilinea ORDER BY FECHA DESC LIMIT 1";
+					$sqlFecha = "SELECT 
+									SUM(CASE WHEN n.ID_PROVEEDOR = 34 THEN 1 ELSE 0 END) AS PERSONAL,
+									SUM(CASE WHEN n.ID_PROVEEDOR = 35 THEN 1 ELSE 0 END) AS CLARO
+								FROM movilinea m
+								INNER JOIN linea l ON m.ID_LINEA = l.ID_LINEA
+								INNER JOIN nombreplan n ON l.ID_NOMBREPLAN = n.ID_NOMBREPLAN
+								WHERE YEAR(FECHA) = $añoActual AND MONTH(FECHA) = $mesActual";
+					$resultadoFecha = $datos_base->query($sqlFecha);
+					$telefonia = $resultadoFecha->fetch_assoc();
+					$claro = $telefonia['CLARO'];
+        			$personal = $telefonia['PERSONAL'];
+					$puedeCargar=false;
+                    if ($id_prov==34 && $personal>0) {
+                        $puedeCargar=true;
+                    }
+                    if ($id_prov==35 && $claro>0) {
+                        $puedeCargar=true;
+                    }
+					if ($row['ID_PERFIL'] != 5 && $puedeCargar==true) {
+                        echo "<!-- Campo oculto para la acción -->
+				<input type='hidden' id='accion' name='accion' value='modificarLinea'>
+				<div class='form-group row justify-content-end'>
+					<input style='width:20%' onclick='enviar_formulario(this.form, 'modificarLinea')' class='btn btn-success' type='button' name='modificarLinea' value='MODIFICAR' class='button'>
+				</div>	";
+                    }
+                    ?>
 				<p style="color:red;text-align:left;font-size:14px;">* Al ingresar los extras de Personal, al precio que sale en la factura agregarle el iva.</br>En el caso de Claro, se ingresa tal cual figura en la factura.</p>
 			</form>
 			

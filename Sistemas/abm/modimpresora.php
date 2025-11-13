@@ -303,7 +303,7 @@ function ConsultarIncidente($no_tic)
 
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">MODELO:<span style="color:red;">*</span></label>
-                        <select name="modelo" id="modelo" style="margin-top: 5px; text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="modelo" required>
+                        <select name="modelo" id="modelo" style="margin-top: 5px; text-transform:uppercase" class="form-control col-form-label col-xl col-lg" required>
                         <option selected value="200"><?php echo $mod?></option>
                         <?php
                         include("../particular/conexion.php");
@@ -359,7 +359,7 @@ function ConsultarIncidente($no_tic)
                                     
                     <div class="form-group row">
                         <label id="lblForm"class="col-form-label col-xl col-lg">PROVEEDOR: </label>
-                        <select name="prov" id="prov" style="margin-top: 5px; text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="proveedor">
+                        <select name="prov" style="margin-top: 5px; text-transform:uppercase" class="form-control col-form-label col-xl col-lg" id="proveedor">
                         <option selected value="400"><?php echo $prov?></option>
                         <?php
                         include("../particular/conexion.php");

@@ -398,6 +398,9 @@ $row = $resultado->fetch_assoc();
 		<div id="titulo">
 			<h1>MONTOS LÍNEAS</h1>
 		</div>
+        <?php 
+        
+         ?>
         <div class="botonAgregar" style="display:flex;gap:10px;">
             <?php if($row['ID_PERFIL'] == 1 || $row['ID_PERFIL'] == 2 || $row['ID_PERFIL'] == 4){
                 echo '<div>

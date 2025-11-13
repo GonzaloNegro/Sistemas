@@ -125,15 +125,20 @@ if ($consulta = mysqli_fetch_assoc($consultaPeri)) {
                 }elseif ($mov['ID_ESTADOWS'] == 2 || $mov['ID_ESTADOWS'] == 3) {
                     $fecha = valorPorDefecto(date("d-m-Y", strtotime($mov['FECHA_DESVINCULACION'])));
                 }
-                
-                $area  = obtenerValor($datos_base, "SELECT a.AREA FROM wsusuario w 
+                $estado = obtenerValor($datos_base, "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = {$mov['ID_ESTADOWS']}", 'ESTADO');
+                if ($mov['ID_WS']==0) {
+                    $usu="S/A";
+                    $area="S/A";
+                }
+                else{
+                    $usu = obtenerValor($datos_base, "SELECT u.NOMBRE FROM wsusuario w 
+                            LEFT JOIN usuarios u ON w.ID_USUARIO=u.ID_USUARIO
+                            WHERE w.ID_WS = {$mov['ID_WS']}", 'NOMBRE');
+                    $area  = obtenerValor($datos_base, "SELECT a.AREA FROM wsusuario w 
                             LEFT JOIN usuarios u ON w.ID_USUARIO=u.ID_USUARIO
                             LEFT JOIN area a ON a.ID_AREA=u.ID_AREA
                             WHERE w.ID_WS = {$mov['ID_WS']}", "AREA");
-                $usu = obtenerValor($datos_base, "SELECT u.NOMBRE FROM wsusuario w 
-                            LEFT JOIN usuarios u ON w.ID_USUARIO=u.ID_USUARIO
-                            WHERE w.ID_WS = {$mov['ID_WS']}", 'NOMBRE');
-                $estado = obtenerValor($datos_base, "SELECT ESTADO FROM estado_ws WHERE ID_ESTADOWS = {$mov['ID_ESTADOWS']}", 'ESTADO');
+                }
 
                 $color = 'blue';
                 if ($estado === 'EN USO') {
