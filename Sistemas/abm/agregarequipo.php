@@ -57,55 +57,55 @@ $row = $resultado->fetch_assoc();
 <script type="text/javascript">
 			function ok(){
         Swal.fire({
-                        title: "Equipo cargado correctamente.",
-                        icon: "success",
-                        showConfirmButton: true,
-                        showCancelButton: false,
+              title: "Equipo cargado correctamente.",
+              icon: "success",
+              showConfirmButton: true,
+              showCancelButton: false,
               confirmButtonColor: '#198754',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: "Cancelar",
-                reverseButtons: true,
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                          window.location.href='../consulta/inventario.php';
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Confirmar',
+              cancelButtonText: "Cancelar",
+              reverseButtons: true,
+              customClass:{
+                  actions: 'reverse-button'
+              }
+          })
+          .then((result) => {
+              if (result.isConfirmed) {
+                window.location.href='../consulta/inventario.php';
 
 
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
+              } else if (result.isDenied) {
+                  Swal.fire('Changes are not saved', '', 'info')
+              }
+          })
 			}	
 			</script>
 <script type="text/javascript">
 			function no(){
         Swal.fire({
-                        title: "El equipo ya está registrado",
-                        icon: "error",
-                        showConfirmButton: true,
-                        showCancelButton: false,
+              title: "El equipo ya está registrado",
+              icon: "error",
+              showConfirmButton: true,
+              showCancelButton: false,
               confirmButtonColor: '#198754',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: "Cancelar",
-                reverseButtons: true,
-                        customClass:{
-                            actions: 'reverse-button'
-                        }
-                    })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                          window.location.href='agregarequipo.php';
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Confirmar',
+              cancelButtonText: "Cancelar",
+              reverseButtons: true,
+              customClass:{
+                  actions: 'reverse-button'
+              }
+          })
+          .then((result) => {
+              if (result.isConfirmed) {
+                window.location.href='agregarequipo.php';
 
 
-                        } else if (result.isDenied) {
-                            Swal.fire('Changes are not saved', '', 'info')
-                        }
-                    })
+              } else if (result.isDenied) {
+                  Swal.fire('Changes are not saved', '', 'info')
+              }
+          })
 			}	
 </script>
 <script>
@@ -123,7 +123,9 @@ function validar_formulario() {
     { selector: "#slcmast", errorMessage: "No selecciono Masterización." },
     { selector: "#slcrip", errorMessage: "No seleccionó RIP." },
     { selector: "#slcred", errorMessage: "No seleccionó la red." },
-    { selector: "#slcprocedencia", errorMessage: "No seleccionó procedencia." }
+    { selector: "#slcprocedencia", errorMessage: "No seleccionó procedencia." },
+    { selector: "#ppla", errorMessage: "No seleccionó Placa Madre." },
+    { selector: "#mmic", errorMessage: "No seleccionó Micro." }
   ];
 
   if (valorUsuario != null) {
@@ -175,6 +177,8 @@ function validar_formulario() {
 					{ id: 'slcmast', label: 'Masterización', esSelect: true },
 					{ id: 'slcrip', label: 'Reserva de IP', esSelect: true },
 					{ id: 'slcred', label: 'Red', esSelect: true },
+					{ id: 'ppla', label: 'Placa Madre', esSelect: true },
+					{ id: 'mmic', label: 'Micro', esSelect: true },
 					{ id: 'slcprocedencia', label: 'Procedencia', esSelect: true }
 				];
 
@@ -2141,11 +2145,11 @@ function validar_formulario() {
 <script>
 function actualizarEstadoCampo(idCampo, idLabel) {
   const campo = document.getElementById(idCampo);
-  const valor = campo.value;
+  const valor = campo ? campo.value : "";
   const label = document.getElementById(idLabel);
-  const icono = label.querySelector("i");
+  if (!campo || !label) return; // seguridad
 
-  // Para selects: validar que no esté vacía y que no sea la primera opción
+  const icono = label.querySelector("i");
   const esSelect = campo.tagName === "SELECT";
   const esValido = esSelect
     ? valor.trim() !== "" && campo.selectedIndex !== 0
@@ -2174,18 +2178,28 @@ const campos = [
   ["mmic", "campo-mmic"]
 ];
 
-// Asignar listeners y verificar al cargar
 window.addEventListener("DOMContentLoaded", () => {
   campos.forEach(([idCampo, idLabel]) => {
     const campo = document.getElementById(idCampo);
-    if (campo) {
-      campo.addEventListener("change", () => actualizarEstadoCampo(idCampo, idLabel));
-      campo.addEventListener("input", () => actualizarEstadoCampo(idCampo, idLabel)); // para inputs
-      actualizarEstadoCampo(idCampo, idLabel);
+    if (!campo) return;
+
+    // Escucha cambios en inputs y selects normales
+    campo.addEventListener("change", () => actualizarEstadoCampo(idCampo, idLabel));
+    campo.addEventListener("input", () => actualizarEstadoCampo(idCampo, idLabel));
+
+    // 🔹 Soporte adicional para Select2
+    if ($(campo).data('select2')) {
+      $(campo).on('select2:select select2:clear', function () {
+        actualizarEstadoCampo(idCampo, idLabel);
+      });
     }
+
+    // Evaluar el estado inicial
+    actualizarEstadoCampo(idCampo, idLabel);
   });
 });
 </script>
+
 
 
     </main>

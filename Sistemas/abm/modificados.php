@@ -1369,8 +1369,8 @@ if (isset($_POST['accion'])) {
             $id = $_POST['id'];
             $usu = $_POST['usu'];
             $marca = $_POST['marca'];
-            $serieg = $_POST['serieg'];
-            $serialn = $_POST['serialn'];
+            $serieg = str_replace(' ', '', trim($_POST['serieg']));
+            $serialn = str_replace(' ', '', trim($_POST['serialn']));
             $tippc = $_POST['tippc'];
             $est = $_POST['est'];
             $so = $_POST['so'];
@@ -1552,7 +1552,7 @@ if (isset($_POST['accion'])) {
             }
             
             if($usu == "1000"){
-                $sql6 = "SELECT ID_USUARIO FROM wsusuario WHERE ID_WS = '$id'";
+                $sql6 = "SELECT ID_USUARIO FROM wsusuario WHERE ID_WS = '$id' ORDER BY ID_WSUSU DESC LIMIT 1";
                 $result6 = $datos_base->query($sql6);
                 $row6 = $result6->fetch_assoc();
                 $usu = $row6['ID_USUARIO'];
@@ -2142,7 +2142,7 @@ if (isset($_POST['accion'])) {
 
                 
 
-                if($u != $usu || $e != $est || $mr != $marca || $s != $so || $ma != $masterizacion || $mc != $mac || $r != $reserva || $i != $ip || $rd != $red){
+                if($u != $usu || $estadoBD != $est || $mr != $marca || $s != $so || $ma != $masterizacion || $mc != $mac || $r != $reserva || $i != $ip || $rd != $red){
                     mysqli_query($datos_base, "INSERT INTO movimientos VALUES (DEFAULT, '$fechaActual', '$id', '$usu', '$est', '$marca', '$so', '$masterizacion', '$mac', '$reserva', '$ip', '$red')");
                 }
                 
@@ -2155,7 +2155,7 @@ if (isset($_POST['accion'])) {
                 if($est == 1 AND $estadoBD == $est){/* BASE DE DATOS Y FORMULARIO: ACTIVO */
                     if($usuarioBD != $usu){/*  SI CAMBIA DE USUARIO */
                         /* -INSERT DE DESVINCULACION DEL USUARIO ACTUAL(tabla wsusuario) */
-                        mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, 0, '$usuarioBD', '0000-00-00', '$fechaActual', 3)");
+                        mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, '$equipoSinAsignar', '$usuarioBD', '0000-00-00', '$fechaActual', 3)");
                         /* -INSERT DE DESVINCULACION DEL EQUIPO (tabla wsusuario) */
                         mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, '$equipoBD', '$usuarioSinAsignar', '0000-00-00', '$fechaActual', 3)");
 
@@ -2191,7 +2191,7 @@ if (isset($_POST['accion'])) {
                     }                 
                 } elseif ($estadoBD == 1 AND $est != $estadoBD){ /* BASE DE DATO: ACTIVO || FORMULARIO: BAJA O STOCK */
                     /* -INSERT DE DESVINCULACION DEL USUARIO (tabla wsusuario) */
-                    mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, 0, '$usuarioBD', '0000-00-00', '$fechaActual', 3)");
+                    mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, '$equipoSinAsignar', '$usuarioBD', '0000-00-00', '$fechaActual', 3)");
                     /* -INSERT DE DESVINCULACION DEL EQUIPO (tabla equipo_periferico) */
                     mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, '$equipoBD', '$usuarioSinAsignar', '0000-00-00', '$fechaActual', 3)");
 
@@ -2219,15 +2219,19 @@ if (isset($_POST['accion'])) {
                     }
 
                     /* -INSERT DEL NUEVO ESTADO Y ESPECIFICAR EQUIPO (tabla agregados) */
-                    $descripcion = "SERIE: " . $serie . " - ESTADO: " . $est;
-                    mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'OTRO PERIFÉRICO', 'MODIFICADO', '$estadoBD', '$descripcion', '$fechaActual', '$horaActual', '$resolutorActivo')");
-                } elseif ($estadoBD != 1 AND $est == 1) {/*  BASE DE DATOS: BAJA O STOCK || FORMULARIO: ACTIVO */
+                    $descripcionNueva = "SERIE: " . $serieg . " - ESTADO: " . $est;
+                    $descripcionVieja = "SERIE: " . $seriegBD . " - ESTADO: " . $estadoBD;
+
+                    mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'EQUIPO', 'MODIFICADO', '$descripcionNueva', '$descripcionVieja', '$fechaActual', '$horaActual', '$resolutorActivo')");
+                } elseif ($estadoBD != 1 && $est == 1) {/*  BASE DE DATOS: BAJA O STOCK || FORMULARIO: ACTIVO */
                     /* -INSERT DE VINCULACION DEL USUARIO Y EQUIPO (tabla wsusuario) */
-                    mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, '$equipo', '$id', '$fechaActual', '0000-00-00', 1)");
+                    mysqli_query($datos_base, "INSERT INTO wsusuario VALUES (DEFAULT, '$id', '$usu', '$fechaActual', '0000-00-00', 1)");
 
                     /* -INSERT DEL NUEVO ESTADO Y ESPECIFICAR EQUIPO (tabla agregados) */
-                    $descripcion = "SERIE: " . $serie . " - ESTADO: " . $est;
-                    mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'OTRO PERIFÉRICO', 'MODIFICADO', '$estadoBD', '$descripcion', '$fechaActual', '$horaActual', '$resolutorActivo')");
+                    $descripcionNueva = "SERIE: " . $serieg . " - ESTADO: " . $est;
+                    $descripcionVieja = "SERIE: " . $seriegBD . " - ESTADO: " . $estadoBD;
+
+                    mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'EQUIPO', 'MODIFICADO', '$descripcionNueva', '$descripcionVieja', '$fechaActual', '$horaActual', '$resolutorActivo')");
                 }
 
                 header("Location: ../consulta/inventario.php?okMod");

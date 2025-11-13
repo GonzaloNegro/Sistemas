@@ -48,29 +48,39 @@
                 $color = 'red';
             }
 
-$sql = "SELECT i.SERIEG
-        FROM wsusuario wu
-        INNER JOIN inventario i ON wu.ID_WS = i.ID_WS
-        WHERE wu.ID_USUARIO = '$id_usuario'
-          AND i.ID_ESTADOWS = 1
-          AND i.ID_WS NOT IN (522, 523)";
-;
+            $sql = "SELECT i.SERIEG
+            FROM inventario i
+            INNER JOIN (
+                SELECT w1.ID_WS, w1.ID_USUARIO
+                FROM wsusuario w1
+                INNER JOIN (
+                    SELECT ID_WS, MAX(ID_WSUSU) AS UltimoMov
+                    FROM wsusuario
+                    GROUP BY ID_WS
+                ) w2 ON w1.ID_WS = w2.ID_WS AND w1.ID_WSUSU = w2.UltimoMov
+            ) ult
+                ON i.ID_WS = ult.ID_WS
+            WHERE ult.ID_USUARIO = '$id_usuario'
+            AND i.ID_ESTADOWS = 1
+            AND i.ID_WS NOT IN (522, 523);
+            ";
 
-$resultado = $datos_base->query($sql);
 
-$equipos = '';
+            $resultado = $datos_base->query($sql);
 
-if ($resultado && $resultado->num_rows > 0) {
-    $contador = 1;
-    while ($row = $resultado->fetch_assoc()) {
-        // SERIEG en verde
-        $equipos .= "<div>{$contador}°: <span style='color:green;'>{$row['SERIEG']}</span></div>";
-        $contador++;
-    }
-} else {
-    // Mensaje en rojo si no hay equipos
-    $equipos = "<div><span style='color:red;'>SIN EQUIPO ASIGNADO</span></div>";
-}
+            $equipos = '';
+
+            if ($resultado && $resultado->num_rows > 0) {
+                $contador = 1;
+                while ($row = $resultado->fetch_assoc()) {
+                    // SERIEG en verde
+                    $equipos .= "<div>{$contador}°: <span style='color:green;'>{$row['SERIEG']}</span></div>";
+                    $contador++;
+                }
+            } else {
+                // Mensaje en rojo si no hay equipos
+                $equipos = "<div><span style='color:red;'>SIN EQUIPO ASIGNADO</span></div>";
+            }
 
 
             echo'
