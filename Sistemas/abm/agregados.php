@@ -101,18 +101,30 @@ if (isset($_POST['accion'])) {
             $monto = $_POST['monto'] ?? '';
             $idPlan = $_POST['plan'] ?? 0;
             $proveedor = $_POST['proveedor'] ?? 0;
+            $codigo = $_POST['codigo'] ?? '';
         
             /* SI IMEI ESTA REPETIDO */
             $sql = "SELECT COUNT(*) AS TOTAL FROM nombreplan WHERE NOMBREPLAN = '$nombrePlan' AND ID_PLAN = '$idPlan'";
             $resultado = $datos_base->query($sql);
             $row = $resultado->fetch_assoc();
             $cantidadRegistros = $row['TOTAL'];
+
+            if ($codigo!='') {
+                /* SI CODIGO ESTA REPETIDO */
+                $sqli = "SELECT COUNT(*) AS TOTAL FROM nombreplan WHERE CODIGOP= '$codigo'";
+                $resultadoi = $datos_base->query($sqli);
+                $rowi = $resultadoi->fetch_assoc();
+                $cantidadRegCod = $rowi['TOTAL'];
+            }
+            else {
+                $cantidadRegCod = 0;
+            }
         
-            if($cantidadRegistros > 0){//SI HAY ALGUN REGISTRO EXISTENTE CON ESOS DATOS
+            if($cantidadRegistros > 0 || $cantidadRegCod > 0){//SI HAY ALGUN REGISTRO EXISTENTE CON ESOS DATOS
                 header("Location: ./abmPlanesCelulares.php?no");
                 exit;
             }else{
-                mysqli_query($datos_base, "INSERT INTO nombreplan VALUES (DEFAULT, '$nombrePlan', '$idPlan', '$proveedor', '$monto')");
+                mysqli_query($datos_base, "INSERT INTO nombreplan VALUES (DEFAULT, '$nombrePlan', '$idPlan', '$proveedor', '$codigo', '$monto')");
         
                 mysqli_query($datos_base, "INSERT INTO agregado VALUES (DEFAULT, 'PLAN', 'AGREGADO', '$nombrePlan', '', '$fechaActual', '$horaActual', '$resolutorActivo')");
         

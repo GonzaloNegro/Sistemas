@@ -215,14 +215,18 @@ $row = $resultado->fetch_assoc();
                             }
 
 
-                            function mostrarPlan(nombrePlan, plan) {
+                            function mostrarPlan(nombrePlan, plan, codigo) {
                                 const val1 = mostrarValor(nombrePlan);
                                 const val2 = mostrarValor(plan);
-
+                                const val3 = mostrarValor(codigo);
+                                var cod ="";
+                                if(val3!=0 && val3!="-"){
+                                    cod=`(${val3})`;
+                                }
                                 if (val1 === '-' && val2 === '-') {
                                     return '-';
                                 } else if (val1 !== '-' && val2 !== '-') {
-                                    return `${val1} - ${val2}`;
+                                    return `${val1}${cod} - ${val2}`;
                                 } else {
                                     return val1 !== '-' ? val1 : val2;
                                 }
@@ -233,7 +237,7 @@ $row = $resultado->fetch_assoc();
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(usuario)}</h4></td>
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.AREA)}</h4></td>
                             <td><h4 style='font-size:14px; text-align:left;margin-left: 5px;'>${mostrarValor(fila.REPA)}</h4></td>
-                            <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${mostrarPlan(fila.NOMBREPLAN, fila.PLAN)}</h4></td>
+                            <td><h4 style='max-width:180px;font-size:14px; text-align:left;margin-left: 5px;'>${mostrarPlan(fila.NOMBREPLAN, fila.PLAN, fila.CODIGOP)}</h4></td>
                             <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.PROVEEDOR)}</h4></td>
                             <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.MONTO, '$', 'antes', { color: 'green', negrita: false })}</h4></td>
                             <td><h4 style='font-size:14px;text-align:left;margin-left: 5px;'>${mostrarValor(fila.EXTRAS, '$', 'antes', { color: 'red', negrita: true })}</h4></td>
@@ -423,7 +427,7 @@ $row = $resultado->fetch_assoc();
                         <select id="nombreplan" name="nombreplan" class="form-control largo">
                             <option value="">TODOS</option>
                             <?php 
-                            $consulta= "SELECT n.NOMBREPLAN, p.PLAN, n.ID_NOMBREPLAN, e.PROVEEDOR
+                            $consulta= "SELECT n.NOMBREPLAN, p.PLAN, n.ID_NOMBREPLAN, e.PROVEEDOR, n.CODIGOP
                             FROM nombreplan n
                             LEFT JOIN plan p ON p.ID_PLAN = n.ID_PLAN inner join proveedor e on n.ID_PROVEEDOR=e.ID_PROVEEDOR
                             WHERE n.MONTO > 0
@@ -432,7 +436,13 @@ $row = $resultado->fetch_assoc();
                             $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
                             ?>
                             <?php foreach ($ejecutar as $opciones): ?> 
-                                <option value="<?php echo $opciones['ID_NOMBREPLAN']?>"><?php echo $opciones['NOMBREPLAN']." - ".$opciones['PLAN']?> - <?php echo $opciones['PROVEEDOR']?></option>
+                                <?php 
+                                    $cod="";
+                                    if ($opciones['CODIGOP']!="-" && $opciones['CODIGOP']!=0 && $opciones['CODIGOP']!=null) {
+                                        $cod="(".$opciones['CODIGOP'].")";
+                                    }
+                                    ?>
+                                <option value="<?php echo $opciones['ID_NOMBREPLAN']?>"><?php echo $opciones['NOMBREPLAN']."$cod - ".$opciones['PLAN']?> - <?php echo $opciones['PROVEEDOR']?></option>
                                 <?php endforeach ?>
                         </select>
                         

@@ -116,7 +116,7 @@ $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 
 <?php 
 //query para obtener los equipos
-       $query ="SELECT m.ID_MOVILINEA, m.ID_LINEA, m.EXTRAS, l.NRO, e.ESTADO, p.PLAN, n.NOMBREPLAN, n.MONTO, u.NOMBRE, l.DESCUENTO, l.FECHADESCUENTO, pr.PROVEEDOR, m.MONTOTOTAL, re.REPA, a.AREA
+       $query ="SELECT m.ID_MOVILINEA, m.ID_LINEA, m.EXTRAS, l.NRO, e.ESTADO, p.PLAN, n.NOMBREPLAN, n.MONTO, u.NOMBRE, l.DESCUENTO, l.FECHADESCUENTO, pr.PROVEEDOR, m.MONTOTOTAL, re.REPA, a.AREA, n.CODIGOP
                 FROM movilinea m
                 INNER JOIN (
                     SELECT ID_LINEA, MAX(ID_MOVILINEA) AS UltimoID

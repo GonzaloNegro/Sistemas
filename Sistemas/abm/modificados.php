@@ -29,6 +29,7 @@ if (isset($_POST['accion'])) {
             $monto = $_POST['monto'] ?? '';
             $plan = $_POST['plan'] ?? 0;
             $proveedor = $_POST['proveedor'] ?? 0;
+            $codigo = $_POST['codigo'] ?? '';
         
             /*TRAIGO VALORES DE LOS CMB*/
             if($plan == "100"){
@@ -44,6 +45,17 @@ if (isset($_POST['accion'])) {
                 $row3 = $result3->fetch_assoc();
                 $proveedor = $row3['ID_PROVEEDOR'];
             }
+
+            if ($codigo!='') {
+                /* SI CODIGO ESTA REPETIDO */
+                $sqli = "SELECT COUNT(*) AS TOTAL FROM nombreplan WHERE CODIGOP= '$codigo' AND ID_NOMBREPLAN != '$id'";
+                $resultadoi = $datos_base->query($sqli);
+                $rowi = $resultadoi->fetch_assoc();
+                $cantidadRegCod = $rowi['TOTAL'];
+            }
+            else {
+                $cantidadRegCod = 0;
+            }
             
             /*SI LOS CAMPOS ESTAN REPETIDOS*/
             $sqli = "SELECT COUNT(*) AS cantidad FROM nombreplan WHERE NOMBREPLAN = '$nombrePlan' AND ID_PLAN ='$plan' AND ID_PROVEEDOR = '$proveedor' AND ID_NOMBREPLAN != '$id'";
@@ -51,7 +63,7 @@ if (isset($_POST['accion'])) {
             $rowa = $result->fetch_assoc();
             $cantidad = $rowa['cantidad'];
             
-            if($cantidad > 0){
+            if($cantidad > 0 || $cantidadRegCod > 0){
                 header("Location: ./abmPlanesCelulares.php?noMod");
                 exit;
             }else{
@@ -64,7 +76,7 @@ if (isset($_POST['accion'])) {
                 $montoBD = $row3['MONTO'];
 
 
-                mysqli_query($datos_base, "UPDATE nombreplan SET NOMBREPLAN = '$nombrePlan', ID_PLAN ='$plan', ID_PROVEEDOR = '$proveedor', MONTO = '$monto' WHERE ID_NOMBREPLAN = '$id'");
+                mysqli_query($datos_base, "UPDATE nombreplan SET NOMBREPLAN = '$nombrePlan', ID_PLAN ='$plan', ID_PROVEEDOR = '$proveedor', CODIGOP = '$codigo', MONTO = '$monto' WHERE ID_NOMBREPLAN = '$id'");
 
                 // --- SIEMPRE mostramos PLAN ---
                 $descripcionNueva = "PLAN: " . $nombrePlan;
@@ -74,6 +86,7 @@ if (isset($_POST['accion'])) {
                 $campos = [
                     "IDPLAN"         => [$idPlanBD,   $plan],
                     "IDPROVEEDOR"    => [$proveedorBD, $proveedor],
+                    "CODIGOP"          => [$codigo,     $codigo],
                     "MONTO"          => [$montoBD,     $monto]
                 ];
 

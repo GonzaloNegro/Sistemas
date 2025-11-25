@@ -344,3 +344,24 @@ nav a img {
 .archivo {
   width: 120px;
 }
+
+
+	/* Estilo select2 */
+
+	/* Fondo y borde visibles */
+.select2-container--bootstrap4 .select2-dropdown .select2-search__field{
+  background-color: #f3f9ff; 
+  border: 2px solid #0077ff69;  
+  border-radius: .25rem;
+}
+
+/* Efecto al enfocar */
+.select2-container--bootstrap4 .select2-search__field:focus{
+  outline: 4px solid rgba(7, 123, 255, 0.35);
+}
+
+/* Placeholder más notorio (opcional) */
+.select2-container--bootstrap4 .select2-search__field::placeholder{
+  color: #7a7a7a;
+  opacity: 1;
+}

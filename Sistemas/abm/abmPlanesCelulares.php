@@ -54,6 +54,7 @@ verificarPerfil($row, [1, 2, 4]);
 							<tr>
 								<th><p style='text-align:left; margin-left: 10px;'>NOMBRE</p></th>
 								<th><p style='text-align:left; margin-left: 10px;'>PROVEEDOR</p></th>
+								<th><p style='text-align:left; margin-left: 10px;'>CÓDIGO</p></th>
 								<th><p style='text-align:right; margin-right: 10px;'>MONTO</p></th>";
 								if ($row['ID_PERFIL'] != 5) {
 									echo"
@@ -66,7 +67,7 @@ verificarPerfil($row, [1, 2, 4]);
 								if(isset($_POST['btn2']))
 								{
 									$doc = $_POST['buscar'];
-									$consulta=mysqli_query($datos_base, "SELECT n.ID_NOMBREPLAN, n.NOMBREPLAN, p.PROVEEDOR, n.MONTO, pl.PLAN
+									$consulta=mysqli_query($datos_base, "SELECT n.ID_NOMBREPLAN, n.NOMBREPLAN, p.PROVEEDOR, n.MONTO, pl.PLAN, n.CODIGOP
 									FROM nombreplan n
                                     LEFT JOIN proveedor AS p ON p.ID_PROVEEDOR = n.ID_PROVEEDOR
 									LEFT JOIN plan pl ON pl.ID_PLAN = n.ID_PLAN
@@ -85,6 +86,7 @@ verificarPerfil($row, [1, 2, 4]);
 												<tr>
 													<td><h4 style='font-size:14px; text-align: left; margin-left: 5px;color: $color;'>".$listar['NOMBREPLAN']." - ".$listar['PLAN']."</h4 ></td>
 													<td><h4 style='font-size:14px; text-align: left; margin-left: 5px;color: $color;'>".$listar['PROVEEDOR']."</h4 ></td>
+													<td><h4 style='font-size:14px; text-align: left; margin-left: 5px;color: $color;'>".$listar['CODIGOP']."</h4 ></td>
 													<td><h4 style='font-size:14px; text-align: right; margin-right: 5px;color: $color;'>"."$".$listar['MONTO']."</h4 ></td>";
 													if ($row['ID_PERFIL'] != 5) {
 														echo"
@@ -97,7 +99,7 @@ verificarPerfil($row, [1, 2, 4]);
 								}
 	
 								else{
-									$consulta=mysqli_query($datos_base, "SELECT n.ID_NOMBREPLAN, n.NOMBREPLAN, p.PROVEEDOR, n.MONTO, pl.PLAN
+									$consulta=mysqli_query($datos_base, "SELECT n.ID_NOMBREPLAN, n.NOMBREPLAN, p.PROVEEDOR, n.MONTO, pl.PLAN, n.CODIGOP
 									FROM nombreplan n
                                     LEFT JOIN proveedor p ON p.ID_PROVEEDOR = n.ID_PROVEEDOR
                                     LEFT JOIN plan pl ON pl.ID_PLAN = n.ID_PLAN
@@ -115,6 +117,7 @@ verificarPerfil($row, [1, 2, 4]);
 												<tr>
 													<td><h4 style='font-size:14px; text-align: left; margin-left: 5px;color: $color;'>".$listar['NOMBREPLAN']." - ".$listar['PLAN']."</h4 ></td>
 													<td><h4 style='font-size:14px; text-align: left; margin-left: 5px;color: $color;'>".$listar['PROVEEDOR']."</h4 ></td>
+													<td><h4 style='font-size:14px; text-align: left; margin-left: 5px;color: $color;'>".$listar['CODIGOP']."</h4 ></td>
 													<td><h4 style='font-size:14px; text-align: right; margin-right: 5px;color: $color;'>"."$".$listar['MONTO']."</h4 ></td>";
 													if ($row['ID_PERFIL'] != 5) {
 														echo"

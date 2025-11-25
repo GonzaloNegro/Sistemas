@@ -320,6 +320,11 @@ $row = $resultado->fetch_assoc();
 						</script>
 						<script>
 							$(document).ready(function(){
+								// Cuando se abre el dropdown, enfocamos el input de búsqueda
+                                $('#buscador').on('select2:open', function () {
+                                    const input = document.querySelector('.select2-container--open .select2-search__field');
+                                    if (input) input.focus();
+                                });
 								$('#buscador').change(function(){
 									buscador='b='+$('#buscador').val();
 									$.ajax({
@@ -387,6 +392,11 @@ $row = $resultado->fetch_assoc();
 										</script>
 										<script>
 											$(document).ready(function(){
+												// Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#tipificacion1').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
 												$('#tipificacion1').change(function(){
 													buscador='b='+$('#tipificacion1').val();
 													$.ajax({
@@ -437,6 +447,11 @@ $row = $resultado->fetch_assoc();
 										</script>
 										<script>
 											$(document).ready(function(){
+												// Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#tipificacion2').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
 												$('#tipificacion2').change(function(){
 													buscador='b='+$('#tipificacion2').val();
 													$.ajax({
@@ -487,6 +502,11 @@ $row = $resultado->fetch_assoc();
 										</script>
 										<script>
 											$(document).ready(function(){
+												// Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#tipificacion3').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
 												$('#tipificacion3').change(function(){
 													buscador='b='+$('#tipificacion3').val();
 													$.ajax({

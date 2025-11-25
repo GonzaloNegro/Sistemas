@@ -133,11 +133,20 @@ function obtenerMarcaModelo($conexion, $idModelo) {
     $result = mysqli_query($datos_base, "
         SELECT e.FECHA_ASIGNACION, u.NOMBRE, a.AREA, s.ESTADO , e.FECHA_DESVINCULACION, e.ID_ESTADOWS
         FROM equipo_periferico e
-        LEFT JOIN wsusuario w ON e.ID_WS=w.ID_WS
-        LEFT JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO
+        LEFT JOIN inventario i ON e.ID_WS = i.ID_WS
+        LEFT JOIN (
+            SELECT w1.*
+            FROM wsusuario w1
+            INNER JOIN (
+                SELECT ID_WS, MAX(ID_WSUSU) AS max_wsusu
+                FROM wsusuario
+                GROUP BY ID_WS
+            ) uw ON uw.ID_WS = w1.ID_WS AND uw.max_wsusu = w1.ID_WSUSU
+        ) ws ON i.ID_WS = ws.ID_WS
+        LEFT JOIN usuarios u ON u.ID_USUARIO = ws.ID_USUARIO
         LEFT JOIN area a ON a.ID_AREA = u.ID_AREA
         LEFT JOIN estado_ws s ON s.ID_ESTADOWS = e.ID_ESTADOWS 
-        WHERE e.ID_PERI = '$idPeri' 
+        WHERE e.ID_PERI = '$idPeri'
         ORDER BY e.ID_EQUIPO_PERIFERICO ASC
     ");
 

@@ -424,6 +424,11 @@ $row = $resultado->fetch_assoc();
 					</script>
 					<script>
 						$(document).ready(function(){
+							// Cuando se abre el dropdown, enfocamos el input de búsqueda
+							$('#tip').on('select2:open', function () {
+								const input = document.querySelector('.select2-container--open .select2-search__field');
+								if (input) input.focus();
+							});
 							$('#tip').change(function(){
 								buscador='b='+$('#tip').val();
 								$.ajax({
@@ -485,6 +490,11 @@ $row = $resultado->fetch_assoc();
 								</script>
 								<script>
 								$(document).ready(function(){
+									// Cuando se abre el dropdown, enfocamos el input de búsqueda
+									$('#buscador1').on('select2:open', function () {
+										const input = document.querySelector('.select2-container--open .select2-search__field');
+										if (input) input.focus();
+									});
 									$('#buscador1').change(function(){
 										buscador1='b='+$('#buscador1').val();
 										$.ajax({
@@ -539,6 +549,11 @@ $row = $resultado->fetch_assoc();
 									</script>
 									<script>
 										$(document).ready(function(){
+											// Cuando se abre el dropdown, enfocamos el input de búsqueda
+											$('#buscador2').on('select2:open', function () {
+												const input = document.querySelector('.select2-container--open .select2-search__field');
+												if (input) input.focus();
+											});
 											$('#buscador2').change(function(){
 												buscador2='b='+$('#buscador2').val();
 												$.ajax({
@@ -594,6 +609,11 @@ $row = $resultado->fetch_assoc();
 								</script>
 								<script>
 									$(document).ready(function(){
+										// Cuando se abre el dropdown, enfocamos el input de búsqueda
+										$('#buscador3').on('select2:open', function () {
+											const input = document.querySelector('.select2-container--open .select2-search__field');
+											if (input) input.focus();
+										});
 										$('#buscador3').change(function(){
 												buscador2='b='+$('#buscador3').val();
 												$.ajax({
@@ -648,6 +668,11 @@ $row = $resultado->fetch_assoc();
 								</script>
 								<script>
 									$(document).ready(function(){
+										// Cuando se abre el dropdown, enfocamos el input de búsqueda
+										$('#buscador4').on('select2:open', function () {
+											const input = document.querySelector('.select2-container--open .select2-search__field');
+											if (input) input.focus();
+										});
 										$('#buscador4').change(function(){
 												buscador2='b='+$('#buscador4').val();
 												$.ajax({
@@ -702,6 +727,11 @@ $row = $resultado->fetch_assoc();
 								</script>
 								<script>
 									$(document).ready(function(){
+										// Cuando se abre el dropdown, enfocamos el input de búsqueda
+										$('#buscador5').on('select2:open', function () {
+											const input = document.querySelector('.select2-container--open .select2-search__field');
+											if (input) input.focus();
+										});
 										$('#buscador5').change(function(){
 												buscador2='b='+$('#buscador5').val();
 												$.ajax({

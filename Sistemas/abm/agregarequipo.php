@@ -226,6 +226,11 @@ function validar_formulario() {
                                     <!--BUSCADOR-->
                                     <script>
                           $(document).ready(function(){
+                            // Cuando se abre el dropdown, enfocamos el input de búsqueda
+                            $('#slcusu').on('select2:open', function () {
+                              const input = document.querySelector('.select2-container--open .select2-search__field');
+                              if (input) input.focus();
+                            });
                             $('#slcusu').change(function(){
                               buscador='b='+$('#slcusu').val();
                               $.ajax({
@@ -305,6 +310,11 @@ function validar_formulario() {
                                     <!--BUSCADOR-->
                                     <script>
                           $(document).ready(function(){
+                            // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#slcmarca').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                             $('#slcmarca').change(function(){
                               buscador='b='+$('#slcmarca').val();
                               $.ajax({
@@ -407,6 +417,11 @@ function validar_formulario() {
                                     <!--BUSCADOR-->
                                     <script>
                           $(document).ready(function(){
+                            // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#slcprov').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                             $('#slcprov').change(function(){
                               buscador='b='+$('#slcprov').val();
                               $.ajax({
@@ -511,6 +526,11 @@ function validar_formulario() {
                                             <!--BUSCADOR-->
                                             <script>
                                   $(document).ready(function(){
+                                    // Cuando se abre el dropdown, enfocamos el input de búsqueda
+                                    $('#ppla').on('select2:open', function () {
+                                      const input = document.querySelector('.select2-container--open .select2-search__field');
+                                      if (input) input.focus();
+                                    });
                                     $('#ppla').change(function(){
                                       buscador='b='+$('#ppla').val();
                                       $.ajax({
@@ -545,6 +565,11 @@ function validar_formulario() {
                                             <!--BUSCADOR-->
                                             <script>
                                   $(document).ready(function(){
+                                    // Cuando se abre el dropdown, enfocamos el input de búsqueda
+                                    $('#prpla').on('select2:open', function () {
+                                      const input = document.querySelector('.select2-container--open .select2-search__field');
+                                      if (input) input.focus();
+                                    });
                                     $('#prpla').change(function(){
                                       buscador='b='+$('#prpla').val();
                                       $.ajax({
@@ -627,6 +652,11 @@ function validar_formulario() {
                                             <!--BUSCADOR-->
                                             <script>
                                   $(document).ready(function(){
+                                    // Cuando se abre el dropdown, enfocamos el input de búsqueda
+                                    $('#mmic').on('select2:open', function () {
+                                      const input = document.querySelector('.select2-container--open .select2-search__field');
+                                      if (input) input.focus();
+                                    });
                                     $('#mmic').change(function(){
                                       buscador='b='+$('#mmic').val();
                                       $.ajax({
@@ -661,6 +691,11 @@ function validar_formulario() {
                                             <!--BUSCADOR-->
                                             <script>
                                   $(document).ready(function(){
+                                    // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#pmic').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                                     $('#pmic').change(function(){
                                       buscador='b='+$('#pmic').val();
                                       $.ajax({
@@ -752,6 +787,11 @@ function validar_formulario() {
                                     <!--BUSCADOR-->
                                     <script>
                           $(document).ready(function(){
+                            // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#pvmem').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                             $('#pvmem').change(function(){
                               buscador='b='+$('#pvmem').val();
                               $.ajax({
@@ -787,6 +827,11 @@ function validar_formulario() {
                                     <!--BUSCADOR-->
                                     <script>
                           $(document).ready(function(){
+                            // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#pvprov').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                             $('#pvprov').change(function(){
                               buscador='b='+$('#pvprov').val();
                               $.ajax({
@@ -853,6 +898,11 @@ function validar_formulario() {
                                             <!--BUSCADOR-->
                                             <script>
                                   $(document).ready(function(){
+                                    // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#pvmem1').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                                     $('#pvmem1').change(function(){
                                       buscador='b='+$('#pvmem1').val();
                                       $.ajax({
@@ -887,6 +937,11 @@ function validar_formulario() {
                                             <!--BUSCADOR-->
                                             <script>
                                   $(document).ready(function(){
+                                    // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#pvprov1').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                                     $('#pvprov1').change(function(){
                                       buscador='b='+$('#pvprov1').val();
                                       $.ajax({
@@ -1008,6 +1063,11 @@ function validar_formulario() {
                                     <!--BUSCADOR-->
                                     <script>
                           $(document).ready(function(){
+                            // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#prov1').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                             $('#prov1').change(function(){
                               buscador='b='+$('#prov1').val();
                               $.ajax({
@@ -1047,6 +1107,11 @@ function validar_formulario() {
                                     <!--BUSCADOR-->
                                     <script>
                           $(document).ready(function(){
+                            // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#marc1').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                             $('#marc1').change(function(){
                               buscador='b='+$('#marc1').val();
                               $.ajax({
@@ -1139,6 +1204,11 @@ function validar_formulario() {
                                     <!--BUSCADOR-->
                                     <script>
                           $(document).ready(function(){
+                            // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#prov2').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                             $('#prov2').change(function(){
                               buscador='b='+$('#prov2').val();
                               $.ajax({
@@ -1178,6 +1248,11 @@ function validar_formulario() {
                                     <!--BUSCADOR-->
                                     <script>
                           $(document).ready(function(){
+                            // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#marc2').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                             $('#marc2').change(function(){
                               buscador='b='+$('#marc2').val();
                               $.ajax({
@@ -1270,6 +1345,11 @@ function validar_formulario() {
                                     <!--BUSCADOR-->
                                     <script>
                           $(document).ready(function(){
+                            // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#prov3').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                             $('#prov3').change(function(){
                               buscador='b='+$('#prov3').val();
                               $.ajax({
@@ -1309,6 +1389,11 @@ function validar_formulario() {
                                     <!--BUSCADOR-->
                                     <script>
                           $(document).ready(function(){
+                            // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#marc3').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                             $('#marc3').change(function(){
                               buscador='b='+$('#marc3').val();
                               $.ajax({
@@ -1401,6 +1486,11 @@ function validar_formulario() {
                                     <!--BUSCADOR-->
                                     <script>
                           $(document).ready(function(){
+                            // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#prov4').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                             $('#prov4').change(function(){
                               buscador='b='+$('#prov4').val();
                               $.ajax({
@@ -1440,6 +1530,11 @@ function validar_formulario() {
                                     <!--BUSCADOR-->
                                     <script>
                           $(document).ready(function(){
+                            // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#marc4').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                             $('#marc4').change(function(){
                               buscador='b='+$('#marc4').val();
                               $.ajax({
@@ -1517,6 +1612,11 @@ function validar_formulario() {
                                     <!--BUSCADOR-->
                                     <script>
                           $(document).ready(function(){
+                            // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#disc1').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                             $('#disc1').change(function(){
                               buscador='b='+$('#disc1').val();
                               $.ajax({
@@ -1566,6 +1666,11 @@ function validar_formulario() {
                                     <!--BUSCADOR-->
                                     <script>
                           $(document).ready(function(){
+                            // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#dprov1').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                             $('#dprov1').change(function(){
                               buscador='b='+$('#dprov1').val();
                               $.ajax({
@@ -1608,6 +1713,11 @@ function validar_formulario() {
                                             <!--BUSCADOR-->
                                             <script>
                                   $(document).ready(function(){
+                                    // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#dmod1').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                                     $('#dmod1').change(function(){
                                       buscador='b='+$('#dmod1').val();
                                       $.ajax({
@@ -1661,6 +1771,11 @@ function validar_formulario() {
                                             <!--BUSCADOR-->
                                             <script>
                                   $(document).ready(function(){
+                                    // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#disc2').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                                     $('#disc2').change(function(){
                                       buscador='b='+$('#disc2').val();
                                       $.ajax({
@@ -1709,6 +1824,11 @@ function validar_formulario() {
                                             <!--BUSCADOR-->
                                             <script>
                                   $(document).ready(function(){
+                                    // Cuando se abre el dropdown, enfocamos el input de búsqueda
+                                    $('#dprov2').on('select2:open', function () {
+                                      const input = document.querySelector('.select2-container--open .select2-search__field');
+                                      if (input) input.focus();
+                                    });
                                     $('#dprov2').change(function(){
                                       buscador='b='+$('#dprov2').val();
                                       $.ajax({
@@ -1751,6 +1871,11 @@ function validar_formulario() {
                                             <!--BUSCADOR-->
                                             <script>
                                   $(document).ready(function(){
+                                    // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#dmod2').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                                     $('#dmod2').change(function(){
                                       buscador='b='+$('#dmod2').val();
                                       $.ajax({
@@ -1804,6 +1929,11 @@ function validar_formulario() {
                                             <!--BUSCADOR-->
                                             <script>
                                   $(document).ready(function(){
+                                    // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#disc3').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                                     $('#disc3').change(function(){
                                       buscador='b='+$('#disc3').val();
                                       $.ajax({
@@ -1852,6 +1982,11 @@ function validar_formulario() {
                                             <!--BUSCADOR-->
                                             <script>
                                   $(document).ready(function(){
+                                    // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#dprov3').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                                     $('#dprov3').change(function(){
                                       buscador='b='+$('#dprov3').val();
                                       $.ajax({
@@ -1894,6 +2029,11 @@ function validar_formulario() {
                                             <!--BUSCADOR-->
                                             <script>
                                   $(document).ready(function(){
+                                    // Cuando se abre el dropdown, enfocamos el input de búsqueda
+                                    $('#dmod3').on('select2:open', function () {
+                                      const input = document.querySelector('.select2-container--open .select2-search__field');
+                                      if (input) input.focus();
+                                    });
                                     $('#dmod3').change(function(){
                                       buscador='b='+$('#dmod3').val();
                                       $.ajax({
@@ -1947,6 +2087,11 @@ function validar_formulario() {
                                             <!--BUSCADOR-->
                                             <script>
                                   $(document).ready(function(){
+                                    // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#disc4').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                                     $('#disc4').change(function(){
                                       buscador='b='+$('#disc4').val();
                                       $.ajax({
@@ -1995,6 +2140,11 @@ function validar_formulario() {
                                             <!--BUSCADOR-->
                                             <script>
                                   $(document).ready(function(){
+                                    // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#dprov4').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                                     $('#dprov4').change(function(){
                                       buscador='b='+$('#dprov4').val();
                                       $.ajax({
@@ -2037,6 +2187,11 @@ function validar_formulario() {
                                             <!--BUSCADOR-->
                                             <script>
                                   $(document).ready(function(){
+                                    // Cuando se abre el dropdown, enfocamos el input de búsqueda
+												$('#dmod4').on('select2:open', function () {
+													const input = document.querySelector('.select2-container--open .select2-search__field');
+													if (input) input.focus();
+												});
                                     $('#dmod4').change(function(){
                                       buscador='b='+$('#dmod4').val();
                                       $.ajax({

@@ -208,6 +208,10 @@ $row = $resultado->fetch_assoc();
 						<?php endforeach ?>
 						</select>
                 </div>
+				<div class="form-group row">
+					<label id="lblForm"class="col-form-label col-xl col-lg">CÓDIGO:<span style="color:red;">*</span></label>
+					<input id="codigo" style="margin-top: 5px; text-transform:uppercase;"class="form-control col-form-label col-xl col-lg" type="text" name="codigo" placeholder="CÓDIGO PLAN" required>
+                </div>
 
                 <div class="form-group row">
 					<label id="lblForm"class="col-form-label col-xl col-lg">MONTO SIN DESCUENTO:<span style="color:red;">*</span></label>

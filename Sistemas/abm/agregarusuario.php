@@ -154,6 +154,11 @@ $row = $resultado->fetch_assoc();
 						</script>
                         <!--BUSCADOR-->
                         <script>
+                            // Cuando se abre el dropdown, enfocamos el input de búsqueda
+							$('#area').on('select2:open', function () {
+								const input = document.querySelector('.select2-container--open .select2-search__field');
+								if (input) input.focus();
+							});
 							$(document).ready(function(){
 								$('#area').change(function(){
 									buscador='b='+$('#area').val();

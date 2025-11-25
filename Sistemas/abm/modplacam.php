@@ -186,6 +186,11 @@ function ConsultarIncidente($no_tic)
                                     <!--BUSCADOR-->
                                     <script>
                                         $(document).ready(function(){
+                                            // Cuando se abre el dropdown, enfocamos el input de búsqueda
+											$('#marca').on('select2:open', function () {
+												const input = document.querySelector('.select2-container--open .select2-search__field');
+												if (input) input.focus();
+											});
                                             $('#marca').change(function(){
                                                 buscador='b='+$('#marca').val();
                                                 $.ajax({
