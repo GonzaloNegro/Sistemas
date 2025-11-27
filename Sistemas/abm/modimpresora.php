@@ -326,6 +326,11 @@ function ConsultarIncidente($no_tic)
                         <!--BUSCADOR-->
                         <script>
 							$(document).ready(function(){
+                                // Cuando se abre el dropdown, enfocamos el input de búsqueda
+                                $('#modelo').on('select2:open', function () {
+                                    const input = document.querySelector('.select2-container--open .select2-search__field');
+                                    if (input) input.focus();
+                                });
 								$('#modelo').change(function(){
 									buscador='b='+$('#modelo').val();
 									$.ajax({
@@ -373,13 +378,18 @@ function ConsultarIncidente($no_tic)
                         <!--BUSCADOR-->
 						<!--Agregar {theme: 'bootstrap4',} dentro de select-->
 						<script>
-							$('#prov').select2({theme: 'bootstrap4',});
+							$('#proveedor').select2({theme: 'bootstrap4',});
 						</script>
                         <!--BUSCADOR-->
                         <script>
 							$(document).ready(function(){
-								$('#prov').change(function(){
-									buscador='b='+$('#prov').val();
+                                // Cuando se abre el dropdown, enfocamos el input de búsqueda
+                                $('#proveedor').on('select2:open', function () {
+                                    const input = document.querySelector('.select2-container--open .select2-search__field');
+                                    if (input) input.focus();
+                                });
+								$('#proveedor').change(function(){
+									buscador='b='+$('#proveedor').val();
 									$.ajax({
 										type: 'post',
 										url: 'Controladores/session.php',
@@ -459,6 +469,11 @@ function ConsultarIncidente($no_tic)
                         <!--BUSCADOR-->
                         <script>
 							$(document).ready(function(){
+                                // Cuando se abre el dropdown, enfocamos el input de búsqueda
+                                $('#equipo').on('select2:open', function () {
+                                    const input = document.querySelector('.select2-container--open .select2-search__field');
+                                    if (input) input.focus();
+                                });
 								$('#equipo').change(function(){
 									buscador='b='+$('#equipo').val();
 									$.ajax({

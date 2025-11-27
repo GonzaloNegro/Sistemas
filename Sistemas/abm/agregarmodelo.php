@@ -228,6 +228,10 @@ $row = $resultado->fetch_assoc();
                         <!--BUSCADOR-->
                         <script>
 							$(document).ready(function(){
+								$('#marca').on('select2:open', function () {
+                                        const input = document.querySelector('.select2-container--open .select2-search__field');
+                                        if (input) input.focus();
+                                    });
 								$('#marca').change(function(){
 									buscador='b='+$('#marca').val();
 									$.ajax({
@@ -266,6 +270,10 @@ $row = $resultado->fetch_assoc();
                         <!--BUSCADOR-->
                         <script>
 							$(document).ready(function(){
+								$('#tipo').on('select2:open', function () {
+                                        const input = document.querySelector('.select2-container--open .select2-search__field');
+                                        if (input) input.focus();
+                                    });
 								$('#tipo').change(function(){
 									buscador='b='+$('#tipo').val();
 									$.ajax({

@@ -283,6 +283,11 @@ $perfil=$row['ID_PERFIL'];
                         <!--BUSCADOR-->
                         <script>
 							$(document).ready(function(){
+                                // Cuando se abre el dropdown, enfocamos el input de búsqueda
+                                $('#equip').on('select2:open', function () {
+                                    const input = document.querySelector('.select2-container--open .select2-search__field');
+                                    if (input) input.focus();
+                                });
 								$('#equip').change(function(){
 									buscador='b='+$('#equip').val();
 									$.ajax({
@@ -324,6 +329,11 @@ $perfil=$row['ID_PERFIL'];
                         <!--BUSCADOR-->
                         <script>
 							$(document).ready(function(){
+                                // Cuando se abre el dropdown, enfocamos el input de búsqueda
+                                $('#mod').on('select2:open', function () {
+                                    const input = document.querySelector('.select2-container--open .select2-search__field');
+                                    if (input) input.focus();
+                                });
 								$('#mod').change(function(){
 									buscador='b='+$('#mod').val();
 									$.ajax({
@@ -387,6 +397,11 @@ $perfil=$row['ID_PERFIL'];
                         <!--BUSCADOR-->
                         <script>
 							$(document).ready(function(){
+                                // Cuando se abre el dropdown, enfocamos el input de búsqueda
+                                $('#prov').on('select2:open', function () {
+                                    const input = document.querySelector('.select2-container--open .select2-search__field');
+                                    if (input) input.focus();
+                                });
 								$('#prov').change(function(){
 									buscador='b='+$('#prov').val();
 									$.ajax({

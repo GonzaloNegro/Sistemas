@@ -186,6 +186,10 @@ $row = $resultado->fetch_assoc();
                         <!--BUSCADOR-->
                         <script>
 							$(document).ready(function(){
+								$('#usuario').on('select2:open', function () {
+                                        const input = document.querySelector('.select2-container--open .select2-search__field');
+                                        if (input) input.focus();
+                                    });
 								$('#usuario').change(function(){
 									buscador='b='+$('#usuario').val();
 									$.ajax({
@@ -285,6 +289,10 @@ $row = $resultado->fetch_assoc();
                         <!--BUSCADOR-->
                         <script>
 							$(document).ready(function(){
+								$('#nombreplan').on('select2:open', function () {
+                                        const input = document.querySelector('.select2-container--open .select2-search__field');
+                                        if (input) input.focus();
+                                    });
 								$('#nombrePlan').change(function(){
 									buscador='b='+$('#nombrePlan').val();
 									$.ajax({

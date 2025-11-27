@@ -264,6 +264,11 @@ $nrocelular = $consulta['NRO'];
                                     <!--BUSCADOR-->
                                     <script>
                                         $(document).ready(function(){
+                                            // Cuando se abre el dropdown, enfocamos el input de búsqueda
+                                            $('#usuario').on('select2:open', function () {
+                                                const input = document.querySelector('.select2-container--open .select2-search__field');
+                                                if (input) input.focus();
+                                            });
                                             $('#usuario').change(function(){
                                                 buscador='b='+$('#usuario').val();
                                                 $.ajax({
@@ -361,6 +366,11 @@ $nrocelular = $consulta['NRO'];
                                 <!--BUSCADOR-->
                                 <script>
                                     $(document).ready(function(){
+                                        // Cuando se abre el dropdown, enfocamos el input de búsqueda
+                                        $('#mod').on('select2:open', function () {
+                                            const input = document.querySelector('.select2-container--open .select2-search__field');
+                                            if (input) input.focus();
+                                        });
                                         $('#mod').change(function(){
                                             buscador='b='+$('#mod').val();
                                             $.ajax({

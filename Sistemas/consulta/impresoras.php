@@ -347,6 +347,11 @@ $row = $resultado->fetch_assoc();
                         <!--BUSCADOR-->
                         <script>
 							$(document).ready(function(){
+                                // Cuando se abre el dropdown, enfocamos el input de búsqueda
+                                $('#area').on('select2:open', function () {
+                                    const input = document.querySelector('.select2-container--open .select2-search__field');
+                                    if (input) input.focus();
+                                });
 								$('#area').change(function(){
 									buscador='b='+$('#area').val();
 									$.ajax({
@@ -386,6 +391,11 @@ $row = $resultado->fetch_assoc();
                         <!--BUSCADOR-->
                         <script>
 							$(document).ready(function(){
+                                // Cuando se abre el dropdown, enfocamos el input de búsqueda
+                                $('#impresora').on('select2:open', function () {
+                                    const input = document.querySelector('.select2-container--open .select2-search__field');
+                                    if (input) input.focus();
+                                });
 								$('#impresora').change(function(){
 									buscador='b='+$('#impresora').val();
 									$.ajax({

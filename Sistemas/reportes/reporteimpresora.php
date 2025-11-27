@@ -126,6 +126,10 @@ $row = $resultado->fetch_assoc();
                         <!--BUSCADOR-->
                         <script>
 							$(document).ready(function(){
+								$('#slcarea').on('select2:open', function () {
+                                        const input = document.querySelector('.select2-container--open .select2-search__field');
+                                        if (input) input.focus();
+                                    });
 								$('#slcarea').change(function(){
 									buscador='b='+$('#slcarea').val();
 									$.ajax({
