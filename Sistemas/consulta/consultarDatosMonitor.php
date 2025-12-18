@@ -133,11 +133,20 @@ function obtenerMarcaModelo($conexion, $idModelo) {
     $result = mysqli_query($datos_base, "
         SELECT e.FECHA_ASIGNACION, u.NOMBRE, a.AREA, s.ESTADO , e.FECHA_DESVINCULACION, e.ID_ESTADOWS
         FROM equipo_periferico e
-        LEFT JOIN wsusuario w ON e.ID_WS=w.ID_WS
-        LEFT JOIN usuarios u ON u.ID_USUARIO = w.ID_USUARIO
+        LEFT JOIN inventario i ON e.ID_WS = i.ID_WS
+        LEFT JOIN (
+            SELECT w1.*
+            FROM wsusuario w1
+            INNER JOIN (
+                SELECT ID_WS, MAX(ID_WSUSU) AS max_wsusu
+                FROM wsusuario
+                GROUP BY ID_WS
+            ) uw ON uw.ID_WS = w1.ID_WS AND uw.max_wsusu = w1.ID_WSUSU
+        ) ws ON i.ID_WS = ws.ID_WS
+        LEFT JOIN usuarios u ON u.ID_USUARIO = ws.ID_USUARIO
         LEFT JOIN area a ON a.ID_AREA = u.ID_AREA
         LEFT JOIN estado_ws s ON s.ID_ESTADOWS = e.ID_ESTADOWS 
-        WHERE e.ID_PERI = '$idPeri' 
+        WHERE e.ID_PERI = '$idPeri'
         ORDER BY e.ID_EQUIPO_PERIFERICO ASC
     ");
 
@@ -169,11 +178,24 @@ function obtenerMarcaModelo($conexion, $idModelo) {
             } elseif ($row['ESTADO'] === 'BAJA') {
                 $color = 'red';
             }
+
+            if($row['AREA'] === ''){
+                $area = "-";
+            }else{
+                $row['AREA'];
+            }
+
+            if($row['NOMBRE'] === '' || $row['NOMBRE'] === NULL || $row['NOMBRE'] === "SIN ASIGNAR HP 725" || $row['NOMBRE'] === "SIN ASIGNAR HP 607"){
+                $nombre = "NO ASIGNADO";
+            }else{
+                $nombre = $row['NOMBRE'];
+            }
+
             echo "
                 <tr>
                     <td style='min-width:100px;'><h4 style='font-size:16px;text-align: center;'>$fecha</h4></td>
-                    <td style='min-width:150px;'><h4 style='font-size:16px;text-align: left;margin-left:5px;'>{$row['NOMBRE']}</h4></td>
-                    <td style='min-width:150px;'><h4 style='font-size:16px;text-align: left;margin-left:5px;'>{$row['AREA']}</h4></td>
+                    <td style='min-width:150px;'><h4 style='font-size:16px;text-align: left;margin-left:5px;'>$nombre</h4></td>
+                    <td style='min-width:150px;'><h4 style='font-size:16px;text-align: left;margin-left:5px;'>$area</h4></td>
                     <td><h4 style='font-size:16px;text-align: center;color:".$color."'>{$row['ESTADO']}</h4></td>
                 </tr>";
         }

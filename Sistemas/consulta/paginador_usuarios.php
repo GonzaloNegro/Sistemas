@@ -38,15 +38,20 @@ $where = [];
 
 if (!empty($_GET['usuario'])) {
     $aKeyword = explode(" ", $_GET['usuario']);
-    // $usuario = intval($_GET['usuario']);
-    $where[] = " (u.NOMBRE LIKE LOWER('%".$aKeyword[0]."%') OR u.CUIL LIKE LOWER('%".$aKeyword[0]."%')) ";
+    $busqueda_sql = [];
 
-    for($i = 1; $i < count($aKeyword); $i++) {
-    if(!empty($aKeyword[$i])) {
-        $where[] = " OR u.NOMBRE LIKE '%" . $aKeyword[$i] . "%' OR u.CUIL LIKE '%" . $aKeyword[$i] . "%' ";
+    foreach ($aKeyword as $k) {
+        $k = trim($k);
+        if ($k !== '') {
+            $busqueda_sql[] = "(u.NOMBRE LIKE '%$k%' OR u.CUIL LIKE '%$k%')";
+        }
     }
+
+    if (!empty($busqueda_sql)) {
+        $where[] = '(' . implode(' AND ', $busqueda_sql) . ')';
     }
 }
+
 
 if (!empty($_GET['estado'])) {
     $estado = intval($_GET['estado']);

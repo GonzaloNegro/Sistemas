@@ -273,10 +273,64 @@ function validar_formulario() {
                         </div>
 
                         <div class="form-group row">
-                            <label id="lblForm" class="col-form-label col-xl col-lg">N° WS:<span style="color:red;">*</span></label> 
-                            <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="serieg" id="nrows" placeholder="WSXXXXX" required>
+                            <label id="lblForm" class="col-form-label col-xl col-lg">TIPO PC:<span style="color:red;">*</span></label> 
+                            <select name="tippc" id="slctipopc" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                            <?php
+                            include("../particular/conexion.php");
+                            $consulta= "SELECT * FROM tipows ORDER BY TIPOWS ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value= <?php echo $opciones['ID_TIPOWS'] ?>><?php echo $opciones['TIPOWS']?></option>
+                            <?php endforeach?>
+                            </select>
+                        </div> 
+
+                        <div class="form-group row">
+                            <label id="lblForm"class="col-form-label col-xl col-lg">RED:<span style="color:red;">*</span></label>
+                            <select name="red" id="slcred" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
+                            <option  value="" selected disabled="">-SELECCIONE UNA-</option>
+                            <?php
+                            include("../particular/conexion.php");
+                            $consulta= "SELECT * FROM red ORDER BY RED ASC";
+                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
+                            ?>
+                            <?php foreach ($ejecutar as $opciones): ?> 
+                            <option value= <?php echo $opciones['ID_RED'] ?>><?php echo $opciones['RED']?></option>
+                            <?php endforeach?>
+                            </select>
                         </div>
 
+                        <div class="form-group row">
+                            <label id="lblForm" class="col-form-label col-xl col-lg">N° WS:<span style="color:red;">*</span></label> 
+                            <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="serieg" id="nrows" placeholder="WSXXXXX" required>
+                            <span style="display:flex;justify-content:flex-end;font-size:12px;color:red;" id="mensaje"></span>
+                        </div>
+
+<!--                       <script>
+                        const slctipopc = document.getElementById("slctipopc");
+                        const slcred = document.getElementById("slcred");
+                        const mensajeSpan = document.getElementById("mensaje");
+
+                        function actualizarMensaje() {
+                          let mensaje = "";
+
+                          if (slcred.value === "1") {
+                            if (slctipopc.value === "1") {
+                              mensaje = 'Recuerde que el N° debe comenzar con <b>"WS"</b>.';
+                            } else if (slctipopc.value === "2") {
+                              mensaje = 'Recuerde que el N° debe comenzar con <b>"NB"</b>.';
+                            }
+                          }
+
+                          mensajeSpan.innerHTML = mensaje;
+                        }
+
+                        // Escucha cambios en ambos selects
+                        slctipopc.addEventListener("change", actualizarMensaje);
+                        slcred.addEventListener("change", actualizarMensaje);
+                      </script> -->
 
                         <div class="form-group row">
                             <label id="lblForm"class="col-form-label col-xl col-lg">N° SERIE:<span style="color:red;">*</span></label>
@@ -336,22 +390,6 @@ function validar_formulario() {
                             <?php endforeach?>
                             </select>
                         </div>
-
-
-                        <div class="form-group row">
-                            <label id="lblForm" class="col-form-label col-xl col-lg">TIPO PC:<span style="color:red;">*</span></label> 
-                            <select name="tippc" id="slctipopc" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-                            <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                            <?php
-                            include("../particular/conexion.php");
-                            $consulta= "SELECT * FROM tipows ORDER BY TIPOWS ASC";
-                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                            ?>
-                            <?php foreach ($ejecutar as $opciones): ?> 
-                            <option value= <?php echo $opciones['ID_TIPOWS'] ?>><?php echo $opciones['TIPOWS']?></option>
-                            <?php endforeach?>
-                            </select>
-                        </div> 
 
 
                         <div class="form-group row">
@@ -432,21 +470,6 @@ function validar_formulario() {
                         <div class="form-group row">
                             <label id="lblForm" class="col-form-label col-xl col-lg">GARANTIA:</label> 
                             <input class="form-control col-xl col-lg" style="text-transform:uppercase;" name="gar" placeholder="TIEMPO DE GARANTIA">
-                        </div>
-
-                        <div class="form-group row">
-                            <label id="lblForm"class="col-form-label col-xl col-lg">RED:<span style="color:red;">*</span></label>
-                            <select name="red" id="slcred" style="text-transform:uppercase" class="form-control col-xl col-lg" required>
-                            <option  value="" selected disabled="">-SELECCIONE UNA-</option>
-                            <?php
-                            include("../particular/conexion.php");
-                            $consulta= "SELECT * FROM red ORDER BY RED ASC";
-                            $ejecutar= mysqli_query($datos_base, $consulta) or die(mysqli_error($datos_base));
-                            ?>
-                            <?php foreach ($ejecutar as $opciones): ?> 
-                            <option value= <?php echo $opciones['ID_RED'] ?>><?php echo $opciones['RED']?></option>
-                            <?php endforeach?>
-                            </select>
                         </div>
 
                         <div class="form-group row">
