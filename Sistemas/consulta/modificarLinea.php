@@ -484,14 +484,14 @@ $idRoaming = $consulta['ID_ROAMING'];
                     if ($id_prov==35 && $claro>0) {
                         $puedeCargar=true;
                     }
-					if ($row['ID_PERFIL'] != 5 && $puedeCargar==true) {
+					// if ($row['ID_PERFIL'] != 5 && $puedeCargar==true) {
                         $aa="modificarLinea";
                         echo "<!-- Campo oculto para la acción -->
 				<input type='hidden' id='accion' name='accion' value='modificarLinea'>
 				<div class='form-group row justify-content-end'>
 					<input style='width:20%' onclick='enviar_formulario(this.form, $aa)' class='btn btn-success' type='button' name='modificarLinea' value='MODIFICAR' class='button'>
 				</div>";
-                    }
+                    // }
                     ?>
                     
 				<p style="color:red;text-align:left;font-size:14px;">* Al ingresar los extras de Personal, al precio que sale en la factura agregarle el iva.</br>En el caso de Claro, se ingresa tal cual figura en la factura.</p>

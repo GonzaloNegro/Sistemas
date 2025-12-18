@@ -174,7 +174,7 @@ function ConsultarIncidente($no_tic)
 				<!--/////////////////////////////////////USUARIO///////////////////////////////////////////-->
 				<div class="form-group row" >
 				    <label id="lblForm"class="col-form-label col-xl col-lg">USUARIO:</label>
-				    <select class="form-control col-xl col-lg" style="text-transform:uppercase" id="buscador" name="usuario">
+				    <select class="form-control largo col-xl col-lg" style="text-transform:uppercase;" id="buscador" name="usuario">
 					<option selected value="150"><?php echo $usu?></option>
 					<?php
 					include("../particular/conexion.php");
@@ -186,6 +186,32 @@ function ConsultarIncidente($no_tic)
 					<?php endforeach ?>
 					</select>
 				</div>
+				<!--BUSCADOR-->
+						<!--Agregar {theme: 'bootstrap4',} dentro de select-->
+						<script>
+							$('#buscador').select2({theme: 'bootstrap4',});
+						</script>
+                        <!--BUSCADOR-->
+                        <script>
+							$(document).ready(function(){
+                                // Cuando se abre el dropdown, enfocamos el input de búsqueda
+                                $('#buscador').on('select2:open', function () {
+                                    const input = document.querySelector('.select2-container--open .select2-search__field');
+                                    if (input) input.focus();
+                                });
+								$('#buscador').change(function(){
+									buscador='b='+$('#buscador').val();
+									$.ajax({
+										type: 'post',
+										url: 'Controladores/session.php',
+										data: buscador,
+										success: function(r){
+											$('#tabla').load('Componentes/Tabla.php');
+										}
+									})
+								})
+							})
+						</script>
 				<!--/////////////////////////////////////EQUIPO///////////////////////////////////////////-->
 				<div class="form-group row" id="select2lista">
 								<label class='col-form-label col-xl col-lg'>EQUIPO DEL USUARIO:</label> 
@@ -229,7 +255,7 @@ function ConsultarIncidente($no_tic)
 				<div class="form-group row" >
 				<?php $default_res = $consulta[7];?>
 					<label id="lblForm"class="col-form-label col-xl col-lg">RESOLUTOR: </label>
-					<select name="resolutor" class="form-control col-xl col-lg" style="text-transform:uppercase">
+					<select name="resolutor" id="resolutor" class="form-control col-xl col-lg" style="text-transform:uppercase">
 					<option selected value="100"><?php echo $nom?></option>
 					<?php
 					include("../particular/conexion.php");
@@ -241,6 +267,32 @@ function ConsultarIncidente($no_tic)
 					<?php endforeach?>
 					</select>
 				</div>
+				<!--BUSCADOR-->
+						<!--Agregar {theme: 'bootstrap4',} dentro de select-->
+						<script>
+							$('#resolutor').select2({theme: 'bootstrap4',});
+						</script>
+                        <!--BUSCADOR-->
+                        <script>
+							$(document).ready(function(){
+                                // Cuando se abre el dropdown, enfocamos el input de búsqueda
+                                $('#resolutor').on('select2:open', function () {
+                                    const input = document.querySelector('.select2-container--open .select2-search__field');
+                                    if (input) input.focus();
+                                });
+								$('#resolutor').change(function(){
+									buscador='b='+$('#resolutor').val();
+									$.ajax({
+										type: 'post',
+										url: 'Controladores/session.php',
+										data: buscador,
+										success: function(r){
+											$('#tabla').load('Componentes/Tabla.php');
+										}
+									})
+								})
+							})
+						</script>
 				<!--/////////////////////////////////////DESCRIPCION///////////////////////////////////////////-->
 				<!--/////////////////////////////////////DESCRIPCION///////////////////////////////////////////-->	
 				<div class="form-group row" >

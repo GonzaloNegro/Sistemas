@@ -2698,7 +2698,7 @@ if (isset($_POST['accion'])) {
         
         if ($bloquearActualizacion) {
             // echo "<script>alert('$mensajeError'); window.location.href='montosLineas.php';</script>";
-            echo "<script>window.location.href='montosLineas.php?$mensajeError';</script>";
+            echo "<script>window.location.href='../consulta/montosLineas.php?$mensajeError';</script>";
             exit;
         }
 

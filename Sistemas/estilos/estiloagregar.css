@@ -231,7 +231,7 @@ select{
 }
 
 /* el contenedor que crea Select2 aparece justo después del <select> */
-.slcequipo + .select2-container { width: 159px !important; }
+.slcequipo + .select2-container { width: 158px !important; }
 
 .txt{
 	margin-top: 10px;
