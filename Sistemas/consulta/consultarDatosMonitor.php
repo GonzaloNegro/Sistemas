@@ -178,11 +178,24 @@ function obtenerMarcaModelo($conexion, $idModelo) {
             } elseif ($row['ESTADO'] === 'BAJA') {
                 $color = 'red';
             }
+
+            if($row['AREA'] === ''){
+                $area = "-";
+            }else{
+                $row['AREA'];
+            }
+
+            if($row['NOMBRE'] === '' || $row['NOMBRE'] === NULL || $row['NOMBRE'] === "SIN ASIGNAR HP 725" || $row['NOMBRE'] === "SIN ASIGNAR HP 607"){
+                $nombre = "NO ASIGNADO";
+            }else{
+                $nombre = $row['NOMBRE'];
+            }
+
             echo "
                 <tr>
                     <td style='min-width:100px;'><h4 style='font-size:16px;text-align: center;'>$fecha</h4></td>
-                    <td style='min-width:150px;'><h4 style='font-size:16px;text-align: left;margin-left:5px;'>{$row['NOMBRE']}</h4></td>
-                    <td style='min-width:150px;'><h4 style='font-size:16px;text-align: left;margin-left:5px;'>{$row['AREA']}</h4></td>
+                    <td style='min-width:150px;'><h4 style='font-size:16px;text-align: left;margin-left:5px;'>$nombre</h4></td>
+                    <td style='min-width:150px;'><h4 style='font-size:16px;text-align: left;margin-left:5px;'>$area</h4></td>
                     <td><h4 style='font-size:16px;text-align: center;color:".$color."'>{$row['ESTADO']}</h4></td>
                 </tr>";
         }

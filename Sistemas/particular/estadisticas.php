@@ -249,7 +249,8 @@ $row = $resultado->fetch_assoc();
                 if($resMes->num_rows > 0){
                     while($m = $resMes->fetch_assoc()){
                         $tablaMeses .= '<tr>';
-                        $tablaMeses .= '<td style="padding:5px;">'.$meses[$m['mes']-1].'</td>';
+                        $tablaMeses .= '<td style="padding:5px;">'.$meses[$m['mes']].'</td>';
+
                         $tablaMeses .= '<td style="text-align:center; padding:5px;">'.$m['cant'].'</td>';
                         $tablaMeses .= '</tr>';
                     }
