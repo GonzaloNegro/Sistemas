@@ -338,28 +338,29 @@ $row = $resultado->fetch_assoc();
 					$añoActual = date('Y');
 					$mesActual = date('n');
 					// $sqla = "SELECT ID_MOVILINEA AS id, YEAR(FECHA) AS AÑO, MONTH(FECHA) AS MES FROM movilinea ORDER BY FECHA DESC LIMIT 1";
-					$sqlFecha = "SELECT 
-									SUM(CASE WHEN n.ID_PROVEEDOR = 34 THEN 1 ELSE 0 END) AS PERSONAL,
-									SUM(CASE WHEN n.ID_PROVEEDOR = 35 THEN 1 ELSE 0 END) AS CLARO
-								FROM movilinea m
-								INNER JOIN linea l ON m.ID_LINEA = l.ID_LINEA
-								INNER JOIN nombreplan n ON l.ID_NOMBREPLAN = n.ID_NOMBREPLAN
-								WHERE YEAR(FECHA) = $añoActual AND MONTH(FECHA) = $mesActual";
-					$resultadoFecha = $datos_base->query($sqlFecha);
-					$telefonia = $resultadoFecha->fetch_assoc();
-					$claro = $telefonia['CLARO'];
-        			$personal = $telefonia['PERSONAL'];
-					$puedeCargar=false;
-					if($claro>0 && $personal>0){
-						$puedeCargar=true;
-					}
-					if ($row['ID_PERFIL'] != 5 && $puedeCargar==true) {
+					// $sqlFecha = "SELECT 
+					// 				SUM(CASE WHEN n.ID_PROVEEDOR = 34 THEN 1 ELSE 0 END) AS PERSONAL,
+					// 				SUM(CASE WHEN n.ID_PROVEEDOR = 35 THEN 1 ELSE 0 END) AS CLARO
+					// 			FROM movilinea m
+					// 			INNER JOIN linea l ON m.ID_LINEA = l.ID_LINEA
+					// 			INNER JOIN nombreplan n ON l.ID_NOMBREPLAN = n.ID_NOMBREPLAN
+					// 			WHERE YEAR(FECHA) = $añoActual AND MONTH(FECHA) = $mesActual";
+					// $resultadoFecha = $datos_base->query($sqlFecha);
+					// $telefonia = $resultadoFecha->fetch_assoc();
+					// $claro = $telefonia['CLARO'];
+        			// $personal = $telefonia['PERSONAL'];
+					// $puedeCargar=false;
+					// if($claro>0 && $personal>0){
+					// 	$puedeCargar=true;
+					// }
+					// if ($row['ID_PERFIL'] != 5 && $puedeCargar==true) {
+					if ($row['ID_PERFIL'] != 5) {
 					echo '<div class="form-group row justify-content-end">
 					<input style="width:20%" onClick="enviar_formulario(this.form)" class="btn btn-success" type="button" name="agregarLinea" value="GUARDAR" class="button">
 				</div>	';
 					}
 				?>
-				
+				<p style="color:red;text-align:left;font-size:14px;">* Al ingresar los extras de Personal, al precio que sale en la factura agregarle el iva.</br>En el caso de Claro, se ingresa tal cual figura en la factura.</p>
 			</form>
 					<?php
 				if(isset($_GET['ok'])){

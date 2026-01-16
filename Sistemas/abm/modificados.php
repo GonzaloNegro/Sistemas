@@ -2636,7 +2636,8 @@ if (isset($_POST['accion'])) {
             echo "Acción no reconocida.";
             break;
         }
-    } else{
+    } 
+    else{
         echo "No se recibió ninguna acción.";
     }
 
@@ -2644,62 +2645,137 @@ if (isset($_POST['accion'])) {
     /* -----------------MONTOS/LINEAS: montosLineas.php----------------- */
     //BOTON ACTUALIZAR MONTOS MENSUALES
     if(isset($_POST['operador'])){
-        $operador=$_POST['operador'];
+        $operador = isset($_POST['operador']) ? strtolower(trim($_POST['operador'])) : '';
         $bloquearActualizacion = false;
+        $mensajeError = '';
 
-        //SELECCIONAR MES Y AÑO DE movilinea EN UNA VARIABLE
-        $sqla = "SELECT YEAR(FECHA) AS AÑO, MONTH(FECHA) AS MES FROM `movilinea` ORDER BY FECHA DESC LIMIT 1;";
-        $resultado = $datos_base->query($sqla);
-        $row = $resultado->fetch_assoc();
-        $añomovilinea = $row['AÑO'];
-        $mesmovilinea = $row['MES'];
+        $mapProveedor = [
+        'personal' => 34,
+        'claro'    => 35,
+        'todos'    => null
+        ];
 
-        $añoactual = date('Y');
-        $mesactual = date('n');
-
-        //VALIDACION PARA CONTROLAR QUE NO HAYA ACTUALIZACIONES ANTERIORES
-        if ($operador == "claro") {
-            $verificar = "SELECT COUNT(*) AS TOTAL FROM movilinea m
-                        INNER JOIN linea l ON m.ID_LINEA = l.ID_LINEA
-                        INNER JOIN nombreplan n ON l.ID_NOMBREPLAN = n.ID_NOMBREPLAN
-                        WHERE YEAR(FECHA) = $añoactual AND MONTH(FECHA) = $mesactual AND n.ID_PROVEEDOR = 35";
-        } elseif ($operador == "personal") {
-            $verificar = "SELECT COUNT(*) AS TOTAL FROM movilinea m
-                        INNER JOIN linea l ON m.ID_LINEA = l.ID_LINEA
-                        INNER JOIN nombreplan n ON l.ID_NOMBREPLAN = n.ID_NOMBREPLAN
-                        WHERE YEAR(FECHA) = $añoactual AND MONTH(FECHA) = $mesactual AND n.ID_PROVEEDOR = 34";
-        } elseif ($operador == "todos") {
-            // Verificamos si hay movimientos de Personal o Claro
-            $verificar = "SELECT 
-                            SUM(CASE WHEN n.ID_PROVEEDOR = 34 THEN 1 ELSE 0 END) AS PERSONAL,
-                            SUM(CASE WHEN n.ID_PROVEEDOR = 35 THEN 1 ELSE 0 END) AS CLARO
-                        FROM movilinea m
-                        INNER JOIN linea l ON m.ID_LINEA = l.ID_LINEA
-                        INNER JOIN nombreplan n ON l.ID_NOMBREPLAN = n.ID_NOMBREPLAN
-                        WHERE YEAR(FECHA) = $añoactual AND MONTH(FECHA) = $mesactual";
+        if (!array_key_exists($operador, $mapProveedor)) {
+        // Operador inválido
+        header("Location: ../consulta/montosLineas.php?error_operador");
+        exit;
         }
-        
-        $resultadoVerif = $datos_base->query($verificar);
-        $rowVerif = $resultadoVerif->fetch_assoc();
-        
-        if ($operador == "todos") {
-            if ($rowVerif['PERSONAL'] > 0 || $rowVerif['CLARO'] > 0) {
-                $bloquearActualizacion = true;
-                // $mensajeError = "Ya hay líneas actualizadas este mes para Personal o Claro.";
-                $mensajeError = "error";
-            }
-        } else {
-            if ($rowVerif['TOTAL'] > 0) {
-                $bloquearActualizacion = true;
-                // $mensajeError = "Ya hay líneas actualizadas este mes para el operador seleccionado.";
-                $mensajeError = "errorp";
-            }
+
+        // Rango del mes actual: [inicioMes, inicioMesSiguiente)
+        $inicioMes = new DateTime('first day of this month 00:00:00');
+        $finMes    = (clone $inicioMes)->modify('+1 month');
+
+        $inicioStr = $inicioMes->format('Y-m-d H:i:s');
+        $finStr    = $finMes->format('Y-m-d H:i:s');
+
+        // 1) Cantidad de líneas activas por proveedor (SIEMPRE la necesitamos)
+        $sqlTel = "
+        SELECT
+            SUM(CASE WHEN n.ID_PROVEEDOR = 34 THEN 1 ELSE 0 END) AS PERSONAL,
+            SUM(CASE WHEN n.ID_PROVEEDOR = 35 THEN 1 ELSE 0 END) AS CLARO
+        FROM linea l
+        INNER JOIN nombreplan n ON l.ID_NOMBREPLAN = n.ID_NOMBREPLAN
+        WHERE l.ID_ESTADOWS = 1
+        ";
+        $resTel = $datos_base->query($sqlTel);
+        if (!$resTel) {
+        // Manejo básico de error
+        header("Location: ../consulta/montosLineas.php?error_db");
+        exit;
         }
-        
-        if ($bloquearActualizacion) {
-            // echo "<script>alert('$mensajeError'); window.location.href='montosLineas.php';</script>";
-            echo "<script>window.location.href='../consulta/montosLineas.php?$mensajeError';</script>";
+        $rowTel = $resTel->fetch_assoc();
+        $totalPersonalActivas = (int)($rowTel['PERSONAL'] ?? 0);
+        $totalClaroActivas    = (int)($rowTel['CLARO'] ?? 0);
+        $totalActivas         = $totalPersonalActivas + $totalClaroActivas;
+
+        // 2) Movimientos del mes actual (ejecutamos SIEMPRE según operador)
+        if ($operador === 'todos') {
+
+        $sqlVerif = "
+            SELECT
+            SUM(CASE WHEN n.ID_PROVEEDOR = 34 THEN 1 ELSE 0 END) AS PERSONAL,
+            SUM(CASE WHEN n.ID_PROVEEDOR = 35 THEN 1 ELSE 0 END) AS CLARO
+            FROM movilinea m
+            INNER JOIN linea l ON m.ID_LINEA = l.ID_LINEA
+            INNER JOIN nombreplan n ON l.ID_NOMBREPLAN = n.ID_NOMBREPLAN
+            WHERE m.FECHA >= ? AND m.FECHA < ?
+        ";
+
+        $stmt = $datos_base->prepare($sqlVerif);
+        if (!$stmt) {
+            header("Location: ../consulta/montosLineas.php?error_db");
             exit;
+        }
+
+        $stmt->bind_param("ss", $inicioStr, $finStr);
+        $stmt->execute();
+        $resVerif = $stmt->get_result();
+        $rowVerif = $resVerif->fetch_assoc();
+
+        $movPersonal = (int)($rowVerif['PERSONAL'] ?? 0);
+        $movClaro    = (int)($rowVerif['CLARO'] ?? 0);
+        $movTotal    = $movPersonal + $movClaro;
+
+        // Si ya se actualizaron todas las líneas (de ambos) -> bloquear
+        if ($movTotal >= $totalActivas) {
+            $bloquearActualizacion = true;
+            $mensajeError = "error";
+        }
+        // Si personal ya está completo, actualizá solo claro
+        elseif ($movPersonal >= $totalPersonalActivas) {
+            $bloquearActualizacion = false;
+            $mensajeError = "errorp";
+            $operador = "claro";
+        }
+        // Si claro ya está completo, actualizá solo personal
+        elseif ($movClaro >= $totalClaroActivas) {
+            $bloquearActualizacion = false;
+            $mensajeError = "errorp";
+            $operador = "personal";
+        }
+
+        $stmt->close();
+        echo"$movTotal $movPersonal $movClaro";
+        } else {
+
+        $idProveedor = $mapProveedor[$operador]; // 34 o 35
+
+        $sqlVerif = "
+            SELECT COUNT(*) AS TOTAL
+            FROM movilinea m
+            INNER JOIN linea l ON m.ID_LINEA = l.ID_LINEA
+            INNER JOIN nombreplan n ON l.ID_NOMBREPLAN = n.ID_NOMBREPLAN
+            WHERE m.FECHA >= ? AND m.FECHA < ?
+            AND n.ID_PROVEEDOR = ?
+        ";
+
+        $stmt = $datos_base->prepare($sqlVerif);
+        if (!$stmt) {
+            header("Location: ../consulta/montosLineas.php?error_db");
+            exit;
+        }
+
+        $stmt->bind_param("ssi", $inicioStr, $finStr, $idProveedor);
+        $stmt->execute();
+        $resVerif = $stmt->get_result();
+        $rowVerif = $resVerif->fetch_assoc();
+
+        $movTotal = (int)($rowVerif['TOTAL'] ?? 0);
+
+        // Comparo contra activas del proveedor
+        $totalProveedor = ($operador === 'personal') ? $totalPersonalActivas : $totalClaroActivas;
+
+        if ($movTotal >= $totalProveedor) {
+            $bloquearActualizacion = true;
+            $mensajeError = "errorp";
+        }
+        $stmt->close();
+        }
+
+        // 3) Redirección si bloquea
+        if ($bloquearActualizacion) {
+        header("Location: ../consulta/montosLineas.php?$mensajeError");
+        exit;
         }
 
         //SELECCIONAR LOS DATOS DE movilinea DONDE CUMPLAN MES Y AÑO
@@ -2712,6 +2788,12 @@ if (isset($_POST['accion'])) {
         $mesAnterior = $fecha->format('n');   // Mes sin cero inicial (1-12)
         $añoAnterior = $fecha->format('Y');   // Año con cuatro dígitos
 
+        $fechaDesde = (new DateTime('first day of this month'))->modify('-1 month')->setTime(0, 0, 0);
+        $fechaHasta = new DateTime(); // ahora
+
+        $desdeStr = $fechaDesde->format('Y-m-d');
+        $hastaStr = $fechaHasta->format('Y-m-d');
+
         if ($operador=="claro") {
             $query="SELECT m.ID_LINEA, m.ID_USUARIO, m.ID_ESTADOWS, m.ID_NOMBREPLAN, m.EXTRAS, m.FECHADESCUENTO, m.ID_ROAMING, m.DESCUENTO, m.MONTOTOTAL, m.OBSERVACION
             FROM movilinea m
@@ -2722,8 +2804,8 @@ if (isset($_POST['accion'])) {
                 FROM movilinea t
                 INNER JOIN linea l2 ON l2.ID_LINEA = t.ID_LINEA
                 INNER JOIN nombreplan n2 ON l2.ID_NOMBREPLAN = n2.ID_NOMBREPLAN
-                WHERE YEAR(t.FECHA) = $añoAnterior 
-                AND MONTH(t.FECHA) = $mesAnterior 
+                WHERE t.FECHA >= '$desdeStr'
+                AND t.FECHA <= '$hastaStr' 
                 AND t.ID_ESTADOWS = 1 
                 AND n2.ID_PROVEEDOR = 35
                 GROUP BY t.ID_LINEA
@@ -2739,8 +2821,8 @@ if (isset($_POST['accion'])) {
             FROM movilinea t
             INNER JOIN linea l2 ON l2.ID_LINEA = t.ID_LINEA
             INNER JOIN nombreplan n2 ON l2.ID_NOMBREPLAN = n2.ID_NOMBREPLAN
-            WHERE YEAR(t.FECHA) = $añoAnterior 
-            AND MONTH(t.FECHA) = $mesAnterior 
+            WHERE t.FECHA >= '$desdeStr'
+                AND t.FECHA <= '$hastaStr'
             AND t.ID_ESTADOWS = 1 
             AND n2.ID_PROVEEDOR = 34
             GROUP BY t.ID_LINEA
@@ -2749,10 +2831,14 @@ if (isset($_POST['accion'])) {
         if ($operador=="todos") {
             $query = "SELECT m.ID_LINEA, m.ID_USUARIO, m.ID_ESTADOWS, m.ID_NOMBREPLAN, m.EXTRAS, m.FECHADESCUENTO, m.ID_ROAMING, m.DESCUENTO, m.MONTOTOTAL, m.OBSERVACION
             FROM movilinea m
+            INNER JOIN linea l ON l.ID_LINEA = m.ID_LINEA
+            INNER JOIN nombreplan n ON l.ID_NOMBREPLAN = n.ID_NOMBREPLAN
             INNER JOIN (
                 SELECT ID_LINEA, MAX(ID_MOVILINEA) AS ULTIMO_MOVIMIENTO
-                FROM movilinea
-                WHERE YEAR(FECHA) = $añoAnterior AND MONTH(FECHA) = $mesAnterior AND ID_ESTADOWS = 1
+                FROM movilinea t
+                WHERE t.FECHA >= '$desdeStr'
+                AND t.FECHA <= '$hastaStr' 
+                AND t.ID_ESTADOWS = 1
                 GROUP BY ID_LINEA
             ) ultimos ON m.ID_LINEA = ultimos.ID_LINEA AND m.ID_MOVILINEA = ultimos.ULTIMO_MOVIMIENTO";
         }
