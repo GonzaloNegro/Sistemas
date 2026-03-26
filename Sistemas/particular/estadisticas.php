@@ -220,13 +220,16 @@ $row = $resultado->fetch_assoc();
         $anioActual = date('Y');
 
         $sql = "
-            SELECT r.RESOLUTOR, COUNT(t.ID_TICKET) AS cantidad, r.ID_RESOLUTOR
+            SELECT 
+                r.RESOLUTOR,
+                COUNT(t.ID_TICKET) AS cantidad,
+                r.ID_RESOLUTOR
             FROM ticket t
             INNER JOIN resolutor r ON t.ID_RESOLUTOR = r.ID_RESOLUTOR
-            WHERE YEAR(t.FECHA_SOLUCION) = '$anioActual'
-            GROUP BY r.RESOLUTOR
+            WHERE YEAR(t.FECHA_INICIO) = '$anioActual'
+            GROUP BY r.ID_RESOLUTOR, r.RESOLUTOR
             ORDER BY cantidad DESC
-            LIMIT 5
+            LIMIT 5;
         ";
         $result = $datos_base->query($sql);
 
@@ -309,14 +312,19 @@ document.querySelectorAll('.swal-btn').forEach(btn => {
                 <?php
                 $sql = "
                     SELECT 
-                        YEAR(FECHA_SOLUCION) AS anio,
-                        MONTH(FECHA_SOLUCION) AS mes,
+                        YEAR(FECHA_INICIO) AS anio,
+                        MONTH(FECHA_INICIO) AS mes,
                         COUNT(ID_TICKET) AS cantidad,
-                        ROUND(AVG(DATEDIFF(FECHA_SOLUCION, FECHA_INICIO)), 2) AS dias_promedio
+                        ROUND(
+                            AVG(TIMESTAMPDIFF(HOUR, FECHA_INICIO, FECHA_SOLUCION) / 24),
+                            2
+                        ) AS dias_promedio
                     FROM ticket
-                    WHERE FECHA_SOLUCION BETWEEN '$fechaInicio' AND LAST_DAY('$fechaHoy')
-                    GROUP BY YEAR(FECHA_SOLUCION), MONTH(FECHA_SOLUCION)
-                    ORDER BY anio DESC, mes DESC
+                    WHERE FECHA_INICIO BETWEEN '$fechaInicio' AND LAST_DAY('$fechaHoy')
+                    AND FECHA_SOLUCION IS NOT NULL
+                    AND FECHA_SOLUCION >= FECHA_INICIO
+                    GROUP BY anio, mes
+                    ORDER BY anio DESC, mes DESC;
                 ";
                 $result = $datos_base->query($sql);
                 ?>
