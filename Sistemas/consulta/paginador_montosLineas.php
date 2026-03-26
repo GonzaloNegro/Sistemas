@@ -20,7 +20,7 @@ $cu = $row['CUIL'];
         if (!isset($_GET["estado"])){$_GET["estado"] = '';}
         if (!isset($_GET["reparticion"])){$_GET["reparticion"] = '';}
         if (!isset($_GET["proveedor"])){$_GET["proveedor"] = '';}
-    
+
     ?>
 
 
