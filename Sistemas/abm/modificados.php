@@ -2788,7 +2788,7 @@ if (isset($_POST['accion'])) {
         $mesAnterior = $fecha->format('n');   // Mes sin cero inicial (1-12)
         $añoAnterior = $fecha->format('Y');   // Año con cuatro dígitos
 
-        $fechaDesde = (new DateTime('first day of this month'))->modify('-1 month')->setTime(0, 0, 0);
+        $fechaDesde = (new DateTime('first day of this month'))->modify('-2 month')->setTime(0, 0, 0);
         $fechaHasta = new DateTime(); // ahora
 
         $desdeStr = $fechaDesde->format('Y-m-d');
@@ -2853,7 +2853,11 @@ if (isset($_POST['accion'])) {
             $idNombrePlan=$consulta['ID_NOMBREPLAN'];
             $extras=$consulta['EXTRAS'];
 
-            $sqla = "SELECT MONTO FROM nombreplan WHERE ID_NOMBREPLAN = $idNombrePlan;";
+            $sqla = "SELECT n.MONTO 
+            FROM nombreplan n
+            INNER JOIN linea l ON l.ID_NOMBREPLAN = n.ID_NOMBREPLAN 
+            WHERE l.ID_LINEA = '$idLinea';";
+            /* CORRECCIÓN ERROR CALCULO DE MONTO. ACTUALMENTE TRAYENDOLO DESDE EL PLAN ASIGNADO EN linea Y PREVIAMENTE DESDE EL REGISTRO DE movilinea */
             $resultado = $datos_base->query($sqla);
             $row = $resultado->fetch_assoc();
             $montoNuevo = $row['MONTO'];
