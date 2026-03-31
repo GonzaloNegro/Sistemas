@@ -2795,7 +2795,7 @@ if (isset($_POST['accion'])) {
         $hastaStr = $fechaHasta->format('Y-m-d');
 
         if ($operador=="claro") {
-            $query="SELECT m.ID_LINEA, m.ID_USUARIO, m.ID_ESTADOWS, m.ID_NOMBREPLAN, m.EXTRAS, m.FECHADESCUENTO, m.ID_ROAMING, m.DESCUENTO, m.MONTOTOTAL, m.OBSERVACION
+            $query="SELECT m.ID_LINEA, m.ID_USUARIO, m.ID_ESTADOWS, m.ID_NOMBREPLAN, m.EXTRAS, m.FECHADESCUENTO, m.ID_ROAMING, l.DESCUENTO, m.MONTOTOTAL, m.OBSERVACION
             FROM movilinea m
             INNER JOIN linea l ON l.ID_LINEA = m.ID_LINEA
             INNER JOIN nombreplan n ON l.ID_NOMBREPLAN = n.ID_NOMBREPLAN
@@ -2812,7 +2812,7 @@ if (isset($_POST['accion'])) {
             ) ultimos ON m.ID_LINEA = ultimos.ID_LINEA AND m.ID_MOVILINEA = ultimos.ULTIMO_MOVIMIENTO";
         }
         if ($operador=="personal") {
-            $query="SELECT m.ID_LINEA, m.ID_USUARIO, m.ID_ESTADOWS, m.ID_NOMBREPLAN, m.EXTRAS, m.FECHADESCUENTO, m.ID_ROAMING, m.DESCUENTO, m.MONTOTOTAL, m.OBSERVACION
+            $query="SELECT m.ID_LINEA, m.ID_USUARIO, m.ID_ESTADOWS, m.ID_NOMBREPLAN, m.EXTRAS, m.FECHADESCUENTO, m.ID_ROAMING, l.DESCUENTO, m.MONTOTOTAL, m.OBSERVACION
         FROM movilinea m
         INNER JOIN linea l ON l.ID_LINEA = m.ID_LINEA
         INNER JOIN nombreplan n ON l.ID_NOMBREPLAN = n.ID_NOMBREPLAN
@@ -2829,7 +2829,7 @@ if (isset($_POST['accion'])) {
         ) ultimos ON m.ID_LINEA = ultimos.ID_LINEA AND m.ID_MOVILINEA = ultimos.ULTIMO_MOVIMIENTO";
             }
         if ($operador=="todos") {
-            $query = "SELECT m.ID_LINEA, m.ID_USUARIO, m.ID_ESTADOWS, m.ID_NOMBREPLAN, m.EXTRAS, m.FECHADESCUENTO, m.ID_ROAMING, m.DESCUENTO, m.MONTOTOTAL, m.OBSERVACION
+            $query = "SELECT m.ID_LINEA, m.ID_USUARIO, m.ID_ESTADOWS, m.ID_NOMBREPLAN, m.EXTRAS, m.FECHADESCUENTO, m.ID_ROAMING, l.DESCUENTO, m.MONTOTOTAL, m.OBSERVACION
             FROM movilinea m
             INNER JOIN linea l ON l.ID_LINEA = m.ID_LINEA
             INNER JOIN nombreplan n ON l.ID_NOMBREPLAN = n.ID_NOMBREPLAN
