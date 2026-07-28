@@ -53,6 +53,12 @@
                     <li><a href="../stock/stock.php" class="dropdown-item">STOCK</a></li>
                 </ul>
             </li>
+            <?php if($row['ID_PERFIL'] == 1 OR $row['ID_PERFIL'] == 2 OR $row['ID_PERFIL'] == 5){
+                                echo'
+                                <li><a href="http://localhost:8080/" target="_blank" class="nav-link px-2 link-dark link">FACTURAS</a></li>
+                            ';
+                            } 
+                            ?>
 			<li><a href="../calen/calen.php" class="nav-link px-2 link-dark link" data-bs-toggle="tooltip" title="Calendario" data-bs-placement="bottom"><i class="bi bi-calendar3"></i></a></li>
 			<li class="ubicacion link"><a href="../particular/bienvenida.php" data-bs-toggle="tooltip" title="Novedades" data-bs-placement="bottom"><i class="bi bi-info-circle"></i></a></li>
 			<li><a href="../Manual.pdf" class="ubicacion link" data-bs-toggle="tooltip" title="Manual" data-bs-placement="bottom"><i class="bi bi-journal"></i></a></li>
